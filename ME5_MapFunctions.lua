@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Map Functions Script by A. Gilbert
--- Version 10707/05
+-- Version 30106/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Jul 07, 2014
+-- Jan 06, 2016
 -- Copyright (c) 2014 A. Gilbert.
 
 -- About this script: The purpose of script is to simplify the process 

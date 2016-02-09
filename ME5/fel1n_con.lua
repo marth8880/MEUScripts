@@ -228,8 +228,6 @@ conquest:Start()
 		end,
 	"artGameTimer"
 	)]]
-	
-	PostLoadStuff()
     
 end
 
@@ -343,4 +341,6 @@ function ScriptInit()
     AddCameraShot(0.970610, 0.135659, 0.196866, -0.027515, -3.214346, 11.924586, -44.687294)
     AddCameraShot(0.346130, 0.046311, -0.928766, 0.124267, 87.431061, 20.881388, 13.070729)
     AddCameraShot(0.468084, 0.095611, -0.860724, 0.175812, 18.063482, 19.360580, 18.178158)
+	
+	PostLoadStuff()
 end

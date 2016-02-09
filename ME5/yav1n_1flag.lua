@@ -170,8 +170,6 @@ function ScriptPostLoad()
 		SSVxCOL_PostLoad()
 	end
 	
-	PostLoadStuff()
-	
 end
 
 function ScriptInit()
@@ -299,6 +297,8 @@ function ScriptInit()
 	AddCameraShot(0.592731, -0.182571, -0.749678, -0.230913, 99.326836, -13.029744, -414.846191);
 	AddCameraShot(0.865750, -0.184352, 0.455084, 0.096905, 137.221359, -19.694859, -436.057556);
 	AddCameraShot(0.026915, -0.002609, -0.994969, -0.096461, 128.397949, -30.249140, -428.447418);
+	
+	PostLoadStuff()
 
 end
 

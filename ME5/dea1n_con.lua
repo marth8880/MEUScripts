@@ -215,8 +215,6 @@ function ScriptPostLoad()
 	else
 		EVGxGTH_PostLoad()
 	end
-	
-	PostLoadStuff()
     
 end
 
@@ -398,4 +396,6 @@ function ScriptInit()
     AddCameraShot(0.040922, -0.004049, -0.994299, -0.098381, -103.729523, 55.546598, -225.360893)
     --Sarlac Pit
     AddCameraShot(-1.0, 0.0, -0.514360, 0.0, -55.381485, 50.450953, -96.514324)
+	
+	PostLoadStuff()
 end

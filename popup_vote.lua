@@ -240,7 +240,7 @@ Popup_Vote = NewPopup {
 
 	txt_for = NewIFText {
 		string = "ifs.mp.vote.for",
-		font = "gamefont_small",
+		font = "meu_myriadpro_small",
 		textw = 260,
 		texth = 120,
 		y = -35,

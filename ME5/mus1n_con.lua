@@ -194,8 +194,6 @@ function ScriptPostLoad()
 		EVGxCOL_PostLoad()
 	end
 	
-	PostLoadStuff()
-	
  end
  --START BRIDGEWORK!
 
@@ -331,4 +329,6 @@ SetMaxPlayerFlyHeight(90)
 	AddCameraShot(0.971739, 0.102058, 0.211692, -0.022233, -5.680069, 68.543945, 57.904160);
 	AddCameraShot(0.178437, 0.004624, -0.983610, 0.025488, -66.947433, 68.543945, 6.745875);
     AddCameraShot(-0.400665, 0.076364, -0896894, -0.170941, 96.201210, 79.913033, -58.604382)
+	
+	PostLoadStuff()
 end

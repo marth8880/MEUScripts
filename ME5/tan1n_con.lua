@@ -513,8 +513,6 @@ function ScriptPostLoad()
 	timeCorridorDestruct
 	)
 	
-	
-	PostLoadStuff()
     
 end
 
@@ -640,5 +638,7 @@ function ScriptInit()
     AddCameraShot(0.233199, -0.019441, -0.968874, -0.080771, -240.755920, 11.457644, 105.944176);
     AddCameraShot(-0.395561, 0.079428, -0.897092, -0.180135, -264.022278, 6.745873, 122.715752);
     AddCameraShot(0.546703, -0.041547, -0.833891, -0.063371, -309.709900, 5.168304, 145.334381);
+	
+	PostLoadStuff()
 
 end

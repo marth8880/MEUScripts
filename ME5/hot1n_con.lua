@@ -196,7 +196,7 @@ function ScriptPostLoad()
     
 --    KillObject("shield");
 	
-	ShieldGenNode = GetPathPoint("CP2_SpawnPath", 3) --gets the path point
+	--ShieldGenNode = GetPathPoint("CP2_SpawnPath", 3) --gets the path point
 	CP3Node = GetPathPoint("CP3_SpawnPath", 6)
 	CP4Node = GetPathPoint("CP4_SpawnPath", 0)
 	CP5Node = GetPathPoint("CP5_SpawnPath", 1)
@@ -210,8 +210,8 @@ function ScriptPostLoad()
 		function(timer)]]
 			--local team1pts = GetReinforcementCount(1)
 			--if team1pts >= 100 then
-				artMatrices = { ShieldGenNode, CP3Node, CP4Node, CP5Node, CP6Node }
-				goingthroughturrets = 0			
+				artMatrices = { CP3Node, CP4Node, CP5Node, CP6Node }
+				goingthroughturrets = 0
 				
 				artInitTimer = CreateTimer("artInitTimer")
 				SetTimerValue("artInitTimer", 20.0)
@@ -220,7 +220,7 @@ function ScriptPostLoad()
 				OnTimerElapse(
 					function(timer)
 						goingthroughturrets = goingthroughturrets + 1
-						if goingthroughturrets == 6 then
+						if goingthroughturrets == 5 then
 							goingthroughturrets = 1
 						end
 						
@@ -240,18 +240,9 @@ function ScriptPostLoad()
 	"artGameTimer"
 	)]]
 	
-	PostLoadStuff()
-	
- end
+end
 
 function ScriptInit()
-	if(ScriptCB_GetPlatform() == "PS2") then
-        StealArtistHeap(1024*1024)	-- steal 1MB from art heap
-    end
-    
-    -- Designers, these two lines *MUST* be first.
-    --SetPS2ModelMemory(4500000)
-    SetPS2ModelMemory(3300000)
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\load.lvl;hot1")
 	
 	SetMemoryPoolSize("ParticleTransformer::ColorTrans", 2202)
@@ -369,5 +360,7 @@ function ScriptInit()
     --Battlefield
     AddCameraShot(0.927083, 0.020456, -0.374206, 0.008257, -333.221558, 0.676043, -14.027348)
 
+	
+	PostLoadStuff()
 
 end

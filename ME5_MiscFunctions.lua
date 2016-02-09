@@ -1,11 +1,11 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
--- Version 20626/06
+-- Version 30206/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Jun 26, 2015
--- Copyright (c) 2015 A. Gilbert.
+-- Feb 06, 2016
+-- Copyright (c) 2016 A. Gilbert.
 
 -- About this script: The purpose of script is to create a list of 
 -- various functions that are loaded in a map's mission script.
@@ -19,44 +19,48 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 	print("ME5_MiscFunctions: Entered")
+-- Performs various pre-game operations, such as loading of commonly used data files,
+-- Carnage mode setup, HUD work, and running event response functions for features such as
+-- kill sounds, Evolved Juggernaut's Power Drain, and shield pickups.
 function PreLoadStuff()
-		print("ME5_MiscFunctions: PreLoadStuff()")
+		print("ME5_MiscFunctions.PreLoadStuff(): Entered")
+	-- Load our custom loadscreen elements such as LEDs, etc.
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\common.lvl")
 	
 	if not ScriptCB_InMultiplayer() then
 		if ME5_Difficulty == 1 then
-				print("ME5_MiscFunctions: Initializing difficulty parameters for CASUAL...")
+				print("ME5_MiscFunctions.PreLoadStuff(): Initializing difficulty parameters for CASUAL...")
 			SetAIDifficulty(1, -1)
 			SetTeamAggressiveness(CIS,(0.63))
 			SetTeamAggressiveness(REP,(0.63))
 		elseif ME5_Difficulty == 2 then
-				print("ME5_MiscFunctions: Initializing difficulty parameters for NORMAL...")
+				print("ME5_MiscFunctions.PreLoadStuff(): Initializing difficulty parameters for NORMAL...")
 			SetAIDifficulty(0, 0)
 			SetTeamAggressiveness(CIS,(0.73))
 			SetTeamAggressiveness(REP,(0.73))
 		elseif ME5_Difficulty == 3 then
-				print("ME5_MiscFunctions: Initializing difficulty parameters for VETERAN...")
+				print("ME5_MiscFunctions.PreLoadStuff(): Initializing difficulty parameters for VETERAN...")
 			SetAIDifficulty(-1, 1)
 			SetTeamAggressiveness(CIS,(0.83))
 			SetTeamAggressiveness(REP,(0.83))
 		elseif ME5_Difficulty == 4 then
-				print("ME5_MiscFunctions: Initializing difficulty parameters for HARDCORE...")
+				print("ME5_MiscFunctions.PreLoadStuff(): Initializing difficulty parameters for HARDCORE...")
 			SetAIDifficulty(-2, 2)
 			SetTeamAggressiveness(CIS,(0.93))
 			SetTeamAggressiveness(REP,(0.93))
 		elseif ME5_Difficulty == 5 then
-				print("ME5_MiscFunctions: Initializing difficulty parameters for INSANITY...")
+				print("ME5_MiscFunctions.PreLoadStuff(): Initializing difficulty parameters for INSANITY...")
 			SetAIDifficulty(-3, 3)
 			SetTeamAggressiveness(CIS,(1.0))
 			SetTeamAggressiveness(REP,(1.0))
 		else
-				print("ME5_MiscFunctions: Error! ME5_Difficulty setting is invalid! Defaulting to difficulty parameters for HARDCORE")
+				print("ME5_MiscFunctions.PreLoadStuff(): Error! ME5_Difficulty setting is invalid! Defaulting to difficulty parameters for HARDCORE")
 			SetAIDifficulty(-2, 2)
 			SetTeamAggressiveness(CIS,(0.93))
 			SetTeamAggressiveness(REP,(0.93))
 		end
 	else
-			print("ME5_MiscFunctions: Initializing difficulty parameters for MULTIPLAYER...")
+			print("ME5_MiscFunctions.PreLoadStuff(): Initializing difficulty parameters for MULTIPLAYER...")
 		SetAIDifficulty(-2, 2)
 		SetTeamAggressiveness(CIS,(0.95))
 		SetTeamAggressiveness(REP,(0.95))
@@ -64,20 +68,21 @@ function PreLoadStuff()
 	
 	if not ScriptCB_InMultiplayer() then
 		if ME5_CarnageMode == 0 then
-				print("ME5_MiscFunctions: Carnage Mode is DISABLED - deactivating weapon modifiers...")
+				print("ME5_MiscFunctions.PreLoadStuff(): Carnage Mode is DISABLED - deactivating weapon modifiers...")
 		elseif ME5_CarnageMode == 1 then
-				print("ME5_MiscFunctions: Carnage Mode is ENABLED - activating weapon modifiers...")
+				print("ME5_MiscFunctions.PreLoadStuff(): Carnage Mode is ENABLED - activating weapon modifiers...")
 			ActivateBonus(REP, "team_bonus_advanced_blasters")
 			ActivateBonus(CIS, "team_bonus_advanced_blasters")
 		else
-				print("ME5_MiscFunctions: Error! ME5_CarnageMode setting is invalid! Defaulting Carnage Mode setting to DISABLED")
+				print("ME5_MiscFunctions.PreLoadStuff(): Error! ME5_CarnageMode setting is invalid! Defaulting Carnage Mode setting to DISABLED")
 		end
 	else
-			print("ME5_MiscFunctions: Carnage Mode is ENABLED (MULTIPLAYER) - activating weapon modifiers...")
+			print("ME5_MiscFunctions.PreLoadStuff(): Carnage Mode is ENABLED (MULTIPLAYER) - activating weapon modifiers...")
 		ActivateBonus(REP, "team_bonus_advanced_blasters")
 		ActivateBonus(CIS, "team_bonus_advanced_blasters")
 	end
 	
+	-- Load the appropriate CP icons based on faction variations
 	if not ScriptCB_InMultiplayer() then
 		if ME5_SideVar == 0 then
 			if RandomSide == 1 then
@@ -122,48 +127,62 @@ function PreLoadStuff()
 		else end
 	end
 	
+	-- Load our custom shell stuff
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\common.lvl")
 	if ME5_CustomGUIEnabled == 1 then
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\me5shell.lvl")
 	elseif ME5_CustomGUIEnabled == 2 then
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\me3shell.lvl")
 	else end
+	
+	-- Load localization
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\core.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\corebase.lvl")
 	
+	-- Get the player's aspect ratio so we can load the proper sniperscope sizes
 	local screenWidth, screenHeight = ScriptCB_GetScreenInfo()
 	local aspectRatio = screenWidth / screenHeight
-		print("ME5_MiscFunctions:    Width: "..screenWidth.."    Height: "..screenHeight.."    Aspect Ratio: "..aspectRatio)
+		print("ME5_MiscFunctions.PreLoadStuff():", "Width: "..screenWidth, "Height: "..screenHeight..", Aspect Ratio: "..aspectRatio)
 	if aspectRatio <= 1.4 then
-			print("ME5_MiscFunctions: Aspect Ratio is 4:3; loading scopes as such")
+			print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 4:3; loading scopes as such")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar43\\ar.lvl")
 	elseif aspectRatio <= 1.63 and aspectRatio >= 1.5 then
-			print("ME5_MiscFunctions: Aspect Ratio is 16:10; loading scopes as such")
+			print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 16:10; loading scopes as such")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar1610\\ar.lvl")
 	elseif aspectRatio <= 1.9 and aspectRatio >= 1.63 then
-			print("ME5_MiscFunctions: Aspect Ratio is 16:9; loading scopes as such")
+			print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 16:9; loading scopes as such")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar169\\ar.lvl")
 	else
-			print("ME5_MiscFunctions: Error! Invalid aspect ratio ("..aspectRatio..")! Defaulting to workaround")
+			print("ME5_MiscFunctions.PreLoadStuff(): Error! Invalid aspect ratio ("..aspectRatio..")! Defaulting to workaround")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar.lvl")
 	end
 	
 	if ME5_CustomHUD == 1 then
+			print("ME5_MiscFunctions.PreLoadStuff(): Loading custom HUD")
+		
+		-- Load the Myriad Pro fonts
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font.lvl")
+		
+		-- Load the Korataki fonts
 		if screenWidth >= 1440 then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_large.lvl")
 		else
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_small.lvl")
 		end
-	else end
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
-	if ME5_CustomHUD == 1 then
-		--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_map.lvl")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_purge_msh.lvl")
-	else end
-	ReadDataFile("ingame.lvl")
-	if ME5_CustomHUD == 1 then
+		
+		-- Load MEU's ingame.lvl
+    	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
+    	
+    	-- Purge the stock HUD mshs
+    	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_purge_msh.lvl")
+    	
+    	-- Load the stock ingame.lvl
+    	ReadDataFile("ingame.lvl")
+		
+		-- Purge the stock HUD textures
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_purge_bmp.lvl")
+		
+		-- Load the new custom HUD and the objective screen text based on the game mode
 		if MEUGameMode == meu_1flag then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_1flag")
 		elseif MEUGameMode == meu_con then
@@ -179,9 +198,20 @@ function PreLoadStuff()
 		else
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl")
 		end
+		
+		-- load weapons.lvl for the MEU HUD
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\weapons.lvl;hud_meu")
+		
+		-- hotfix that overrides the stock fonts with a "blank font"
+		--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_purge_text.lvl")
 	else
+    	-- load the stock ingame.lvl
+    	ReadDataFile("ingame.lvl")
+    	
+		-- load weapons.lvl for the stock HUD
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\weapons.lvl;hud_stock")
+		
+		-- load the new onscreen pointer textures
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamehud.lvl")
 	end
 
@@ -198,8 +228,9 @@ function PreLoadStuff()
 	fEvgJugPowerDrain()
 end
 
+-- Sets up event responses for shield pickups.
 function fShieldPickup()
-		print("ME5_MiscFunctions: fShieldPickup()")
+		print("ME5_MiscFunctions.fShieldPickup(): Entered")
 	--[[if not ScriptCB_InMultiplayer() then
 		testcheckhumanspawn = OnCharacterSpawn(
 			function(player)
@@ -261,7 +292,7 @@ function fShieldPickup()
 	
 	if not ScriptCB_InMultiplayer() then
 		if ME5_ShieldFunc == 1 then
-				print("ME5_MiscFunctions: Configuring Shield Functionality for AUTO-REGEN...")
+				print("ME5_MiscFunctions.fShieldPickup(): Configuring Shield Functionality for AUTO-REGEN...")
 			--[[SetClassProperty("ssv_inf_default", "AddShield", 9.0)
 			SetClassProperty("ssv_inf_default_sentinel", "AddShield", 18.0)
 			
@@ -273,7 +304,7 @@ function fShieldPickup()
 			--SetClassProperty("com_inf_default", "AddShield", 14.0)
 			
 		elseif ME5_ShieldFunc == 2 then
-				print("ME5_MiscFunctions: Configuring Shield Functionality for PICKUPS...")
+				print("ME5_MiscFunctions.fShieldPickup(): Configuring Shield Functionality for PICKUPS...")
 				------------------------------------------------
 				-- DON'T FORGET TO UPDATE MULTIPLAYER VERSION --
 				------------------------------------------------
@@ -362,10 +393,10 @@ function fShieldPickup()
 		else end
 		
 		if ME5_HealthFunc == 1 then
-				print("ME5_MiscFunctions: Configuring Health Functionality for AUTO-REGEN...")
+				print("ME5_MiscFunctions.fShieldPickup(): Configuring Health Functionality for AUTO-REGEN...")
 			SetClassProperty("com_inf_default", "AddHealth", 4.0)
 		elseif ME5_HealthFunc == 2 then
-				print("ME5_MiscFunctions: Configuring Health Functionality for PICKUPS...")
+				print("ME5_MiscFunctions.fShieldPickup(): Configuring Health Functionality for PICKUPS...")
 			SetClassProperty("com_inf_default", "NextDropItem", "-")
 			SetClassProperty("com_inf_default", "DropItemClass", "com_item_powerup_health")
 			SetClassProperty("com_inf_default", "DropItemProbability", 0.2)
@@ -374,11 +405,11 @@ function fShieldPickup()
 			SetClassProperty("com_hero_default", "DropItemClass", "com_item_powerup_health")
 			SetClassProperty("com_hero_default", "DropItemProbability", 0.2)
 		else
-				print("ME5_MiscFunctions: Error! ME5_ShieldFunc setting is invalid! Defaulting to Health Functionality for AUTO-REGEN")
+				print("ME5_MiscFunctions.fShieldPickup(): Error! ME5_ShieldFunc setting is invalid! Defaulting to Health Functionality for AUTO-REGEN")
 			SetClassProperty("com_inf_default", "AddHealth", 4.0)
 		end
 	else
-			print("ME5_MiscFunctions: Configuring Shield Functionality for AUTO-REGEN...")
+			print("ME5_MiscFunctions.fShieldPickup(): Configuring Shield Functionality for AUTO-REGEN...")
 		--[[SetClassProperty("ssv_inf_default", "AddShield", 9.0)
 		SetClassProperty("ssv_inf_default_sentinel", "AddShield", 18.0)
 		
@@ -389,7 +420,7 @@ function fShieldPickup()
 		
 		--SetClassProperty("com_inf_default", "AddShield", 14.0)
 		
-			print("ME5_MiscFunctions: Configuring Health Functionality for PICKUPS...")
+			print("ME5_MiscFunctions.fShieldPickup(): Configuring Health Functionality for PICKUPS...")
 		SetClassProperty("com_inf_default", "NextDropItem", "-")
 		SetClassProperty("com_inf_default", "DropItemClass", "com_item_powerup_health")
 		SetClassProperty("com_inf_default", "DropItemProbability", 0.2)
@@ -488,7 +519,7 @@ function fShieldPickup()
 end
 
 function fHeadshotKill()
-		print("ME5_MiscFunctions: fHeadshotKill()")
+		print("ME5_MiscFunctions.fHeadshotKill(): Entered")
 	--[[HeadshotHeadExplode = OnObjectHeadshot(
 		function(object, killer)
 				print("fHeadshotKill: Headshot")
@@ -542,8 +573,10 @@ function fHeadshotKill()
 
 end
 
+-- Runs the Juggernaut Squad functions (based on the faction combination) 
+-- and low health functions. Also purges stock fonts if custom HUD is enabled.
 function PostLoadStuff()
-		print("ME5_MiscFunctions: PostLoadStuff()")
+		print("ME5_MiscFunctions.PostLoadStuff(): Entered")
 	if not ScriptCB_InMultiplayer() then
 		if ME5_SideVar == 0 then
 			if RandomSide == 1 then
@@ -568,13 +601,15 @@ function PostLoadStuff()
 	meu_lowhealth_postCall()
 	
 	if ME5_CustomHUD == 1 then
+			print("ME5_MiscFunctions.PostLoadStuff(): Overwriting stock fonts with blank font")
 		-- hotfix that overrides the stock fonts with a "blank font"
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_purge_text.lvl")
 	else end
 end
 
 function fGthJugSquad()
-		print("ME5_MiscFunctions: fGthJugSquad()")
+		print("ME5_MiscFunctions.fGthJugSquad(): Entered")
+	
 	local players = {}
 	local goals = {}
 	local count = 0
@@ -610,7 +645,7 @@ function fGthJugSquad()
 end
 
 function fEvgJugSquad()
-		print("ME5_MiscFunctions: fEvgJugSquad()")
+		print("ME5_MiscFunctions.fEvgJugSquad(): Entered")
 	local players = {}
 	local goals = {}
 	local count = 0
@@ -645,21 +680,22 @@ function fEvgJugSquad()
 	)
 end
 
+-- Sets up the event responses for kill sounds.
 function fKillSound()
-		print("ME5_MiscFunctions: fKillSound()")
+		print("ME5_MiscFunctions.fKillSound(): Entered")
 	if not ScriptCB_InMultiplayer() then
 		if ME5_KillSound == 0 then
-				print("ME5_MiscFunctions: Initializing kill sound setting for DISABLED...")
+				print("ME5_MiscFunctions.fKillSound(): Initializing kill sound setting for DISABLED...")
 		elseif ME5_KillSound == 1 or ME5_KillSound == 2 then
-				print("ME5_MiscFunctions: Initializing kill sound setting for ENABLED...")
+				print("ME5_MiscFunctions.fKillSound(): Initializing kill sound setting for ENABLED...")
 			local killsound = OnCharacterDeath(
 				function(player,killer)
 					--if not IsObjectAlive(player) then
-						if IsCharacterHuman(killer) then
-								print("fKillSound: Killer is human, enemy kill successful")
+						if killer and IsCharacterHuman(killer) then
+								--print("fKillSound: Killer is human, enemy kill successful")
 							ScriptCB_SndPlaySound("hud_player_kill")
 						else
-							print("fKillSound: Killer is not human")
+							--print("fKillSound: Killer is not human")
 						end
 					--else
 						--print("fKillSound: Enemy is alive")
@@ -667,15 +703,15 @@ function fKillSound()
 				end
 			)
 		else
-				print("ME5_MiscFunctions: Error! ME5_KillSound setting is invalid! Defaulting to kill sound setting for ENABLED")
+				print("ME5_MiscFunctions.fKillSound(): Error! ME5_KillSound setting is invalid! Defaulting to kill sound setting for ENABLED")
 			local killsound = OnCharacterDeath(
 				function(player,killer)
 					--if not IsObjectAlive(player) then
 						if IsCharacterHuman(killer) then
-								print("fKillSound: Killer is human, enemy kill successful")
+								--print("fKillSound: Killer is human, enemy kill successful")
 							ScriptCB_SndPlaySound("hud_player_kill")
 						else
-							print("fKillSound: Killer is not human")
+							--print("fKillSound: Killer is not human")
 						end
 					--else
 						--print("fKillSound: Enemy is alive")
@@ -684,17 +720,18 @@ function fKillSound()
 			)
 		end
 	else
-			print("ME5_MiscFunctions: Initializing kill sound setting for DISABLED...")
+			print("ME5_MiscFunctions.fKillSound(): Initializing kill sound setting for DISABLED...")
 	end
 end
 
+-- Sets up the event responses for low health sounds.
 function fLowHealthSound()	-- TODO: fix low health vignette
-		print("ME5_MiscFunctions: fLowHealthSound()")
+		print("ME5_MiscFunctions.fLowHealthSound(): Entered")
 	if not ScriptCB_InMultiplayer() then
 		if ME5_LowHealthSound == 0 then
-				print("ME5_MiscFunctions: Initializing low health sound setting for DISABLED...")
+				print("ME5_MiscFunctions.fLowHealthSound(): Initializing low health sound setting for DISABLED...")
 		elseif ME5_LowHealthSound == 1 then
-				print("ME5_MiscFunctions: Initializing low health sound setting for ENABLED...")
+				print("ME5_MiscFunctions.fLowHealthSound(): Initializing low health sound setting for ENABLED...")
 			
 			--===============================
 			-- Initialization logic
@@ -821,10 +858,10 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 			OnCharacterSpawn(
 				function(player)
 					if IsCharacterHuman(player) then
-							print("fLowHealthSound: Player spawned")
+							--print("fLowHealthSound: Player spawned")
 						Iamhuman = GetEntityPtr(GetCharacterUnit(player))
 						playerMaxHealth = GetObjectHealth(Iamhuman)
-							print("fLowHealthSound: Player's max health is "..playerMaxHealth)
+							--print("fLowHealthSound: Player's max health is "..playerMaxHealth)
 						
 						--if not ifs_lowhealth_vignette.TimerMngr == nil then
 							--[[if gIsGreaterThan0 > 0 then
@@ -837,6 +874,7 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 						--end
 						
 						for i=1, table.getn(synthClasses) do
+							-- check if the player is an organic class
 							if GetEntityClass(Iamhuman) == FindEntityClass( synthClasses[i] ) then
 								isPlayerCorrectClass = false
 							else
@@ -844,6 +882,25 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 							end
 							
 							if isPlayerCorrectClass == false then break end
+						end
+						
+						-- silence the heartbeat if it's playing
+						if isSoundPlaying == true then
+								--print("fLowHealthSound: isSoundPlaying is true, setting to false")
+							isSoundPlaying = false
+							
+							-- remove our ifs screen
+							--ifs_lowhealth_vignette.Timer = 10
+							--ifs_lowhealth_vignette.TimerType = true
+
+							ScriptCB_SndBusFade("main",				busFadeTime, 1.0)
+							ScriptCB_SndBusFade("soundfx",			busFadeTime, 0.7)
+							ScriptCB_SndBusFade("battlechatter",	busFadeTime, 1.0)
+							ScriptCB_SndBusFade("music",			busFadeTime, 1.0)
+							ScriptCB_SndBusFade("ingamemusic",		busFadeTime, 0.7)
+							ScriptCB_SndBusFade("ambience",			busFadeTime, 0.7)
+							ScriptCB_SndBusFade("voiceover",		busFadeTime, 0.8)
+							ScriptCB_SndBusFade("lowhealth",		1.0, 0.0, 1.0)
 						end
 					end
 				end
@@ -857,17 +914,17 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 					end
 					local playerHealthPercent = playerCurHealth / playerMaxHealth
 					if Iamhuman == GetEntityPtr(object) then
-							print("fLowHealthSound: Player health changed")
-							print("fLowHealthSound: Player health ratio is "..playerHealthPercent)
+							--print("fLowHealthSound: Player health changed")
+							--print("fLowHealthSound: Player health ratio is "..playerHealthPercent)
 						if playerHealthPercent < playerHealthThreshold then
-								print("fLowHealthSound: Player's health is "..playerCurHealth)
+								--print("fLowHealthSound: Player's health is "..playerCurHealth)
 							if isSoundPlaying == false then
-									print("fLowHealthSound: isSoundPlaying is false, setting to true")
+									--print("fLowHealthSound: isSoundPlaying is false, setting to true")
 								isSoundPlaying = true
 								--classCount = 0
 								
 								if isPlayerCorrectClass == true then
-										print("fLowHealthSound: Player is correct class")
+										--print("fLowHealthSound: Player is correct class")
 									-- activate our ifs screen
 									--ScriptCB_PushScreen("ifs_lowhealth_vignette")
 
@@ -880,12 +937,12 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 									ScriptCB_SndBusFade("voiceover",		busFadeTime, busEndGain)
 									ScriptCB_SndBusFade("lowhealth",		1.0, 1.0, 0.0)
 								else
-									print("fLowHealthSound: Player is wrong class")
+									--print("fLowHealthSound: Player is wrong class")
 								end
 							end
 						else
 							if isSoundPlaying == true then
-									print("fLowHealthSound: isSoundPlaying is true, setting to false")
+									--print("fLowHealthSound: isSoundPlaying is true, setting to false")
 								isSoundPlaying = false
 								
 								-- remove our ifs screen
@@ -909,7 +966,7 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 			local lowhealthplayerdeath = OnCharacterDeath(
 				function(player,killer)
 					if IsCharacterHuman(player) then
-							print("fLowHealthSound: Player died, resetting buses and variables")
+							--print("fLowHealthSound: Player died, resetting buses and variables")
 						--if isSoundPlaying == true then
 							isSoundPlaying = false
 							
@@ -932,12 +989,13 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 		else
 		end
 	else
-			print("ME5_MiscFunctions: Initializing low health sound setting for DISABLED...")
+			print("ME5_MiscFunctions.fLowHealthSound(): Initializing low health sound setting for DISABLED...")
 	end
 end
 
+-- Sets up the event responses for the Evolved Juggernaut's Power Drain ability.
 function fEvgJugPowerDrain()
-		print("ME5_MiscFunctions: fEvgJugPowerDrain()")
+		print("ME5_MiscFunctions.fEvgJugPowerDrain(): Entered")
 	OnObjectDamage(
 		function( object, damager )
 			--local dmgrPtr = GetEntityPtr(GetCharacterUnit(damager))
@@ -978,9 +1036,58 @@ function fEvgJugPowerDrain()
 	)
 end
 
+---
+-- Interaction logic function.
+-- This function contains all of the event responses and logic pertaining to the player's Interact weapon in campaigns.
+-- @param #object object The object hit by the player's Interact weapon.
+function DoInteraction(object)
+		print("ME5_MiscFunctions.DoInteraction(): Entered")
+	
+	local objectPtr = GetEntityPtr(object)
+	local objectName = GetEntityName(object)
+	
+	print("ME5_MiscFunctions.DoInteraction(): EntityPtr:", objectPtr)
+	print("ME5_MiscFunctions.DoInteraction(): EntityName:", objectName)
+	
+end
+
+---
+-- Interaction weapon function.
+-- This function contains the event triggers for the player's Interact weapon in campaigns.
+function InteractWeapon()
+		print("ME5_MiscFunctions.InteractWeapon(): Entered")
+	
+	-- Since this is a Lua weapon...
+	OnObjectDamage(
+		function( object, damager )
+		
+			-- Was the Interact weapon used?
+			if GetObjectLastHitWeaponClass(object) == "weap_inf_interact" then
+				print("ME5_MiscFunctions.InteractWeapon(): Object hit")
+			
+				-- Only objects can be affected!
+				if GetObjectTeam(object) == 0 then
+						print("ME5_MiscFunctions.InteractWeapon(): Object team is 0")
+					
+					-- Test output
+					ShowMessageText("level.EUR.interactions.test.received")
+					
+					-- Do the interaction
+					DoInteraction(object)
+					
+				else
+					print("ME5_MiscFunctions.InteractWeapon(): Object team is not 0!")
+				end
+			end
+		end
+	)
+	
+		print("ME5_MiscFunctions.InteractWeapon(): Exited")
+end
+
 function PostInitStuff()
-		print("ME5_MiscFunctions: PostInitStuff()")
-		local PostInitStuffDebug = "ME5_MiscFunctions: Changing ticket counts for ObjectiveSurvival..."
+		print("ME5_MiscFunctions.PostInitStuff(): Entered")
+		local PostInitStuffDebug = "ME5_MiscFunctions.PostInitStuff(): Changing ticket counts for ObjectiveSurvival..."
 	if ObjectiveSurvivalHasRan == 1 then
 		if Setup_SSVxGTH_sm == 1 or Setup_SSVxCOL_sm == 1 or Setup_SSVxGTH_xs == 1 or Setup_SSVxCOL_xs == 1 or Setup_SSVxGTH_xxs == 1 then
 				print(PostInitStuffDebug)
@@ -995,10 +1102,10 @@ function PostInitStuff()
 			SetReinforcementCount(1, 150)
 			SetReinforcementCount(2, 150)
 		else
-			print("ME5_MiscFunctions: BY THE GODDESS, WHAT ON THESSIA IS HAPPENING")
+			print("ME5_MiscFunctions.PostInitStuff(): BY THE GODDESS, WHAT ON THESSIA IS HAPPENING")
 		end
 	else 
-		print("ME5_MiscFunctions: BY THE GODDESS, WHAT ON THESSIA IS HAPPENING")
+		print("ME5_MiscFunctions.PostInitStuff(): BY THE GODDESS, WHAT ON THESSIA IS HAPPENING")
 	end
 end
 	print("ME5_MiscFunctions: Exited")

@@ -13,7 +13,7 @@ function XLFriends_Listbox_CreateItem(layout)
 		y=layout.y - 10,
 		bInertPos = 1,
 	}
---	Temp.indexfield = NewIFText{ x = 10, y = 0, halign = "left", font = "gamefont_medium", nocreatebackground=1,}
+--	Temp.indexfield = NewIFText{ x = 10, y = 0, halign = "left", font = "meu_myriadpro_medium", nocreatebackground=1,}
 	Temp.namefield = NewIFText{ 
 		x = 56, y = 2, textw = layout.width - 56, halign = "left", 
 		font = xlfriends_listbox_layout.font, nocreatebackground=1,
@@ -95,14 +95,14 @@ xlfriends_vbutton_layout = {
 	font = gMenuButtonFont,
 	buttonlist = {
 		{ tag = "INVITE", string = "ifs.mp.friends.invite" },
-		{ tag = "INVITEVOICE", string = "ifs.mp.friends.invitevoice", font = "gamefont_small" , yAdd = 8},
+		{ tag = "INVITEVOICE", string = "ifs.mp.friends.invitevoice", font = "meu_myriadpro_small" , yAdd = 8},
 		{ tag = "UNINVITE", string = "ifs.mp.friends.uninvite" },
 		{ tag = "ADD", string = "ifs.onlinelobby.addfriend" },
-		{ tag = "ADDVOICE", string = "ifs.onlinelobby.addfriendvoice", font = "gamefont_small" , yAdd = 8},
+		{ tag = "ADDVOICE", string = "ifs.onlinelobby.addfriendvoice", font = "meu_myriadpro_small" , yAdd = 8},
 		{ tag = "JOIN", string = "ifs.mp.friends.joingame" },
 		{ tag = "ACCEPT", string = "ifs.mp.friends.accept" },
 		{ tag = "DECLINE", string = "ifs.mp.friends.decline" },
-		{ tag = "NEVER", string = "ifs.mp.friends.never", font = "gamefont_small", yAdd = 8 }, -- smaller font as this is a HUGE string
+		{ tag = "NEVER", string = "ifs.mp.friends.never", font = "meu_myriadpro_small", yAdd = 8 }, -- smaller font as this is a HUGE string
 		{ tag = "VOICEMAIL", string = "ifs.xvoicemail.play" },
 		{ tag = "YESINVITE", string = "ifs.mp.friends.yesinvite" },
 		{ tag = "NOINVITE", string = "ifs.mp.friends.noinvite" },
@@ -458,7 +458,7 @@ ifs_mpxl_friends = NewIFShellScreen {
 
 	title = NewIFText {
 		string = "ifs.mp.friends.title",
-		font = "gamefont_large",
+		font = "meu_myriadpro_large",
 		y = 0,
 		textw = 460,
 		ScreenRelativeX = 0.5, -- center
@@ -825,13 +825,13 @@ function ifs_mpxl_friends_fnBuildScreen(this)
 	this.infobox.text = NewIFText{
 		y = BoxH * -0.5 - 5, valign = "vcenter", -- centered around parent
 		textw= BoxW - 32, texth = BoxH,
-		font = "gamefont_medium",
+		font = "meu_myriadpro_medium",
 --		string = "data here",
 		nocreatebackground=1,
 	}
 
 	if(gLangStr ~= "english") then
-		xlfriends_vbutton_layout.font = "gamefont_small"
+		xlfriends_vbutton_layout.font = "meu_myriadpro_small"
 	end
 
 	this.CurButton = AddVerticalButtons(this.buttons,xlfriends_vbutton_layout)

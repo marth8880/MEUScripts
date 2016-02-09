@@ -227,8 +227,6 @@ function ScriptPostLoad()
 		end,
 	"artGameTimer"
 	)]]
-	
-	PostLoadStuff()
     
     --Gate Stuff -- 
     BlockPlanningGraphArcs("seawall1")
@@ -464,6 +462,8 @@ function ScriptInit()
 
 --    AddCameraShot(0.993669, -0.099610, -0.051708, -0.005183, 109.473549, 34.506077, 272.889221);
 --    AddCameraShot(0.940831, -0.108255, -0.319013, -0.036707, -65.793930, 66.455177, 289.432678);
+	
+	PostLoadStuff()
 
 
 end

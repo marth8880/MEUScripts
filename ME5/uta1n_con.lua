@@ -185,8 +185,6 @@ function ScriptPostLoad()
 		EVGxGTH_PostLoad()
 	end
 	
-	PostLoadStuff()
-	
 end
  
  
@@ -292,6 +290,8 @@ function ScriptInit()
 	AddCameraShot(0.995310, 0.024582, -0.093535, 0.002310, 38.288612, 4.561796, 243.298508);
 	AddCameraShot(0.827070, 0.017093, 0.561719, -0.011609, -24.457638, 8.834146, 296.544586);
 	AddCameraShot(0.998875, 0.004912, -0.047174, 0.000232, -45.868237, 2.978215, 216.217880);
+	
+	PostLoadStuff()
 
 
 end

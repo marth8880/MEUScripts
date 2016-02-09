@@ -14,7 +14,7 @@ function Ambush(pathName, numDudes, fromTeam, aiDamageThreshold)
     local teamSize = GetTeamSize(fromTeam)
     for i = 0, teamSize-1 do
         local characterIndex = GetTeamMember(fromTeam, i)
-        local charUnit = GetCharacterUnit(characterIndex)        
+        local charUnit = GetCharacterUnit(characterIndex)
         
         if charUnit then
 			--skip this character if he's already running around the world (boy i sure wish Lua had a continue statement...)
@@ -28,7 +28,7 @@ function Ambush(pathName, numDudes, fromTeam, aiDamageThreshold)
 				end
 				numSpawned = numSpawned + 1
 				if numSpawned >= numDudes then return end
-			end			
+			end
 		end
 	end
     print("WARNING: could not spawn all the ambushers...team is too small or there are too many dudes running around alive")

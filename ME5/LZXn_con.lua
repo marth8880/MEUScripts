@@ -257,8 +257,6 @@ function ScriptPostLoad()
 	
     EnableSPHeroRules()
 	
-	PostLoadStuff()
-	
 	AddDeathRegion("deathregion")
 	
 end 
@@ -369,4 +367,6 @@ function ScriptInit()
    AddCameraShot(0.284131, -0.009807, -0.958165, -0.033073, -39.626015, 14.090186, 117.456718); 
    AddCameraShot(0.661070, -0.102405, -0.734542, -0.113787, 96.750153, 23.179926, 146.376358); 
    AddCameraShot(0.977186, -0.004879, -0.212328, -0.001060, -81.759819, 5.994357, 69.543793); 
+	
+	PostLoadStuff()
 end 

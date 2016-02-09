@@ -34,7 +34,7 @@ function NewHelptext(Template)
 		
 		helpstr = NewIFText {
 			string = Template.string,
-			font = "gamefont_small",
+			font = "meu_myriadpro_small",
 			textw = TextW,
 			x = Template.bRightJustify and -TextW-20 or 20,
 			y = -8,

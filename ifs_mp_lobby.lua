@@ -106,9 +106,9 @@ function ifs_mp_lobby_Listbox_CreateItem(layout)
     -- on PS2 where the resolution is poopy
     if (layout.bTitles and 
         ((gPlatformStr == "XBox") or (gPlatformStr == "PS2"))) then
-        fontLocal = "gamefont_tiny" -- big(ish) font for column headers
+        fontLocal = "meu_myriadpro_small" -- big(ish) font for column headers
     else 
-        fontLocal = "gamefont_tiny"   -- smaller font for contents
+        fontLocal = "meu_myriadpro_small"   -- smaller font for contents
     end
 
     if (NameWidth > 0) then
@@ -628,7 +628,7 @@ ifs_mp_lobby = NewIFShellScreen {
 
 	title = NewIFText {
 		-- string = "common.mp.lobby",
-		font = "gamefont_large",
+		font = "meu_myriadpro_large",
 		y = 0,
 		textw = 460, -- center on screen. Fixme: do real centering!
 		ScreenRelativeX = 0.5, -- center
@@ -641,7 +641,7 @@ ifs_mp_lobby = NewIFShellScreen {
 
 	IPAddr = NewIFText {
 		-- string = "ifs.mp.connection.title",
-		font = "gamefont_small",
+		font = "meu_myriadpro_small",
 		textw = 460,
 		halign = "right",
 		ScreenRelativeX = 1.0, -- right
@@ -653,7 +653,7 @@ ifs_mp_lobby = NewIFShellScreen {
 
 	ServerName = NewIFText {
 		-- string = "ifs.mp.connection.title",
-		font = "gamefont_small",
+		font = "meu_myriadpro_small",
 		textw = 460,
 		halign = "left",
 		ScreenRelativeX = 0, -- left
@@ -664,7 +664,7 @@ ifs_mp_lobby = NewIFShellScreen {
 	},
 
 	Bandwidth = NewIFText {
-		font = "gamefont_small",
+		font = "meu_myriadpro_small",
 		textw = 460,
 		halign = "left",
 		ScreenRelativeX = 0, -- left
@@ -1145,8 +1145,8 @@ function ifs_mp_lobby_fnBuildScreen(this)
             ScreenRelativeY = 1.0, -- bottom
             y = -15, -- second row of items
             btnw = 200, 
-            btnh = ScriptCB_GetFontHeight("gamefont_small"),
-            font = "gamefont_small",
+            btnh = ScriptCB_GetFontHeight("meu_myriadpro_small"),
+            font = "meu_myriadpro_small",
             tag = "voteboot",
             string = "ifs.onlinelobby.vote",
             --nocreatebackground = 1,
@@ -1158,8 +1158,8 @@ function ifs_mp_lobby_fnBuildScreen(this)
             y = -15, -- second row of items
             x = -100,
             btnw = 200, 
-            btnh = ScriptCB_GetFontHeight("gamefont_small"),
-            font = "gamefont_small",
+            btnh = ScriptCB_GetFontHeight("meu_myriadpro_small"),
+            font = "meu_myriadpro_small",
             tag = "forceboot",
             string = "ifs.onlinelobby.forceboot",
             --nocreatebackground = 1,

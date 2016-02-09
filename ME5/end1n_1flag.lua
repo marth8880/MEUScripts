@@ -101,8 +101,6 @@ function ScriptPostLoad()
 	else
 		SSVxCOL_PostLoad()
 	end
-	
-	PostLoadStuff()
 end
 
 ---------------------------------------------------------------------------
@@ -113,7 +111,7 @@ function ScriptInit()
 	
 	-- Designers, these two lines *MUST* be first.
 	SetPS2ModelMemory(2460000)
-	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\load.lvl;end1")
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\load.lvl;end1")
 	
 	SetMemoryPoolSize("ParticleTransformer::ColorTrans", 2581)
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1449)
@@ -249,5 +247,7 @@ function ScriptInit()
 	AddCameraShot(0.729761, 0.019262, 0.683194, -0.018033, -98.584869, 0.295284, 263.239288)
 	--Village
 	AddCameraShot(0.694277, 0.005100, 0.719671, -0.005287, -11.105947, -2.753207, 67.982201)
+	
+	PostLoadStuff()
 end
 

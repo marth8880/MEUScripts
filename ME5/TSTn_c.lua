@@ -9,7 +9,7 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 ScriptCB_DoFile("ambush")
-	
+
 	--  REP Attacking (attacker is always #1)
     REP = 1;
     CIS = 2;
@@ -23,7 +23,7 @@ ScriptCB_DoFile("ambush")
     ATT = REP;
     DEF = CIS;
 
-function ScriptPostLoad()	   
+function ScriptPostLoad()
 	ScriptCB_SetGameRules("campaign")
 	AllowAISpawn(REP, false)
     

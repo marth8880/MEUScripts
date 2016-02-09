@@ -166,8 +166,6 @@ function ScriptPostLoad()
 		SSVxGTH_PostLoad()
 	end
 	
-	PostLoadStuff()
-	
 end
 
 function ScriptInit()
@@ -279,6 +277,8 @@ function ScriptInit()
     AddCameraShot(0.371197, 0.008190, -0.928292, 0.020482, -473.384155, -17.880533, 132.126801)
     --Battlefield
     AddCameraShot(0.927083, 0.020456, -0.374206, 0.008257, -333.221558, 0.676043, -14.027348)
+	
+	PostLoadStuff()
 
 
 end

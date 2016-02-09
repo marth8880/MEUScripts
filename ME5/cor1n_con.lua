@@ -136,6 +136,9 @@ end
  ---------------------------------------------------------------------------
 
 function ScriptPostLoad()
+		
+	-- Disable the stock minimap to make room for ours
+	DisableSmallMapMiniMap()
 
 	    AddDeathRegion("death")
 	    AddDeathRegion("death1")
@@ -286,15 +289,10 @@ function ScriptPostLoad()
 		end,
 	"CP3Capture"
 	)]]
-	
-	PostLoadStuff()
 
 end
 
 function ScriptInit()
-    -- Designers, these two lines *MUST* be first.
-	
-    SetPS2ModelMemory(4056000)
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\load.lvl;cor1")
 	
 	SetMemoryPoolSize("ParticleTransformer::ColorTrans", 2564)
@@ -408,4 +406,6 @@ function ScriptInit()
 	AddCameraShot(0.531236, -0.079466, -0.834207, -0.124787, -62.491230, 10.305247, -120.102989);
 	AddCameraShot(0.452286, -0.179031, -0.812390, -0.321572, -50.015198, 15.394646, -114.879379);
 	AddCameraShot(0.927563, -0.243751, 0.273918, 0.071982, 26.149965, 26.947924, -46.834148);
+	
+	PostLoadStuff()
 end

@@ -1,11 +1,11 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
--- Version 20626/06
+-- Version 30206/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Jun 26, 2015
--- Copyright (c) 2015 A. Gilbert.
+-- Feb 06, 2016
+-- Copyright (c) 2016 A. Gilbert.
 
 -- About this script: The purpose of script is to load configuration
 -- parameters set by the config tool and set variables based on existing files.
@@ -274,4 +274,5 @@ end
 if ME5_AIHeroes == 1 then
 	ScriptCB_DoFile("ME5_AIHeroSupport")
 else end
+
 	print("ME5_ConfigCheck: Exited")

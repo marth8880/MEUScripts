@@ -125,8 +125,6 @@ function ScriptPostLoad()
     conquest:Start()
 
     EnableSPHeroRules()
-	
-	PostLoadStuff()
     
 end
 
@@ -142,6 +140,10 @@ end
 ---------------------------------------------------------------------------
 function ScriptInit()
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\t4e.lvl")
+	
+	SetMemoryPoolSize("ParticleTransformer::ColorTrans", 2367)
+	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1380)
+	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1533)
 	
 	PreLoadStuff()
 	
@@ -226,5 +228,6 @@ function ScriptInit()
     --  Camera Stats
 	AddCameraShot(-0.370814, 0.035046, -0.923929, -0.087320, -71.966255, 23.668301, 27.930090);
 	AddCameraShot(0.991073, 0.002392, 0.133299, -0.000322, 84.069084, 23.668301, -95.802574);
-
+	
+	PostLoadStuff()
 end

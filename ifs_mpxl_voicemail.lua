@@ -15,8 +15,8 @@ xlvoicemail_vbutton_layout = {
 		{ tag = "feedback", string = "ifs.mp.friends.feedback" },
 		{ tag = "delete", string = "ifs.Profile.delete" },
 		{ tag = "block", string = "ifs.xvoicemail.block" },
-		{ tag = "invite", string = "ifs.xvoicemail.sendinvite", font = "gamefont_small", yAdd = 8, },
-		{ tag = "friendrequest", string = "ifs.xvoicemail.sendfriendrequest", font = "gamefont_small", yAdd = 8, },
+		{ tag = "invite", string = "ifs.xvoicemail.sendinvite", font = "meu_myriadpro_small", yAdd = 8, },
+		{ tag = "friendrequest", string = "ifs.xvoicemail.sendfriendrequest", font = "meu_myriadpro_small", yAdd = 8, },
 	},
 	title = "ifs.xvoicemail.title",
 }

@@ -128,8 +128,6 @@ function ScriptPostLoad()
 
     AddDeathRegion("monorail")
     AddDeathRegion("ocean")
-	
-	PostLoadStuff()
     
 end
 
@@ -302,4 +300,6 @@ function ScriptInit()
 	AddCameraShot(0.609606, -0.055640, -0.787476, -0.071874, -108.782745, 17.936119, 58.947346);	-- sharkteeth
 	AddCameraShot(-0.288168, 0.029941, -0.951987, -0.098914, -10.234917, 8.470562, -24.091652);		-- crate arena
 	AddCameraShot(-0.000239, 0.000023, -0.995519, -0.094558, -1.801559, 5.236121, 14.380723);		-- greenhouse
+	
+	PostLoadStuff()
 end

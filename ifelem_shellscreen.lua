@@ -436,7 +436,7 @@ function NewIFShellScreen_common(temp,Template)
 	-- Add a friends icon if requested. Screen is responsible for moving it
 	-- later.
 	if(Template.bFriendsIcon) then
-		local IconSize = ScriptCB_GetFontHeight("gamefont_medium") * 1.2
+		local IconSize = ScriptCB_GetFontHeight("meu_myriadpro_small") * 1.2
 
 		temp.buttons.FriendIcon = NewIFImage { 
 			texture = "lobby_icons", 
@@ -491,7 +491,7 @@ function NewIFShellScreen_common(temp,Template)
 				x = BackButtonW * 0.5,
 				btnw = BackButtonW, 
 				btnh = BackButtonH,
-				font = "gamefont_medium", 
+				font = "meu_myriadpro_small", 
 				bg_tail = 20,
 				tag = "_back",
 			} -- end of Helptext_Back

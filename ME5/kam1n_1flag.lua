@@ -247,8 +247,6 @@ KillObject("cp1")
 		SSVxCOL_PostLoad()
 	end
 	
-	PostLoadStuff()
-	
 end
 
 function ScriptInit()
@@ -359,5 +357,7 @@ function ScriptInit()
             AddCameraShot(0.744389, 0.123539, 0.647364, -0.107437, 97.475639, 53.216236, 76.477089);
 
             AddCameraShot(-0.344152, 0.086702, -0.906575, -0.228393, 95.062233, 105.285820, -37.661552);
+	
+	PostLoadStuff()
 
 end

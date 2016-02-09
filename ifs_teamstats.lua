@@ -39,7 +39,7 @@ function Teamstats_Listbox_CreateItem(layout)
 		HScale = 0.8,
 		VScale = 1,
 		x = insidewidth - WidthPer * 4, y = FontHeight * -0.5 - 5,
-		valign = "vcenter", texth = layout.height, -- ScriptCB_GetFontHeight("gamefont_tiny"),
+		valign = "vcenter", texth = layout.height, -- ScriptCB_GetFontHeight("meu_myriadpro_small"),
 		textw = WidthPer, halign = "right", font = Font,
 		ColorR= 255, ColorG = 255, ColorB = 255,
 		style = "normal",
@@ -52,7 +52,7 @@ function Teamstats_Listbox_CreateItem(layout)
 		HScale = 0.8,
 		VScale = 1,
 		x = insidewidth - WidthPer * 3, y = FontHeight * -0.5 - 5, 
-		valign = "vcenter", texth = layout.height, -- ScriptCB_GetFontHeight("gamefont_tiny"),
+		valign = "vcenter", texth = layout.height, -- ScriptCB_GetFontHeight("meu_myriadpro_small"),
 		textw = WidthPer, halign = "right", font = Font,
 		ColorR= 255, ColorG = 255, ColorB = 255,
 		style = "normal",
@@ -65,7 +65,7 @@ function Teamstats_Listbox_CreateItem(layout)
 		HScale = 0.8,
 		VScale = 1,
 		x = insidewidth - WidthPer * 2, y = FontHeight * -0.5 - 5,
-		valign = "vcenter", texth = layout.height, -- ScriptCB_GetFontHeight("gamefont_tiny"),
+		valign = "vcenter", texth = layout.height, -- ScriptCB_GetFontHeight("meu_myriadpro_small"),
 		textw = WidthPer, halign = "right", font = Font,
 		ColorR= 255, ColorG = 255, ColorB = 255,
 		style = "normal",
@@ -78,7 +78,7 @@ function Teamstats_Listbox_CreateItem(layout)
 		HScale = 0.8,
 		VScale = 1,
 		x = insidewidth - WidthPer * 1, y = FontHeight * -0.5 - 5,
-		valign = "vcenter", texth = layout.height, -- ScriptCB_GetFontHeight("gamefont_tiny"),
+		valign = "vcenter", texth = layout.height, -- ScriptCB_GetFontHeight("meu_myriadpro_small"),
 		textw = WidthPer, halign = "right", font = Font,
 		ColorR= 255, ColorG = 255, ColorB = 255,
 		style = "normal",
@@ -185,7 +185,7 @@ function Teamstats_AwardsListbox_CreateItem(layout)
 		VScale = 1,
 		--x = insidewidth - WidthPer * 4, y = FontHeight * -0.5,
 		x = 0, y = FontHeight * -0.5,
-		valign = "vcenter", texth = layout.height, -- ScriptCB_GetFontHeight("gamefont_tiny"),
+		valign = "vcenter", texth = layout.height, -- ScriptCB_GetFontHeight("meu_myriadpro_small"),
 		textw = insidewidth, halign = "right", font = Font,
 		ColorR= 255, ColorG = 255, ColorB = 255,
 		style = "normal",
@@ -258,7 +258,7 @@ teamstats_listbox_layoutL = {
 -- 	width = 430, -- filled in from code later
 	x = 0,
 --	slider = 1,
-	font = "gamefont_tiny",
+	font = "meu_myriadpro_small",
 	CreateFn = Teamstats_Listbox_CreateItem,
 	PopulateFn = Teamstats_Listbox_PopulateItem,
 }
@@ -271,7 +271,7 @@ teamstats_listbox_layoutR = {
 -- 	width = 430, -- filled in from code later
 	x = 0,
 --	slider = 1,
-	font = "gamefont_tiny",
+	font = "meu_myriadpro_small",
 	CreateFn = Teamstats_Listbox_CreateItem,
 	PopulateFn = Teamstats_Listbox_PopulateItem,
 }
@@ -280,7 +280,7 @@ teamstats_awardsListbox_layoutL = {
 	yHeight = 15,
 	ySpacing = 1,
 	x = 0,
-	font = "gamefont_tiny",
+	font = "meu_myriadpro_small",
 	CreateFn = Teamstats_AwardsListbox_CreateItem,
 	PopulateFn = Teamstats_AwardsListbox_PopulateItem,
 }
@@ -289,7 +289,7 @@ teamstats_awardsListbox_layoutR = {
 	yHeight = 15,
 	ySpacing = 1,
 	x = 0,
-	font = "gamefont_tiny",
+	font = "meu_myriadpro_small",
 	CreateFn = Teamstats_AwardsListbox_CreateItem,
 	PopulateFn = Teamstats_AwardsListbox_PopulateItem,
 }
@@ -503,7 +503,7 @@ ifs_teamstats = NewIFShellScreen {
 
 --	title = NewIFText {
 --		string = "ifs.stats.teamstatstitle",
---		font = "gamefont_large",
+--		font = "meu_myriadpro_large",
 --		y = 0,
 --		textw = 460, -- center on screen. Fixme: do real centering!
 --		ScreenRelativeX = 0.5, -- center
@@ -513,7 +513,7 @@ ifs_teamstats = NewIFShellScreen {
 
 	titleTeamStats = NewIFText {
 		string = "ifs.stats.teamstatstitle",
-		font = "gamefont_medium",
+		font = "meu_myriadpro_medium",
 		ScreenRelativeX = 0.5,
 		ScreenRelativeY = 0.017,
 		textw = 150,
@@ -529,7 +529,7 @@ ifs_teamstats = NewIFShellScreen {
 	
 	titleAwards = NewIFText {
 		string = "ifs.stats.awards",
-		font = "gamefont_medium",
+		font = "meu_myriadpro_medium",
 		ScreenRelativeX = 0.5,
 		ScreenRelativeY = 0.637,
 		textw = 350,

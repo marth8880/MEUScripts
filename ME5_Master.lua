@@ -1,11 +1,11 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
--- Version 20626/06
+-- Version 30206/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Jun 26, 2015
--- Copyright (c) 2015 A. Gilbert.
+-- Feb 06, 2016
+-- Copyright (c) 2016 A. Gilbert.
 
 -- About this script: The purpose of script is to set some global 
 -- variables and load the other scripts.
@@ -19,7 +19,7 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 	print("ME5_Master: Entered")
-	print("ME5_Master: Mass Effect: Unification is currently running on Build 20626/06, Release 6, Version 1.21")
+	print("ME5_Master: Mass Effect: Unification is currently running on Build 30206/06, Release 6, Version 1.21")
 	
 	print("ME5_Master: Performing garbage collection...")
 		ME5_AIHeroes			= nil
@@ -74,6 +74,13 @@
 		shep_adept			= nil
 		shep_sentinel		= nil
 		shep_vanguard		= nil
+		
+		coop_soldier		= nil
+		coop_infiltrator	= nil
+		coop_engineer		= nil
+		coop_adept			= nil
+		coop_sentinel		= nil
+		coop_vanguard		= nil
 		
 		gethprime_me2	= nil
 		gethprime_me3	= nil
@@ -172,6 +179,8 @@
 	ScriptCB_DoFile("ME5_MiscFunctions")
 	ScriptCB_DoFile("ME5_RandomSides")
 	ScriptCB_DoFile("ME5_AudioFunctions")
+	ScriptCB_DoFile("ME5_UtilityFunctions")
+	ScriptCB_DoFile("ME5_CameraFunctions")
 	--ScriptCB_DoFile("ME5_LowHealthIFS")
 	
 	if ME5_CustomHUD == 1 then
@@ -183,8 +192,8 @@
 		ReadDataFile("common.lvl")
 	end
 
-cbRandomTest = ScriptCB_random()
-print("cbRandomTest: Output = "..cbRandomTest)
+--cbRandomTest = ScriptCB_random()
+--print("ME5_Master.cbRandomTest: Output = "..cbRandomTest)
 
 
 	-- Declare global info variables

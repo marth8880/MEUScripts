@@ -1,11 +1,11 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
--- Version 20626/06
+-- Version 30206/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Jun 26, 2015
--- Copyright (c) 2015 A. Gilbert.
+-- Feb 06, 2016
+-- Copyright (c) 2016 A. Gilbert.
 
 -- About this script: The purpose of script is to simplify the process 
 -- of loading music and setting global sound parameters.
@@ -34,6 +34,7 @@ function SFL_SSV_vf()
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSV_v_f_NonStreaming.lvl")
 end
 
+-- Opens music streams based on int var, MusicVaration.
 function OpenMusicStreams()
 	if MusicVariation == 1 then
 			print("ME5_AudioFunctions: Loading Music Variation 01")
@@ -88,6 +89,7 @@ function OpenHeroStreams()
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_h_Streaming.lvl", "ME5n_music_h")
 end
 
+-- Mostly music from ME1.
 function Music01()
 	MusicVariation = 1
 	
@@ -116,6 +118,7 @@ function SetMusic(musicID, isCTF)
 	else end
 end
 
+-- Mostly music from ME1. CTF version.
 function Music01_CTF()
 	MusicVariation = 1
 	
@@ -134,6 +137,7 @@ function Music01_CTF()
 	SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 end
 
+-- Collector attack music from ME2.
 function Music02()
 	MusicVariation = 2
 	
@@ -194,6 +198,7 @@ function Music02()
 	SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 end
 
+-- Collector attack music from ME2. CTF version.
 function Music02_CTF()
 	MusicVariation = 2
 	
@@ -290,11 +295,16 @@ function Music03_CTF()
 	SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 end
 
-function Music04()
+-- Squadmate music from ME2. Optional argument int 'variation' determines variation to use, or random if unspecified.
+-- @param #int variation test
+function Music04(variation)
 	MusicVariation = 4
 	
 	OpenMusicStreams()
-	DecideMus04Var = math.random(1,6)
+	
+	if not variation then
+		DecideMus04Var = math.random(1,6)
+	end
 	
 	if DecideMus04Var == 1 then
 			print("ME5_AudioFunctions: Deciding Music04 variation... Choosing SAMARA")

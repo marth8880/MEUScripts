@@ -98,7 +98,7 @@ function NewSegmentLine(x1,y1,x2,y2,label,labeloffs)
 			TextW = math.max(50,(gSafeW * 0.5) + XPos + 10)
 
 			temp.label = NewIFText {
-				font = "gamefont_tiny",
+				font = "meu_myriadpro_small",
 				valign = "vcenter",
 				halign = "right",
 				string = label,
@@ -117,7 +117,7 @@ function NewSegmentLine(x1,y1,x2,y2,label,labeloffs)
 			TextW = math.max(50,(gSafeW * 0.5) - XPos + 10)
 
 			temp.label = NewIFText {
-				font = "gamefont_tiny",
+				font = "meu_myriadpro_small",
 				valign = "vcenter",
 				halign = "left",
 				string = label,

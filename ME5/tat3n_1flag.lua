@@ -141,8 +141,6 @@ function ScriptPostLoad()
 	end
 	
 	KillObject("NPCCP2")
-	
-	PostLoadStuff()
 end
 
 function ScriptInit()
@@ -254,6 +252,8 @@ function ScriptInit()
 	AddCameraShot(0.090190, 0.005601, -0.993994, 0.061733, -15.379695, -9.939115, 72.110054)
 	AddCameraShot(0.971737, -0.118739, -0.202524, -0.024747, -16.591295, -1.371236, 147.933029)
 	AddCameraShot(0.894918, 0.098682, -0.432560, 0.047698, -20.577391, -10.683214, 128.752563)
+	
+	PostLoadStuff()
 
 end
 

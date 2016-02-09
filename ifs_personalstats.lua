@@ -12,7 +12,7 @@ function PersonalStats_ListboxGameStats_CreateItem(layout)
 		x = layout.x - 0.5 * layout.width, y=layout.y - 10
 	}
 	Temp.labelstr = NewIFText{
-		x = -10, y = 0, textw = 0.5 * layout.width, halign = "left", font = "gamefont_tiny",
+		x = -10, y = 0, textw = 0.5 * layout.width, halign = "left", font = "meu_myriadpro_small",
 		ColorR= 255, ColorG = 255, ColorB = 255,
 		style = "normal",
 		nocreatebackground = 1,
@@ -20,7 +20,7 @@ function PersonalStats_ListboxGameStats_CreateItem(layout)
 	}
 	Temp.contentsstr = NewIFText{ 
 		x = 0.2 * layout.width + 10, y = 0, 
-		textw = 0.8 * layout.width, halign = "right", font = "gamefont_tiny",
+		textw = 0.8 * layout.width, halign = "right", font = "meu_myriadpro_small",
 		ColorR= 255, ColorG = 255, ColorB = 255,
 		style = "normal",
 		nocreatebackground = 1,
@@ -57,14 +57,14 @@ function PersonalStats_ListboxMedals_CreateItem(layout)
 	}
 	
 	Temp.leftStr = NewIFText{
-		x = 0, y = 0, textw = 0.4 * layout.width, halign = "left", font = "gamefont_tiny",
+		x = 0, y = 0, textw = 0.4 * layout.width, halign = "left", font = "meu_myriadpro_small",
 		ColorR= 255, ColorG = 255, ColorB = 255,
 		style = "normal",
 		nocreatebackground = 1,
 		startdelay = math.random() * 0.25,
 	}
 	Temp.leftStrCount = NewIFText {
-		x = 0.4 * layout.width, y = 0, textw = 0.1 * layout.width, halign = "left", font = "gamefont_tiny",
+		x = 0.4 * layout.width, y = 0, textw = 0.1 * layout.width, halign = "left", font = "meu_myriadpro_small",
 		ColorR= 255, ColorG = 255, ColorB = 255,
 		style = "normal",
 		nocreatebackground = 1,
@@ -73,14 +73,14 @@ function PersonalStats_ListboxMedals_CreateItem(layout)
 	
 	Temp.rightStr = NewIFText{ 
 		x = 0.5 * layout.width, y = 0, 
-		textw = 0.4 * layout.width, halign = "left", font = "gamefont_tiny",
+		textw = 0.4 * layout.width, halign = "left", font = "meu_myriadpro_small",
 		ColorR= 255, ColorG = 255, ColorB = 255,
 		style = "normal",
 		nocreatebackground = 1,
 		startdelay = math.random() * 0.25,
 	}
 	Temp.rightStrCount = NewIFText {
-		x = 0.9 * layout.width, y = 0, textw = 0.1 * layout.width, halign = "left", font = "gamefont_tiny",
+		x = 0.9 * layout.width, y = 0, textw = 0.1 * layout.width, halign = "left", font = "meu_myriadpro_small",
 		ColorR= 255, ColorG = 255, ColorB = 255,
 		style = "normal",
 		nocreatebackground = 1,
@@ -115,7 +115,7 @@ function ifs_personalstats_fnSetUpListboxMedals(this)
 			y = -0.45 * this.listboxMedals.height + y_spacing * (i - 1),
 			textw = 0.5 * this.listboxMedals.width,
 			halign = "left",
-			font = "gamefont_tiny",
+			font = "meu_myriadpro_small",
 			ColorR = 255, ColorG = 255, ColorB = 255,
 			style = "normal",
 			nocreatebackground = 1,
@@ -127,7 +127,7 @@ function ifs_personalstats_fnSetUpListboxMedals(this)
 			y = -0.465 * this.listboxMedals.height + y_spacing * (i - 1),
 			textw = 0.5 * this.listboxMedals.width,
 			halign = "left",
-			font = "gamefont_tiny",
+			font = "meu_myriadpro_small",
 			ColorR = 255, ColorG = 255, ColorB = 255,
 			style = "normal",
 			nocreatebackground = 1,
@@ -257,7 +257,7 @@ ifs_personalstats = NewIFShellScreen {
 
 	titlePersonalStats = NewIFText {
 		string = "ifs.stats.personalstatstitle",
-		font = "gamefont_medium",
+		font = "meu_myriadpro_medium",
 		ScreenRelativeX = 0.5,
 		ScreenRelativeY = 0.017,
 		textw = 450,
@@ -273,7 +273,7 @@ ifs_personalstats = NewIFShellScreen {
 
 	titleMedals = NewIFText {
 		string = "ifs.stats.medals",
-		font = "gamefont_medium",
+		font = "meu_myriadpro_medium",
 		y = 0,
 		textw = 460, -- center on screen. Fixme: do real centering!
 		ScreenRelativeX = 0.5, 

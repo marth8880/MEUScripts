@@ -252,8 +252,6 @@ function ScriptPostLoad()
 		end,
 	"artGameTimer"
 	)]]
-	
-	PostLoadStuff()
     
 end
  
@@ -378,4 +376,6 @@ function ScriptInit()
     AddCameraShot(0.906778, 0.081875, -0.411906, 0.037192, 26.373968, -59.937874, 122.553581)
     --War Room  
     --AddCameraShot(0.994219, 0.074374, 0.077228, -0.005777, 90.939568, -49.293945, -69.571136)
+	
+	PostLoadStuff()
 end

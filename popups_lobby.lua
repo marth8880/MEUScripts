@@ -72,7 +72,7 @@ LobbyOpts_layout = {
         -- Options for just the selected player (which must have bOnlyForPlayer =
         -- 1 in them)
         { bOnlyForPlayer = 1, tag = "friend",         string = "ifs.onlinelobby.addfriend", },
-        { bOnlyForPlayer = 1, tag = "friendvoice",    string = "ifs.onlinelobby.addfriendvoice", font = "gamefont_tiny", yAdd = 8 },
+        { bOnlyForPlayer = 1, tag = "friendvoice",    string = "ifs.onlinelobby.addfriendvoice", font = "meu_myriadpro_small", yAdd = 8 },
         { bOnlyForPlayer = 1, tag = "delfriend",      string = "ifs.mp.friends.remove", },
         { bOnlyForPlayer = 1, tag = "feedback",       string = "ifs.onlinelobby.sendfeedback", },
         { bOnlyForPlayer = 1, tag = "team",           string = "ifs.onlinelobby.changeteam", },
@@ -592,7 +592,7 @@ Popup_LobbyOpts = NewPopup {
 
     title = NewIFText {
         string = "ifs.onlinelobby.options",
-        font = "gamefont_medium",
+        font = "meu_myriadpro_medium",
         texth = 40,
         textw = 300,
         --      y = -110,

@@ -244,8 +244,6 @@ function ScriptPostLoad()
 	
 	KillObject("GuardCP")
 	
-	PostLoadStuff()
-	
 end
 
 function ScriptInit()
@@ -358,5 +356,7 @@ function ScriptInit()
     AddCameraShot(0.835474, -0.181318, -0.506954, -0.110021, -166.314774, 27.687098, -6.715797);
     AddCameraShot(0.327573, -0.024828, -0.941798, -0.071382, -109.700180, 15.415476, -84.413605);
     AddCameraShot(-0.400505, 0.030208, -0.913203, -0.068878, 82.372711, 15.415476, -42.439548);
+	
+	PostLoadStuff()
     
 end

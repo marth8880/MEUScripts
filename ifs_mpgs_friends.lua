@@ -390,7 +390,7 @@ ifs_mpgs_friends = NewIFShellScreen {
 
 	title = NewIFText {
 		string = "ifs.mp.friends.title",
-		font = "gamefont_large",
+		font = "meu_myriadpro_large",
 		y = 0,
 		textw = 460,
 		ScreenRelativeX = 0.5, -- center
@@ -767,7 +767,7 @@ function ifs_mpgs_friends_fnBuildScreen(this)
 	this.infobox.text = NewIFText{
 		y = BoxH * -0.5 - 5, valign = "vcenter", -- centered around parent
 		textw= BoxW - 32, texth = BoxH,
-		font = "gamefont_small",
+		font = "meu_myriadpro_small",
 --		string = "data here",
 		nocreatebackground=1,
 	}
@@ -791,7 +791,7 @@ function ifs_mpgs_friends_fnBuildScreen(this)
 				y = 0,
 				btnw = 250, -- made wider to fix 9173 - NM 8/25/04
 				btnh = 10,
-				font = "gamefont_small",
+				font = "meu_myriadpro_small",
 				halign = "hcenter",
 				--bg_width = BackButtonW,
 				--bg_xflipped = 1,
@@ -804,7 +804,7 @@ function ifs_mpgs_friends_fnBuildScreen(this)
 				y = 30,
 				btnw = 250, -- made wider to fix 9173 - NM 8/25/04
 				btnh = 10,
-				font = "gamefont_small",
+				font = "meu_myriadpro_small",
 				halign = "hcenter",
 				--bg_width = BackButtonW,
 				--bg_xflipped = 1,
@@ -817,7 +817,7 @@ function ifs_mpgs_friends_fnBuildScreen(this)
 				y = 60,
 				btnw = 250, -- made wider to fix 9173 - NM 8/25/04
 				btnh = 10,
-				font = "gamefont_small",
+				font = "meu_myriadpro_small",
 				halign = "hcenter",
 				--bg_width = BackButtonW,
 				--bg_xflipped = 1,
@@ -830,7 +830,7 @@ function ifs_mpgs_friends_fnBuildScreen(this)
 				y = 90,
 				btnw = 250, -- made wider to fix 9173 - NM 8/25/04
 				btnh = 10,
-				font = "gamefont_small",
+				font = "meu_myriadpro_small",
 				halign = "hcenter",
 				--bg_width = BackButtonW,
 				--bg_xflipped = 1,
@@ -854,7 +854,7 @@ function ifs_mpgs_friends_fnBuildScreen(this)
 
 		local EditBoxW = 500
 		local BackButtonW = 180
-		local BackButtonH = ScriptCB_GetFontHeight("gamefont_medium")
+		local BackButtonH = ScriptCB_GetFontHeight("meu_myriadpro_medium")
 		this.PassBox = NewIFContainer
 		{
 			ScreenRelativeX = 0.5, -- center
@@ -862,7 +862,7 @@ function ifs_mpgs_friends_fnBuildScreen(this)
 
 			title = NewIFText {
 				string = "ifs.vkeyboard.title_password",
-				font = "gamefont_large",
+				font = "meu_myriadpro_large",
 				y = -50,
 				textw = EditBoxW,
 				nocreatebackground = 1,
@@ -872,7 +872,7 @@ function ifs_mpgs_friends_fnBuildScreen(this)
 			passedit = NewEditbox {
 				width = EditBoxW,
 				height = 40,
-				font = "gamefont_medium",
+				font = "meu_myriadpro_medium",
 				--		string = "Player 1",
 				MaxLen = EditBoxW - 30,
 				MaxChars = 31,
@@ -883,7 +883,7 @@ function ifs_mpgs_friends_fnBuildScreen(this)
 				y = 35,
 				btnw = BackButtonW, -- made wider to fix 9173 - NM 8/25/04
 				btnh = BackButtonH,
-				font = "gamefont_medium",
+				font = "meu_myriadpro_medium",
 				tag = "_passok",
 				string = "common.ok",
 			},
@@ -892,7 +892,7 @@ function ifs_mpgs_friends_fnBuildScreen(this)
 -- 				y = 35,
 -- 				btnw = BackButtonW, -- made wider to fix 9173 - NM 8/25/04
 -- 				btnh = BackButtonH,
--- 				font = "gamefont_medium",
+-- 				font = "meu_myriadpro_medium",
 -- 				tag = "_passback",
 -- 				string = "common.cancel",
 -- 			},

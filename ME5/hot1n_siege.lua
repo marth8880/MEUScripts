@@ -200,7 +200,7 @@ function ScriptPostLoad()
     
 --    KillObject("shield");
 	
-	ShieldGenNode = GetPathPoint("CP2_SpawnPath", 3) --gets the path point
+	--ShieldGenNode = GetPathPoint("CP2_SpawnPath", 3) --gets the path point
 	CP3Node = GetPathPoint("CP3_SpawnPath", 6)
 	CP4Node = GetPathPoint("CP4_SpawnPath", 0)
 	CP5Node = GetPathPoint("CP5_SpawnPath", 1)
@@ -214,7 +214,7 @@ function ScriptPostLoad()
 		function(timer)]]
 			--local team1pts = GetReinforcementCount(1)
 			--if team1pts >= 100 then
-				artMatrices = { ShieldGenNode, CP3Node, CP4Node, CP5Node, CP6Node }
+				artMatrices = { CP3Node, CP4Node, CP5Node, CP6Node }
 				goingthroughturrets = 0			
 				
 				artInitTimer = CreateTimer("artInitTimer")
@@ -224,7 +224,7 @@ function ScriptPostLoad()
 				OnTimerElapse(
 					function(timer)
 						goingthroughturrets = goingthroughturrets + 1
-						if goingthroughturrets == 6 then
+						if goingthroughturrets == 5 then
 							goingthroughturrets = 1
 						end
 						

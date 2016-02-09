@@ -222,7 +222,7 @@ gCurHiliteButton = nill
 --   bLeftJustifyButtons : flag to move buttons to left side of screen in ShowHide. Container must be horizontally centered (ScreenRelativeX = 0.5)
 function AddVerticalButtons(dest,layout)
 	-- Fill in defaults for the layout table if needed
-	local Font = layout.font or "gamefont_small"
+	local Font = layout.font or "meu_myriadpro_small"
 	-- set layout yHeight if not specified
 	layout.yHeight = layout.yHeight or ScriptCB_GetFontHeight(Font)
 --	print("AddVertical, yHeight = ", layout.yHeight, " from ", Font)
@@ -562,7 +562,7 @@ function AddHorizontalButtons(dest,layout)
 	local xWidth = layout.xWidth or 40
 	local xSpacing = layout.xSpacing or 10
 	local height = layout.height or 40
-	local Font = layout.font or "gamefont_small"
+	local Font = layout.font or "meu_myriadpro_small"
 	local yTop = layout.yTop or 0
 	local xLeft
 	local i
@@ -663,7 +663,7 @@ function ShowHideHorizontalButtons(dest,layout)
 	local xWidth = layout.xWidth or 40
 	local xSpacing = layout.xSpacing or 10
 	local height = layout.height or 40
-	local Font = layout.font or "gamefont_small"
+	local Font = layout.font or "meu_myriadpro_small"
 	local yTop = layout.yTop or 0
 	local xLeft
 	local i
@@ -719,7 +719,7 @@ function AddVerticalText(dest,layout)
 	local yHeight = layout.yHeight or 40
 	local ySpacing = layout.ySpacing or 10
 	local width = layout.textwidth or layout.width or 100
-	local Font = layout.font or "gamefont_small"
+	local Font = layout.font or "meu_myriadpro_small"
 	local bFlatButton = layout.FlatButtons
 	local xStart = layout.xStart or nil
 	local bRightJustifyText = layout.bRightJustifyText
@@ -805,7 +805,7 @@ function ShowHideVerticalText(dest,layout)
 	local yHeight = layout.yHeight or 40
 	local ySpacing = layout.ySpacing or 10
 	local width = layout.textwidth or layout.width or 100
-	local Font = layout.font or "gamefont_small"
+	local Font = layout.font or "meu_myriadpro_small"
 	local bFlatButton = layout.FlatButtons
 	local xStart = layout.xStart or 0
 	local bRightJustifyText = layout.bRightJustifyText
@@ -883,7 +883,7 @@ function AddVerticalOptions(dest,layout)
 	local ySpacing = layout.ySpacing or 10
 	local width = layout.width or 100
 	local HalfWidth = width * 0.5
-	local Font = layout.font or "gamefont_small"
+	local Font = layout.font or "meu_myriadpro_small"
 
 	local i
 	local Count = table.getn(layout.buttonlist)

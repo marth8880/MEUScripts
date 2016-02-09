@@ -197,8 +197,6 @@ function ScriptPostLoad()
 		SSVxCOL_PostLoad()
 	end
 	
-	PostLoadStuff()
-	
 	SetProperty("CP1Con", "NeutralizeTime", 40)
 	SetProperty("CP1Con", "CaptureTime", 35)
 	SetProperty("CP2Con", "NeutralizeTime", 40)
@@ -368,6 +366,8 @@ SetMaxCollisionDistance(1500)
     AddCameraShot(-0.401462, 0.047050, -0.908449, -0.106466, 77.586563, 47.662624, -147.517365);
     AddCameraShot(-0.269503, 0.031284, -0.956071, -0.110983, 111.260330, 16.927542, -114.045715);
     AddCameraShot(-0.338119, 0.041636, -0.933134, -0.114906, 134.970169, 26.441256, -82.282082);
+	
+	PostLoadStuff()
 
 
 end

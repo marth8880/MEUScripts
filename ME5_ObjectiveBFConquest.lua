@@ -4,6 +4,11 @@
 
 ScriptCB_DoFile("ME5_Objective")
 
+if bStockFontLoaded == nil then
+	-- Has the stock font been loaded?
+	bStockFontLoaded = false
+else end
+
 MEUGameMode = meu_siege
 
 --=============================
@@ -685,8 +690,12 @@ function ObjectiveConquest:Complete(winningTeam)
 		end
 		
 		if ME5_CustomHUD == 1 then
-			-- hotfix that reloads the stock fonts in the stats screen
-			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
+			if bStockFontLoaded == false then
+				bStockFontLoaded = true
+					print("ME5_ObjectiveBFConquest: Loading hud_font_stock.lvl...")
+				-- hotfix that reloads the stock fonts in the stats screen
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
+			else end
 		else end
 	end
 	

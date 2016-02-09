@@ -126,8 +126,6 @@ function ScriptPostLoad()
 	else
 		SSVxGTH_PostLoad()
 	end
-	
-	PostLoadStuff()
     
 end
 
@@ -244,5 +242,7 @@ function ScriptInit()
 	AddCameraShot(0.013350, -0.001503, -0.993636, -0.111838, -7.550848, 2.605920, -82.578865);		-- bunker
 	AddCameraShot(0.459203, 0.042688, -0.883496, 0.082130, -19.666098, 7.762414, -125.828354);		-- towers wide
 	AddCameraShot(-0.428738, -0.031436, -0.900465, 0.066023, 20.310499, 2.323809, -157.813171);		-- skyway tower interior
+	
+	PostLoadStuff()
 end
 

@@ -10,7 +10,7 @@ mpxl_feedback_vbutton_layout = {
 	yHeight = 30,
 	ySpacing = 0,
 	width = 400,
-	font = "gamefont_medium",
+	font = "meu_myriadpro_medium",
 	RightJustify = 1,
 	bRightJustifyButton = 1,
 	flashy = 0,
@@ -87,7 +87,7 @@ ifs_mpxl_feedback = NewIFShellScreen {
 
 	title = NewIFText {
 		string = "ifs.xfeedback.title",
-		font = "gamefont_large",
+		font = "meu_myriadpro_large",
 		y = 0,
 		textw = 460,
 		texth = 60,
@@ -99,7 +99,7 @@ ifs_mpxl_feedback = NewIFShellScreen {
 
 	PlayerName = NewIFText {
 --		string = "ifs.xfeedback.title",
-		font = "gamefont_medium",
+		font = "meu_myriadpro_medium",
 		y = 55,
 		textw = 460,
 		ScreenRelativeX = 0.5, -- center

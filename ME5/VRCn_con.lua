@@ -271,8 +271,6 @@ function ScriptPostLoad()
 	else
 		SSVxGTH_PostLoad()
 	end
-	
-	PostLoadStuff()
     
 end
 
@@ -384,5 +382,6 @@ function ScriptInit()
 	AddCameraShot(0.943805, -0.094135, 0.315250, 0.031443, -95.917686, 12.469149, 164.284882);
 	AddCameraShot(0.039136, -0.004479, -0.992743, -0.113616, -145.351196, 12.469149, 7.593871);
 	
+	PostLoadStuff()
+	
 end
-

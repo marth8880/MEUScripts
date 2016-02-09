@@ -14,7 +14,7 @@ function ifs_pc_Spectator_fnBuildScreen( this, mode )
 
 		btnw = BackButtonW, 
 		btnh = BackButtonH,
-		font = "gamefont_medium", 
+		font = "meu_myriadpro_medium", 
 		bg_tail = 20,
 		--nocreatebackground = 1,
 		tag = "_back",
@@ -31,7 +31,7 @@ function ifs_pc_Spectator_fnBuildScreen( this, mode )
 --		
 --		btnw = BackButtonW, 
 --		btnh = BackButtonH,
---		font = "gamefont_medium", 
+--		font = "meu_myriadpro_medium", 
 --		bg_tail = 20,
 --		nocreatebackground = 1,
 --		tag = "_accept",
