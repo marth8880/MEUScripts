@@ -53,26 +53,32 @@ function BlockCombatZoneExits(sublevelID)
 	print("EURn_c.BlockCombatZoneExits("..sublevelID.."): Entered")
 	
 	if sublevelID == 0 then
+		print("EURn_c.BlockCombatZoneExits(): Blocking barriers")
+		
 		-- Barriers
-    	EnableBarrier("Bar_Hangar1")
-    	EnableBarrier("Bar_Cargo1")
-    	EnableBarrier("Bar_Reception1")
-    	EnableBarrier("Bar_Reception1")
-    	EnableBarrier("Bar_Management1")
-    	EnableBarrier("Bar_Management2")
-    	EnableBarrier("Bar_Comms1")
-    	EnableBarrier("Bar_Power1")
+    	EnableBarriers("Bar_Hangar1")
+    	EnableBarriers("Bar_Cargo1")
+    	EnableBarriers("Bar_Reception1")
+    	EnableBarriers("Bar_Reception1")
+    	EnableBarriers("Bar_Management1")
+    	EnableBarriers("Bar_Management2")
+    	EnableBarriers("Bar_Comms1")
+    	EnableBarriers("Bar_Power1")
+		
+		print("EURn_c.BlockCombatZoneExits(): Blocking planning graphs")
     	
     	-- Planning connections
     	BlockPlanningGraphArcs(1)
 		
+		print("EURn_c.BlockCombatZoneExits(): Locking doors")
+		
 		-- Doors
 		-- Hangar
-		SetProperty("hangar_doors_enter", "IsLocked", "1")
+		--SetProperty("hangar_doors_enter", "IsLocked", "1")
 		SetProperty("hangar_doors_exit", "IsLocked", "1")
 		
 		-- Cargo Bay
-		SetProperty("cargo_doors_enter", "IsLocked", "1")
+		--SetProperty("cargo_doors_enter", "IsLocked", "1")
 		SetProperty("cargo_doors_exit", "IsLocked", "1")
 		
 		-- Reception
@@ -88,6 +94,8 @@ function BlockCombatZoneExits(sublevelID)
 		
 		-- Power Control
 		SetProperty("power_doors_enter", "IsLocked", "1")
+		
+		print("EURn_c.BlockCombatZoneExits(): Done")
     	
 	elseif sublevelID == 1 then
 		
@@ -108,25 +116,25 @@ function UnblockCombatZoneExits(sublevelID)
 	
 	if sublevelID == 0 then
 		-- Barriers
-    	DisableBarrier("Bar_Hangar1")
-    	DisableBarrier("Bar_Cargo1")
-    	DisableBarrier("Bar_Reception1")
-    	DisableBarrier("Bar_Reception1")
-    	DisableBarrier("Bar_Management1")
-    	DisableBarrier("Bar_Management2")
-    	DisableBarrier("Bar_Comms1")
-    	DisableBarrier("Bar_Power1")
+    	DisableBarriers("Bar_Hangar1")
+    	DisableBarriers("Bar_Cargo1")
+    	DisableBarriers("Bar_Reception1")
+    	DisableBarriers("Bar_Reception1")
+    	DisableBarriers("Bar_Management1")
+    	DisableBarriers("Bar_Management2")
+    	DisableBarriers("Bar_Comms1")
+    	DisableBarriers("Bar_Power1")
     	
     	-- Planning connections
     	UnblockPlanningGraphArcs(1)
 		
 		-- Doors
 		-- Hangar
-		SetProperty("hangar_doors_enter", "IsLocked", "0")
+		--SetProperty("hangar_doors_enter", "IsLocked", "0")
 		SetProperty("hangar_doors_exit", "IsLocked", "0")
 		
 		-- Cargo Bay
-		SetProperty("cargo_doors_enter", "IsLocked", "0")
+		--SetProperty("cargo_doors_enter", "IsLocked", "0")
 		SetProperty("cargo_doors_exit", "IsLocked", "0")
 		
 		-- Reception
@@ -310,43 +318,71 @@ function ReleaseCombatZone(combatZoneID)
 	local zoneID = combatZoneID
 	
 		print("EURn_c.ReleaseCombatZone(): Releasing combat zone "..zoneID)
-		
+	
+	-- Which combat zone are we releasing?
 	if zoneID == "S0_Hangar" then
 		-- Switch back to exploration music
 		ScriptCB_PlayInGameMusic("eur_amb_explore_01a")
 		
+		-- Allow the player to leave
 		UnblockCombatZoneExits(0)
+		
+		-- Set up the trigger for the next combat zone
+		ActivateRegion("cz_s0_cargo")
+		
 		
 	elseif zoneID == "S0_CargoBay" then
 		-- Switch back to exploration music
 		ScriptCB_PlayInGameMusic("eur_amb_explore_01a")
 		
+		-- Allow the player to leave
 		UnblockCombatZoneExits(0)
+		
+		-- Set up the trigger for the next combat zone
+		ActivateRegion("cz_s0_reception")
+		
 		
 	elseif zoneID == "S0_Reception" then
 		-- Switch back to exploration music
 		ScriptCB_PlayInGameMusic("eur_amb_explore_01a")
 		
+		-- Allow the player to leave
 		UnblockCombatZoneExits(0)
+		
+		-- Set up the trigger for the next combat zone
+		ActivateRegion("cz_s0_management")
+		
 		
 	elseif zoneID == "S0_Management" then
 		-- Switch back to exploration music
 		ScriptCB_PlayInGameMusic("eur_amb_explore_01a")
 		
+		-- Allow the player to leave
 		UnblockCombatZoneExits(0)
+		
+		-- Set up the trigger for the next combat zone
+		ActivateRegion("cz_s0_cargo")
+		
 		
 	elseif zoneID == "S0_CommsControl" then
 		-- Switch back to exploration music
 		ScriptCB_PlayInGameMusic("eur_amb_explore_01a")
 		
+		-- Allow the player to leave
 		UnblockCombatZoneExits(0)
+		
+		-- Set up the trigger for the next combat zone
+		ActivateRegion("cz_s0_comms")
+		
 		
 	elseif zoneID == "S0_PowerControl" then
 		-- Switch back to exploration music
 		ScriptCB_PlayInGameMusic("eur_amb_explore_01a")
 		
+		-- Allow the player to leave
 		UnblockCombatZoneExits(0)
 		
+		-- Victory timer
 		SetTimerValue(ObjectivesTimer, 5.0)
 		StartTimer(ObjectivesTimer)
 		
@@ -357,6 +393,7 @@ function ReleaseCombatZone(combatZoneID)
 			end,
 		ObjectivesTimer
 		)
+		
 		
 	end
 end
@@ -417,16 +454,16 @@ function StartCombatZone(combatZoneID, combatMusicID)
 	ClearAIGoals(GethPrimes)
 	
 	AddAIGoal(GethPawns, "Deathmatch", 20)
-	AddAIGoal(GethPawns, "Destroy", 100, 0)
+	--AddAIGoal(GethPawns, "Destroy", 100, 0)
 	
 	AddAIGoal(GethTacticals, "Deathmatch", 20)
 	AddAIGoal(GethTacticals, "Destroy", 100, 0)
 	
 	AddAIGoal(GethSpecials, "Deathmatch", 20)
-	AddAIGoal(GethSpecials, "Destroy", 100, 0)
+	--AddAIGoal(GethSpecials, "Destroy", 100, 0)
 	
 	AddAIGoal(GethHeavys, "Deathmatch", 20)
-	AddAIGoal(GethHeavys, "Destroy", 100, 0)
+	--AddAIGoal(GethHeavys, "Destroy", 100, 0)
 	
 	AddAIGoal(GethPrimes, "Destroy", 100, 0)
 	
@@ -451,13 +488,14 @@ function StartCombatZone(combatZoneID, combatMusicID)
 	-- Spawn delay timer
 	OnTimerElapse(
 		function(timer)
-			-- If there's any enemies remaining
+			-- Are there any enemies remaining?
 			if enemiesRemaining > 0 then
 				if currentWave < (totalWaves + 1) then
 					--print("EURn_c.StartCombatZone(): Running SpawnNextWave("..spawnClasses[currentWave]['spawnPath']..")")
 					-- Spawn the next wave of enemies
 					SpawnNextWave()
 					
+					-- Is the spawn timer active?
 					if bIsTimerSpawnActive == true then
 						SetTimerValue(spawnDelayTimer, spawnClasses[currentWave]['spawnValue'])
 						StartTimer(spawnDelayTimer)
@@ -490,6 +528,7 @@ function StartCombatZone(combatZoneID, combatMusicID)
 			CombatZoneEnemyKill = nil
 		return end
 		
+		-- Was the killed object an enemy unit?
     	if killer and ((GetObjectTeam(object) == GethPawns) or (GetObjectTeam(object) == GethTacticals) or (GetObjectTeam(object) == GethHeavys) or (GetObjectTeam(object) == GethSpecials) or (GetObjectTeam(object) == GethPrimes)) then
     		ShowMessageText("level.EUR.debug.comzone_kill", REP)
     		
@@ -502,9 +541,9 @@ function StartCombatZone(combatZoneID, combatMusicID)
     		-- Killcount
     		if bIsTimerSpawnActive == false then
     			
-    			-- If there's any enemies remaining
+    			-- Are there any enemies remaining?
     			if enemiesRemaining > 0 then
-					-- If the current wave is less than the total number of waves+1
+					-- Are we still within the range of waves?
 					if currentWave < (totalWaves + 1) then
 						-- Is the # enemies killed the same as 
 			    		if numKilled == spawnClasses[currentWave]['spawnValue'] then
@@ -518,7 +557,7 @@ function StartCombatZone(combatZoneID, combatMusicID)
 			
 			-- Timer
 			else
-    			-- If there's any enemies remaining
+    			-- Are there any enemies remaining?
     			if enemiesRemaining > 0 then
 					-- Are we still within the range of waves?
 					if currentWave < (totalWaves + 1) then
@@ -617,8 +656,14 @@ function ScriptPostLoad()
 	SetProperty("elevator_1_doors_bottom", "IsLocked", "1")
 	SetProperty("start_doors", "IsLocked", "1")
 	
-	-- Elevator 1 plans
-	BlockPlanningGraphArcs(1)
+	SetProperty("fake_doors_1", "IsLocked", "1")
+	SetProperty("fake_doors_2", "IsLocked", "1")
+	SetProperty("fake_doors_3", "IsLocked", "1")
+	SetProperty("fake_doors_4", "IsLocked", "1")
+	SetProperty("fake_doors_5", "IsLocked", "1")
+	SetProperty("fake_doors_6", "IsLocked", "1")
+	
+	BlockCombatZoneExits(0)
     
     
     --This defines the CPs.  These need to happen first
@@ -689,6 +734,10 @@ function ScriptPostLoad()
 	spawnDelayTimer = CreateTimer("spawnDelayTimer")
 	SetTimerValue(spawnDelayTimer, 4)
 	ShowTimer(spawnDelayTimer)
+	
+	ObjectivesTimer = CreateTimer("objectivesTimer")
+	SetTimerValue(ObjectivesTimer, 1.5)
+	ShowTimer(ObjectivesTimer)
     
     SetRespawnPoint("playerspawn_start")
 	
@@ -697,10 +746,11 @@ function ScriptPostLoad()
 	-- FIRST SPAWN
 	--==========================
 	
-	ObjectivesTimerElapse = OnTimerElapse(
+	Objective1_TimerElapse = OnTimerElapse(
 		function(timer)
-			ReleaseTimerElapse(ObjectivesTimerElapse)
-			ObjectivesTimerElapse = nil
+			ReleaseTimerElapse(Objective1_TimerElapse)
+			Objective1_TimerElapse = nil
+			
     		ObjectiveCampaign:Start()
     		
     		--PlayCinematic("cinematic_test", "eur_prop_camera")
@@ -736,26 +786,28 @@ function ScriptPostLoad()
 	--==========================
     
     MapAddEntityMarker("hangar_console", "hud_objective_icon", 3.0, ATT, "YELLOW", true)
-	HangarConsoleActivate = OnObjectRepairName(
+	CZ_Hangar = OnObjectRepairName(
 		function(objPtr, characterId)
 			-- Test output
-			print("EURn_c.HangarConsoleActivate: Interaction received")
+			print("EURn_c.CZ_Hangar: Activated console")
 			ShowMessageText("level.EUR.interactions.test.received")
+				
+			-- This combat zone's string ID
+			local currentZoneID = "S0_Hangar"
 			
+			-- Set up init params for combat zone
+			SetupCombatZoneInit(currentZoneID)
 			
-			-- Set up init params for combat zone 1
-			SetupCombatZoneInit("S0_Hangar")
-			
-			-- Start combat zone 1
-			StartCombatZone("S0_Hangar", "eur_amb_combat_01a")
+			-- Start combat zone
+			StartCombatZone(currentZoneID, "eur_amb_combat_01a")
 			
 			-- Update the player's respawn point
 			SetRespawnPoint("ps_s0_hangar")
 			
-			
+			-- Disable this combat zone's trigger
 			MapRemoveEntityMarker("hangar_console")
-			ReleaseObjectRepair(HangarConsoleActivate)
-			HangarConsoleActivate = nil
+			ReleaseObjectRepair(CZ_Hangar)
+			CZ_Hangar = nil
 		end,
 	"hangar_console"
 	)
@@ -765,21 +817,24 @@ function ScriptPostLoad()
 	-- COMBAT ZONE : CARGO BAY
 	--==========================
 	
-	ActivateRegion("cz_s0_cargo")
 	CZ_CargoBay = OnEnterRegion(
 		function(region, player)
 			if IsCharacterHuman(player) then
 				print("EURn_c.CZ_CargoBay: Entered region")
 				
-				-- Set up init params for combat zone 2
-				SetupCombatZoneInit(2)
+				-- This combat zone's string ID
+				local currentZoneID = "S0_CargoBay"
 				
-				-- Start combat zone 2
-				StartCombatZone(2, "eur_amb_combat_01a")
+				-- Set up init params for combat zone
+				SetupCombatZoneInit(currentZoneID)
+				
+				-- Start combat zone
+				StartCombatZone(currentZoneID, "eur_amb_combat_01a")
 				
 				-- Update the player's respawn point
 				SetRespawnPoint("ps_s0_cargo")
 				
+				-- Disable this combat zone's trigger
 				ReleaseEnterRegion(CZ_CargoBay)
 				CZ_CargoBay = nil
 				
@@ -789,10 +844,137 @@ function ScriptPostLoad()
 	"cz_s0_cargo"
 	)
 	
-	-- Spawn the first wave
-	--SetupAmbushTrigger("comzone_1", "enemyspawn_1", spawnClasses[currentWave]['numDudes'], spawnClasses[currentWave]['team'])
+	
+	--==========================
+	-- COMBAT ZONE : RECEPTION
+	--==========================
+	
+	CZ_Reception = OnEnterRegion(
+		function(region, player)
+			if IsCharacterHuman(player) then
+				print("EURn_c.CZ_Reception: Entered region")
+				
+				-- This combat zone's string ID
+				local currentZoneID = "S0_Reception"
+				
+				-- Set up init params for combat zone
+				SetupCombatZoneInit(currentZoneID)
+				
+				-- Start combat zone
+				StartCombatZone(currentZoneID, "eur_amb_combat_01a")
+				
+				-- Update the player's respawn point
+				SetRespawnPoint("ps_s0_reception")
+				
+				-- Disable this combat zone's trigger
+				ReleaseEnterRegion(CZ_Reception)
+				CZ_Reception = nil
+				
+				DeactivateRegion("cz_s0_reception")
+			end
+		end,
+	"cz_s0_reception"
+	)
 	
 	
+	--==========================
+	-- COMBAT ZONE : MANAGEMENT
+	--==========================
+	
+	CZ_Management = OnEnterRegion(
+		function(region, player)
+			if IsCharacterHuman(player) then
+				print("EURn_c.CZ_Management: Entered region")
+				
+				-- This combat zone's string ID
+				local currentZoneID = "S0_Management"
+				
+				-- Set up init params for combat zone
+				SetupCombatZoneInit(currentZoneID)
+				
+				-- Start combat zone
+				StartCombatZone(currentZoneID, "eur_amb_combat_01a")
+				
+				-- Update the player's respawn point
+				SetRespawnPoint("ps_s0_management")
+				
+				-- Disable this combat zone's trigger
+				ReleaseEnterRegion(CZ_Management)
+				CZ_Management = nil
+				
+				DeactivateRegion("cz_s0_management")
+			end
+		end,
+	"cz_s0_management"
+	)
+	
+	
+	--==========================
+	-- COMBAT ZONE : POWER CONTROL
+	--==========================
+	
+	CZ_PowerControl = OnEnterRegion(
+		function(region, player)
+			if IsCharacterHuman(player) then
+				print("EURn_c.CZ_PowerControl: Entered region")
+				
+				-- This combat zone's string ID
+				local currentZoneID = "S0_PowerControl"
+				
+				-- Set up init params for combat zone
+				SetupCombatZoneInit(currentZoneID)
+				
+				-- Start combat zone
+				StartCombatZone(currentZoneID, "eur_amb_combat_01a")
+				
+				-- Update the player's respawn point
+				SetRespawnPoint("ps_s0_reception")
+				
+				-- Disable this combat zone's trigger
+				ReleaseEnterRegion(CZ_PowerControl)
+				CZ_PowerControl = nil
+				
+				DeactivateRegion("cz_s0_power")
+			end
+		end,
+	"cz_s0_power"
+	)
+	
+	
+	--==========================
+	-- COMBAT ZONE : COMMS CONTROL
+	--==========================
+	
+	CZ_CommsControl = OnEnterRegion(
+		function(region, player)
+			if IsCharacterHuman(player) then
+				print("EURn_c.CZ_CommsControl: Entered region")
+				
+				-- This combat zone's string ID
+				local currentZoneID = "S0_CommsControl"
+				
+				-- Set up init params for combat zone
+				SetupCombatZoneInit(currentZoneID)
+				
+				-- Start combat zone
+				StartCombatZone(currentZoneID, "eur_amb_combat_01a")
+				
+				-- Update the player's respawn point
+				SetRespawnPoint("ps_s0_comms")
+				
+				-- Disable this combat zone's trigger
+				ReleaseEnterRegion(CZ_CommsControl)
+				CZ_CommsControl = nil
+				
+				DeactivateRegion("cz_s0_comms")
+			end
+		end,
+	"cz_s0_comms"
+	)
+	
+	--==========================
+	-- ELEVATORS
+	--==========================
 	
 	Elevator1_Timer = CreateTimer("elevator_1_timer")
 	SetTimerValue(Elevator1_Timer, 25)
