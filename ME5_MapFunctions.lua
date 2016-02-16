@@ -1,11 +1,11 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
--- MASS EFFECT: UNIFICATION Map Functions Script by A. Gilbert
--- Version 30106/06
+-- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
+-- Version 30213/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Jan 06, 2016
--- Copyright (c) 2014 A. Gilbert.
+-- Feb 13, 2016
+-- Copyright (c) 2016 A. Gilbert.
 
 -- About this script: The purpose of script is to simplify the process 
 -- of loading specific maps' functions such as that of disabling barriers, etc.

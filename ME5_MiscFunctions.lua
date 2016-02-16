@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
--- Version 30206/06
+-- Version 30213/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Feb 06, 2016
+-- Feb 13, 2016
 -- Copyright (c) 2016 A. Gilbert.
 
 -- About this script: The purpose of script is to create a list of 
@@ -19,14 +19,18 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 	print("ME5_MiscFunctions: Entered")
--- Performs various pre-game operations, such as loading of commonly used data files,
+	
+---
+-- Performs various pre-game operations, such as loading commonly used data files,
 -- Carnage mode setup, HUD work, and running event response functions for features such as
 -- kill sounds, Evolved Juggernaut's Power Drain, and shield pickups.
 function PreLoadStuff()
 		print("ME5_MiscFunctions.PreLoadStuff(): Entered")
-	-- Load our custom loadscreen elements such as LEDs, etc.
+	
+	-- Load our custom loadscreen elements such as progress bar LEDs, tip box elements, etc.
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\common.lvl")
 	
+	-- What is the difficulty set to in the Config Tool?
 	if not ScriptCB_InMultiplayer() then
 		if ME5_Difficulty == 1 then
 				print("ME5_MiscFunctions.PreLoadStuff(): Initializing difficulty parameters for CASUAL...")
@@ -61,28 +65,31 @@ function PreLoadStuff()
 		end
 	else
 			print("ME5_MiscFunctions.PreLoadStuff(): Initializing difficulty parameters for MULTIPLAYER...")
+		-- NOTE: Apply a difficulty setting located between Hardcore and Insanity
 		SetAIDifficulty(-2, 2)
 		SetTeamAggressiveness(CIS,(0.95))
 		SetTeamAggressiveness(REP,(0.95))
 	end
 	
+	-- What is Carnage Mode set to in the Config Tool?
 	if not ScriptCB_InMultiplayer() then
 		if ME5_CarnageMode == 0 then
-				print("ME5_MiscFunctions.PreLoadStuff(): Carnage Mode is DISABLED - deactivating weapon modifiers...")
+				print("ME5_MiscFunctions.PreLoadStuff(): Carnage Mode is DISABLED, deactivating weapon modifiers...")
 		elseif ME5_CarnageMode == 1 then
-				print("ME5_MiscFunctions.PreLoadStuff(): Carnage Mode is ENABLED - activating weapon modifiers...")
+				print("ME5_MiscFunctions.PreLoadStuff(): Carnage Mode is ENABLED, activating weapon modifiers...")
 			ActivateBonus(REP, "team_bonus_advanced_blasters")
 			ActivateBonus(CIS, "team_bonus_advanced_blasters")
 		else
 				print("ME5_MiscFunctions.PreLoadStuff(): Error! ME5_CarnageMode setting is invalid! Defaulting Carnage Mode setting to DISABLED")
 		end
 	else
-			print("ME5_MiscFunctions.PreLoadStuff(): Carnage Mode is ENABLED (MULTIPLAYER) - activating weapon modifiers...")
+			print("ME5_MiscFunctions.PreLoadStuff(): Carnage Mode is ENABLED (MULTIPLAYER), activating weapon modifiers...")
 		ActivateBonus(REP, "team_bonus_advanced_blasters")
 		ActivateBonus(CIS, "team_bonus_advanced_blasters")
 	end
 	
-	-- Load the appropriate CP icons based on faction variations
+	-- Load the appropriate faction CP icons
+	-- Which faction variation is active?
 	if not ScriptCB_InMultiplayer() then
 		if ME5_SideVar == 0 then
 			if RandomSide == 1 then
@@ -129,6 +136,8 @@ function PreLoadStuff()
 	
 	-- Load our custom shell stuff
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\common.lvl")
+	
+	-- What is the shell style set to in the Config Tool?
 	if ME5_CustomGUIEnabled == 1 then
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\me5shell.lvl")
 	elseif ME5_CustomGUIEnabled == 2 then
@@ -139,24 +148,33 @@ function PreLoadStuff()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\core.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\corebase.lvl")
 	
+	
 	-- Get the player's aspect ratio so we can load the proper sniperscope sizes
 	local screenWidth, screenHeight = ScriptCB_GetScreenInfo()
 	local aspectRatio = screenWidth / screenHeight
 		print("ME5_MiscFunctions.PreLoadStuff():", "Width: "..screenWidth, "Height: "..screenHeight..", Aspect Ratio: "..aspectRatio)
+	
+	-- What is the aspect ratio of the player's display?
 	if aspectRatio <= 1.4 then
-			print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 4:3; loading scopes as such")
+			print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 4:3, loading scopes as such")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar43\\ar.lvl")
 	elseif aspectRatio <= 1.63 and aspectRatio >= 1.5 then
-			print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 16:10; loading scopes as such")
+			print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 16:10, loading scopes as such")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar1610\\ar.lvl")
 	elseif aspectRatio <= 1.9 and aspectRatio >= 1.63 then
-			print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 16:9; loading scopes as such")
+			print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 16:9, loading scopes as such")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar169\\ar.lvl")
 	else
 			print("ME5_MiscFunctions.PreLoadStuff(): Error! Invalid aspect ratio ("..aspectRatio..")! Defaulting to workaround")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar.lvl")
 	end
 	
+	
+	--==========================
+	-- START HUD WORK
+	--==========================
+	
+	-- Is the custom HUD enabled in the Config Tool?
 	if ME5_CustomHUD == 1 then
 			print("ME5_MiscFunctions.PreLoadStuff(): Loading custom HUD")
 		
@@ -164,6 +182,7 @@ function PreLoadStuff()
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font.lvl")
 		
 		-- Load the Korataki fonts
+		-- Is the player screen's width greater than or equal to 1440?
 		if screenWidth >= 1440 then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_large.lvl")
 		else
@@ -183,6 +202,7 @@ function PreLoadStuff()
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_purge_bmp.lvl")
 		
 		-- Load the new custom HUD and the objective screen text based on the game mode
+		-- What is the active game mode? (NOTE: This is set near the beginning of each game mode's objective script)
 		if MEUGameMode == meu_1flag then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_1flag")
 		elseif MEUGameMode == meu_con then
@@ -199,35 +219,61 @@ function PreLoadStuff()
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl")
 		end
 		
-		-- load weapons.lvl for the MEU HUD
+		-- Load weapons.lvl for the MEU HUD
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\weapons.lvl;hud_meu")
 		
-		-- hotfix that overrides the stock fonts with a "blank font"
+		-- Hotfix that overrides the stock fonts with a "blank font"
 		--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_purge_text.lvl")
 	else
-    	-- load the stock ingame.lvl
+    	-- Load the stock ingame.lvl
     	ReadDataFile("ingame.lvl")
     	
-		-- load weapons.lvl for the stock HUD
+		-- Load weapons.lvl for the stock HUD
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\weapons.lvl;hud_stock")
 		
-		-- load the new onscreen pointer textures
+		-- Load the new onscreen pointer textures
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamehud.lvl")
 	end
-
+	
+	--==========================
+	-- END HUD WORK
+	--==========================
+	
+	
+	--==========================
+	-- START SOUND WORK
+	--==========================
+	
+	-- Load master sound LVL, includes sound property templates, etc.
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\ME5.lvl")
+	
+	-- [DEPRECATED 31-OCT-2013] Load music sound LVL, includes all music stuff
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_Streaming.lvl")
+	
+	-- Load hero music sound LVL, includes all hero music
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_h_Streaming.lvl")
+	
+	-- Load voice over sound LVL, includes all streamable voice overs, excludes pain/death chatter
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl")
+	
+	-- Load common sound LVL, includes many common sounds such as foley, explosions, prop sfx, etc.
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_NonStreaming.lvl")
+	
+	-- Load weapon sound LVL, includes all weapon sounds
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_NonStreaming.lvl")
 	
+	--==========================
+	-- END SOUND WORK
+	--==========================
+	
+	-- Call exterior functions
 	fShieldPickup()
 	fKillSound()
 	--fLowHealthSound()
 	fEvgJugPowerDrain()
 end
 
+---
 -- Sets up event responses for shield pickups.
 function fShieldPickup()
 		print("ME5_MiscFunctions.fShieldPickup(): Entered")
@@ -573,8 +619,8 @@ function fHeadshotKill()
 
 end
 
--- Runs the Juggernaut Squad functions (based on the faction combination) 
--- and low health functions. Also purges stock fonts if custom HUD is enabled.
+---
+-- Runs the Juggernaut Squad functions (based on the faction combination) and low health functions. Also purges stock fonts if custom HUD is enabled.
 function PostLoadStuff()
 		print("ME5_MiscFunctions.PostLoadStuff(): Entered")
 	if not ScriptCB_InMultiplayer() then
@@ -680,6 +726,7 @@ function fEvgJugSquad()
 	)
 end
 
+---
 -- Sets up the event responses for kill sounds.
 function fKillSound()
 		print("ME5_MiscFunctions.fKillSound(): Entered")
@@ -724,6 +771,7 @@ function fKillSound()
 	end
 end
 
+---
 -- Sets up the event responses for low health sounds.
 function fLowHealthSound()	-- TODO: fix low health vignette
 		print("ME5_MiscFunctions.fLowHealthSound(): Entered")
@@ -993,6 +1041,7 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 	end
 end
 
+---
 -- Sets up the event responses for the Evolved Juggernaut's Power Drain ability.
 function fEvgJugPowerDrain()
 		print("ME5_MiscFunctions.fEvgJugPowerDrain(): Entered")

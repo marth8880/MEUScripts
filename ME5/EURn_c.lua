@@ -2,7 +2,7 @@ ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
 RandomSide = 1
 
 isModMap = 1
-isCampaign = true
+bIsCampaign = true
 --
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
@@ -13,6 +13,8 @@ ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_MultiObjectiveContainer")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 ScriptCB_DoFile("ME5_ObjectiveGoto")
+ScriptCB_DoFile("ME5_CinematicContainer")
+ScriptCB_DoFile("ME5_CameraFunctions")
 ScriptCB_DoFile("Ambush")
 
 mapSize = xs
@@ -70,9 +72,13 @@ function BlockCombatZoneExits(sublevelID)
     	-- Planning connections
     	BlockPlanningGraphArcs(1)
 		
+		
+		--==================
+		-- DOOR STUFF
+		--==================
+		
 		print("EURn_c.BlockCombatZoneExits(): Locking doors")
 		
-		-- Doors
 		-- Hangar
 		--SetProperty("hangar_doors_enter", "IsLocked", "1")
 		SetProperty("hangar_doors_exit", "IsLocked", "1")
@@ -89,15 +95,50 @@ function BlockCombatZoneExits(sublevelID)
 		SetProperty("management_doors_enter", "IsLocked", "1")
 		SetProperty("management_doors_exit", "IsLocked", "1")
 		
-		-- Comms Control
-		SetProperty("comms_doors_enter", "IsLocked", "1")
-		
 		-- Power Control
 		SetProperty("power_doors_enter", "IsLocked", "1")
+		
+		-- Comms Control
+		SetProperty("comms_doors_enter", "IsLocked", "1")
 		
 		print("EURn_c.BlockCombatZoneExits(): Done")
     	
 	elseif sublevelID == 1 then
+		print("EURn_c.BlockCombatZoneExits(): Blocking barriers")
+		
+		-- Barriers
+    	EnableBarriers("Bar_S1Atrium1")
+    	EnableBarriers("Bar_S1Atrium2")
+    	EnableBarriers("Bar_S1Biolab1")
+    	EnableBarriers("Bar_S1Biolab2")
+    	EnableBarriers("Bar_Icelab1")
+    	EnableBarriers("Bar_Icelab2")
+		
+		print("EURn_c.BlockCombatZoneExits(): Blocking planning graphs")
+    	
+    	-- Planning connections
+    	BlockPlanningGraphArcs(2)
+		
+		
+		--==================
+		-- DOOR STUFF
+		--==================
+		
+		print("EURn_c.BlockCombatZoneExits(): Locking doors")
+		
+		-- Main Atrium
+		SetProperty("s1atrium_doors_enter", "IsLocked", "1")
+		SetProperty("s1atrium_doors_exit", "IsLocked", "1")
+		
+		-- Marine Life Lab
+		SetProperty("s1biolab_doors_enter", "IsLocked", "1")
+		SetProperty("s1biolab_doors_exit", "IsLocked", "1")
+		
+		-- Ice Samples Lab
+		SetProperty("icelab_doors_enter", "IsLocked", "1")
+		SetProperty("icelab_doors_exit", "IsLocked", "1")
+		
+		print("EURn_c.BlockCombatZoneExits(): Done")
 		
 	elseif sublevelID == 2 then
 		
@@ -115,6 +156,8 @@ function UnblockCombatZoneExits(sublevelID)
 	print("EURn_c.UnblockCombatZoneExits("..sublevelID.."): Entered")
 	
 	if sublevelID == 0 then
+		print("EURn_c.UnblockCombatZoneExits(): Unblocking barriers")
+		
 		-- Barriers
     	DisableBarriers("Bar_Hangar1")
     	DisableBarriers("Bar_Cargo1")
@@ -124,11 +167,19 @@ function UnblockCombatZoneExits(sublevelID)
     	DisableBarriers("Bar_Management2")
     	DisableBarriers("Bar_Comms1")
     	DisableBarriers("Bar_Power1")
+		
+		print("EURn_c.UnblockCombatZoneExits(): Unblocking planning graphs")
     	
     	-- Planning connections
     	UnblockPlanningGraphArcs(1)
 		
-		-- Doors
+		
+		--==================
+		-- DOOR STUFF
+		--==================
+		
+		print("EURn_c.UnblockCombatZoneExits(): Unlocking doors")
+		
 		-- Hangar
 		--SetProperty("hangar_doors_enter", "IsLocked", "0")
 		SetProperty("hangar_doors_exit", "IsLocked", "0")
@@ -145,13 +196,50 @@ function UnblockCombatZoneExits(sublevelID)
 		SetProperty("management_doors_enter", "IsLocked", "0")
 		SetProperty("management_doors_exit", "IsLocked", "0")
 		
+		-- Power Control
+		SetProperty("power_doors_enter", "IsLocked", "0")
+		
 		-- Comms Control
 		SetProperty("comms_doors_enter", "IsLocked", "0")
 		
-		-- Power Control
-		SetProperty("power_doors_enter", "IsLocked", "0")
+		print("EURn_c.UnblockCombatZoneExits(): Done")
     	
 	elseif sublevelID == 1 then
+		print("EURn_c.UnblockCombatZoneExits(): Unblocking barriers")
+		
+		-- Barriers
+    	DisableBarriers("Bar_S1Atrium1")
+    	DisableBarriers("Bar_S1Atrium2")
+    	DisableBarriers("Bar_S1Biolab1")
+    	DisableBarriers("Bar_S1Biolab2")
+    	DisableBarriers("Bar_Icelab1")
+    	DisableBarriers("Bar_Icelab2")
+		
+		print("EURn_c.UnblockCombatZoneExits(): Unblocking planning graphs")
+    	
+    	-- Planning connections
+    	UnblockPlanningGraphArcs(2)
+		
+		
+		--==================
+		-- DOOR STUFF
+		--==================
+		
+		print("EURn_c.UnblockCombatZoneExits(): Unlocking doors")
+		
+		-- Main Atrium
+		SetProperty("s1atrium_doors_enter", "IsLocked", "0")
+		SetProperty("s1atrium_doors_exit", "IsLocked", "0")
+		
+		-- Marine Life Lab
+		SetProperty("s1biolab_doors_enter", "IsLocked", "0")
+		SetProperty("s1biolab_doors_exit", "IsLocked", "0")
+		
+		-- Ice Samples Lab
+		SetProperty("icelab_doors_enter", "IsLocked", "0")
+		SetProperty("icelab_doors_exit", "IsLocked", "0")
+		
+		print("EURn_c.UnblockCombatZoneExits(): Done")
 		
 	elseif sublevelID == 2 then
 		
@@ -172,7 +260,7 @@ function SetRespawnPoint(spawnPathName)
 	
 	-- Quit function if pathName is nil
 	if pathName == nil then
-		print("EURn_c.SetRespawnPoint(): Failed! Argument #0 'spawnPathName' cannot be nil!")
+		print("EURn_c.SetRespawnPoint(): Failed! Argument #0  spawnPathName  cannot be nil!")
 	return end
 	
 	print("EURn_c.SetRespawnPoint(): Setting player respawn point to "..pathName)
@@ -182,8 +270,27 @@ function SetRespawnPoint(spawnPathName)
 end
 
 ---
+-- Moves all units in team 'teamID' to path 'pathName'.
+-- @param #int teamID The numeric ID of the team to reset.
+-- @param #string pathName The name of the path to move the units to.
+function ResetTeamMemberLocations(teamID, pathName)
+		print("EURn_c.ResetTeamMemberLocations(): Entered")
+		
+	-- Get the team's size
+	local size = GetTeamSize(teamID)
+	
+	local m
+	for m = 0, size-1 do
+		-- Get each unit in the team
+		local player = GetTeamMember(teamID, m)
+		
+		MoveEntityToNode(player, pathName, 0)
+	end
+end
+
+---
 -- Sets up the combat zone 'zoneID'.
--- @param #string combatZoneID The name of the zone ID to set up.
+-- @param #string combatZoneID The name ID of the zone to set up.
 function SetupCombatZoneInit(combatZoneID)
 		print("EURn_c.SetupCombatZoneInit(): Entered")
 	
@@ -206,6 +313,7 @@ function SetupCombatZoneInit(combatZoneID)
 	-- @param #int team			The team to spawn enemies from.
 	-- @param #int numDudes		Must be greater than 0. Number of enemies to spawn from team.
 	-- @param #int spawnValue	Must be greater than 0. If bIsTimerSpawnActive, this is the timer value to input to the timer that spawns the next wave. If not bIsTimerSpawnActive, this is the required number of dead enemies to trigger the next wave.
+	-- @param #string spawnPath	The name of the path to spawn the wave at.
 	spawnClasses = nil
 	spawnClasses = {}
 	
@@ -213,187 +321,230 @@ function SetupCombatZoneInit(combatZoneID)
 	if zoneID == "S0_Hangar" then
 		
 		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = true	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
 		
-		spawnClasses[1] = {team = GethPawns,	numDudes = 4,	spawnValue = 3, spawnPath = "cz_hangar_enemyspawn"}
-		spawnClasses[2] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_hangar_enemyspawn"}
-		spawnClasses[3] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_hangar_enemyspawn"}
-		spawnClasses[4] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_hangar_enemyspawn"}
-		spawnClasses[5] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_hangar_enemyspawn"}
-		spawnClasses[6] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "cz_hangar_enemyspawn"}
+		spawnClasses[1] = {team = GethPawns,	numDudes = 4,	spawnValue = 2, spawnPath = "es_s0_hangar"}
+		spawnClasses[2] = {team = GethPawns,	numDudes = 3, 	spawnValue = 2, spawnPath = "es_s0_hangar"}
+		spawnClasses[3] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_hangar"}
+		spawnClasses[4] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_hangar"}
+		spawnClasses[5] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_hangar"}
+		spawnClasses[6] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_hangar"}
 		
 		BlockCombatZoneExits(0)
 		
 	elseif zoneID == "S0_CargoBay" then
 		
 		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = true	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
 		
-		spawnClasses[1] = {team = GethPawns,	numDudes = 4, 	spawnValue = 3, spawnPath = "cz_cargo_enemyspawn"}
-		spawnClasses[2] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_cargo_enemyspawn"}
-		spawnClasses[3] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "cz_cargo_enemyspawn"}
-		spawnClasses[4] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "cz_cargo_enemyspawn"}
-		spawnClasses[5] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_cargo_enemyspawn"}
-		spawnClasses[6] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_cargo_enemyspawn"}
-		spawnClasses[7] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_cargo_enemyspawn"}
+		spawnClasses[1] = {team = GethPawns,	numDudes = 4, 	spawnValue = 2, spawnPath = "es_s0_cargo"}
+		spawnClasses[2] = {team = GethPawns,	numDudes = 3, 	spawnValue = 2, spawnPath = "es_s0_cargo"}
+		spawnClasses[3] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_cargo"}
+		spawnClasses[4] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_cargo"}
+		spawnClasses[5] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_cargo"}
+		spawnClasses[6] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_cargo"}
+		spawnClasses[7] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_cargo"}
 		
 		BlockCombatZoneExits(0)
+		
+		-- Reset the player's squad
+		ResetTeamMemberLocations(SQD, "ps_s0_cargo")
 		
 	elseif zoneID == "S0_Reception" then
 		
 		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = true	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
 		
-		spawnClasses[1] = {team = GethPawns,	numDudes = 4,	spawnValue = 3, spawnPath = "cz_reception_enemyspawn"}
-		spawnClasses[2] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_reception_enemyspawn"}
-		spawnClasses[3] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_reception_enemyspawn"}
-		spawnClasses[4] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_reception_enemyspawn"}
-		spawnClasses[5] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "cz_reception_enemyspawn"}
-		spawnClasses[6] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "cz_reception_enemyspawn"}
-		spawnClasses[7] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_reception_enemyspawn"}
-		spawnClasses[8] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_reception_enemyspawn"}
-		spawnClasses[9] = {team = GethSpecials,	numDudes = 2, 	spawnValue = 3, spawnPath = "cz_reception_enemyspawn"}
+		spawnClasses[1] = {team = GethPawns,	numDudes = 4,	spawnValue = 2, spawnPath = "es_s0_reception"}
+		spawnClasses[2] = {team = GethPawns,	numDudes = 3, 	spawnValue = 2, spawnPath = "es_s0_reception"}
+		spawnClasses[3] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_reception"}
+		spawnClasses[4] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_reception"}
+		spawnClasses[5] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_reception"}
+		spawnClasses[6] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_reception"}
+		spawnClasses[7] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_reception"}
+		spawnClasses[8] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_reception"}
+		spawnClasses[9] = {team = GethSpecials,	numDudes = 2, 	spawnValue = 3, spawnPath = "es_s0_reception"}
 		
 		BlockCombatZoneExits(0)
+		
+		-- Reset the player's squad
+		ResetTeamMemberLocations(SQD, "ps_s0_reception")
 		
 	elseif zoneID == "S0_Management" then
 		
 		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = true	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
 		
-		spawnClasses[1] = {team = GethPawns,	numDudes = 4,	spawnValue = 3, spawnPath = "cz_management_enemyspawn"}
-		spawnClasses[2] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_management_enemyspawn"}
-		spawnClasses[3] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_management_enemyspawn"}
-		spawnClasses[4] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_management_enemyspawn"}
-		spawnClasses[5] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "cz_management_enemyspawn"}
-		spawnClasses[6] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "cz_management_enemyspawn"}
-		spawnClasses[7] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "cz_management_enemyspawn"}
-		spawnClasses[8] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_management_enemyspawn"}
-		spawnClasses[9] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_management_enemyspawn"}
-		spawnClasses[10] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_management_enemyspawn"}
-		spawnClasses[11] = {team = GethHeavys,	numDudes = 2, 	spawnValue = 3, spawnPath = "cz_management_enemyspawn"}
-		
-		BlockCombatZoneExits(0)
-		
-	elseif zoneID == "S0_CommsControl" then
-		
-		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = true	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
-		
-		spawnClasses[1] = {team = GethSpecials,	numDudes = 4, 	spawnValue = 3, spawnPath = "cz_comms_enemyspawn"}
-		spawnClasses[2] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_comms_enemyspawn"}
-		spawnClasses[3] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_comms_enemyspawn"}
-		spawnClasses[4] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_comms_enemyspawn"}
-		spawnClasses[5] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_comms_enemyspawn"}
-		spawnClasses[6] = {team = GethHeavys,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_comms_enemyspawn"}
+		spawnClasses[1] = {team = GethPawns,	numDudes = 4,	spawnValue = 2, spawnPath = "es_s0_management_1"}
+		spawnClasses[2] = {team = GethPawns,	numDudes = 3, 	spawnValue = 2, spawnPath = "es_s0_management_1"}
+		spawnClasses[3] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_management_1"}
+		spawnClasses[4] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_management_1"}
+		spawnClasses[5] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_management_2"}
+		spawnClasses[6] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_management_2"}
+		spawnClasses[7] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_management_2"}
+		spawnClasses[8] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_management_1"}
+		spawnClasses[9] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_management_1"}
+		spawnClasses[10] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_management_1"}
+		spawnClasses[11] = {team = GethHeavys,	numDudes = 2, 	spawnValue = 3, spawnPath = "es_s0_management_1"}
 		
 		BlockCombatZoneExits(0)
+		
+		-- Reset the player's squad
+		ResetTeamMemberLocations(SQD, "ps_s0_management")
 		
 	elseif zoneID == "S0_PowerControl" then
 		
 		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = true	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
 		
-		spawnClasses[1] = {team = GethPawns,	numDudes = 3,	spawnValue = 3, spawnPath = "cz_power_enemyspawn"}
-		spawnClasses[2] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_power_enemyspawn"}
-		spawnClasses[3] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_power_enemyspawn"}
-		spawnClasses[4] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "cz_power_enemyspawn"}
-		spawnClasses[5] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_power_enemyspawn"}
-		spawnClasses[6] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "cz_power_enemyspawn"}
-		spawnClasses[7] = {team = GethHeavys,	numDudes = 2, 	spawnValue = 3, spawnPath = "cz_power_enemyspawn"}
+		spawnClasses[1] = {team = GethPawns,	numDudes = 6,	spawnValue = 3, spawnPath = "es_s0_power"}
+		spawnClasses[2] = {team = GethPawns,	numDudes = 5, 	spawnValue = 3, spawnPath = "es_s0_power"}
+		spawnClasses[3] = {team = GethPawns,	numDudes = 4, 	spawnValue = 3, spawnPath = "es_s0_power"}
+		spawnClasses[4] = {team = GethTacticals,numDudes = 4, 	spawnValue = 3, spawnPath = "es_s0_power"}
+		spawnClasses[5] = {team = GethSpecials,	numDudes = 4, 	spawnValue = 3, spawnPath = "es_s0_power"}
+		spawnClasses[6] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_power"}
+		spawnClasses[7] = {team = GethHeavys,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_power"}
 		
 		BlockCombatZoneExits(0)
+		
+		-- Reset the player's squad
+		ResetTeamMemberLocations(SQD, "ps_s0_power")
+		
+	elseif zoneID == "S0_CommsControl" then
+		
+		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
+		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		
+		spawnClasses[1] = {team = GethPawns,	numDudes = 4, 	spawnValue = 2, spawnPath = "es_s0_comms"}
+		spawnClasses[2] = {team = GethPawns,	numDudes = 4, 	spawnValue = 2, spawnPath = "es_s0_comms"}
+		spawnClasses[3] = {team = GethPawns,	numDudes = 4, 	spawnValue = 2, spawnPath = "es_s0_comms"}
+		spawnClasses[4] = {team = GethSpecials,	numDudes = 4, 	spawnValue = 2, spawnPath = "es_s0_comms"}
+		spawnClasses[5] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 2, spawnPath = "es_s0_comms"}
+		spawnClasses[6] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_comms"}
+		spawnClasses[7] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_comms"}
+		spawnClasses[8] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_comms"}
+		spawnClasses[9] = {team = GethHeavys,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_comms"}
+		
+		BlockCombatZoneExits(0)
+		
+		-- Reset the player's squad
+		ResetTeamMemberLocations(SQD, "ps_s0_comms")
+		
+	elseif zoneID == "S1_MainAtrium" then
+		
+		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
+		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		
+		spawnClasses[1] = {team = GethPawns,	numDudes = 4, 	spawnValue = 2, spawnPath = "es_s1_atrium"}
+		spawnClasses[2] = {team = GethPawns,	numDudes = 4, 	spawnValue = 2, spawnPath = "es_s1_atrium"}
+		spawnClasses[3] = {team = GethPawns,	numDudes = 3, 	spawnValue = 2, spawnPath = "es_s1_atrium"}
+		spawnClasses[4] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 2, spawnPath = "es_s1_atrium"}
+		spawnClasses[5] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 2, spawnPath = "es_s1_atrium"}
+		spawnClasses[6] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_atrium"}
+		spawnClasses[7] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_atrium"}
+		spawnClasses[8] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_atrium"}
+		spawnClasses[9] = {team = GethHeavys,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_atrium"}
+		
+		BlockCombatZoneExits(1)
+		
+		-- Reset the player's squad
+		ResetTeamMemberLocations(SQD, "ps_s1_atrium")
+		
+	elseif zoneID == "S1_MarineLifeLab" then
+		
+		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
+		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		
+		spawnClasses[1] = {team = GethPawns,	numDudes = 4, 	spawnValue = 2, spawnPath = "es_s1_biolab_1"}
+		spawnClasses[2] = {team = GethPawns,	numDudes = 4, 	spawnValue = 2, spawnPath = "es_s1_biolab_1"}
+		spawnClasses[3] = {team = GethPawns,	numDudes = 3, 	spawnValue = 2, spawnPath = "es_s1_biolab_1"}
+		spawnClasses[4] = {team = GethPawns,	numDudes = 3, 	spawnValue = 2, spawnPath = "es_s1_biolab_1"}
+		spawnClasses[5] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 2, spawnPath = "es_s1_biolab_1"}
+		spawnClasses[6] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 2, spawnPath = "es_s1_biolab_1"}
+		spawnClasses[7] = {team = GethPawns,	numDudes = 3, 	spawnValue = 2, spawnPath = "es_s1_biolab_2"}
+		spawnClasses[8] = {team = GethPawns,	numDudes = 3, 	spawnValue = 2, spawnPath = "es_s1_biolab_1"}
+		spawnClasses[9] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 2, spawnPath = "es_s1_biolab_1"}
+		spawnClasses[10] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 2, spawnPath = "es_s1_biolab_1"}
+		spawnClasses[11] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_biolab_2"}
+		spawnClasses[12] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_biolab_2"}
+		spawnClasses[13] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 2, spawnPath = "es_s1_biolab_1"}
+		spawnClasses[14] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_biolab_2"}
+		spawnClasses[15] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_biolab_1"}
+		spawnClasses[16] = {team = GethHeavys,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_biolab_1"}
+		spawnClasses[17] = {team = GethHeavys,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_biolab_1"}
+		
+		BlockCombatZoneExits(1)
+		
+		-- Reset the player's squad
+		ResetTeamMemberLocations(SQD, "ps_s1_biolab")
+		
+	elseif zoneID == "S1_IceSamplesLab" then
+		
+		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
+		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		
+		spawnClasses[1] = {team = GethPawns,	numDudes = 4, 	spawnValue = 2, spawnPath = "es_s1_icelab"}
+		spawnClasses[2] = {team = GethPawns,	numDudes = 4, 	spawnValue = 2, spawnPath = "es_s1_icelab"}
+		spawnClasses[3] = {team = GethPawns,	numDudes = 3, 	spawnValue = 2, spawnPath = "es_s1_icelab"}
+		spawnClasses[4] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 2, spawnPath = "es_s1_icelab"}
+		spawnClasses[5] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 2, spawnPath = "es_s1_icelab"}
+		spawnClasses[6] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_icelab"}
+		spawnClasses[7] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_icelab"}
+		spawnClasses[8] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_icelab"}
+		spawnClasses[9] = {team = GethHeavys,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_icelab"}
+		
+		BlockCombatZoneExits(1)
+		
+		-- Reset the player's squad
+		ResetTeamMemberLocations(SQD, "ps_s1_icelab")
 		
 	else
 		print("EURn_c.SetupCombatZoneInit(): Argument #0  combatZoneID  invalid!")
 	end
+	
+	-- TODO: Set up the combat zones and waves for sublevel 1
 end
 
 ---
 -- This is called when all the enemies in combat zone 'combatZoneID' are dead.
--- @param #string combatZoneID The number of the zone ID to set up.
+-- @param #string combatZoneID The name ID of the zone to release.
 function ReleaseCombatZone(combatZoneID)
 		print("EURn_c.ReleaseCombatZone(): Entered")
 	
 	local zoneID = combatZoneID
 	
 		print("EURn_c.ReleaseCombatZone(): Releasing combat zone "..zoneID)
+		print("EURn_c.ReleaseCombatZone(): Incrementing numCombatZonesCleared to "..numCombatZonesCleared+1)
+		
+	numCombatZonesCleared = numCombatZonesCleared + 1
 	
 	-- Which combat zone are we releasing?
 	if zoneID == "S0_Hangar" then
-		-- Switch back to exploration music
-		ScriptCB_PlayInGameMusic("eur_amb_explore_01a")
-		
-		-- Allow the player to leave
-		UnblockCombatZoneExits(0)
-		
-		-- Set up the trigger for the next combat zone
-		ActivateRegion("cz_s0_cargo")
-		
+		Objective2:Complete(ATT)
 		
 	elseif zoneID == "S0_CargoBay" then
-		-- Switch back to exploration music
-		ScriptCB_PlayInGameMusic("eur_amb_explore_01a")
-		
-		-- Allow the player to leave
-		UnblockCombatZoneExits(0)
-		
-		-- Set up the trigger for the next combat zone
-		ActivateRegion("cz_s0_reception")
-		
+		Objective3a:Complete(ATT)
 		
 	elseif zoneID == "S0_Reception" then
-		-- Switch back to exploration music
-		ScriptCB_PlayInGameMusic("eur_amb_explore_01a")
-		
-		-- Allow the player to leave
-		UnblockCombatZoneExits(0)
-		
-		-- Set up the trigger for the next combat zone
-		ActivateRegion("cz_s0_management")
-		
+		Objective3b:Complete(ATT)
 		
 	elseif zoneID == "S0_Management" then
-		-- Switch back to exploration music
-		ScriptCB_PlayInGameMusic("eur_amb_explore_01a")
-		
-		-- Allow the player to leave
-		UnblockCombatZoneExits(0)
-		
-		-- Set up the trigger for the next combat zone
-		ActivateRegion("cz_s0_cargo")
-		
-		
-	elseif zoneID == "S0_CommsControl" then
-		-- Switch back to exploration music
-		ScriptCB_PlayInGameMusic("eur_amb_explore_01a")
-		
-		-- Allow the player to leave
-		UnblockCombatZoneExits(0)
-		
-		-- Set up the trigger for the next combat zone
-		ActivateRegion("cz_s0_comms")
-		
+		Objective3c:Complete(ATT)
 		
 	elseif zoneID == "S0_PowerControl" then
-		-- Switch back to exploration music
-		ScriptCB_PlayInGameMusic("eur_amb_explore_01a")
+		Objective3d:Complete(ATT)
 		
-		-- Allow the player to leave
-		UnblockCombatZoneExits(0)
+	elseif zoneID == "S0_CommsControl" then
+		Objective3e:Complete(ATT)
 		
-		-- Victory timer
-		SetTimerValue(ObjectivesTimer, 5.0)
-		StartTimer(ObjectivesTimer)
+	elseif zoneID == "S1_MainAtrium" then
+		Objective4a:Complete(ATT)
 		
-		ObjectivesTimerElapse = OnTimerElapse(
-			function(timer)
-	    		MissionVictory(REP)
-				StopTimer(ObjectivesTimer)
-			end,
-		ObjectivesTimer
-		)
+	elseif zoneID == "S1_MarineLifeLab" then
+		Objective4b:Complete(ATT)
 		
+	elseif zoneID == "S1_IceSamplesLab" then
+		Objective4c:Complete(ATT)
 		
 	end
 end
@@ -416,7 +567,7 @@ function StartCombatZone(combatZoneID, combatMusicID)
 	ShowMessageText("level.EUR.debug.comzone_entered", REP)
 	ShowMessageText("level.EUR.debug.comzone_spawning", REP)
 	
-	bIsTimerSpawnActive = true
+	bIsTimerSpawnActive = false
 	waveToStopTiming = 3
 	
 	
@@ -536,6 +687,7 @@ function StartCombatZone(combatZoneID, combatMusicID)
     		numKilled = numKilled + 1
     		killCount = killCount + 1
     		print("EURn_c.StartCombatZone(): enemiesRemaining:", enemiesRemaining)
+    		print("EURn_c.StartCombatZone(): numKilled:", numKilled)
     		print("EURn_c.StartCombatZone(): killCount:", killCount)
     		
     		-- Killcount
@@ -616,20 +768,46 @@ function SpawnNextWave()
 			Ambush(spawnClasses[currentWave]['spawnPath'], spawnClasses[currentWave]['numDudes'], spawnClasses[currentWave]['team'])
 		else
 			print("EURn_c.SpawnNextWave(): Final wave complete! Exiting function...")
-		return end
+			return
+		end
 		
-		-- And reset the killcount for the next wave
+		-- Reset the killcount for the next wave
 		numKilled = 0
 		
-		-- Are we on the right wave to switch from timer trigger to killcount trigger?
-		if currentWave == waveToStopTiming then
-				print("EURn_c.SpawnNextWave(): Switching from timer to killcount")
-			ShowMessageText("level.EUR.debug.comzone_timeroff")
-			bIsTimerSpawnActive = false
+		-- Is the spawn timer active?
+		if bIsTimerSpawnActive == true then
+			
+			-- Are we on the right wave to switch from timer trigger to killcount trigger?
+			if currentWave == waveToStopTiming then
+					print("EURn_c.SpawnNextWave(): Switching from timer to killcount")
+				ShowMessageText("level.EUR.debug.comzone_timeroff")
+				bIsTimerSpawnActive = false
+			end
 		end
 	else
 		print("EURn_c.SpawnNextWave(): No enemies remaining!")
 	return end
+end
+
+function SetupTimers()
+		print("EURn_c.SetupTimers(): Entered")
+		
+	-- Spawn delay timer
+	spawnDelayTimer = CreateTimer("spawnDelayTimer")
+	SetTimerValue(spawnDelayTimer, 4)
+	
+	-- Objectives timer
+	ObjectivesTimer = CreateTimer("objectivesTimer")
+	SetTimerValue(ObjectivesTimer, 1.5)
+	
+	-- Elevator timer
+	ElevatorTimer = CreateTimer("elevatorTimer")
+	SetTimerValue(ElevatorTimer, 25)
+	
+	-- Elevator doors timer
+	ElevatorDoorsTimer = CreateTimer("elevatorDoorsTimer")
+	SetTimerValue(ElevatorDoorsTimer, 1.5)
+	
 end
 
 function ScriptPostLoad()
@@ -644,9 +822,6 @@ function ScriptPostLoad()
 	AllowAISpawn(7, false)]]
 	SetReinforcementCount(CIS, -1)
 	
-	SetProperty("testconsole", "MaxHealth", 999999)
-	SetProperty("testconsole", "CurHealth", 0)
-	KillObject("testconsole")
 	
 	SetProperty("hangar_console", "MaxHealth", 999999)
 	SetProperty("hangar_console", "CurHealth", 0)
@@ -656,29 +831,18 @@ function ScriptPostLoad()
 	SetProperty("elevator_1_doors_bottom", "IsLocked", "1")
 	SetProperty("start_doors", "IsLocked", "1")
 	
+	-- Lock all of the "fake" doors
 	SetProperty("fake_doors_1", "IsLocked", "1")
 	SetProperty("fake_doors_2", "IsLocked", "1")
 	SetProperty("fake_doors_3", "IsLocked", "1")
 	SetProperty("fake_doors_4", "IsLocked", "1")
 	SetProperty("fake_doors_5", "IsLocked", "1")
 	SetProperty("fake_doors_6", "IsLocked", "1")
+	SetProperty("fake_doors_7", "IsLocked", "1")
+	SetProperty("fake_doors_8", "IsLocked", "1")
 	
+	-- Pre-block the first combat zone's exits
 	BlockCombatZoneExits(0)
-    
-    
-    --This defines the CPs.  These need to happen first
-    --cp1 = CommandPost:New{name = "cp1"}
-    --cp2 = CommandPost:New{name = "cp2"}
-    
-    --This sets up the actual objective.  This needs to happen after cp's are defined
-    ObjectiveCampaign = Objective:New{teamATT = ATT, teamDEF = DEF, 
-                                     text = "level.eur.objectives.1", 
-                                     popupText = "level.eur.objectives.1_popup", 
-                                     multiplayerRules = false }
-    
-    --This adds the CPs to the objective.  This needs to happen after the objective is set up
-    --ObjectiveCampaign:AddCommandPost(cp1)
-    --ObjectiveCampaign:AddCommandPost(cp2)
 	
     EnableSPScriptedHeroes()
     ScriptCB_EnableHeroMusic(0)
@@ -688,70 +852,124 @@ function ScriptPostLoad()
     
     SetClassProperty(gth_inf_trooper, "MaxHealth", 230*defenseBuff)
     SetClassProperty(gth_inf_trooper, "MaxShields", 520*defenseBuff)
-    SetClassProperty(gth_inf_trooper, "MaxSpeed", "4.1")
-    SetClassProperty(gth_inf_trooper, "MaxStrafeSpeed", "4.1")
+    SetClassProperty(gth_inf_trooper, "MaxSpeed", "3.69")
+    SetClassProperty(gth_inf_trooper, "MaxStrafeSpeed", "3.69")
     
     SetClassProperty(gth_inf_rocketeer, "MaxHealth", 250*defenseBuff)
     SetClassProperty(gth_inf_rocketeer, "MaxShields", 480*defenseBuff)
-    SetClassProperty(gth_inf_rocketeer, "MaxSpeed", "4.1")
-    SetClassProperty(gth_inf_rocketeer, "MaxStrafeSpeed", "4.1")
+    SetClassProperty(gth_inf_rocketeer, "MaxSpeed", "3.69")
+    SetClassProperty(gth_inf_rocketeer, "MaxStrafeSpeed", "3.69")
     
     SetClassProperty(gth_inf_sniper, "MaxHealth", 230*defenseBuff)
     SetClassProperty(gth_inf_sniper, "MaxShields", 500*defenseBuff)
-    SetClassProperty(gth_inf_sniper, "MaxSpeed", "4.1")
-    SetClassProperty(gth_inf_sniper, "MaxStrafeSpeed", "4.1")
+    SetClassProperty(gth_inf_sniper, "MaxSpeed", "3.69")
+    SetClassProperty(gth_inf_sniper, "MaxStrafeSpeed", "3.69")
     
     SetClassProperty(gth_inf_machinist, "MaxHealth", 230*defenseBuff)
     SetClassProperty(gth_inf_machinist, "MaxShields", 660*defenseBuff)
-    SetClassProperty(gth_inf_machinist, "MaxSpeed", "4.1")
-    SetClassProperty(gth_inf_machinist, "MaxStrafeSpeed", "4.1")
+    SetClassProperty(gth_inf_machinist, "MaxSpeed", "3.69")
+    SetClassProperty(gth_inf_machinist, "MaxStrafeSpeed", "3.69")
     
     SetClassProperty(gth_inf_shock, "MaxHealth", 400*defenseBuff)
     SetClassProperty(gth_inf_shock, "MaxShields", 550*defenseBuff)
-    SetClassProperty(gth_inf_shock, "MaxSpeed", "3.45")
-    SetClassProperty(gth_inf_shock, "MaxStrafeSpeed", "3.45")
+    SetClassProperty(gth_inf_shock, "MaxSpeed", "3.105")
+    SetClassProperty(gth_inf_shock, "MaxStrafeSpeed", "3.105")
     
     SetClassProperty(gth_inf_hunter, "MaxHealth", 300*defenseBuff)
     SetClassProperty(gth_inf_hunter, "MaxShields", 720*defenseBuff)
-    SetClassProperty(gth_inf_hunter, "MaxSpeed", "3.5")
-    SetClassProperty(gth_inf_hunter, "MaxStrafeSpeed", "3.5")
+    SetClassProperty(gth_inf_hunter, "MaxSpeed", "3.15")
+    SetClassProperty(gth_inf_hunter, "MaxStrafeSpeed", "3.15")
     
     SetClassProperty(gth_inf_destroyer, "MaxHealth", 700*defenseBuff)
     SetClassProperty(gth_inf_destroyer, "MaxShields", 720*defenseBuff)
-    SetClassProperty(gth_inf_destroyer, "MaxSpeed", "2.55")
-    SetClassProperty(gth_inf_destroyer, "MaxStrafeSpeed", "2.55")
+    SetClassProperty(gth_inf_destroyer, "MaxSpeed", "2.295")
+    SetClassProperty(gth_inf_destroyer, "MaxStrafeSpeed", "2.295")
     
     SetClassProperty(gth_inf_juggernaut, "MaxHealth", 900*defenseBuff)
     SetClassProperty(gth_inf_juggernaut, "MaxShields", 840*defenseBuff)
-    SetClassProperty(gth_inf_juggernaut, "MaxSpeed", "2.4")
-    SetClassProperty(gth_inf_juggernaut, "MaxStrafeSpeed", "2.4")
+    SetClassProperty(gth_inf_juggernaut, "MaxSpeed", "2.16")
+    SetClassProperty(gth_inf_juggernaut, "MaxStrafeSpeed", "2.16")
     
     
 	ClearAIGoals(SQD)
 	AddAIGoal(SQD, "Defend", 100, 0)	-- Player's squad defends the player.
-	
-	-- Set up spawn delay timer
-	spawnDelayTimer = CreateTimer("spawnDelayTimer")
-	SetTimerValue(spawnDelayTimer, 4)
-	ShowTimer(spawnDelayTimer)
-	
-	ObjectivesTimer = CreateTimer("objectivesTimer")
-	SetTimerValue(ObjectivesTimer, 1.5)
-	ShowTimer(ObjectivesTimer)
     
     SetRespawnPoint("playerspawn_start")
+    
+    -- Set up all of the timers
+    SetupTimers()
 	
 	
 	--==========================
 	-- FIRST SPAWN
 	--==========================
+    
+    --This sets up the actual objective.  This needs to happen after cp's are defined
+    Objective1 = Objective:New{teamATT = ATT, teamDEF = DEF, 
+                                     text = "level.eur.objectives.1", 
+                                     popupText = "level.eur.objectives.1_popup", 
+                                     multiplayerRules = false }
+	
+	Objective1.OnStart = function(self)
+		
+	end
+	
+	Objective1.OnComplete = function(self)
+		
+	end
+	
+    onfirstspawn = OnCharacterSpawn(
+    function(character)
+        if character == 0 then
+            ReleaseCharacterSpawn(onfirstspawn)
+            onfirstspawn = nil
+            
+            -- Start the objectives delay
+        	--BeginObjectivesTimer()
+        	
+        	--SwitchToCamera("cam_outside")
+        	
+        	BeginCinematic()
+        	
+        	--TestShot = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "camera_test_1", shotDuration = 3.0, pathName = "playerspawn_start"}
+        	--TestShot:Start()
+            
+            ScriptCB_EnableCommandPostVO(0)
+            ScriptCB_PlayInGameMusic("eur_amb_explore_01a")
+            
+            -- The number of combat zones that have been cleared
+            numCombatZonesCleared = 0
+            
+            -- Allow the player's squad to spawn
+            AllowAISpawn(SQD, false)
+        end
+    end
+    )
+    
+	
+	-- Objective 1: Secure the hangar
+    Objective1 = Objective:New{teamATT = ATT, teamDEF = DEF, 
+                                     text = "level.eur.objectives.1", 
+                                     popupText = "level.eur.objectives.1_popup", 
+                                     multiplayerRules = false }
+	
+	
+	--==========================
+	-- COMBAT ZONE : S0 -- HANGAR
+	--==========================
+	
+	-- Objective 2: Secure the hangar
+    Objective2 = Objective:New{teamATT = ATT, teamDEF = DEF, 
+                                     text = "level.eur.objectives.2", 
+                                     popupText = "level.eur.objectives.2_popup", 
+                                     multiplayerRules = false }
 	
 	Objective1_TimerElapse = OnTimerElapse(
 		function(timer)
 			ReleaseTimerElapse(Objective1_TimerElapse)
 			Objective1_TimerElapse = nil
 			
-    		ObjectiveCampaign:Start()
+    		--Objective2:Start()
     		
     		--PlayCinematic("cinematic_test", "eur_prop_camera")
     		--StartTimer(CinematicTimer)
@@ -762,215 +980,479 @@ function ScriptPostLoad()
 	ObjectivesTimer
 	)
 	
-    onfirstspawn = OnCharacterSpawn(
-    function(character)
-        if character == 0 then
-            ReleaseCharacterSpawn(onfirstspawn)
-            onfirstspawn = nil
-            
-            -- Start the objectives delay
-        	StartTimer(ObjectivesTimer)
-            
-            ScriptCB_EnableCommandPostVO(0)
-            ScriptCB_PlayInGameMusic("eur_amb_explore_01a")
-            
-            -- Allow the player's squad to spawn
-            AllowAISpawn(SQD, true)
-        end
-    end
-    )
+	Objective2.OnStart = function(self)
+        MapAddEntityMarker("hangar_console", "hud_objective_icon", 3.0, ATT, "YELLOW", true)
+    	local CZ_Hangar = OnObjectRepairName(
+    		function(objPtr, characterId)
+    			-- Test output
+    			print("EURn_c.CZ_Hangar: Activated console")
+    			ShowMessageText("level.EUR.interactions.test.received")
+    				
+    			-- This combat zone's string ID
+    			local currentZoneID = "S0_Hangar"
+    			
+    			-- Set up init params for combat zone
+    			SetupCombatZoneInit(currentZoneID)
+    			
+    			-- Start combat zone
+    			StartCombatZone(currentZoneID, "eur_amb_combat_01a")
+    			
+    			-- Update the player's respawn point
+    			SetRespawnPoint("ps_s0_hangar")
+    			
+    			-- Disable this combat zone's trigger
+    			MapRemoveEntityMarker("hangar_console")
+    			ReleaseObjectRepair(CZ_Hangar)
+    			CZ_Hangar = nil
+    		end,
+    	"hangar_console"
+    	)
+	end
+	
+	Objective2.OnComplete = function(self)
+		--BroadcastVoiceOver("GEO_obj_59", ATT)
+		ShowMessageText("game.objectives.complete", ATT)
+		
+		-- Switch back to exploration music
+		ScriptCB_PlayInGameMusic("eur_amb_explore_01a")
+		
+		-- Allow the player to leave
+		UnblockCombatZoneExits(0)
+		
+		-- Set up the trigger for the next combat zone
+		ActivateRegion("cz_s0_cargo")
+	end
 	
 	
 	--==========================
-	-- COMBAT ZONE : HANGAR
+	-- COMBAT ZONE : S0 -- CARGO BAY
 	--==========================
+	
+	-- Objective 3a: Secure the cargo bay
+    Objective3a = Objective:New{teamATT = ATT, teamDEF = DEF, 
+                                     text = "level.eur.objectives.3", 
+                                     popupText = "level.eur.objectives.3_popup", 
+                                     multiplayerRules = false }
+	
+	Objective3a.OnStart = function(self)
+    	local CZ_CargoBay = OnEnterRegion(
+    		function(region, player)
+    			if IsCharacterHuman(player) then
+    				print("EURn_c.CZ_CargoBay: Entered region")
+    				
+    				-- This combat zone's string ID
+    				local currentZoneID = "S0_CargoBay"
+    				
+    				-- Set up init params for combat zone
+    				SetupCombatZoneInit(currentZoneID)
+    				
+    				-- Start combat zone
+    				StartCombatZone(currentZoneID, "eur_amb_combat_01a")
+    				
+    				-- Update the player's respawn point
+    				SetRespawnPoint("ps_s0_cargo")
+    				
+    				-- Disable this combat zone's trigger
+    				ReleaseEnterRegion(CZ_CargoBay)
+    				CZ_CargoBay = nil
+    				
+    				DeactivateRegion("cz_s0_cargo")
+    			end
+    		end,
+    	"cz_s0_cargo"
+    	)
+	end
+	
+	Objective3a.OnComplete = function(self)
+		-- Switch back to exploration music
+		ScriptCB_PlayInGameMusic("eur_amb_explore_01a")
+		
+		-- Allow the player to leave
+		UnblockCombatZoneExits(0)
+		
+		-- Set up the trigger for the next combat zone
+		ActivateRegion("cz_s0_reception")
+	end
+	
+	--==========================
+	-- COMBAT ZONE : S0 -- RECEPTION
+	--==========================
+	
+	-- Objective 3b: Secure the reception
+    Objective3b = Objective:New{teamATT = ATT, teamDEF = DEF, 
+                                     text = "level.eur.objectives.3", 
+                                     multiplayerRules = false }
+	
+	Objective3b.OnStart = function(self)
+    	local CZ_Reception = OnEnterRegion(
+    		function(region, player)
+    			if IsCharacterHuman(player) then
+    				print("EURn_c.CZ_Reception: Entered region")
+    				
+    				-- This combat zone's string ID
+    				local currentZoneID = "S0_Reception"
+    				
+    				-- Set up init params for combat zone
+    				SetupCombatZoneInit(currentZoneID)
+    				
+    				-- Start combat zone
+    				StartCombatZone(currentZoneID, "eur_amb_combat_01a")
+    				
+    				-- Update the player's respawn point
+    				SetRespawnPoint("ps_s0_reception")
+    				
+    				-- Disable this combat zone's trigger
+    				ReleaseEnterRegion(CZ_Reception)
+    				CZ_Reception = nil
+    				
+    				DeactivateRegion("cz_s0_reception")
+    			end
+    		end,
+    	"cz_s0_reception"
+    	)
+	end
+	
+	Objective3b.OnComplete = function(self)
+		-- Switch back to exploration music
+		ScriptCB_PlayInGameMusic("eur_amb_explore_01a")
+		
+		-- Allow the player to leave
+		UnblockCombatZoneExits(0)
+		
+		-- Set up the trigger for the next combat zone
+		ActivateRegion("cz_s0_management")
+	end
+	
+	
+	--==========================
+	-- COMBAT ZONE : S0 -- MANAGEMENT
+	--==========================
+	
+	-- Objective 3c: Secure the management
+    Objective3c = Objective:New{teamATT = ATT, teamDEF = DEF, 
+                                     text = "level.eur.objectives.3", 
+                                     multiplayerRules = false }
+	
+	Objective3c.OnStart = function(self)
+    	local CZ_Management = OnEnterRegion(
+    		function(region, player)
+    			if IsCharacterHuman(player) then
+    				print("EURn_c.CZ_Management: Entered region")
+    				
+    				-- This combat zone's string ID
+    				local currentZoneID = "S0_Management"
+    				
+    				-- Set up init params for combat zone
+    				SetupCombatZoneInit(currentZoneID)
+    				
+    				-- Start combat zone
+    				StartCombatZone(currentZoneID, "eur_amb_combat_01a")
+    				
+    				-- Update the player's respawn point
+    				SetRespawnPoint("ps_s0_management")
+    				
+    				-- Disable this combat zone's trigger
+    				ReleaseEnterRegion(CZ_Management)
+    				CZ_Management = nil
+    				
+    				DeactivateRegion("cz_s0_management")
+    			end
+    		end,
+    	"cz_s0_management"
+    	)
+	end
+	
+	Objective3c.OnComplete = function(self)
+		-- Switch back to exploration music
+		ScriptCB_PlayInGameMusic("eur_amb_explore_01a")
+		
+		-- Allow the player to leave
+		UnblockCombatZoneExits(0)
+		
+		-- Set up the trigger for the next combat zone
+		ActivateRegion("cz_s0_power")
+	end
+	
+	
+	--==========================
+	-- COMBAT ZONE : S0 -- POWER CONTROL
+	--==========================
+	
+	-- Objective 3d: Secure the power control
+    Objective3d = Objective:New{teamATT = ATT, teamDEF = DEF, 
+                                     text = "level.eur.objectives.3", 
+                                     multiplayerRules = false }
+	
+	Objective3d.OnStart = function(self)
+    	local CZ_PowerControl = OnEnterRegion(
+    		function(region, player)
+    			if IsCharacterHuman(player) then
+    				print("EURn_c.CZ_PowerControl: Entered region")
+    				
+    				-- This combat zone's string ID
+    				local currentZoneID = "S0_PowerControl"
+    				
+    				-- Set up init params for combat zone
+    				SetupCombatZoneInit(currentZoneID)
+    				
+    				-- Start combat zone
+    				StartCombatZone(currentZoneID, "eur_amb_combat_01a")
+    				
+    				-- Update the player's respawn point
+    				SetRespawnPoint("ps_s0_power")
+    				
+    				-- Disable this combat zone's trigger
+    				ReleaseEnterRegion(CZ_PowerControl)
+    				CZ_PowerControl = nil
+    				
+    				DeactivateRegion("cz_s0_power")
+    			end
+    		end,
+    	"cz_s0_power"
+    	)
+	end
+	
+	Objective3d.OnComplete = function(self)
+		-- Switch back to exploration music
+		ScriptCB_PlayInGameMusic("eur_amb_explore_01a")
+		
+		-- Allow the player to leave
+		UnblockCombatZoneExits(0)
+		
+		-- Set up the trigger for the next combat zone
+		ActivateRegion("cz_s0_comms")
+	end
+	
+	
+	--==========================
+	-- COMBAT ZONE : S0 -- COMMS CONTROL
+	--==========================
+	
+	-- Objective 3e: Secure the comms control
+    Objective3e = Objective:New{teamATT = ATT, teamDEF = DEF, 
+                                     text = "level.eur.objectives.3", 
+                                     multiplayerRules = false }
+	
+	Objective3e.OnStart = function(self)
+    	local CZ_CommsControl = OnEnterRegion(
+    		function(region, player)
+    			if IsCharacterHuman(player) then
+    				print("EURn_c.CZ_CommsControl: Entered region")
+    				
+    				-- This combat zone's string ID
+    				local currentZoneID = "S0_CommsControl"
+    				
+    				-- Set up init params for combat zone
+    				SetupCombatZoneInit(currentZoneID)
+    				
+    				-- Start combat zone
+    				StartCombatZone(currentZoneID, "eur_amb_combat_01a")
+    				
+    				-- Update the player's respawn point
+    				SetRespawnPoint("ps_s0_comms")
+    				
+    				-- Disable this combat zone's trigger
+    				ReleaseEnterRegion(CZ_CommsControl)
+    				CZ_CommsControl = nil
+    				
+    				DeactivateRegion("cz_s0_comms")
+    			end
+    		end,
+    	"cz_s0_comms"
+    	)
+	end
+	
+	Objective3e.OnComplete = function(self)
+		--BroadcastVoiceOver("GEO_obj_59", ATT)
+		ShowMessageText("game.objectives.complete", ATT)
+		
+		-- Switch back to exploration music
+		ScriptCB_PlayInGameMusic("eur_amb_explore_01a")
     
-    MapAddEntityMarker("hangar_console", "hud_objective_icon", 3.0, ATT, "YELLOW", true)
-	CZ_Hangar = OnObjectRepairName(
-		function(objPtr, characterId)
-			-- Test output
-			print("EURn_c.CZ_Hangar: Activated console")
-			ShowMessageText("level.EUR.interactions.test.received")
-				
-			-- This combat zone's string ID
-			local currentZoneID = "S0_Hangar"
-			
-			-- Set up init params for combat zone
-			SetupCombatZoneInit(currentZoneID)
-			
-			-- Start combat zone
-			StartCombatZone(currentZoneID, "eur_amb_combat_01a")
-			
-			-- Update the player's respawn point
-			SetRespawnPoint("ps_s0_hangar")
-			
-			-- Disable this combat zone's trigger
-			MapRemoveEntityMarker("hangar_console")
-			ReleaseObjectRepair(CZ_Hangar)
-			CZ_Hangar = nil
-		end,
-	"hangar_console"
-	)
+	    -- Allow the player to leave
+		UnblockCombatZoneExits(1)
+		
+		-- Set up the trigger for the next combat zone
+		ActivateRegion("cz_s1_atrium")
+		
+		-- Open the entrance doors to the elevator
+		RewindAnimation("elevator_s0_doors1")
+		
+		-- Update the player's respawn point
+		SetRespawnPoint("ps_s0_comms")
+		
+		-- Elevator work
+		ActivateRegion("elevator_s0_trigger")
+		S0_Elevator = OnEnterRegion(
+			function(region, player)
+				if IsCharacterHuman(player) then
+					print("EURn_c.S0_Elevator: Entered region")
+					
+					-- Start the elevator sequence (car & doors)
+					PlayAnimation("elevator_s0_car")
+					
+					-- Disable the elevator trigger
+					ReleaseEnterRegion(S0_Elevator)
+					S0_Elevator = nil
+					
+					DeactivateRegion("elevator_s0_trigger")
+				end
+			end,
+		"elevator_s0_trigger"
+		)
+	end
 	
 	
 	--==========================
-	-- COMBAT ZONE : CARGO BAY
+	-- COMBAT ZONE : S1 -- MAIN ATRIUM
 	--==========================
 	
-	CZ_CargoBay = OnEnterRegion(
-		function(region, player)
-			if IsCharacterHuman(player) then
-				print("EURn_c.CZ_CargoBay: Entered region")
-				
-				-- This combat zone's string ID
-				local currentZoneID = "S0_CargoBay"
-				
-				-- Set up init params for combat zone
-				SetupCombatZoneInit(currentZoneID)
-				
-				-- Start combat zone
-				StartCombatZone(currentZoneID, "eur_amb_combat_01a")
-				
-				-- Update the player's respawn point
-				SetRespawnPoint("ps_s0_cargo")
-				
-				-- Disable this combat zone's trigger
-				ReleaseEnterRegion(CZ_CargoBay)
-				CZ_CargoBay = nil
-				
-				DeactivateRegion("cz_s0_cargo")
-			end
-		end,
-	"cz_s0_cargo"
-	)
+	-- Objective 4a: Secure the main atrium
+    Objective4a = Objective:New{teamATT = ATT, teamDEF = DEF, 
+                                     text = "level.eur.objectives.4", 
+                                     popupText = "level.eur.objectives.4_popup", 
+                                     multiplayerRules = false }
 	
+	Objective4a.OnStart = function(self)
+    	local CZ_MainAtrium = OnEnterRegion(
+    		function(region, player)
+    			if IsCharacterHuman(player) then
+    				print("EURn_c.CZ_MainAtrium: Entered region")
+    				
+    				-- This combat zone's string ID
+    				local currentZoneID = "S1_MainAtrium"
+    				
+    				-- Set up init params for combat zone
+    				SetupCombatZoneInit(currentZoneID)
+    				
+    				-- Start combat zone
+    				StartCombatZone(currentZoneID, "eur_amb_combat_01a")
+    				
+    				-- Update the player's respawn point
+    				SetRespawnPoint("ps_s1_atrium")
+    				
+    				-- Disable this combat zone's trigger
+    				ReleaseEnterRegion(CZ_MainAtrium)
+    				CZ_MainAtrium = nil
+    				
+    				DeactivateRegion("cz_s1_atrium")
+    			end
+    		end,
+    	"cz_s1_atrium"
+    	)
+	end
 	
-	--==========================
-	-- COMBAT ZONE : RECEPTION
-	--==========================
-	
-	CZ_Reception = OnEnterRegion(
-		function(region, player)
-			if IsCharacterHuman(player) then
-				print("EURn_c.CZ_Reception: Entered region")
-				
-				-- This combat zone's string ID
-				local currentZoneID = "S0_Reception"
-				
-				-- Set up init params for combat zone
-				SetupCombatZoneInit(currentZoneID)
-				
-				-- Start combat zone
-				StartCombatZone(currentZoneID, "eur_amb_combat_01a")
-				
-				-- Update the player's respawn point
-				SetRespawnPoint("ps_s0_reception")
-				
-				-- Disable this combat zone's trigger
-				ReleaseEnterRegion(CZ_Reception)
-				CZ_Reception = nil
-				
-				DeactivateRegion("cz_s0_reception")
-			end
-		end,
-	"cz_s0_reception"
-	)
+	Objective4a.OnComplete = function(self)
+		-- Switch back to exploration music
+		ScriptCB_PlayInGameMusic("eur_amb_explore_01a")
+		
+		-- Allow the player to leave
+		UnblockCombatZoneExits(1)
+		
+		-- Set up the trigger for the next combat zone
+		ActivateRegion("cz_s1_biolab")
+	end
 	
 	
 	--==========================
-	-- COMBAT ZONE : MANAGEMENT
+	-- COMBAT ZONE : S1 -- MARINE LIFE LAB
 	--==========================
 	
-	CZ_Management = OnEnterRegion(
-		function(region, player)
-			if IsCharacterHuman(player) then
-				print("EURn_c.CZ_Management: Entered region")
-				
-				-- This combat zone's string ID
-				local currentZoneID = "S0_Management"
-				
-				-- Set up init params for combat zone
-				SetupCombatZoneInit(currentZoneID)
-				
-				-- Start combat zone
-				StartCombatZone(currentZoneID, "eur_amb_combat_01a")
-				
-				-- Update the player's respawn point
-				SetRespawnPoint("ps_s0_management")
-				
-				-- Disable this combat zone's trigger
-				ReleaseEnterRegion(CZ_Management)
-				CZ_Management = nil
-				
-				DeactivateRegion("cz_s0_management")
-			end
-		end,
-	"cz_s0_management"
-	)
+	-- Objective 4b: Secure the marine life lab
+    Objective4b = Objective:New{teamATT = ATT, teamDEF = DEF, 
+                                     text = "level.eur.objectives.4", 
+                                     multiplayerRules = false }
 	
+	Objective4b.OnStart = function(self)
+    	local CZ_MarineLifeLab = OnEnterRegion(
+    		function(region, player)
+    			if IsCharacterHuman(player) then
+    				print("EURn_c.CZ_MarineLifeLab: Entered region")
+    				
+    				-- This combat zone's string ID
+    				local currentZoneID = "S1_MarineLifeLab"
+    				
+    				-- Set up init params for combat zone
+    				SetupCombatZoneInit(currentZoneID)
+    				
+    				-- Start combat zone
+    				StartCombatZone(currentZoneID, "eur_amb_combat_01a")
+    				
+    				-- Update the player's respawn point
+    				SetRespawnPoint("ps_s1_biolab")
+    				
+    				-- Disable this combat zone's trigger
+    				ReleaseEnterRegion(CZ_MarineLifeLab)
+    				CZ_MarineLifeLab = nil
+    				
+    				DeactivateRegion("cz_s1_biolab")
+    			end
+    		end,
+    	"cz_s1_biolab"
+    	)
+	end
 	
-	--==========================
-	-- COMBAT ZONE : POWER CONTROL
-	--==========================
-	
-	CZ_PowerControl = OnEnterRegion(
-		function(region, player)
-			if IsCharacterHuman(player) then
-				print("EURn_c.CZ_PowerControl: Entered region")
-				
-				-- This combat zone's string ID
-				local currentZoneID = "S0_PowerControl"
-				
-				-- Set up init params for combat zone
-				SetupCombatZoneInit(currentZoneID)
-				
-				-- Start combat zone
-				StartCombatZone(currentZoneID, "eur_amb_combat_01a")
-				
-				-- Update the player's respawn point
-				SetRespawnPoint("ps_s0_reception")
-				
-				-- Disable this combat zone's trigger
-				ReleaseEnterRegion(CZ_PowerControl)
-				CZ_PowerControl = nil
-				
-				DeactivateRegion("cz_s0_power")
-			end
-		end,
-	"cz_s0_power"
-	)
+	Objective4b.OnComplete = function(self)
+		-- Switch back to exploration music
+		ScriptCB_PlayInGameMusic("eur_amb_explore_01a")
+		
+		-- Allow the player to leave
+		UnblockCombatZoneExits(1)
+		
+		-- Set up the trigger for the next combat zone
+		ActivateRegion("cz_s1_icelab")
+	end
 	
 	
 	--==========================
-	-- COMBAT ZONE : COMMS CONTROL
+	-- COMBAT ZONE : S1 -- ICE SAMPLES LAB
 	--==========================
 	
-	CZ_CommsControl = OnEnterRegion(
-		function(region, player)
-			if IsCharacterHuman(player) then
-				print("EURn_c.CZ_CommsControl: Entered region")
-				
-				-- This combat zone's string ID
-				local currentZoneID = "S0_CommsControl"
-				
-				-- Set up init params for combat zone
-				SetupCombatZoneInit(currentZoneID)
-				
-				-- Start combat zone
-				StartCombatZone(currentZoneID, "eur_amb_combat_01a")
-				
-				-- Update the player's respawn point
-				SetRespawnPoint("ps_s0_comms")
-				
-				-- Disable this combat zone's trigger
-				ReleaseEnterRegion(CZ_CommsControl)
-				CZ_CommsControl = nil
-				
-				DeactivateRegion("cz_s0_comms")
-			end
-		end,
-	"cz_s0_comms"
-	)
+	-- Objective 4c: Secure the ice samples lab
+    Objective4c = Objective:New{teamATT = ATT, teamDEF = DEF, 
+                                     text = "level.eur.objectives.4", 
+                                     multiplayerRules = false }
+	
+	Objective4c.OnStart = function(self)
+    	local CZ_IceSamplesLab = OnEnterRegion(
+    		function(region, player)
+    			if IsCharacterHuman(player) then
+    				print("EURn_c.CZ_IceSamplesLab: Entered region")
+    				
+    				-- This combat zone's string ID
+    				local currentZoneID = "S1_IceSamplesLab"
+    				
+    				-- Set up init params for combat zone
+    				SetupCombatZoneInit(currentZoneID)
+    				
+    				-- Start combat zone
+    				StartCombatZone(currentZoneID, "eur_amb_combat_01a")
+    				
+    				-- Update the player's respawn point
+    				SetRespawnPoint("ps_s1_icelab")
+    				
+    				-- Disable this combat zone's trigger
+    				ReleaseEnterRegion(CZ_IceSamplesLab)
+    				CZ_IceSamplesLab = nil
+    				
+    				DeactivateRegion("cz_s1_icelab")
+    			end
+    		end,
+    	"cz_s1_icelab"
+    	)
+	end
+	
+	Objective4c.OnComplete = function(self)
+		-- Switch back to exploration music
+		ScriptCB_PlayInGameMusic("eur_amb_explore_01a")
+		
+		-- Allow the player to leave
+		UnblockCombatZoneExits(1)
+		
+		-- Set up the trigger for the next combat zone
+		ActivateRegion("elevator_s1_trigger")
+	end
+	
 	
 	--==========================
 	-- ELEVATORS
@@ -999,11 +1481,11 @@ function ScriptPostLoad()
 	Elevator1_Trigger = OnEnterRegion(
 		function(region, player)
 			if IsCharacterHuman(player) then
-			
+				
 				-- Close and lock the doors
 				SetProperty("elevator_1_doors_top", "IsLocked", "1")
 				SetProperty("elevator_1_doors_bottom", "IsLocked", "1")
-			
+				
 				EnableBarriers("elevator1_1")
 				EnableBarriers("elevator1_2")
 				
@@ -1024,6 +1506,54 @@ function ScriptPostLoad()
 	
 	DisableAIAutoBalance()
     
+end
+
+function BeginObjectivesTimer()
+	beginobjectivestimer = CreateTimer("beginobjectivestimer")
+	OnTimerElapse(BeginObjectives, beginobjectivestimer)
+	SetTimerValue(beginobjectivestimer, 2.5)
+	StartTimer(beginobjectivestimer)
+end
+
+function BeginObjectives()
+	objectiveSequence = MultiObjectiveContainer:New{delayVictoryTime = 4}
+	--objectiveSequence:AddObjectiveSet(Objective1)
+	objectiveSequence:AddObjectiveSet(Objective2)
+	objectiveSequence:AddObjectiveSet(Objective3a)
+	objectiveSequence:AddObjectiveSet(Objective3b)
+	objectiveSequence:AddObjectiveSet(Objective3c)
+	objectiveSequence:AddObjectiveSet(Objective3d)
+	objectiveSequence:AddObjectiveSet(Objective3e)
+	objectiveSequence:AddObjectiveSet(Objective4a)
+	objectiveSequence:AddObjectiveSet(Objective4b)
+	objectiveSequence:AddObjectiveSet(Objective4c)
+	
+	objectiveSequence:Start()
+end
+
+function BeginCinematic()
+	print("EURn_c.BeginCinematic: Entered")
+	
+	TestShot1 = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "camera_test_1", shotDuration = 3.0}
+	TestShot2 = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "camera_test_2", shotDuration = 2.0}
+	TestShot3 = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "camera_test_3", shotDuration = 4.0}
+	TestShot4 = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "camera_test_4", shotDuration = 3.5}
+	TestShot5 = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "camera_test_5", shotDuration = 6.0, startFOV = 40, zoomFOV = 5, zoomTime = 2.0}
+	TestShot6 = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "camera_test_6", shotDuration = 3.0}
+	
+	TestCinematicSequence = CinematicContainer:New{pathName = "playerspawn_start"}
+	TestCinematicSequence:AddShot(TestShot1)
+	TestCinematicSequence:AddShot(TestShot2)
+	TestCinematicSequence:AddShot(TestShot3)
+	TestCinematicSequence:AddShot(TestShot4)
+	TestCinematicSequence:AddShot(TestShot5)
+	TestCinematicSequence:AddShot(TestShot6)
+	
+	TestCinematicSequence.OnComplete = function(self)
+		AllowAISpawn(SQD, true)
+	end
+	
+	TestCinematicSequence:Start()
 end
 
 
@@ -1058,11 +1588,12 @@ function ScriptInit()
 	
 	SetMinFlyHeight(-300)
 	SetMinPlayerFlyHeight(-300)
-    SetMaxFlyHeight(16)
-    SetMaxPlayerFlyHeight(16)
-	AISnipeSuitabilityDist(45)
+    SetMaxFlyHeight(300)
+    SetMaxPlayerFlyHeight(300)
+    
+	AISnipeSuitabilityDist(40)
 	SetAttackerSnipeRange(35)
-	SetDefenderSnipeRange(55)
+	SetDefenderSnipeRange(45)
     
     --
     -- Sides setup begin

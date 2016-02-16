@@ -14,6 +14,11 @@ if bStockFontLoaded == nil then
 	bStockFontLoaded = false
 else end
 
+if bIsCampaign == nil then
+	-- Is this mission flagged as a campaign?
+	bIsCampaign = false
+else end
+
 Objective = 
 {
     --fields that need to be specified on creation
@@ -382,6 +387,15 @@ function Objective:Complete(winningTeam)
 				self.container:NotifyObjectiveComplete(self)
 			else				
 				MissionVictory(winningTeam)
+				
+				if ME5_CustomHUD == 1 then
+					if bStockFontLoaded == false then
+						bStockFontLoaded = true
+							print("ME5_Objective: Loading hud_font_stock.lvl...")
+						-- hotfix that reloads the stock fonts in the stats screen
+						ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
+					end
+				end
 			end
 			
 			self:OnComplete(winningTeam)
@@ -395,14 +409,17 @@ function Objective:Complete(winningTeam)
 		self.dittyTimer
 	)
 	
-	if ME5_CustomHUD == 1 then
-		if bStockFontLoaded == false then
-			bStockFontLoaded = true
-				print("ME5_Objective: Loading hud_font_stock.lvl...")
-			-- hotfix that reloads the stock fonts in the stats screen
-			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
-		else end
-	else end
+	-- Is this a campaign mission?
+	--[[if bIsCampaign == true then
+		if ME5_CustomHUD == 1 then
+			if bStockFontLoaded == false then
+				bStockFontLoaded = true
+					print("ME5_Objective: Loading hud_font_stock.lvl...")
+				-- hotfix that reloads the stock fonts in the stats screen
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
+			end
+		end
+	end]]
 end
 
 

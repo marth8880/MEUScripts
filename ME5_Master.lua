@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
--- Version 30206/06
+-- Version 30213/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Feb 06, 2016
+-- Feb 13, 2016
 -- Copyright (c) 2016 A. Gilbert.
 
 -- About this script: The purpose of script is to set some global 
@@ -19,7 +19,7 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 	print("ME5_Master: Entered")
-	print("ME5_Master: Mass Effect: Unification is currently running on Build 30206/06, Release 6, Version 1.21")
+	print("ME5_Master: Mass Effect: Unification is currently running on Build 30213/06, Release 6, Version 1.21")
 	
 	print("ME5_Master: Performing garbage collection...")
 		ME5_AIHeroes			= nil
@@ -180,7 +180,6 @@
 	ScriptCB_DoFile("ME5_RandomSides")
 	ScriptCB_DoFile("ME5_AudioFunctions")
 	ScriptCB_DoFile("ME5_UtilityFunctions")
-	ScriptCB_DoFile("ME5_CameraFunctions")
 	--ScriptCB_DoFile("ME5_LowHealthIFS")
 	
 	if ME5_CustomHUD == 1 then

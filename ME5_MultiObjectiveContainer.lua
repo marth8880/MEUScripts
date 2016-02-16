@@ -15,6 +15,12 @@
 --	end (with defeat for team 1). This is how it's intended to work for the single player
 --	campaign mode, but may cause surprises if the MultiObjectivecontainer is used for multiplayer.
 
+
+if bStockFontLoaded == nil then
+	-- Has the stock font been loaded?
+	bStockFontLoaded = false
+else end
+
 MultiObjectiveContainer = 
 {
 	delayVictoryTime = 0,		--how long to delay the MissionVictory function call (to allow time for voice overs, etc..)
@@ -271,6 +277,19 @@ function MultiObjectiveContainer:StartVictoryTimer(winningTeam)
 				
 				--NOTE: assumes that all the victory/defeat VO plays through the "global_vo_slow" stream
 				if AudioStreamComplete("global_vo_slow") == 1 or self.victoryTimerCount >= 15 then
+					
+					-- Is this a campaign mission?
+					if bIsCampaign == true then
+						if ME5_CustomHUD == 1 then
+							if bStockFontLoaded == false then
+								bStockFontLoaded = true
+									print("ME5_Objective: Loading hud_font_stock.lvl...")
+								-- hotfix that reloads the stock fonts in the stats screen
+								ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
+							end
+						end
+					end
+					
 					MissionVictory(self.winningTeam)
 					StopTimer(self.victoryTimer)
 					ReleaseTimerElapse(self.victoryDelayTimerResponse)					

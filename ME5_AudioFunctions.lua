@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
--- Version 30206/06
+-- Version 30213/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Feb 06, 2016
+-- Feb 13, 2016
 -- Copyright (c) 2016 A. Gilbert.
 
 -- About this script: The purpose of script is to simplify the process 
