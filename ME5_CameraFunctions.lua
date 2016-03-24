@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Camera Manager Script by A. Gilbert
--- Version 30216/06
+-- Version 30318/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Feb 16, 2016
+-- Mar 18, 2016
 -- Copyright (c) 2016 Aaron Gilbert
 -- 
 -- 
@@ -65,20 +65,20 @@
 -- 
 -- 
 -- LEGAL:
--- This program is free software: you can redistribute it and/or modify
+-- This script is free software: you can redistribute it and/or modify 
 -- it under the terms of the GNU General Public License as published by
 -- the Free Software Foundation, either version 3 of the License, or
 -- (at your option) any later version.
 -- 
--- This program is distributed in the hope that it will be useful,
--- but WITHOUT ANY WARRANTY; without even the implied warranty of
--- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- This script is distributed in the hope that it will be useful, 
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of 
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
 -- GNU General Public License for more details.
 -- 
--- You should have received a copy of the GNU General Public License
--- along with this program.  If not, see <http://www.gnu.org/licenses/>.
---
---
+-- You should have received a copy of the GNU General Public License 
+-- along with this script.  If not, see <http://www.gnu.org/licenses/>.
+-- 
+-- 
 -- THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
 -----------------------------------------------------------------
 -----------------------------------------------------------------
@@ -109,6 +109,10 @@ CameraShot =
     startFOV = nil, 				-- The field of view (in degrees) to start the shot in.
     zoomFOV = nil, 					-- The field of view (in degrees) to zoom to sometime during the shot.
     zoomTime = nil, 				-- The number of seconds after the shot started to initiate the zoom. (This is NOT the duration of the zoom!)
+    soundEffect = nil, 				-- The sound property to play when this camera is activated. NOTE: Can be used in conjunction with soundStream.
+    soundEffectDelay = nil, 		-- The number of seconds to delay the soundEffect by.
+    soundStream = nil, 				-- The sound stream property to play when this camera is activated. NOTE: Can be used in conjunction with soundEffect.
+    soundStreamDelay = nil, 		-- The number of seconds to delay the soundStream by.
     
     -- Debug fields
     bDebugShowTimer = false, 		-- Whether or not to show the shotDurationTimer.
@@ -172,6 +176,10 @@ function CameraShot:Start()
     self.startFOV = self.startFOV or 60
     self.zoomFOV = self.zoomFOV or 0
     self.zoomTime = self.zoomTime or 0
+    self.soundEffect = self.soundEffect or "none"
+    self.soundEffectDelay = self.soundEffectDelay or 0
+    self.soundStream = self.soundStream or "none"
+    self.soundStreamDelay = self.soundStreamDelay or 0
     self.bDebugShowTimer = self.bDebugShowTimer or false
 	
     -- Get or create a new shotDurationTimer (this ensures there's only one "shotDurationTimer" in the game at one time)
@@ -197,6 +205,26 @@ function CameraShot:Start()
 	    -- Start ticking down the time
 	    SetTimerValue(self.zoomTimer, self.zoomTime)
 	    StartTimer(self.zoomTimer)
+	end
+	
+	-- Is the soundEffect set? If so, set up the soundEffectDelay
+	if self.soundEffectDelay > 0 then
+	    -- Create a new soundEffectDelayTimer 
+        self.soundEffectDelayTimer = CreateTimer("soundEffectDelayTimer")
+	    
+	    -- Start ticking down the time
+	    SetTimerValue(self.soundEffectDelayTimer, self.soundEffectDelay)
+	    StartTimer(self.soundEffectDelayTimer)
+	end
+	
+	-- Is the soundStream set? If so, set up the soundStreamDelay
+	if self.soundStreamDelay > 0 then
+	    -- Create a new soundStreamDelayTimer 
+        self.soundStreamDelayTimer = CreateTimer("soundStreamDelayTimer")
+	    
+	    -- Start ticking down the time
+	    SetTimerValue(self.soundStreamDelayTimer, self.soundStreamDelay)
+	    StartTimer(self.soundStreamDelayTimer)
 	end
 	
 	-- Set the initial field of view
@@ -236,6 +264,40 @@ function CameraShot:Start()
             end,
             self.zoomTimer
         )
+    end
+	
+    -- If we have a soundStreamDelayTimer, play the sound stream when it runs out
+    if self.soundStreamDelayTimer then
+        local soundStreamDelayTimerElapse = OnTimerElapse(
+            function(timer)
+				BroadcastVoiceOver(self.soundStream)	-- TODO: Make sure this works without specifying the team!
+				
+				-- Garbage collection
+				DestroyTimer(self.soundStreamDelayTimer)
+				ReleaseTimerElapse(soundStreamDelayTimerElapse)
+				soundStreamDelayTimerElapse = nil
+            end,
+            self.soundStreamDelayTimer
+        )
+    else
+    	BroadcastVoiceOver(self.soundStream)
+    end
+	
+    -- If we have a soundEffectDelayTimer, play the sound effect when it runs out
+    if self.soundEffectDelayTimer then
+        local soundEffectDelayTimerElapse = OnTimerElapse(
+            function(timer)
+				ScriptCB_SndPlaySound(self.soundEffect)
+				
+				-- Garbage collection
+				DestroyTimer(self.soundEffectDelayTimer)
+				ReleaseTimerElapse(soundEffectDelayTimerElapse)
+				soundEffectDelayTimerElapse = nil
+            end,
+            self.soundEffectDelayTimer
+        )
+    else
+    	ScriptCB_SndPlaySound(self.soundEffect)
     end
     
     -- Callback for overriding startup behavior

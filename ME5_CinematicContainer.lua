@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Cinematic Container Script by A. Gilbert
--- Version 30216/06
+-- Version 30318/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Feb 16, 2016
+-- Mar 18, 2016
 -- Copyright (c) 2016 Aaron Gilbert
 -- 
 -- 
@@ -48,20 +48,20 @@
 -- 
 -- 
 -- LEGAL:
--- This program is free software: you can redistribute it and/or modify
+-- This script is free software: you can redistribute it and/or modify 
 -- it under the terms of the GNU General Public License as published by
 -- the Free Software Foundation, either version 3 of the License, or
 -- (at your option) any later version.
 -- 
--- This program is distributed in the hope that it will be useful,
--- but WITHOUT ANY WARRANTY; without even the implied warranty of
--- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- This script is distributed in the hope that it will be useful, 
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of 
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
 -- GNU General Public License for more details.
 -- 
--- You should have received a copy of the GNU General Public License
--- along with this program.  If not, see <http://www.gnu.org/licenses/>.
---
---
+-- You should have received a copy of the GNU General Public License 
+-- along with this script.  If not, see <http://www.gnu.org/licenses/>.
+-- 
+-- 
 -- THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
 -----------------------------------------------------------------
 -----------------------------------------------------------------
@@ -175,12 +175,12 @@ end
 --
 function CinematicContainer:ActivateShotSet(whichSet)
 	-- Don't advance to the next set if this is the last one
-	-- (this handles the case when the last two objective sets
-	-- are completed in a very short period of time, and the
-	-- missionVictoryTime is relatively long)
+	--  (this handles the case when the last two objective sets
+	--  are completed in a very short period of time, and the
+	--  missionVictoryTime is relatively long)
 	if whichSet > table.getn(self.shotSets) then
 		-- Pretty sure we don't need anything here since we already 
-		-- have ExitCamera() being called in CameraShot:Complete().
+		--  have ExitCamera() being called in CameraShot:Complete().
 		return
 	end
 	

@@ -1,15 +1,15 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
--- Version 30213/06
+-- Version 30318/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Feb 13, 2016
+-- Mar 18, 2016
 -- Copyright (c) 2016 A. Gilbert.
-
+-- 
 -- About this script: The purpose of script is to simplify the process 
 -- of loading specific maps' functions such as that of disabling barriers, etc.
-
+-- 
 -- Usage:
 -- Load the script using ScriptCB_DoFile() in your main mission script
 -- Call whichever functions you need out of this script. Example:
@@ -17,8 +17,8 @@
 -- VRM_DisablePlanningGraphArcs1()
 -- 
 -- The above example would load and then set up the Systems Alliance and Geth side
-
-
+-- 
+-- 
 -- Legal Stuff:
 -- Usage of this script is unauthorized without my prior consent. Contact me if you wish to use it.
 -- Do not claim this script as your own. It may not be much, but I did spend some time writing it after all.

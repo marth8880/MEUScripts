@@ -1,16 +1,16 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
--- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
--- Version 30213/06
+-- MASS EFFECT: UNIFICATION Miscellaneous Functions Script by A. Gilbert
+-- Version 30318/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Feb 13, 2016
+-- Mar 18, 2016
 -- Copyright (c) 2016 A. Gilbert.
-
+-- 
 -- About this script: The purpose of script is to create a list of 
 -- various functions that are loaded in a map's mission script.
-
-
+-- 
+-- 
 -- Legal Stuff:
 -- Usage of this script is unauthorized without my prior consent. Contact me if you wish to use it.
 -- Do not claim this script as your own. It may not be much, but I did spend some time writing it after all.
@@ -24,6 +24,7 @@
 -- Performs various pre-game operations, such as loading commonly used data files,
 -- Carnage mode setup, HUD work, and running event response functions for features such as
 -- kill sounds, Evolved Juggernaut's Power Drain, and shield pickups.
+-- 
 function PreLoadStuff()
 		print("ME5_MiscFunctions.PreLoadStuff(): Entered")
 	
@@ -275,6 +276,7 @@ end
 
 ---
 -- Sets up event responses for shield pickups.
+-- 
 function fShieldPickup()
 		print("ME5_MiscFunctions.fShieldPickup(): Entered")
 	--[[if not ScriptCB_InMultiplayer() then
@@ -621,6 +623,7 @@ end
 
 ---
 -- Runs the Juggernaut Squad functions (based on the faction combination) and low health functions. Also purges stock fonts if custom HUD is enabled.
+-- 
 function PostLoadStuff()
 		print("ME5_MiscFunctions.PostLoadStuff(): Entered")
 	if not ScriptCB_InMultiplayer() then
@@ -653,6 +656,9 @@ function PostLoadStuff()
 	else end
 end
 
+---
+-- Sets up the event responses for Heretic Geth Juggernaut squads.
+-- 
 function fGthJugSquad()
 		print("ME5_MiscFunctions.fGthJugSquad(): Entered")
 	
@@ -690,6 +696,9 @@ function fGthJugSquad()
 	)
 end
 
+---
+-- Sets up the event responses for Evolved Geth Juggernaut squads.
+-- 
 function fEvgJugSquad()
 		print("ME5_MiscFunctions.fEvgJugSquad(): Entered")
 	local players = {}
@@ -728,41 +737,38 @@ end
 
 ---
 -- Sets up the event responses for kill sounds.
+-- 
 function fKillSound()
 		print("ME5_MiscFunctions.fKillSound(): Entered")
 	if not ScriptCB_InMultiplayer() then
 		if ME5_KillSound == 0 then
 				print("ME5_MiscFunctions.fKillSound(): Initializing kill sound setting for DISABLED...")
-		elseif ME5_KillSound == 1 or ME5_KillSound == 2 then
-				print("ME5_MiscFunctions.fKillSound(): Initializing kill sound setting for ENABLED...")
-			local killsound = OnCharacterDeath(
-				function(player,killer)
-					--if not IsObjectAlive(player) then
-						if killer and IsCharacterHuman(killer) then
-								--print("fKillSound: Killer is human, enemy kill successful")
-							ScriptCB_SndPlaySound("hud_player_kill")
-						else
-							--print("fKillSound: Killer is not human")
-						end
-					--else
-						--print("fKillSound: Enemy is alive")
-					--end
-				end
-			)
 		else
-				print("ME5_MiscFunctions.fKillSound(): Error! ME5_KillSound setting is invalid! Defaulting to kill sound setting for ENABLED")
+				print("ME5_MiscFunctions.fKillSound(): Initializing kill sound setting for ENABLED...")
+			
 			local killsound = OnCharacterDeath(
-				function(player,killer)
-					--if not IsObjectAlive(player) then
-						if IsCharacterHuman(killer) then
-								--print("fKillSound: Killer is human, enemy kill successful")
-							ScriptCB_SndPlaySound("hud_player_kill")
-						else
-							--print("fKillSound: Killer is not human")
+				function(player, killer)
+					if killer and IsCharacterHuman(killer) then
+						local playerTeam = GetCharacterTeam(player)
+						local killerTeam = GetCharacterTeam(killer)
+						
+						if playerTeam ~= killerTeam then
+							-- Is this not a campaign?
+							if not IsCampaign() then
+								ScriptCB_SndPlaySound("hud_player_kill")
+							else
+								local world = GetWorldFilename()
+								
+								-- Which world is this?
+								if world == "eur" then
+									-- Is the victim team not the squad team?
+									if playerTeam ~= 3 then
+										ScriptCB_SndPlaySound("hud_player_kill")
+									end
+								end
+							end
 						end
-					--else
-						--print("fKillSound: Enemy is alive")
-					--end
+					end
 				end
 			)
 		end
@@ -773,6 +779,7 @@ end
 
 ---
 -- Sets up the event responses for low health sounds.
+-- 
 function fLowHealthSound()	-- TODO: fix low health vignette
 		print("ME5_MiscFunctions.fLowHealthSound(): Entered")
 	if not ScriptCB_InMultiplayer() then
@@ -792,14 +799,14 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 								"organic_lowhealth_streaming", "heartbeat_segment", 1.0, "lowhealth", lowHealthStream)
 			ScriptCB_SndBusFade("lowhealth", 0.0, 0.0)
 			
-			local isSoundPlaying = false
-			local isPlayerCorrectClass = false
-			local isSpawnScreenActive = false
-			local timerCount	= 0
-			local busEndGain	= 0.15
-			local busFadeTime	= 1.0
-			local playerHealthThreshold = 0.35
-			local playerMaxHealth = 0
+			local isSoundPlaying = false		-- Is the low health sound playing?
+			local isPlayerCorrectClass = false	-- Is the player the correct class?
+			local isSpawnScreenActive = false	-- Is the spawn screen active?
+			local timerCount	= 0				-- How many timers exist?
+			local busEndGain	= 0.15			-- What is the end gain for the audio bus?
+			local busFadeTime	= 1.0			-- What is the duration of the bus fade?
+			local playerHealthThreshold = 0.35	-- Under what health percentage should the low health sound be active?
+			local playerMaxHealth = 0			-- What is the player's health when they spawn?
 			local synthClasses = {
 					"gth_inf_destroyer",
 					"gth_inf_hunter",
@@ -868,6 +875,7 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 			--===============================
 			-- Event responses
 			--===============================
+			
 			--[[local testcheckhumanchangeclass = OnCharacterChangeClass(
 				function(player)
 					if IsCharacterHuman(player) then
@@ -903,7 +911,8 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 				end
 			)]]
 			
-			OnCharacterSpawn(
+			-- When the player spawns
+			local onplayerspawn = OnCharacterSpawn(
 				function(player)
 					if IsCharacterHuman(player) then
 							--print("fLowHealthSound: Player spawned")
@@ -921,26 +930,29 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 							end]]
 						--end
 						
+						-- For each synthetic class,
 						for i=1, table.getn(synthClasses) do
-							-- check if the player is an organic class
+							-- Is the player a non-synthetic class?
 							if GetEntityClass(Iamhuman) == FindEntityClass( synthClasses[i] ) then
 								isPlayerCorrectClass = false
 							else
 								isPlayerCorrectClass = true
 							end
 							
+							-- Break out of the loop if wrong class
 							if isPlayerCorrectClass == false then break end
 						end
 						
-						-- silence the heartbeat if it's playing
+						-- Is the low health sound playing?
 						if isSoundPlaying == true then
-								--print("fLowHealthSound: isSoundPlaying is true, setting to false")
+								--print("ME5_MiscFunctions.fLowHealthSound(): isSoundPlaying is true, setting to false")
 							isSoundPlaying = false
 							
-							-- remove our ifs screen
+							-- Remove our ifs screen
 							--ifs_lowhealth_vignette.Timer = 10
 							--ifs_lowhealth_vignette.TimerType = true
-
+							
+							-- Unfade all of the audio buses
 							ScriptCB_SndBusFade("main",				busFadeTime, 1.0)
 							ScriptCB_SndBusFade("soundfx",			busFadeTime, 0.7)
 							ScriptCB_SndBusFade("battlechatter",	busFadeTime, 1.0)
@@ -954,16 +966,25 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 				end
 			)
 			
+			-- When the player is damaged
 			local lowhealthsound = OnHealthChange(
 				function(object, health)
+					-- What is the player's current health?
 					local playerCurHealth = GetObjectHealth(object)
+					
 					if playerMaxHealth <= 0 then
 						playerMaxHealth = 300
 					end
+					
+					-- What's the player's current health as a percentage?
 					local playerHealthPercent = playerCurHealth / playerMaxHealth
+					
+					-- Was the damaged object a human player?
 					if Iamhuman == GetEntityPtr(object) then
 							--print("fLowHealthSound: Player health changed")
 							--print("fLowHealthSound: Player health ratio is "..playerHealthPercent)
+						
+						-- Is the player's health low enough to activate the low health sound?
 						if playerHealthPercent < playerHealthThreshold then
 								--print("fLowHealthSound: Player's health is "..playerCurHealth)
 							if isSoundPlaying == false then
@@ -971,11 +992,14 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 								isSoundPlaying = true
 								--classCount = 0
 								
+								-- Is the player the correct class?
 								if isPlayerCorrectClass == true then
 										--print("fLowHealthSound: Player is correct class")
-									-- activate our ifs screen
+									
+									-- Activate our ifs screen
 									--ScriptCB_PushScreen("ifs_lowhealth_vignette")
-
+									
+									-- Fade all of the appropriate audio buses
 									ScriptCB_SndBusFade("main",				busFadeTime, busEndGain)
 									ScriptCB_SndBusFade("soundfx",			busFadeTime, busEndGain)
 									ScriptCB_SndBusFade("battlechatter",	busFadeTime, busEndGain)
@@ -989,14 +1013,18 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 								end
 							end
 						else
+							-- Is the low health sound playing?
 							if isSoundPlaying == true then
 									--print("fLowHealthSound: isSoundPlaying is true, setting to false")
+								
+								-- If it's playing, deactivate it
 								isSoundPlaying = false
 								
-								-- remove our ifs screen
+								-- Remove our ifs screen
 								--ifs_lowhealth_vignette.Timer = 10
 								--ifs_lowhealth_vignette.TimerType = true
-
+								
+								-- Fade all of the appropriate audio buses
 								ScriptCB_SndBusFade("main",				busFadeTime, 1.0)
 								ScriptCB_SndBusFade("soundfx",			busFadeTime, 0.7)
 								ScriptCB_SndBusFade("battlechatter",	busFadeTime, 1.0)
@@ -1011,17 +1039,21 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 				end
 			)
 			
+			-- When the player dies
 			local lowhealthplayerdeath = OnCharacterDeath(
 				function(player,killer)
 					if IsCharacterHuman(player) then
 							--print("fLowHealthSound: Player died, resetting buses and variables")
 						--if isSoundPlaying == true then
+							
+							-- Deactivate the low health sound
 							isSoundPlaying = false
 							
 							-- remove our ifs screen
 							--ifs_lowhealth_vignette.Timer = 10
 							--ifs_lowhealth_vignette.TimerType = true
 							
+							-- Fade all of the appropriate audio buses
 							ScriptCB_SndBusFade("main",				busFadeTime, 1.0)
 							ScriptCB_SndBusFade("soundfx",			busFadeTime, 0.7)
 							ScriptCB_SndBusFade("battlechatter",	busFadeTime, 1.0)

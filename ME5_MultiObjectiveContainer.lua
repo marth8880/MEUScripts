@@ -46,6 +46,7 @@ end
 -- Insert a new objectiveLayer and add the list of objectives to it
 --
 function MultiObjectiveContainer:AddObjectiveSet(...)
+	print("MultiObjectiveContainer:AddObjectiveSet(): Entered")
 	self.objectiveSets = self.objectiveSets or {}
 	
 	for i, obj in ipairs(arg) do
@@ -75,6 +76,7 @@ end
 -- Activates all the objectives in the first set
 --
 function MultiObjectiveContainer:Start()
+	print("MultiObjectiveContainer:Start(): Entered")
 	local numSets = table.getn(self.objectiveSets)
 	if(numSets == 0) then
 		print("WARNING: No objectives were added to the MultiObjectiveContainer")
@@ -181,6 +183,8 @@ function MultiObjectiveContainer:Start()
 			tan1 = "TAN_obj_14",
 			uta1 = "UTA_obj_51",
 			yavin1 = "YAV_obj_15",
+			
+			eur = "EUR_obj_defeat",
 		}
 		
 		soundName = soundsMap[ GetWorldFilename() ]
@@ -265,6 +269,7 @@ end
 -- by self.missionVictoryTime
 --
 function MultiObjectiveContainer:StartVictoryTimer(winningTeam)
+	print("MultiObjectiveContainer:StartVictoryTimer(): Entered")
 	self.victoryTimerCount = 0		--count up how many times the timer has been activated (so it doesn't go on forever...just in case a VO doesn't close)
 	self.winningTeam = winningTeam
 	
@@ -275,11 +280,11 @@ function MultiObjectiveContainer:StartVictoryTimer(winningTeam)
 			function(timer)
 				self.victoryTimerCount = self.victoryTimerCount + 1
 				
-				--NOTE: assumes that all the victory/defeat VO plays through the "global_vo_slow" stream
-				if AudioStreamComplete("global_vo_slow") == 1 or self.victoryTimerCount >= 15 then
+				--NOTE: assumes that all the victory/defeat VO plays through the "global_vo_slow" stream	-- NOTE: Not anymore! ~ AG 3-5-16
+				if AudioStreamComplete("global_vo_slow") == 1 or AudioStreamComplete("vo_slow_streaming") == 1 or self.victoryTimerCount >= 15 then
 					
 					-- Is this a campaign mission?
-					if bIsCampaign == true then
+					if IsCampaign() then
 						if ME5_CustomHUD == 1 then
 							if bStockFontLoaded == false then
 								bStockFontLoaded = true
@@ -296,7 +301,7 @@ function MultiObjectiveContainer:StartVictoryTimer(winningTeam)
 				else
 					--try again in a little bit...
 					SetTimerValue(self.victoryTimer, 1.0)
-					StartTimer(self.victoryTimer)					
+					StartTimer(self.victoryTimer)
 				end
 			end,
 			self.victoryTimer
@@ -310,6 +315,7 @@ end
 -- Use this to tell the container when one of the active objectives has finished
 --
 function MultiObjectiveContainer:NotifyObjectiveComplete(objective)
+	print("MultiObjectiveContainer:NotifyObjectiveComplete(): Entered")
 	--If the primary team fails any of its objectives, then end the map immediately (or after a slight delay)
 	if objective.winningTeam ~= self.primaryTeam then
 		self:StartVictoryTimer(objective.winningTeam)
@@ -348,6 +354,7 @@ end
 -- Updates the current objective set number, and activates all the objectives within that set
 --
 function MultiObjectiveContainer:ActivateObjectiveSet(whichSet)
+	print("MultiObjectiveContainer:ActivateObjectiveSet(): Entered")
 	--don't advance to the next set if this is the last one
 	-- (this handles the case when the last two objective sets
 	-- are completed in a very short period of time, and the

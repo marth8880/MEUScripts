@@ -1,25 +1,25 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
--- Version 30213/06
+-- Version 30318/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Feb 13, 2016
+-- Mar 18, 2016
 -- Copyright (c) 2016 A. Gilbert.
-
+-- 
 -- About this script: The purpose of script is to set some global 
 -- variables and load the other scripts.
-
-
+-- 
+-- 
 -- Legal Stuff:
--- Usage of this script is unauthorized without my prior consent. Contact me if you wish to use it.
--- Do not claim this script as your own. It may not be much, but I did spend some time writing it after all.
--- I am not responsible for any damages that might be incurred through the use of this script.
+-- Usage of this script is unauthorized without my prior consent. Contact me if you wish to use it. 
+-- Do not claim this script as your own. I did spend time writing it after all. I cannot be held  
+-- accountable for any damages that might be incurred through the use of this script.
 -- THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 	print("ME5_Master: Entered")
-	print("ME5_Master: Mass Effect: Unification is currently running on Build 30213/06, Release 6, Version 1.21")
+	print("ME5_Master: Mass Effect: Unification is currently running on Build 30318/06, Release 6, Version 1.21")
 	
 	print("ME5_Master: Performing garbage collection...")
 		ME5_AIHeroes			= nil

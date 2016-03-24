@@ -14,11 +14,6 @@ if bStockFontLoaded == nil then
 	bStockFontLoaded = false
 else end
 
-if bIsCampaign == nil then
-	-- Is this mission flagged as a campaign?
-	bIsCampaign = false
-else end
-
 Objective = 
 {
     --fields that need to be specified on creation
@@ -72,6 +67,7 @@ end
 -- Call this to notify the C++ code that the objective exists, and wants to be added to the list of selectable objectives
 --
 function Objective:AddToDisplayableList()
+	print("Objective:AddToDisplayableList(): Entered")
     if self.text then
 		--Kind of kludgy, but for campaign the designers will use self.text
 		--to uniquely ID the objective. So all this does is set up an objective for
@@ -89,6 +85,7 @@ function Objective:AddToDisplayableList()
 end
 
 function Objective:AddHint(hintText)
+	print("Objective:AddHint(): Entered")
 	self.hints = self.hints or {}	
 	table.insert(self.hints, hintText)
 end
@@ -105,6 +102,7 @@ end
 -- Call this to activate the objective after you have created an instance of the objective (using Objective:New)
 --
 function Objective:Start()
+	print("Objective:Start(): Entered")
     --initialize values for data fields (even if they don't exist)
     self.teamATT = self.teamATT or 1
     self.teamDEF = self.teamDEF or 2
@@ -325,6 +323,7 @@ end
 --  See: MultiObjectiveContainer.lua for details
 --
 function Objective:SetContainer(container)
+	print("Objective:SetContainer(): Entered")
     self.container = container
 end
 
@@ -334,6 +333,7 @@ end
 --  handle the logic, otherwise will set the MissionVictory on its own
 --
 function Objective:Complete(winningTeam)
+	print("Objective:Complete(): Entered")
     if self.isComplete then return end
                     
     --unhide the CPs
@@ -357,7 +357,7 @@ function Objective:Complete(winningTeam)
 	
 	--play a little ditty
 	if not self.multiplayerRules then
-		BroadcastVoiceOver("common_objComplete", self.winningTeam)
+		BroadcastVoiceOver("meu_objComplete", self.winningTeam)
 	end
     
 	--delay the actual objective end by a smidge to allow time for the ditty to finish playing
@@ -410,7 +410,7 @@ function Objective:Complete(winningTeam)
 	)
 	
 	-- Is this a campaign mission?
-	--[[if bIsCampaign == true then
+	--[[if IsCampaign() then
 		if ME5_CustomHUD == 1 then
 			if bStockFontLoaded == false then
 				bStockFontLoaded = true

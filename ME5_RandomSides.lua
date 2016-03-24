@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
--- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
--- Version 30213/06
+-- MASS EFFECT: UNIFICATION Random Sides Script by A. Gilbert
+-- Version 30303/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Feb 13, 2016
+-- Mar 03, 2016
 -- Copyright (c) 2016 A. Gilbert.
 
 -- About this script: The purpose of script is to simplify the process 
@@ -328,7 +328,7 @@ function LoadSSV(loadCooper)
 		if ME5_ShieldFunc == 1 then
 				print("ME5_RandomSides.LoadSSV(): Configuring SSV Shield Functionality for AUTO-REGEN...")
 			ssv_inf_soldier		= "ssv_inf_soldier_shield"
-			if isCampaign and isCampaign == true then
+			if IsCampaign() then
 				ssv_inf_infiltrator	= "ssv_inf_infiltrator_shield_campaign"
 			else
 				ssv_inf_infiltrator	= "ssv_inf_infiltrator_shield"
@@ -340,7 +340,7 @@ function LoadSSV(loadCooper)
 		elseif ME5_ShieldFunc == 2 then
 				print("ME5_RandomSides.LoadSSV(): Configuring SSV Shield Functionality for PICKUPS...")
 			ssv_inf_soldier		= "ssv_inf_soldier"
-			if isCampaign and isCampaign == true then
+			if IsCampaign() then
 				ssv_inf_infiltrator	= "ssv_inf_infiltrator_campaign"
 			else
 				ssv_inf_infiltrator	= "ssv_inf_infiltrator"
@@ -352,7 +352,7 @@ function LoadSSV(loadCooper)
 		else
 				print("ME5_RandomSides.LoadSSV(): Error! ME5_ShieldFunc setting is invalid! Defaulting to SSV Shield Functionality for AUTO-REGEN")
 			ssv_inf_soldier		= "ssv_inf_soldier_shield"
-			if isCampaign and isCampaign == true then
+			if IsCampaign() then
 				ssv_inf_infiltrator	= "ssv_inf_infiltrator_shield_campaign"
 			else
 				ssv_inf_infiltrator	= "ssv_inf_infiltrator_shield"
@@ -418,33 +418,49 @@ function LoadGTH()
 			gth_inf_rocketeer		= "gth_inf_rocketeer_shield"
 			gth_inf_sniper			= "gth_inf_sniper_shield"
 			gth_inf_machinist		= "gth_inf_machinist_shield"
+			if IsCampaign() then
+				gth_inf_hunter	= "gth_inf_hunter_shield_campaign"
+			else
+				gth_inf_hunter	= "gth_inf_hunter_shield"
+			end
 			gth_inf_hunter			= "gth_inf_hunter_shield"
 			gth_inf_shock			= "gth_inf_shock_shield"
 			gth_inf_shock_online	= "gth_inf_shock_online_shield"
 			gth_inf_destroyer		= "gth_inf_destroyer_shield"
 			gth_inf_juggernaut		= "gth_inf_juggernaut_shield"
+			gth_inf_prime			= "gth_inf_prime_shield"
 		elseif ME5_ShieldFunc == 2 then
 				print("ME5_RandomSides.LoadGTH(): Configuring GTH Shield Functionality for PICKUPS...")
 			gth_inf_trooper			= "gth_inf_trooper"
 			gth_inf_rocketeer		= "gth_inf_rocketeer"
 			gth_inf_sniper			= "gth_inf_sniper"
 			gth_inf_machinist		= "gth_inf_machinist"
-			gth_inf_hunter			= "gth_inf_hunter"
+			if IsCampaign() then
+				gth_inf_hunter	= "gth_inf_hunter_campaign"
+			else
+				gth_inf_hunter	= "gth_inf_hunter"
+			end
 			gth_inf_shock			= "gth_inf_shock"
 			gth_inf_shock_online	= "gth_inf_shock_online"
 			gth_inf_destroyer		= "gth_inf_destroyer"
 			gth_inf_juggernaut		= "gth_inf_juggernaut"
+			gth_inf_prime			= "gth_inf_prime"
 		else
 				print("ME5_RandomSides.LoadGTH(): Error! ME5_ShieldFunc setting is invalid! Defaulting to GTH Shield Functionality for AUTO-REGEN")
 			gth_inf_trooper			= "gth_inf_trooper_shield"
 			gth_inf_rocketeer		= "gth_inf_rocketeer_shield"
 			gth_inf_sniper			= "gth_inf_sniper_shield"
 			gth_inf_machinist		= "gth_inf_machinist_shield"
-			gth_inf_hunter			= "gth_inf_hunter_shield"
+			if IsCampaign() then
+				gth_inf_hunter	= "gth_inf_hunter_shield_campaign"
+			else
+				gth_inf_hunter	= "gth_inf_hunter_shield"
+			end
 			gth_inf_shock			= "gth_inf_shock_shield"
 			gth_inf_shock_online	= "gth_inf_shock_online_shield"
 			gth_inf_destroyer		= "gth_inf_destroyer_shield"
 			gth_inf_juggernaut		= "gth_inf_juggernaut_shield"
+			gth_inf_prime			= "gth_inf_prime_shield"
 		end
 	else
 			print("ME5_RandomSides.LoadGTH(): Configuring GTH Shield Functionality for AUTO-REGEN...")
@@ -452,11 +468,16 @@ function LoadGTH()
 		gth_inf_rocketeer		= "gth_inf_rocketeer_shield"
 		gth_inf_sniper			= "gth_inf_sniper_shield"
 		gth_inf_machinist		= "gth_inf_machinist_shield"
-		gth_inf_hunter			= "gth_inf_hunter_shield"
+		if IsCampaign() then
+			gth_inf_hunter	= "gth_inf_hunter_shield_campaign"
+		else
+			gth_inf_hunter	= "gth_inf_hunter_shield"
+		end
 		gth_inf_shock			= "gth_inf_shock_shield"
 		gth_inf_shock_online	= "gth_inf_shock_online_shield"
 		gth_inf_destroyer		= "gth_inf_destroyer_shield"
 		gth_inf_juggernaut		= "gth_inf_juggernaut_shield"
+		gth_inf_prime			= "gth_inf_prime_shield"
 	end
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\coregth.lvl")
@@ -554,6 +575,7 @@ function LoadEVGxGTH()
 			gth_inf_shock_online	= "gth_inf_shock_online_shield"
 			gth_inf_destroyer		= "gth_inf_destroyer_shield"
 			gth_inf_juggernaut		= "gth_inf_juggernaut_shield"
+			gth_inf_prime			= "gth_inf_prime_shield"
 			
 			gth_ev_inf_trooper				= "gth_ev_inf_trooper_shield"
 			gth_ev_inf_infiltrator			= "gth_ev_inf_infiltrator_shield"
@@ -574,6 +596,7 @@ function LoadEVGxGTH()
 			gth_inf_shock_online	= "gth_inf_shock_online"
 			gth_inf_destroyer		= "gth_inf_destroyer"
 			gth_inf_juggernaut		= "gth_inf_juggernaut"
+			gth_inf_prime			= "gth_inf_prime"
 			
 			gth_ev_inf_trooper				= "gth_ev_inf_trooper"
 			gth_ev_inf_infiltrator			= "gth_ev_inf_infiltrator"
@@ -594,6 +617,7 @@ function LoadEVGxGTH()
 			gth_inf_shock_online	= "gth_inf_shock_online_shield"
 			gth_inf_destroyer		= "gth_inf_destroyer_shield"
 			gth_inf_juggernaut		= "gth_inf_juggernaut_shield"
+			gth_inf_prime			= "gth_inf_prime_shield"
 			
 			gth_ev_inf_trooper				= "gth_ev_inf_trooper_shield"
 			gth_ev_inf_infiltrator			= "gth_ev_inf_infiltrator_shield"
@@ -615,6 +639,7 @@ function LoadEVGxGTH()
 		gth_inf_shock_online	= "gth_inf_shock_online_shield"
 		gth_inf_destroyer		= "gth_inf_destroyer_shield"
 		gth_inf_juggernaut		= "gth_inf_juggernaut_shield"
+		gth_inf_prime			= "gth_inf_prime_shield"
 			
 		gth_ev_inf_trooper				= "gth_ev_inf_trooper_shield"
 		gth_ev_inf_infiltrator			= "gth_ev_inf_infiltrator_shield"

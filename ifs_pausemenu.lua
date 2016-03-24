@@ -4,6 +4,8 @@
 
 -- Ingame pause menu
 
+ScriptCB_DoFile("ME5_CinematicOverlayIFS")
+
 ifspausemenu_vbutton_layout = {
 	ySpacing = 5,
 	width = 260,

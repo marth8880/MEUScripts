@@ -1,16 +1,16 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
--- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
--- Version 30213/06
+-- MASS EFFECT: UNIFICATION Utility Functions Script by A. Gilbert
+-- Version 30318/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Feb 13, 2016
+-- Mar 18, 2016
 -- Copyright (c) 2016 A. Gilbert.
-
+-- 
 -- About this script: This script contains various utility functions 
 -- that perform various tasks such as killing all members of a certain 
 -- team, getting the number of units alive in an array of teams, etc.
-
+-- 
 -- Usage:
 -- Load the script using ScriptCB_DoFile() in your main mission script
 -- Call whichever functions you need out of this script. Example:
@@ -20,14 +20,12 @@
 -- Setup_SSVxGTH_sm()
 -- 
 -- The above example would load and then set up the Systems Alliance and Geth side
-
-
+-- 
+-- 
 -- Legal Stuff:
--- You are welcome to use this script in your custom-made mods and maps so long as they are not being rented or sold.
--- If you use this script, please credit me in the readme of the project you used it in.
--- Do not claim this script as your own. It may not be much, but I did spend some time writing it after all.
--- You may edit this script as you need in order to make it work with your own map or mod.
--- I am not responsible for any damages that might be incurred through the use of this script.
+-- Usage of this script is unauthorized without my prior consent. Contact me if you wish to use it. 
+-- Do not claim this script as your own. I did spend time writing it after all. I cannot be held  
+-- accountable for any damages that might be incurred through the use of this script.
 -- THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
 -----------------------------------------------------------------
 -----------------------------------------------------------------
@@ -140,6 +138,7 @@ end
 -- @param #string pathIn The name of the path to get the node from.
 -- @param #int nodeIn The numeric path node to move the entity to.
 function MoveEntityToNode(entIn, pathIn, nodeIn)
+	print("ME5_UtilityFunctions.MoveEntityToNode(): Entered")
 
 	if not entIn then
 		print("Warning!: Entity not specified for move")
@@ -167,6 +166,36 @@ function MoveEntityToNode(entIn, pathIn, nodeIn)
 		return true
 	end
 		return false
+end
+
+---
+-- Moves all units in team 'teamID' to path 'pathName'.
+-- @param #int teamID The numeric ID of the team to reset.
+-- @param #string pathName The name of the path to move the units to.
+function ResetTeamMemberLocations(team, pathName)
+		print("EURn_c.ResetTeamMemberLocations(): Entered")
+	
+	--get the team's size
+	local size = GetTeamSize( team )
+	
+	--for each team member,
+	local m
+	for m = 0, size-1 do
+		
+		--get a team member's unit
+		local player = GetTeamMember(team, m)
+		
+		local unit = GetCharacterUnit(player)
+		print( "ApplyFunctionOnTeamUnits(): Team, Unit:", team, m )
+		
+		local pathPtr = GetPathPoint(pathName, 0)
+		
+		--MoveEntityToNode(player, pathName, 0)
+		
+		--SetEntityMatrix(unit, pathPtr)	-- TODO: fix this!
+		
+		KillUnits({team}, true)
+	end
 end
 
 	print("ME5_UtilityFunctions: Exited")

@@ -1,16 +1,16 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
--- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
--- Version 30213/06
+-- MASS EFFECT: UNIFICATION Audio Functions Script by A. Gilbert
+-- Version 30318/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Feb 13, 2016
+-- Mar 18, 2016
 -- Copyright (c) 2016 A. Gilbert.
-
+-- 
 -- About this script: The purpose of script is to simplify the process 
 -- of loading music and setting global sound parameters.
-
-
+-- 
+-- 
 -- Legal Stuff:
 -- Usage of this script is unauthorized without my prior consent. Contact me if you wish to use it.
 -- Do not claim this script as your own. It may not be much, but I did spend some time writing it after all.
@@ -24,70 +24,85 @@ function SFL_Turrets()
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_TUR_b_NonStreaming.lvl")
 end
 
+
 function SFL_SSV_vt()
 		print("ME5_AudioFunctions: SFL_SSV_vt()")
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSV_v_t_NonStreaming.lvl")
 end
+
 
 function SFL_SSV_vf()
 		print("ME5_AudioFunctions: SFL_SSV_vf()")
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSV_v_f_NonStreaming.lvl")
 end
 
--- Opens music streams based on int var, MusicVaration.
+
+-- Opens music streams based on int MusicVaration.
 function OpenMusicStreams()
 	if MusicVariation == 1 then
-			print("ME5_AudioFunctions: Loading Music Variation 01")
+			print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 01")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_01_Streaming.lvl")
 		OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_01_Streaming.lvl", "ME5n_music_01")
 		
 		--local musicVar = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_01_Streaming.lvl", "ME5n_music_01")
 		--AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_h_Streaming.lvl", "ME5n_music_h", musicVar)
+		
 	elseif MusicVariation == 2 then
-			print("ME5_AudioFunctions: Loading Music Variation 02")
+			print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 02")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_02_Streaming.lvl")
 		OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_02_Streaming.lvl", "ME5n_music_02")
+		
 	elseif MusicVariation == 3 then
-			print("ME5_AudioFunctions: Loading Music Variation 03")
+			print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 03")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_03_Streaming.lvl")
 		OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_03_Streaming.lvl", "ME5n_music_03")
+		
 	elseif MusicVariation == 4 then
-			print("ME5_AudioFunctions: Loading Music Variation 04")
+			print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 04")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_04_Streaming.lvl")
 		OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_04_Streaming.lvl", "ME5n_music_04")
+		
 	elseif MusicVariation == 5 then
-			print("ME5_AudioFunctions: Loading Music Variation 05")
+			print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 05")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_05_Streaming.lvl")
 		OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_05_Streaming.lvl", "ME5n_music_05")
+		
 	elseif MusicVariation == 6 then
-			print("ME5_AudioFunctions: Loading Music Variation 06")
+			print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 06")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_06_Streaming.lvl")
 		OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_06_Streaming.lvl", "ME5n_music_06")
+		
 	elseif MusicVariation == 7 then
-			print("ME5_AudioFunctions: Loading Music Variation 07")
+			print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 07")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_07_Streaming.lvl")
 		OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_07_Streaming.lvl", "ME5n_music_07")
+		
 	elseif MusicVariation == 8 then
-			print("ME5_AudioFunctions: Loading Music Variation 08")
+			print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 08")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_08_Streaming.lvl")
 		OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_08_Streaming.lvl", "ME5n_music_08")
+		
 	elseif MusicVariation == 9 then
-			print("ME5_AudioFunctions: Loading Music Variation 08")
+			print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 08")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_09_Streaming.lvl")
 		OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_09_Streaming.lvl", "ME5n_music_09")
+		
 	else
-			print("ME5_AudioFunctions: Error! No Music Variation is decided!")
+			print("ME5_AudioFunctions.OpenMusicStreams(): Error! No Music Variation is decided!")
 		--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_Streaming.lvl")
 		--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_Streaming.lvl", "ME5n_music")
+		
 	end
-		print("ME5_AudioFunctions: Loading hero music")
+		print("ME5_AudioFunctions.OpenMusicStreams(): Loading hero music")
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_h_Streaming.lvl", "ME5n_music_h")
 end
+
 
 function OpenHeroStreams()
 		print("ME5_AudioFunctions: Loading hero music")
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_h_Streaming.lvl", "ME5n_music_h")
 end
+
 
 -- Mostly music from ME1.
 function Music01()
@@ -108,6 +123,7 @@ function Music01()
 	SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 end
 
+
 function SetMusic(musicID, isCTF)
 	if musicID == 1 then
 		if isCTF == 0 or isCTF == false then
@@ -117,6 +133,7 @@ function SetMusic(musicID, isCTF)
 		else end
 	else end
 end
+
 
 -- Mostly music from ME1. CTF version.
 function Music01_CTF()
@@ -136,6 +153,7 @@ function Music01_CTF()
 	SetVictoryMusic(CIS, "ssv_amb_01_victory")
 	SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 end
+
 
 -- Collector attack music from ME2.
 function Music02()
@@ -198,6 +216,7 @@ function Music02()
 	SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 end
 
+
 -- Collector attack music from ME2. CTF version.
 function Music02_CTF()
 	MusicVariation = 2
@@ -259,6 +278,7 @@ function Music02_CTF()
 	SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 end
 
+
 function Music03()
 	MusicVariation = 3
 	
@@ -294,6 +314,7 @@ function Music03_CTF()
 	SetVictoryMusic(CIS, "ssv_amb_01_victory")
 	SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 end
+
 
 -- Squadmate music from ME2. Optional argument int 'variation' determines variation to use, or random if unspecified.
 -- @param #int variation test
@@ -370,6 +391,7 @@ function Music04(variation)
 	SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 end
 
+
 function Music04_CTF()
 	MusicVariation = 4
 	
@@ -426,6 +448,7 @@ function Music04_CTF()
 	SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 end
 
+
 function Music05()
 	MusicVariation = 5
 	
@@ -480,6 +503,7 @@ function Music05()
 	SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 end
 
+
 function Music05_CTF()
 	MusicVariation = 5
 	
@@ -526,6 +550,7 @@ function Music05_CTF()
 	SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 end
 
+
 function Music06()
 	MusicVariation = 6
 	
@@ -564,6 +589,7 @@ function Music06()
 	SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 end
 
+
 function Music06_CTF()
 	MusicVariation = 6
 	
@@ -600,6 +626,7 @@ function Music06_CTF()
 	SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 end
 
+
 function Music07()
 	MusicVariation = 7
 	
@@ -618,6 +645,7 @@ function Music07()
 	SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 end
 
+
 function Music08()
 	MusicVariation = 8
 	
@@ -635,6 +663,7 @@ function Music08()
 	SetVictoryMusic(CIS, "ssv_amb_01_victory")
 	SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 end
+
 
 function Music09()
 	MusicVariation = 9
@@ -699,6 +728,7 @@ function Music09()
 	SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 end
 
+
 function Music09_CTF()
 	MusicVariation = 9
 	
@@ -762,17 +792,19 @@ function Music09_CTF()
 	SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 end
 
+
 function SSVWorldVO()
 	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "vo_streaming")
 	
 	SetBleedingVoiceOver(REP, REP, "ssv_adm_com_report_us_bleeding", 1)
 	SetBleedingVoiceOver(REP, CIS, "ssv_adm_com_report_enemy_bleeding", 1)
 	
-	SetLowReinforcementsVoiceOver(REP, REP, "ssv_adm_com_report_defeat_imm", .1, 1)
-	SetLowReinforcementsVoiceOver(REP, CIS, "ssv_adm_com_report_victory_imm", .1, 1)
+	SetLowReinforcementsVoiceOver(REP, REP, "ssv_adm_com_report_defeat_imm", 0.1, 1)
+	SetLowReinforcementsVoiceOver(REP, CIS, "ssv_adm_com_report_victory_imm", 0.1, 1)
 	
 	SetOutOfBoundsVoiceOver(REP, "ssv_adm_com_report_hiatus")
 end
+
 
 function GTHWorldVO()
 	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_GTH_Streaming.lvl", "gth_vo_streaming")
@@ -783,17 +815,19 @@ function GTHWorldVO()
 	SetOutOfBoundsVoiceOver(CIS, "gth_ann_com_report_hiatus")
 end
 
+
 function COLWorldVO()
 	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_COL_Streaming.lvl", "col_vo_streaming")
 	
 	SetBleedingVoiceOver(CIS, REP, "col_gen_com_report_enemy_bleeding", 1)
 	SetBleedingVoiceOver(CIS, CIS, "col_gen_com_report_us_bleeding", 1)
 	
-	SetLowReinforcementsVoiceOver(CIS, CIS, "col_gen_com_report_defeat_imm", .1, 1)
-	SetLowReinforcementsVoiceOver(CIS, REP, "col_gen_com_report_victory_imm", .1, 1)
+	SetLowReinforcementsVoiceOver(CIS, CIS, "col_gen_com_report_defeat_imm", 0.1, 1)
+	SetLowReinforcementsVoiceOver(CIS, REP, "col_gen_com_report_victory_imm", 0.1, 1)
 	
 	SetOutOfBoundsVoiceOver(CIS, "col_gen_com_report_hiatus")
 end
+
 
 function EVGWorldVO()
 	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "vo_streaming")
@@ -806,9 +840,12 @@ function EVGWorldVO()
 	SetOutOfBoundsVoiceOver(REP, "evg_prm_com_report_hiatus")
 end
 
+
 function SoundFX()
     voiceQuick = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "vo_quick_streaming")
     AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "vo_slow_streaming", voiceQuick)
+    AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "eur_objective_vo_slow", voiceQuick)
+    AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "global_objective_vo_quick", voiceQuick)
     --AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "lowhealth_streaming", voiceQuick)
 	
 	if not ScriptCB_InMultiplayer() then
@@ -839,7 +876,7 @@ function SoundFX()
 			EVGWorldVO()
 			COLWorldVO()
 		else
-				print("ME5_MiscFunctions: Error! ME5_SideVar setting is invalid! Attempting to load all VOs... (This can only go horribly)")
+				print("ME5_AudioFunctions.SoundFX(): Error! ME5_SideVar setting is invalid! Attempting to load all VOs... (This can only go horribly)")
 			SSVWorldVO()
 			GTHWorldVO()
 			COLWorldVO()
@@ -917,12 +954,36 @@ function SoundFX()
     SetSoundEffect("SpawnDisplaySpawnPointChange", "me5_shell_select_change")
     SetSoundEffect("SpawnDisplaySpawnPointAccept", "me5_shell_menu_enter")
     SetSoundEffect("SpawnDisplayBack",             "me5_shell_menu_exit")
-	
-	-- Create a text document in the folder I mentioned and name it "TESTwhat.txt"
+end
 
-		--[[local testfile = assert(io.open("TESTwhat.txt", "r"))
-		local testioinput = testfile:read("*all")
-		testfile:close()
-		print("ZeroEngineSuckageLevel: " .. testioinput)]]
+
+---
+-- Mutes the specified audio bus.
+-- @param #string busID The name of the audio bus to mute.
+-- 
+function MuteAudioBus(busID)
+	if busID == nil then
+		print("ME5_AudioFunctions.MuteAudioBus(): Error! busID must be specified!")
+	return end
+	
+	ScriptCB_SndBusFade(busID, 0.0, 0.0)
+end
+
+
+---
+-- Unmutes the specified audio bus.
+-- @param #string busID The name of the audio bus to unmute.
+-- @param #float originalGain The original gain of the audio bus.
+-- 
+function UnmuteAudioBus(busID, originalGain)
+	if busID == nil then
+		print("ME5_AudioFunctions.UnmuteAudioBus(): Error! busID must be specified!")
+	return end
+	
+	if originalGain == nil then
+		print("ME5_AudioFunctions.UnmuteAudioBus(): Error! originalGain must be specified!")
+	return end
+	
+	ScriptCB_SndBusFade(busID, 0.0, originalGain)
 end
 	print("ME5_AudioFunctions: Exited")

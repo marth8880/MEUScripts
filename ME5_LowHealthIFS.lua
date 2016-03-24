@@ -3,15 +3,15 @@
 -- MASS EFFECT: UNIFICATION Low Health IFS Script by Nedarb7
 -- Version 20404/06
 -- Screen Names: Nedarb7
--- E-Mail: Marth8880@gmail.com
+-- E-Mail: 
 -- Apr 04, 2015
--- Copyright (c) 2015 Nedarb7.
-
+-- Copyright (c) 2015 Nedarb7
+-- 
 -- About this script: The purpose of script is to work with MEU's 
 -- low health function and display a red vignette when the player 
 -- has low health.
-
-
+-- 
+-- 
 -- Legal Stuff:
 -- Usage of this script is unauthorized without mine and Nedarb7's prior consent. Contact us if you wish to use it.
 -- Do not claim this script as your own. It may not be much, but we did spend some time writing it after all.

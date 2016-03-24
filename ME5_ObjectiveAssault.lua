@@ -4,11 +4,11 @@
 
 ScriptCB_DoFile("ME5_Objective")
 
---=============================
+---
 -- Target
 --	Class representing a specific assault target, allowing some measure of customization
 --	of what happens when it is destroyed
---=============================
+--  
 Target =
 {
 	-- fields that need to be specified when calling New()
@@ -38,11 +38,11 @@ end
 
 
 
---=============================
+---
 -- TargetType
 --	Class representing an assault target that involves killing a certain number
 --	of objects that match a particular type
---=============================
+--  
 TargetType =
 {
 	-- fields that need to be specified when calling New()
