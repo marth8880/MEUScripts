@@ -269,6 +269,7 @@ function PreLoadStuff()
 	
 	-- Call exterior functions
 	fShieldPickup()
+	fShieldRegenDelay()
 	fKillSound()
 	--fLowHealthSound()
 	fEvgJugPowerDrain()
@@ -566,6 +567,294 @@ function fShieldPickup()
 		)]]
 end
 
+function fShieldRegenDelay()
+	print("ME5_MiscFunctions.fShieldRegenDelay(): Entered")
+	
+	-- Required fields
+	local regenDelayValue = 5.0			-- How long in seconds does it take for shields to start regenerating?
+	local regenValueMult = 3.0			-- What is the player's base AddShield value multiplied by?
+	
+	-- Table of unit classes with regenerating shields. /class/ is the class's name, /addShield/ is the class's AddShield value.
+	local shieldClasses = {
+				{ class = "col_inf_guardian_shield", 				addShield = 14.0 }, 
+				{ class = "col_inf_guardian_online_shield", 		addShield = 14.0 }, 
+				{ class = "gth_inf_trooper_shield", 				addShield = 14.0 }, 
+				{ class = "gth_inf_rocketeer_shield", 				addShield = 14.0 }, 
+				{ class = "gth_inf_sniper_shield", 					addShield = 14.0 }, 
+				{ class = "gth_inf_machinist_shield", 				addShield = 14.0 }, 
+				{ class = "gth_inf_hunter_shield", 					addShield = 14.0 }, 
+				{ class = "gth_inf_shock_shield", 					addShield = 14.0 }, 
+				{ class = "gth_inf_shock_online_shield", 			addShield = 14.0 }, 
+				{ class = "gth_inf_destroyer_shield", 				addShield = 14.0 }, 
+				{ class = "gth_inf_juggernaut_shield", 				addShield = 14.0 }, 
+				{ class = "gth_inf_prime_shield", 					addShield = 22.0 }, 
+				{ class = "gth_ev_inf_trooper_shield", 				addShield = 14.0 }, 
+				{ class = "gth_ev_inf_infiltrator_shield", 			addShield = 14.0 }, 
+				{ class = "gth_ev_inf_engineer_shield", 			addShield = 14.0 }, 
+				{ class = "gth_ev_inf_rocketeer_shield", 			addShield = 14.0 }, 
+				{ class = "gth_ev_inf_hunter_shield", 				addShield = 14.0 }, 
+				{ class = "gth_ev_inf_pyro_shield", 				addShield = 14.0 }, 
+				{ class = "gth_ev_inf_juggernaut_shield", 			addShield = 14.0 }, 
+				{ class = "gth_ev_inf_juggernaut_online_shield",	addShield = 14.0 }, 
+				{ class = "ssv_inf_soldier_shield", 				addShield = 14.0 }, 
+				{ class = "ssv_inf_infiltrator_shield", 			addShield = 14.0 }, 
+				{ class = "ssv_inf_engineer_shield", 				addShield = 14.0 }, 
+				{ class = "ssv_inf_adept_shield", 					addShield = 14.0 }, 
+				{ class = "ssv_inf_sentinel_shield", 				addShield = 14.0 }, 
+				{ class = "ssv_inf_vanguard_shield", 				addShield = 14.0 }, 
+				{ class = "ssv_inf_cooper_soldier", 				addShield = 14.0 }, 
+				{ class = "ssv_inf_cooper_infiltrator", 			addShield = 14.0 }, 
+				{ class = "ssv_inf_cooper_engineer", 				addShield = 14.0 }, 
+				{ class = "ssv_inf_cooper_adept", 					addShield = 14.0 }, 
+				{ class = "ssv_inf_cooper_sentinel", 				addShield = 14.0 }, 
+				{ class = "ssv_inf_cooper_vanguard", 				addShield = 14.0 }, }
+	
+	
+	-- Optional fields
+	local bDebugEnabled = false						-- Should debug messages be enabled, and the delay timer be shown?
+	local shieldBreakSound = "unit_shields_break"	-- The sound property that plays when the player's shields are completely depleted.
+	
+	
+	-- Fields that are handled internally
+	local charUnit = nil				-- The player's character unit.
+	local charPtr = nil					-- The player's unit entity pointer.
+	local charClass = nil				-- The name of the player's class.
+	local regenBaseValue = nil			-- What is the player's base AddShield value?
+	local regenFinalValue = nil			-- What is the player's final AddShield value?
+	local bIsRegenStopped = false		-- Is shield regeneration currently stopped?
+	local bIsRegenTimerStarted = false	-- Is the shieldRegenTimer currently started?
+	local bIsPlayerCorrectClass = false	-- Is the player a class with shields?
+	local playerMaxHealth = 0			-- What is the player's health when they spawn?
+	
+	
+	-- Get or create a new shieldRegenTimer (this ensures there's only one "shieldRegenTimer" in the game at one time)
+	local shieldRegenTimer = FindTimer("shieldRegenTimer")
+	if not shieldRegenTimer then
+		shieldRegenTimer = CreateTimer("shieldRegenTimer")
+		SetTimerValue(shieldRegenTimer, regenDelayValue)
+		
+		if bDebugEnabled == true then
+			ShowTimer(shieldRegenTimer)
+		end
+	end
+	
+	
+	--=================================
+	-- Local Functions
+	--=================================
+	
+	---
+	-- Call this to start shield regeneration for /unit/.
+	-- @param #object unit The object to start the regeneration for.
+	-- 
+	local function StartRegeneration(unit)
+		-- Prevent the function from being executed multiple times at once
+		if bIsRegenStopped == false then return end
+		
+		bIsRegenStopped = false
+		
+		if bDebugEnabled == true then
+			print("ME5_MiscFunctions.fShieldRegenDelay.StartRegeneration(): Starting shield regeneration")
+			ShowMessageText("level.common.debug.shields_starting", REP)
+			ShowMessageText("level.common.debug.shields_starting", CIS)
+		end
+		
+		-- Turn regeneration back on
+		SetProperty(unit, "AddShield", regenFinalValue)
+	end
+	
+	---
+	-- Call this to stop shield regeneration for /unit/.
+	-- @param #object unit The object to stop the regeneration for.
+	-- 
+	local function StopRegeneration(unit)
+		-- Reset the timer value
+		SetTimerValue(shieldRegenTimer, regenDelayValue)
+		
+		-- Prevent the function from being executed multiple times at once
+		if bIsRegenStopped == true then return end
+		
+		bIsRegenStopped = true
+		
+		if bDebugEnabled == true then
+			print("ME5_MiscFunctions.fShieldRegenDelay.StopRegeneration(): Stopping shield regeneration")
+			ShowMessageText("level.common.debug.shields_stopping", REP)
+			ShowMessageText("level.common.debug.shields_stopping", CIS)
+		end
+		
+		-- Turn off regeneration
+		SetProperty(unit, "AddShield", 0)
+		
+		-- Start the delay timer
+		StartTimer(shieldRegenTimer)
+		
+		-- When the timer elapses
+		local shieldRegenTimerElapse = OnTimerElapse(
+			function(timer)
+				ReleaseTimerElapse(shieldRegenTimerElapse)
+				
+				StopTimer(shieldRegenTimer)
+				StartRegeneration(unit)
+			end, 
+		shieldRegenTimer
+		)
+	end
+	
+	---
+	-- Call this to duck (fade) all of the audio buses (excluding lowhealth). Only has an effect if the low health sound isn't playing.
+	-- 
+	local function DuckBuses()
+		local endGain	= 0.3			-- What is the end gain for the audio bus?
+		local fadeTime	= 0.2			-- What is the duration of the bus fade?
+		
+		-- Is the low health sound not playing?
+		if LH_bIsLowHealthSoundPlaying == false then
+			-- Fade all of the appropriate audio buses
+			ScriptCB_SndBusFade("main",				fadeTime, endGain)
+			ScriptCB_SndBusFade("soundfx",			fadeTime, endGain)
+			ScriptCB_SndBusFade("battlechatter",	fadeTime, endGain)
+			ScriptCB_SndBusFade("music",			fadeTime, 0.6)
+			ScriptCB_SndBusFade("ingamemusic",		fadeTime, 0.6)
+			ScriptCB_SndBusFade("ambience",			fadeTime, endGain)
+			ScriptCB_SndBusFade("voiceover",		fadeTime, endGain)
+		end
+	end
+	
+	---
+	-- Call this to unduck (unfade) all of the audio buses (excluding lowhealth). Only has an effect if the low health sound isn't playing.
+	-- 
+	local function UnDuckBuses()
+		local fadeTime	= 0.7			-- What is the duration of the bus fade?
+		
+		-- Is the low health sound not playing?
+		if LH_bIsLowHealthSoundPlaying == false then
+			-- Unfade all of the audio buses
+			ScriptCB_SndBusFade("main",				fadeTime, 1.0)
+			ScriptCB_SndBusFade("soundfx",			fadeTime, 0.7)
+			ScriptCB_SndBusFade("battlechatter",	fadeTime, 1.0)
+			ScriptCB_SndBusFade("music",			fadeTime, 1.0)
+			ScriptCB_SndBusFade("ingamemusic",		fadeTime, 0.7)
+			ScriptCB_SndBusFade("ambience",			fadeTime, 0.7)
+			ScriptCB_SndBusFade("voiceover",		fadeTime, 0.8)
+		end
+	end
+	
+	
+	--=================================
+	-- Event Responses
+	--=================================
+	
+	-- When the player spawns
+    local playerspawn = OnCharacterSpawn(
+	    function(character)
+	        if character == 0 then
+	        	charUnit = GetCharacterUnit(character)
+	        	charPtr = GetEntityPtr(charUnit)
+	        	charClass = GetEntityClass(charPtr)
+				playerMaxHealth = GetObjectHealth(charPtr)
+	        	
+				-- For each shield class,
+				for i in pairs(shieldClasses) do
+					-- Is the player a shield class?
+					if charClass == FindEntityClass(shieldClasses[i]['class']) then
+						bIsPlayerCorrectClass = true
+						
+						-- Calculate the player's AddShield value
+						regenBaseValue = shieldClasses[i]['addShield']
+						regenFinalValue = regenBaseValue * regenValueMult
+					else
+						bIsPlayerCorrectClass = false
+					end
+					
+					-- Break out of the loop if correct class
+					if bIsPlayerCorrectClass == true then break end
+				end
+	        end
+	    end
+    )
+	
+	-- When the player is damaged
+	local playerdamage = OnObjectDamage(
+		function(object, damager)
+			-- Is the affected object the player?
+			if charUnit == GetEntityPtr(object) and bIsPlayerCorrectClass == true then
+				-- Stop shield regeneration
+				StopRegeneration(object)
+			end
+		end
+	)
+	
+	-- When the player's shields are altered (except from AddShield, of course)
+	local playershieldschange = OnShieldChange(
+		function(object, shields)
+			
+			-- Is the affected object the player?
+			if charUnit == GetEntityPtr(object) and bIsPlayerCorrectClass == true then
+				
+				-- Are the player's shields completely depleted?
+				if shields <= 0 then
+					
+					-- Play the shieldBreakSound
+					ScriptCB_SndPlaySound(shieldBreakSound)
+					
+					-- What is the player's current health?
+					local playerCurHealth = GetObjectHealth(object)
+					
+					if playerMaxHealth <= 0 then
+						playerMaxHealth = 300
+					end
+					
+					-- What's the player's current health percentage?
+					local playerHealthPercent = playerCurHealth / playerMaxHealth
+					
+					-- Is the low health sound not about to activate?
+					if playerHealthPercent >= LH_playerHealthThreshold then
+						-- Fade the audio buses briefly
+						DuckBuses()
+						
+						-- Create a temp timer that'll unfade the buses after a short amount of time
+						local busTimer = CreateTimer("shieldBreakBusTimer")
+						SetTimerValue(busTimer, 1.15)
+						StartTimer(busTimer)
+						
+						-- Bus timer elapse
+						local busTimerElapse = OnTimerElapse(
+							function(timer)
+								-- Unfade the buses
+								UnDuckBuses()
+								
+								-- Garbage collection
+								ReleaseTimerElapse(busTimerElapse)
+								DestroyTimer(busTimer)
+							end,
+						busTimer
+						)
+					else
+						print("ME5_MiscFunctions.fShieldRegenDelay.playershieldschange(): playerHealthPercent, LH_playerHealthThreshold:", playerHealthPercent, LH_playerHealthThreshold)
+						print("ME5_MiscFunctions.fShieldRegenDelay.playershieldschange(): Low health sound activating, skipping bus ducking")
+					end
+				end
+			end
+		end
+	)
+	
+	-- When the player dies
+	local playerdeath = OnObjectKill(
+		function(player, killer)
+			-- Is the affected object the player?
+			if charUnit == GetEntityPtr(player) then
+				StopTimer(shieldRegenTimer)
+				
+				-- Reset the timer's value
+				SetTimerValue(shieldRegenTimer, regenDelayValue)
+				bIsRegenStopped = false
+			end
+		end
+	)
+	
+	print("ME5_MiscFunctions.fShieldRegenDelay(): Exited")
+end
+
 function fHeadshotKill()
 		print("ME5_MiscFunctions.fHeadshotKill(): Entered")
 	--[[HeadshotHeadExplode = OnObjectHeadshot(
@@ -625,7 +914,8 @@ end
 -- Runs the Juggernaut Squad functions (based on the faction combination) and low health functions. Also purges stock fonts if custom HUD is enabled.
 -- 
 function PostLoadStuff()
-		print("ME5_MiscFunctions.PostLoadStuff(): Entered")
+	print("ME5_MiscFunctions.PostLoadStuff(): Entered")
+	
 	if not ScriptCB_InMultiplayer() then
 		if ME5_SideVar == 0 then
 			if RandomSide == 1 then
@@ -637,13 +927,13 @@ function PostLoadStuff()
 			fGthJugSquad()
 		elseif ME5_SideVar == 3 then
 			fEvgJugSquad()
-		else end
+		end
 	else
 		if onlineSideVar == 1 then
 			fGthJugSquad()
 		elseif onlineSideVar == 3 then
 			fEvgJugSquad()
-		else end
+		end
 	end
 	
 	fLowHealthSound()
@@ -651,16 +941,16 @@ function PostLoadStuff()
 	
 	if ME5_CustomHUD == 1 then
 			print("ME5_MiscFunctions.PostLoadStuff(): Overwriting stock fonts with blank font")
-		-- hotfix that overrides the stock fonts with a "blank font"
+		-- Hotfix that overrides the stock fonts with a "blank font"
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_purge_text.lvl")
-	else end
+	end
 end
 
 ---
 -- Sets up the event responses for Heretic Geth Juggernaut squads.
 -- 
 function fGthJugSquad()
-		print("ME5_MiscFunctions.fGthJugSquad(): Entered")
+	print("ME5_MiscFunctions.fGthJugSquad(): Entered")
 	
 	local players = {}
 	local goals = {}
@@ -700,7 +990,8 @@ end
 -- Sets up the event responses for Evolved Geth Juggernaut squads.
 -- 
 function fEvgJugSquad()
-		print("ME5_MiscFunctions.fEvgJugSquad(): Entered")
+	print("ME5_MiscFunctions.fEvgJugSquad(): Entered")
+	
 	local players = {}
 	local goals = {}
 	local count = 0
@@ -739,14 +1030,15 @@ end
 -- Sets up the event responses for kill sounds.
 -- 
 function fKillSound()
-		print("ME5_MiscFunctions.fKillSound(): Entered")
+	print("ME5_MiscFunctions.fKillSound(): Entered")
+	
 	if not ScriptCB_InMultiplayer() then
 		if ME5_KillSound == 0 then
-				print("ME5_MiscFunctions.fKillSound(): Initializing kill sound setting for DISABLED...")
+			print("ME5_MiscFunctions.fKillSound(): Initializing kill sound setting for DISABLED...")
 		else
-				print("ME5_MiscFunctions.fKillSound(): Initializing kill sound setting for ENABLED...")
+			print("ME5_MiscFunctions.fKillSound(): Initializing kill sound setting for ENABLED...")
 			
-			local killsound = OnCharacterDeath(
+			local enemydeath = OnCharacterDeath(
 				function(player, killer)
 					if killer and IsCharacterHuman(killer) then
 						local playerTeam = GetCharacterTeam(player)
@@ -773,7 +1065,7 @@ function fKillSound()
 			)
 		end
 	else
-			print("ME5_MiscFunctions.fKillSound(): Initializing kill sound setting for DISABLED...")
+		print("ME5_MiscFunctions.fKillSound(): Initializing kill sound setting for DISABLED...")
 	end
 end
 
@@ -793,19 +1085,24 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 			--===============================
 			--ScriptCB_SndPlaySound("organic_lowhealth_property")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl")
+			
 			lowHealthStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl", "lowhealth_streaming")
 			--PlayAudioStreamUsingProperties("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl", "organic_lowhealth_streaming", 1)
+			
 			PlayAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl", 
 								"organic_lowhealth_streaming", "heartbeat_segment", 1.0, "lowhealth", lowHealthStream)
+			
+			-- Initial lowhealth bus fade
 			ScriptCB_SndBusFade("lowhealth", 0.0, 0.0)
 			
-			local isSoundPlaying = false		-- Is the low health sound playing?
-			local isPlayerCorrectClass = false	-- Is the player the correct class?
-			local isSpawnScreenActive = false	-- Is the spawn screen active?
+			LH_bIsLowHealthSoundPlaying = false	-- Is the low health sound playing?
+			LH_playerHealthThreshold = 0.35		-- Under what health percentage should the low health sound be active?
+			local Iamhuman = nil				-- Pointer for human player.
+			local bIsPlayerCorrectClass = false	-- Is the player the correct class?
+			local bIsSpawnScreenActive = false	-- Is the spawn screen active?
 			local timerCount	= 0				-- How many timers exist?
 			local busEndGain	= 0.15			-- What is the end gain for the audio bus?
 			local busFadeTime	= 1.0			-- What is the duration of the bus fade?
-			local playerHealthThreshold = 0.35	-- Under what health percentage should the low health sound be active?
 			local playerMaxHealth = 0			-- What is the player's health when they spawn?
 			local synthClasses = {
 					"gth_inf_destroyer",
@@ -912,7 +1209,7 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 			)]]
 			
 			-- When the player spawns
-			local onplayerspawn = OnCharacterSpawn(
+			local playerspawn = OnCharacterSpawn(
 				function(player)
 					if IsCharacterHuman(player) then
 							--print("fLowHealthSound: Player spawned")
@@ -934,19 +1231,19 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 						for i=1, table.getn(synthClasses) do
 							-- Is the player a non-synthetic class?
 							if GetEntityClass(Iamhuman) == FindEntityClass( synthClasses[i] ) then
-								isPlayerCorrectClass = false
+								bIsPlayerCorrectClass = false
 							else
-								isPlayerCorrectClass = true
+								bIsPlayerCorrectClass = true
 							end
 							
 							-- Break out of the loop if wrong class
-							if isPlayerCorrectClass == false then break end
+							if bIsPlayerCorrectClass == false then break end
 						end
 						
 						-- Is the low health sound playing?
-						if isSoundPlaying == true then
+						if LH_bIsLowHealthSoundPlaying == true then
 								--print("ME5_MiscFunctions.fLowHealthSound(): isSoundPlaying is true, setting to false")
-							isSoundPlaying = false
+							LH_bIsLowHealthSoundPlaying = false
 							
 							-- Remove our ifs screen
 							--ifs_lowhealth_vignette.Timer = 10
@@ -967,33 +1264,33 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 			)
 			
 			-- When the player is damaged
-			local lowhealthsound = OnHealthChange(
+			local playerhealthchange = OnHealthChange(
 				function(object, health)
-					-- What is the player's current health?
-					local playerCurHealth = GetObjectHealth(object)
-					
-					if playerMaxHealth <= 0 then
-						playerMaxHealth = 300
-					end
-					
-					-- What's the player's current health as a percentage?
-					local playerHealthPercent = playerCurHealth / playerMaxHealth
-					
 					-- Was the damaged object a human player?
 					if Iamhuman == GetEntityPtr(object) then
 							--print("fLowHealthSound: Player health changed")
 							--print("fLowHealthSound: Player health ratio is "..playerHealthPercent)
+							
+						-- What is the player's current health?
+						local playerCurHealth = GetObjectHealth(object)
+						
+						if playerMaxHealth <= 0 then
+							playerMaxHealth = 300
+						end
+						
+						-- What's the player's current health percentage?
+						local playerHealthPercent = playerCurHealth / playerMaxHealth
 						
 						-- Is the player's health low enough to activate the low health sound?
-						if playerHealthPercent < playerHealthThreshold then
+						if playerHealthPercent < LH_playerHealthThreshold then
 								--print("fLowHealthSound: Player's health is "..playerCurHealth)
-							if isSoundPlaying == false then
+							if LH_bIsLowHealthSoundPlaying == false then
 									--print("fLowHealthSound: isSoundPlaying is false, setting to true")
-								isSoundPlaying = true
+								LH_bIsLowHealthSoundPlaying = true
 								--classCount = 0
 								
 								-- Is the player the correct class?
-								if isPlayerCorrectClass == true then
+								if bIsPlayerCorrectClass == true then
 										--print("fLowHealthSound: Player is correct class")
 									
 									-- Activate our ifs screen
@@ -1014,11 +1311,11 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 							end
 						else
 							-- Is the low health sound playing?
-							if isSoundPlaying == true then
+							if LH_bIsLowHealthSoundPlaying == true then
 									--print("fLowHealthSound: isSoundPlaying is true, setting to false")
 								
 								-- If it's playing, deactivate it
-								isSoundPlaying = false
+								LH_bIsLowHealthSoundPlaying = false
 								
 								-- Remove our ifs screen
 								--ifs_lowhealth_vignette.Timer = 10
@@ -1040,14 +1337,14 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 			)
 			
 			-- When the player dies
-			local lowhealthplayerdeath = OnCharacterDeath(
+			local playerdeath = OnCharacterDeath(
 				function(player,killer)
 					if IsCharacterHuman(player) then
 							--print("fLowHealthSound: Player died, resetting buses and variables")
 						--if isSoundPlaying == true then
 							
 							-- Deactivate the low health sound
-							isSoundPlaying = false
+							LH_bIsLowHealthSoundPlaying = false
 							
 							-- remove our ifs screen
 							--ifs_lowhealth_vignette.Timer = 10
@@ -1063,22 +1360,23 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 							ScriptCB_SndBusFade("voiceover",		busFadeTime, 0.8)
 							ScriptCB_SndBusFade("lowhealth",		1.0, 0.0)
 						--end
-					else end
+					end
 				end
 			)
-		else
 		end
 	else
-			print("ME5_MiscFunctions.fLowHealthSound(): Initializing low health sound setting for DISABLED...")
+		print("ME5_MiscFunctions.fLowHealthSound(): Initializing low health sound setting for DISABLED...")
 	end
 end
 
 ---
 -- Sets up the event responses for the Evolved Juggernaut's Power Drain ability.
+-- 
 function fEvgJugPowerDrain()
-		print("ME5_MiscFunctions.fEvgJugPowerDrain(): Entered")
-	OnObjectDamage(
-		function( object, damager )
+	print("ME5_MiscFunctions.fEvgJugPowerDrain(): Entered")
+	
+	local enemydamage = OnObjectDamage(
+		function(object, damager)
 			--local dmgrPtr = GetEntityPtr(GetCharacterUnit(damager))
 			--print(object)
 			--print(damager)
@@ -1089,30 +1387,35 @@ function fEvgJugPowerDrain()
 					
 					-- make it so shields can be extracted only from enemies
 					if GetObjectTeam(object) ~= GetObjectTeam(charPtr) then
-							print("fEvgJugPowerDrain: Object team is CIS")
-						local curShields = GetObjectShield(charPtr)	-- get the Juggernaut's current shields
-						local addShields = 50	-- amount of shields to add
-						local maxShields = 1140	-- Juggernaut's MaxShield value in its ODF
-							print("fEvgJugPowerDrain: Unit's current shields: "..curShields)
+						print("fEvgJugPowerDrain: Object team is CIS")
 						
-						-- only regenerate if the current shields are less than the max shields
+						-- Get the Juggernaut's current shields
+						local curShields = GetObjectShield(charPtr)
+						local addShields = 50	-- Amount of shields to add
+						local maxShields = 1140	-- Juggernaut's MaxShield value in its ODF
+						
+						print("fEvgJugPowerDrain: Unit's current shields: "..curShields)
+						
+						-- Only regenerate if the current shields are less than the max shields
 						if curShields < maxShields then
-							local newShields = curShields + addShields	-- find out the Juggernaut's final total shields value
+							-- Calculate the Juggernaut's final total shields value
+							local newShields = curShields + addShields
 							
-							SetProperty( charPtr, "CurShield", newShields )	-- apply the shields change
-								print("fEvgJugPowerDrain: Unit's new shields: "..newShields)
+							-- Apply the shields change
+							SetProperty( charPtr, "CurShield", newShields )
+							print("fEvgJugPowerDrain: Unit's new shields: "..newShields)
 							
-							-- error-handling: if the Juggernaut's current shields are over the limit
+							-- Are the Juggernaut's current shields over the limit?
 							if newShields > maxShields then
 									print("fEvgJugPowerDrain: Unit's shields are over the MaxShield limit at "..newShields.."... Resetting to "..maxShields)
 								SetProperty( charPtr, "CurShield", maxShields )	-- reset the Juggernaut's shields to its maximum value
-							else end
-						else end
+							end
+						end
 					else
 						print("fEvgJugPowerDrain: Object team is not CIS")
 					end
-				else end
-			--else end
+				end
+			--end
 		end
 	)
 end
@@ -1121,6 +1424,7 @@ end
 -- Interaction logic function.
 -- This function contains all of the event responses and logic pertaining to the player's Interact weapon in campaigns.
 -- @param #object object The object hit by the player's Interact weapon.
+-- 
 function DoInteraction(object)
 		print("ME5_MiscFunctions.DoInteraction(): Entered")
 	
@@ -1135,6 +1439,7 @@ end
 ---
 -- Interaction weapon function.
 -- This function contains the event triggers for the player's Interact weapon in campaigns.
+-- 
 function InteractWeapon()
 		print("ME5_MiscFunctions.InteractWeapon(): Entered")
 	

@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
--- Version 30318/06
+-- Version 30325/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Mar 18, 2016
+-- Mar 25, 2016
 -- Copyright (c) 2016 A. Gilbert.
 -- 
 -- About this script: The purpose of script is to load configuration
@@ -156,6 +156,23 @@ elseif ScriptCB_IsFileExist(path.."cfg_ShieldFunc_1") == 1 then
 else
 		print("ME5_ConfigCheck: Error! ME5_ShieldFunc flag not found or invalid! Defaulting to AUTO-REGEN")
 	ME5_ShieldFunc = 1
+end
+
+
+-- ======================
+--  DEFERRED SHIELD REGENERATION
+-- ======================
+if ScriptCB_IsFileExist(path.."cfg_ShieldRegen_0") == 1 then
+		print("ME5_ConfigCheck: Deferred Shield Regeneration is DISABLED")
+	ME5_ShieldRegen = 0
+	
+elseif ScriptCB_IsFileExist(path.."cfg_ShieldRegen_1") == 1 then
+		print("ME5_ConfigCheck: Deferred Shield Regeneration is ENABLED")
+	ME5_ShieldRegen = 1
+	
+else
+		print("ME5_ConfigCheck: Error! ME5_ShieldRegen flag not found or invalid! Defaulting to ENABLED")
+	ME5_ShieldRegen = 1
 end
 
 

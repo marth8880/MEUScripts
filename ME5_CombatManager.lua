@@ -75,14 +75,9 @@
 WaveSequence = {
     -- Fields that need to be specified on creation
     
-    
-    -- Requisitional fields
-    waveToStopTiming = nil, 		-- The wave index to switch from timer-based spawning to killcount-based.mm
-    
     -- Optional fields
     
     -- Fields that are handled internally
-    bIsTimerSpawnActive = false, 	-- Whether or not the spawning is currently timer-based.
     currentWave = 1,				-- The current wave.
 	enemiesRemaining = 0,			-- The number of enemies still alive.
 	numKilled = 0,					-- The number of enemies killed in the wave.
@@ -118,7 +113,7 @@ end
 
 
 ---
--- Insert a new waveLayer and add the wave to it
+-- Insert a new waveLayer and add the wave to it.
 --
 function WaveSequence:AddWave(...)
 	self.waveSets = self.waveSets or {}
@@ -131,7 +126,7 @@ function WaveSequence:AddWave(...)
 end
 
 ---
--- Activates the first wave
+-- Activates the first wave.
 --
 function WaveSequence:Start(combatZoneID, musicID)
 	print("EURn_c.StartCombatZone(): Starting combat zone "..zoneID)
@@ -147,178 +142,7 @@ function WaveSequence:Start(combatZoneID, musicID)
 	end
 	
 	
-		print("EURn_c.StartCombatZone(\""..combatZoneID.."\", \""..combatMusicID.."\"): Entered")
-		
-	local zoneID = combatZoneID
-	--local spawnPathName = enemySpawnPathName
-	local musicID = combatMusicID
 	
-	-- debug text
-	ShowMessageText("level.EUR.debug.comzone_entered", REP)
-	ShowMessageText("level.EUR.debug.comzone_spawning", REP)
-	
-	bIsTimerSpawnActive = false
-	waveToStopTiming = 3
-	
-	
-	-- Reset the total enemy counter
-	totalEnemies = 0
-	
-	-- Reset the number of waves for this combat zone
-	totalWaves = 0
-	
-	
-	-- Count the total number of enemies and store it
-	for i in pairs(spawnClasses) do
-		-- Which wave are we looking at?
-		totalWaves = totalWaves + 1
-		
-		-- Count the total number of enemies for OnObjectKill in the future
-		totalEnemies = totalEnemies + spawnClasses[i]['numDudes']
-		
-		-- Print the results
-		print("EURn_c.StartCombatZone(): table values:", spawnClasses[i]['team'], spawnClasses[i]['numDudes'])
-	end
-	
-	print("EURn_c.StartCombatZone(): totalEnemies:", totalEnemies)
-	
-	
-	-- Set enemiesRemaining to keep track of the remaining enemies
-	enemiesRemaining = totalEnemies
-	print("EURn_c.StartCombatZone(): enemiesRemaining:", enemiesRemaining)
-	
-	-- Set the AI goals
-	ClearAIGoals(GethPawns)
-	ClearAIGoals(GethTacticals)
-	ClearAIGoals(GethSpecials)
-	ClearAIGoals(GethHeavys)
-	ClearAIGoals(GethPrimes)
-	
-	AddAIGoal(GethPawns, "Deathmatch", 20)
-	--AddAIGoal(GethPawns, "Destroy", 100, 0)
-	
-	AddAIGoal(GethTacticals, "Deathmatch", 20)
-	AddAIGoal(GethTacticals, "Destroy", 100, 0)
-	
-	AddAIGoal(GethSpecials, "Deathmatch", 20)
-	--AddAIGoal(GethSpecials, "Destroy", 100, 0)
-	
-	AddAIGoal(GethHeavys, "Deathmatch", 20)
-	--AddAIGoal(GethHeavys, "Destroy", 100, 0)
-	
-	AddAIGoal(GethPrimes, "Destroy", 100, 0)
-	
-	-- Are we starting with a timer spawn?
-	if bIsTimerSpawnActive == true then
-		-- Set and start the timer
-		SetTimerValue(spawnDelayTimer, spawnClasses[currentWave]['spawnValue'])
-		StartTimer(spawnDelayTimer)
-	end
-	
-	-- Start playing combat music
-	ScriptCB_PlayInGameMusic(musicID)
-	
-	print("EURn_c.StartCombatZone(): Spawning "..spawnClasses[currentWave]['numDudes'].." enemies from team "..spawnClasses[currentWave]['team'].." at spawnPath:", spawnClasses[currentWave]['spawnPath'])
-	Ambush(spawnClasses[currentWave]['spawnPath'], spawnClasses[currentWave]['numDudes'], spawnClasses[currentWave]['team'])
-	
-	
-	
-	killCount = 0
-	numEnemiesAlive = 0
-	
-	-- Spawn delay timer
-	OnTimerElapse(
-		function(timer)
-			-- Are there any enemies remaining?
-			if enemiesRemaining > 0 then
-				if currentWave < (totalWaves + 1) then
-					--print("EURn_c.StartCombatZone(): Running SpawnNextWave("..spawnClasses[currentWave]['spawnPath']..")")
-					-- Spawn the next wave of enemies
-					SpawnNextWave()
-					
-					-- Is the spawn timer active?
-					if bIsTimerSpawnActive == true then
-						SetTimerValue(spawnDelayTimer, spawnClasses[currentWave]['spawnValue'])
-						StartTimer(spawnDelayTimer)
-					end
-				else
-					StopTimer(spawnDelayTimer)
-				end
-			end
-		end,
-	spawnDelayTimer
-	)
-	
-	CombatZoneEnemyKill = OnObjectKill(
-	function(object, killer)
-	
-		numEnemiesAlive = GetNumTeamMembersAliveInTable(enemyTeams)
-		
-		print("EURn_c.StartCombatZone(): numEnemiesAlive: "..numEnemiesAlive, "currentWave: "..currentWave, "totalWaves: "..totalWaves)
-    		
-		-- Are all the enemies gone?
-		if (numEnemiesAlive == 0) and (currentWave >= totalWaves) then
-			print("EURn_c.StartCombatZone(): Combat zone cleared")
-			ShowMessageText("level.EUR.debug.comzone_done", REP)
-			
-			-- Finish up the combat zone
-			ReleaseCombatZone(zoneID)
-			
-			-- Garbage collection
-			ReleaseObjectKill(CombatZoneEnemyKill)
-			CombatZoneEnemyKill = nil
-		return end
-		
-		-- Was the killed object an enemy unit?
-    	if killer and ((GetObjectTeam(object) == GethPawns) or (GetObjectTeam(object) == GethTacticals) or (GetObjectTeam(object) == GethHeavys) or (GetObjectTeam(object) == GethSpecials) or (GetObjectTeam(object) == GethPrimes)) then
-    		ShowMessageText("level.EUR.debug.comzone_kill", REP)
-    		
-    		enemiesRemaining = enemiesRemaining - 1
-    		numKilled = numKilled + 1
-    		killCount = killCount + 1
-    		print("EURn_c.StartCombatZone(): enemiesRemaining:", enemiesRemaining)
-    		print("EURn_c.StartCombatZone(): numKilled:", numKilled)
-    		print("EURn_c.StartCombatZone(): killCount:", killCount)
-    		
-    		-- Killcount
-    		if bIsTimerSpawnActive == false then
-    			
-    			-- Are there any enemies remaining?
-    			if enemiesRemaining > 0 then
-					-- Are we still within the range of waves?
-					if currentWave < (totalWaves + 1) then
-						-- Is the # enemies killed the same as 
-			    		if numKilled == spawnClasses[currentWave]['spawnValue'] then
-			    			--print("EURn_c.StartCombatZone().Killcount: Running SpawnNextWave("..spawnPathName..")")
-			    			
-							-- Spawn the next wave of enemies
-							SpawnNextWave()
-						end
-					end
-				end
-			
-			-- Timer
-			else
-    			-- Are there any enemies remaining?
-    			if enemiesRemaining > 0 then
-					-- Are we still within the range of waves?
-					if currentWave < (totalWaves + 1) then
-		    			--print("EURn_c.StartCombatZone().Timer: Running SpawnNextWave("..spawnPathName..")")
-		    			
-						-- Spawn the next wave of enemies
-						SpawnNextWave()
-						
-						SetTimerValue(spawnDelayTimer, spawnClasses[currentWave]['spawnValue'])
-						StartTimer(spawnDelayTimer)
-					else
-						StopTimer(spawnDelayTimer)
-					end
-				end
-			end
-			
-    	end
-	end
-	)
 
 	-- Activate the first shot
 	self:ActivateWaveSet(1)

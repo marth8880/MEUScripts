@@ -97,8 +97,7 @@ CombatWave =
     -- Fields that need to be specified on creation
     team = nil, 					-- The team to spawn enemies from.
     numDudes = nil, 				-- Must be greater than 0. Number of enemies to spawn from team.
-    spawnValue = nil, 				-- Must be greater than 0. If bIsTimerSpawnActive, this is the timer value to input to the timer that spawns the 
-    								--  next wave. If not bIsTimerSpawnActive, this is the required number of dead enemies to trigger the next wave.
+    spawnValue = nil, 				-- Must be greater than 0. The required number of dead enemies to trigger the next wave.
     spawnPath = nil, 				-- The name of the path to spawn the wave at.
     
     -- Optional fields
@@ -154,70 +153,16 @@ function CombatWave:Start()
 	self.numDudes = self.numDudes or 3
 	self.spawnValue = self.spawnValue or 3
 	
-	
-    -- Get or create a new shotDurationTimer (this ensures there's only one "shotDurationTimer" in the game at one time)
-    self.shotDurationTimer = FindTimer("shotDurationTimer")
-    if not self.shotDurationTimer then
-        self.shotDurationTimer = CreateTimer("shotDurationTimer")
-    end
     
-    -- Start ticking down the time
-    SetTimerValue(self.shotDurationTimer, self.shotDuration)
-    StartTimer(self.shotDurationTimer)
-    
-    -- Are we supposed to show the shot duration timer?
-    if bDebugShowTimer == true then
-    	ShowTimer(self.shotDurationTimer)
-    end
-	
-	-- Is the zoom FOV set? If so, set up the zoomTimer
-	if self.zoomFOV > 0 then
-	    -- Create a new zoomTimer 
-        self.zoomTimer = CreateTimer("zoomTimer")
-	    
-	    -- Start ticking down the time
-	    SetTimerValue(self.zoomTimer, self.zoomTime)
-	    StartTimer(self.zoomTimer)
-	end
-	
-	-- Set the initial field of view
-	self:ZoomCamera(self.startFOV)
-    
-    -- Switch to the shot's camera
-    self:EnterCamera(self.cameraObj)
+    -- Spawn the enemies
+    print("ME5_CombatWave.CombatWave:Start(): Spawning "..self.numDudes.." enemies from team "..self.team.." at "..self.spawnPath)
+    Ambush(self.spawnPath, self.numDudes, self.team)
     
     --=================================
     -- Event Responses
     --=================================
-	
-    -- If we have a shotDurationTimer, end the current shot when it runs out
-    if self.shotDurationTimer then
-        OnTimerElapse(
-            function(timer)
-                if self.isComplete then
-                    return
-                end
-                
-				self:Complete()
-            end,
-            self.shotDurationTimer
-        )
-    end
-	
-    -- If we have a zoomTimer, set the camera's field of view when it runs out
-    if self.zoomTimer then
-        local zoomTimerElapse = OnTimerElapse(
-            function(timer)
-				self:ZoomCamera(self.zoomFOV)
-				
-				-- Garbage collection
-				DestroyTimer(self.zoomTimer)
-				ReleaseTimerElapse(zoomTimerElapse)
-				zoomTimerElapse = nil
-            end,
-            self.zoomTimer
-        )
-    end
+    
+    
     
     -- Callback for overriding startup behavior
     self:OnStart()
@@ -239,21 +184,9 @@ function CombatWave:Complete()
     if self.isComplete then return end
     
     self.isComplete = true
-    
-    if self.shotDurationTimer then
-		ShowTimer(nil)
-		DestroyTimer(self.shotDurationTimer)
-		self.shotDurationTimer = nil
-    end
-    
-    -- Exit from the camera (not actually necessary during mid-chain shots if the shot's in a container, but required for end)
-    self:ExitCamera()
 			
 	if self.container then
 		self.container:NotifyWaveComplete(self)
-	else
-		-- Put the player back into a safe space once the scene ends
-		SetEntityMatrix(GetCharacterUnit(0), GetPathPoint(self.pathName, self.pathNode))
 	end
 	
 	self:OnComplete()

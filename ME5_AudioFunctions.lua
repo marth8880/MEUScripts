@@ -905,6 +905,7 @@ function SoundFX()
 	ScaleSoundParameter("weapons_distant",	"Gain", 0.82)
 	ScaleSoundParameter("weapons_sniper",	"Gain", 1.0)
 	ScaleSoundParameter("unit_weapon",	"Gain", 0.8)
+	ScaleSoundParameter("unit_stats",	"Gain", 1.0)
 	ScaleSoundParameter("Ordnance",	"Gain", 0.84)
 	ScaleSoundParameter("Ordnance_large",	"Gain", 1.0)
 	ScaleSoundParameter("Ordnance_grenade",	"Gain", 0.8)
@@ -939,10 +940,10 @@ function SoundFX()
 		ScaleSoundParameter("gth_vo_slow",	"Gain", 0.0)
 		ScaleSoundParameter("col_vo_slow",	"Gain", 0.0)
 		ScaleSoundParameter("evg_vo_slow",	"Gain", 0.0)
-	else end
+	end
 	if ME5_KillSound == 1 then
 		ScaleSoundParameter("objectives_killsound",	"Gain", 0.5)
-	else end
+	end
 	
 	SetSoundEffect("ScopeDisplayAmbient",  "me5_sniper_scope_ambient")
     SetSoundEffect("ScopeDisplayZoomIn",  "me5_sniper_scope_zoomin")

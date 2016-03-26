@@ -39,7 +39,6 @@ GethPrimes = 7	-- Team for the Geth Primes.
 ATT = 1
 DEF = 2
 
--- TODO: Set playerLives to a finite value!
 local playerLives = 10	-- The amount of lives the player has. A value of -1 denotes infinite lives.
 
 local playerMaxHealth = nil	-- The player's max health for their current class.
@@ -1238,7 +1237,7 @@ function StartCombatZone(combatZoneID, combatMusicID)
 				ReleaseCombatZone(zoneID)
 				
 				-- Garbage collection
-				ReleaseCharacterDeath(CombatZoneEnemyKill)
+				ReleaseObjectKill(CombatZoneEnemyKill)
 				CombatZoneEnemyKill = nil
 			return end
 			
@@ -3690,9 +3689,10 @@ function ScriptInit()
 	LoadSSV(true)
 	LoadGTH()
 	
-	-- Player classes
 	
 	SetupTeams{
+		-- Player classes
+		
 		rep = {
 			team = REP,
 			units = 1,
