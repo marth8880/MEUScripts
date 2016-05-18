@@ -16,6 +16,8 @@ ScriptCB_DoFile("ME5_ObjectiveConquest")
 ScriptCB_DoFile("ME5_ObjectiveGoto")
 ScriptCB_DoFile("ME5_CinematicContainer")
 ScriptCB_DoFile("ME5_CameraFunctions")
+ScriptCB_DoFile("ME5_CombatManager")
+--ScriptCB_DoFile("ME5_CombatWave")
 --ScriptCB_DoFile("ME5_CinematicOverlayIFS")
 ScriptCB_DoFile("Ambush")
 
@@ -55,6 +57,12 @@ local bossDefenseBuff = nil		-- The multiplier for the final boss.
 local squadAggro = nil		-- The aggressiveness of the player's squad.
 local enemyAggro = nil		-- The aggressiveness of the enemy units.
 local bossAggro = nil		-- The aggressiveness of the final boss.
+
+local bInCombat = false		-- Is the player currently in combat?
+
+local camShakeObjCount = 0			-- How many camshake objects have been spawned?
+local camShakeCharUnit = nil		-- The player character unit.
+
 
 -- CASUAL
 if ME5_Difficulty == 1 then
@@ -644,12 +652,16 @@ function SetupCombatZoneInit(combatZoneID)
 	
 	if zoneID == "S0_Hangar" then
 		
-		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		Wave_1 = CombatWave:New{ team = GethPawns,	numDudes = 2, spawnValue = 2, spawnPath = "es_s0_hangar" }
+		Wave_2 = CombatWave:New{ team = GethPawns,	numDudes = 2, spawnValue = 2, spawnPath = "es_s0_hangar" }
+		Wave_3 = CombatWave:New{ team = GethPawns,	numDudes = 2, spawnValue = 2, spawnPath = "es_s0_hangar" }
 		
-		spawnClasses[1] = {team = GethPawns,	numDudes = 2,	spawnValue = 2, spawnPath = "es_s0_hangar"}
-		spawnClasses[2] = {team = GethPawns,	numDudes = 2, 	spawnValue = 2, spawnPath = "es_s0_hangar"}
-		spawnClasses[3] = {team = GethPawns,	numDudes = 2, 	spawnValue = 2, spawnPath = "es_s0_hangar"}
+		CombatSequence = WaveSequence:New{ bDebugWaves = true }
+		CombatSequence:AddWave(Wave_1)
+		CombatSequence:AddWave(Wave_2)
+		CombatSequence:AddWave(Wave_3)
+		CombatSequence:Start()
+		
 		
 		BlockCombatZoneExits(0)
 		
@@ -657,13 +669,18 @@ function SetupCombatZoneInit(combatZoneID)
 		
 	elseif zoneID == "S0_CargoBay" then
 		
-		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		Wave_1 = CombatWave:New{ team = GethPawns,	numDudes = 4, spawnValue = 2, spawnPath = "es_s0_cargo" }
+		Wave_2 = CombatWave:New{ team = GethPawns,	numDudes = 3, spawnValue = 3, spawnPath = "es_s0_cargo" }
+		Wave_3 = CombatWave:New{ team = GethPawns,	numDudes = 3, spawnValue = 3, spawnPath = "es_s0_cargo" }
+		Wave_4 = CombatWave:New{ team = GethPawns,	numDudes = 3, spawnValue = 3, spawnPath = "es_s0_cargo" }
 		
-		spawnClasses[1] = {team = GethPawns,	numDudes = 4, 	spawnValue = 2, spawnPath = "es_s0_cargo"}
-		spawnClasses[2] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_cargo"}
-		spawnClasses[3] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_cargo"}
-		spawnClasses[4] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_cargo"}
+		CombatSequence = WaveSequence:New{ bDebugWaves = true }
+		CombatSequence:AddWave(Wave_1)
+		CombatSequence:AddWave(Wave_2)
+		CombatSequence:AddWave(Wave_3)
+		CombatSequence:AddWave(Wave_4)
+		CombatSequence:Start()
+		
 		
 		BlockCombatZoneExits(0)
 		
@@ -672,14 +689,20 @@ function SetupCombatZoneInit(combatZoneID)
 		
 	elseif zoneID == "S0_Reception" then
 		
-		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		Wave_1 = CombatWave:New{ team = GethPawns,	numDudes = 4, spawnValue = 2, spawnPath = "es_s0_reception" }
+		Wave_2 = CombatWave:New{ team = GethPawns,	numDudes = 3, spawnValue = 3, spawnPath = "es_s0_reception" }
+		Wave_3 = CombatWave:New{ team = GethPawns,	numDudes = 3, spawnValue = 3, spawnPath = "es_s0_reception" }
+		Wave_4 = CombatWave:New{ team = GethPawns,	numDudes = 3, spawnValue = 3, spawnPath = "es_s0_reception" }
+		Wave_5 = CombatWave:New{ team = GethPawns,	numDudes = 3, spawnValue = 3, spawnPath = "es_s0_reception" }
 		
-		spawnClasses[1] = {team = GethPawns,	numDudes = 4,	spawnValue = 2, spawnPath = "es_s0_reception"}
-		spawnClasses[2] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_reception"}
-		spawnClasses[3] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_reception"}
-		spawnClasses[4] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_reception"}
-		spawnClasses[5] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_reception"}
+		CombatSequence = WaveSequence:New{ bDebugWaves = true }
+		CombatSequence:AddWave(Wave_1)
+		CombatSequence:AddWave(Wave_2)
+		CombatSequence:AddWave(Wave_3)
+		CombatSequence:AddWave(Wave_4)
+		CombatSequence:AddWave(Wave_5)
+		CombatSequence:Start()
+		
 		
 		BlockCombatZoneExits(0)
 		
@@ -688,15 +711,20 @@ function SetupCombatZoneInit(combatZoneID)
 		
 	elseif zoneID == "S0_Management" then
 		
-		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		Wave_1 = CombatWave:New{ team = GethPawns,		numDudes = 4, spawnValue = 2, spawnPath = "es_s0_management_1" }
+		Wave_2 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s0_management_1" }
+		Wave_3 = CombatWave:New{ team = GethTacticals,	numDudes = 3, spawnValue = 3, spawnPath = "es_s0_management_2" }
+		Wave_4 = CombatWave:New{ team = GethPawns,		numDudes = 2, spawnValue = 2, spawnPath = "es_s0_management_1" }
+		Wave_5 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s0_management_2" }
 		
-		spawnClasses[1] = {team = GethPawns,	numDudes = 4,	spawnValue = 2, spawnPath = "es_s0_management_1"}
-		spawnClasses[2] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_management_1"}
-		spawnClasses[3] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_management_2"}
-		spawnClasses[4] = {team = GethTacticals,numDudes = 2, 	spawnValue = 2, spawnPath = "es_s0_management_1"}
-		spawnClasses[5] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_management_2"}
-		spawnClasses[6] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_management_1"}
+		CombatSequence = WaveSequence:New{ bDebugWaves = true }
+		CombatSequence:AddWave(Wave_1)
+		CombatSequence:AddWave(Wave_2)
+		CombatSequence:AddWave(Wave_3)
+		CombatSequence:AddWave(Wave_4)
+		CombatSequence:AddWave(Wave_5)
+		CombatSequence:Start()
+		
 		
 		BlockCombatZoneExits(0)
 		
@@ -705,15 +733,20 @@ function SetupCombatZoneInit(combatZoneID)
 		
 	elseif zoneID == "S0_PowerControl" then
 		
-		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		Wave_1 = CombatWave:New{ team = GethPawns,		numDudes = 6, spawnValue = 3, spawnPath = "es_s0_power" }
+		Wave_2 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s0_power" }
+		Wave_3 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s0_power" }
+		Wave_4 = CombatWave:New{ team = GethTacticals,	numDudes = 3, spawnValue = 3, spawnPath = "es_s0_power" }
+		Wave_5 = CombatWave:New{ team = GethPawns,		numDudes = 2, spawnValue = 3, spawnPath = "es_s0_power" }
 		
-		spawnClasses[1] = {team = GethPawns,	numDudes = 6,	spawnValue = 3, spawnPath = "es_s0_power"}
-		spawnClasses[2] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_power"}
-		spawnClasses[3] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_power"}
-		spawnClasses[4] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_power"}
-		spawnClasses[5] = {team = GethTacticals,numDudes = 2, 	spawnValue = 3, spawnPath = "es_s0_power"}
-		spawnClasses[6] = {team = GethPawns,	numDudes = 2, 	spawnValue = 3, spawnPath = "es_s0_power"}
+		CombatSequence = WaveSequence:New{ bDebugWaves = true }
+		CombatSequence:AddWave(Wave_1)
+		CombatSequence:AddWave(Wave_2)
+		CombatSequence:AddWave(Wave_3)
+		CombatSequence:AddWave(Wave_4)
+		CombatSequence:AddWave(Wave_5)
+		CombatSequence:Start()
+		
 		
 		BlockCombatZoneExits(0)
 		
@@ -722,16 +755,22 @@ function SetupCombatZoneInit(combatZoneID)
 		
 	elseif zoneID == "S0_CommsControl" then
 		
-		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		Wave_1 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s0_comms" }
+		Wave_2 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s0_comms" }
+		Wave_3 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s0_comms" }
+		Wave_4 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s0_comms" }
+		Wave_5 = CombatWave:New{ team = GethTacticals,	numDudes = 3, spawnValue = 3, spawnPath = "es_s0_comms" }
+		Wave_6 = CombatWave:New{ team = GethPawns,		numDudes = 2, spawnValue = 2, spawnPath = "es_s0_comms" }
 		
-		spawnClasses[1] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_comms"}
-		spawnClasses[2] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_comms"}
-		spawnClasses[3] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_comms"}
-		spawnClasses[4] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_comms"}
-		spawnClasses[5] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s0_comms"}
-		spawnClasses[6] = {team = GethPawns,	numDudes = 2, 	spawnValue = 2, spawnPath = "es_s0_comms"}
-		spawnClasses[7] = {team = GethSpecials,	numDudes = 4, 	spawnValue = 3, spawnPath = "es_s0_comms"}
+		CombatSequence = WaveSequence:New{ bDebugWaves = true }
+		CombatSequence:AddWave(Wave_1)
+		CombatSequence:AddWave(Wave_2)
+		CombatSequence:AddWave(Wave_3)
+		CombatSequence:AddWave(Wave_4)
+		CombatSequence:AddWave(Wave_5)
+		CombatSequence:AddWave(Wave_6)
+		CombatSequence:Start()
+		
 		
 		BlockCombatZoneExits(0)
 		
@@ -740,17 +779,24 @@ function SetupCombatZoneInit(combatZoneID)
 		
 	elseif zoneID == "S1_MainAtrium" then
 		
-		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		Wave_1 = CombatWave:New{ team = GethPawns,		numDudes = 5, spawnValue = 2, spawnPath = "es_s1_atrium" }
+		Wave_2 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s1_atrium" }
+		Wave_3 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s1_atrium" }
+		Wave_4 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s1_atrium" }
+		Wave_5 = CombatWave:New{ team = GethTacticals,	numDudes = 3, spawnValue = 3, spawnPath = "es_s1_atrium" }
+		Wave_6 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s1_atrium" }
+		Wave_7 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s1_atrium" }
 		
-		spawnClasses[1] = {team = GethPawns,	numDudes = 5, 	spawnValue = 2, spawnPath = "es_s1_atrium"}
-		spawnClasses[2] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_atrium"}
-		spawnClasses[3] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_atrium"}
-		spawnClasses[4] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_atrium"}
-		spawnClasses[5] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_atrium"}
-		spawnClasses[6] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_atrium"}
-		spawnClasses[7] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_atrium"}
-		spawnClasses[8] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_atrium"}
+		CombatSequence = WaveSequence:New{ bDebugWaves = true }
+		CombatSequence:AddWave(Wave_1)
+		CombatSequence:AddWave(Wave_2)
+		CombatSequence:AddWave(Wave_3)
+		CombatSequence:AddWave(Wave_4)
+		CombatSequence:AddWave(Wave_5)
+		CombatSequence:AddWave(Wave_6)
+		CombatSequence:AddWave(Wave_7)
+		CombatSequence:Start()
+		
 		
 		BlockCombatZoneExits(1)
 		
@@ -759,19 +805,28 @@ function SetupCombatZoneInit(combatZoneID)
 		
 	elseif zoneID == "S1_MarineLifeLab" then
 		
-		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		Wave_1 = CombatWave:New{ team = GethPawns,		numDudes = 5, spawnValue = 2, spawnPath = "es_s1_biolab_1" }
+		Wave_2 = CombatWave:New{ team = GethPawns,		numDudes = 4, spawnValue = 2, spawnPath = "es_s1_biolab_1" }
+		Wave_3 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s1_biolab_1" }
+		Wave_4 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s1_biolab_1" }
+		Wave_5 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s1_biolab_1" }
+		Wave_6 = CombatWave:New{ team = GethTacticals,	numDudes = 3, spawnValue = 3, spawnPath = "es_s1_biolab_2" }
+		Wave_7 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s1_biolab_1" }
+		Wave_8 = CombatWave:New{ team = GethTacticals,	numDudes = 3, spawnValue = 3, spawnPath = "es_s1_biolab_2" }
+		Wave_9 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s1_biolab_1" }
 		
-		spawnClasses[1] = {team = GethPawns,	numDudes = 5, 	spawnValue = 2, spawnPath = "es_s1_biolab_1"}
-		spawnClasses[2] = {team = GethPawns,	numDudes = 4, 	spawnValue = 2, spawnPath = "es_s1_biolab_1"}
-		spawnClasses[3] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_biolab_1"}
-		spawnClasses[4] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_biolab_1"}
-		spawnClasses[5] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_biolab_1"}
-		spawnClasses[6] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_biolab_2"}
-		spawnClasses[7] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_biolab_1"}
-		spawnClasses[8] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_biolab_2"}
-		spawnClasses[9] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_biolab_1"}
-		spawnClasses[10] = {team = GethSpecials,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_biolab_2"}
+		CombatSequence = WaveSequence:New{ bDebugWaves = true }
+		CombatSequence:AddWave(Wave_1)
+		CombatSequence:AddWave(Wave_2)
+		CombatSequence:AddWave(Wave_3)
+		CombatSequence:AddWave(Wave_4)
+		CombatSequence:AddWave(Wave_5)
+		CombatSequence:AddWave(Wave_6)
+		CombatSequence:AddWave(Wave_7)
+		CombatSequence:AddWave(Wave_8)
+		CombatSequence:AddWave(Wave_9)
+		CombatSequence:Start()
+		
 		
 		BlockCombatZoneExits(1)
 		
@@ -780,18 +835,24 @@ function SetupCombatZoneInit(combatZoneID)
 		
 	elseif zoneID == "S1_IceSamplesLab" then
 		
-		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		Wave_1 = CombatWave:New{ team = GethPawns,		numDudes = 4, spawnValue = 2, spawnPath = "es_s1_icelab" }
+		Wave_2 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s1_icelab" }
+		Wave_3 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s1_icelab" }
+		Wave_4 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s1_icelab" }
+		Wave_5 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s1_icelab" }
+		Wave_6 = CombatWave:New{ team = GethTacticals,	numDudes = 3, spawnValue = 3, spawnPath = "es_s1_icelab" }
+		Wave_7 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s1_icelab" }
 		
-		spawnClasses[1] = {team = GethPawns,	numDudes = 4, 	spawnValue = 2, spawnPath = "es_s1_icelab"}
-		spawnClasses[2] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_icelab"}
-		spawnClasses[3] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_icelab"}
-		spawnClasses[4] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_icelab"}
-		spawnClasses[5] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_icelab"}
-		spawnClasses[6] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_icelab"}
-		spawnClasses[7] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_icelab"}
-		spawnClasses[8] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_icelab"}
-		spawnClasses[9] = {team = GethSpecials,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s1_icelab"}
+		CombatSequence = WaveSequence:New{ bDebugWaves = true }
+		CombatSequence:AddWave(Wave_1)
+		CombatSequence:AddWave(Wave_2)
+		CombatSequence:AddWave(Wave_3)
+		CombatSequence:AddWave(Wave_4)
+		CombatSequence:AddWave(Wave_5)
+		CombatSequence:AddWave(Wave_6)
+		CombatSequence:AddWave(Wave_7)
+		CombatSequence:Start()
+		
 		
 		BlockCombatZoneExits(1)
 		
@@ -800,20 +861,28 @@ function SetupCombatZoneInit(combatZoneID)
 		
 	elseif zoneID == "S3_MainAtrium" then
 		
-		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		Wave_1 = CombatWave:New{ team = GethPawns,		numDudes = 5, spawnValue = 3, spawnPath = "es_s3_atrium_1" }
+		Wave_2 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 2, spawnPath = "es_s3_atrium_1" }
+		Wave_3 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s3_atrium_1" }
+		Wave_4 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s3_atrium_1" }
+		Wave_5 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s3_atrium_2" }
+		Wave_6 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s3_atrium_1" }
+		Wave_7 = CombatWave:New{ team = GethTacticals,	numDudes = 3, spawnValue = 3, spawnPath = "es_s3_atrium_2" }
+		Wave_8 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s3_atrium_1" }
+		Wave_9 = CombatWave:New{ team = GethHeavys,		numDudes = 3, spawnValue = 3, spawnPath = "es_s3_atrium_1" }
 		
-		spawnClasses[1] = {team = GethPawns,	numDudes = 5, 	spawnValue = 3, spawnPath = "es_s3_atrium_1"}
-		spawnClasses[2] = {team = GethPawns,	numDudes = 3, 	spawnValue = 2, spawnPath = "es_s3_atrium_1"}
-		spawnClasses[3] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s3_atrium_1"}
-		spawnClasses[4] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s3_atrium_1"}
-		spawnClasses[5] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s3_atrium_1"}
-		spawnClasses[6] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s3_atrium_1"}
-		spawnClasses[7] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s3_atrium_2"}
-		spawnClasses[8] = {team = GethSpecials,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s3_atrium_1"}
-		spawnClasses[9] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s3_atrium_2"}
-		spawnClasses[10] = {team = GethSpecials,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s3_atrium_1"}
-		spawnClasses[11] = {team = GethHeavys,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s3_atrium_1"}
+		CombatSequence = WaveSequence:New{ bDebugWaves = true }
+		CombatSequence:AddWave(Wave_1)
+		CombatSequence:AddWave(Wave_2)
+		CombatSequence:AddWave(Wave_3)
+		CombatSequence:AddWave(Wave_4)
+		CombatSequence:AddWave(Wave_5)
+		CombatSequence:AddWave(Wave_6)
+		CombatSequence:AddWave(Wave_7)
+		CombatSequence:AddWave(Wave_8)
+		CombatSequence:AddWave(Wave_9)
+		CombatSequence:Start()
+		
 		
 		BlockCombatZoneExits(2)
 		
@@ -822,19 +891,26 @@ function SetupCombatZoneInit(combatZoneID)
 		
 	elseif zoneID == "S3_MarineLifeLab" then
 		
-		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		Wave_1 = CombatWave:New{ team = GethPawns,		numDudes = 4, spawnValue = 2, spawnPath = "es_s3_biolab_1" }
+		Wave_2 = CombatWave:New{ team = GethPawns,		numDudes = 4, spawnValue = 2, spawnPath = "es_s3_biolab_1" }
+		Wave_3 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s3_biolab_1" }
+		Wave_4 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s3_biolab_1" }
+		Wave_5 = CombatWave:New{ team = GethTacticals,	numDudes = 3, spawnValue = 3, spawnPath = "es_s3_biolab_2" }
+		Wave_6 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s3_biolab_1" }
+		Wave_7 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s3_biolab_1" }
+		Wave_8 = CombatWave:New{ team = GethHeavys,		numDudes = 3, spawnValue = 3, spawnPath = "es_s3_biolab_1" }
 		
-		spawnClasses[1] = {team = GethPawns,	numDudes = 4, 	spawnValue = 2, spawnPath = "es_s3_biolab_1"}
-		spawnClasses[2] = {team = GethPawns,	numDudes = 4, 	spawnValue = 2, spawnPath = "es_s3_biolab_1"}
-		spawnClasses[3] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s3_biolab_1"}
-		spawnClasses[4] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s3_biolab_1"}
-		spawnClasses[5] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s3_biolab_2"}
-		spawnClasses[6] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s3_biolab_1"}
-		spawnClasses[7] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s3_biolab_1"}
-		spawnClasses[8] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s3_biolab_2"}
-		spawnClasses[9] = {team = GethSpecials,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s3_biolab_1"}
-		spawnClasses[10] = {team = GethHeavys,	numDudes = 4, 	spawnValue = 3, spawnPath = "es_s3_biolab_1"}
+		CombatSequence = WaveSequence:New{ bDebugWaves = true }
+		CombatSequence:AddWave(Wave_1)
+		CombatSequence:AddWave(Wave_2)
+		CombatSequence:AddWave(Wave_3)
+		CombatSequence:AddWave(Wave_4)
+		CombatSequence:AddWave(Wave_5)
+		CombatSequence:AddWave(Wave_6)
+		CombatSequence:AddWave(Wave_7)
+		CombatSequence:AddWave(Wave_8)
+		CombatSequence:Start()
+		
 		
 		BlockCombatZoneExits(2)
 		
@@ -843,20 +919,26 @@ function SetupCombatZoneInit(combatZoneID)
 		
 	elseif zoneID == "S3_EnergyLab" then
 		
-		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		Wave_1 = CombatWave:New{ team = GethPawns,		numDudes = 4, spawnValue = 2, spawnPath = "es_s3_energylab_1" }
+		Wave_2 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s3_energylab_1" }
+		Wave_3 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s3_energylab_1" }
+		Wave_4 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s3_energylab_1" }
+		Wave_5 = CombatWave:New{ team = GethTacticals,	numDudes = 3, spawnValue = 3, spawnPath = "es_s3_energylab_2" }
+		Wave_6 = CombatWave:New{ team = GethTacticals,	numDudes = 3, spawnValue = 3, spawnPath = "es_s3_energylab_2" }
+		Wave_7 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s3_energylab_1" }
+		Wave_8 = CombatWave:New{ team = GethHeavys,		numDudes = 2, spawnValue = 3, spawnPath = "es_s3_energylab_2" }
 		
-		spawnClasses[1] = {team = GethPawns,	numDudes = 4, 	spawnValue = 2, spawnPath = "es_s3_energylab_1"}
-		spawnClasses[2] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s3_energylab_1"}
-		spawnClasses[3] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s3_energylab_1"}
-		spawnClasses[4] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s3_energylab_1"}
-		spawnClasses[5] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s3_energylab_2"}
-		spawnClasses[6] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s3_energylab_1"}
-		spawnClasses[7] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s3_energylab_1"}
-		spawnClasses[8] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s3_energylab_2"}
-		spawnClasses[9] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s3_energylab_1"}
-		spawnClasses[10] = {team = GethHeavys,	numDudes = 2, 	spawnValue = 3, spawnPath = "es_s3_energylab_1"}
-		spawnClasses[11] = {team = GethHeavys,	numDudes = 2, 	spawnValue = 3, spawnPath = "es_s3_energylab_2"}
+		CombatSequence = WaveSequence:New{ bDebugWaves = true }
+		CombatSequence:AddWave(Wave_1)
+		CombatSequence:AddWave(Wave_2)
+		CombatSequence:AddWave(Wave_3)
+		CombatSequence:AddWave(Wave_4)
+		CombatSequence:AddWave(Wave_5)
+		CombatSequence:AddWave(Wave_6)
+		CombatSequence:AddWave(Wave_7)
+		CombatSequence:AddWave(Wave_8)
+		CombatSequence:Start()
+		
 		
 		BlockCombatZoneExits(2)
 		
@@ -865,19 +947,26 @@ function SetupCombatZoneInit(combatZoneID)
 		
 	elseif zoneID == "S4_MainAtrium" then
 		
-		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		Wave_1 = CombatWave:New{ team = GethPawns,		numDudes = 4, spawnValue = 2, spawnPath = "es_s4_atrium_1" }
+		Wave_2 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s4_atrium_1" }
+		Wave_3 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s4_atrium_1" }
+		Wave_4 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s4_atrium_1" }
+		Wave_5 = CombatWave:New{ team = GethTacticals,	numDudes = 3, spawnValue = 3, spawnPath = "es_s4_atrium_1" }
+		Wave_6 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s4_atrium_1" }
+		Wave_7 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s4_atrium_1" }
+		Wave_8 = CombatWave:New{ team = GethHeavys,		numDudes = 2, spawnValue = 2, spawnPath = "es_s4_atrium_1" }
 		
-		spawnClasses[1] = {team = GethPawns,	numDudes = 4, 	spawnValue = 2, spawnPath = "es_s4_atrium_1"}
-		spawnClasses[2] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_atrium_1"}
-		spawnClasses[3] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_atrium_1"}
-		spawnClasses[4] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_atrium_1"}
-		spawnClasses[5] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_atrium_1"}
-		spawnClasses[6] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_atrium_1"}
-		spawnClasses[7] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_atrium_1"}
-		spawnClasses[8] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_atrium_1"}
-		spawnClasses[9] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_atrium_1"}
-		spawnClasses[10] = {team = GethHeavys,	numDudes = 2, 	spawnValue = 2, spawnPath = "es_s4_atrium_1"}
+		CombatSequence = WaveSequence:New{ bDebugWaves = true }
+		CombatSequence:AddWave(Wave_1)
+		CombatSequence:AddWave(Wave_2)
+		CombatSequence:AddWave(Wave_3)
+		CombatSequence:AddWave(Wave_4)
+		CombatSequence:AddWave(Wave_5)
+		CombatSequence:AddWave(Wave_6)
+		CombatSequence:AddWave(Wave_7)
+		CombatSequence:AddWave(Wave_8)
+		CombatSequence:Start()
+		
 		
 		BlockCombatZoneExits(3)
 		
@@ -886,19 +975,24 @@ function SetupCombatZoneInit(combatZoneID)
 		
 	elseif zoneID == "S4_SeismoLab" then
 		
-		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		Wave_1 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 2, spawnPath = "es_s4_seismolab_1" }
+		Wave_2 = CombatWave:New{ team = GethTacticals,	numDudes = 3, spawnValue = 3, spawnPath = "es_s4_seismolab_1" }
+		Wave_3 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s4_seismolab_1" }
+		Wave_4 = CombatWave:New{ team = GethTacticals,	numDudes = 3, spawnValue = 3, spawnPath = "es_s4_seismolab_1" }
+		Wave_5 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s4_seismolab_1" }
+		Wave_6 = CombatWave:New{ team = GethTacticals,	numDudes = 3, spawnValue = 3, spawnPath = "es_s4_seismolab_1" }
+		Wave_7 = CombatWave:New{ team = GethHeavys,		numDudes = 2, spawnValue = 2, spawnPath = "es_s4_seismolab_1" }
 		
-		spawnClasses[1] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 2, spawnPath = "es_s4_seismolab_1"}
-		spawnClasses[2] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_seismolab_1"}
-		spawnClasses[3] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_seismolab_1"}
-		spawnClasses[4] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_seismolab_1"}
-		spawnClasses[5] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_seismolab_1"}
-		spawnClasses[6] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_seismolab_1"}
-		spawnClasses[7] = {team = GethSpecials,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_seismolab_1"}
-		spawnClasses[8] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_seismolab_1"}
-		spawnClasses[9] = {team = GethSpecials,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_seismolab_1"}
-		spawnClasses[10] = {team = GethHeavys,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_seismolab_1"}
+		CombatSequence = WaveSequence:New{ bDebugWaves = true }
+		CombatSequence:AddWave(Wave_1)
+		CombatSequence:AddWave(Wave_2)
+		CombatSequence:AddWave(Wave_3)
+		CombatSequence:AddWave(Wave_4)
+		CombatSequence:AddWave(Wave_5)
+		CombatSequence:AddWave(Wave_6)
+		CombatSequence:AddWave(Wave_7)
+		CombatSequence:Start()
+		
 		
 		BlockCombatZoneExits(3)
 		
@@ -907,19 +1001,24 @@ function SetupCombatZoneInit(combatZoneID)
 		
 	elseif zoneID == "S4_GeoLab" then
 		
-		waveToStopTiming = 0	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		Wave_1 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s4_geolab_1" }
+		Wave_2 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s4_geolab_1" }
+		Wave_3 = CombatWave:New{ team = GethTacticals,	numDudes = 3, spawnValue = 3, spawnPath = "es_s4_geolab_1" }
+		Wave_4 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s4_geolab_1" }
+		Wave_5 = CombatWave:New{ team = GethTacticals,	numDudes = 3, spawnValue = 3, spawnPath = "es_s4_geolab_1" }
+		Wave_6 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s4_geolab_1" }
+		Wave_7 = CombatWave:New{ team = GethHeavys,		numDudes = 3, spawnValue = 3, spawnPath = "es_s4_geolab_1" }
 		
-		spawnClasses[1] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_geolab_1"}
-		spawnClasses[2] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_geolab_1"}
-		spawnClasses[3] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_geolab_1"}
-		spawnClasses[4] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_geolab_1"}
-		spawnClasses[5] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_geolab_1"}
-		spawnClasses[6] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_geolab_1"}
-		spawnClasses[7] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_geolab_1"}
-		spawnClasses[8] = {team = GethHeavys,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_geolab_1"}
-		spawnClasses[9] = {team = GethSpecials,	numDudes = 4, 	spawnValue = 3, spawnPath = "es_s4_geolab_1"}
-		spawnClasses[10] = {team = GethHeavys,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_geolab_1"}
+		CombatSequence = WaveSequence:New{ bDebugWaves = true }
+		CombatSequence:AddWave(Wave_1)
+		CombatSequence:AddWave(Wave_2)
+		CombatSequence:AddWave(Wave_3)
+		CombatSequence:AddWave(Wave_4)
+		CombatSequence:AddWave(Wave_5)
+		CombatSequence:AddWave(Wave_6)
+		CombatSequence:AddWave(Wave_7)
+		CombatSequence:Start()
+		
 		
 		BlockCombatZoneExits(3)
 		
@@ -928,11 +1027,14 @@ function SetupCombatZoneInit(combatZoneID)
 		
 	elseif zoneID == "S4_Caves_1a" then
 		
-		waveToStopTiming = 2	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		Wave_1 = CombatWave:New{ team = GethPawns,		numDudes = 2, spawnValue = 1, spawnPath = "es_s4_caves_1a" }
+		Wave_2 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s4_caves_1a" }
 		
-		spawnClasses[1] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_caves_1a"}
-		spawnClasses[2] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_caves_1a"}
+		CombatSequence = WaveSequence:New{ bDebugWaves = true }
+		CombatSequence:AddWave(Wave_1)
+		CombatSequence:AddWave(Wave_2)
+		CombatSequence:Start()
+		
 		
 		BlockCombatZoneExits(3)
 		
@@ -941,11 +1043,14 @@ function SetupCombatZoneInit(combatZoneID)
 		
 	elseif zoneID == "S4_Caves_1b" then
 		
-		waveToStopTiming = 2	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		Wave_1 = CombatWave:New{ team = GethPawns,		numDudes = 2, spawnValue = 1, spawnPath = "es_s4_caves_1b" }
+		Wave_2 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s4_caves_1b" }
 		
-		spawnClasses[1] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_caves_1b"}
-		spawnClasses[2] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_caves_1b"}
+		CombatSequence = WaveSequence:New{ bDebugWaves = true }
+		CombatSequence:AddWave(Wave_1)
+		CombatSequence:AddWave(Wave_2)
+		CombatSequence:Start()
+		
 		
 		BlockCombatZoneExits(3)
 		
@@ -954,11 +1059,14 @@ function SetupCombatZoneInit(combatZoneID)
 		
 	elseif zoneID == "S4_Caves_1c" then
 		
-		waveToStopTiming = 2	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		Wave_1 = CombatWave:New{ team = GethPawns,		numDudes = 2, spawnValue = 1, spawnPath = "es_s4_caves_1c" }
+		Wave_2 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s4_caves_1c" }
 		
-		spawnClasses[1] = {team = GethPawns,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_caves_1c"}
-		spawnClasses[2] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_caves_1c"}
+		CombatSequence = WaveSequence:New{ bDebugWaves = true }
+		CombatSequence:AddWave(Wave_1)
+		CombatSequence:AddWave(Wave_2)
+		CombatSequence:Start()
+		
 		
 		BlockCombatZoneExits(3)
 		
@@ -967,11 +1075,14 @@ function SetupCombatZoneInit(combatZoneID)
 		
 	elseif zoneID == "S4_Caves_2" then
 		
-		waveToStopTiming = 2	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		Wave_1 = CombatWave:New{ team = GethTacticals,	numDudes = 2, spawnValue = 2, spawnPath = "es_s4_caves_2" }
+		Wave_2 = CombatWave:New{ team = GethSpecials,	numDudes = 3, spawnValue = 3, spawnPath = "es_s4_caves_2" }
 		
-		spawnClasses[1] = {team = GethTacticals,numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_caves_2"}
-		spawnClasses[2] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_caves_2"}
+		CombatSequence = WaveSequence:New{ bDebugWaves = true }
+		CombatSequence:AddWave(Wave_1)
+		CombatSequence:AddWave(Wave_2)
+		CombatSequence:Start()
+		
 		
 		BlockCombatZoneExits(3)
 		
@@ -980,11 +1091,14 @@ function SetupCombatZoneInit(combatZoneID)
 		
 	elseif zoneID == "S4_Caves_3" then
 		
-		waveToStopTiming = 2	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
+		Wave_1 = CombatWave:New{ team = GethSpecials,	numDudes = 2, spawnValue = 2, spawnPath = "es_s4_caves_3" }
+		Wave_2 = CombatWave:New{ team = GethHeavys,		numDudes = 3, spawnValue = 3, spawnPath = "es_s4_caves_3" }
 		
-		spawnClasses[1] = {team = GethSpecials,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_caves_3"}
-		spawnClasses[2] = {team = GethHeavys,	numDudes = 3, 	spawnValue = 3, spawnPath = "es_s4_caves_3"}
+		CombatSequence = WaveSequence:New{ bDebugWaves = true }
+		CombatSequence:AddWave(Wave_1)
+		CombatSequence:AddWave(Wave_2)
+		CombatSequence:Start()
+		
 		
 		BlockCombatZoneExits(3)
 		
@@ -992,15 +1106,6 @@ function SetupCombatZoneInit(combatZoneID)
 		--ResetTeamMemberLocations(SQD, "ps_s4_caves")
 		
 	elseif zoneID == "S4_Caves_Boss" then
-		
-		waveToStopTiming = 2	-- The wave index (int) to switch from timer-based spawning to killcount-based.
-		bIsTimerSpawnActive = false	-- True, wave spawning is timer-based. False, wave spawning is killcount-based.
-		
-		spawnClasses[1] = {team = GethPrimes,	numDudes = 1, 	spawnValue = 1, spawnPath = "es_s4_caves_boss"}
-		spawnClasses[2] = {team = GethPawns,	numDudes = 2, 	spawnValue = 2, spawnPath = "es_s4_caves_boss"}
-		spawnClasses[3] = {team = GethPawns,	numDudes = 2, 	spawnValue = 2, spawnPath = "es_s4_caves_boss"}
-		spawnClasses[4] = {team = GethSpecials,	numDudes = 2, 	spawnValue = 2, spawnPath = "es_s4_caves_boss"}
-		spawnClasses[5] = {team = GethSpecials,	numDudes = 2, 	spawnValue = 2, spawnPath = "es_s4_caves_boss"}
 		
 		BlockCombatZoneExits(3)
 		
@@ -1010,6 +1115,10 @@ function SetupCombatZoneInit(combatZoneID)
 	else
 		print("EURn_c.SetupCombatZoneInit(): Argument #0  combatZoneID  invalid!")
 	end
+	
+	CombatSequence.OnComplete = function(self)
+		ReleaseCombatZone(zoneID)
+	end
 end
 
 ---
@@ -1017,17 +1126,22 @@ end
 -- @param #string combatZoneID The name ID of the zone to release.
 -- 
 function ReleaseCombatZone(combatZoneID)
-		print("EURn_c.ReleaseCombatZone(): Entered")
+	print("EURn_c.ReleaseCombatZone(): Entered")
 	
 	local zoneID = combatZoneID
 	
-		print("EURn_c.ReleaseCombatZone(): Releasing combat zone "..zoneID)
-		print("EURn_c.ReleaseCombatZone(): Incrementing numCombatZonesCleared to "..numCombatZonesCleared+1)
+	print("EURn_c.ReleaseCombatZone(): Releasing combat zone "..zoneID)
+	print("EURn_c.ReleaseCombatZone(): Incrementing numCombatZonesCleared to "..numCombatZonesCleared+1)
 		
 	numCombatZonesCleared = numCombatZonesCleared + 1
 	
-	-- Restore the player's health
-	RestorePlayerHealth()
+	-- Only restore player health if they're alive
+	if GetNumTeamMembersAlive(REP) > 0 then
+		-- Restore the player's health
+		RestorePlayerHealth()
+	else
+		print("EURn_c.ReleaseCombatZone(): Player isn't alive! Not restoring player health")
+	end
 	
 	ClearAIGoals(SQD)
 	AddAIGoal(SQD, "Defend", 100, 0)
@@ -1093,78 +1207,18 @@ end
 -- @param #string combatMusicID The music ID to start playing. Use "none" if no music change desired.
 -- 
 function StartCombatZone(combatZoneID, combatMusicID)
-		print("EURn_c.StartCombatZone(\""..combatZoneID.."\", \""..combatMusicID.."\"): Entered")
+	print("EURn_c.StartCombatZone(\""..combatZoneID.."\", \""..combatMusicID.."\"): Entered")
 		
 	local zoneID = combatZoneID
-	--local spawnPathName = enemySpawnPathName
 	local musicID = combatMusicID
 	
 	print("EURn_c.StartCombatZone(): Starting combat zone "..zoneID)
-	--print("EURn_c.StartCombatZone(): enemySpawnPathName:", spawnPathName)
+	
 	
 	-- Is debug messages enabled?
 	if bDebugWaves == true then
 		ShowMessageText("level.EUR.debug.comzone_entered", REP)
 		ShowMessageText("level.EUR.debug.comzone_spawning", REP)
-	end
-	
-	--bIsTimerSpawnActive = false
-	--waveToStopTiming = 3
-	
-	
-	-- Reset the total enemy counter
-	totalEnemies = 0
-	
-	-- Reset the number of waves for this combat zone
-	totalWaves = 0
-	
-	
-	-- Count the total number of enemies and store it
-	for i in pairs(spawnClasses) do
-		-- Which wave are we looking at?
-		totalWaves = totalWaves + 1
-		
-		-- Count the total number of enemies for OnObjectKill in the future
-		totalEnemies = totalEnemies + spawnClasses[i]['numDudes']
-		
-		-- Print the results
-		print("EURn_c.StartCombatZone(): table values:", spawnClasses[i]['team'], spawnClasses[i]['numDudes'])
-	end
-	
-	print("EURn_c.StartCombatZone(): totalEnemies:", totalEnemies)
-	
-	
-	-- Set enemiesRemaining to keep track of the remaining enemies
-	enemiesRemaining = totalEnemies
-	print("EURn_c.StartCombatZone(): enemiesRemaining:", enemiesRemaining)
-	
-	-- Set the AI goals
-	ClearAIGoals(GethPawns)
-	ClearAIGoals(GethTacticals)
-	ClearAIGoals(GethSpecials)
-	ClearAIGoals(GethHeavys)
-	ClearAIGoals(GethPrimes)
-	
-	AddAIGoal(GethPawns, "Deathmatch", 20)
-	--AddAIGoal(GethPawns, "Destroy", 100, 0)
-	
-	AddAIGoal(GethTacticals, "Deathmatch", 20)
-	AddAIGoal(GethTacticals, "Destroy", 100, 0)
-	
-	AddAIGoal(GethSpecials, "Deathmatch", 20)
-	--AddAIGoal(GethSpecials, "Destroy", 100, 0)
-	
-	AddAIGoal(GethHeavys, "Deathmatch", 60)
-	AddAIGoal(GethHeavys, "Destroy", 100, 0)
-	
-	AddAIGoal(GethPrimes, "Destroy", 100, 0)
-	
-	-- Are we starting with a timer spawn?
-	if bIsTimerSpawnActive == true then
-		-- Set and start the timer
-		SetTimerValue(spawnDelayTimer, spawnClasses[currentWave]['spawnValue'])
-		StartTimer(spawnDelayTimer)
-		--ShowTimer(spawnDelayTimer)
 	end
 	
 	-- Was a value entered for combatMusicID?
@@ -1175,198 +1229,6 @@ function StartCombatZone(combatZoneID, combatMusicID)
 		print("EURn_c.StartCombatZone(): combatMusicID not specified! Continuing...")
 	end
 	
-	print("EURn_c.StartCombatZone(): Spawning "..spawnClasses[currentWave]['numDudes'].." enemies from team "..spawnClasses[currentWave]['team'].." at spawnPath:", spawnClasses[currentWave]['spawnPath'])
-	Ambush(spawnClasses[currentWave]['spawnPath'], spawnClasses[currentWave]['numDudes'], spawnClasses[currentWave]['team'])
-	
-	
-	
-	killCount = 0
-	numEnemiesAlive = 0
-	
-	-- Spawn delay timer
-	spawnDelayTimerElapse = OnTimerElapse(
-		function(timer)
-			print("EURn_c.StartCombatZone.spawnDelayTimerElapse(): Entered")
-			
-			-- Are there any enemies remaining?
-			if enemiesRemaining > 0 then	-- TODO: this should probably be removed
-				if currentWave < (totalWaves + 1) then
-					if currentWave <= waveToStopTiming then
-						
-						-- Spawn the next wave of enemies
-						SpawnNextWave()
-						
-						-- Is the spawn timer still active?
-						if bIsTimerSpawnActive == true then
-							SetTimerValue(spawnDelayTimer, spawnClasses[currentWave]['spawnValue'])
-							StartTimer(spawnDelayTimer)
-							
-							if currentWave == waveToStopTiming then
-								bIsTimerSpawnActive = false
-							end
-						end
-					end
-				else
-					StopTimer(spawnDelayTimer)
-				end
-			end
-		end,
-	spawnDelayTimer
-	)
-	
-	CombatZoneEnemyKill = OnObjectKill(
-	function(player, killer)
-		-- Is the killed object a unit and not an enemy building?
-		if IsObjectUnit(player) == true then
-			local charTeam = GetObjectTeam(player)
-			
-			numEnemiesAlive = GetNumTeamMembersAliveInTable(enemyTeams)
-			
-			print("EURn_c.StartCombatZone(): numEnemiesAlive: "..numEnemiesAlive, "currentWave: "..currentWave, "totalWaves: "..totalWaves)
-	    		
-			-- Are all the enemies gone?
-			if (numEnemiesAlive == 0) and (currentWave >= totalWaves) then
-				print("EURn_c.StartCombatZone(): Combat zone cleared")
-				
-				-- Is debug messages enabled?
-				if bDebugWaves == true then
-					ShowMessageText("level.EUR.debug.comzone_done", REP)
-				end
-				
-				-- Finish up the combat zone
-				ReleaseCombatZone(zoneID)
-				
-				-- Garbage collection
-				ReleaseObjectKill(CombatZoneEnemyKill)
-				CombatZoneEnemyKill = nil
-			return end
-			
-			-- Was the killed object an enemy unit?
-	    	if killer and ((charTeam == GethPawns) or (charTeam == GethTacticals) or (charTeam == GethHeavys) or (charTeam == GethSpecials) or (charTeam == GethPrimes)) then
-	    		
-				-- Is debug messages enabled?
-				if bDebugWaves == true then
-					ShowMessageText("level.EUR.debug.comzone_kill", REP)
-				end
-	    		
-	    		enemiesRemaining = enemiesRemaining - 1
-	    		numKilled = numKilled + 1
-	    		killCount = killCount + 1
-	    		print("EURn_c.StartCombatZone(): enemiesRemaining:", enemiesRemaining)
-	    		print("EURn_c.StartCombatZone(): numKilled:", numKilled)
-	    		print("EURn_c.StartCombatZone(): killCount:", killCount)
-	    		
-	    		-- Killcount
-	    		if bIsTimerSpawnActive == false then
-	    			
-	    			-- Are there any enemies remaining?
-	    			if enemiesRemaining > 0 then
-						-- Are we still within the range of waves?
-						if currentWave < (totalWaves + 1) then
-							-- Is the # enemies killed the same as 
-				    		if numKilled == spawnClasses[currentWave]['spawnValue'] then
-				    			--print("EURn_c.StartCombatZone().Killcount: Running SpawnNextWave("..spawnPathName..")")
-				    			
-								-- Spawn the next wave of enemies
-								SpawnNextWave()
-							end
-						end
-					end
-				
-				-- Timer
-				--[[else
-	    			-- Are there any enemies remaining?
-	    			if enemiesRemaining > 0 then
-						-- Are we still within the range of waves?
-						if currentWave < (totalWaves + 1) then
-			    			--print("EURn_c.StartCombatZone().Timer: Running SpawnNextWave("..spawnPathName..")")
-			    			
-							-- Spawn the next wave of enemies
-							SpawnNextWave()
-							
-							SetTimerValue(spawnDelayTimer, spawnClasses[currentWave]['spawnValue'])
-							StartTimer(spawnDelayTimer)
-						else
-							StopTimer(spawnDelayTimer)
-						end
-					end]]
-				end
-				
-	    	end
-    	end
-	end
-	)
-end
-
----
--- Spawns the next wave.
--- 
-function SpawnNextWave()
-		print("EURn_c.SpawnNextWave(): Entered")
-		
-	--local spawnPathName = enemySpawnPath
-	
-	-- Are there any enemies remaining?
-	if enemiesRemaining > 0 then
-		
-		-- Are we on the final wave?
-		if bIsFinalWave == false then
-			print("EURn_c.SpawnNextWave(): Incrementing wave")
-			
-			-- Update the wave index
-			currentWave = currentWave + 1
-			
-			-- Is the current wave greater than or equal to the total number of waves?
-			if currentWave >= totalWaves then
-				print("EURn_c.SpawnNextWave(): NOTICE: Final wave")
-				
-				-- Is debug messages enabled?
-				if bDebugWaves == true then
-					-- Let the player know they're on the final wave
-					ShowMessageText("level.EUR.debug.comzone_finalwave", REP)
-				end
-				
-				-- If so, set this to true
-				bIsFinalWave = true
-			end
-			
-			-- Spawn the next wave
-			print("EURn_c.SpawnNextWave(): Spawning wave "..currentWave)
-			
-			-- Is debug messages enabled?
-			if bDebugWaves == true then
-				ShowMessageText("level.EUR.debug.comzone_spawning", REP)
-			end
-			
-			print("EURn_c.SpawnNextWave(): Spawning "..spawnClasses[currentWave]['numDudes'].." enemies from team "..spawnClasses[currentWave]['team'].." at spawnPath:", spawnClasses[currentWave]['spawnPath'])
-			
-			Ambush(spawnClasses[currentWave]['spawnPath'], spawnClasses[currentWave]['numDudes'], spawnClasses[currentWave]['team'])
-		else
-			print("EURn_c.SpawnNextWave(): Final wave complete! Exiting function...")
-			return
-		end
-		
-		-- Reset the killcount for the next wave
-		numKilled = 0
-		
-		-- Is the spawn timer active?
-		if bIsTimerSpawnActive == true then
-			
-			-- Are we on the right wave to switch from timer trigger to killcount trigger?
-			if currentWave == waveToStopTiming then
-				print("EURn_c.SpawnNextWave(): Switching from timer to killcount")
-				
-				-- Is debug messages enabled?
-				if bDebugWaves == true then
-					ShowMessageText("level.EUR.debug.comzone_timeroff")
-				end
-				
-				bIsTimerSpawnActive = false
-			end
-		end
-	else
-		print("EURn_c.SpawnNextWave(): No enemies remaining!")
-	return end
 end
 
 
@@ -1375,11 +1237,13 @@ end
 -- @param #object object The object data to check.
 -- @return #bool True, object is not an enemy building. False, object is an enemy building.
 function IsObjectUnit(object)
-	print("EURn_c.IsObjectUnit(): Entered")
+	--print("EURn_c.IsObjectUnit(): Entered")
+	
+	print("EURn_c.IsObjectUnit(): Object class name:", GetEntityClass(object))
 	
 	for i in pairs(enemyBuildingClasses) do
 		-- Is the object an enemy building?
-		if GetEntityClass(object) == GetEntityClassPtr(enemyBuildingClasses[i]) then
+		if GetEntityClass(object) == FindEntityClass(enemyBuildingClasses[i]) then
 			print("EURn_c.IsObjectUnit(): Object is an enemy building!")
 			return false
 		else
@@ -1623,9 +1487,42 @@ function GetPlayerMaxHealth()
 end
 
 
+---
+-- Returns and optionally sets the combat state.
+-- @param #bool newState Combat state. True, player is in combat, false if not.
+-- @return The combat state from /bInCombat/.
+-- 
+function InCombat(newState)
+	
+	-- Only set combat state if a new value is input
+	if newState then
+		bInCombat = newState
+	end
+	
+	return bInCombat
+end
+
+
+---
+-- Call this to shake the camera utilizing the explosion properties from /object/.
+-- @param #string object	The class name of the EntityMine object whose explosion properties we're utilizing.
+-- @param #int pathNode		The node of the path "camshake" to attach the camera shake to.
+-- 
+function CinematicShakeCamera(object, pathNode)
+	-- Increment the object count
+	camShakeObjCount = camShakeObjCount + 1
+	
+	-- Spawn the EntityMine object at the player's location
+	CreateEntity(object, GetPathPoint("camshake", pathNode), "camshake_item_cinematic_"..camShakeObjCount)
+end
+
+
+---
+-- Call this to set up the campaign's various timers.
+-- 
 function SetupTimers()
-		print("EURn_c.SetupTimers(): Entered")
-		
+	print("EURn_c.SetupTimers(): Entered")
+	
 	-- Spawn delay timer
 	spawnDelayTimer = CreateTimer("spawnDelayTimer")
 	SetTimerValue(spawnDelayTimer, 4)
@@ -1723,9 +1620,8 @@ function ScriptPostLoad()
     print("EURn_c.ScriptPostLoad(): Multiplying unit health/shield values by enemyDefenseBuff... DONE")
     
     
-	ClearAIGoals(SQD)
-	
 	-- Player's squad follows the player out of the shuttle.
+	ClearAIGoals(SQD)
 	AddAIGoal(SQD, "Follow", 100, 0)
     
     SetRespawnPoint("ps_start_shuttle")
@@ -1777,6 +1673,8 @@ function ScriptPostLoad()
 	        if character == 0 then
 	            ReleaseCharacterSpawn(onfirstspawn)
 	            onfirstspawn = nil
+	            
+	            camShakeCharUnit = GetCharacterUnit(character)
 	        	
 	        	BeginOpeningCinematic()
 	            
@@ -1812,6 +1710,36 @@ function ScriptPostLoad()
     			
 		MapRemoveEntityMarker("station_goto_marker")
 	end
+	
+	
+	--[[ActivateRegion("wave_trigger_test")
+	
+	local WaveTriggerTest = OnEnterRegion(
+		function(region, player)
+			if IsCharacterHuman(player) then
+				print("EURn_c.WaveTriggerTest: Entered region")
+				
+				TestWave1 = CombatWave:New{ team = GethPawns,	numDudes = 3, spawnValue = 2, spawnPath = "wave_spawn_test" }
+				TestWave2 = CombatWave:New{ team = GethPawns,	numDudes = 3, spawnValue = 3, spawnPath = "wave_spawn_test" }
+				TestWave3 = CombatWave:New{ team = GethPawns,	numDudes = 3, spawnValue = 3, spawnPath = "wave_spawn_test" }
+				
+				TestWaveSeq = WaveSequence:New{ bDebugWaves = true }
+				TestWaveSeq:AddWave(TestWave1)
+				TestWaveSeq:AddWave(TestWave2)
+				TestWaveSeq:AddWave(TestWave3)
+				
+				TestWaveSeq:Start()
+				
+				
+				-- Disable this combat zone's trigger
+				ReleaseEnterRegion(WaveTriggerTest)
+				WaveTriggerTest = nil
+				
+				DeactivateRegion("wave_trigger_test")
+			end
+		end,
+	"wave_trigger_test"
+	)]]
 	
 	
 	--==========================
@@ -1890,6 +1818,20 @@ function ScriptPostLoad()
 		-- Allow the player to leave
 		UnblockCombatZoneExits(0)
 	end
+	
+	CZ_S0_Hangar_SpawnEnter = OnEnterRegion(
+		function(player, region)
+			
+		end,
+	"cz_s0_hangar"
+	)
+	
+	CZ_S0_Hangar_SpawnLeave = OnLeaveRegion(
+		function(player, region)
+			
+		end,
+	"cz_s0_hangar"
+	)
 	
 	
 	--==========================
@@ -3176,7 +3118,7 @@ end
 function BeginObjectivesTimer()
 	beginobjectivestimer = CreateTimer("beginobjectivestimer")
 	OnTimerElapse(BeginObjectives, beginobjectivestimer)
-	SetTimerValue(beginobjectivestimer, 0.75)
+	SetTimerValue(beginobjectivestimer, 12)
 	StartTimer(beginobjectivestimer)
 end
 
@@ -3376,6 +3318,7 @@ function BeginOpeningCinematic()
 		
 		-- Play the sounds for the map layout hologram
 		ScriptCB_SndPlaySound("hologram_maplayout_sequence")
+		--BroadcastVoiceOver("hologram_maplayout_sequence", ATT)
 		
 		-- Play the animation for the map layout hologram
 		RewindAnimation("hologram_enter")
@@ -3451,7 +3394,8 @@ function BeginOpeningCinematic()
 		RewindAnimation("shuttle_ambush_spin")
 		PlayAnimation("shuttle_ambush_spin")
 		
-		ScriptCB_SndPlaySound("kodiak_shuttle_ambush")
+		--ScriptCB_SndPlaySound("kodiak_shuttle_ambush")
+		BroadcastVoiceOver("kodiak_shuttle_ambush", ATT)
 		
 		-- Timer for the shuttles_ambush animation
 		ShuttlesAmbushTimer = CreateTimer("ShuttlesAmbushTimer")
@@ -3493,6 +3437,9 @@ function BeginOpeningCinematic()
 				-- Kill shuttle1 manually to trigger the deathanimation
 				SetProperty("shuttledest_1", "CurHealth", 0)
 				
+				-- Shake the camera
+				CinematicShakeCamera("com_item_camshake_cinematic", 0)
+				
 				DestroyTimer(shuttle1DestTimer)
 				ReleaseTimerElapse(shuttle1DestElapse)
 			end,
@@ -3521,6 +3468,9 @@ function BeginOpeningCinematic()
 				
 				-- Trigger shuttle2's damage pfx
 				SetProperty("shuttledest_2", "CurHealth", 800000)
+				
+				-- Shake the camera
+				CinematicShakeCamera("com_item_camshake_cinematic", 0)
 				
 				DestroyTimer(shuttle2DestTimer)
 				ReleaseTimerElapse(shuttle2DestElapse)
@@ -3563,7 +3513,7 @@ function BeginOpeningCinematic()
 	
 	openingCinematicSequence = CinematicContainer:New{pathName = "ps_start_shuttle"}
 	openingCinematicSequence:AddShot(ShotIntro1)
-	openingCinematicSequence:AddShot(ShotTransition0)
+	--[[openingCinematicSequence:AddShot(ShotTransition0)
 	openingCinematicSequence:AddShot(Shot1a)
 	openingCinematicSequence:AddShot(Shot1b)
 	openingCinematicSequence:AddShot(ShotTransition1)
@@ -3580,7 +3530,7 @@ function BeginOpeningCinematic()
 	openingCinematicSequence:AddShot(Shot4a)
 	openingCinematicSequence:AddShot(Shot4b)
 	openingCinematicSequence:AddShot(ShotTransition4)
-	openingCinematicSequence:AddShot(Shot4c)
+	openingCinematicSequence:AddShot(Shot4c)]]
 	openingCinematicSequence:AddShot(ShotTransition5)
 	openingCinematicSequence:AddShot(ShotShuttles1a)
 	openingCinematicSequence:AddShot(ShotTransition6)
@@ -3621,17 +3571,54 @@ function BeginOpeningCinematic()
 					ReleaseEnterRegion(ShuttleExitTrigger)
 					ShuttleExitTrigger = nil
 					
-					ClearAIGoals(SQD)
-					
 					-- Player's squad defends the player after exiting the shuttle.
+					ClearAIGoals(SQD)
 					AddAIGoal(SQD, "Defend", 100, 0)
 					
-					SetProperty("shuttle_takeoff", "CurHealth", 0)
-					RewindAnimation("shuttle_takeoff")
-					PlayAnimation("shuttle_takeoff")
 					
-		            -- Start the objectives delay
-		        	BeginObjectivesTimer()
+					-- Close the shuttle's door
+					ScriptCB_SndPlaySound("kodiak_shuttle_door_close")
+					SetProperty("shuttle_takeoff", "CurHealth", 0)
+					
+					local doorCloseTimer = CreateTimer("shuttle_door_close_timer")
+					SetTimerValue(doorCloseTimer, 2.0)
+					StartTimer(doorCloseTimer)
+					
+					local doorCloseTimerElapse = OnTimerElapse(
+						function(timer)
+							RewindAnimation("shuttle_takeoff")
+							PlayAnimation("shuttle_takeoff")
+							
+							ScriptCB_SndPlaySound("kodiak_shuttle_takeoff")
+							--BroadcastVoiceOver("kodiak_shuttle_takeoff", ATT)
+							
+							-- Spawn thruster pfx
+							local thruster_1 = CreateEffect("com_sfx_shuttle_thruster_start")
+							local thruster_1_pos = GetPathPoint("takeoff_pfx", 0)
+							
+							local thruster_2 = CreateEffect("com_sfx_shuttle_thruster_start")
+							local thruster_2_pos = GetPathPoint("takeoff_pfx", 1)
+							
+							local thruster_3 = CreateEffect("com_sfx_shuttle_thruster_start")
+							local thruster_3_pos = GetPathPoint("takeoff_pfx", 2)
+							
+							local thruster_4 = CreateEffect("com_sfx_shuttle_thruster_start")
+							local thruster_4_pos = GetPathPoint("takeoff_pfx", 3)
+							
+							AttachEffectToMatrix(thruster_1, thruster_1_pos)
+							AttachEffectToMatrix(thruster_2, thruster_2_pos)
+							AttachEffectToMatrix(thruster_3, thruster_3_pos)
+							AttachEffectToMatrix(thruster_4, thruster_4_pos)
+							
+				            -- Start the objectives delay
+				        	BeginObjectivesTimer()
+							
+							
+							ReleaseTimerElapse(doorCloseTimerElapse)
+							DestroyTimer(timer)
+						end,
+					doorCloseTimer
+					)
 		        	
 				end
 			end,
@@ -3725,32 +3712,32 @@ function ScriptInit()
 			team = GethPawns,
 			units = 20,
 			reinforcements = -1,
-			soldier = { gth_inf_trooper,7, 7},
-			rocketeer = { gth_inf_rocketeer,3, 3},
+			soldier = { gth_inf_trooper,7, 10},
+			rocketeer = { gth_inf_rocketeer,3, 6},
 		},
 		
 		tacticals = {
 			team = GethTacticals,
 			units = 20,
 			reinforcements = -1,
-			sniper = { gth_inf_sniper,4, 4},
-			hunter = { gth_inf_hunter,3, 3},
+			sniper = { gth_inf_sniper,4, 7},
+			hunter = { gth_inf_hunter,3, 6},
 		},
 		
 		specials = {
 			team = GethSpecials,
 			units = 20,
 			reinforcements = -1,
-			engineer = { gth_inf_machinist,3, 3},
-			shock = { gth_inf_shock,5, 5},
+			engineer = { gth_inf_machinist,3, 6},
+			shock = { gth_inf_shock,5, 8},
 		},
 		
 		heavys = {
 			team = GethHeavys,
 			units = 20,
 			reinforcements = -1,
-			destroyer = { gth_inf_destroyer,3, 3},
-			juggernaut = { gth_inf_juggernaut,2, 2},
+			destroyer = { gth_inf_destroyer,3, 6},
+			juggernaut = { gth_inf_juggernaut,2, 4},
 		},
 		
 		primes = {
@@ -3862,7 +3849,9 @@ function ScriptInit()
 	--AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_EUR_Streaming.lvl", "ME5n_music_EUR", stingerStream)
 	--AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_EUR_Streaming.lvl", "ME5n_stingers_EUR", musicStream)
 	
-	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl",  "EUR_ambiance")
+	ambientStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl",  "EUR_ambiance")
+	ambientPropStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl",  "EUR_prop_ambiance")
+	--AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl", "EUR_prop_ambiance", ambientStream)
 	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl",  "EUR_ambiance")
 	
 	SetVictoryMusic(REP, "eur_amb_01_victory")

@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
--- MASS EFFECT: UNIFICATION Camera Wave Script by A. Gilbert
--- Version 30318/06
+-- MASS EFFECT: UNIFICATION Combat Wave Script by A. Gilbert
+-- Version 30502/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Mar 18, 2016
+-- May 2, 2016
 -- Copyright (c) 2016 A. Gilbert.
 -- 
 -- 
@@ -86,11 +86,11 @@
 
 ---
 -- This is a constructor for a CombatWave object.
--- @param #string team			The name of the camera's class (its ODF).
+-- @param #int team				The team to spawn enemies from.
 -- @param #int numDudes			Must be greater than 0. Number of enemies to spawn from team.
--- @param #int spawnValue		Must be greater than 0. If bIsTimerSpawnActive, this is the timer value to input to the timer that spawns the 
--- 								next wave. If not bIsTimerSpawnActive, this is the required number of dead enemies to trigger the next wave.
+-- @param #int spawnValue		Must be greater than 0. The required number of dead enemies to trigger the next wave.
 -- @param #string spawnPath		The name of the path to spawn the wave at.
+-- @param #bool bDebugWaves		OPTIONAL: Whether or not to print/display debug messages.
 -- 
 CombatWave = 
 {
@@ -103,10 +103,11 @@ CombatWave =
     -- Optional fields
     
     -- Debug fields
+    bDebugWaves = false,			-- Whether or not to print/display debug messages.
     
     -- Fields that are handled internally
-    isComplete = false, 
-    totalEnemies = 0,				-- The total number of enemies in this wave.
+    isComplete = false,				-- Whether or not the wave is complete.
+    enemiesRemaining = 0,			-- The number of enemies remaining until moving on.
 }
 
 function CombatWave:New(o)
@@ -133,7 +134,7 @@ function CombatWave:OnComplete()
 end
 
 ---
--- Call this to activate the shot after you have created an instance of the shot (using CombatWave:New)
+-- Call this to activate the wave after you have created an instance of the wave (using CombatWave:New)
 --
 function CombatWave:Start()
 	-- Is the team set? If not, print an error message and exit the function
@@ -153,15 +154,51 @@ function CombatWave:Start()
 	self.numDudes = self.numDudes or 3
 	self.spawnValue = self.spawnValue or 3
 	
+	-- Update the enemies remaining to the number required to complete the wave
+	self.enemiesRemaining = self.spawnValue
+	
     
     -- Spawn the enemies
-    print("ME5_CombatWave.CombatWave:Start(): Spawning "..self.numDudes.." enemies from team "..self.team.." at "..self.spawnPath)
+    print()
+    print("CombatWave:Start(): Spawning "..self.numDudes.." enemies from team "..self.team.." at "..self.spawnPath)
     Ambush(self.spawnPath, self.numDudes, self.team)
+    
+    print("CombatWave:Start(): Total enemiesRemaining:", self.enemiesRemaining)
+    
+    
     
     --=================================
     -- Event Responses
     --=================================
-    
+	
+	-- When an enemy is killed
+	self.EnemyKillEvent = OnCharacterDeath(
+		function(player, killer)
+			-- Is the killed object a unit and not an enemy building?
+			--if IsObjectUnit(player) == true then
+				local charTeam = GetCharacterTeam(player)
+				
+				-- Was the killed object an enemy unit?
+		    	if killer and ((charTeam == GethPawns) or (charTeam == GethTacticals) or (charTeam == GethHeavys) or (charTeam == GethSpecials) or (charTeam == GethPrimes)) then
+					
+					-- Decrement enemies remaining
+					self.enemiesRemaining = self.enemiesRemaining - 1
+		    		print("CombatWave:Start(): enemiesRemaining:", self.enemiesRemaining)
+					
+					
+					-- Has spawnValue been met?
+					if self.enemiesRemaining <= 0 then
+						-- Garbage collection
+						ReleaseCharacterDeath(self.EnemyKillEvent)
+						self.EnemyKillEvent = nil
+						
+						-- Complete the wave
+						self:Complete()
+					end
+		    	end
+			--end
+		end
+	)
     
     
     -- Callback for overriding startup behavior
@@ -179,12 +216,14 @@ end
 ---
 -- Call this to finish the wave. First, it looks to see if it has a container, then lets the container 
 --  handle the logic, otherwise will set the end sequence on its own.
+--  
+--  NOTE: The definition of a "finished wave" is when the spawnValue is met, i.e., the next wave is triggered.
 --
 function CombatWave:Complete()
     if self.isComplete then return end
     
     self.isComplete = true
-			
+	
 	if self.container then
 		self.container:NotifyWaveComplete(self)
 	end

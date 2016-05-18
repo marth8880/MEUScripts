@@ -19,7 +19,7 @@
 if bStockFontLoaded == nil then
 	-- Has the stock font been loaded?
 	bStockFontLoaded = false
-else end
+end
 
 MultiObjectiveContainer = 
 {

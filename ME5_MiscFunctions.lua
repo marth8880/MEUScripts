@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Miscellaneous Functions Script by A. Gilbert
--- Version 30318/06
+-- Version 30429/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Mar 18, 2016
+-- Apr 29, 2016
 -- Copyright (c) 2016 A. Gilbert.
 -- 
 -- About this script: The purpose of script is to create a list of 
@@ -367,7 +367,7 @@ function fShieldPickup()
 			
 			shieldDropCnt = 0	-- debug variable used to count # times item is dropped
 		
-			OnFlagPickUp(
+			local itempickup = OnFlagPickUp(
 				function(flag, character)
 						print("ShieldRegen: Unit picked up flag")
 					local charPtr = GetCharacterUnit(character)
@@ -439,7 +439,7 @@ function fShieldPickup()
 					end
 				end
 			)
-		else end
+		end
 		
 		if ME5_HealthFunc == 1 then
 				print("ME5_MiscFunctions.fShieldPickup(): Configuring Health Functionality for AUTO-REGEN...")
@@ -562,17 +562,26 @@ function fShieldPickup()
 							end,
 						"shieldRegenTimer" .. shieldRegenTimerCount
 					)
-				else end
+				end
 			end
 		)]]
 end
 
+---
+-- Sets up the event responses and logic for deferred shield regeneration.
+-- 
 function fShieldRegenDelay()
 	print("ME5_MiscFunctions.fShieldRegenDelay(): Entered")
 	
-	-- Required fields
-	local regenDelayValue = 5.0			-- How long in seconds does it take for shields to start regenerating?
-	local regenValueMult = 3.0			-- What is the player's base AddShield value multiplied by?
+	--=================================
+	-- Data Fields
+	--=================================
+	
+	-- Shield regeneration parameters
+	local shieldRegenDelayValue = 5.0	-- How long in seconds does it take for shields to start regenerating?
+	local shieldRegenValueMult = 3.0	-- What is the player's base AddShield value multiplied by?
+	local shieldRegenSound = "none"		-- The sound property that plays when the player's shields start regenerating. Use "none" if no sound is desired.
+	local shieldRegenPfx = "none"		-- Name of the particle effect to attach to the player when their shields start regenerating. Use "none" if no particle effect is desired.
 	
 	-- Table of unit classes with regenerating shields. /class/ is the class's name, /addShield/ is the class's AddShield value.
 	local shieldClasses = {
@@ -610,9 +619,22 @@ function fShieldRegenDelay()
 				{ class = "ssv_inf_cooper_vanguard", 				addShield = 14.0 }, }
 	
 	
-	-- Optional fields
-	local bDebugEnabled = false						-- Should debug messages be enabled, and the delay timer be shown?
-	local shieldBreakSound = "unit_shields_break"	-- The sound property that plays when the player's shields are completely depleted.
+	-- Shield break parameters
+	local shieldRebreakDelayValue = 2.5					-- How many seconds must pass before shields can be re-broken?
+	local shieldBreakSound = "unit_shields_break"		-- The sound property that plays when the player's shields are completely depleted. Use "none" if no sound is desired.
+	local shieldBreakPfx = "none"						-- Name of the particle effect to attach to the player when their shields break. Use "none" if no particle effect is desired.
+	local shieldBreakCamShakeObj = "com_item_camshake"	-- The class name of the EntityMine object. Use "none" if camera shaking is not desired. If a valid name is 
+														--  specified, the object's explosion shake properties will be utilized to simulate camera shaking when the 
+														--  player's shields break.
+	local bShieldBreakDucksBuses = true					-- Should the audio buses be briefly ducked when the player's shields are broken?
+	local busDuckDuration = 1.0							-- How long in seconds should the audio buses be faded for when the player's shields are broken?
+	local busDuckEndGain = 0.35							-- What is the end gain for the audio buses when they're ducked?
+	local busDuckFadeDuration = 0.2						-- What is the duration in seconds of the bus duck fade?
+	local busUnDuckFadeDuration = 0.7					-- What is the duration in seconds of the bus unduck fade?
+	
+	
+	-- Miscellaneous parameters
+	local bDebugEnabled = true			-- Should debug messages be enabled, and the delay timer be shown?
 	
 	
 	-- Fields that are handled internally
@@ -625,17 +647,31 @@ function fShieldRegenDelay()
 	local bIsRegenTimerStarted = false	-- Is the shieldRegenTimer currently started?
 	local bIsPlayerCorrectClass = false	-- Is the player a class with shields?
 	local playerMaxHealth = 0			-- What is the player's health when they spawn?
+	local camShakeObjCount = 0			-- How many camshake objects have been spawned?
+	local bShieldsCanBeBroken = true	-- Can the shields be re-broken yet?
 	
 	
-	-- Get or create a new shieldRegenTimer (this ensures there's only one "shieldRegenTimer" in the game at one time)
-	local shieldRegenTimer = FindTimer("shieldRegenTimer")
+	--=================================
+	-- Persistent Timers
+	--=================================
+	
+	-- Get or create a new shieldRegenTimer (this ensures there's only one "fShieldRegenDelay_regenTimer" in the game at one time)
+	local shieldRegenTimer = FindTimer("fShieldRegenDelay_regenTimer")
 	if not shieldRegenTimer then
-		shieldRegenTimer = CreateTimer("shieldRegenTimer")
-		SetTimerValue(shieldRegenTimer, regenDelayValue)
+		shieldRegenTimer = CreateTimer("fShieldRegenDelay_regenTimer")
+		SetTimerValue(shieldRegenTimer, shieldRegenDelayValue)
 		
-		if bDebugEnabled == true then
-			ShowTimer(shieldRegenTimer)
-		end
+		--ShowTimer(shieldRegenTimer)	-- Uncomment me for test output!
+	end
+	
+	
+	-- Get or create a new shieldRebreakTimer (this ensures there's only one "fShieldRegenDelay_rebreakTimer" in the game at one time)
+	local shieldRebreakTimer = FindTimer("fShieldRegenDelay_rebreakTimer")
+	if not shieldRebreakTimer then
+		shieldRebreakTimer = CreateTimer("fShieldRegenDelay_rebreakTimer")
+		SetTimerValue(shieldRebreakTimer, shieldRebreakDelayValue)
+		
+		--ShowTimer(shieldRebreakTimer)	-- Uncomment me for test output!
 	end
 	
 	
@@ -653,28 +689,45 @@ function fShieldRegenDelay()
 		
 		bIsRegenStopped = false
 		
+		-- Restart the shield break timer
+		SetTimerValue(shieldRebreakTimer, shieldRebreakDelayValue)
+		StartTimer(shieldRebreakTimer)
+		
+		
 		if bDebugEnabled == true then
 			print("ME5_MiscFunctions.fShieldRegenDelay.StartRegeneration(): Starting shield regeneration")
 			ShowMessageText("level.common.debug.shields_starting", REP)
 			ShowMessageText("level.common.debug.shields_starting", CIS)
 		end
 		
+		-- Are we supposed to play a sound?
+		if shieldRegenSound ~= "none" then
+			ScriptCB_SndPlaySound(shieldRegenSound)
+		end
+		
+		-- Are we supposed to spawn a particle effect?
+		if shieldRegenPfx ~= "none" then
+			PlayParticleEffectOnUnit(shieldRegenPfx, unit)
+		end
+		
 		-- Turn regeneration back on
 		SetProperty(unit, "AddShield", regenFinalValue)
 	end
+	
 	
 	---
 	-- Call this to stop shield regeneration for /unit/.
 	-- @param #object unit The object to stop the regeneration for.
 	-- 
 	local function StopRegeneration(unit)
-		-- Reset the timer value
-		SetTimerValue(shieldRegenTimer, regenDelayValue)
+		-- Reset the regen timer value
+		SetTimerValue(shieldRegenTimer, shieldRegenDelayValue)
 		
 		-- Prevent the function from being executed multiple times at once
 		if bIsRegenStopped == true then return end
 		
 		bIsRegenStopped = true
+		
 		
 		if bDebugEnabled == true then
 			print("ME5_MiscFunctions.fShieldRegenDelay.StopRegeneration(): Stopping shield regeneration")
@@ -682,60 +735,178 @@ function fShieldRegenDelay()
 			ShowMessageText("level.common.debug.shields_stopping", CIS)
 		end
 		
+		-- Reset the shield break timer
+		StopTimer(shieldRebreakTimer)
+		SetTimerValue(shieldRebreakTimer, shieldRebreakDelayValue)
+		
 		-- Turn off regeneration
 		SetProperty(unit, "AddShield", 0)
 		
 		-- Start the delay timer
 		StartTimer(shieldRegenTimer)
-		
-		-- When the timer elapses
+	
+		-- When the shield regen timer elapses
 		local shieldRegenTimerElapse = OnTimerElapse(
 			function(timer)
 				ReleaseTimerElapse(shieldRegenTimerElapse)
-				
 				StopTimer(shieldRegenTimer)
+				
 				StartRegeneration(unit)
 			end, 
 		shieldRegenTimer
 		)
 	end
 	
+	
 	---
 	-- Call this to duck (fade) all of the audio buses (excluding lowhealth). Only has an effect if the low health sound isn't playing.
+	-- @return #bool True if the buses are supposed to be ducked, false if not.
 	-- 
 	local function DuckBuses()
-		local endGain	= 0.3			-- What is the end gain for the audio bus?
-		local fadeTime	= 0.2			-- What is the duration of the bus fade?
+		-- Are the audio buses supposed to be ducked when the shields break?
+		if bShieldBreakDucksBuses == true then
 		
-		-- Is the low health sound not playing?
-		if LH_bIsLowHealthSoundPlaying == false then
-			-- Fade all of the appropriate audio buses
-			ScriptCB_SndBusFade("main",				fadeTime, endGain)
-			ScriptCB_SndBusFade("soundfx",			fadeTime, endGain)
-			ScriptCB_SndBusFade("battlechatter",	fadeTime, endGain)
-			ScriptCB_SndBusFade("music",			fadeTime, 0.6)
-			ScriptCB_SndBusFade("ingamemusic",		fadeTime, 0.6)
-			ScriptCB_SndBusFade("ambience",			fadeTime, endGain)
-			ScriptCB_SndBusFade("voiceover",		fadeTime, endGain)
+			-- Is the low health sound not playing?
+			if LH_bIsLowHealthSoundPlaying == false then
+				-- Fade all of the appropriate audio buses
+				ScriptCB_SndBusFade("main",				busDuckFadeDuration, busDuckEndGain)
+				ScriptCB_SndBusFade("soundfx",			busDuckFadeDuration, busDuckEndGain)
+				ScriptCB_SndBusFade("battlechatter",	busDuckFadeDuration, busDuckEndGain)
+				ScriptCB_SndBusFade("music",			busDuckFadeDuration, 0.6)	-- Don't duck the music buses as much
+				ScriptCB_SndBusFade("ingamemusic",		busDuckFadeDuration, 0.6)
+				ScriptCB_SndBusFade("ambience",			busDuckFadeDuration, busDuckEndGain)
+				ScriptCB_SndBusFade("voiceover",		busDuckFadeDuration, busDuckEndGain)
+			end
+			
+			return true
+		else
+			return false
 		end
 	end
 	
+	
 	---
 	-- Call this to unduck (unfade) all of the audio buses (excluding lowhealth). Only has an effect if the low health sound isn't playing.
+	-- @return #bool True if the buses are supposed to be ducked, false if not.
 	-- 
 	local function UnDuckBuses()
-		local fadeTime	= 0.7			-- What is the duration of the bus fade?
+		-- Are the audio buses supposed to be ducked when the shields break?
+		if bShieldBreakDucksBuses == true then
+			
+			-- Is the low health sound not playing?
+			if LH_bIsLowHealthSoundPlaying == false then
+				-- Unfade all of the audio buses
+				ScriptCB_SndBusFade("main",				busUnDuckFadeDuration, 1.0)
+				ScriptCB_SndBusFade("soundfx",			busUnDuckFadeDuration, 0.7)
+				ScriptCB_SndBusFade("battlechatter",	busUnDuckFadeDuration, 1.0)
+				ScriptCB_SndBusFade("music",			busUnDuckFadeDuration, 1.0)
+				ScriptCB_SndBusFade("ingamemusic",		busUnDuckFadeDuration, 0.7)
+				ScriptCB_SndBusFade("ambience",			busUnDuckFadeDuration, 0.7)
+				ScriptCB_SndBusFade("voiceover",		busUnDuckFadeDuration, 0.8)
+			end
+			
+			return true
+		else
+			return false
+		end
+	end
+	
+	
+	---
+	-- Call this to attach a particle /effect/ to /unit/.
+	-- @param #string effect The name of the particle effect to attach.
+	-- @param #object unit The character unit to attach the particle effect to.
+	--  
+	local function PlayParticleEffectOnUnit(effect, unit)
+		-- Instantiate the particle effect
+		local pfx = CreateEffect(effect)
 		
-		-- Is the low health sound not playing?
-		if LH_bIsLowHealthSoundPlaying == false then
-			-- Unfade all of the audio buses
-			ScriptCB_SndBusFade("main",				fadeTime, 1.0)
-			ScriptCB_SndBusFade("soundfx",			fadeTime, 0.7)
-			ScriptCB_SndBusFade("battlechatter",	fadeTime, 1.0)
-			ScriptCB_SndBusFade("music",			fadeTime, 1.0)
-			ScriptCB_SndBusFade("ingamemusic",		fadeTime, 0.7)
-			ScriptCB_SndBusFade("ambience",			fadeTime, 0.7)
-			ScriptCB_SndBusFade("voiceover",		fadeTime, 0.8)
+		-- Store the unit's location
+		local location = GetEntityMatrix(unit)
+		
+		-- And move/attach the particle effect to that location
+		AttachEffectToMatrix(pfx, location)
+	end
+	
+	
+	---
+	-- Call this to shake the camera utilizing the explosion properties from /object/.
+	-- @param #string object The class name of the EntityMine object whose explosion properties we're utilizing.
+	-- 
+	local function ShakeCamera(object)
+		-- Increment the object count
+		camShakeObjCount = camShakeObjCount + 1
+		
+		-- Spawn the EntityMine object at the player's location
+		CreateEntity(object, GetEntityMatrix(charUnit), "camshake_item_"..camShakeObjCount)
+	end
+	
+	
+	---
+	-- Call this to break the shields of /unit/.
+	-- @param #object unit The character unit whose shields we're breaking.
+	-- 
+	local function BreakShields(unit)
+		-- Are the player's shields able to be re-broken yet?
+		if bShieldsCanBeBroken == true then
+			
+			bShieldsCanBeBroken = false
+			
+			-- Are we supposed to play a sound?
+			if shieldBreakSound ~= "none" then
+				ScriptCB_SndPlaySound(shieldBreakSound)
+			end
+			
+			-- Are we supposed to spawn a particle effect?
+			if shieldBreakPfx ~= "none" then
+				PlayParticleEffectOnUnit(shieldBreakPfx, unit)
+			end
+			
+			-- Are we supposed to shake the camera?
+			if shieldBreakCamShakeObj ~= "none" then
+				ShakeCamera(shieldBreakCamShakeObj)
+			end
+			
+						
+			-- What is the player's current health?
+			local playerCurHealth = GetObjectHealth(unit)
+			
+			if playerMaxHealth <= 0 then
+				playerMaxHealth = 300
+			end
+			
+			-- What's the player's current health percentage?
+			local playerHealthPercent = playerCurHealth / playerMaxHealth
+			
+			-- Is the low health sound not activating?
+			if playerHealthPercent >= LH_playerHealthThreshold then
+			
+				-- Fade the audio buses briefly
+				DuckBuses()
+				
+				-- Create a temp timer that'll unfade the buses after a short amount of time
+				local busTimer = CreateTimer("fShieldRegenDelay_busTimer")
+				SetTimerValue(busTimer, 1.15)
+				StartTimer(busTimer)
+				
+				-- Bus timer elapse
+				local busTimerElapse = OnTimerElapse(
+					function(timer)
+						-- Unfade the buses
+						UnDuckBuses()
+						
+						-- Garbage collection
+						ReleaseTimerElapse(busTimerElapse)
+						DestroyTimer(busTimer)
+					end,
+				busTimer
+				)
+			else
+				if bDebugEnabled == true then
+					print("ME5_MiscFunctions.fShieldRegenDelay.playershieldschange(): playerHealthPercent, LH_playerHealthThreshold:", playerHealthPercent, LH_playerHealthThreshold)
+					print("ME5_MiscFunctions.fShieldRegenDelay.playershieldschange(): Low health sound activating, skipping bus ducking")
+				end
+			end
 		end
 	end
 	
@@ -744,14 +915,25 @@ function fShieldRegenDelay()
 	-- Event Responses
 	--=================================
 	
+	-- When the shield rebreak timer elapses
+	local shieldRebreakTimerElapse = OnTimerElapse(
+		function(timer)
+			StopTimer(shieldRebreakTimer)
+			
+			bShieldsCanBeBroken = true
+		end, 
+	shieldRebreakTimer
+	)
+	
 	-- When the player spawns
     local playerspawn = OnCharacterSpawn(
 	    function(character)
+	    	-- Is the character human?
 	        if character == 0 then
 	        	charUnit = GetCharacterUnit(character)
 	        	charPtr = GetEntityPtr(charUnit)
 	        	charClass = GetEntityClass(charPtr)
-				playerMaxHealth = GetObjectHealth(charPtr)
+				playerMaxHealth = GetObjectHealth(charPtr)	-- TODO: This might become an issue if CharacterSpawn also applies to changing classes at CPs.
 	        	
 				-- For each shield class,
 				for i in pairs(shieldClasses) do
@@ -761,7 +943,7 @@ function fShieldRegenDelay()
 						
 						-- Calculate the player's AddShield value
 						regenBaseValue = shieldClasses[i]['addShield']
-						regenFinalValue = regenBaseValue * regenValueMult
+						regenFinalValue = regenBaseValue * shieldRegenValueMult
 					else
 						bIsPlayerCorrectClass = false
 					end
@@ -776,8 +958,10 @@ function fShieldRegenDelay()
 	-- When the player is damaged
 	local playerdamage = OnObjectDamage(
 		function(object, damager)
-			-- Is the affected object the player?
+		
+			-- Is the player the affected object?
 			if charUnit == GetEntityPtr(object) and bIsPlayerCorrectClass == true then
+			
 				-- Stop shield regeneration
 				StopRegeneration(object)
 			end
@@ -788,51 +972,14 @@ function fShieldRegenDelay()
 	local playershieldschange = OnShieldChange(
 		function(object, shields)
 			
-			-- Is the affected object the player?
+			-- Is the player the affected object?
 			if charUnit == GetEntityPtr(object) and bIsPlayerCorrectClass == true then
 				
 				-- Are the player's shields completely depleted?
 				if shields <= 0 then
-					
-					-- Play the shieldBreakSound
-					ScriptCB_SndPlaySound(shieldBreakSound)
-					
-					-- What is the player's current health?
-					local playerCurHealth = GetObjectHealth(object)
-					
-					if playerMaxHealth <= 0 then
-						playerMaxHealth = 300
-					end
-					
-					-- What's the player's current health percentage?
-					local playerHealthPercent = playerCurHealth / playerMaxHealth
-					
-					-- Is the low health sound not about to activate?
-					if playerHealthPercent >= LH_playerHealthThreshold then
-						-- Fade the audio buses briefly
-						DuckBuses()
-						
-						-- Create a temp timer that'll unfade the buses after a short amount of time
-						local busTimer = CreateTimer("shieldBreakBusTimer")
-						SetTimerValue(busTimer, 1.15)
-						StartTimer(busTimer)
-						
-						-- Bus timer elapse
-						local busTimerElapse = OnTimerElapse(
-							function(timer)
-								-- Unfade the buses
-								UnDuckBuses()
-								
-								-- Garbage collection
-								ReleaseTimerElapse(busTimerElapse)
-								DestroyTimer(busTimer)
-							end,
-						busTimer
-						)
-					else
-						print("ME5_MiscFunctions.fShieldRegenDelay.playershieldschange(): playerHealthPercent, LH_playerHealthThreshold:", playerHealthPercent, LH_playerHealthThreshold)
-						print("ME5_MiscFunctions.fShieldRegenDelay.playershieldschange(): Low health sound activating, skipping bus ducking")
-					end
+				
+					-- Break the player's shields
+					BreakShields(object)
 				end
 			end
 		end
@@ -841,12 +988,14 @@ function fShieldRegenDelay()
 	-- When the player dies
 	local playerdeath = OnObjectKill(
 		function(player, killer)
-			-- Is the affected object the player?
+		
+			-- Is the player the affected object?
 			if charUnit == GetEntityPtr(player) then
+			
 				StopTimer(shieldRegenTimer)
 				
 				-- Reset the timer's value
-				SetTimerValue(shieldRegenTimer, regenDelayValue)
+				SetTimerValue(shieldRegenTimer, shieldRegenDelayValue)
 				bIsRegenStopped = false
 			end
 		end
@@ -937,7 +1086,9 @@ function PostLoadStuff()
 	end
 	
 	fLowHealthSound()
-	meu_lowhealth_postCall()
+	--meu_lowhealth_postCall()
+	
+    ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\camshake.lvl")
 	
 	if ME5_CustomHUD == 1 then
 			print("ME5_MiscFunctions.PostLoadStuff(): Overwriting stock fonts with blank font")
@@ -1044,14 +1195,15 @@ function fKillSound()
 						local playerTeam = GetCharacterTeam(player)
 						local killerTeam = GetCharacterTeam(killer)
 						
+						-- Was the killed unit's team different from the killer's?
 						if playerTeam ~= killerTeam then
 							-- Is this not a campaign?
 							if not IsCampaign() then
 								ScriptCB_SndPlaySound("hud_player_kill")
 							else
-								local world = GetWorldFilename()
+								local world = string.lower(GetWorldFilename())
 								
-								-- Which world is this?
+								-- Are we on Europa?
 								if world == "eur" then
 									-- Is the victim team not the squad team?
 									if playerTeam ~= 3 then

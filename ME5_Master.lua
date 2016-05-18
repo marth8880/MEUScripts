@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
--- Version 30325/06
+-- Version 30502/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Mar 25, 2016
+-- May 2, 2016
 -- Copyright (c) 2016 A. Gilbert.
 -- 
 -- About this script: The purpose of script is to set some global 
@@ -19,154 +19,157 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 	print("ME5_Master: Entered")
-	print("ME5_Master: Mass Effect: Unification is currently running on Build 30325/06, Release 6, Version 1.21")
+	print("ME5_Master: Mass Effect: Unification is currently running on Build 30502/06, Release 6, Version 1.21")
 	
 	print("ME5_Master: Performing garbage collection...")
-		ME5_AIHeroes			= nil
-		ME5_CustomGUIEnabled	= nil
-		ME5_CustomHUD			= nil
-		ME5_Difficulty			= nil
-		ME5_HealthFunc			= nil
-		ME5_ShieldFunc			= nil
-		ME5_ShieldRegen			= nil
-		ME5_HeroClassCOL		= nil
-		ME5_HeroClassEVG		= nil
-		ME5_HeroClassGTH		= nil
-		ME5_HeroClassSSV		= nil
-		ME5_ShepardClass		= nil
-		ME5_ShepardGender		= nil
-		ME5_SideVar				= nil
-		ME5_SolMapMusic			= nil
-		ME5_FactionVO			= nil
-		ME5_LowHealthSound		= nil
-		ME5_KillSound			= nil
-		
-		mapSize				= nil
-		MEUGameMode			= nil
-		EnvironmentType		= nil
-		onlineSideVar		= nil
-		onlineHeroSSV		= nil
-		onlineHeroGTH		= nil
-		onlineHeroCOL		= nil
-		onlineHeroEVG		= nil
-		isTDM				= false
-		
-		xxs		= nil
-		xs		= nil
-		sm		= nil
-		med		= nil
-		lg		= nil
-		
-		meu_1flag	= nil
-		meu_con		= nil
-		meu_ctf		= nil
-		meu_siege	= nil
-		meu_surv	= nil
-		meu_tdm		= nil
-		
-		SSVxGTH		= nil
-		SSVxCOL		= nil
-		EVGxGTH		= nil
-		EVGxCOL		= nil
-		
-		shep_soldier		= nil
-		shep_infiltrator	= nil
-		shep_engineer		= nil
-		shep_adept			= nil
-		shep_sentinel		= nil
-		shep_vanguard		= nil
-		
-		coop_soldier		= nil
-		coop_infiltrator	= nil
-		coop_engineer		= nil
-		coop_adept			= nil
-		coop_sentinel		= nil
-		coop_vanguard		= nil
-		
-		gethprime_me2	= nil
-		gethprime_me3	= nil
-		
-		colgeneral	= nil
-		
-		ssv_inf_soldier		= nil
-		ssv_inf_infiltrator	= nil
-		ssv_inf_adept		= nil
-		ssv_inf_engineer	= nil
-		ssv_inf_sentinel	= nil
-		ssv_inf_vanguard	= nil
-		
-		gth_inf_trooper			= nil
-		gth_inf_rocketeer		= nil
-		gth_inf_sniper			= nil
-		gth_inf_machinist		= nil
-		gth_inf_hunter			= nil
-		gth_inf_shock			= nil
-		gth_inf_shock_online	= nil
-		gth_inf_destroyer		= nil
-		gth_inf_juggernaut		= nil
-		
-		col_inf_guardian		= nil
-		col_inf_guardian_online	= nil
-		
-		gth_ev_inf_trooper		= nil
-		gth_ev_inf_infiltrator	= nil
-		gth_ev_inf_rocketeer	= nil
-		gth_ev_inf_engineer		= nil
-		gth_ev_inf_hunter		= nil
-		gth_ev_inf_pyro			= nil
-		gth_ev_inf_juggernaut	= nil
-		
-		snd_REP_cpCapture_ally	= nil
-		snd_REP_cpCapture_enemy	= nil
-		snd_REP_cpLost_ally		= nil
-		snd_REP_cpLost_enemy	= nil
-		
-		snd_CIS_cpCapture_ally	= nil
-		snd_CIS_cpCapture_enemy	= nil
-		snd_CIS_cpLost_ally		= nil
-		snd_CIS_cpLost_enemy	= nil
-		
-		snd_SSV_cpCapture_ally	= nil
-		snd_SSV_cpCapture_enemy	= nil
-		snd_SSV_cpLost_ally		= nil
-		snd_SSV_cpLost_enemy	= nil
+	
+	
+	
+	ME5_AIHeroes			= nil
+	ME5_CustomGUIEnabled	= nil
+	ME5_CustomHUD			= nil
+	ME5_Difficulty			= nil
+	ME5_HealthFunc			= nil
+	ME5_ShieldFunc			= nil
+	ME5_ShieldRegen			= nil
+	ME5_HeroClassCOL		= nil
+	ME5_HeroClassEVG		= nil
+	ME5_HeroClassGTH		= nil
+	ME5_HeroClassSSV		= nil
+	ME5_ShepardClass		= nil
+	ME5_ShepardGender		= nil
+	ME5_SideVar				= nil
+	ME5_SolMapMusic			= nil
+	ME5_FactionVO			= nil
+	ME5_LowHealthSound		= nil
+	ME5_KillSound			= nil
+	
+	mapSize				= nil
+	MEUGameMode			= nil
+	EnvironmentType		= nil
+	onlineSideVar		= nil
+	onlineHeroSSV		= nil
+	onlineHeroGTH		= nil
+	onlineHeroCOL		= nil
+	onlineHeroEVG		= nil
+	isTDM				= false
+	
+	xxs		= nil
+	xs		= nil
+	sm		= nil
+	med		= nil
+	lg		= nil
+	
+	meu_1flag	= nil
+	meu_con		= nil
+	meu_ctf		= nil
+	meu_siege	= nil
+	meu_surv	= nil
+	meu_tdm		= nil
+	
+	SSVxGTH		= nil
+	SSVxCOL		= nil
+	EVGxGTH		= nil
+	EVGxCOL		= nil
+	
+	shep_soldier		= nil
+	shep_infiltrator	= nil
+	shep_engineer		= nil
+	shep_adept			= nil
+	shep_sentinel		= nil
+	shep_vanguard		= nil
+	
+	coop_soldier		= nil
+	coop_infiltrator	= nil
+	coop_engineer		= nil
+	coop_adept			= nil
+	coop_sentinel		= nil
+	coop_vanguard		= nil
+	
+	gethprime_me2	= nil
+	gethprime_me3	= nil
+	
+	colgeneral	= nil
+	
+	ssv_inf_soldier		= nil
+	ssv_inf_infiltrator	= nil
+	ssv_inf_adept		= nil
+	ssv_inf_engineer	= nil
+	ssv_inf_sentinel	= nil
+	ssv_inf_vanguard	= nil
+	
+	gth_inf_trooper			= nil
+	gth_inf_rocketeer		= nil
+	gth_inf_sniper			= nil
+	gth_inf_machinist		= nil
+	gth_inf_hunter			= nil
+	gth_inf_shock			= nil
+	gth_inf_shock_online	= nil
+	gth_inf_destroyer		= nil
+	gth_inf_juggernaut		= nil
+	
+	col_inf_guardian		= nil
+	col_inf_guardian_online	= nil
+	
+	gth_ev_inf_trooper		= nil
+	gth_ev_inf_infiltrator	= nil
+	gth_ev_inf_rocketeer	= nil
+	gth_ev_inf_engineer		= nil
+	gth_ev_inf_hunter		= nil
+	gth_ev_inf_pyro			= nil
+	gth_ev_inf_juggernaut	= nil
+	
+	snd_REP_cpCapture_ally	= nil
+	snd_REP_cpCapture_enemy	= nil
+	snd_REP_cpLost_ally		= nil
+	snd_REP_cpLost_enemy	= nil
+	
+	snd_CIS_cpCapture_ally	= nil
+	snd_CIS_cpCapture_enemy	= nil
+	snd_CIS_cpLost_ally		= nil
+	snd_CIS_cpLost_enemy	= nil
+	
+	snd_SSV_cpCapture_ally	= nil
+	snd_SSV_cpCapture_enemy	= nil
+	snd_SSV_cpLost_ally		= nil
+	snd_SSV_cpLost_enemy	= nil
 
-		snd_GTH_cpCapture_ally	= nil
-		snd_GTH_cpCapture_enemy	= nil
-		snd_GTH_cpLost_ally		= nil
-		snd_GTH_cpLost_enemy	= nil
+	snd_GTH_cpCapture_ally	= nil
+	snd_GTH_cpCapture_enemy	= nil
+	snd_GTH_cpLost_ally		= nil
+	snd_GTH_cpLost_enemy	= nil
 
-		snd_COL_cpCapture_ally	= nil
-		snd_COL_cpCapture_enemy	= nil
-		snd_COL_cpLost_ally		= nil
-		snd_COL_cpLost_enemy	= nil
-		
-		snd_EVG_cpCapture_ally	= nil
-		snd_EVG_cpCapture_enemy	= nil
-		snd_EVG_cpLost_ally		= nil
-		snd_EVG_cpLost_enemy	= nil
-		
-		shieldDropCnt		= nil
-		team1ticketstring	= nil
-		team2ticketstring	= nil
-		ssvEngCnt			= nil
-		BroShepClass		= nil
-		SSVHeroClass		= nil
-		GTHHeroClass		= nil
-		COLHeroClass		= nil
-		EVGHeroClass		= nil
-		DecideCOLHeroClass	= nil
-		DecideEVGHeroClass	= nil
-		DecideGTHHeroClass	= nil
-		DecideSSVHeroClass	= nil
-		MusicVariation		= nil
-		
-		DecideMus02StartVar		= nil
-		DecideMus02MidVar		= nil
-		DecideMus02EndVar		= nil
-		DecideMus04Var			= nil
-		DecideMus05Var			= nil
-		DecideMus06Var			= nil
+	snd_COL_cpCapture_ally	= nil
+	snd_COL_cpCapture_enemy	= nil
+	snd_COL_cpLost_ally		= nil
+	snd_COL_cpLost_enemy	= nil
+	
+	snd_EVG_cpCapture_ally	= nil
+	snd_EVG_cpCapture_enemy	= nil
+	snd_EVG_cpLost_ally		= nil
+	snd_EVG_cpLost_enemy	= nil
+	
+	shieldDropCnt		= nil
+	team1ticketstring	= nil
+	team2ticketstring	= nil
+	ssvEngCnt			= nil
+	BroShepClass		= nil
+	SSVHeroClass		= nil
+	GTHHeroClass		= nil
+	COLHeroClass		= nil
+	EVGHeroClass		= nil
+	DecideCOLHeroClass	= nil
+	DecideEVGHeroClass	= nil
+	DecideGTHHeroClass	= nil
+	DecideSSVHeroClass	= nil
+	MusicVariation		= nil
+	
+	DecideMus02StartVar		= nil
+	DecideMus02MidVar		= nil
+	DecideMus02EndVar		= nil
+	DecideMus04Var			= nil
+	DecideMus05Var			= nil
+	DecideMus06Var			= nil
 	
 	-- Load custom scripts, designer-specified globals & player stats points
 	if isLowG == 1 then
@@ -176,7 +179,7 @@
 	end
 	ScriptCB_DoFile("ME5_points")
 	ScriptCB_DoFile("ME5_ConfigCheck")
-	ScriptCB_DoFile("ME5_HUD_LowHealth")
+	--ScriptCB_DoFile("ME5_HUD_LowHealth")
 	ScriptCB_DoFile("ME5_MiscFunctions")
 	ScriptCB_DoFile("ME5_RandomSides")
 	ScriptCB_DoFile("ME5_AudioFunctions")
