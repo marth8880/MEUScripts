@@ -58,7 +58,8 @@ local squadAggro = nil		-- The aggressiveness of the player's squad.
 local enemyAggro = nil		-- The aggressiveness of the enemy units.
 local bossAggro = nil		-- The aggressiveness of the final boss.
 
-local bInCombat = false		-- Is the player currently in combat?
+local bInCombat = false			-- Is the player currently in combat?
+local currentZoneID = "none"	-- What is the name ID of the current combat zone?
 
 local camShakeObjCount = 0			-- How many camshake objects have been spawned?
 local camShakeCharUnit = nil		-- The player character unit.
@@ -1128,6 +1129,11 @@ end
 function ReleaseCombatZone(combatZoneID)
 	print("EURn_c.ReleaseCombatZone(): Entered")
 	
+	if currentZoneID == "none" then
+		print("EURn_c.ReleaseCombatZone(): Warning, there's no active combat zone! Exiting function")
+		return
+	end
+	
 	local zoneID = combatZoneID
 	
 	print("EURn_c.ReleaseCombatZone(): Releasing combat zone "..zoneID)
@@ -1146,7 +1152,7 @@ function ReleaseCombatZone(combatZoneID)
 	ClearAIGoals(SQD)
 	AddAIGoal(SQD, "Defend", 100, 0)
 	
-	-- Which combat zone are we releasing? Complete the objective depending on the answer
+	-- Which combat zone are we releasing? Complete the objective based on the answer
 	if zoneID == "S0_Hangar" then
 		Objective2b:Complete(ATT)
 		
@@ -1199,6 +1205,9 @@ function ReleaseCombatZone(combatZoneID)
 		Objective7:Complete(ATT)
 		
 	end
+	
+	-- Make sure this function can't recalled until another combat zone is entered
+	currentZoneID = "none"
 end
 
 ---
@@ -1623,6 +1632,7 @@ function ScriptPostLoad()
 	-- Player's squad follows the player out of the shuttle.
 	ClearAIGoals(SQD)
 	AddAIGoal(SQD, "Follow", 100, 0)
+	-- TODO: don't forget to uncomment this^
     
     SetRespawnPoint("ps_start_shuttle")
     
@@ -1634,6 +1644,8 @@ function ScriptPostLoad()
 	playerstartinghealth = OnCharacterSpawn(
 		function(character)
 			if IsCharacterHuman(character) then
+				--BeginScreenTransition(0, 0.5, 0.7, 1.5, "FADE", "FADE")
+				
 				local charPtr = GetEntityPtr(GetCharacterUnit(character))
 				
 				-- Store the player's starting health
@@ -1797,7 +1809,7 @@ function ScriptPostLoad()
 		BroadcastVoiceOver("EUR_obj_2b", ATT)
 		
 		-- This combat zone's string ID
-		local currentZoneID = "S0_Hangar"
+		currentZoneID = "S0_Hangar"
 		
 		-- Set up init params for combat zone
 		SetupCombatZoneInit(currentZoneID)
@@ -1856,7 +1868,7 @@ function ScriptPostLoad()
     				print("EURn_c.CZ_CargoBay: Entered region")
     				
     				-- This combat zone's string ID
-    				local currentZoneID = "S0_CargoBay"
+    				currentZoneID = "S0_CargoBay"
     				
     				-- Set up init params for combat zone
     				SetupCombatZoneInit(currentZoneID)
@@ -1905,7 +1917,7 @@ function ScriptPostLoad()
     				print("EURn_c.CZ_Reception: Entered region")
     				
     				-- This combat zone's string ID
-    				local currentZoneID = "S0_Reception"
+    				currentZoneID = "S0_Reception"
     				
     				-- Set up init params for combat zone
     				SetupCombatZoneInit(currentZoneID)
@@ -1955,7 +1967,7 @@ function ScriptPostLoad()
     				print("EURn_c.CZ_Management: Entered region")
     				
     				-- This combat zone's string ID
-    				local currentZoneID = "S0_Management"
+    				currentZoneID = "S0_Management"
     				
     				-- Set up init params for combat zone
     				SetupCombatZoneInit(currentZoneID)
@@ -2005,7 +2017,7 @@ function ScriptPostLoad()
     				print("EURn_c.CZ_PowerControl: Entered region")
     				
     				-- This combat zone's string ID
-    				local currentZoneID = "S0_PowerControl"
+    				currentZoneID = "S0_PowerControl"
     				
     				-- Set up init params for combat zone
     				SetupCombatZoneInit(currentZoneID)
@@ -2055,7 +2067,7 @@ function ScriptPostLoad()
     				print("EURn_c.CZ_CommsControl: Entered region")
     				
     				-- This combat zone's string ID
-    				local currentZoneID = "S0_CommsControl"
+    				currentZoneID = "S0_CommsControl"
     				
     				-- Set up init params for combat zone
     				SetupCombatZoneInit(currentZoneID)
@@ -2229,7 +2241,7 @@ function ScriptPostLoad()
     				print("EURn_c.CZ_MainAtrium: Entered region")
     				
     				-- This combat zone's string ID
-    				local currentZoneID = "S1_MainAtrium"
+    				currentZoneID = "S1_MainAtrium"
     				
     				-- Set up init params for combat zone
     				SetupCombatZoneInit(currentZoneID)
@@ -2282,7 +2294,7 @@ function ScriptPostLoad()
     				print("EURn_c.CZ_MarineLifeLab: Entered region")
     				
     				-- This combat zone's string ID
-    				local currentZoneID = "S1_MarineLifeLab"
+    				currentZoneID = "S1_MarineLifeLab"
     				
     				-- Set up init params for combat zone
     				SetupCombatZoneInit(currentZoneID)
@@ -2335,7 +2347,7 @@ function ScriptPostLoad()
     				print("EURn_c.CZ_IceSamplesLab: Entered region")
     				
     				-- This combat zone's string ID
-    				local currentZoneID = "S1_IceSamplesLab"
+    				currentZoneID = "S1_IceSamplesLab"
     				
     				-- Set up init params for combat zone
     				SetupCombatZoneInit(currentZoneID)
@@ -2451,7 +2463,7 @@ function ScriptPostLoad()
     				print("EURn_c.CZ_MainAtrium: Entered region")
     				
     				-- This combat zone's string ID
-    				local currentZoneID = "S3_MainAtrium"
+    				currentZoneID = "S3_MainAtrium"
     				
     				-- Set up init params for combat zone
     				SetupCombatZoneInit(currentZoneID)
@@ -2504,7 +2516,7 @@ function ScriptPostLoad()
     				print("EURn_c.CZ_MarineLifeLab: Entered region")
     				
     				-- This combat zone's string ID
-    				local currentZoneID = "S3_MarineLifeLab"
+    				currentZoneID = "S3_MarineLifeLab"
     				
     				-- Set up init params for combat zone
     				SetupCombatZoneInit(currentZoneID)
@@ -2557,7 +2569,7 @@ function ScriptPostLoad()
     				print("EURn_c.CZ_EnergyLab: Entered region")
     				
     				-- This combat zone's string ID
-    				local currentZoneID = "S3_EnergyLab"
+    				currentZoneID = "S3_EnergyLab"
     				
     				-- Set up init params for combat zone
     				SetupCombatZoneInit(currentZoneID)
@@ -2673,7 +2685,7 @@ function ScriptPostLoad()
     				print("EURn_c.CZ_MainAtrium: Entered region")
     				
     				-- This combat zone's string ID
-    				local currentZoneID = "S4_MainAtrium"
+    				currentZoneID = "S4_MainAtrium"
     				
     				-- Set up init params for combat zone
     				SetupCombatZoneInit(currentZoneID)
@@ -2726,7 +2738,7 @@ function ScriptPostLoad()
     				print("EURn_c.S4_SeismoLab: Entered region")
     				
     				-- This combat zone's string ID
-    				local currentZoneID = "S4_SeismoLab"
+    				currentZoneID = "S4_SeismoLab"
     				
     				-- Set up init params for combat zone
     				SetupCombatZoneInit(currentZoneID)
@@ -2779,7 +2791,7 @@ function ScriptPostLoad()
     				print("EURn_c.CZ_GeoLab: Entered region")
     				
     				-- This combat zone's string ID
-    				local currentZoneID = "S4_GeoLab"
+    				currentZoneID = "S4_GeoLab"
     				
     				-- Set up init params for combat zone
     				SetupCombatZoneInit(currentZoneID)
@@ -2860,7 +2872,7 @@ function ScriptPostLoad()
     				print("EURn_c.CZ_Caves_1a: Entered region")
     				
     				-- This combat zone's string ID
-    				local currentZoneID = "S4_Caves_1a"
+    				currentZoneID = "S4_Caves_1a"
     				
     				-- Set up init params for combat zone
     				SetupCombatZoneInit(currentZoneID)
@@ -2896,7 +2908,7 @@ function ScriptPostLoad()
     				print("EURn_c.CZ_Caves_1b: Entered region")
     				
     				-- This combat zone's string ID
-    				local currentZoneID = "S4_Caves_1b"
+    				currentZoneID = "S4_Caves_1b"
     				
     				-- Set up init params for combat zone
     				SetupCombatZoneInit(currentZoneID)
@@ -2932,7 +2944,7 @@ function ScriptPostLoad()
     				print("EURn_c.CZ_Caves_1c: Entered region")
     				
     				-- This combat zone's string ID
-    				local currentZoneID = "S4_Caves_1c"
+    				currentZoneID = "S4_Caves_1c"
     				
     				-- Set up init params for combat zone
     				SetupCombatZoneInit(currentZoneID)
@@ -2968,7 +2980,7 @@ function ScriptPostLoad()
     				print("EURn_c.CZ_Caves_2: Entered region")
     				
     				-- This combat zone's string ID
-    				local currentZoneID = "S4_Caves_2"
+    				currentZoneID = "S4_Caves_2"
     				
     				-- Set up init params for combat zone
     				SetupCombatZoneInit(currentZoneID)
@@ -2998,7 +3010,7 @@ function ScriptPostLoad()
     				print("EURn_c.CZ_Caves_3: Entered region")
     				
     				-- This combat zone's string ID
-    				local currentZoneID = "S4_Caves_3"
+    				currentZoneID = "S4_Caves_3"
     				
     				-- Set up init params for combat zone
     				SetupCombatZoneInit(currentZoneID)
@@ -3112,6 +3124,88 @@ function ScriptPostLoad()
 	
 	
 	DisableAIAutoBalance()
+	
+	
+	
+	-- tell v1.3 to expect custom FC commands
+	SupportsCustomFCCommands = true
+	
+	-- make sure we don't wipe out someone else's custom commands
+	local moreCommands = nil
+	if AddFCCommands ~= nil then
+		moreCommands = AddFCCommands 
+	end
+	
+	-- v1.3 will automatically call this for you at the proper times
+	AddFCCommands = function()
+		-- Add your custom commands here using ff_AddCommand() as show below
+		
+		-- attempts to teleport all enemy AI units to player 0's location
+		ff_AddCommand(
+			"Release Combat Zone",		-- name of the command
+			nil,						-- command description.  If nil, defaults to mods.fakeconsole.description.<name without spaces> (example: mods.fakeconsole.description.MyEnemyAITeleport)
+			function()					-- this function does whatever it is you want your command to do
+				ReleaseCombatZone(currentZoneID)
+			end,
+			function()					 -- this function returns true when you want the command displayed in the FC menu
+				return not ScriptCB_InNetGame()	--only shows command in singleplayer
+			end
+		)	-- end of ff_AddCommand's parameters
+		
+		
+		ff_AddCommand(
+			"Unblock Combat Zone Exits (0)",		-- name of the command
+			nil,						-- command description.  If nil, defaults to mods.fakeconsole.description.<name without spaces> (example: mods.fakeconsole.description.MyEnemyAITeleport)
+			function()					-- this function does whatever it is you want your command to do
+				UnblockCombatZoneExits(0)
+			end,
+			function()					 -- this function returns true when you want the command displayed in the FC menu
+				return not ScriptCB_InNetGame()	--only shows command in singleplayer
+			end
+		)	-- end of ff_AddCommand's parameters
+		
+		
+		ff_AddCommand(
+			"Unblock Combat Zone Exits (1)",		-- name of the command
+			nil,						-- command description.  If nil, defaults to mods.fakeconsole.description.<name without spaces> (example: mods.fakeconsole.description.MyEnemyAITeleport)
+			function()					-- this function does whatever it is you want your command to do
+				UnblockCombatZoneExits(1)
+			end,
+			function()					 -- this function returns true when you want the command displayed in the FC menu
+				return not ScriptCB_InNetGame()	--only shows command in singleplayer
+			end
+		)	-- end of ff_AddCommand's parameters
+		
+		
+		ff_AddCommand(
+			"Unblock Combat Zone Exits (2)",		-- name of the command
+			nil,						-- command description.  If nil, defaults to mods.fakeconsole.description.<name without spaces> (example: mods.fakeconsole.description.MyEnemyAITeleport)
+			function()					-- this function does whatever it is you want your command to do
+				UnblockCombatZoneExits(2)
+			end,
+			function()					 -- this function returns true when you want the command displayed in the FC menu
+				return not ScriptCB_InNetGame()	--only shows command in singleplayer
+			end
+		)	-- end of ff_AddCommand's parameters
+		
+		
+		ff_AddCommand(
+			"Unblock Combat Zone Exits (3)",		-- name of the command
+			nil,						-- command description.  If nil, defaults to mods.fakeconsole.description.<name without spaces> (example: mods.fakeconsole.description.MyEnemyAITeleport)
+			function()					-- this function does whatever it is you want your command to do
+				UnblockCombatZoneExits(3)
+			end,
+			function()					 -- this function returns true when you want the command displayed in the FC menu
+				return not ScriptCB_InNetGame()	--only shows command in singleplayer
+			end
+		)	-- end of ff_AddCommand's parameters
+		
+		
+		-- process someone else's custom FC commands
+		if moreCommands ~= nil then
+			return moreCommands()
+		end
+	end
     
 end
 
@@ -3215,16 +3309,22 @@ function BeginOpeningCinematic()
 	Shot4b = CameraShot:New{cameraClassName = "eur_prop_camera_squad_1", cameraObj = "cam_brief_squad_1", shotDuration = voDurations[12], startFOV = 45}
 	Shot4c = CameraShot:New{cameraClassName = "eur_prop_camera_cmdr_1", cameraObj = "cam_brief_cmdr_1", shotDuration = voDurations[13], startFOV = 50}
 	
-	-- Shuttles ambush
+	-- Shuttles sighting
 	ShotShuttles1a = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "cam_shuttles_flying_1", shotDuration = 4.0, startFOV = 50, zoomFOV = 20, zoomTime = 2.0}
-	ShotShuttles1b = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "cam_shuttles_flying_2", shotDuration = 11.0, startFOV = 60}
+	
+	-- GARDIAN turrets
+	ShotTurrets1 = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "cam_shuttles_turrets", shotDuration = 7.0, startFOV = 60}
+	
+	-- Shuttles ambush
+	ShotShuttles1b = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "cam_shuttles_flying_2", shotDuration = 7.45, startFOV = 60}	-- shotDuration changed from 8.0 to 7.45 (-0.55) -- 5-28-2016
 	
 	-- Shuttle landing
 	ShotShuttles2a = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "cam_shuttles_ground_2", shotDuration = 3.5, startFOV = 60}
-	ShotShuttles2b = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "cam_shuttles_ground_1", shotDuration = 5.5, startFOV = 50}
+	ShotShuttles2b = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "cam_shuttles_ground_1", shotDuration = 5.65, startFOV = 50}
 	
 	
 	ShotIntro1.OnStart = function(self)
+		
 		-- Play the intro animation
 		RewindAnimation("shuttles_intro")
 		PlayAnimation("shuttles_intro")
@@ -3388,6 +3488,12 @@ function BeginOpeningCinematic()
 	end
 	
 	ShotShuttles1a.OnStart = function(self)
+		
+		-- Spawn the spacedust pfx near the shuttles
+		spacedustPfx = CreateEffect("eur_sfx_spacedust")
+		AttachEffectToMatrix(spacedustPfx, GetPathPoint("spacedust_pfx", 0))
+		
+		
 		RewindAnimation("shuttles_ambush")
 		PlayAnimation("shuttles_ambush")
 		
@@ -3397,9 +3503,159 @@ function BeginOpeningCinematic()
 		--ScriptCB_SndPlaySound("kodiak_shuttle_ambush")
 		BroadcastVoiceOver("kodiak_shuttle_ambush", ATT)
 		
+	end
+	
+	ShotTurrets1.OnStart = function(self)
+		
+		PauseAnimation("shuttles_ambush")
+		PauseAnimation("shuttle_ambush_spin")
+		
+		local tur1FireCount = 0		-- How many times has turret 1 fired?
+		local tur2FireCount = 0		-- How many times has turret 2 fired?
+		local turFireCountMax = 3	-- How many times should the turrets fire?
+		
+		
+		--------------------------
+		-- FUNCTIONS
+		--------------------------
+		
+		---
+		-- Call this to fire one of the GARDIAN turrets based on /id/.
+		-- @param #int id The turret to fire (either 0 or 1).
+		local function FireTurret(id)
+			-- Create the particle effect...
+			local turPfx = CreateEffect("com_sfx_gardianturret_discharge")
+			local turPfxPos = GetPathPoint("turrets_pfx", id)
+			
+			-- ...and attach it to its position
+			AttachEffectToMatrix(turPfx, turPfxPos)
+			
+			-- Play the fire sound
+			ScriptCB_SndPlaySound("gardian_laser_fire_layered")
+		end
+		
+		
+		--------------------------
+		-- TIMERS
+		--------------------------
+		
+		-- Delay before the turrets begin aiming
+		local tursAimDelayTimer = CreateTimer("tursAimDelayTimer")
+		SetTimerValue(tursAimDelayTimer, 0.5)
+		
+		-- The time it takes the turrets to aim
+		local tursAimTimer = CreateTimer("tursAimTimer")
+		SetTimerValue(tursAimTimer, 1.75)
+		
+		-- Delay before turret 1 fires
+		local tur1FireDelayTimer = CreateTimer("tur1FireDelayTimer")
+		SetTimerValue(tur1FireDelayTimer, 0.5)
+		
+		-- Delay before turret 2 fires
+		local tur2FireDelayTimer = CreateTimer("tur2FireDelayTimer")
+		SetTimerValue(tur2FireDelayTimer, 0.6)
+		
+		
+		-- Begin sequence
+		StartTimer(tursAimDelayTimer)
+		
+		
+		--------------------------
+		-- EVENT RESPONSES
+		--------------------------
+		
+		-- Aim the turrets after a small delay
+		local tursAimDelayTimerElapse = OnTimerElapse(
+			function(timer)
+				-- Aim the turrets
+        		RewindAnimation("turrets_aim")
+        		PlayAnimation("turrets_aim")
+				
+    			-- Play the aim sound
+    			--ScriptCB_SndPlaySound("gardian_rotate_whir_layered")	-- TODO: create aim sound
+				
+				-- Time the aim animation
+				StartTimer(tursAimTimer)
+				
+				-- Garbage collection
+				ReleaseTimerElapse(tursAimDelayTimerElapse)
+				DestroyTimer(timer)
+			end,
+		tursAimDelayTimer
+		)
+		
+		-- Start firing at the shuttles
+		local tursAimTimerElapse = OnTimerElapse(
+			function(timer)
+				-- Begin firing sequence
+				StartTimer(tur1FireDelayTimer)
+				StartTimer(tur2FireDelayTimer)
+				
+				-- Garbage collection
+				ReleaseTimerElapse(tursAimTimerElapse)
+				DestroyTimer(timer)
+			end,
+		tursAimTimer
+		)
+		
+		-- Fire turret 1 at the shuttles
+		local tur1FireDelayTimerElapse = OnTimerElapse(
+			function(timer)
+				-- Increment the fire count
+				tur1FireCount = tur1FireCount + 1
+				
+				-- Fire the turret
+				FireTurret(0)
+				
+				
+				-- Has this turret fired all 3 shots?
+				if tur1FireCount >= turFireCountMax then
+					-- Garbage collection
+					DestroyTimer(timer)
+					ReleaseTimerElapse(tur1FireDelayTimerElapse)
+				else
+    				-- If not, fire again
+    				SetTimerValue(tur1FireDelayTimer, 1.5)
+    				StartTimer(tur1FireDelayTimer)
+				end
+			end,
+		tur1FireDelayTimer
+		)
+		
+		-- Fire turret 2 at the shuttles
+		local tur2FireDelayTimerElapse = OnTimerElapse(
+			function(timer)
+				-- Increment the fire count
+				tur2FireCount = tur2FireCount + 1
+				
+				-- Fire the turret
+				FireTurret(1)
+				
+				
+				-- Has this turret fired all 3 shots?
+				if tur2FireCount >= turFireCountMax then
+					-- Garbage collection
+					ReleaseTimerElapse(tur2FireDelayTimerElapse)
+					DestroyTimer(timer)
+				else
+    				-- If not, fire again
+    				SetTimerValue(tur2FireDelayTimer, 1.6)
+    				StartTimer(tur2FireDelayTimer)
+				end
+			end,
+		tur2FireDelayTimer
+		)
+	end
+	
+	ShotTurrets1.OnComplete = function(self)
+		
+		-- Resume animations at 4.0 secs in 
+		PlayAnimation("shuttles_ambush")
+		PlayAnimation("shuttle_ambush_spin")
+		
 		-- Timer for the shuttles_ambush animation
 		ShuttlesAmbushTimer = CreateTimer("ShuttlesAmbushTimer")
-		SetTimerValue(ShuttlesAmbushTimer, 24.0)
+		SetTimerValue(ShuttlesAmbushTimer, 20.0)
 		StartTimer(ShuttlesAmbushTimer)
 		
 		-- When the shuttles_ambush timer elapses
@@ -3416,7 +3672,7 @@ function BeginOpeningCinematic()
 		
 		-- Shuttle1 destruction timer
 		local shuttle1DestTimer = CreateTimer("shuttle1DestTimer")
-		SetTimerValue(shuttle1DestTimer, 10.5)
+		SetTimerValue(shuttle1DestTimer, 3.5)
 		
 		-- Start countdown to destroy shuttle1
 		StartTimer(shuttle1DestTimer)
@@ -3449,7 +3705,7 @@ function BeginOpeningCinematic()
 		
 		-- Shuttle2 destruction timer
 		local shuttle2DestTimer = CreateTimer("shuttle2DestTimer")
-		SetTimerValue(shuttle2DestTimer, 6.0)
+		SetTimerValue(shuttle2DestTimer, 1.0)
 		
 		-- Start countdown to destroy shuttle2
 		StartTimer(shuttle2DestTimer)
@@ -3483,6 +3739,11 @@ function BeginOpeningCinematic()
 		
 	end
 	
+	ShotShuttles1b.OnComplete = function(self)
+		-- Remove the spacedust pfx from the game world
+		RemoveEffect(spacedustPfx)
+	end
+	
 	ShotShuttles2a.OnStart = function(self)
 		
 	end
@@ -3501,7 +3762,8 @@ function BeginOpeningCinematic()
 	ShotTransition2 = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "cam_transition", shotDuration = 0.02, startFOV = 45}
 	ShotTransition3 = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "cam_transition", shotDuration = 0.02, startFOV = 45}
 	ShotTransition4 = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "cam_transition", shotDuration = 0.02, startFOV = 40}
-	ShotTransition5 = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "cam_transition", shotDuration = 0.02, startFOV = 60}
+	ShotTransition5a = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "cam_transition", shotDuration = 0.02, startFOV = 60}
+	ShotTransition5b = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "cam_transition", shotDuration = 0.02, startFOV = 60}
 	ShotTransition6 = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "cam_transition", shotDuration = 0.02, startFOV = 60}
 	ShotTransition7 = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "cam_transition", shotDuration = 0.02, startFOV = 60}
 	ShotTransition8 = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "cam_transition", shotDuration = 0.02, startFOV = 60}
@@ -3531,8 +3793,10 @@ function BeginOpeningCinematic()
 	openingCinematicSequence:AddShot(Shot4b)
 	openingCinematicSequence:AddShot(ShotTransition4)
 	openingCinematicSequence:AddShot(Shot4c)]]
-	openingCinematicSequence:AddShot(ShotTransition5)
+	openingCinematicSequence:AddShot(ShotTransition5a)
 	openingCinematicSequence:AddShot(ShotShuttles1a)
+	openingCinematicSequence:AddShot(ShotTransition5b)
+	openingCinematicSequence:AddShot(ShotTurrets1)
 	openingCinematicSequence:AddShot(ShotTransition6)
 	openingCinematicSequence:AddShot(ShotShuttles1b)
 	openingCinematicSequence:AddShot(ShotTransition7)
@@ -3625,6 +3889,27 @@ function BeginOpeningCinematic()
 		"shuttle_exit"
 		)
 		
+		
+		local streamTimer = CreateTimer("streamTimer")
+		SetTimerValue(streamTimer, 5)
+		StartTimer(streamTimer)
+		
+		local streamTimerElapse = OnTimerElapse(
+			function(timer)
+				-- Close the prop stream
+				print("EURn_c.openingCinematicSequence.OnComplete(): Closing prop stream")
+				StopAudioStream(ambientPropStream, 1)
+				
+				-- Open the second ambient stream
+				print("EURn_c.openingCinematicSequence.OnComplete(): Opening second ambient stream")
+				ambientStream2 = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl",  "EUR_ambiance")
+				
+				DestroyTimer(timer)
+				ReleaseTimerElapse(streamTimerElapse)
+			end,
+		streamTimer
+		)
+		
 	end
 	
 	openingCinematicSequence:Start()
@@ -3712,32 +3997,32 @@ function ScriptInit()
 			team = GethPawns,
 			units = 20,
 			reinforcements = -1,
-			soldier = { gth_inf_trooper,7, 10},
-			rocketeer = { gth_inf_rocketeer,3, 6},
+			soldier = { gth_inf_trooper,9, 12},
+			rocketeer = { gth_inf_rocketeer,5, 8},
 		},
 		
 		tacticals = {
 			team = GethTacticals,
 			units = 20,
 			reinforcements = -1,
-			sniper = { gth_inf_sniper,4, 7},
-			hunter = { gth_inf_hunter,3, 6},
+			sniper = { gth_inf_sniper,9, 16},
+			hunter = { gth_inf_hunter,7, 14},
 		},
 		
 		specials = {
 			team = GethSpecials,
 			units = 20,
 			reinforcements = -1,
-			engineer = { gth_inf_machinist,3, 6},
-			shock = { gth_inf_shock,5, 8},
+			engineer = { gth_inf_machinist,5, 12},
+			shock = { gth_inf_shock,7, 15},
 		},
 		
 		heavys = {
 			team = GethHeavys,
 			units = 20,
 			reinforcements = -1,
-			destroyer = { gth_inf_destroyer,3, 6},
-			juggernaut = { gth_inf_juggernaut,2, 4},
+			destroyer = { gth_inf_destroyer,7, 14},
+			juggernaut = { gth_inf_juggernaut,5, 12},
 		},
 		
 		primes = {
@@ -3849,7 +4134,7 @@ function ScriptInit()
 	--AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_EUR_Streaming.lvl", "ME5n_music_EUR", stingerStream)
 	--AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_EUR_Streaming.lvl", "ME5n_stingers_EUR", musicStream)
 	
-	ambientStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl",  "EUR_ambiance")
+	ambientStream1 = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl",  "EUR_ambiance")
 	ambientPropStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl",  "EUR_prop_ambiance")
 	--AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl", "EUR_prop_ambiance", ambientStream)
 	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl",  "EUR_ambiance")
