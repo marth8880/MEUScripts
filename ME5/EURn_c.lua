@@ -61,7 +61,7 @@ local bossAggro = nil		-- The aggressiveness of the final boss.
 local bInCombat = false			-- Is the player currently in combat?
 local currentZoneID = "none"	-- What is the name ID of the current combat zone?
 
-local camShakeObjCount = 0			-- How many camshake objects have been spawned?
+local numCinematicShakes = 0		-- How many cinematic shakes have there been?
 local camShakeCharUnit = nil		-- The player character unit.
 
 
@@ -673,13 +673,11 @@ function SetupCombatZoneInit(combatZoneID)
 		Wave_1 = CombatWave:New{ team = GethPawns,	numDudes = 4, spawnValue = 2, spawnPath = "es_s0_cargo" }
 		Wave_2 = CombatWave:New{ team = GethPawns,	numDudes = 3, spawnValue = 3, spawnPath = "es_s0_cargo" }
 		Wave_3 = CombatWave:New{ team = GethPawns,	numDudes = 3, spawnValue = 3, spawnPath = "es_s0_cargo" }
-		Wave_4 = CombatWave:New{ team = GethPawns,	numDudes = 3, spawnValue = 3, spawnPath = "es_s0_cargo" }
 		
 		CombatSequence = WaveSequence:New{ bDebugWaves = true }
 		CombatSequence:AddWave(Wave_1)
 		CombatSequence:AddWave(Wave_2)
 		CombatSequence:AddWave(Wave_3)
-		CombatSequence:AddWave(Wave_4)
 		CombatSequence:Start()
 		
 		
@@ -693,15 +691,13 @@ function SetupCombatZoneInit(combatZoneID)
 		Wave_1 = CombatWave:New{ team = GethPawns,	numDudes = 4, spawnValue = 2, spawnPath = "es_s0_reception" }
 		Wave_2 = CombatWave:New{ team = GethPawns,	numDudes = 3, spawnValue = 3, spawnPath = "es_s0_reception" }
 		Wave_3 = CombatWave:New{ team = GethPawns,	numDudes = 3, spawnValue = 3, spawnPath = "es_s0_reception" }
-		Wave_4 = CombatWave:New{ team = GethPawns,	numDudes = 3, spawnValue = 3, spawnPath = "es_s0_reception" }
-		Wave_5 = CombatWave:New{ team = GethPawns,	numDudes = 3, spawnValue = 3, spawnPath = "es_s0_reception" }
+		Wave_4 = CombatWave:New{ team = GethPawns,	numDudes = 2, spawnValue = 2, spawnPath = "es_s0_reception" }
 		
 		CombatSequence = WaveSequence:New{ bDebugWaves = true }
 		CombatSequence:AddWave(Wave_1)
 		CombatSequence:AddWave(Wave_2)
 		CombatSequence:AddWave(Wave_3)
 		CombatSequence:AddWave(Wave_4)
-		CombatSequence:AddWave(Wave_5)
 		CombatSequence:Start()
 		
 		
@@ -716,7 +712,7 @@ function SetupCombatZoneInit(combatZoneID)
 		Wave_2 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s0_management_1" }
 		Wave_3 = CombatWave:New{ team = GethTacticals,	numDudes = 3, spawnValue = 3, spawnPath = "es_s0_management_2" }
 		Wave_4 = CombatWave:New{ team = GethPawns,		numDudes = 2, spawnValue = 2, spawnPath = "es_s0_management_1" }
-		Wave_5 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s0_management_2" }
+		Wave_5 = CombatWave:New{ team = GethPawns,		numDudes = 2, spawnValue = 2, spawnPath = "es_s0_management_2" }
 		
 		CombatSequence = WaveSequence:New{ bDebugWaves = true }
 		CombatSequence:AddWave(Wave_1)
@@ -1513,16 +1509,47 @@ end
 
 
 ---
--- Call this to shake the camera utilizing the explosion properties from /object/.
--- @param #string object	The class name of the EntityMine object whose explosion properties we're utilizing.
--- @param #int pathNode		The node of the path "camshake" to attach the camera shake to.
+-- Call this to shake the camera.
+-- @param #float shakeAmount	The amount to shake the camera.
+-- @param #float shakeLength	The length of time in seconds of the shake.
 -- 
-function CinematicShakeCamera(object, pathNode)
-	-- Increment the object count
-	camShakeObjCount = camShakeObjCount + 1
+function CinematicShakeCamera(shakeAmount, shakeLength)
+	print("EURn_c.CinematicShakeCamera("..shakeAmount..", "..shakeLength.."): Entered")
 	
-	-- Spawn the EntityMine object at the player's location
-	CreateEntity(object, GetPathPoint("camshake", pathNode), "camshake_item_cinematic_"..camShakeObjCount)
+	-- Make sure we don't reuse an old shake timer
+	numCinematicShakes = numCinematicShakes + 1
+	
+	-- Start shaking
+	SetClassProperty("eur_cinematic_rumble", "MinShakeAmt", shakeAmount)
+	SetClassProperty("eur_cinematic_rumble", "MaxShakeAmt", shakeAmount)
+	SetClassProperty("eur_cinematic_rumble", "MinShakeLen", shakeLength)
+	SetClassProperty("eur_cinematic_rumble", "MaxShakeLen", shakeLength)
+	SetClassProperty("eur_cinematic_rumble", "MinInterval", shakeLength+0.1)
+	SetClassProperty("eur_cinematic_rumble", "MaxInterval", shakeLength+0.1)
+	
+	-- Timer to control shaking
+	local cinematicShakeTimer = CreateTimer("cinematicShakeTimer_"..numCinematicShakes)
+	SetTimerValue(cinematicShakeTimer, shakeLength)
+	StartTimer(cinematicShakeTimer)
+	
+	local cinematicShakeTimerElapse = OnTimerElapse(
+		function(timer)
+			print("EURn_c.CinematicShakeCamera: Stopping shaking")
+			
+			-- Stop shaking
+			SetClassProperty("eur_cinematic_rumble", "MinShakeAmt", 0.0)
+			SetClassProperty("eur_cinematic_rumble", "MaxShakeAmt", 0.0)
+			SetClassProperty("eur_cinematic_rumble", "MinShakeLen", 0.0)
+			SetClassProperty("eur_cinematic_rumble", "MaxShakeLen", 0.0)
+			SetClassProperty("eur_cinematic_rumble", "MinInterval", 0.01)
+			SetClassProperty("eur_cinematic_rumble", "MaxInterval", 0.01)
+			
+			DestroyTimer(timer)
+			ReleaseTimerElapse(cinematicShakeTimerElapse)
+		end,
+	cinematicShakeTimer
+	)
+	
 end
 
 
@@ -1632,7 +1659,6 @@ function ScriptPostLoad()
 	-- Player's squad follows the player out of the shuttle.
 	ClearAIGoals(SQD)
 	AddAIGoal(SQD, "Follow", 100, 0)
-	-- TODO: don't forget to uncomment this^
     
     SetRespawnPoint("ps_start_shuttle")
     
@@ -1678,6 +1704,7 @@ function ScriptPostLoad()
 	-- FIRST SPAWN
 	--==========================
     
+    -- Play spawn menu music
     ScriptCB_PlayInGameMusic("eur_amb_01a_briefing")
 	
     onfirstspawn = OnCharacterSpawn(
@@ -3694,7 +3721,7 @@ function BeginOpeningCinematic()
 				SetProperty("shuttledest_1", "CurHealth", 0)
 				
 				-- Shake the camera
-				CinematicShakeCamera("com_item_camshake_cinematic", 0)
+				CinematicShakeCamera(1.0, 0.5)
 				
 				DestroyTimer(shuttle1DestTimer)
 				ReleaseTimerElapse(shuttle1DestElapse)
@@ -3726,7 +3753,7 @@ function BeginOpeningCinematic()
 				SetProperty("shuttledest_2", "CurHealth", 800000)
 				
 				-- Shake the camera
-				CinematicShakeCamera("com_item_camshake_cinematic", 0)
+				CinematicShakeCamera(1.0, 0.5)
 				
 				DestroyTimer(shuttle2DestTimer)
 				ReleaseTimerElapse(shuttle2DestElapse)
@@ -3742,16 +3769,43 @@ function BeginOpeningCinematic()
 	ShotShuttles1b.OnComplete = function(self)
 		-- Remove the spacedust pfx from the game world
 		RemoveEffect(spacedustPfx)
+		
+		-- Disable shuttle2's damage pfx
+		SetProperty("shuttledest_2", "CurHealth", 10000)
 	end
 	
 	ShotShuttles2a.OnStart = function(self)
 		
-	end
-	
-	ShotShuttles2b.OnStart = function(self)
+		shuttleDustTimer = CreateTimer("shuttleDustTimer")
+		SetTimerValue(shuttleDustTimer, 2.0)
+		StartTimer(shuttleDustTimer)
+		
+		shuttleLandDustTimerElapse = OnTimerElapse(
+			function(timer)
+				-- Spawn dust pfx at shuttle landing spot
+				shuttleLandPfx = CreateEffect("com_sfx_shuttle_dustwake")
+				AttachEffectToMatrix(shuttleLandPfx, GetPathPoint("shuttledust_pfx", 0))
+				
+				ReleaseTimerElapse(shuttleLandDustTimerElapse)
+				shuttleLandDustTimerElapse = nil
+			end,
+		shuttleDustTimer
+		)
 		
 	end
 	
+	ShotShuttles2a.OnComplete = function(self)
+		
+	end
+	
+	ShotShuttles2b.OnStart = function(self)
+		-- Stop emitting dust pfx
+		RemoveEffect(shuttleLandPfx)
+	end
+	
+	ShotShuttles2b.OnComplete = function(self)
+		
+	end
 	
 	--========================
 	-- TRANSITIONS START
@@ -3873,6 +3927,27 @@ function BeginOpeningCinematic()
 							AttachEffectToMatrix(thruster_2, thruster_2_pos)
 							AttachEffectToMatrix(thruster_3, thruster_3_pos)
 							AttachEffectToMatrix(thruster_4, thruster_4_pos)
+							
+							
+							-- Spawn dust pfx at shuttle landing spot
+							shuttleTakeoffPfx = CreateEffect("com_sfx_shuttle_dustwake")
+							AttachEffectToMatrix(shuttleTakeoffPfx, GetPathPoint("shuttledust_pfx", 0))
+							
+							SetTimerValue(shuttleDustTimer, 2.5)
+							StartTimer(shuttleDustTimer)
+							
+							shuttleTakeoffDustTimerElapse = OnTimerElapse(
+								function(timer)
+									-- Stop emitting dust pfx
+									RemoveEffect(shuttleTakeoffPfx)
+									
+									DestroyTimer(timer)
+									ReleaseTimerElapse(shuttleTakeoffDustTimerElapse)
+									shuttleDustTimer = nil
+									shuttleTakeoffDustTimerElapse = nil
+								end,
+							shuttleDustTimer
+							)
 							
 				            -- Start the objectives delay
 				        	BeginObjectivesTimer()
