@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Utility Functions Script by A. Gilbert
--- Version 30518/06
+-- Version 30604/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- May 18, 2016
+-- Jun 04, 2016
 -- Copyright (c) 2016 A. Gilbert.
 -- 
 -- About this script: This script contains various utility functions 

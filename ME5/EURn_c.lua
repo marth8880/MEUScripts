@@ -3228,6 +3228,18 @@ function ScriptPostLoad()
 		)	-- end of ff_AddCommand's parameters
 		
 		
+		ff_AddCommand(
+			"Open Shuttle Door",		-- name of the command
+			nil,						-- command description.  If nil, defaults to mods.fakeconsole.description.<name without spaces> (example: mods.fakeconsole.description.MyEnemyAITeleport)
+			function()					-- this function does whatever it is you want your command to do
+				OpenShuttleDoor()
+			end,
+			function()					 -- this function returns true when you want the command displayed in the FC menu
+				return not ScriptCB_InNetGame()	--only shows command in singleplayer
+			end
+		)	-- end of ff_AddCommand's parameters
+		
+		
 		-- process someone else's custom FC commands
 		if moreCommands ~= nil then
 			return moreCommands()
@@ -3266,6 +3278,15 @@ function BeginObjectives()
 	objectiveSequence:AddObjectiveSet(Objective7)
 	
 	objectiveSequence:Start()
+end
+
+function OpenShuttleDoor()
+	-- Open the shuttle's door
+	ScriptCB_SndPlaySound("kodiak_shuttle_door_open")
+	
+	PauseAnimation("shuttle_door")
+	RewindAnimation("shuttle_door")
+	PlayAnimation("shuttle_door")
 end
 
 function BeginOpeningCinematic()
@@ -3599,7 +3620,7 @@ function BeginOpeningCinematic()
         		PlayAnimation("turrets_aim")
 				
     			-- Play the aim sound
-    			--ScriptCB_SndPlaySound("gardian_rotate_whir_layered")	-- TODO: create aim sound
+    			ScriptCB_SndPlaySound("gardian_turrets_aim_layered")
 				
 				-- Time the aim animation
 				StartTimer(tursAimTimer)
@@ -3879,6 +3900,9 @@ function BeginOpeningCinematic()
         -- Allow squad AI to spawn
 		AllowAISpawn(SQD, true)
 		
+		-- Open the shuttle's door
+		ScriptCB_SndPlaySound("kodiak_shuttle_door_open")
+		PauseAnimation("shuttle_door")
 		RewindAnimation("shuttle_door")
 		PlayAnimation("shuttle_door")
 		
