@@ -618,6 +618,42 @@ function SetRespawnPoint(spawnPathName)
 end
 
 ---
+-- Sets the path 'spawnPathName' that the player should respawn at.
+-- @param #string spawnPathName The name of the path to spawn at.
+-- 
+function SetRespawnPointPlayer(spawnPathName)
+
+	local pathName = spawnPathName
+	
+	-- Quit function if pathName is nil
+	if pathName == nil then
+		print("EURn_c.SetRespawnPoint(): Failed! Argument #0  spawnPathName  cannot be nil!")
+	return end
+	
+	print("EURn_c.SetRespawnPoint(): Setting player respawn point to "..pathName)
+	
+	SetProperty("cp1", "SpawnPath", pathName)
+end
+
+---
+-- Sets the path 'spawnPathName' that allied teams should respawn at.
+-- @param #string spawnPathName The name of the path to spawn at.
+-- 
+function SetRespawnPointSquad(spawnPathName)
+
+	local pathName = spawnPathName
+	
+	-- Quit function if pathName is nil
+	if pathName == nil then
+		print("EURn_c.SetRespawnPoint(): Failed! Argument #0  spawnPathName  cannot be nil!")
+	return end
+	
+	print("EURn_c.SetRespawnPoint(): Setting player respawn point to "..pathName)
+	
+	SetProperty("cp1", "AllyPath", pathName)
+end
+
+---
 -- Sets up the combat zone 'zoneID'.
 -- @param #string combatZoneID The name ID of the zone to set up.
 -- 
@@ -755,9 +791,8 @@ function SetupCombatZoneInit(combatZoneID)
 		Wave_1 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s0_comms" }
 		Wave_2 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s0_comms" }
 		Wave_3 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s0_comms" }
-		Wave_4 = CombatWave:New{ team = GethPawns,		numDudes = 3, spawnValue = 3, spawnPath = "es_s0_comms" }
-		Wave_5 = CombatWave:New{ team = GethTacticals,	numDudes = 3, spawnValue = 3, spawnPath = "es_s0_comms" }
-		Wave_6 = CombatWave:New{ team = GethPawns,		numDudes = 2, spawnValue = 2, spawnPath = "es_s0_comms" }
+		Wave_4 = CombatWave:New{ team = GethTacticals,	numDudes = 3, spawnValue = 3, spawnPath = "es_s0_comms" }
+		Wave_5 = CombatWave:New{ team = GethPawns,		numDudes = 2, spawnValue = 2, spawnPath = "es_s0_comms" }
 		
 		CombatSequence = WaveSequence:New{ bDebugWaves = true }
 		CombatSequence:AddWave(Wave_1)
@@ -765,7 +800,6 @@ function SetupCombatZoneInit(combatZoneID)
 		CombatSequence:AddWave(Wave_3)
 		CombatSequence:AddWave(Wave_4)
 		CombatSequence:AddWave(Wave_5)
-		CombatSequence:AddWave(Wave_6)
 		CombatSequence:Start()
 		
 		
@@ -1524,12 +1558,13 @@ function CinematicShakeCamera(shakeAmount, shakeLength)
 	SetClassProperty("eur_cinematic_rumble", "MaxShakeAmt", shakeAmount)
 	SetClassProperty("eur_cinematic_rumble", "MinShakeLen", shakeLength)
 	SetClassProperty("eur_cinematic_rumble", "MaxShakeLen", shakeLength)
-	SetClassProperty("eur_cinematic_rumble", "MinInterval", shakeLength+0.1)
-	SetClassProperty("eur_cinematic_rumble", "MaxInterval", shakeLength+0.1)
+	SetClassProperty("eur_cinematic_rumble", "SoundName", " ")
+	--SetClassProperty("eur_cinematic_rumble", "MinInterval", shakeLength+0.1)
+	--SetClassProperty("eur_cinematic_rumble", "MaxInterval", shakeLength+0.1)
 	
 	-- Timer to control shaking
 	local cinematicShakeTimer = CreateTimer("cinematicShakeTimer_"..numCinematicShakes)
-	SetTimerValue(cinematicShakeTimer, shakeLength)
+	SetTimerValue(cinematicShakeTimer, shakeLength+0.1)
 	StartTimer(cinematicShakeTimer)
 	
 	local cinematicShakeTimerElapse = OnTimerElapse(
@@ -1539,10 +1574,11 @@ function CinematicShakeCamera(shakeAmount, shakeLength)
 			-- Stop shaking
 			SetClassProperty("eur_cinematic_rumble", "MinShakeAmt", 0.0)
 			SetClassProperty("eur_cinematic_rumble", "MaxShakeAmt", 0.0)
-			SetClassProperty("eur_cinematic_rumble", "MinShakeLen", 0.0)
-			SetClassProperty("eur_cinematic_rumble", "MaxShakeLen", 0.0)
-			SetClassProperty("eur_cinematic_rumble", "MinInterval", 0.01)
-			SetClassProperty("eur_cinematic_rumble", "MaxInterval", 0.01)
+			SetClassProperty("eur_cinematic_rumble", "MinShakeLen", 0.01)
+			SetClassProperty("eur_cinematic_rumble", "MaxShakeLen", 0.01)
+			--SetClassProperty("eur_cinematic_rumble", "MinInterval", 0.2)
+			--SetClassProperty("eur_cinematic_rumble", "MaxInterval", 0.2)
+			SetClassProperty("eur_cinematic_rumble", "SoundName", " ")
 			
 			DestroyTimer(timer)
 			ReleaseTimerElapse(cinematicShakeTimerElapse)
@@ -1658,20 +1694,22 @@ function ScriptPostLoad()
     
 	-- Player's squad follows the player out of the shuttle.
 	ClearAIGoals(SQD)
-	AddAIGoal(SQD, "Follow", 100, 0)
+	AddAIGoal(SQD, "Defend", 100, GetObjectPtr("squad_firstspawn_goto"))
     
-    SetRespawnPoint("ps_start_shuttle")
+    SetRespawnPointPlayer("ps_start_shuttle")
+    SetRespawnPointSquad("ps_start_shuttle_ext")
     
     -- Set up all of the timers
     SetupTimers()
     
     
-    -- Store the player's health whenever they spawn
-	playerstartinghealth = OnCharacterSpawn(
+    -- Whenever the player spawns
+	playerspawn = OnCharacterSpawn(
 		function(character)
 			if IsCharacterHuman(character) then
 				--BeginScreenTransition(0, 0.5, 0.7, 1.5, "FADE", "FADE")
 				
+				-- Store the player's health
 				local charPtr = GetEntityPtr(GetCharacterUnit(character))
 				
 				-- Store the player's starting health
@@ -1682,6 +1720,20 @@ function ScriptPostLoad()
 				
 				print("EURn_c.playerstartinghealth: playerMaxHealth:", playerMaxHealth)
 				print("EURn_c.playerstartinghealth: playerMinHealth:", playerMinHealth)
+				
+				
+				-- Prevent the squad from being able to kill enemies
+				SetAIDamageThreshold(SQD, 0.0)
+			end
+		end
+	)
+	
+	
+	playerdeath = OnCharacterDeath(
+		function(character)
+			if IsCharacterHuman(character) then
+				-- Prevent the squad from being able to kill enemies
+				SetAIDamageThreshold(SQD, 1.0)
 			end
 		end
 	)
@@ -1751,36 +1803,6 @@ function ScriptPostLoad()
 	end
 	
 	
-	--[[ActivateRegion("wave_trigger_test")
-	
-	local WaveTriggerTest = OnEnterRegion(
-		function(region, player)
-			if IsCharacterHuman(player) then
-				print("EURn_c.WaveTriggerTest: Entered region")
-				
-				TestWave1 = CombatWave:New{ team = GethPawns,	numDudes = 3, spawnValue = 2, spawnPath = "wave_spawn_test" }
-				TestWave2 = CombatWave:New{ team = GethPawns,	numDudes = 3, spawnValue = 3, spawnPath = "wave_spawn_test" }
-				TestWave3 = CombatWave:New{ team = GethPawns,	numDudes = 3, spawnValue = 3, spawnPath = "wave_spawn_test" }
-				
-				TestWaveSeq = WaveSequence:New{ bDebugWaves = true }
-				TestWaveSeq:AddWave(TestWave1)
-				TestWaveSeq:AddWave(TestWave2)
-				TestWaveSeq:AddWave(TestWave3)
-				
-				TestWaveSeq:Start()
-				
-				
-				-- Disable this combat zone's trigger
-				ReleaseEnterRegion(WaveTriggerTest)
-				WaveTriggerTest = nil
-				
-				DeactivateRegion("wave_trigger_test")
-			end
-		end,
-	"wave_trigger_test"
-	)]]
-	
-	
 	--==========================
 	-- ACTIVATE HANGAR CONSOLE
 	--==========================
@@ -1805,6 +1827,10 @@ function ScriptPostLoad()
     			print("EURn_c.CZ_Hangar: Activated console")
     			ShowMessageText("level.EUR.interactions.test.received")
     			
+    			-- Play interaction sound
+    			ScriptCB_SndPlaySound("eur_console_interact")
+    			
+    			-- Remove objective marker
     			MapRemoveEntityMarker("hangar_console")
     			
     			Objective2a:Complete(ATT)
@@ -1854,8 +1880,22 @@ function ScriptPostLoad()
 		-- Switch back to exploration music
 		ScriptCB_PlayInGameMusic("eur_amb_01_explore")
 		
-		-- Allow the player to leave
-		UnblockCombatZoneExits(0)
+		
+		local Obj3a_DelayTimer = CreateTimer("Obj3a_DelayTimer")
+		SetTimerValue(Obj3a_DelayTimer, 3)
+		StartTimer(Obj3a_DelayTimer)
+		
+		-- Wait a bit before letting the player proceed to the Cargo Bay
+		local Obj3a_DelayTimerElapse = OnTimerElapse(
+			function(timer)
+				-- Allow the player to leave
+				UnblockCombatZoneExits(0)
+				
+				DestroyTimer(timer)
+				ReleaseTimerElapse(Obj3a_DelayTimerElapse)
+			end,
+		Obj3a_DelayTimer
+		)
 	end
 	
 	CZ_S0_Hangar_SpawnEnter = OnEnterRegion(
@@ -2164,6 +2204,10 @@ function ScriptPostLoad()
     			print("EURn_c.CZ_CommsControl_Lockdown: Activated console")
     			ShowMessageText("level.EUR.interactions.test.received")
     			
+    			-- Play interaction sound
+    			ScriptCB_SndPlaySound("eur_console_interact")
+    			
+    			-- Remove objective marker
     			MapRemoveEntityMarker("comms_console")
     			
     			Objective3f:Complete(ATT)
@@ -3742,7 +3786,7 @@ function BeginOpeningCinematic()
 				SetProperty("shuttledest_1", "CurHealth", 0)
 				
 				-- Shake the camera
-				CinematicShakeCamera(1.0, 0.5)
+				CinematicShakeCamera(0.5, 0.35)
 				
 				DestroyTimer(shuttle1DestTimer)
 				ReleaseTimerElapse(shuttle1DestElapse)
@@ -3774,7 +3818,7 @@ function BeginOpeningCinematic()
 				SetProperty("shuttledest_2", "CurHealth", 800000)
 				
 				-- Shake the camera
-				CinematicShakeCamera(1.0, 0.5)
+				CinematicShakeCamera(0.5, 0.35)
 				
 				DestroyTimer(shuttle2DestTimer)
 				ReleaseTimerElapse(shuttle2DestElapse)
@@ -4086,8 +4130,8 @@ function ScriptInit()
 			sniper  = { ssv_inf_infiltrator,1, 1},
 			adept = { ssv_inf_adept,1, 1},
 			engineer   = { ssv_inf_engineer,1, 1},
-			--sentinel = { "ssv_inf_cooper_sentinel",0, 1},
-			--vanguard = { "ssv_inf_cooper_vanguard",0, 1},
+			sentinel = { ssv_inf_sentinel,1, 1},
+			vanguard = { ssv_inf_vanguard,1, 1},
 		},
 	    
 	    -- Geth classes
@@ -4244,14 +4288,14 @@ function ScriptInit()
 	SetDefeatMusic (CIS, "eur_amb_01_defeat")
 	
 	SetAttackingTeam(ATT)
-
+	
     SoundFX()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl")
-
-
--- Opening Satellite Shots
-	AddCameraShot(0.311518, -0.039204, -0.942001, -0.118549, -148.629410, 3.808583, 74.864357);
+	
+	
+	-- Opening satellite shots
+	AddCameraShot(-0.461276, -0.061869, -0.877234, 0.117716, -51.108570, 127.905670, 150.074707);
 	
 	PostLoadStuff()
 end

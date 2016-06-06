@@ -794,48 +794,56 @@ end
 
 
 function SSVWorldVO()
-	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "vo_streaming")
-	
-	SetBleedingVoiceOver(REP, REP, "ssv_adm_com_report_us_bleeding", 1)
-	SetBleedingVoiceOver(REP, CIS, "ssv_adm_com_report_enemy_bleeding", 1)
-	
-	SetLowReinforcementsVoiceOver(REP, REP, "ssv_adm_com_report_defeat_imm", 0.1, 1)
-	SetLowReinforcementsVoiceOver(REP, CIS, "ssv_adm_com_report_victory_imm", 0.1, 1)
+	if not IsCampaign() then
+		--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "vo_streaming")
+		
+		SetBleedingVoiceOver(REP, REP, "ssv_adm_com_report_us_bleeding", 1)
+		SetBleedingVoiceOver(REP, CIS, "ssv_adm_com_report_enemy_bleeding", 1)
+		
+		SetLowReinforcementsVoiceOver(REP, REP, "ssv_adm_com_report_defeat_imm", 0.1, 1)
+		SetLowReinforcementsVoiceOver(REP, CIS, "ssv_adm_com_report_victory_imm", 0.1, 1)
+	end
 	
 	SetOutOfBoundsVoiceOver(REP, "ssv_adm_com_report_hiatus")
 end
 
 
 function GTHWorldVO()
-	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_GTH_Streaming.lvl", "gth_vo_streaming")
-	
-	SetBleedingVoiceOver(CIS, REP, "gth_ann_com_report_enemy_bleeding", 1)
-	SetBleedingVoiceOver(CIS, CIS, "gth_ann_com_report_us_bleeding", 1)
+	if not IsCampaign() then
+		--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_GTH_Streaming.lvl", "gth_vo_streaming")
+		
+		SetBleedingVoiceOver(CIS, REP, "gth_ann_com_report_enemy_bleeding", 1)
+		SetBleedingVoiceOver(CIS, CIS, "gth_ann_com_report_us_bleeding", 1)
+	end
 	
 	SetOutOfBoundsVoiceOver(CIS, "gth_ann_com_report_hiatus")
 end
 
 
 function COLWorldVO()
-	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_COL_Streaming.lvl", "col_vo_streaming")
-	
-	SetBleedingVoiceOver(CIS, REP, "col_gen_com_report_enemy_bleeding", 1)
-	SetBleedingVoiceOver(CIS, CIS, "col_gen_com_report_us_bleeding", 1)
-	
-	SetLowReinforcementsVoiceOver(CIS, CIS, "col_gen_com_report_defeat_imm", 0.1, 1)
-	SetLowReinforcementsVoiceOver(CIS, REP, "col_gen_com_report_victory_imm", 0.1, 1)
+	if not IsCampaign() then
+		--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_COL_Streaming.lvl", "col_vo_streaming")
+		
+		SetBleedingVoiceOver(CIS, REP, "col_gen_com_report_enemy_bleeding", 1)
+		SetBleedingVoiceOver(CIS, CIS, "col_gen_com_report_us_bleeding", 1)
+		
+		SetLowReinforcementsVoiceOver(CIS, CIS, "col_gen_com_report_defeat_imm", 0.1, 1)
+		SetLowReinforcementsVoiceOver(CIS, REP, "col_gen_com_report_victory_imm", 0.1, 1)
+	end
 	
 	SetOutOfBoundsVoiceOver(CIS, "col_gen_com_report_hiatus")
 end
 
 
 function EVGWorldVO()
-	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "vo_streaming")
-	
-	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_GTH_Streaming.lvl", "gth_vo_streaming")
-	
-	SetBleedingVoiceOver(REP, REP, "evg_prm_com_report_us_bleeding", 1)
-	SetBleedingVoiceOver(REP, CIS, "evg_prm_com_report_enemy_bleeding", 1)
+	if not IsCampaign() then
+		--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "vo_streaming")
+		
+		--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_GTH_Streaming.lvl", "gth_vo_streaming")
+		
+		SetBleedingVoiceOver(REP, REP, "evg_prm_com_report_us_bleeding", 1)
+		SetBleedingVoiceOver(REP, CIS, "evg_prm_com_report_enemy_bleeding", 1)
+	end
 	
 	SetOutOfBoundsVoiceOver(REP, "evg_prm_com_report_hiatus")
 end
