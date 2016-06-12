@@ -9,11 +9,17 @@ bDebugWaves = true
 
 -- load the gametype script
 ScriptCB_DoFile("ME5_Master")
+
+MEUGameMode = meu_campaign
+
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_MultiObjectiveContainer")
 ScriptCB_DoFile("ME5_ObjectiveAssault")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 ScriptCB_DoFile("ME5_ObjectiveGoto")
+
+MEUGameMode = meu_campaign
+
 ScriptCB_DoFile("ME5_CinematicContainer")
 ScriptCB_DoFile("ME5_CameraFunctions")
 ScriptCB_DoFile("ME5_CombatManager")
@@ -32,6 +38,7 @@ onlineHeroEVG = gethprime_me3]]
 REP = 1	-- The player's team.
 CIS = 2	-- Team for the Geth Troopers and Rocketeers. Note: synonymous with teamID 'GethPawns'.
 SQD = 3	-- Team for the player's squad.
+GethHusks = 0	-- Team for the Husks.
 GethPawns = CIS	-- Team for the Geth Troopers and Rocketeers. Note: synonymous with teamID 'CIS'.
 GethTacticals = 4	-- Team for the Geth Snipers and Hunters.
 GethSpecials = 5	-- Team for the Geth Machinists and Shock Troopers.
@@ -1635,6 +1642,8 @@ function ScriptPostLoad()
 	SetProperty("comms_console", "AINoRepair", "1")
 	KillObject("comms_console")
 	
+	DisableBarriers("HangarEnter")
+	
 	-- Pre-block the first combat zone's exits
 	BlockCombatZoneExits(0)
 	
@@ -1758,6 +1767,8 @@ function ScriptPostLoad()
     
     -- Play spawn menu music
     ScriptCB_PlayInGameMusic("eur_amb_01a_briefing")
+	        	
+	SetRespawnPointPlayer("ps_start_shuttle1")	-- DEBUG
 	
     onfirstspawn = OnCharacterSpawn(
 	    function(character)
@@ -1827,11 +1838,19 @@ function ScriptPostLoad()
     			print("EURn_c.CZ_Hangar: Activated console")
     			ShowMessageText("level.EUR.interactions.test.received")
     			
+    			-- Activate the mass effect field
+    			RewindAnimation("hangar_mefield_activate")
+    			PlayAnimation("hangar_mefield_activate")
+    			
+    			EnableBarriers("HangarEnter")
+    			
+    			
     			-- Play interaction sound
     			ScriptCB_SndPlaySound("eur_console_interact")
     			
     			-- Remove objective marker
     			MapRemoveEntityMarker("hangar_console")
+    			
     			
     			Objective2a:Complete(ATT)
     			
@@ -4136,43 +4155,50 @@ function ScriptInit()
 	    
 	    -- Geth classes
 		
+		--[[husks = {
+			team = GethHusks,
+			units = 100,
+			reinforcements = -1,
+			soldier = { "indoc_inf_husk",9, 12},
+		},]]
+		
 		pawns = {
 			team = GethPawns,
-			units = 20,
+			units = 100,
 			reinforcements = -1,
-			soldier = { gth_inf_trooper,9, 12},
-			rocketeer = { gth_inf_rocketeer,5, 8},
+			soldier = { gth_inf_trooper,9, 60},		-- 9, 12
+			rocketeer = { gth_inf_rocketeer,5, 60},	-- 5, 8
 		},
 		
 		tacticals = {
 			team = GethTacticals,
-			units = 20,
+			units = 100,
 			reinforcements = -1,
-			sniper = { gth_inf_sniper,9, 16},
-			hunter = { gth_inf_hunter,7, 14},
+			sniper = { gth_inf_sniper,9, 60},	-- 9, 16
+			hunter = { gth_inf_hunter,7, 60},	-- 7, 14
 		},
 		
 		specials = {
 			team = GethSpecials,
-			units = 20,
+			units = 100,
 			reinforcements = -1,
-			engineer = { gth_inf_machinist,5, 12},
-			shock = { gth_inf_shock,7, 15},
+			engineer = { gth_inf_machinist,5, 60},	-- 5, 12
+			shock = { gth_inf_shock,7, 60},			-- 7, 15
 		},
 		
 		heavys = {
 			team = GethHeavys,
-			units = 20,
+			units = 100,
 			reinforcements = -1,
-			destroyer = { gth_inf_destroyer,7, 14},
-			juggernaut = { gth_inf_juggernaut,5, 12},
+			destroyer = { gth_inf_destroyer,7, 60},		-- 7, 14
+			juggernaut = { gth_inf_juggernaut,5, 60},	-- 5, 12
 		},
 		
 		primes = {
 			team = GethPrimes,
-			units = 20,
+			units = 100,
 			reinforcements = -1,
-			prime = { gth_inf_prime,2, 2},
+			prime = { gth_inf_prime,2, 2},	-- 2, 2
 		}
 	}
 	
@@ -4183,38 +4209,52 @@ function ScriptInit()
     SetTeamAsFriend(REP, SQD)
 	SetTeamAsFriend(SQD, REP)
 	
+--	SetTeamAsFriend(GethHusks, GethPawns)
+--	SetTeamAsFriend(GethHusks, GethTacticals)
+--	SetTeamAsFriend(GethHusks, GethSpecials)
+--	SetTeamAsFriend(GethHusks, GethHeavys)
+--	SetTeamAsFriend(GethHusks, GethPrimes)
+--	SetTeamAsFriend(GethPawns, GethHusks)
 	SetTeamAsFriend(GethPawns, GethTacticals)
 	SetTeamAsFriend(GethPawns, GethSpecials)
 	SetTeamAsFriend(GethPawns, GethHeavys)
 	SetTeamAsFriend(GethPawns, GethPrimes)
+--	SetTeamAsFriend(GethTacticals, GethHusks)
 	SetTeamAsFriend(GethTacticals, GethPawns)
 	SetTeamAsFriend(GethTacticals, GethSpecials)
 	SetTeamAsFriend(GethTacticals, GethHeavys)
 	SetTeamAsFriend(GethTacticals, GethPrimes)
+--	SetTeamAsFriend(GethSpecials, GethHusks)
 	SetTeamAsFriend(GethSpecials, GethPawns)
 	SetTeamAsFriend(GethSpecials, GethTacticals)
 	SetTeamAsFriend(GethSpecials, GethHeavys)
 	SetTeamAsFriend(GethSpecials, GethPrimes)
+--	SetTeamAsFriend(GethHeavys, GethHusks)
 	SetTeamAsFriend(GethHeavys, GethPawns)
 	SetTeamAsFriend(GethHeavys, GethTacticals)
 	SetTeamAsFriend(GethHeavys, GethSpecials)
 	SetTeamAsFriend(GethHeavys, GethPrimes)
+--	SetTeamAsFriend(GethPrimes, GethHusks)
 	SetTeamAsFriend(GethPrimes, GethPawns)
 	SetTeamAsFriend(GethPrimes, GethTacticals)
 	SetTeamAsFriend(GethPrimes, GethSpecials)
 	SetTeamAsFriend(GethPrimes, GethHeavys)
 	
+--	SetTeamAsEnemy(REP, GethHusks)
 	SetTeamAsEnemy(REP, GethPawns)
 	SetTeamAsEnemy(REP, GethTacticals)
 	SetTeamAsEnemy(REP, GethSpecials)
 	SetTeamAsEnemy(REP, GethHeavys)
 	SetTeamAsEnemy(REP, GethPrimes)
+--	SetTeamAsEnemy(SQD, GethHusks)
 	SetTeamAsEnemy(SQD, GethPawns)
 	SetTeamAsEnemy(SQD, GethTacticals)
 	SetTeamAsEnemy(SQD, GethSpecials)
 	SetTeamAsEnemy(SQD, GethHeavys)
 	SetTeamAsEnemy(SQD, GethPrimes)
 	
+--	SetTeamAsEnemy(GethHusks, REP)
+--	SetTeamAsEnemy(GethHusks, SQD)
 	SetTeamAsEnemy(GethPawns, REP)
 	SetTeamAsEnemy(GethPawns, SQD)
 	SetTeamAsEnemy(GethTacticals, REP)

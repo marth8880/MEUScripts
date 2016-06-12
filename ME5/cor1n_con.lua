@@ -137,8 +137,8 @@ end
 
 function ScriptPostLoad()
 		
-	-- Disable the stock minimap to make room for ours
-	DisableSmallMapMiniMap()
+	-- TODO: Disable the stock minimap to make room for ours
+	--DisableSmallMapMiniMap()
 
 	    AddDeathRegion("death")
 	    AddDeathRegion("death1")
@@ -184,16 +184,16 @@ function ScriptPostLoad()
 
     	EnableSPHeroRules()
     	
-    	DisableBarriers("SideDoor1")
+    	--DisableBarriers("SideDoor1")
         DisableBarriers("MainLibraryDoors")
-        DisableBarriers("SideDoor2")
-        DisableBarriers("SIdeDoor3")
-        DisableBarriers("ComputerRoomDoor1")
-        DisableBarriers("StarChamberDoor1")
-        DisableBarriers("StarChamberDoor2")
-        DisableBarriers("WarRoomDoor1")
-        DisableBarriers("WarRoomDoor2")
-        DisableBarriers("WarRoomDoor3") 
+        --DisableBarriers("SideDoor2")
+        --DisableBarriers("SIdeDoor3")
+        --DisableBarriers("ComputerRoomDoor1")
+        --DisableBarriers("StarChamberDoor1")
+        --DisableBarriers("StarChamberDoor2")
+        --DisableBarriers("WarRoomDoor1")
+        --DisableBarriers("WarRoomDoor2")
+        --DisableBarriers("WarRoomDoor3") 
         PlayAnimation("DoorOpen01")
         PlayAnimation("DoorOpen02") 
             

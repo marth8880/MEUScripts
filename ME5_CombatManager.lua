@@ -163,17 +163,17 @@ function WaveSequence:Start(combatZoneID, musicID)
 	ClearAIGoals(GethHeavys)
 	ClearAIGoals(GethPrimes)
 	
-	AddAIGoal(GethPawns, "Deathmatch", 20)
-	--AddAIGoal(GethPawns, "Destroy", 100, 0)
+	AddAIGoal(GethPawns, "Deathmatch", 100)
+	AddAIGoal(GethPawns, "Destroy", 30, 0)
 	
-	AddAIGoal(GethTacticals, "Deathmatch", 20)
-	AddAIGoal(GethTacticals, "Destroy", 100, 0)
+	AddAIGoal(GethTacticals, "Deathmatch", 100)
+	AddAIGoal(GethTacticals, "Destroy", 45, 0)
 	
-	AddAIGoal(GethSpecials, "Deathmatch", 20)
-	--AddAIGoal(GethSpecials, "Destroy", 100, 0)
+	AddAIGoal(GethSpecials, "Deathmatch", 100)
+	AddAIGoal(GethSpecials, "Destroy", 60, 0)
 	
-	AddAIGoal(GethHeavys, "Deathmatch", 60)
-	AddAIGoal(GethHeavys, "Destroy", 100, 0)
+	AddAIGoal(GethHeavys, "Deathmatch", 100)
+	AddAIGoal(GethHeavys, "Destroy", 75, 0)
 	
 	AddAIGoal(GethPrimes, "Destroy", 100, 0)
 	

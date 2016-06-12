@@ -5,7 +5,7 @@
 -- Ingame pause menu
 
 ScriptCB_DoFile("ME5_CinematicOverlayIFS")
-
+	
 ifspausemenu_vbutton_layout = {
 	ySpacing = 5,
 	width = 260,
@@ -229,6 +229,10 @@ function ifs_pausemenu_fnEnter(this, bFwd, iInstance)
 		this.buttons.restart.hidden = 1
 	else
 		this.buttons.restart.hidden = ScriptCB_InNetGame()
+	end
+	
+	if(ScriptCB_GetGameRules() == "campaign") then
+		this.buttons.suicide.hidden = 1		-- TODO: also add functionality to disable Fake Console in release!
 	end
 
 	this.buttons.exit.hidden = (gPlatformStr ~= "PC" or ScriptCB_InNetGame()) 

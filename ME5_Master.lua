@@ -60,12 +60,13 @@
 	med		= nil
 	lg		= nil
 	
-	meu_1flag	= nil
-	meu_con		= nil
-	meu_ctf		= nil
-	meu_siege	= nil
-	meu_surv	= nil
-	meu_tdm		= nil
+	meu_1flag		= nil
+	meu_con			= nil
+	meu_ctf			= nil
+	meu_siege		= nil
+	meu_surv		= nil
+	meu_tdm			= nil
+	meu_campaign	= nil
 	
 	SSVxGTH		= nil
 	SSVxCOL		= nil
@@ -206,12 +207,13 @@
 		med	= 4
 		lg	= 5
 		
-		meu_1flag	= 1
-		meu_con		= 2
-		meu_ctf		= 3
-		meu_siege	= 4
-		meu_surv	= 5
-		meu_tdm		= 6
+		meu_1flag		= 1
+		meu_con			= 2
+		meu_ctf			= 3
+		meu_siege		= 4
+		meu_surv		= 5
+		meu_tdm			= 6
+		meu_campaign	= 7
 		
 		SSVxGTH	= 1
 		SSVxCOL	= 2

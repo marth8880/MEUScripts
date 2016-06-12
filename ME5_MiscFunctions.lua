@@ -216,6 +216,8 @@ function PreLoadStuff()
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_surv")
 		elseif MEUGameMode == meu_tdm then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_tdm")
+		elseif MEUGameMode == meu_campaign then
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_campaign")
 		else
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl")
 		end
