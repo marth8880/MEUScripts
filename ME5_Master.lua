@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
--- Version 30604/06
+-- Version 30614/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Jun 04, 2016
+-- Jun 14, 2016
 -- Copyright (c) 2016 A. Gilbert.
 -- 
 -- About this script: The purpose of script is to set some global 
@@ -19,7 +19,7 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 	print("ME5_Master: Entered")
-	print("ME5_Master: Mass Effect: Unification is currently running on Build 30604/06, Release 6, Version 1.21")
+	print("ME5_Master: Mass Effect: Unification is currently running on Build 30614/06, Release 6, Version 1.21")
 	
 	print("ME5_Master: Performing garbage collection...")
 	

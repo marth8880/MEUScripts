@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Audio Functions Script by A. Gilbert
--- Version 30604/06
+-- Version 30614/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Jun 04, 2016
+-- Jun 14, 2016
 -- Copyright (c) 2016 A. Gilbert.
 -- 
 -- About this script: The purpose of script is to simplify the process 
@@ -905,7 +905,15 @@ function SoundFX()
 		else end
 	end
 	
-	ScriptCB_SetSpawnDisplayGain(0.35, 1.0)	-- 0.5, 2.5
+	if IsCampaign() then
+		local world = string.lower(GetWorldFilename())
+		
+		if world == "eur" then
+			ScriptCB_SetSpawnDisplayGain(0.75, 1.0)
+		end
+	else
+		ScriptCB_SetSpawnDisplayGain(0.35, 1.0)	-- 0.5, 2.5
+	end
 	ScriptCB_SetDopplerFactor(3.0)
 	--SetBleedingRepeatTime(50)	-- 30
 	

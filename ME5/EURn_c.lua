@@ -2,7 +2,7 @@ ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
 RandomSide = 1
 
 isModMap = 1
-bDebugWaves = true
+local bDebug = true
 --
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
@@ -1261,8 +1261,8 @@ function StartCombatZone(combatZoneID, combatMusicID)
 	print("EURn_c.StartCombatZone(): Starting combat zone "..zoneID)
 	
 	
-	-- Is debug messages enabled?
-	if bDebugWaves == true then
+	-- Is debug enabled?
+	if bDebug == true then
 		ShowMessageText("level.EUR.debug.comzone_entered", REP)
 		ShowMessageText("level.EUR.debug.comzone_spawning", REP)
 	end
@@ -1778,7 +1778,7 @@ function ScriptPostLoad()
 	            
 	            camShakeCharUnit = GetCharacterUnit(character)
 	        	
-	        	BeginOpeningCinematic()
+	        	--BeginOpeningCinematic()
 	            
 	            ScriptCB_EnableCommandPostVO(0)
 	            
@@ -1836,14 +1836,17 @@ function ScriptPostLoad()
     		function(objPtr, characterId)
     			-- Test output
     			print("EURn_c.CZ_Hangar: Activated console")
-    			ShowMessageText("level.EUR.interactions.test.received")
+    			
+				-- Is debug enabled?
+				if bDebug == true then
+    				ShowMessageText("level.EUR.interactions.test.received")
+    			end
     			
     			-- Activate the mass effect field
     			RewindAnimation("hangar_mefield_activate")
     			PlayAnimation("hangar_mefield_activate")
     			
     			EnableBarriers("HangarEnter")
-    			
     			
     			-- Play interaction sound
     			ScriptCB_SndPlaySound("eur_console_interact")
@@ -2221,7 +2224,10 @@ function ScriptPostLoad()
     		function(objPtr, characterId)
     			-- Test output
     			print("EURn_c.CZ_CommsControl_Lockdown: Activated console")
-    			ShowMessageText("level.EUR.interactions.test.received")
+				-- Is debug enabled?
+				if bDebug == true then
+    				ShowMessageText("level.EUR.interactions.test.received")
+    			end
     			
     			-- Play interaction sound
     			ScriptCB_SndPlaySound("eur_console_interact")
@@ -3612,7 +3618,21 @@ function BeginOpeningCinematic()
 		PlayAnimation("shuttle_ambush_spin")
 		
 		--ScriptCB_SndPlaySound("kodiak_shuttle_ambush")
-		BroadcastVoiceOver("kodiak_shuttle_ambush", ATT)
+		--BroadcastVoiceOver("kodiak_shuttle_ambush", ATT)
+		
+		print("EURn_c.openingCinematicSequence.OnComplete(): Opening prop ambient stream...")
+		ambientPropStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl",  "EUR_prop_ambiance")
+		
+		print("EURn_c.openingCinematicSequence.OnComplete(): Opening prop ambient stream... Result = "..ambientPropStream)
+		
+		
+		print("EURn_c.openingCinematicSequence.OnComplete(): Playing prop ambient stream...")
+		play_ambientPropStream = PlayAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl", 
+						"kodiak_shuttle_ambush", "eur_shuttle_ambush", 1.0, "cinematicfx", ambientPropStream)
+		
+		--BroadcastVoiceOver("kodiak_shuttle_ambush", ATT)
+		
+		print("EURn_c.openingCinematicSequence.OnComplete(): Playing prop ambient stream... Result = "..play_ambientPropStream)
 		
 	end
 	
@@ -3913,7 +3933,7 @@ function BeginOpeningCinematic()
 	
 	openingCinematicSequence = CinematicContainer:New{pathName = "ps_start_shuttle"}
 	openingCinematicSequence:AddShot(ShotIntro1)
-	--[[openingCinematicSequence:AddShot(ShotTransition0)
+	openingCinematicSequence:AddShot(ShotTransition0)
 	openingCinematicSequence:AddShot(Shot1a)
 	openingCinematicSequence:AddShot(Shot1b)
 	openingCinematicSequence:AddShot(ShotTransition1)
@@ -3930,7 +3950,7 @@ function BeginOpeningCinematic()
 	openingCinematicSequence:AddShot(Shot4a)
 	openingCinematicSequence:AddShot(Shot4b)
 	openingCinematicSequence:AddShot(ShotTransition4)
-	openingCinematicSequence:AddShot(Shot4c)]]
+	openingCinematicSequence:AddShot(Shot4c)
 	openingCinematicSequence:AddShot(ShotTransition5a)
 	openingCinematicSequence:AddShot(ShotShuttles1a)
 	openingCinematicSequence:AddShot(ShotTransition5b)
@@ -4054,6 +4074,7 @@ function BeginOpeningCinematic()
 		
 		local streamTimer = CreateTimer("streamTimer")
 		SetTimerValue(streamTimer, 5)
+		--ShowTimer(streamTimer)
 		StartTimer(streamTimer)
 		
 		local streamTimerElapse = OnTimerElapse(
@@ -4063,8 +4084,10 @@ function BeginOpeningCinematic()
 				StopAudioStream(ambientPropStream, 1)
 				
 				-- Open the second ambient stream
-				print("EURn_c.openingCinematicSequence.OnComplete(): Opening second ambient stream")
+				print("EURn_c.openingCinematicSequence.OnComplete(): Opening second ambient stream...")
 				ambientStream2 = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl",  "EUR_ambiance")
+				
+				print("EURn_c.openingCinematicSequence.OnComplete(): Opening second ambient stream... Result = "..ambientStream2)
 				
 				DestroyTimer(timer)
 				ReleaseTimerElapse(streamTimerElapse)
@@ -4318,7 +4341,7 @@ function ScriptInit()
 	--AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_EUR_Streaming.lvl", "ME5n_stingers_EUR", musicStream)
 	
 	ambientStream1 = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl",  "EUR_ambiance")
-	ambientPropStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl",  "EUR_prop_ambiance")
+	--ambientStream2 = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl",  "EUR_ambiance")
 	--AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl", "EUR_prop_ambiance", ambientStream)
 	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl",  "EUR_ambiance")
 	
