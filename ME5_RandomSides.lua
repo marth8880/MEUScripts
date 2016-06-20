@@ -40,7 +40,7 @@ function Init_SideSetup()
 			Setup_EVGxGTH()
 		elseif ME5_SideVar == 4 then
 			Setup_EVGxCOL()
-		else end
+		end
 	else
 		if onlineSideVar == 1 then
 			Setup_SSVxGTH()
@@ -50,7 +50,7 @@ function Init_SideSetup()
 			Setup_EVGxGTH()
 		elseif onlineSideVar == 4 then
 			Setup_EVGxCOL()
-		else end
+		end
 	end
 end
 
@@ -96,25 +96,25 @@ function Setup_SSVxGTH()
 		elseif onlineHeroSSV == 6 then
 				print("ME5_RandomSides.Setup_SSVxGTH(): Online SSV hero is Shepard Vanguard")
 			SetHeroClass(REP, "ssv_hero_shepard_vanguard")
-		else end
+		end
 		
 		if onlineHeroGTH == 1 then
 				print("ME5_RandomSides.Setup_SSVxGTH(): Online GTH hero is ME2 Geth Prime")
 			SetHeroClass(CIS, "gth_hero_prime_me2")
-		else end
-	else end
+		end
+	end
 	
 	--[[if REP == 1 then
 		team1ticketstring = "level.common.events.con.ticketboost.ssv"
 	elseif REP == 2 then
 		team2ticketstring = "level.common.events.con.ticketboost.ssv"
-	else end
+	end
 	
 	if CIS == 1 then
 		team1ticketstring = "level.common.events.con.ticketboost.gth"
 	elseif CIS == 2 then
 		team2ticketstring = "level.common.events.con.ticketboost.gth"
-	else end]]
+	end]]
 end
 
 function Setup_SSVxCOL()
@@ -159,25 +159,25 @@ function Setup_SSVxCOL()
 		elseif onlineHeroSSV == 6 then
 				print("ME5_RandomSides.Setup_SSVxCOL(): Online SSV hero is Shepard Vanguard")
 			SetHeroClass(REP, "ssv_hero_shepard_vanguard")
-		else end
+		end
 		
 		if onlineHeroCOL == 1 then
 				print("ME5_RandomSides.Setup_SSVxCOL(): Online COL hero is Harby")
 			SetHeroClass(CIS, "col_hero_harbinger")
-		else end
-	else end
+		end
+	end
 	
 	--[[if REP == 1 then
 		team1ticketstring = "level.common.events.con.ticketboost.ssv"
 	elseif REP == 2 then
 		team2ticketstring = "level.common.events.con.ticketboost.ssv"
-	else end
+	end
 	
 	if CIS == 1 then
 		team1ticketstring = "level.common.events.con.ticketboost.col"
 	elseif CIS == 2 then
 		team2ticketstring = "level.common.events.con.ticketboost.col"
-	else end]]
+	end]]
 end
 
 function Setup_EVGxGTH()
@@ -206,25 +206,25 @@ function Setup_EVGxGTH()
 		if onlineHeroEVG == 1 then
 				print("ME5_RandomSides.Setup_EVGxGTH(): Online EVG hero is Geth Prime")
 			SetHeroClass(REP, "gth_hero_prime_me3")
-		else end
+		end
 		
 		if onlineHeroGTH == 1 then
 				print("ME5_RandomSides.Setup_EVGxGTH(): Online GTH hero is ME2 Geth Prime")
 			SetHeroClass(CIS, "gth_hero_prime_me2")
-		else end
-	else end
+		end
+	end
 	
 	--[[if REP == 1 then
 		team1ticketstring = "level.common.events.con.ticketboost.ssv"
 	elseif REP == 2 then
 		team2ticketstring = "level.common.events.con.ticketboost.ssv"
-	else end
+	end
 	
 	if CIS == 1 then
 		team1ticketstring = "level.common.events.con.ticketboost.gth"
 	elseif CIS == 2 then
 		team2ticketstring = "level.common.events.con.ticketboost.gth"
-	else end]]
+	end]]
 end
 
 function Setup_EVGxCOL()
@@ -254,25 +254,25 @@ function Setup_EVGxCOL()
 		if onlineHeroEVG == 1 then
 				print("ME5_RandomSides.Setup_EVGxCOL(): Online EVG hero is Geth Prime")
 			SetHeroClass(REP, "gth_hero_prime_me3")
-		else end
+		end
 		
 		if onlineHeroCOL == 1 then
 				print("ME5_RandomSides.Setup_EVGxCOL(): Online COL hero is Harby")
 			SetHeroClass(CIS, "col_hero_harbinger")
-		else end
-	else end
+		end
+	end
 	
 	--[[if REP == 1 then
 		team1ticketstring = "level.common.events.con.ticketboost.ssv"
 	elseif REP == 2 then
 		team2ticketstring = "level.common.events.con.ticketboost.ssv"
-	else end
+	end
 	
 	if CIS == 1 then
 		team1ticketstring = "level.common.events.con.ticketboost.gth"
 	elseif CIS == 2 then
 		team2ticketstring = "level.common.events.con.ticketboost.gth"
-	else end]]
+	end]]
 end
 
 -- Loads the appropriate data files for the Systems Alliance faction.
@@ -861,7 +861,7 @@ function Setup_SSVxGTH_xxs()
 	
 	--[[if not ScriptCB_InMultiplayer() then
 		SetHeroClass(CIS, "gth_hero_prime_me2")
-	else end]]
+	end]]
 end
 
 function Setup_SSVxCOL_xxs()
@@ -1014,7 +1014,7 @@ function Setup_EVGxGTH_xxs()
 	
 	--[[if not ScriptCB_InMultiplayer() then
 		SetHeroClass(CIS, "gth_hero_prime_me2")
-	else end]]
+	end]]
 end
 
 function Setup_EVGxCOL_xxs()
@@ -1091,7 +1091,7 @@ function Setup_EVGxCOL_xxs()
 	
 	--[[if not ScriptCB_InMultiplayer() then
 		SetHeroClass(CIS, "gth_hero_prime_me2")
-	else end]]
+	end]]
 end
 
 function Setup_SSVxGTH_xs()
@@ -1169,7 +1169,7 @@ function Setup_SSVxGTH_xs()
 	
 	--[[if not ScriptCB_InMultiplayer() then
 		SetHeroClass(CIS, "gth_hero_prime_me2")
-	else end]]
+	end]]
 end
 
 function Setup_SSVxCOL_xs()
@@ -1322,7 +1322,7 @@ function Setup_EVGxGTH_xs()
 	
 	--[[if not ScriptCB_InMultiplayer() then
 		SetHeroClass(CIS, "gth_hero_prime_me2")
-	else end]]
+	end]]
 end
 
 function Setup_EVGxCOL_xs()
@@ -1394,7 +1394,7 @@ function Setup_EVGxCOL_xs()
 	
 	--[[if not ScriptCB_InMultiplayer() then
 		SetHeroClass(CIS, "gth_hero_prime_me2")
-	else end]]
+	end]]
 end
 
 function Setup_SSVxECL_xs()
@@ -1620,7 +1620,7 @@ function Setup_SSVxGTH_sm()
 	
 	--[[if not ScriptCB_InMultiplayer() then
 		SetHeroClass(CIS, "gth_hero_prime_me2")
-	else end]]
+	end]]
 end
 
 function Setup_SSVxCOL_sm()
@@ -1773,7 +1773,7 @@ function Setup_EVGxGTH_sm()
 	
 	--[[if not ScriptCB_InMultiplayer() then
 		SetHeroClass(CIS, "gth_hero_prime_me2")
-	else end]]
+	end]]
 end
 
 function Setup_EVGxCOL_sm()
@@ -1850,7 +1850,7 @@ function Setup_EVGxCOL_sm()
 	
 	--[[if not ScriptCB_InMultiplayer() then
 		SetHeroClass(CIS, "gth_hero_prime_me2")
-	else end]]
+	end]]
 end
 
 function Setup_SSVxECL_sm()
@@ -2077,7 +2077,7 @@ function Setup_SSVxGTH_med()
 	
 	--[[if not ScriptCB_InMultiplayer() then
 		SetHeroClass(CIS, "gth_hero_prime_me2")
-	else end]]
+	end]]
 	--ObjectiveSurvival_125tick()
 end
 
@@ -2233,7 +2233,7 @@ function Setup_EVGxGTH_med()
 	
 	--[[if not ScriptCB_InMultiplayer() then
 		SetHeroClass(CIS, "gth_hero_prime_me2")
-	else end]]
+	end]]
 	--ObjectiveSurvival_125tick()
 end
 
@@ -2312,7 +2312,7 @@ function Setup_EVGxCOL_med()
 	
 	--[[if not ScriptCB_InMultiplayer() then
 		SetHeroClass(CIS, "gth_hero_prime_me2")
-	else end]]
+	end]]
 	--ObjectiveSurvival_125tick()
 end
 
@@ -2540,7 +2540,7 @@ function Setup_SSVxGTH_lg()
 	
 	--[[if not ScriptCB_InMultiplayer() then
 		SetHeroClass(CIS, "gth_hero_prime_me2")
-	else end]]
+	end]]
 end
 
 function Setup_SSVxCOL_lg()
@@ -2695,7 +2695,7 @@ function Setup_EVGxGTH_lg()
 	
 	--[[if not ScriptCB_InMultiplayer() then
 		SetHeroClass(CIS, "gth_hero_prime_me2")
-	else end]]
+	end]]
 end
 
 function Setup_EVGxCOL_lg()
@@ -2773,7 +2773,7 @@ function Setup_EVGxCOL_lg()
 	
 	--[[if not ScriptCB_InMultiplayer() then
 		SetHeroClass(CIS, "gth_hero_prime_me2")
-	else end]]
+	end]]
 end
 
 function Setup_SSVxECL_lg()
@@ -3130,7 +3130,7 @@ function Drones_SSV()
 				if droneID >= GetTeamSize(REP) then
 					droneID = 0
 						print("Drones_SSV(): droneID limit of "..GetTeamSize(REP).." was reached; resetting counter")
-				else end
+				end
 			end
 		end,
 	REP

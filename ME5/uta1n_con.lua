@@ -56,8 +56,8 @@ function SSVxGTH_PostLoad()
 			herosupport:AddSpawnCP("con_cp6","con_cp6spawn")
 			herosupport:AddSpawnCP("con_cp7","con_cp7_spawn")
 			herosupport:Start()
-		else end
-	else end
+		end
+	end
 end
 
 function SSVxCOL_PostLoad()
@@ -78,8 +78,8 @@ function SSVxCOL_PostLoad()
 			herosupport:AddSpawnCP("con_cp6","con_cp6spawn")
 			herosupport:AddSpawnCP("con_cp7","con_cp7_spawn")
 			herosupport:Start()
-		else end
-	else end
+		end
+	end
 end
 
 function EVGxGTH_PostLoad()
@@ -100,8 +100,8 @@ function EVGxGTH_PostLoad()
 			herosupport:AddSpawnCP("con_cp6","con_cp6spawn")
 			herosupport:AddSpawnCP("con_cp7","con_cp7_spawn")
 			herosupport:Start()
-		else end
-	else end
+		end
+	end
 end
 
 function EVGxCOL_PostLoad()
@@ -122,8 +122,8 @@ function EVGxCOL_PostLoad()
 			herosupport:AddSpawnCP("con_cp6","con_cp6spawn")
 			herosupport:AddSpawnCP("con_cp7","con_cp7_spawn")
 			herosupport:Start()
-		else end
-	else end
+		end
+	end
 end
 
 function ScriptPostLoad()
@@ -180,7 +180,7 @@ function ScriptPostLoad()
 			EVGxGTH_PostLoad()
 		elseif ME5_SideVar == 4 then
 			EVGxCOL_PostLoad()
-		else end
+		end
 	else
 		EVGxGTH_PostLoad()
 	end
@@ -274,7 +274,7 @@ function ScriptInit()
 			Music09()
 		elseif ME5_SideVar == 4	then
 			Music09()
-		else end
+		end
 	else
 		Music09()
 	end

@@ -36,28 +36,28 @@ function SSVxGTH_PostLoad()
 	if not ScriptCB_InMultiplayer() then
 		DecideSSVHeroClass()
 		DecideGTHHeroClass()
-	else end
+	end
 end
 
 function SSVxCOL_PostLoad()
 	if not ScriptCB_InMultiplayer() then
 		DecideSSVHeroClass()
 		DecideCOLHeroClass()
-	else end
+	end
 end
 
 function EVGxGTH_PostLoad()
 	if not ScriptCB_InMultiplayer() then
 		DecideEVGHeroClass()
 		DecideGTHHeroClass()
-	else end
+	end
 end
 
 function EVGxCOL_PostLoad()
 	if not ScriptCB_InMultiplayer() then
 		DecideEVGHeroClass()
 		DecideCOLHeroClass()
-	else end
+	end
 end
     
 function ScriptPostLoad() 
@@ -114,7 +114,7 @@ function ScriptPostLoad()
 			EVGxGTH_PostLoad()
 		elseif ME5_SideVar == 4 then
 			EVGxCOL_PostLoad()
-		else end
+		end
 	else
 		SSVxGTH_PostLoad()
 	end
@@ -214,12 +214,12 @@ function ScriptInit()
 			if RandomSide >= 3 then
 					print("EDNn_con: Injecting Alliance Soldier textures workaround...")
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\GFX_EDN_Corpses.lvl")
-			else end
+			end
 		elseif ME5_SideVar >= 3 then
 				print("EDNn_con: Injecting Alliance Soldier textures workaround...")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\GFX_EDN_Corpses.lvl")
-		else end
-	else end
+		end
+	end
 
     SetSpawnDelay(10.0, 0.25)
 	WeatherMode = math.random(1,3)
@@ -283,7 +283,7 @@ function ScriptInit()
 			Music09()
 		elseif ME5_SideVar == 4	then
 			Music09()
-		else end
+		end
 	else
 		Music01()
 	end

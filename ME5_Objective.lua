@@ -12,7 +12,7 @@ __OBJECTIVE_LUA__ = 1
 if bStockFontLoaded == nil then
 	-- Has the stock font been loaded?
 	bStockFontLoaded = false
-else end
+end
 
 Objective = 
 {
@@ -211,7 +211,7 @@ function Objective:Start()
 		elseif ME5_SideVar == 4	then
 			rep_sndcue	= "evg_prm_"
 			cis_sndcue	= "col_gen_"
-		else end
+		end
 	else
 		if onlineSideVar == 1 then
 			rep_sndcue	= "ssv_adm_"
@@ -225,7 +225,7 @@ function Objective:Start()
 		elseif onlineSideVar == 4 then
 			rep_sndcue	= "evg_prm_"
 			cis_sndcue	= "col_gen_"
-		else end
+		end
 	end
     
 	if not self.container then
@@ -251,7 +251,7 @@ function Objective:Start()
 					elseif team == CIS then
 						BroadcastVoiceOver( rep_sndcue.."com_report_victory", REP )
 						BroadcastVoiceOver( cis_sndcue.."com_report_defeat", CIS )
-					else end
+					end
 					ticketDefeatTimer = CreateTimer("ticketDefeatTimer")
 					SetTimerValue("ticketDefeatTimer", 6.0)	-- 1.5
 					StartTimer("ticketDefeatTimer")
@@ -266,8 +266,8 @@ function Objective:Start()
 										print("ME5_Objective: Loading hud_font_stock.lvl...")
 									-- hotfix that reloads the stock fonts in the stats screen
 									ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
-								else end
-							else end
+								end
+							end
 						end,
 					"ticketDefeatTimer"
 					)
@@ -293,8 +293,8 @@ function Objective:Start()
 								print("ME5_Objective: Loading hud_font_stock.lvl...")
 							-- hotfix that reloads the stock fonts in the stats screen
 							ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
-						else end
-					else end
+						end
+					end
                 else
 					self:Complete(self.timeLimitWinningTeam)
 					
@@ -304,8 +304,8 @@ function Objective:Start()
 								print("ME5_Objective: Loading hud_font_stock.lvl...")
 							-- hotfix that reloads the stock fonts in the stats screen
 							ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
-						else end
-					else end
+						end
+					end
 				end
             end,
             self.loseTimer

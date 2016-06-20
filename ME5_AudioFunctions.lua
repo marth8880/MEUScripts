@@ -130,8 +130,8 @@ function SetMusic(musicID, isCTF)
 			Music01()
 		elseif isCTF == 1 or isCTF == true then
 			Music01_CTF()
-		else end
-	else end
+		end
+	end
 end
 
 
@@ -902,7 +902,7 @@ function SoundFX()
 		elseif onlineSideVar == 4 then
 			EVGWorldVO()
 			COLWorldVO()
-		else end
+		end
 	end
 	
 	if IsCampaign() then

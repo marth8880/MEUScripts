@@ -7,7 +7,7 @@ ScriptCB_DoFile("ME5_Objective")
 if bStockFontLoaded == nil then
 	-- Has the stock font been loaded?
 	bStockFontLoaded = false
-else end
+end
 
 MEUGameMode = meu_tdm
 
@@ -121,7 +121,7 @@ function ObjectiveTDM:Start()
 					elseif killerTeam == REP then
 						BroadcastVoiceOver( rep_sndcue.."com_report_victory", REP )
 						BroadcastVoiceOver( cis_sndcue.."com_report_defeat", CIS )
-					else end
+					end
 					
 					tdmDefeatTimer = CreateTimer("tdmDefeatTimer")
 					SetTimerValue("tdmDefeatTimer", 6.0)
@@ -137,8 +137,8 @@ function ObjectiveTDM:Start()
 										print("ME5_ObjectiveTDM: Loading hud_font_stock.lvl...")
 									-- hotfix that reloads the stock fonts in the stats screen
 									ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
-								else end
-							else end
+								end
+							end
 						end,
 					"tdmDefeatTimer"
 					)

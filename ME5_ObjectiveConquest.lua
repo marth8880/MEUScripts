@@ -7,7 +7,7 @@ ScriptCB_DoFile("ME5_Objective")
 if bStockFontLoaded == nil then
 	-- Has the stock font been loaded?
 	bStockFontLoaded = false
-else end
+end
 
 MEUGameMode = meu_con
 
@@ -170,41 +170,41 @@ function ObjectiveConquest:Start()
 							ShowMessageText("level.common.events.siege.control_".."ssv")
 						elseif team == CIS then
 							ShowMessageText("level.common.events.siege.control_".."gth")
-						else end
+						end
 					elseif RandomSide == 2 then
 						if team == REP then
 							ShowMessageText("level.common.events.siege.control_".."ssv")
 						elseif team == CIS then
 							ShowMessageText("level.common.events.siege.control_".."col")
-						else end
+						end
 					end
 				elseif ME5_SideVar == 1 then
 					if team == REP then
 						ShowMessageText("level.common.events.siege.control_".."ssv")
 					elseif team == CIS then
 						ShowMessageText("level.common.events.siege.control_".."gth")
-					else end
+					end
 				elseif ME5_SideVar == 2 then
 					if team == REP then
 						ShowMessageText("level.common.events.siege.control_".."ssv")
 					elseif team == CIS then
 						ShowMessageText("level.common.events.siege.control_".."col")
-					else end
-				else end
+					end
+				end
 			else
 				if onlineSideVar == 1 then
 					if team == REP then
 						ShowMessageText("level.common.events.siege.control_".."ssv")
 					elseif team == CIS then
 						ShowMessageText("level.common.events.siege.control_".."gth")
-					else end
+					end
 				elseif onlineSideVar == 2 then
 					if team == REP then
 						ShowMessageText("level.common.events.siege.control_".."ssv")
 					elseif team == CIS then
 						ShowMessageText("level.common.events.siege.control_".."col")
-					else end
-				else end
+					end
+				end
 			end]]
 		else
 			--stop bleeding reinforcements
@@ -310,17 +310,42 @@ function ObjectiveConquest:Start()
 				self:Complete(self.winningTeam)	
 			end,
 			self.defeatTimer
-			)
+		)
 	end
 	
 	
 	local UpdatePostMapMarker = function(postPtr)
-		if not self.multiplayerRules then
-			--check the team that capped the CP, and change the map marker accordingly
-			if GetObjectTeam(postPtr) == self.teamATT then
-				MapRemoveEntityMarker(postPtr, self.teamATT)
-			else
-				MapAddEntityMarker(postPtr, self.icon, 4.0, self.teamATT, "YELLOW", true)
+    	if not ScriptCB_InMultiplayer() then
+			if not IsCampaign() then
+				local playerTeam = GetCharacterTeam(0)
+				local otherTeam = (3 - playerTeam)
+				
+				-- If playerTeam owns the post, add a blue marker for playerTeam and a red marker for otherTeam
+				if GetObjectTeam(postPtr) == playerTeam then
+					MapRemoveEntityMarker(postPtr, playerTeam)
+					MapRemoveEntityMarker(postPtr, otherTeam)
+					
+					MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, playerTeam, "BLUE", true, false, false, true)
+					MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, otherTeam, "RED", true, false, false, true)
+					
+					
+				-- If otherTeam owns the post, add a blue marker for otherTeam and a red marker for playerTeam
+				elseif GetObjectTeam(postPtr) == otherTeam then
+					MapRemoveEntityMarker(postPtr, playerTeam)
+					MapRemoveEntityMarker(postPtr, otherTeam)
+					
+					MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, playerTeam, "RED", true, false, false, true)
+					MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, otherTeam, "BLUE", true, false, false, true)
+					
+					
+				-- If neither team owns the post, add a white marker for both teams
+				else
+					MapRemoveEntityMarker(postPtr, playerTeam)
+					MapRemoveEntityMarker(postPtr, otherTeam)
+					
+					MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, playerTeam, "WHITE", true, false, false, true)
+					MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, otherTeam, "WHITE", true, false, false, true)
+				end
 			end
 		end
 	end
@@ -417,7 +442,7 @@ function ObjectiveConquest:Start()
     			snd_CIS_cpLost_ally		= snd_COL_cpLost_ally
     			snd_CIS_cpLost_enemy	= snd_COL_cpLost_enemy
     			
-    		else end
+    		end
     	else
     		if onlineSideVar == 1 then
     			snd_REP_cpCapture_ally	= snd_SSV_cpCapture_ally
@@ -463,7 +488,7 @@ function ObjectiveConquest:Start()
     			snd_CIS_cpLost_ally		= snd_COL_cpLost_ally
     			snd_CIS_cpLost_enemy	= snd_COL_cpLost_enemy
     			
-    		else end
+    		end
     	end
     	
     	for i, cp in pairs(self.commandPosts) do
@@ -476,8 +501,10 @@ function ObjectiveConquest:Start()
     		SetProperty(cp.name, "VO_Cis_RepCapture",	snd_CIS_cpCapture_enemy)
     		SetProperty(cp.name, "VO_Cis_CisLost",		snd_CIS_cpLost_ally)
     		SetProperty(cp.name, "VO_Cis_RepLost",		snd_CIS_cpLost_enemy)
+    		
+    		UpdatePostMapMarker(cp.name)
     	end
-	else end
+	end
 	
 	--==========
 	-- Set the number of guys in the level to number in game options
@@ -583,7 +610,19 @@ function ObjectiveConquest:Start()
 			if team == CIS and count <= 20 then
 					print("ME5_ObjectiveConquest: Blocking HuskTeam spawn")
 				AllowAISpawn(3, false)
-			else end
+			end
+		end
+		)
+	
+	-- player spawn
+	OnCharacterSpawn(
+		function (player)
+			if IsCharacterHuman(player) then
+				-- Update all of the post markers
+		    	for i, cp in pairs(self.commandPosts) do
+		    		UpdatePostMapMarker(cp.name)
+		    	end
+			end
 		end
 		)
 	
@@ -624,7 +663,7 @@ function ObjectiveConquest:Start()
 				else
 					AddReinforcements(1, 0)
 				end
-			else end
+			end
 		end,
 	1 -- Team number for the ticket bonus
 	)
@@ -643,7 +682,7 @@ function ObjectiveConquest:Start()
 				else
 					AddReinforcements(2, 0)
 				end
-			else end
+			end
 		end,
 	2 -- Team number for the ticket bonus
 	)]]
@@ -703,6 +742,6 @@ function ObjectiveConquest:Complete(winningTeam)
 				print("ME5_ObjectiveConquest: Loading hud_font_stock.lvl...")
 			-- hotfix that reloads the stock fonts in the stats screen
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
-		else end
-	else end
+		end
+	end
 end

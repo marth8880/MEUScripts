@@ -371,7 +371,7 @@ if not ScriptCB_InMultiplayer() then
 		CTF_SoundEvents_Var = 3
 	elseif ME5_SideVar == 4	then
 		CTF_SoundEvents_Var = 4
-	else end
+	end
 else
 	if onlineSideVar == 1 then
 		CTF_SoundEvents_Var = 1
@@ -381,7 +381,7 @@ else
 		CTF_SoundEvents_Var = 3
 	elseif onlineSideVar == 4 then
 		CTF_SoundEvents_Var = 4
-	else end
+	end
 end
 
 if CTF_SoundEvents_Var == 1 then
@@ -572,4 +572,4 @@ elseif CTF_SoundEvents_Var == 4 then
 			captured_def			= "common_flagAction_score",
 		},
 	}
-else end
+end

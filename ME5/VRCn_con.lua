@@ -50,8 +50,8 @@ function SSVxGTH_PostLoad()
 			herosupport:AddSpawnCP("cp3","cp3_spawn")
 			herosupport:AddSpawnCP("cp4","cp4_spawn")
 			herosupport:Start()
-		else end
-	else end
+		end
+	end
 	
 	SetProperty("cp1", "VO_Rep_RepCapture", snd_SSV_cpCapture_ally)
 	SetProperty("cp2", "VO_Rep_RepCapture", snd_SSV_cpCapture_ally)
@@ -104,8 +104,8 @@ function SSVxCOL_PostLoad()
 			herosupport:AddSpawnCP("cp3","cp3_spawn")
 			herosupport:AddSpawnCP("cp4","cp4_spawn")
 			herosupport:Start()
-		else end
-	else end
+		end
+	end
 	
 	SetProperty("cp1", "VO_Rep_RepCapture", snd_SSV_cpCapture_ally)
 	SetProperty("cp2", "VO_Rep_RepCapture", snd_SSV_cpCapture_ally)
@@ -141,8 +141,8 @@ function EVGxGTH_PostLoad()
 			herosupport:AddSpawnCP("cp3","cp3_spawn")
 			herosupport:AddSpawnCP("cp4","cp4_spawn")
 			herosupport:Start()
-		else end
-	else end
+		end
+	end
 	
 	SetProperty("cp1", "VO_Rep_RepCapture", snd_EVG_cpCapture_ally)
 	SetProperty("cp2", "VO_Rep_RepCapture", snd_EVG_cpCapture_ally)
@@ -195,8 +195,8 @@ function EVGxCOL_PostLoad()
 			herosupport:AddSpawnCP("cp3","cp3_spawn")
 			herosupport:AddSpawnCP("cp4","cp4_spawn")
 			herosupport:Start()
-		else end
-	else end
+		end
+	end
 	
 	SetProperty("cp1", "VO_Rep_RepCapture", snd_EVG_cpCapture_ally)
 	SetProperty("cp2", "VO_Rep_RepCapture", snd_EVG_cpCapture_ally)
@@ -267,7 +267,7 @@ function ScriptPostLoad()
 			EVGxGTH_PostLoad()
 		elseif ME5_SideVar == 4 then
 			EVGxCOL_PostLoad()
-		else end
+		end
 	else
 		SSVxGTH_PostLoad()
 	end
@@ -363,7 +363,7 @@ function ScriptInit()
 			Music09()
 		elseif ME5_SideVar == 4	then
 			Music09()
-		else end
+		end
 	else
 		Music03()
 	end

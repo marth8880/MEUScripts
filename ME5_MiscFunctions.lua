@@ -118,7 +118,7 @@ function PreLoadStuff()
 		elseif ME5_SideVar == 4	then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingameevg.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamecol.lvl")
-		else end
+		end
 	else
 		if onlineSideVar == 1 then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamessv.lvl")
@@ -132,7 +132,7 @@ function PreLoadStuff()
 		elseif onlineSideVar == 4 then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingameevg.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamecol.lvl")
-		else end
+		end
 	end
 	
 	-- Load our custom shell stuff
@@ -143,7 +143,7 @@ function PreLoadStuff()
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\me5shell.lvl")
 	elseif ME5_CustomGUIEnabled == 2 then
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\me3shell.lvl")
-	else end
+	end
 	
 	-- Load localization
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\core.lvl")
@@ -154,21 +154,6 @@ function PreLoadStuff()
 	local screenWidth, screenHeight = ScriptCB_GetScreenInfo()
 	local aspectRatio = screenWidth / screenHeight
 		print("ME5_MiscFunctions.PreLoadStuff():", "Width: "..screenWidth, "Height: "..screenHeight..", Aspect Ratio: "..aspectRatio)
-	
-	-- What is the aspect ratio of the player's display?
-	if aspectRatio <= 1.4 then
-			print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 4:3, loading scopes as such")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar43\\ar.lvl")
-	elseif aspectRatio <= 1.63 and aspectRatio >= 1.5 then
-			print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 16:10, loading scopes as such")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar1610\\ar.lvl")
-	elseif aspectRatio <= 1.9 and aspectRatio >= 1.63 then
-			print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 16:9, loading scopes as such")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar169\\ar.lvl")
-	else
-			print("ME5_MiscFunctions.PreLoadStuff(): Error! Invalid aspect ratio ("..aspectRatio..")! Defaulting to workaround")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar.lvl")
-	end
 	
 	
 	--==========================
@@ -239,6 +224,37 @@ function PreLoadStuff()
 		
 		-- Load the new onscreen pointer textures
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamehud.lvl")
+	end
+	
+	-- What is the aspect ratio of the player's display?
+	if aspectRatio <= 1.4 then
+			print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 4:3, loading scopes as such")
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar43\\ar.lvl")
+	elseif aspectRatio <= 1.63 and aspectRatio >= 1.5 then
+			print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 16:10, loading scopes as such")
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar1610\\ar.lvl")
+	elseif aspectRatio <= 1.9 and aspectRatio >= 1.63 then
+			print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 16:9, loading scopes as such")
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar169\\ar.lvl")
+	else
+			print("ME5_MiscFunctions.PreLoadStuff(): Error! Invalid aspect ratio ("..aspectRatio..")! Defaulting to workaround")
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar.lvl")
+	end
+	
+	
+	-- What is the aspect ratio of the player's display?
+	if aspectRatio <= 1.4 then
+			print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 4:3, loading scopes as such")
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar43\\ar.lvl")
+	elseif aspectRatio <= 1.63 and aspectRatio >= 1.5 then
+			print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 16:10, loading scopes as such")
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar1610\\ar.lvl")
+	elseif aspectRatio <= 1.9 and aspectRatio >= 1.63 then
+			print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 16:9, loading scopes as such")
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar169\\ar.lvl")
+	else
+			print("ME5_MiscFunctions.PreLoadStuff(): Error! Invalid aspect ratio ("..aspectRatio..")! Defaulting to workaround")
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar.lvl")
 	end
 	
 	--==========================
@@ -583,10 +599,10 @@ function fShieldRegenDelay()
 	--=================================
 	
 	-- Shield regeneration parameters
-	local shieldRegenDelayValue = 5.0	-- How long in seconds does it take for shields to start regenerating?
-	local shieldRegenValueMult = 3.0	-- What is the player's base AddShield value multiplied by?
-	local shieldRegenSound = "none"		-- The sound property that plays when the player's shields start regenerating. Use "none" if no sound is desired.
-	local shieldRegenPfx = "none"		-- Name of the particle effect to attach to the player when their shields start regenerating. Use "none" if no particle effect is desired.
+	local shieldRegenDelayValue = 5.0				-- How long in seconds does it take for shields to start regenerating?
+	local shieldRegenValueMult = 3.0				-- What is the player's base AddShield value multiplied by?
+	local shieldRegenSound = "none"					-- The sound property that plays when the player's shields start regenerating. Use "none" if no sound is desired.
+	local shieldRegenPfx = "com_sfx_shieldregen"	-- Name of the particle effect to attach to the player when their shields start regenerating. Use "none" if no particle effect is desired.
 	
 	-- Table of unit classes with regenerating shields. /class/ is the class's name, /addShield/ is the class's AddShield value.
 	local shieldClasses = {
@@ -683,6 +699,36 @@ function fShieldRegenDelay()
 	--=================================
 	-- Local Functions
 	--=================================
+	
+	---
+	-- Call this to attach a particle /effect/ to /unit/.
+	-- @param #string effect The name of the particle effect to attach.
+	-- @param #object unit The character unit to attach the particle effect to.
+	--  
+	local function PlayParticleEffectOnUnit(effect, unit)
+		-- Instantiate the particle effect
+		local pfx = CreateEffect(effect)
+		
+		-- Store the unit's location
+		local location = GetEntityMatrix(unit)
+		
+		-- And move/attach the particle effect to that location
+		AttachEffectToMatrix(pfx, location)
+	end
+	
+	
+	---
+	-- Call this to shake the camera utilizing the explosion properties from /object/.
+	-- @param #string object The class name of the EntityMine object whose explosion properties we're utilizing.
+	-- 
+	local function ShakeCamera(object)
+		-- Increment the object count
+		camShakeObjCount = camShakeObjCount + 1
+		
+		-- Spawn the EntityMine object at the player's location
+		CreateEntity(object, GetEntityMatrix(charUnit), "camshake_item_"..camShakeObjCount)
+	end
+	
 	
 	---
 	-- Call this to start shield regeneration for /unit/.
@@ -814,36 +860,6 @@ function fShieldRegenDelay()
 		else
 			return false
 		end
-	end
-	
-	
-	---
-	-- Call this to attach a particle /effect/ to /unit/.
-	-- @param #string effect The name of the particle effect to attach.
-	-- @param #object unit The character unit to attach the particle effect to.
-	--  
-	local function PlayParticleEffectOnUnit(effect, unit)
-		-- Instantiate the particle effect
-		local pfx = CreateEffect(effect)
-		
-		-- Store the unit's location
-		local location = GetEntityMatrix(unit)
-		
-		-- And move/attach the particle effect to that location
-		AttachEffectToMatrix(pfx, location)
-	end
-	
-	
-	---
-	-- Call this to shake the camera utilizing the explosion properties from /object/.
-	-- @param #string object The class name of the EntityMine object whose explosion properties we're utilizing.
-	-- 
-	local function ShakeCamera(object)
-		-- Increment the object count
-		camShakeObjCount = camShakeObjCount + 1
-		
-		-- Spawn the EntityMine object at the player's location
-		CreateEntity(object, GetEntityMatrix(charUnit), "camshake_item_"..camShakeObjCount)
 	end
 	
 	

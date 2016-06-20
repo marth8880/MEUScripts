@@ -1,7 +1,7 @@
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
 if not ScriptCB_InMultiplayer() then
 	RandomLayout = math.random(1,2)
-else end
+end
 RandomSide = math.random(1,4)
 
 isModMap = 1
@@ -55,7 +55,7 @@ function SSVxGTH_PostLoad()
 				herosupport:AddSpawnCP("cp5_1","cp5_spawn1")
 				herosupport:AddSpawnCP("cp6_1","cp6_spawn1")
 				herosupport:Start()
-			else end
+			end
 		elseif RandomLayout == 2 then
 			DecideSSVHeroClass()
 			DecideGTHHeroClass()
@@ -73,7 +73,7 @@ function SSVxGTH_PostLoad()
 				herosupport:AddSpawnCP("cp5_2","cp5_spawn2")
 				herosupport:AddSpawnCP("cp6_2","cp6_spawn2")
 				herosupport:Start()
-			else end
+			end
 		end
 	else
 	end
@@ -98,7 +98,7 @@ function SSVxCOL_PostLoad()
 				herosupport:AddSpawnCP("cp5_1","cp5_spawn1")
 				herosupport:AddSpawnCP("cp6_1","cp6_spawn1")
 				herosupport:Start()
-			else end
+			end
 		elseif RandomLayout == 2 then
 			DecideSSVHeroClass()
 			DecideCOLHeroClass()
@@ -116,7 +116,7 @@ function SSVxCOL_PostLoad()
 				herosupport:AddSpawnCP("cp5_2","cp5_spawn2")
 				herosupport:AddSpawnCP("cp6_2","cp6_spawn2")
 				herosupport:Start()
-			else end
+			end
 		end
 	else
 	end
@@ -141,7 +141,7 @@ function EVGxGTH_PostLoad()
 				herosupport:AddSpawnCP("cp5_1","cp5_spawn1")
 				herosupport:AddSpawnCP("cp6_1","cp6_spawn1")
 				herosupport:Start()
-			else end
+			end
 		elseif RandomLayout == 2 then
 			DecideEVGHeroClass()
 			DecideGTHHeroClass()
@@ -159,7 +159,7 @@ function EVGxGTH_PostLoad()
 				herosupport:AddSpawnCP("cp5_2","cp5_spawn2")
 				herosupport:AddSpawnCP("cp6_2","cp6_spawn2")
 				herosupport:Start()
-			else end
+			end
 		end
 	else
 	end
@@ -184,7 +184,7 @@ function EVGxCOL_PostLoad()
 				herosupport:AddSpawnCP("cp5_1","cp5_spawn1")
 				herosupport:AddSpawnCP("cp6_1","cp6_spawn1")
 				herosupport:Start()
-			else end
+			end
 		elseif RandomLayout == 2 then
 			DecideEVGHeroClass()
 			DecideCOLHeroClass()
@@ -202,7 +202,7 @@ function EVGxCOL_PostLoad()
 				herosupport:AddSpawnCP("cp5_2","cp5_spawn2")
 				herosupport:AddSpawnCP("cp6_2","cp6_spawn2")
 				herosupport:Start()
-			else end
+			end
 		end
 	else
 	end
@@ -334,7 +334,7 @@ function ScriptPostLoad()
 			EVGxGTH_PostLoad()
 		elseif ME5_SideVar == 4 then
 			EVGxCOL_PostLoad()
-		else end
+		end
 	else
 		SSVxGTH_PostLoad()
 	end
@@ -453,7 +453,7 @@ function ScriptInit()
 			Music09()
 		elseif ME5_SideVar == 4	then
 			Music09()
-		else end
+		end
 	else
 		Music03()
 	end

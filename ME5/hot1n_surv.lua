@@ -250,7 +250,7 @@ function DecideArtilleryMatrix()
 	elseif DecideMatrix == 5 then
 		SetEntityMatrix( "artillery1", CP6Node )
 		ShowMessageText("level.common.events.surv.artillery.msg5")
-	else end
+	end
 	
 	
 	artMatrices = { ShieldGenNode, CP3Node, CP4Node, CP5Node, CP6Node }

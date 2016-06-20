@@ -7,7 +7,7 @@ ScriptCB_DoFile("ME5_Objective")
 if bStockFontLoaded == nil then
 	-- Has the stock font been loaded?
 	bStockFontLoaded = false
-else end
+end
 
 MEUGameMode = meu_siege
 
@@ -169,77 +169,77 @@ function ObjectiveConquest:Start()
 							ShowMessageText("level.common.events.siege.control_".."gth")
 						elseif team == CIS then
 							ShowMessageText("level.common.events.siege.control_".."ssv")
-						else end
+						end
 					elseif RandomSide == 2 then
 						if team == REP then
 							ShowMessageText("level.common.events.siege.control_".."col")
 						elseif team == CIS then
 							ShowMessageText("level.common.events.siege.control_".."ssv")
-						else end
+						end
 					elseif RandomSide == 3 then
 						if team == REP then
 							ShowMessageText("level.common.events.siege.control_".."gth")
 						elseif team == CIS then
 							ShowMessageText("level.common.events.siege.control_".."evg")
-						else end
+						end
 					elseif RandomSide == 4 then
 						if team == REP then
 							ShowMessageText("level.common.events.siege.control_".."col")
 						elseif team == CIS then
 							ShowMessageText("level.common.events.siege.control_".."evg")
-						else end
+						end
 					end
 				elseif ME5_SideVar == 1 then
 					if team == REP then
 						ShowMessageText("level.common.events.siege.control_".."gth")
 					elseif team == CIS then
 						ShowMessageText("level.common.events.siege.control_".."ssv")
-					else end
+					end
 				elseif ME5_SideVar == 2 then
 					if team == REP then
 						ShowMessageText("level.common.events.siege.control_".."col")
 					elseif team == CIS then
 						ShowMessageText("level.common.events.siege.control_".."ssv")
-					else end
+					end
 				elseif ME5_SideVar == 3 then
 					if team == REP then
 						ShowMessageText("level.common.events.siege.control_".."gth")
 					elseif team == CIS then
 						ShowMessageText("level.common.events.siege.control_".."evg")
-					else end
+					end
 				elseif ME5_SideVar == 4 then
 					if team == REP then
 						ShowMessageText("level.common.events.siege.control_".."col")
 					elseif team == CIS then
 						ShowMessageText("level.common.events.siege.control_".."evg")
-					else end
-				else end
+					end
+				end
 			else
 				if onlineSideVar == 1 then
 					if team == REP then
 						ShowMessageText("level.common.events.siege.control_".."gth")
 					elseif team == CIS then
 						ShowMessageText("level.common.events.siege.control_".."ssv")
-					else end
+					end
 				elseif onlineSideVar == 2 then
 					if team == REP then
 						ShowMessageText("level.common.events.siege.control_".."col")
 					elseif team == CIS then
 						ShowMessageText("level.common.events.siege.control_".."ssv")
-					else end
+					end
 				elseif onlineSideVar == 3 then
 					if team == REP then
 						ShowMessageText("level.common.events.siege.control_".."gth")
 					elseif team == CIS then
 						ShowMessageText("level.common.events.siege.control_".."evg")
-					else end
+					end
 				elseif onlineSideVar == 4 then
 					if team == REP then
 						ShowMessageText("level.common.events.siege.control_".."col")
 					elseif team == CIS then
 						ShowMessageText("level.common.events.siege.control_".."evg")
-					else end
-				else end
+					end
+				end
 			end
 		else
 			--stop bleeding reinforcements
@@ -451,7 +451,7 @@ function ObjectiveConquest:Start()
 			snd_CIS_cpLost_ally		= snd_COL_cpLost_ally
 			snd_CIS_cpLost_enemy	= snd_COL_cpLost_enemy
 			
-		else end
+		end
 	else
 		if onlineSideVar == 1 then
 			snd_REP_cpCapture_ally	= snd_SSV_cpCapture_ally
@@ -497,7 +497,7 @@ function ObjectiveConquest:Start()
 			snd_CIS_cpLost_ally		= snd_COL_cpLost_ally
 			snd_CIS_cpLost_enemy	= snd_COL_cpLost_enemy
 			
-		else end
+		end
 	end
 	
 	for i, cp in pairs(self.commandPosts) do
@@ -615,7 +615,7 @@ function ObjectiveConquest:Start()
 		function (team, count)
 			if team == CIS and count == 20 then				
 				AllowAISpawn(3, false)
-			else end
+			end
 		end
 		)
 	
@@ -695,8 +695,8 @@ function ObjectiveConquest:Complete(winningTeam)
 					print("ME5_ObjectiveBFConquest: Loading hud_font_stock.lvl...")
 				-- hotfix that reloads the stock fonts in the stats screen
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
-			else end
-		else end
+			end
+		end
 	end
 	
 	--then call the default objective complete method

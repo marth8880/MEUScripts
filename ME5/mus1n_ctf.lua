@@ -33,28 +33,28 @@ function SSVxGTH_PostLoad()
 	if not ScriptCB_InMultiplayer() then
 		DecideSSVHeroClass()
 		DecideGTHHeroClass()
-	else end
+	end
 end
 
 function SSVxCOL_PostLoad()
 	if not ScriptCB_InMultiplayer() then
 		DecideSSVHeroClass()
 		DecideCOLHeroClass()
-	else end
+	end
 end
 
 function EVGxGTH_PostLoad()
 	if not ScriptCB_InMultiplayer() then
 		DecideEVGHeroClass()
 		DecideGTHHeroClass()
-	else end
+	end
 end
 
 function EVGxCOL_PostLoad()
 	if not ScriptCB_InMultiplayer() then
 		DecideEVGHeroClass()
 		DecideCOLHeroClass()
-	else end
+	end
 end
 
 --PostLoad, this is all done after all loading, etc.
@@ -161,7 +161,7 @@ function ScriptPostLoad()
 			EVGxGTH_PostLoad()
 		elseif ME5_SideVar == 4 then
 			EVGxCOL_PostLoad()
-		else end
+		end
 	else
 		SSVxGTH_PostLoad()
 	end
@@ -271,7 +271,7 @@ SetMaxPlayerFlyHeight(90)
 			Music09_CTF()
 		elseif ME5_SideVar == 4	then
 			Music09_CTF()
-		else end
+		end
 	else
 		Music06_CTF()
 	end

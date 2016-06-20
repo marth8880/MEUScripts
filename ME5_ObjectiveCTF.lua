@@ -8,7 +8,7 @@ ScriptCB_DoFile("ME5_SoundEvent_ctf")
 if bStockFontLoaded == nil then
 	-- Has the stock font been loaded?
 	bStockFontLoaded = false
-else end
+end
 
 MEUGameMode = meu_ctf
 
@@ -379,7 +379,7 @@ function ObjectiveCTF:Start()
 					destroycarriergoal2 = AddAIGoal(GetOpposingTeam(carrierTeam), "Destroy", 60, charPtr)
 				elseif carrierTeam == 2 then
 					destroycarriergoal1 = AddAIGoal(GetOpposingTeam(carrierTeam), "Destroy", 60, charPtr)
-				else end]]
+				end]]
 				
                 --if the flag is in its capture region, cap the flag
                 if IsCharacterInRegion(carrierObj, flag.captureRegion) and CanCharacterInteractWithFlag(carrierObj) then
@@ -448,7 +448,7 @@ function ObjectiveCTF:Start()
 				DeleteAIGoal(destroycarriergoal2)
 			elseif carrierTeam == 2 then
 				DeleteAIGoal(destroycarriergoal1)
-			else end]]
+			end]]
 			
 			ScriptCB_SndPlaySound("common_flagAction_drop")
             
@@ -548,7 +548,7 @@ function ObjectiveCTF:Start()
 				elseif team == REP then
 					BroadcastVoiceOver( rep_sndcue.."com_report_victory", REP )
 					BroadcastVoiceOver( cis_sndcue.."com_report_defeat", CIS )
-				else end
+				end
 				flagDefeatTimer = CreateTimer("flagDefeatTimer")
 				SetTimerValue("flagDefeatTimer", 6.0)
 				StartTimer("flagDefeatTimer")
@@ -567,8 +567,8 @@ function ObjectiveCTF:Start()
 									print("ME5_ObjectiveCTF: Loading hud_font_stock.lvl...")
 								-- hotfix that reloads the stock fonts in the stats screen
 								ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
-							else end
-						else end
+							end
+						end
 					end,
 				"flagDefeatTimer"
 				)
@@ -581,7 +581,7 @@ function ObjectiveCTF:Start()
 		function (team, count)
 			if team == CIS and count == 20 then				
 				AllowAISpawn(3, false)
-			else end
+			end
 		end
 		)
 	
@@ -606,7 +606,7 @@ if not ScriptCB_InMultiplayer() then
 		CTF_SoundEvents_Var = 3
 	elseif ME5_SideVar == 4	then
 		CTF_SoundEvents_Var = 4
-	else end
+	end
 else
 	if onlineSideVar == 1 then
 		CTF_SoundEvents_Var = 1
@@ -616,7 +616,7 @@ else
 		CTF_SoundEvents_Var = 3
 	elseif onlineSideVar == 4 then
 		CTF_SoundEvents_Var = 4
-	else end
+	end
 end
 
 if CTF_SoundEvents_Var == 1 then
@@ -807,4 +807,4 @@ elseif CTF_SoundEvents_Var == 4 then
 			captured_def			= "common_flagAction_score",
 		},
 	}
-else end
+end

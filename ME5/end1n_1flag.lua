@@ -34,28 +34,28 @@ function SSVxGTH_PostLoad()
 	if not ScriptCB_InMultiplayer() then
 		DecideSSVHeroClass()
 		DecideGTHHeroClass()
-	else end
+	end
 end
 
 function SSVxCOL_PostLoad()
 	if not ScriptCB_InMultiplayer() then
 		DecideSSVHeroClass()
 		DecideCOLHeroClass()
-	else end
+	end
 end
 
 function EVGxGTH_PostLoad()
 	if not ScriptCB_InMultiplayer() then
 		DecideEVGHeroClass()
 		DecideGTHHeroClass()
-	else end
+	end
 end
 
 function EVGxCOL_PostLoad()
 	if not ScriptCB_InMultiplayer() then
 		DecideEVGHeroClass()
 		DecideCOLHeroClass()
-	else end
+	end
 end
 
 ---------------------------------------------------------------------------
@@ -97,7 +97,7 @@ function ScriptPostLoad()
 			EVGxGTH_PostLoad()
 		elseif ME5_SideVar == 4 then
 			EVGxCOL_PostLoad()
-		else end
+		end
 	else
 		SSVxCOL_PostLoad()
 	end
@@ -229,7 +229,7 @@ function ScriptInit()
 			Music09_CTF()
 		elseif ME5_SideVar == 4	then
 			Music09_CTF()
-		else end
+		end
 	else
 		Music05_CTF()
 	end

@@ -38,7 +38,7 @@ onlineHeroEVG = gethprime_me3]]
 REP = 1	-- The player's team.
 CIS = 2	-- Team for the Geth Troopers and Rocketeers. Note: synonymous with teamID 'GethPawns'.
 SQD = 3	-- Team for the player's squad.
-GethHusks = 0	-- Team for the Husks.
+GethHusks = 0	-- Team for the Husks. (DEPRECATED)
 GethPawns = CIS	-- Team for the Geth Troopers and Rocketeers. Note: synonymous with teamID 'CIS'.
 GethTacticals = 4	-- Team for the Geth Snipers and Hunters.
 GethSpecials = 5	-- Team for the Geth Machinists and Shock Troopers.
@@ -1597,6 +1597,34 @@ end
 
 
 ---
+-- Call this to change whether or not the squad can kill enemies.
+-- 
+-- @param #bool canKill		True, squad can kill enemies. False, squad cannot kill enemies.
+-- 
+function SetSquadCanKillEnemies(canKill)
+	local result = nil
+	if canKill == true then
+		result = 1
+	else
+		result = 0
+	end
+	
+	-- Set the AI damage threshold for each enemy unit
+	for curTeam in pairs(enemyTeams) do
+		local teamSize = GetTeamSize(curTeam)
+		if teamSize > 0 then
+			for curMember = 0, teamSize-1 do
+				local characterIndex = GetTeamMember(curTeam, curMember)
+				local charUnit = GetCharacterUnit(characterIndex)
+				
+				SetAIDamageThreshold(charUnit, result)
+			end
+		end
+	end
+end
+
+
+---
 -- Call this to set up the campaign's various timers.
 -- 
 function SetupTimers()
@@ -1731,8 +1759,8 @@ function ScriptPostLoad()
 				print("EURn_c.playerstartinghealth: playerMinHealth:", playerMinHealth)
 				
 				
-				-- Prevent the squad from being able to kill enemies
-				SetAIDamageThreshold(SQD, 0.0)
+				-- Re-allow the squad to kill enemies
+				SetSquadCanKillEnemies(true)
 			end
 		end
 	)
@@ -1742,7 +1770,7 @@ function ScriptPostLoad()
 		function(character)
 			if IsCharacterHuman(character) then
 				-- Prevent the squad from being able to kill enemies
-				SetAIDamageThreshold(SQD, 1.0)
+				SetSquadCanKillEnemies(false)
 			end
 		end
 	)
@@ -1753,6 +1781,8 @@ function ScriptPostLoad()
 		function(team, count)
 			-- Is the player out of lives?
 			if team == ATT and count <= 0 then
+				BroadcastVoiceOver("EUR_obj_defeat", ATT)
+				
 				-- Prevent squad team from spawning and then murder them lmao
 				AllowAISpawn(SQD, false)
 				KillUnits({SQD}, true)
@@ -1768,7 +1798,7 @@ function ScriptPostLoad()
     -- Play spawn menu music
     ScriptCB_PlayInGameMusic("eur_amb_01a_briefing")
 	        	
-	SetRespawnPointPlayer("ps_start_shuttle1")	-- DEBUG
+	SetRespawnPointPlayer("ps_start_shuttle4")	-- DEBUG
 	
     onfirstspawn = OnCharacterSpawn(
 	    function(character)
@@ -1778,7 +1808,7 @@ function ScriptPostLoad()
 	            
 	            camShakeCharUnit = GetCharacterUnit(character)
 	        	
-	        	--BeginOpeningCinematic()
+	        	BeginOpeningCinematic()
 	            
 	            ScriptCB_EnableCommandPostVO(0)
 	            
@@ -2270,7 +2300,32 @@ function ScriptPostLoad()
 				if IsCharacterHuman(player) then
 					print("EURn_c.S0_Elevator: Entered region")
 					
-					SetProperty("elevator_s0_doors_block", "CurHealth", 0)
+					
+					--===========================
+					-- DEMO TIMER START
+					--===========================
+					
+					local demoTimer = CreateTimer("demoTimer")
+					SetTimerValue(demoTimer, 10)
+					ShowTimer(demoTimer)
+					StartTimer(demoTimer)
+					
+					local demoTimerElapse = OnTimerElapse(
+						function(timer)
+							MissionVictory(ATT)
+							
+							ReleaseTimerElapse(demoTimerElapse)
+							DestroyTimer(demoTimer)
+						end,
+					"demoTimer"
+					)
+					
+					--===========================
+					-- DEMO TIMER END
+					--===========================
+					
+					
+					--[[SetProperty("elevator_s0_doors_block", "CurHealth", 0)
 					
 					-- Start the elevator sequence (car & doors)
 					PlayAnimation("elevator_s0_car")
@@ -2304,7 +2359,7 @@ function ScriptPostLoad()
 					ReleaseEnterRegion(S0_Elevator)
 					S0_Elevator = nil
 					
-					DeactivateRegion("elevator_s0_trigger")
+					DeactivateRegion("elevator_s0_trigger")]]
 				end
 			end,
 		"elevator_s0_trigger"
@@ -3222,96 +3277,122 @@ function ScriptPostLoad()
 	DisableAIAutoBalance()
 	
 	
-	
-	-- tell v1.3 to expect custom FC commands
-	SupportsCustomFCCommands = true
-	
-	-- make sure we don't wipe out someone else's custom commands
-	local moreCommands = nil
-	if AddFCCommands ~= nil then
-		moreCommands = AddFCCommands 
-	end
-	
-	-- v1.3 will automatically call this for you at the proper times
-	AddFCCommands = function()
-		-- Add your custom commands here using ff_AddCommand() as show below
+	-- Add debug functions to Fake Console
+	if MEU_BuildVer == "production" then
+		-- tell v1.3 to expect custom FC commands
+		SupportsCustomFCCommands = true
 		
-		-- attempts to teleport all enemy AI units to player 0's location
-		ff_AddCommand(
-			"Release Combat Zone",		-- name of the command
-			nil,						-- command description.  If nil, defaults to mods.fakeconsole.description.<name without spaces> (example: mods.fakeconsole.description.MyEnemyAITeleport)
-			function()					-- this function does whatever it is you want your command to do
-				ReleaseCombatZone(currentZoneID)
-			end,
-			function()					 -- this function returns true when you want the command displayed in the FC menu
-				return not ScriptCB_InNetGame()	--only shows command in singleplayer
+		-- make sure we don't wipe out someone else's custom commands
+		local moreCommands = nil
+		if AddFCCommands ~= nil then
+			moreCommands = AddFCCommands 
+		end
+		
+		-- v1.3 will automatically call this for you at the proper times
+		AddFCCommands = function()
+			-- Add your custom commands here using ff_AddCommand() as show below
+			
+			-- attempts to teleport all enemy AI units to player 0's location
+			ff_AddCommand(
+				"Release Combat Zone",		-- name of the command
+				nil,						-- command description.  If nil, defaults to mods.fakeconsole.description.<name without spaces> (example: mods.fakeconsole.description.MyEnemyAITeleport)
+				function()					-- this function does whatever it is you want your command to do
+					ReleaseCombatZone(currentZoneID)
+				end,
+				function()					 -- this function returns true when you want the command displayed in the FC menu
+					return not ScriptCB_InNetGame()	--only shows command in singleplayer
+				end
+			)	-- end of ff_AddCommand's parameters
+			
+			
+			ff_AddCommand(
+				"Unblock Combat Zone Exits (0)",		-- name of the command
+				nil,						-- command description.  If nil, defaults to mods.fakeconsole.description.<name without spaces> (example: mods.fakeconsole.description.MyEnemyAITeleport)
+				function()					-- this function does whatever it is you want your command to do
+					UnblockCombatZoneExits(0)
+				end,
+				function()					 -- this function returns true when you want the command displayed in the FC menu
+					return not ScriptCB_InNetGame()	--only shows command in singleplayer
+				end
+			)	-- end of ff_AddCommand's parameters
+			
+			
+			ff_AddCommand(
+				"Unblock Combat Zone Exits (1)",		-- name of the command
+				nil,						-- command description.  If nil, defaults to mods.fakeconsole.description.<name without spaces> (example: mods.fakeconsole.description.MyEnemyAITeleport)
+				function()					-- this function does whatever it is you want your command to do
+					UnblockCombatZoneExits(1)
+				end,
+				function()					 -- this function returns true when you want the command displayed in the FC menu
+					return not ScriptCB_InNetGame()	--only shows command in singleplayer
+				end
+			)	-- end of ff_AddCommand's parameters
+			
+			
+			ff_AddCommand(
+				"Unblock Combat Zone Exits (2)",		-- name of the command
+				nil,						-- command description.  If nil, defaults to mods.fakeconsole.description.<name without spaces> (example: mods.fakeconsole.description.MyEnemyAITeleport)
+				function()					-- this function does whatever it is you want your command to do
+					UnblockCombatZoneExits(2)
+				end,
+				function()					 -- this function returns true when you want the command displayed in the FC menu
+					return not ScriptCB_InNetGame()	--only shows command in singleplayer
+				end
+			)	-- end of ff_AddCommand's parameters
+			
+			
+			ff_AddCommand(
+				"Unblock Combat Zone Exits (3)",		-- name of the command
+				nil,						-- command description.  If nil, defaults to mods.fakeconsole.description.<name without spaces> (example: mods.fakeconsole.description.MyEnemyAITeleport)
+				function()					-- this function does whatever it is you want your command to do
+					UnblockCombatZoneExits(3)
+				end,
+				function()					 -- this function returns true when you want the command displayed in the FC menu
+					return not ScriptCB_InNetGame()	--only shows command in singleplayer
+				end
+			)	-- end of ff_AddCommand's parameters
+			
+			
+			ff_AddCommand(
+				"Open Shuttle Door",		-- name of the command
+				nil,						-- command description.  If nil, defaults to mods.fakeconsole.description.<name without spaces> (example: mods.fakeconsole.description.MyEnemyAITeleport)
+				function()					-- this function does whatever it is you want your command to do
+					OpenShuttleDoor()
+				end,
+				function()					 -- this function returns true when you want the command displayed in the FC menu
+					return not ScriptCB_InNetGame()	--only shows command in singleplayer
+				end
+			)	-- end of ff_AddCommand's parameters
+			
+			
+			ff_AddCommand(
+				"Squad Can Kill Enemies (true)",	-- name of the command
+				nil,						-- command description.  If nil, defaults to mods.fakeconsole.description.<name without spaces> (example: mods.fakeconsole.description.MyEnemyAITeleport)
+				function()					-- this function does whatever it is you want your command to do
+					SetSquadCanKillEnemies(true)
+				end,
+				function()					 -- this function returns true when you want the command displayed in the FC menu
+					return not ScriptCB_InNetGame()	--only shows command in singleplayer
+				end
+			)	-- end of ff_AddCommand's parameters
+			
+			
+			ff_AddCommand(
+				"Squad Can Kill Enemies (false)",	-- name of the command
+				nil,						-- command description.  If nil, defaults to mods.fakeconsole.description.<name without spaces> (example: mods.fakeconsole.description.MyEnemyAITeleport)
+				function()					-- this function does whatever it is you want your command to do
+					SetSquadCanKillEnemies(false)
+				end,
+				function()					 -- this function returns true when you want the command displayed in the FC menu
+					return not ScriptCB_InNetGame()	--only shows command in singleplayer
+				end
+			)	-- end of ff_AddCommand's parameters
+			
+			
+			-- process someone else's custom FC commands
+			if moreCommands ~= nil then
+				return moreCommands()
 			end
-		)	-- end of ff_AddCommand's parameters
-		
-		
-		ff_AddCommand(
-			"Unblock Combat Zone Exits (0)",		-- name of the command
-			nil,						-- command description.  If nil, defaults to mods.fakeconsole.description.<name without spaces> (example: mods.fakeconsole.description.MyEnemyAITeleport)
-			function()					-- this function does whatever it is you want your command to do
-				UnblockCombatZoneExits(0)
-			end,
-			function()					 -- this function returns true when you want the command displayed in the FC menu
-				return not ScriptCB_InNetGame()	--only shows command in singleplayer
-			end
-		)	-- end of ff_AddCommand's parameters
-		
-		
-		ff_AddCommand(
-			"Unblock Combat Zone Exits (1)",		-- name of the command
-			nil,						-- command description.  If nil, defaults to mods.fakeconsole.description.<name without spaces> (example: mods.fakeconsole.description.MyEnemyAITeleport)
-			function()					-- this function does whatever it is you want your command to do
-				UnblockCombatZoneExits(1)
-			end,
-			function()					 -- this function returns true when you want the command displayed in the FC menu
-				return not ScriptCB_InNetGame()	--only shows command in singleplayer
-			end
-		)	-- end of ff_AddCommand's parameters
-		
-		
-		ff_AddCommand(
-			"Unblock Combat Zone Exits (2)",		-- name of the command
-			nil,						-- command description.  If nil, defaults to mods.fakeconsole.description.<name without spaces> (example: mods.fakeconsole.description.MyEnemyAITeleport)
-			function()					-- this function does whatever it is you want your command to do
-				UnblockCombatZoneExits(2)
-			end,
-			function()					 -- this function returns true when you want the command displayed in the FC menu
-				return not ScriptCB_InNetGame()	--only shows command in singleplayer
-			end
-		)	-- end of ff_AddCommand's parameters
-		
-		
-		ff_AddCommand(
-			"Unblock Combat Zone Exits (3)",		-- name of the command
-			nil,						-- command description.  If nil, defaults to mods.fakeconsole.description.<name without spaces> (example: mods.fakeconsole.description.MyEnemyAITeleport)
-			function()					-- this function does whatever it is you want your command to do
-				UnblockCombatZoneExits(3)
-			end,
-			function()					 -- this function returns true when you want the command displayed in the FC menu
-				return not ScriptCB_InNetGame()	--only shows command in singleplayer
-			end
-		)	-- end of ff_AddCommand's parameters
-		
-		
-		ff_AddCommand(
-			"Open Shuttle Door",		-- name of the command
-			nil,						-- command description.  If nil, defaults to mods.fakeconsole.description.<name without spaces> (example: mods.fakeconsole.description.MyEnemyAITeleport)
-			function()					-- this function does whatever it is you want your command to do
-				OpenShuttleDoor()
-			end,
-			function()					 -- this function returns true when you want the command displayed in the FC menu
-				return not ScriptCB_InNetGame()	--only shows command in singleplayer
-			end
-		)	-- end of ff_AddCommand's parameters
-		
-		
-		-- process someone else's custom FC commands
-		if moreCommands ~= nil then
-			return moreCommands()
 		end
 	end
     
@@ -3933,7 +4014,7 @@ function BeginOpeningCinematic()
 	
 	openingCinematicSequence = CinematicContainer:New{pathName = "ps_start_shuttle"}
 	openingCinematicSequence:AddShot(ShotIntro1)
-	openingCinematicSequence:AddShot(ShotTransition0)
+	--[[openingCinematicSequence:AddShot(ShotTransition0)
 	openingCinematicSequence:AddShot(Shot1a)
 	openingCinematicSequence:AddShot(Shot1b)
 	openingCinematicSequence:AddShot(ShotTransition1)
@@ -3950,7 +4031,7 @@ function BeginOpeningCinematic()
 	openingCinematicSequence:AddShot(Shot4a)
 	openingCinematicSequence:AddShot(Shot4b)
 	openingCinematicSequence:AddShot(ShotTransition4)
-	openingCinematicSequence:AddShot(Shot4c)
+	openingCinematicSequence:AddShot(Shot4c)]]
 	openingCinematicSequence:AddShot(ShotTransition5a)
 	openingCinematicSequence:AddShot(ShotShuttles1a)
 	openingCinematicSequence:AddShot(ShotTransition5b)

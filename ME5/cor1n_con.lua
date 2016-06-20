@@ -55,8 +55,8 @@ function SSVxGTH_PostLoad()
 			herosupport:AddSpawnCP("cp5","CP5SpawnPath")
 			herosupport:AddSpawnCP("cp6","CP6SpawnPath")
 			herosupport:Start()
-		else end
-	else end
+		end
+	end
 end
 
 function SSVxCOL_PostLoad()
@@ -77,8 +77,8 @@ function SSVxCOL_PostLoad()
 			herosupport:AddSpawnCP("cp5","CP5SpawnPath")
 			herosupport:AddSpawnCP("cp6","CP6SpawnPath")
 			herosupport:Start()
-		else end
-	else end
+		end
+	end
 end
 
 function EVGxGTH_PostLoad()
@@ -99,8 +99,8 @@ function EVGxGTH_PostLoad()
 			herosupport:AddSpawnCP("cp5","CP5SpawnPath")
 			herosupport:AddSpawnCP("cp6","CP6SpawnPath")
 			herosupport:Start()
-		else end
-	else end
+		end
+	end
 end
 
 function EVGxCOL_PostLoad()
@@ -121,8 +121,8 @@ function EVGxCOL_PostLoad()
 			herosupport:AddSpawnCP("cp5","CP5SpawnPath")
 			herosupport:AddSpawnCP("cp6","CP6SpawnPath")
 			herosupport:Start()
-		else end
-	else end
+		end
+	end
 end
 
  ---------------------------------------------------------------------------
@@ -256,7 +256,7 @@ function ScriptPostLoad()
 			EVGxGTH_PostLoad()
 		elseif ME5_SideVar == 4 then
 			EVGxCOL_PostLoad()
-		else end
+		end
 	else
 		SSVxGTH_PostLoad()
 	end
@@ -327,11 +327,12 @@ function ScriptInit()
 
 	local weaponCnt = 256
 	local guyCnt = 64
-	SetMemoryPoolSize("Aimer", 17)
+	SetMemoryPoolSize("Aimer", 20)
 	SetMemoryPoolSize("AmmoCounter", weaponCnt)
 	SetMemoryPoolSize("BaseHint", 250)
 	SetMemoryPoolSize("EnergyBar", weaponCnt)
 	SetMemoryPoolSize("EntityCloth", 0)
+	SetMemoryPoolSize("EntityPortableTurret", 64)
 	SetMemoryPoolSize("EntitySoundStatic", 45)
 	SetMemoryPoolSize("FlagItem", 512)
 	SetMemoryPoolSize("MountedTurret", 18)
@@ -378,7 +379,7 @@ function ScriptInit()
 			Music09()
 		elseif ME5_SideVar == 4	then
 			Music09()
-		else end
+		end
 	else
 		Music06()
 	end
