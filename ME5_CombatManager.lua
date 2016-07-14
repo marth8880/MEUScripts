@@ -74,23 +74,25 @@
 
 ---
 -- This is a constructor for a WaveSequence object.
--- @param #bool bDebugWaves		OPTIONAL: Whether or not to print/display debug messages.
+-- @param #bool bDebug		OPTIONAL: Whether or not to print/display debug messages.
 -- 
 WaveSequence = {
     -- Fields that need to be specified on creation
     
     
     -- Optional fields
-    bDebugWaves = false,			-- Whether or not to print/display debug messages.
+    bDebug = false,					-- Whether or not to print/display debug messages.
     
     
     -- Fields that are handled internally
+    spawnPath = nil,				-- The name of the path to spawn the next wave at. This is handled by SmartSpawn.
     totalWaves = 0,					-- The total number of waves in this sequence.
 	bIsFinalWave = false,			-- Whether or not we're on the final wave of the sequence.
 	
 	totalEnemies = 0,				-- The total number of enemies that spawn in this sequence.
 	killCount = 0,					-- The number of enemies that have been killed.
 }
+
 
 ----
 -- Creates a new WaveSequence.
@@ -139,6 +141,16 @@ function WaveSequence:AddWave(...)
 end
 
 ---
+-- Inserts a new SmartSpawn module.
+--
+function WaveSequence:AddSmartSpawn(smartSpawner)
+	self.smartSpawnModule = smartSpawner
+	
+	-- Set the SmartSpawn's container
+	smartSpawner:SetContainer(self)
+end
+
+---
 -- Call this to activate the first wave and initialize event logic.
 --
 function WaveSequence:Start(combatZoneID, musicID)
@@ -179,11 +191,13 @@ function WaveSequence:Start(combatZoneID, musicID)
 	
 	
 	-- Is debug messages enabled?
-	if self.bDebugWaves == true then
+	if self.bDebug == true then
 		ShowMessageText("level.EUR.debug.comzone_entered", REP)
 		ShowMessageText("level.EUR.debug.comzone_spawning", REP)
 	end
 	
+	-- Initialize the SmartSpawn
+	self.smartSpawnModule:Start()
 
 	-- Activate the first wave
 	self:ActivateWaveSet(1)
@@ -204,7 +218,7 @@ function WaveSequence:Start(combatZoneID, musicID)
 		    	if killer and ((charTeam == GethPawns) or (charTeam == GethTacticals) or (charTeam == GethHeavys) or (charTeam == GethSpecials) or (charTeam == GethPrimes)) then
 		    	
 					-- Is debug messages enabled?
-					if self.bDebugWaves == true then
+					if self.bDebug == true then
 						ShowMessageText("level.EUR.debug.comzone_kill", REP)
 					end
 					
@@ -263,7 +277,7 @@ function WaveSequence:ActivateWaveSet(whichSet)
 	print("WaveSequence:ActivateWaveSet(): Spawning wave "..whichSet)
 	
 	-- Is debug messages enabled?
-	if self.bDebugWaves == true then
+	if self.bDebug == true then
 		ShowMessageText("level.EUR.debug.comzone_spawning", REP)
 	end
 	
@@ -271,7 +285,7 @@ function WaveSequence:ActivateWaveSet(whichSet)
 		print("EURn_c.SpawnNextWave(): NOTICE: Final wave")
 		
 		-- Is debug messages enabled?
-		if self.bDebugWaves == true then
+		if self.bDebug == true then
 			-- Let the player know they're on the final wave
 			ShowMessageText("level.EUR.debug.comzone_finalwave", REP)
 		end
@@ -303,12 +317,181 @@ function WaveSequence:Complete()
 	print("WaveSequence:Complete(): Combat zone cleared")
 	
 	-- Is debug messages enabled?
-	if bDebugWaves == true then
+	if bDebug == true then
 		ShowMessageText("level.EUR.debug.comzone_done", REP)
 	end
 	
+	-- Tell SmartSpawn to run completion logic 
+	self.smartSpawnModule:Complete()
+	
 	-- Callback for overriding completion behavior
 	self:OnComplete()
+end
+
+
+--=================================
+-- SmartSpawn
+--=================================
+
+---
+-- Initializes logic for SmartSpawn system.
+-- 
+-- @param #string regionName	The name of the region to associate with the SmartSpawning.
+-- @param #string allySpawnIn	The name of the path the player and allies spawn at when inside regionName.
+-- @param #string allySpawnOut	The name of the path the player and allies spawn at when outside regionName.
+-- @param #string enemySpawnIn	The name of the path enemies spawn at when the player is inside regionName.
+-- @param #string enemySpawnOut	The name of the path enemies spawn at when the player is outside regionName.
+-- 
+SmartSpawn = 
+{
+    -- Fields that need to be specified on creation
+    regionName = nil,			-- The name of the region to associate with the SmartSpawning.
+    allySpawnIn = nil,			-- The name of the path the player and allies spawn at when inside regionName.
+    allySpawnOut = nil,			-- The name of the path the player and allies spawn at when outside regionName.
+    enemySpawnIn = nil,			-- The name of the path enemies spawn at when the player is inside regionName.
+    enemySpawnOut = nil,		-- The name of the path enemies spawn at when the player is outside regionName.
+    
+    -- Optional fields
+    
+    -- Debug fields
+    bDebug = false,				-- Whether or not debug messages are enabled.
+    
+    -- Fields that are handled internally
+    playerIs = "in",			-- Player is "in" the region, or player is "out" of the region.
+    curAllySpawn = nil,			-- The current path the player and allies spawn at.
+    curEnemySpawn = nil,		-- The current path enemies spawn at.
+}
+
+---
+-- Call this to construct a new SmartSpawn object.
+-- @param #table o SmartSpawn object table with its fields filled out.
+-- @return The SmartSpawn object.
+-- 
+function SmartSpawn:New(o)
+    o = o or {}
+    setmetatable(o, self)
+    self.__index = self
+    return o
+end
+
+
+---
+-- Initializes logic for SmartSpawn system.
+-- 
+function SmartSpawn:Start()
+
+	-- Initialize data fields
+	if self.regionName == nil then
+		print("SmartSpawn:Start(): WARNING: regionName must be specified! Exiting function")
+		return
+	end
+	if self.allySpawnIn == nil then
+		print("SmartSpawn:Start(): WARNING: allySpawnIn must be specified! Exiting function")
+		return
+	end
+	if self.allySpawnOut == nil then
+		print("SmartSpawn:Start(): WARNING: allySpawnOut must be specified! Exiting function")
+		return
+	end
+	if self.enemySpawnIn == nil then
+		print("SmartSpawn:Start(): WARNING: enemySpawnIn must be specified! Exiting function")
+		return
+	end
+	if self.enemySpawnOut == nil then
+		print("SmartSpawn:Start(): WARNING: enemySpawnOut must be specified! Exiting function")
+		return
+	end
+	
+	-- Set current spawns to SpawnIn paths since the WaveSequence always starts with the player in the region
+	self.curAllySpawn = self.allySpawnIn
+	self.curEnemySpawn = self.enemySpawnIn
+	
+	
+	-- Activate the SmartSpawn region so we can use it
+	ActivateRegion(self.regionName)
+	
+	
+	--=======================
+	-- LOCAL FUNCTIONS
+	--=======================
+	
+	local function UpdateState()
+		-- Update the spawn path vars
+		if self.playerIs == "in" then
+			self.curAllySpawn = self.allySpawnIn
+			self.curEnemySpawn = self.enemySpawnIn
+			
+		elseif self.playerIs == "out" then
+			self.curAllySpawn = self.allySpawnOut
+			self.curEnemySpawn = self.enemySpawnOut
+			
+		end
+		
+		-- Update the player's spawn path
+		SetRespawnPoint(self.curAllySpawn)
+		
+		-- Update the enemy's spawn path
+		self.container.spawnPath = self.curEnemySpawn
+	end
+	
+	-- Do an initial update on the state
+	UpdateState()
+	
+	--=======================
+	-- EVENT RESPONSES
+	--=======================
+	
+	self.SmartSpawn_RegionEnter = OnEnterRegion(
+		function(region, character)
+			if IsCharacterHuman(character) then
+				self.playerIs = "in"
+				
+				if self.bDebug == true then
+					print("SmartSpawn:Start(): Player entered region")
+					ShowMessageText("level.common.debug.smartspawn_entered")
+				end
+				
+				UpdateState()
+			end
+		end,
+	self.regionName
+	)
+	
+	self.SmartSpawn_RegionExit = OnLeaveRegion(
+		function(region, character)
+			if IsCharacterHuman(character) then
+				self.playerIs = "out"
+				
+				if self.bDebug == true then
+					print("SmartSpawn:Start(): Player exited region")
+					ShowMessageText("level.common.debug.smartspawn_exited")
+				end
+				
+				UpdateState()
+			end
+		end,
+	self.regionName
+	)
+	
+end
+
+---
+-- This is called when the WaveSequence has completed.
+--
+function SmartSpawn:Complete()
+	-- Deactivate the SmartSpawn region
+	DeactivateRegion(self.regionName)
+	
+	-- Release the region event responses
+	ReleaseEnterRegion(self.SmartSpawn_RegionEnter)
+	ReleaseLeaveRegion(self.SmartSpawn_RegionExit)
+end
+
+---
+-- This is called when the SmartSpawn object is added to the WaveSequence.
+--
+function SmartSpawn:SetContainer(container)
+    self.container = container
 end
 
 
@@ -322,7 +505,7 @@ end
 -- @param #int numDudes			Must be greater than 0. Number of enemies to spawn from team.
 -- @param #int spawnValue		Must be greater than 0. The required number of dead enemies to trigger the next wave.
 -- @param #string spawnPath		The name of the path to spawn the wave at.
--- @param #bool bDebugWaves		OPTIONAL: Whether or not to print/display debug messages.
+-- @param #bool bDebug		OPTIONAL: Whether or not to print/display debug messages.
 -- 
 CombatWave = 
 {
@@ -330,12 +513,12 @@ CombatWave =
     team = nil, 					-- The team to spawn enemies from.
     numDudes = nil, 				-- Must be greater than 0. Number of enemies to spawn from team.
     spawnValue = nil, 				-- Must be greater than 0. The required number of dead enemies to trigger the next wave.
-    spawnPath = nil, 				-- The name of the path to spawn the wave at.
+    --spawnPath = nil, 				-- The name of the path to spawn the wave at.
     
     -- Optional fields
     
     -- Debug fields
-    bDebugWaves = false,			-- Whether or not to print/display debug messages.
+    bDebug = false,			-- Whether or not to print/display debug messages.
     
     -- Fields that are handled internally
     isComplete = false,				-- Whether or not the wave is complete.
@@ -381,10 +564,10 @@ function CombatWave:Start()
 	end
 	
 	-- Is the spawnPath set? If not, print an error message and exit the function
-	if self.spawnPath == nil then
+	--[[if self.spawnPath == nil then
 		print("CombatWave:Start(): WARNING: spawnPath must be specified! Exiting function")
 		return
-	end
+	end]]
 	
 	
     -- Initialize values for data fields (even if they don't exist)
@@ -397,8 +580,8 @@ function CombatWave:Start()
     
     -- Spawn the enemies
     print()
-    print("CombatWave:Start(): Spawning "..self.numDudes.." enemies from team "..self.team.." at "..self.spawnPath)
-    Ambush(self.spawnPath, self.numDudes, self.team)
+    print("CombatWave:Start(): Spawning "..self.numDudes.." enemies from team "..self.team.." at "..self.container.spawnPath)
+    Ambush(self.container.spawnPath, self.numDudes, self.team)
     
     print("CombatWave:Start(): Total enemiesRemaining:", self.enemiesRemaining)
     

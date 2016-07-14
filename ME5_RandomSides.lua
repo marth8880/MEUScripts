@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Random Sides Script by A. Gilbert
--- Version 30614/06
+-- Version 30707/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Jun 14, 2016
+-- Jul 7, 2016
 -- Copyright (c) 2016 A. Gilbert.
 -- 
 -- About this script: The purpose of script is to simplify the process 
@@ -1105,12 +1105,12 @@ function Setup_SSVxGTH_xs()
 			team = REP,
 			units = 13,
 			reinforcements = 150,
-			soldier  = { ssv_inf_soldier,3, 8},
-			sniper  = { ssv_inf_infiltrator,3, 8},
-			adept = { ssv_inf_adept,3, 8},
-			engineer   = { ssv_inf_engineer,3, 8},
-			sentinel = { ssv_inf_sentinel,3, 8},
-			vanguard = { ssv_inf_vanguard,3, 8},
+			soldier  = { ssv_inf_soldier,2, 8},
+			sniper  = { ssv_inf_infiltrator,2, 8},
+			adept = { ssv_inf_adept,2, 8},
+			engineer   = { ssv_inf_engineer,2, 8},
+			sentinel = { ssv_inf_sentinel,2, 8},
+			vanguard = { ssv_inf_vanguard,2, 8},
 		},
 		
 		cis = {
@@ -1133,12 +1133,12 @@ function Setup_SSVxGTH_xs()
 			team = REP,
 			units = 13,
 			reinforcements = 150,
-			soldier  = { ssv_inf_soldier,3, 8},
-			sniper  = { ssv_inf_infiltrator,3, 8},
-			adept = { ssv_inf_adept,3, 8},
-			engineer   = { ssv_inf_engineer,3, 8},
-			sentinel = { ssv_inf_sentinel,3, 8},
-			vanguard = { ssv_inf_vanguard,3, 8},
+			soldier  = { ssv_inf_soldier,2, 8},
+			sniper  = { ssv_inf_infiltrator,2, 8},
+			adept = { ssv_inf_adept,2, 8},
+			engineer   = { ssv_inf_engineer,2, 8},
+			sentinel = { ssv_inf_sentinel,2, 8},
+			vanguard = { ssv_inf_vanguard,2, 8},
 		},
 		
 		cis = {
@@ -1183,12 +1183,12 @@ function Setup_SSVxCOL_xs()
 			team = REP,
 			units = 13,
 			reinforcements = 150,
-			soldier  = { ssv_inf_soldier,3, 8},
-			sniper  = { ssv_inf_infiltrator,3, 8},
-			adept = { ssv_inf_adept,3, 8},
-			engineer   = { ssv_inf_engineer,3, 8},
-			sentinel = { ssv_inf_sentinel,3, 8},
-			vanguard = { ssv_inf_vanguard,3, 8},
+			soldier  = { ssv_inf_soldier,2, 8},
+			sniper  = { ssv_inf_infiltrator,2, 8},
+			adept = { ssv_inf_adept,2, 8},
+			engineer   = { ssv_inf_engineer,2, 8},
+			sentinel = { ssv_inf_sentinel,2, 8},
+			vanguard = { ssv_inf_vanguard,2, 8},
 		},
 		
 		cis = {
@@ -1209,12 +1209,12 @@ function Setup_SSVxCOL_xs()
 			team = REP,
 			units = 13,
 			reinforcements = 150,
-			soldier  = { ssv_inf_soldier,3, 8},
-			sniper  = { ssv_inf_infiltrator,3, 8},
-			adept = { ssv_inf_adept,3, 8},
-			engineer   = { ssv_inf_engineer,3, 8},
-			sentinel = { ssv_inf_sentinel,3, 8},
-			vanguard = { ssv_inf_vanguard,3, 8},
+			soldier  = { ssv_inf_soldier,2, 8},
+			sniper  = { ssv_inf_infiltrator,2, 8},
+			adept = { ssv_inf_adept,2, 8},
+			engineer   = { ssv_inf_engineer,2, 8},
+			sentinel = { ssv_inf_sentinel,2, 8},
+			vanguard = { ssv_inf_vanguard,2, 8},
 		},
 		
 		cis = {
@@ -1486,12 +1486,12 @@ function Setup_SSVxRPR_xs()
 		team = REP,
 		units = 10,
 		reinforcements = 150,
-		soldier  = { ssv_inf_soldier,3, 8},
-		sniper  = { ssv_inf_infiltrator,3, 8},
-		adept = { ssv_inf_adept,3, 8},
-		engineer   = { ssv_inf_engineer,3, 8},
-		sentinel = { ssv_inf_sentinel,3, 8},
-		vanguard = { ssv_inf_vanguard,3, 8},	
+		soldier  = { ssv_inf_soldier,2, 8},
+		sniper  = { ssv_inf_infiltrator,2, 8},
+		adept = { ssv_inf_adept,2, 8},
+		engineer   = { ssv_inf_engineer,2, 8},
+		sentinel = { ssv_inf_sentinel,2, 8},
+		vanguard = { ssv_inf_vanguard,2, 8},
 	},
 	
 	imp = {
@@ -1521,12 +1521,12 @@ function Setup_SSVxCER_xs()
 		team = REP,
 		units = 10,
 		reinforcements = 150,
-		soldier  = { ssv_inf_soldier,3, 8},
-		sniper  = { ssv_inf_infiltrator,3, 8},
-		adept = { ssv_inf_adept,3, 8},
-		engineer   = { ssv_inf_engineer,3, 8},
-		sentinel = { ssv_inf_sentinel,3, 8},
-		vanguard = { ssv_inf_vanguard,3, 8},	
+		soldier  = { ssv_inf_soldier,2, 8},
+		sniper  = { ssv_inf_infiltrator,2, 8},
+		adept = { ssv_inf_adept,2, 8},
+		engineer   = { ssv_inf_engineer,2, 8},
+		sentinel = { ssv_inf_sentinel,2, 8},
+		vanguard = { ssv_inf_vanguard,2, 8},
 	},
 	
 	imp = {

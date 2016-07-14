@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Audio Functions Script by A. Gilbert
--- Version 30614/06
+-- Version 30707/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Jun 14, 2016
+-- Jul 7, 2016
 -- Copyright (c) 2016 A. Gilbert.
 -- 
 -- About this script: The purpose of script is to simplify the process 
@@ -849,6 +849,9 @@ function EVGWorldVO()
 end
 
 
+---
+-- Perform various sound-related operations, such as loading common VO streams, setting common, sound parameters, etc.
+-- 
 function SoundFX()
     voiceQuick = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "vo_quick_streaming")
     AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "vo_slow_streaming", voiceQuick)
@@ -917,20 +920,27 @@ function SoundFX()
 	ScriptCB_SetDopplerFactor(3.0)
 	--SetBleedingRepeatTime(50)	-- 30
 	
-	ScaleSoundParameter("weapons",	"Gain", 0.82)
+	ScaleSoundParameter("weapons",			"Gain", 0.82)
 	ScaleSoundParameter("weapons_distant",	"Gain", 0.82)
 	ScaleSoundParameter("weapons_sniper",	"Gain", 1.0)
 	ScaleSoundParameter("unit_weapon",	"Gain", 0.8)
 	ScaleSoundParameter("unit_stats",	"Gain", 1.0)
-	ScaleSoundParameter("Ordnance",	"Gain", 0.84)
-	ScaleSoundParameter("Ordnance_large",	"Gain", 1.0)
-	ScaleSoundParameter("Ordnance_grenade",	"Gain", 0.8)
+	ScaleSoundParameter("Ordnance",				"Gain", 0.84)
+	ScaleSoundParameter("Ordnance_large",		"Gain", 1.0)
+	ScaleSoundParameter("Ordnance_grenade",		"Gain", 0.8)
+	if ME5_PlayerDmgSound == 2 then
+		ScaleSoundParameter("Ordnance_playerdmg",	"Gain", 1.0)
+	elseif ME5_PlayerDmgSound == 1 then
+		ScaleSoundParameter("Ordnance_playerdmg",	"Gain", 0.5)
+	elseif ME5_PlayerDmgSound == 0 then
+		ScaleSoundParameter("Ordnance_playerdmg",	"Gain", 0.0)
+	end
 	ScaleSoundParameter("Explosion",	"Gain", 0.9)
 	ScaleSoundParameter("vehicles",	"Gain", 0.8)
 	ScaleSoundParameter("body_movement",	"Gain", 0.8)
 	ScaleSoundParameter("vehicle_foley",	"Gain", 0.8)
-	ScaleSoundParameter("Collision",	"Gain", 0.8)
-	ScaleSoundParameter("props",	"Gain", 0.88)
+	ScaleSoundParameter("Collision",		"Gain", 0.8)
+	ScaleSoundParameter("props",		"Gain", 0.88)
 	ScaleSoundParameter("ambientenv",	"Gain", 0.8)
 	ScaleSoundParameter("ssv_vo",	"Gain", 0.7)
 	ScaleSoundParameter("gth_vo",	"Gain", 0.8)

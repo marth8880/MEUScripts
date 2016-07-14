@@ -151,7 +151,7 @@ enemyTeams	= { GethPawns,
 				GethSpecials, 
 				GethHeavys, 
 				GethPrimes }
-		
+
 enemyBuildingClasses = {	"gth_bldg_assaultdrone", 
 							"gth_bldg_gethturret", 
 							"gth_bldg_rocketdrone", 
@@ -288,10 +288,10 @@ doorBlocks_S3	= {  -- Main Atrium
 -- @param #int sublevelID The numerical ID of the sublevel to block.
 -- 
 function BlockCombatZoneExits(sublevelID)
-	print("EURn_c.BlockCombatZoneExits("..sublevelID.."): Entered")
+	print("EXAMPLEn_c.BlockCombatZoneExits("..sublevelID.."): Entered")
 	
 	if sublevelID == 0 then
-		print("EURn_c.BlockCombatZoneExits(): Blocking barriers")
+		print("EXAMPLEn_c.BlockCombatZoneExits(): Blocking barriers")
 		
 		-- Barriers
     	EnableBarriers("Bar_Hangar1")
@@ -303,7 +303,7 @@ function BlockCombatZoneExits(sublevelID)
     	EnableBarriers("Bar_Comms1")
     	EnableBarriers("Bar_Power1")
 		
-		print("EURn_c.BlockCombatZoneExits(): Blocking planning graphs")
+		print("EXAMPLEn_c.BlockCombatZoneExits(): Blocking planning graphs")
     	
     	-- Planning connections
     	BlockPlanningGraphArcs(1)
@@ -313,7 +313,7 @@ function BlockCombatZoneExits(sublevelID)
 		-- DOOR STUFF
 		--==================
 		
-		print("EURn_c.BlockCombatZoneExits(): Locking doors")
+		print("EXAMPLEn_c.BlockCombatZoneExits(): Locking doors")
 		
 		-- Lock all of the doors
 		for i in pairs(doors_S0) do
@@ -326,10 +326,10 @@ function BlockCombatZoneExits(sublevelID)
 			SetProperty(doorBlocks_S0[i], "CurHealth", 9999999999)
 		end
 		
-		print("EURn_c.BlockCombatZoneExits(): Done")
+		print("EXAMPLEn_c.BlockCombatZoneExits(): Done")
     	
 	elseif sublevelID == 1 then
-		print("EURn_c.BlockCombatZoneExits(): Blocking barriers")
+		print("EXAMPLEn_c.BlockCombatZoneExits(): Blocking barriers")
 		
 		-- Barriers
     	EnableBarriers("Bar_S1Atrium1")
@@ -339,7 +339,7 @@ function BlockCombatZoneExits(sublevelID)
     	EnableBarriers("Bar_Icelab1")
     	EnableBarriers("Bar_Icelab2")
 		
-		print("EURn_c.BlockCombatZoneExits(): Blocking planning graphs")
+		print("EXAMPLEn_c.BlockCombatZoneExits(): Blocking planning graphs")
     	
     	-- Planning connections
     	BlockPlanningGraphArcs(2)
@@ -349,7 +349,7 @@ function BlockCombatZoneExits(sublevelID)
 		-- DOOR STUFF
 		--==================
 		
-		print("EURn_c.BlockCombatZoneExits(): Locking doors")
+		print("EXAMPLEn_c.BlockCombatZoneExits(): Locking doors")
 		
 		-- Lock all of the doors
 		for i in pairs(doors_S1) do
@@ -362,10 +362,10 @@ function BlockCombatZoneExits(sublevelID)
 			SetProperty(doorBlocks_S1[i], "CurHealth", 9999999999)
 		end
 		
-		print("EURn_c.BlockCombatZoneExits(): Done")
+		print("EXAMPLEn_c.BlockCombatZoneExits(): Done")
 		
 	elseif sublevelID == 2 then
-		print("EURn_c.BlockCombatZoneExits(): Blocking barriers")
+		print("EXAMPLEn_c.BlockCombatZoneExits(): Blocking barriers")
 		
 		-- Barriers
     	EnableBarriers("Bar_S3Atrium1")
@@ -374,7 +374,7 @@ function BlockCombatZoneExits(sublevelID)
     	EnableBarriers("Bar_Energylab1")
     	EnableBarriers("Bar_Energylab2")
 		
-		print("EURn_c.BlockCombatZoneExits(): Blocking planning graphs")
+		print("EXAMPLEn_c.BlockCombatZoneExits(): Blocking planning graphs")
     	
     	-- Planning connections
     	BlockPlanningGraphArcs(3)
@@ -385,7 +385,7 @@ function BlockCombatZoneExits(sublevelID)
 		-- DOOR STUFF
 		--==================
 		
-		print("EURn_c.BlockCombatZoneExits(): Locking doors")
+		print("EXAMPLEn_c.BlockCombatZoneExits(): Locking doors")
 		
 		-- Lock all of the doors
 		for i in pairs(doors_S2) do
@@ -398,10 +398,10 @@ function BlockCombatZoneExits(sublevelID)
 			SetProperty(doorBlocks_S2[i], "CurHealth", 9999999999)
 		end
 		
-		print("EURn_c.BlockCombatZoneExits(): Done")
+		print("EXAMPLEn_c.BlockCombatZoneExits(): Done")
 		
 	elseif sublevelID == 3 then
-		print("EURn_c.BlockCombatZoneExits(): Blocking barriers")
+		print("EXAMPLEn_c.BlockCombatZoneExits(): Blocking barriers")
 		
 		-- Barriers
     	EnableBarriers("Bar_S4Atrium1")
@@ -420,7 +420,7 @@ function BlockCombatZoneExits(sublevelID)
     	EnableBarriers("Bar_Caves3b")
     	EnableBarriers("Bar_CavesBoss")
 		
-		print("EURn_c.BlockCombatZoneExits(): Blocking planning graphs")
+		print("EXAMPLEn_c.BlockCombatZoneExits(): Blocking planning graphs")
     	
     	-- Planning connections
     	BlockPlanningGraphArcs(4)
@@ -430,7 +430,7 @@ function BlockCombatZoneExits(sublevelID)
 		-- DOOR STUFF
 		--==================
 		
-		print("EURn_c.BlockCombatZoneExits(): Locking doors")
+		print("EXAMPLEn_c.BlockCombatZoneExits(): Locking doors")
 		
 		-- Lock all of the doors
 		for i in pairs(doors_S3) do
@@ -443,10 +443,10 @@ function BlockCombatZoneExits(sublevelID)
 			SetProperty(doorBlocks_S3[i], "CurHealth", 9999999999)
 		end
 		
-		print("EURn_c.BlockCombatZoneExits(): Done")
+		print("EXAMPLEn_c.BlockCombatZoneExits(): Done")
 		
 	else
-		print("EURn_c.BlockCombatZoneExits(): Argument #0  sublevelID  out of range!")
+		print("EXAMPLEn_c.BlockCombatZoneExits(): Argument #0  sublevelID  out of range!")
 	end
 end
 
@@ -455,10 +455,10 @@ end
 -- @param #int sublevelID The numerical ID of the sublevel to unblock.
 -- 
 function UnblockCombatZoneExits(sublevelID)
-	print("EURn_c.UnblockCombatZoneExits("..sublevelID.."): Entered")
+	print("EXAMPLEn_c.UnblockCombatZoneExits("..sublevelID.."): Entered")
 	
 	if sublevelID == 0 then
-		print("EURn_c.UnblockCombatZoneExits(): Unblocking barriers")
+		print("EXAMPLEn_c.UnblockCombatZoneExits(): Unblocking barriers")
 		
 		-- Barriers
     	DisableBarriers("Bar_Hangar1")
@@ -470,7 +470,7 @@ function UnblockCombatZoneExits(sublevelID)
     	DisableBarriers("Bar_Comms1")
     	DisableBarriers("Bar_Power1")
 		
-		print("EURn_c.UnblockCombatZoneExits(): Unblocking planning graphs")
+		print("EXAMPLEn_c.UnblockCombatZoneExits(): Unblocking planning graphs")
     	
     	-- Planning connections
     	UnblockPlanningGraphArcs(1)
@@ -480,7 +480,7 @@ function UnblockCombatZoneExits(sublevelID)
 		-- DOOR STUFF
 		--==================
 		
-		print("EURn_c.UnblockCombatZoneExits(): Unlocking doors")
+		print("EXAMPLEn_c.UnblockCombatZoneExits(): Unlocking doors")
 		
 		-- Unlock all of the doors
 		for i in pairs(doors_S0) do
@@ -492,10 +492,10 @@ function UnblockCombatZoneExits(sublevelID)
 			SetProperty(doorBlocks_S0[i], "CurHealth", 0)
 		end
 		
-		print("EURn_c.UnblockCombatZoneExits(): Done")
+		print("EXAMPLEn_c.UnblockCombatZoneExits(): Done")
     	
 	elseif sublevelID == 1 then
-		print("EURn_c.UnblockCombatZoneExits(): Unblocking barriers")
+		print("EXAMPLEn_c.UnblockCombatZoneExits(): Unblocking barriers")
 		
 		-- Barriers
     	DisableBarriers("Bar_S1Atrium1")
@@ -505,7 +505,7 @@ function UnblockCombatZoneExits(sublevelID)
     	DisableBarriers("Bar_Icelab1")
     	DisableBarriers("Bar_Icelab2")
 		
-		print("EURn_c.UnblockCombatZoneExits(): Unblocking planning graphs")
+		print("EXAMPLEn_c.UnblockCombatZoneExits(): Unblocking planning graphs")
     	
     	-- Planning connections
     	UnblockPlanningGraphArcs(2)
@@ -515,7 +515,7 @@ function UnblockCombatZoneExits(sublevelID)
 		-- DOOR STUFF
 		--==================
 		
-		print("EURn_c.UnblockCombatZoneExits(): Unlocking doors")
+		print("EXAMPLEn_c.UnblockCombatZoneExits(): Unlocking doors")
 		
 		-- Unlock all of the doors
 		for i in pairs(doors_S1) do
@@ -527,10 +527,10 @@ function UnblockCombatZoneExits(sublevelID)
 			SetProperty(doorBlocks_S1[i], "CurHealth", 0)
 		end
 		
-		print("EURn_c.UnblockCombatZoneExits(): Done")
+		print("EXAMPLEn_c.UnblockCombatZoneExits(): Done")
 		
 	elseif sublevelID == 2 then
-		print("EURn_c.UnblockCombatZoneExits(): Unblocking barriers")
+		print("EXAMPLEn_c.UnblockCombatZoneExits(): Unblocking barriers")
 		
 		-- Barriers
     	DisableBarriers("Bar_S3Atrium1")
@@ -539,7 +539,7 @@ function UnblockCombatZoneExits(sublevelID)
     	DisableBarriers("Bar_Energylab1")
     	DisableBarriers("Bar_Energylab2")
 		
-		print("EURn_c.UnblockCombatZoneExits(): Unblocking planning graphs")
+		print("EXAMPLEn_c.UnblockCombatZoneExits(): Unblocking planning graphs")
     	
     	-- Planning connections
     	UnblockPlanningGraphArcs(3)
@@ -549,7 +549,7 @@ function UnblockCombatZoneExits(sublevelID)
 		-- DOOR STUFF
 		--==================
 		
-		print("EURn_c.UnblockCombatZoneExits(): Unlocking doors")
+		print("EXAMPLEn_c.UnblockCombatZoneExits(): Unlocking doors")
 		
 		-- Unlock all of the doors
 		for i in pairs(doors_S2) do
@@ -561,10 +561,10 @@ function UnblockCombatZoneExits(sublevelID)
 			SetProperty(doorBlocks_S2[i], "CurHealth", 0)
 		end
 		
-		print("EURn_c.UnblockCombatZoneExits(): Done")
+		print("EXAMPLEn_c.UnblockCombatZoneExits(): Done")
 		
 	elseif sublevelID == 3 then
-		print("EURn_c.UnblockCombatZoneExits(): Unblocking barriers")
+		print("EXAMPLEn_c.UnblockCombatZoneExits(): Unblocking barriers")
 		
 		-- Barriers
     	DisableBarriers("Bar_S4Atrium1")
@@ -583,7 +583,7 @@ function UnblockCombatZoneExits(sublevelID)
     	DisableBarriers("Bar_Caves3b")
     	DisableBarriers("Bar_CavesBoss")
 		
-		print("EURn_c.UnblockCombatZoneExits(): Unblocking planning graphs")
+		print("EXAMPLEn_c.UnblockCombatZoneExits(): Unblocking planning graphs")
     	
     	-- Planning connections
     	UnblockPlanningGraphArcs(4)
@@ -593,7 +593,7 @@ function UnblockCombatZoneExits(sublevelID)
 		-- DOOR STUFF
 		--==================
 		
-		print("EURn_c.UnblockCombatZoneExits(): Unlocking doors")
+		print("EXAMPLEn_c.UnblockCombatZoneExits(): Unlocking doors")
 		
 		-- Unlock all of the doors
 		for i in pairs(doors_S3) do
@@ -605,10 +605,10 @@ function UnblockCombatZoneExits(sublevelID)
 			SetProperty(doorBlocks_S3[i], "CurHealth", 0)
 		end
 		
-		print("EURn_c.UnblockCombatZoneExits(): Done")
+		print("EXAMPLEn_c.UnblockCombatZoneExits(): Done")
 		
 	else
-		print("EURn_c.UnblockCombatZoneExits(): Argument #0  sublevelID  out of range!")
+		print("EXAMPLEn_c.UnblockCombatZoneExits(): Argument #0  sublevelID  out of range!")
 	end
 end
 
@@ -622,10 +622,10 @@ function SetRespawnPoint(spawnPathName)
 	
 	-- Quit function if pathName is nil
 	if pathName == nil then
-		print("EURn_c.SetRespawnPoint(): Failed! Argument #0  spawnPathName  cannot be nil!")
+		print("EXAMPLEn_c.SetRespawnPoint(): Failed! Argument #0  spawnPathName  cannot be nil!")
 	return end
 	
-	print("EURn_c.SetRespawnPoint(): Setting player respawn point to "..pathName)
+	print("EXAMPLEn_c.SetRespawnPoint(): Setting player respawn point to "..pathName)
 	
 	SetProperty("cp1", "SpawnPath", pathName)
 	SetProperty("cp1", "AllyPath", pathName)
@@ -641,10 +641,10 @@ function SetRespawnPointPlayer(spawnPathName)
 	
 	-- Quit function if pathName is nil
 	if pathName == nil then
-		print("EURn_c.SetRespawnPoint(): Failed! Argument #0  spawnPathName  cannot be nil!")
+		print("EXAMPLEn_c.SetRespawnPoint(): Failed! Argument #0  spawnPathName  cannot be nil!")
 	return end
 	
-	print("EURn_c.SetRespawnPoint(): Setting player respawn point to "..pathName)
+	print("EXAMPLEn_c.SetRespawnPoint(): Setting player respawn point to "..pathName)
 	
 	SetProperty("cp1", "SpawnPath", pathName)
 end
@@ -659,10 +659,10 @@ function SetRespawnPointSquad(spawnPathName)
 	
 	-- Quit function if pathName is nil
 	if pathName == nil then
-		print("EURn_c.SetRespawnPoint(): Failed! Argument #0  spawnPathName  cannot be nil!")
+		print("EXAMPLEn_c.SetRespawnPoint(): Failed! Argument #0  spawnPathName  cannot be nil!")
 	return end
 	
-	print("EURn_c.SetRespawnPoint(): Setting player respawn point to "..pathName)
+	print("EXAMPLEn_c.SetRespawnPoint(): Setting player respawn point to "..pathName)
 	
 	SetProperty("cp1", "AllyPath", pathName)
 end
@@ -672,7 +672,7 @@ end
 -- @param #string combatZoneID The name ID of the zone to set up.
 -- 
 function SetupCombatZoneInit(combatZoneID)
-		print("EURn_c.SetupCombatZoneInit(): Entered")
+		print("EXAMPLEn_c.SetupCombatZoneInit(): Entered")
 	if not InCombat() then
 		-- Make sure we can't be called again while already in a WaveSequence
 		bInCombat = true
@@ -680,7 +680,7 @@ function SetupCombatZoneInit(combatZoneID)
 		local zoneID = combatZoneID
 		bDebug = mapDebug
 		
-		print("EURn_c.SetupCombatZoneInit(): Setting up combat zone "..zoneID)
+		print("EXAMPLEn_c.SetupCombatZoneInit(): Setting up combat zone "..zoneID)
 		
 		ClearAIGoals(SQD)
 		AddAIGoal(SQD, "Deathmatch", 100)
@@ -1173,7 +1173,7 @@ function SetupCombatZoneInit(combatZoneID)
 			--ResetTeamMemberLocations(SQD, "ps_s4_caves")
 			
 		else
-			print("EURn_c.SetupCombatZoneInit(): Argument #0  combatZoneID  invalid!")
+			print("EXAMPLEn_c.SetupCombatZoneInit(): Argument #0  combatZoneID  invalid!")
 		end
 		
 		CombatSequence.OnComplete = function(self)
@@ -1187,17 +1187,17 @@ end
 -- @param #string combatZoneID The name ID of the zone to release.
 -- 
 function ReleaseCombatZone(combatZoneID)
-	print("EURn_c.ReleaseCombatZone(): Entered")
+	print("EXAMPLEn_c.ReleaseCombatZone(): Entered")
 	
 	if currentZoneID == "none" then
-		print("EURn_c.ReleaseCombatZone(): Warning, there's no active combat zone! Exiting function")
+		print("EXAMPLEn_c.ReleaseCombatZone(): Warning, there's no active combat zone! Exiting function")
 		return
 	end
 	
 	local zoneID = combatZoneID
 	
-	print("EURn_c.ReleaseCombatZone(): Releasing combat zone "..zoneID)
-	print("EURn_c.ReleaseCombatZone(): Incrementing numCombatZonesCleared to "..numCombatZonesCleared+1)
+	print("EXAMPLEn_c.ReleaseCombatZone(): Releasing combat zone "..zoneID)
+	print("EXAMPLEn_c.ReleaseCombatZone(): Incrementing numCombatZonesCleared to "..numCombatZonesCleared+1)
 		
 	numCombatZonesCleared = numCombatZonesCleared + 1
 	
@@ -1208,7 +1208,7 @@ function ReleaseCombatZone(combatZoneID)
 		-- Restore the player's health
 		RestorePlayerHealth()
 	else
-		print("EURn_c.ReleaseCombatZone(): Player isn't alive! Not restoring player health")
+		print("EXAMPLEn_c.ReleaseCombatZone(): Player isn't alive! Not restoring player health")
 	end
 	
 	ClearAIGoals(SQD)
@@ -1278,12 +1278,12 @@ end
 -- @param #string combatMusicID The music ID to start playing. Use "none" if no music change desired.
 -- 
 function StartCombatZone(combatZoneID, combatMusicID)
-	print("EURn_c.StartCombatZone(\""..combatZoneID.."\", \""..combatMusicID.."\"): Entered")
+	print("EXAMPLEn_c.StartCombatZone(\""..combatZoneID.."\", \""..combatMusicID.."\"): Entered")
 		
 	local zoneID = combatZoneID
 	local musicID = combatMusicID
 	
-	print("EURn_c.StartCombatZone(): Starting combat zone "..zoneID)
+	print("EXAMPLEn_c.StartCombatZone(): Starting combat zone "..zoneID)
 	
 	
 	-- Is debug enabled?
@@ -1297,7 +1297,7 @@ function StartCombatZone(combatZoneID, combatMusicID)
 		-- Start playing combat music
 		ScriptCB_PlayInGameMusic(musicID)
 	else
-		print("EURn_c.StartCombatZone(): combatMusicID not specified! Continuing...")
+		print("EXAMPLEn_c.StartCombatZone(): combatMusicID not specified! Continuing...")
 	end
 	
 end
@@ -1308,17 +1308,17 @@ end
 -- @param #object object The object data to check.
 -- @return #bool True, object is not an enemy building. False, object is an enemy building.
 function IsObjectUnit(object)
-	--print("EURn_c.IsObjectUnit(): Entered")
+	--print("EXAMPLEn_c.IsObjectUnit(): Entered")
 	
-	print("EURn_c.IsObjectUnit(): Object class name:", GetEntityClass(object))
+	print("EXAMPLEn_c.IsObjectUnit(): Object class name:", GetEntityClass(object))
 	
 	for i in pairs(enemyBuildingClasses) do
 		-- Is the object an enemy building?
 		if GetEntityClass(object) == FindEntityClass(enemyBuildingClasses[i]) then
-			print("EURn_c.IsObjectUnit(): Object is an enemy building!")
+			print("EXAMPLEn_c.IsObjectUnit(): Object is an enemy building!")
 			return false
 		else
-			print("EURn_c.IsObjectUnit(): Object is NOT an enemy building!")
+			print("EXAMPLEn_c.IsObjectUnit(): Object is NOT an enemy building!")
 			return true
 		end
 	end
@@ -1329,7 +1329,7 @@ end
 -- Restores the player's health until the health threshold is reached.
 -- 
 function RestorePlayerHealth()
-		print("EURn_c.RestorePlayerHealth(): Entered")
+		print("EXAMPLEn_c.RestorePlayerHealth(): Entered")
 		
 	local charPtr = GetCharacterUnit(0)
 	local entPtr = GetEntityPtr(charPtr)
@@ -1358,7 +1358,7 @@ function RestorePlayerHealth()
 				-- Update the player's health
 				playerCurHealth = GetObjectHealth(entPtr)
 				
-				print("EURn_c.RestorePlayerHealth(): playerCurHealth:", playerCurHealth)
+				print("EXAMPLEn_c.RestorePlayerHealth(): playerCurHealth:", playerCurHealth)
 				
 				-- Is the player's health still low?
 				if playerCurHealth < playerMinHealth then
@@ -1366,7 +1366,7 @@ function RestorePlayerHealth()
 					SetTimerValue(checkTimer, checkInterval)
 					StartTimer(checkTimer)
 				else
-					print("EURn_c.RestorePlayerHealth(): Threshold surpassed, stopping restoration")
+					print("EXAMPLEn_c.RestorePlayerHealth(): Threshold surpassed, stopping restoration")
 					
 					-- Stop the timer
 					StopTimer(checkTimer)
@@ -1388,10 +1388,10 @@ end
 -- @param #string subtitleID The string ID of the subtitle set to push.
 -- 
 function PushSubtitleSet(subtitleID)
-	print("EURn_c.PushSubtitle(): Entered")
+	print("EXAMPLEn_c.PushSubtitle(): Entered")
 	
 	if subtitleID == nil then
-		print("EURn_c.PushSubtitle(): Error! subtitleID must be specified!")
+		print("EXAMPLEn_c.PushSubtitle(): Error! subtitleID must be specified!")
 		return
 	end
 	
@@ -1493,7 +1493,7 @@ function PushSubtitleSet(subtitleID)
 	-- The current subtitle line
 	local curLine = 1
 	
-	print("EURn_c.PushSubtitle(): curLine, numLines:", curLine, numLines)
+	print("EXAMPLEn_c.PushSubtitle(): curLine, numLines:", curLine, numLines)
 	
 	local pushDelayTimer = CreateTimer("pushDelayTimer")
 	SetTimerValue(pushDelayTimer, 0.25)
@@ -1503,9 +1503,9 @@ function PushSubtitleSet(subtitleID)
 		function(timer)
 			
 			local key = "level.eur.subtitles."..subtitleID.."_"..curLine
-			print("EURn_c.PushSubtitleSet(): key:", key)
-			print("EURn_c.PushSubtitleSet(): subtitleID:", subtitleID)
-			print("EURn_c.PushSubtitleSet(): curLine:", curLine)
+			print("EXAMPLEn_c.PushSubtitleSet(): key:", key)
+			print("EXAMPLEn_c.PushSubtitleSet(): subtitleID:", subtitleID)
+			print("EXAMPLEn_c.PushSubtitleSet(): curLine:", curLine)
 			
 			ShowMessageText(key)
 			
@@ -1533,7 +1533,7 @@ end
 -- @return The player's current health from /playerCurHealth/.
 -- 
 function GetPlayerCurHealth()
-	print("EURn_c.GetPlayerCurHealth(): playerCurHealth:", playerCurHealth)
+	print("EXAMPLEn_c.GetPlayerCurHealth(): playerCurHealth:", playerCurHealth)
 	return playerCurHealth
 end
 
@@ -1543,7 +1543,7 @@ end
 -- @return The player's minimum health from /playerMinHealth/.
 -- 
 function GetPlayerMinHealth()
-	print("EURn_c.GetPlayerCurHealth(): playerMinHealth:", playerMinHealth)
+	print("EXAMPLEn_c.GetPlayerCurHealth(): playerMinHealth:", playerMinHealth)
 	return playerMinHealth
 end
 
@@ -1553,7 +1553,7 @@ end
 -- @return The player's maximum health from /playerMaxHealth/.
 -- 
 function GetPlayerMaxHealth()
-	print("EURn_c.GetPlayerCurHealth(): playerMaxHealth:", playerMaxHealth)
+	print("EXAMPLEn_c.GetPlayerCurHealth(): playerMaxHealth:", playerMaxHealth)
 	return playerMaxHealth
 end
 
@@ -1580,7 +1580,7 @@ end
 -- @param #float shakeLength	The length of time in seconds of the shake.
 -- 
 function CinematicShakeCamera(shakeAmount, shakeLength)
-	print("EURn_c.CinematicShakeCamera("..shakeAmount..", "..shakeLength.."): Entered")
+	print("EXAMPLEn_c.CinematicShakeCamera("..shakeAmount..", "..shakeLength.."): Entered")
 	
 	-- Make sure we don't reuse an old shake timer
 	numCinematicShakes = numCinematicShakes + 1
@@ -1601,7 +1601,7 @@ function CinematicShakeCamera(shakeAmount, shakeLength)
 	
 	local cinematicShakeTimerElapse = OnTimerElapse(
 		function(timer)
-			print("EURn_c.CinematicShakeCamera: Stopping shaking")
+			print("EXAMPLEn_c.CinematicShakeCamera: Stopping shaking")
 			
 			-- Stop shaking
 			SetClassProperty("eur_cinematic_rumble", "MinShakeAmt", 0.0)
@@ -1656,7 +1656,7 @@ end
 -- 
 function UnblockElevatorDoors(id)
 	if id == nil then
-		print("EURn_c.UnblockElevatorDoors(): id wasn't specified! Exiting function")
+		print("EXAMPLEn_c.UnblockElevatorDoors(): id wasn't specified! Exiting function")
 		return
 	end
 	
@@ -1670,7 +1670,7 @@ end
 -- Call this to set up the campaign's various timers.
 -- 
 function SetupTimers()
-	print("EURn_c.SetupTimers(): Entered")
+	print("EXAMPLEn_c.SetupTimers(): Entered")
 	
 	-- Spawn delay timer
 	spawnDelayTimer = CreateTimer("spawnDelayTimer")
@@ -1721,7 +1721,7 @@ function ScriptPostLoad()
     ScriptCB_EnableHeroMusic(0)
     
     
-    print("EURn_c.ScriptPostLoad(): Multiplying unit health/shield values by enemyDefenseBuff...")
+    print("EXAMPLEn_c.ScriptPostLoad(): Multiplying unit health/shield values by enemyDefenseBuff...")
     
     SetClassProperty(gth_inf_trooper, "MaxHealth", 230*enemyDefenseBuff)
     SetClassProperty(gth_inf_trooper, "MaxShields", 520*enemyDefenseBuff)
@@ -1768,7 +1768,7 @@ function ScriptPostLoad()
     SetClassProperty(gth_inf_prime, "MaxSpeed", "2.20")
     SetClassProperty(gth_inf_prime, "MaxStrafeSpeed", "2.20")
     
-    print("EURn_c.ScriptPostLoad(): Multiplying unit health/shield values by enemyDefenseBuff... DONE")
+    print("EXAMPLEn_c.ScriptPostLoad(): Multiplying unit health/shield values by enemyDefenseBuff... DONE")
     
     
 	-- Player's squad follows the player out of the shuttle.
@@ -1797,8 +1797,8 @@ function ScriptPostLoad()
 				-- Set the value that the player's health will restore to after each combat zone
 				playerMinHealth = playerMaxHealth * playerHealthThreshold
 				
-				print("EURn_c.playerstartinghealth: playerMaxHealth:", playerMaxHealth)
-				print("EURn_c.playerstartinghealth: playerMinHealth:", playerMinHealth)
+				print("EXAMPLEn_c.playerstartinghealth: playerMaxHealth:", playerMaxHealth)
+				print("EXAMPLEn_c.playerstartinghealth: playerMinHealth:", playerMinHealth)
 				
 				
 				-- Re-allow the squad to kill enemies
@@ -1907,7 +1907,7 @@ function ScriptPostLoad()
     	local CZ_Hangar = OnObjectRepairName(
     		function(objPtr, characterId)
     			-- Test output
-    			print("EURn_c.CZ_Hangar: Activated console")
+    			print("EXAMPLEn_c.CZ_Hangar: Activated console")
     			
 				-- Is debug enabled?
 				if bDebug == true then
@@ -2012,7 +2012,7 @@ function ScriptPostLoad()
     	local CZ_CargoBay = OnEnterRegion(
     		function(region, player)
     			if IsCharacterHuman(player) then
-    				print("EURn_c.CZ_CargoBay: Entered region")
+    				print("EXAMPLEn_c.CZ_CargoBay: Entered region")
     				
     				-- This combat zone's string ID
     				currentZoneID = "S0_CargoBay"
@@ -2061,7 +2061,7 @@ function ScriptPostLoad()
     	local CZ_Reception = OnEnterRegion(
     		function(region, player)
     			if IsCharacterHuman(player) then
-    				print("EURn_c.CZ_Reception: Entered region")
+    				print("EXAMPLEn_c.CZ_Reception: Entered region")
     				
     				-- This combat zone's string ID
     				currentZoneID = "S0_Reception"
@@ -2111,7 +2111,7 @@ function ScriptPostLoad()
     	local CZ_Management = OnEnterRegion(
     		function(region, player)
     			if IsCharacterHuman(player) then
-    				print("EURn_c.CZ_Management: Entered region")
+    				print("EXAMPLEn_c.CZ_Management: Entered region")
     				
     				-- This combat zone's string ID
     				currentZoneID = "S0_Management"
@@ -2161,7 +2161,7 @@ function ScriptPostLoad()
     	local CZ_PowerControl = OnEnterRegion(
     		function(region, player)
     			if IsCharacterHuman(player) then
-    				print("EURn_c.CZ_PowerControl: Entered region")
+    				print("EXAMPLEn_c.CZ_PowerControl: Entered region")
     				
     				-- This combat zone's string ID
     				currentZoneID = "S0_PowerControl"
@@ -2211,7 +2211,7 @@ function ScriptPostLoad()
     	local CZ_CommsControl = OnEnterRegion(
     		function(region, player)
     			if IsCharacterHuman(player) then
-    				print("EURn_c.CZ_CommsControl: Entered region")
+    				print("EXAMPLEn_c.CZ_CommsControl: Entered region")
     				
     				-- This combat zone's string ID
     				currentZoneID = "S0_CommsControl"
@@ -2285,7 +2285,7 @@ function ScriptPostLoad()
     	local CZ_CommsControl_Lockdown = OnObjectRepairName(
     		function(objPtr, characterId)
     			-- Test output
-    			print("EURn_c.CZ_CommsControl_Lockdown: Activated console")
+    			print("EXAMPLEn_c.CZ_CommsControl_Lockdown: Activated console")
     			
 				-- Is debug enabled?
 				if bDebug == true then
@@ -2329,7 +2329,7 @@ function ScriptPostLoad()
 		S0_Elevator = OnEnterRegion(
 			function(region, player)
 				if IsCharacterHuman(player) then
-					print("EURn_c.S0_Elevator: Entered region")
+					print("EXAMPLEn_c.S0_Elevator: Entered region")
 					
 					
 					--===========================
@@ -2345,7 +2345,7 @@ function ScriptPostLoad()
 					
 					local demoTimerElapse = OnTimerElapse(
 						function(timer)
-							print("EURn_c: Loading hud_font_stock.lvl...")
+							print("EXAMPLEn_c: Loading hud_font_stock.lvl...")
 							-- hotfix that reloads the stock fonts in the stats screen
 							ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
 							
@@ -2426,7 +2426,7 @@ function ScriptPostLoad()
     	local CZ_MainAtrium = OnEnterRegion(
     		function(region, player)
     			if IsCharacterHuman(player) then
-    				print("EURn_c.CZ_MainAtrium: Entered region")
+    				print("EXAMPLEn_c.CZ_MainAtrium: Entered region")
     				
     				-- This combat zone's string ID
     				currentZoneID = "S1_MainAtrium"
@@ -2479,7 +2479,7 @@ function ScriptPostLoad()
     	local CZ_MarineLifeLab = OnEnterRegion(
     		function(region, player)
     			if IsCharacterHuman(player) then
-    				print("EURn_c.CZ_MarineLifeLab: Entered region")
+    				print("EXAMPLEn_c.CZ_MarineLifeLab: Entered region")
     				
     				-- This combat zone's string ID
     				currentZoneID = "S1_MarineLifeLab"
@@ -2532,7 +2532,7 @@ function ScriptPostLoad()
     	local CZ_IceSamplesLab = OnEnterRegion(
     		function(region, player)
     			if IsCharacterHuman(player) then
-    				print("EURn_c.CZ_IceSamplesLab: Entered region")
+    				print("EXAMPLEn_c.CZ_IceSamplesLab: Entered region")
     				
     				-- This combat zone's string ID
     				currentZoneID = "S1_IceSamplesLab"
@@ -2577,7 +2577,7 @@ function ScriptPostLoad()
 		S1_Elevator = OnEnterRegion(
 			function(region, player)
 				if IsCharacterHuman(player) then
-					print("EURn_c.S1_Elevator: Entered region")
+					print("EXAMPLEn_c.S1_Elevator: Entered region")
 					
 					SetProperty("elevator_s1_doors_block", "CurHealth", 0)
 					
@@ -2646,7 +2646,7 @@ function ScriptPostLoad()
     	local CZ_MainAtrium = OnEnterRegion(
     		function(region, player)
     			if IsCharacterHuman(player) then
-    				print("EURn_c.CZ_MainAtrium: Entered region")
+    				print("EXAMPLEn_c.CZ_MainAtrium: Entered region")
     				
     				-- This combat zone's string ID
     				currentZoneID = "S3_MainAtrium"
@@ -2699,7 +2699,7 @@ function ScriptPostLoad()
     	local CZ_MarineLifeLab = OnEnterRegion(
     		function(region, player)
     			if IsCharacterHuman(player) then
-    				print("EURn_c.CZ_MarineLifeLab: Entered region")
+    				print("EXAMPLEn_c.CZ_MarineLifeLab: Entered region")
     				
     				-- This combat zone's string ID
     				currentZoneID = "S3_MarineLifeLab"
@@ -2752,7 +2752,7 @@ function ScriptPostLoad()
     	local CZ_EnergyLab = OnEnterRegion(
     		function(region, player)
     			if IsCharacterHuman(player) then
-    				print("EURn_c.CZ_EnergyLab: Entered region")
+    				print("EXAMPLEn_c.CZ_EnergyLab: Entered region")
     				
     				-- This combat zone's string ID
     				currentZoneID = "S3_EnergyLab"
@@ -2797,7 +2797,7 @@ function ScriptPostLoad()
 		S3_Elevator = OnEnterRegion(
 			function(region, player)
 				if IsCharacterHuman(player) then
-					print("EURn_c.S3_Elevator: Entered region")
+					print("EXAMPLEn_c.S3_Elevator: Entered region")
 					
 					SetProperty("elevator_s3_doors_block", "CurHealth", 0)
 					
@@ -2866,7 +2866,7 @@ function ScriptPostLoad()
     	local CZ_MainAtrium = OnEnterRegion(
     		function(region, player)
     			if IsCharacterHuman(player) then
-    				print("EURn_c.CZ_MainAtrium: Entered region")
+    				print("EXAMPLEn_c.CZ_MainAtrium: Entered region")
     				
     				-- This combat zone's string ID
     				currentZoneID = "S4_MainAtrium"
@@ -2919,7 +2919,7 @@ function ScriptPostLoad()
     	local S4_SeismoLab = OnEnterRegion(
     		function(region, player)
     			if IsCharacterHuman(player) then
-    				print("EURn_c.S4_SeismoLab: Entered region")
+    				print("EXAMPLEn_c.S4_SeismoLab: Entered region")
     				
     				-- This combat zone's string ID
     				currentZoneID = "S4_SeismoLab"
@@ -2972,7 +2972,7 @@ function ScriptPostLoad()
     	local CZ_GeoLab = OnEnterRegion(
     		function(region, player)
     			if IsCharacterHuman(player) then
-    				print("EURn_c.CZ_GeoLab: Entered region")
+    				print("EXAMPLEn_c.CZ_GeoLab: Entered region")
     				
     				-- This combat zone's string ID
     				currentZoneID = "S4_GeoLab"
@@ -3053,7 +3053,7 @@ function ScriptPostLoad()
     	local CZ_Caves_1a = OnEnterRegion(
     		function(region, player)
     			if IsCharacterHuman(player) then
-    				print("EURn_c.CZ_Caves_1a: Entered region")
+    				print("EXAMPLEn_c.CZ_Caves_1a: Entered region")
     				
     				-- This combat zone's string ID
     				currentZoneID = "S4_Caves_1a"
@@ -3089,7 +3089,7 @@ function ScriptPostLoad()
     	local CZ_Caves_1b = OnEnterRegion(
     		function(region, player)
     			if IsCharacterHuman(player) then
-    				print("EURn_c.CZ_Caves_1b: Entered region")
+    				print("EXAMPLEn_c.CZ_Caves_1b: Entered region")
     				
     				-- This combat zone's string ID
     				currentZoneID = "S4_Caves_1b"
@@ -3125,7 +3125,7 @@ function ScriptPostLoad()
     	local CZ_Caves_1c = OnEnterRegion(
     		function(region, player)
     			if IsCharacterHuman(player) then
-    				print("EURn_c.CZ_Caves_1c: Entered region")
+    				print("EXAMPLEn_c.CZ_Caves_1c: Entered region")
     				
     				-- This combat zone's string ID
     				currentZoneID = "S4_Caves_1c"
@@ -3161,7 +3161,7 @@ function ScriptPostLoad()
     	local CZ_Caves_2 = OnEnterRegion(
     		function(region, player)
     			if IsCharacterHuman(player) then
-    				print("EURn_c.CZ_Caves_2: Entered region")
+    				print("EXAMPLEn_c.CZ_Caves_2: Entered region")
     				
     				-- This combat zone's string ID
     				currentZoneID = "S4_Caves_2"
@@ -3191,7 +3191,7 @@ function ScriptPostLoad()
     	local CZ_Caves_3 = OnEnterRegion(
     		function(region, player)
     			if IsCharacterHuman(player) then
-    				print("EURn_c.CZ_Caves_3: Entered region")
+    				print("EXAMPLEn_c.CZ_Caves_3: Entered region")
     				
     				-- This combat zone's string ID
     				currentZoneID = "S4_Caves_3"
@@ -3221,7 +3221,7 @@ function ScriptPostLoad()
     	local CZ_Caves_Boss = OnEnterRegion(
     		function(region, player)
     			if IsCharacterHuman(player) then
-    				print("EURn_c.CZ_Caves_Boss: Entered region")
+    				print("EXAMPLEn_c.CZ_Caves_Boss: Entered region")
     				
     				-- Start playing the boss music
 					ScriptCB_PlayInGameMusic("eur_amb_04_boss")
@@ -3509,7 +3509,7 @@ function OpenShuttleDoor()
 end
 
 function BeginOpeningCinematic()
-	print("EURn_c.BeginCinematic: Entered")
+	print("EXAMPLEn_c.BeginCinematic: Entered")
 	
 	local briefingVO = {"EUR_brief_1a", 
 						"EUR_brief_1b", 
@@ -3770,19 +3770,19 @@ function BeginOpeningCinematic()
 		--ScriptCB_SndPlaySound("kodiak_shuttle_ambush")
 		--BroadcastVoiceOver("kodiak_shuttle_ambush", ATT)
 		
-		print("EURn_c.openingCinematicSequence.OnComplete(): Opening prop ambient stream...")
+		print("EXAMPLEn_c.openingCinematicSequence.OnComplete(): Opening prop ambient stream...")
 		ambientPropStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl",  "EUR_prop_ambiance")
 		
-		print("EURn_c.openingCinematicSequence.OnComplete(): Opening prop ambient stream... Result = "..ambientPropStream)
+		print("EXAMPLEn_c.openingCinematicSequence.OnComplete(): Opening prop ambient stream... Result = "..ambientPropStream)
 		
 		
-		print("EURn_c.openingCinematicSequence.OnComplete(): Playing prop ambient stream...")
+		print("EXAMPLEn_c.openingCinematicSequence.OnComplete(): Playing prop ambient stream...")
 		play_ambientPropStream = PlayAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl", 
 						"kodiak_shuttle_ambush", "eur_shuttle_ambush", 1.0, "cinematicfx", ambientPropStream)
 		
 		--BroadcastVoiceOver("kodiak_shuttle_ambush", ATT)
 		
-		print("EURn_c.openingCinematicSequence.OnComplete(): Playing prop ambient stream... Result = "..play_ambientPropStream)
+		print("EXAMPLEn_c.openingCinematicSequence.OnComplete(): Playing prop ambient stream... Result = "..play_ambientPropStream)
 		
 	end
 	
@@ -4230,14 +4230,14 @@ function BeginOpeningCinematic()
 		local streamTimerElapse = OnTimerElapse(
 			function(timer)
 				-- Close the prop stream
-				print("EURn_c.openingCinematicSequence.OnComplete(): Closing prop stream")
+				print("EXAMPLEn_c.openingCinematicSequence.OnComplete(): Closing prop stream")
 				StopAudioStream(ambientPropStream, 1)
 				
 				-- Open the second ambient stream
-				print("EURn_c.openingCinematicSequence.OnComplete(): Opening second ambient stream...")
+				print("EXAMPLEn_c.openingCinematicSequence.OnComplete(): Opening second ambient stream...")
 				ambientStream2 = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl",  "EUR_ambiance")
 				
-				print("EURn_c.openingCinematicSequence.OnComplete(): Opening second ambient stream... Result = "..ambientStream2)
+				print("EXAMPLEn_c.openingCinematicSequence.OnComplete(): Opening second ambient stream... Result = "..ambientStream2)
 				
 				DestroyTimer(timer)
 				ReleaseTimerElapse(streamTimerElapse)

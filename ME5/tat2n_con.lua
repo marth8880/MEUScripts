@@ -252,7 +252,7 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1645)
 	
 	PreLoadStuff()
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\artillery_dirt.lvl")
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\artillery_sand.lvl")
 	
     SetMaxFlyHeight(40)
 	SetMaxPlayerFlyHeight(40)

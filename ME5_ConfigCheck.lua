@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
--- Version 30614/06
+-- Version 30707/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Jun 14, 2016
+-- Jul 7, 2016
 -- Copyright (c) 2016 A. Gilbert.
 -- 
 -- About this script: The purpose of script is to load configuration
@@ -435,6 +435,27 @@ elseif CheckSetting("cfg_KillSound", 2) == 1 then
 else
 		print("ME5_ConfigCheck: Error! ME5_KillSound flag not found or invalid! Defaulting to LOUD")
 	ME5_KillSound = 2
+end
+
+
+-- ======================
+--  PLAYER DAMAGE SOUNDS
+-- ======================
+if CheckSetting("cfg_PlayerDmgSound", 0) == 1 then
+		print("ME5_ConfigCheck: Player Damage Sounds are DISABLED")
+	ME5_PlayerDmgSound = 0
+	
+elseif CheckSetting("cfg_PlayerDmgSound", 1) == 1 then
+		print("ME5_ConfigCheck: Player Damage Sounds are QUIET")
+	ME5_PlayerDmgSound = 1
+	
+elseif CheckSetting("cfg_PlayerDmgSound", 2) == 1 then
+		print("ME5_ConfigCheck: Player Damage Sounds are LOUD")
+	ME5_PlayerDmgSound = 2
+	
+else
+		print("ME5_ConfigCheck: Error! ME5_PlayerDmgSound flag not found or invalid! Defaulting to LOUD")
+	ME5_PlayerDmgSound = 2
 end
 
 

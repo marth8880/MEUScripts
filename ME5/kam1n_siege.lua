@@ -56,6 +56,7 @@ function SSVxGTH_PostLoad()
 			herosupport:AddSpawnCP("cp4","path32")
 			herosupport:AddSpawnCP("cp5","cp5_spawn")
 			herosupport:AddSpawnCP("cp6","path31")
+			herosupport:AddSpawnCP("cp7","cp7_spawn")
 			herosupport:Start()
 		end
 	end
@@ -78,6 +79,7 @@ function SSVxCOL_PostLoad()
 			herosupport:AddSpawnCP("cp4","path32")
 			herosupport:AddSpawnCP("cp5","cp5_spawn")
 			herosupport:AddSpawnCP("cp6","path31")
+			herosupport:AddSpawnCP("cp7","cp7_spawn")
 			herosupport:Start()
 		end
 	end
@@ -100,6 +102,7 @@ function EVGxGTH_PostLoad()
 			herosupport:AddSpawnCP("cp4","path32")
 			herosupport:AddSpawnCP("cp5","cp5_spawn")
 			herosupport:AddSpawnCP("cp6","path31")
+			herosupport:AddSpawnCP("cp7","cp7_spawn")
 			herosupport:Start()
 		end
 	end
@@ -122,6 +125,7 @@ function EVGxCOL_PostLoad()
 			herosupport:AddSpawnCP("cp4","path32")
 			herosupport:AddSpawnCP("cp5","cp5_spawn")
 			herosupport:AddSpawnCP("cp6","path31")
+			herosupport:AddSpawnCP("cp7","cp7_spawn")
 			herosupport:Start()
 		end
 	end
@@ -140,6 +144,7 @@ DisableBarriers("camp")
 	SetObjectTeam("cp4", 0)
 	SetObjectTeam("cp5", 0)
 	SetObjectTeam("cp6", 0)
+	SetObjectTeam("cp7", 0)
 	KillObject("cp1")
 	KillObject("cp2")
 	
@@ -202,6 +207,7 @@ DisableBarriers("camp")
     cp4 = CommandPost:New{name = "cp4"}
     cp5 = CommandPost:New{name = "cp5"}
    	cp6 = CommandPost:New{name = "cp6"}
+   	cp7 = CommandPost:New{name = "cp7"}
     
     --This sets up the actual objective.  This needs to happen after cp's are defined
     conquest = ObjectiveConquest:New{teamATT = ATT, teamDEF = DEF, textATT = "game.modes.siege", textDEF = "game.modes.siege2", multiplayerRules = true}
@@ -213,6 +219,7 @@ DisableBarriers("camp")
     conquest:AddCommandPost(cp4)
     conquest:AddCommandPost(cp5)
  	conquest:AddCommandPost(cp6)
+ 	conquest:AddCommandPost(cp7)
 conquest:Start()
  
     EnableSPHeroRules()
@@ -259,8 +266,8 @@ conquest:Start()
 		SSVxCOL_PostLoad()
 	end
 	
-	SetReinforcementCount(REP, 250)
-	SetReinforcementCount(CIS, 250)
+	--SetReinforcementCount(REP, 250)
+	--SetReinforcementCount(CIS, 250)
 	
 end
 
@@ -307,7 +314,7 @@ function ScriptInit()
     SetMemoryPoolSize("Obstacle", 931)
     SetMemoryPoolSize("PathFollower", 50)
     SetMemoryPoolSize("PathNode", 256)
-	SetMemoryPoolSize("SoldierAnimation", 345)
+	SetMemoryPoolSize("SoldierAnimation", 406)
     SetMemoryPoolSize("SoundSpaceRegion", 36)
     SetMemoryPoolSize("TentacleSimulator", 0)
     SetMemoryPoolSize("TreeGridStack", 338)

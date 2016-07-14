@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Miscellaneous Functions Script by A. Gilbert
--- Version 30614/06
+-- Version 30707/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Jun 14, 2016
+-- Jul 7, 2016
 -- Copyright (c) 2016 A. Gilbert.
 -- 
 -- About this script: The purpose of script is to create a list of 
@@ -229,32 +229,47 @@ function PreLoadStuff()
 	-- What is the aspect ratio of the player's display?
 	if aspectRatio <= 1.4 then
 			print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 4:3, loading scopes as such")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar43\\ar.lvl")
+		if (MEUGameMode == meu_con or meu_siege) then
+			print("ME5_MiscFunctions.PreLoadStuff(): Game mode is Conquest or Siege ("..MEUGameMode.."), also loading CP objective markers")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar43\\ar.lvl;conquest")
+		else
+			print("ME5_MiscFunctions.PreLoadStuff(): Game mode is not Conquest or Siege")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar43\\ar.lvl")
+		end
 	elseif aspectRatio <= 1.63 and aspectRatio >= 1.5 then
 			print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 16:10, loading scopes as such")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar1610\\ar.lvl")
+		if (MEUGameMode == meu_con or meu_siege) then
+			print("ME5_MiscFunctions.PreLoadStuff(): Game mode is Conquest or Siege ("..MEUGameMode.."), also loading CP objective markers")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar1610\\ar.lvl;conquest")
+		else
+			print("ME5_MiscFunctions.PreLoadStuff(): Game mode is not Conquest or Siege")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar1610\\ar.lvl")
+		end
 	elseif aspectRatio <= 1.9 and aspectRatio >= 1.63 then
 			print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 16:9, loading scopes as such")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar169\\ar.lvl")
+		if (MEUGameMode == meu_con or meu_siege) then
+			print("ME5_MiscFunctions.PreLoadStuff(): Game mode is Conquest or Siege ("..MEUGameMode.."), also loading CP objective markers")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar169\\ar.lvl;conquest")
+		else
+			print("ME5_MiscFunctions.PreLoadStuff(): Game mode is not Conquest or Siege")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar169\\ar.lvl")
+		end
 	else
 			print("ME5_MiscFunctions.PreLoadStuff(): Error! Invalid aspect ratio ("..aspectRatio..")! Defaulting to workaround")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar.lvl")
+		if (MEUGameMode == meu_con or meu_siege) then
+			print("ME5_MiscFunctions.PreLoadStuff(): Game mode is Conquest or Siege ("..MEUGameMode.."), also loading CP objective markers")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar.lvl;conquest")
+		else
+			print("ME5_MiscFunctions.PreLoadStuff(): Game mode is not Conquest or Siege")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar.lvl")
+		end
 	end
 	
-	
-	-- What is the aspect ratio of the player's display?
-	if aspectRatio <= 1.4 then
-			print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 4:3, loading scopes as such")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar43\\ar.lvl")
-	elseif aspectRatio <= 1.63 and aspectRatio >= 1.5 then
-			print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 16:10, loading scopes as such")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar1610\\ar.lvl")
-	elseif aspectRatio <= 1.9 and aspectRatio >= 1.63 then
-			print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 16:9, loading scopes as such")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar169\\ar.lvl")
-	else
-			print("ME5_MiscFunctions.PreLoadStuff(): Error! Invalid aspect ratio ("..aspectRatio..")! Defaulting to workaround")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar.lvl")
+	-- Is this a non-conquest/non-siege match? 
+	if (MEUGameMode ~= meu_con) and (MEUGameMode ~= meu_siege) then
+		-- Load the normal objective marker icons
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_purge_obj_marker.lvl")
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_obj_marker.lvl")
 	end
 	
 	--==========================
@@ -278,11 +293,93 @@ function PreLoadStuff()
 	-- Load voice over sound LVL, includes all streamable voice overs, excludes pain/death chatter
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl")
 	
-	-- Load common sound LVL, includes many common sounds such as foley, explosions, prop sfx, etc.
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_NonStreaming.lvl")
 	
-	-- Load weapon sound LVL, includes all weapon sounds
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_NonStreaming.lvl")
+	---
+	-- Load common sound LVL, includes many common sounds such as foley, explosions, prop sfx, etc. Also load weapon sound LVL, includes all weapon sounds.
+	-- @param #int factionVariation		The index of the faction variation whose sounds we're loading.
+	local function LoadFactionSounds(factionVariation)
+		if factionVariation == SSVxGTH then
+			print("ME5_MiscFunctions.PreLoadStuff.LoadFactionSounds(): Faction combination is SSVxGTH, loading associated common/wpn sound files")
+			
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_GTH_NonStreaming.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_NonStreaming.lvl")
+			
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_GTH_NonStreaming.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_NonStreaming.lvl")
+			
+		elseif factionVariation == SSVxCOL then
+			print("ME5_MiscFunctions.PreLoadStuff.LoadFactionSounds(): Faction combination is SSVxCOL, loading associated common/wpn sound files")
+			
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_COL_NonStreaming.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_NonStreaming.lvl")
+			
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_COL_NonStreaming.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_NonStreaming.lvl")
+			
+		elseif factionVariation == EVGxGTH then
+			print("ME5_MiscFunctions.PreLoadStuff.LoadFactionSounds(): Faction combination is EVGxGTH, loading associated common/wpn sound files")
+			
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_GTH_NonStreaming.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_NonStreaming.lvl")
+			
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_GTH_NonStreaming.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_NonStreaming.lvl")
+			
+		elseif factionVariation == EVGxCOL then
+			print("ME5_MiscFunctions.PreLoadStuff.LoadFactionSounds(): Faction combination is EVGxCOL, loading associated common/wpn sound files")
+			
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_COL_NonStreaming.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_GTH_NonStreaming.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_NonStreaming.lvl")
+			
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_COL_NonStreaming.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_GTH_NonStreaming.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_NonStreaming.lvl")
+			
+		else
+			print("ME5_MiscFunctions.PreLoadStuff.LoadFactionSounds(): Faction combination is invalid, loading common/wpn sound files for EVGxCOL as workaround")
+			
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_COL_NonStreaming.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_GTH_NonStreaming.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_NonStreaming.lvl")
+			
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_COL_NonStreaming.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_GTH_NonStreaming.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_NonStreaming.lvl")
+		end
+	end
+	
+	if not ScriptCB_InMultiplayer() then
+		if ME5_SideVar == 0 then
+			if RandomSide == 1 then
+				LoadFactionSounds(1)
+			elseif RandomSide == 2 then
+				LoadFactionSounds(2)
+			elseif RandomSide == 3 then
+				LoadFactionSounds(3)
+			elseif RandomSide == 4 then
+				LoadFactionSounds(4)
+			end
+		elseif ME5_SideVar == 1 then
+			LoadFactionSounds(1)
+		elseif ME5_SideVar == 2 then
+			LoadFactionSounds(2)
+		elseif ME5_SideVar == 3 then
+			LoadFactionSounds(3)
+		elseif ME5_SideVar == 4 then
+			LoadFactionSounds(4)
+		end
+	else
+		if onlineSideVar == 1 then
+			LoadFactionSounds(1)
+		elseif onlineSideVar == 2 then
+			LoadFactionSounds(2)
+		elseif onlineSideVar == 3 then
+			LoadFactionSounds(3)
+		elseif onlineSideVar == 4 then
+			LoadFactionSounds(4)
+		end
+	end
 	
 	--==========================
 	-- END SOUND WORK
@@ -1427,6 +1524,15 @@ function fPlayerDamageSound()
 	
 	
 	
+	local function PlayDamageSound()
+		--print("ME5_MiscFunctions.fPlayerDamageSound.PlayDamageSound(): Playing damage sound")
+		
+		local randSnd = math.random(0,10)
+		ScriptCB_SndPlaySound("player_damage_layered_"..randSnd)
+	end
+	
+	
+	
 	-- When the player spawns
 	local playerspawn = OnCharacterSpawn(
 		function(player)
@@ -1438,147 +1544,161 @@ function fPlayerDamageSound()
 	)
 	
 	-- When the player loses health
-	local playerdamage = OnObjectDamage(	-- TODO: FINISH COMPLETING THIS
+	local playerdamage = OnObjectDamage(
 		function(object, damager)
 			
 			-- Was the damaged object the player?
 			if Iamhuman == GetEntityPtr(object) then
-				-- The damager's pointer
-				local charPtr = GetEntityPtr(GetCharacterUnit(damager))
-				local charClass = GetEntityClass(charPtr)
-				
-				-- Only proceed if damager isn't correct class
-				if bIsDamagerCorrectClass == false then
+				if not GetCharacterUnit(damager) == nil then
+					-- The damager's pointer
+					local charPtr = GetEntityPtr(GetCharacterUnit(damager))
+					local charClass = GetEntityClass(charPtr)
+					local damagerWeapon = GetObjectLastHitWeaponClass(object)
 					
-					-- For each COL class,
-					for i=1, table.getn(colClasses) do
-						-- Is the damager one of them?
-						if charClass == FindEntityClass( colClasses[i] ) then
-							bIsDamagerCorrectClass = true
-							damagerFaction = "col"
-						else
-							bIsDamagerCorrectClass = false
+					
+					-- Immediately abort if the weapon was incendiary
+					if not string.find(damagerWeapon, "incendiary") then
+					
+						-- Only proceed if damager isn't correct class
+						if bIsDamagerCorrectClass == false then
+							--print("ME5_MiscFunctions.fPlayerDamageSound.playerdamage_COL(): Player isn't correct class, proceeding")
+							
+							-- For each COL class,
+							for i=1, table.getn(colClasses) do
+								-- Is the damager one of them?
+								if charClass == FindEntityClass( colClasses[i] ) then
+									bIsDamagerCorrectClass = true
+									damagerFaction = "col"
+								else
+									bIsDamagerCorrectClass = false
+								end
+								
+								-- Break out of the loop if correct class
+								if bIsDamagerCorrectClass == true then break end
+							end
 						end
 						
-						-- Break out of the loop if correct class
-						if bIsDamagerCorrectClass == true then break end
-					end
-				end
-				
-				-- Only proceed if damager isn't correct class
-				if bIsDamagerCorrectClass == false then
-					-- For each GTH class,
-					for j=1, table.getn(gthClasses) do
-						-- Is the damager one of them?
-						if charClass == FindEntityClass( gthClasses[j] ) then
-							bIsDamagerCorrectClass = true
-							damagerFaction = "gth"
-						else
-							bIsDamagerCorrectClass = false
+						-- Only proceed if damager isn't correct class
+						if bIsDamagerCorrectClass == false then
+							--print("ME5_MiscFunctions.fPlayerDamageSound.playerdamage_GTH(): Player isn't correct class, proceeding")
+							
+							-- For each GTH class,
+							for j=1, table.getn(gthClasses) do
+								-- Is the damager one of them?
+								if charClass == FindEntityClass( gthClasses[j] ) then
+									bIsDamagerCorrectClass = true
+									damagerFaction = "gth"
+								else
+									bIsDamagerCorrectClass = false
+								end
+								
+								-- Break out of the loop if correct class
+								if bIsDamagerCorrectClass == true then break end
+							end
 						end
 						
-						-- Break out of the loop if correct class
-						if bIsDamagerCorrectClass == true then break end
-					end
-				end
-				
-				-- Only proceed if damager isn't correct class
-				if bIsDamagerCorrectClass == false then
-					-- For each INDOC class,
-					for k=1, table.getn(indocClasses) do
-						-- Is the damager one of them?
-						if charClass == FindEntityClass( indocClasses[k] ) then
-							bIsDamagerCorrectClass = true
-							damagerFaction = "indoc"
-						else
-							bIsDamagerCorrectClass = false
+						-- Only proceed if damager isn't correct class
+						if bIsDamagerCorrectClass == false then
+							--print("ME5_MiscFunctions.fPlayerDamageSound.playerdamage_INDOC(): Player isn't correct class, proceeding")
+							
+							-- For each INDOC class,
+							for k=1, table.getn(indocClasses) do
+								-- Is the damager one of them?
+								if charClass == FindEntityClass( indocClasses[k] ) then
+									bIsDamagerCorrectClass = true
+									damagerFaction = "indoc"
+								else
+									bIsDamagerCorrectClass = false
+								end
+								
+								-- Break out of the loop if correct class
+								if bIsDamagerCorrectClass == true then break end
+							end
 						end
 						
-						-- Break out of the loop if correct class
-						if bIsDamagerCorrectClass == true then break end
-					end
-				end
-				
-				-- Only proceed if damager isn't correct class
-				if bIsDamagerCorrectClass == false then
-					-- For each SSV class,
-					for m=1, table.getn(ssvClasses) do
-						-- Is the damager one of them?
-						if charClass == FindEntityClass( ssvClasses[m] ) then
-							bIsDamagerCorrectClass = true
-							damagerFaction = "ssv"
-						else
-							bIsDamagerCorrectClass = false
+						-- Only proceed if damager isn't correct class
+						if bIsDamagerCorrectClass == false then
+							--print("ME5_MiscFunctions.fPlayerDamageSound.playerdamage_SSV(): Player isn't correct class, proceeding")
+							
+							-- For each SSV class,
+							for m=1, table.getn(ssvClasses) do
+								-- Is the damager one of them?
+								if charClass == FindEntityClass( ssvClasses[m] ) then
+									bIsDamagerCorrectClass = true
+									damagerFaction = "ssv"
+								else
+									bIsDamagerCorrectClass = false
+								end
+								
+								-- Break out of the loop if correct class
+								if bIsDamagerCorrectClass == true then break end
+							end
 						end
 						
-						-- Break out of the loop if correct class
-						if bIsDamagerCorrectClass == true then break end
-					end
-				end
-				
-				
-				
-				-- Which team is the damager from?
-				if damagerFaction == "col" then
-					--print("ME5_MiscFunctions.fPlayerDamageSound(): Damager is from team COL")
-					--ShowMessageText("level.common.debug.damager_col")
-					
-					-- For each weapon class
-					for i=1, table.getn(ballisticWeapons_COL) do
-						-- Was the weapon used a valid ballistic weapon?
-						if GetObjectLastHitWeaponClass(object) == ballisticWeapons_COL[i] then
-							local randSnd = math.random(0,10)
-							ScriptCB_SndPlaySound("player_damage_layered_"..randSnd)
+						
+						
+						-- Which team is the damager from?
+						if damagerFaction == "col" then
+							--print("ME5_MiscFunctions.fPlayerDamageSound(): Damager is from team COL")
+							--ShowMessageText("level.common.debug.damager_col")
 							
-							break
-						end
-					end
-					
-				elseif damagerFaction == "gth" then
-					--print("ME5_MiscFunctions.fPlayerDamageSound(): Damager is from team GTH")
-					--ShowMessageText("level.common.debug.damager_gth")
-					
-					-- For each weapon class
-					for i=1, table.getn(ballisticWeapons_GTH) do
-						-- Was the weapon used a valid ballistic weapon?
-						if GetObjectLastHitWeaponClass(object) == ballisticWeapons_GTH[i] then
-							local randSnd = math.random(0,10)
-							ScriptCB_SndPlaySound("player_damage_layered_"..randSnd)
+							-- For each weapon class
+							for i=1, table.getn(ballisticWeapons_COL) do
+								-- Was the weapon used a valid ballistic weapon?
+								if damagerWeapon == ballisticWeapons_COL[i] then
+									-- Play the player damage sound
+									PlayDamageSound()
+									break
+								end
+							end
 							
-							break
-						end
-					end
-					
-				elseif damagerFaction == "indoc" then
-					--print("ME5_MiscFunctions.fPlayerDamageSound(): Damager is from team INDOC")
-					--ShowMessageText("level.common.debug.damager_indoc")
-					
-					-- For each weapon class
-					for i=1, table.getn(ballisticWeapons_INDOC) do
-						-- Was the weapon used a valid ballistic weapon?
-						if GetObjectLastHitWeaponClass(object) == ballisticWeapons_INDOC[i] then
-							local randSnd = math.random(0,10)
-							ScriptCB_SndPlaySound("player_damage_layered_"..randSnd)
+						elseif damagerFaction == "gth" then
+							--print("ME5_MiscFunctions.fPlayerDamageSound(): Damager is from team GTH")
+							--ShowMessageText("level.common.debug.damager_gth")
 							
-							break
-						end
-					end
-					
-				elseif damagerFaction == "ssv" then
-					--print("ME5_MiscFunctions.fPlayerDamageSound(): Damager is from team SSV")
-					--ShowMessageText("level.common.debug.damager_ssv")
-					
-					-- For each weapon class
-					for i=1, table.getn(ballisticWeapons_SSV) do
-						-- Was the weapon used a valid ballistic weapon?
-						if GetObjectLastHitWeaponClass(object) == ballisticWeapons_SSV[i] then
-							local randSnd = math.random(0,10)
-							ScriptCB_SndPlaySound("player_damage_layered_"..randSnd)
+							-- For each weapon class
+							for i=1, table.getn(ballisticWeapons_GTH) do
+								-- Was the weapon used a valid ballistic weapon?
+								if damagerWeapon == ballisticWeapons_GTH[i] then
+									-- Play the player damage sound
+									PlayDamageSound()
+									break
+								end
+							end
 							
-							break
+						elseif damagerFaction == "indoc" then
+							--print("ME5_MiscFunctions.fPlayerDamageSound(): Damager is from team INDOC")
+							--ShowMessageText("level.common.debug.damager_indoc")
+							
+							-- For each weapon class
+							for i=1, table.getn(ballisticWeapons_INDOC) do
+								-- Was the weapon used a valid ballistic weapon?
+								if damagerWeapon == ballisticWeapons_INDOC[i] then
+									-- Play the player damage sound
+									PlayDamageSound()
+									break
+								end
+							end
+							
+						elseif damagerFaction == "ssv" then
+							--print("ME5_MiscFunctions.fPlayerDamageSound(): Damager is from team SSV")
+							--ShowMessageText("level.common.debug.damager_ssv")
+							
+							-- For each weapon class
+							for i=1, table.getn(ballisticWeapons_SSV) do
+								-- Was the weapon used a valid ballistic weapon?
+								if damagerWeapon == ballisticWeapons_SSV[i] then
+									-- Play the player damage sound if the damager weapon wasn't incendiary
+									PlayDamageSound()
+									break
+								end
+							end
+							
 						end
+						
 					end
-					
+				else
+					--print("ME5_MiscFunctions.fPlayerDamageSound(): GetCharacterUnit(damager) is nil")		-- uncomment me for test output!
 				end
 			end
 		end

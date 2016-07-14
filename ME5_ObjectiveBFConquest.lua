@@ -43,8 +43,12 @@ ObjectiveConquest = Objective:New
 	-- external values
 	icon = "hud_objective_icon_circle",
 	
+	-- optional values
+	ticketsATT = nil,
+	ticketsDEF = nil,
+	
 	-- internal values
-	defaultBleedRate = 0.7777777777,			--how many units will be lost per second
+	defaultBleedRate = 1.05,			--how many units will be lost per second	-- 0.7777777777
 	defeatTimerSeconds = 40,		--how long the defeat timer lasts after capping all the CPs
 }
 
@@ -129,7 +133,7 @@ function ObjectiveConquest:Start()
 		
 		
 		--set the bleed rate based on the total accumulated bleedPoints
-		local bleedRate = 0.0		
+		local bleedRate = 0.0
 		if self.bleedRates and self.bleedRates[team] then
 			--look through the unsorted list for the highest threshold that bleedPoints is higher than
 			local highestThresholdSoFar = 0
@@ -315,19 +319,19 @@ function ObjectiveConquest:Start()
 		
 		OnTimerElapse(
 			function (timer)				
-				if GetReinforcementCount(team) > GetNumTeamMembersAlive(team) then
+--				if GetReinforcementCount(team) > GetNumTeamMembersAlive(team) then
 					--tick off a reinforcement when the timer elapses, and start it up again
 					if GetReinforcementCount(team) > 0 then
 						AddReinforcements(team, -1)
 					end
 					SetTimerValue(timer, GetTimerValue(timer) + 1.0)
 					StartTimer(timer)					
-				else
-					--disallow bleeding when a team gets really low on reinforcements (so the team
-					--doesn't run entirely out of units due to bleedrate, as per designer request)
-					SetBleedRate(team, 0.0)
-					StopTimer(timer)
-				end
+--				else
+--					--disallow bleeding when a team gets really low on reinforcements (so the team
+--					--doesn't run entirely out of units due to bleedrate, as per designer request)
+--					SetBleedRate(team, 0.0)		-- TODO: probably remove this bleed-blocker
+--					StopTimer(timer)
+--				end
 			end,
 			self.bleedTimer[team]
 			)
@@ -350,12 +354,40 @@ function ObjectiveConquest:Start()
 	
 	
 	local UpdatePostMapMarker = function(postPtr)
-		if not self.multiplayerRules then
-			--check the team that capped the CP, and change the map marker accordingly
-			if GetObjectTeam(postPtr) == self.teamATT then
-				MapRemoveEntityMarker(postPtr, self.teamATT)
-			else
-				MapAddEntityMarker(postPtr, self.icon, 4.0, self.teamATT, "YELLOW", true)
+    	if not ScriptCB_InMultiplayer() then
+			if not IsCampaign() then
+				local playerTeam = GetCharacterTeam(0)
+				local otherTeam = (3 - playerTeam)
+				
+				-- Only attach marker to non-permacps
+				if GetEntityClass(postPtr) == FindEntityClass("com_bldg_controlzone") then
+					-- If playerTeam owns the post, add a blue marker for playerTeam and a red marker for otherTeam
+					if GetObjectTeam(postPtr) == playerTeam then
+						MapRemoveEntityMarker(postPtr, playerTeam)
+						MapRemoveEntityMarker(postPtr, otherTeam)
+						
+						MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, playerTeam, "BLUE", true, false, false, true)
+						MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, otherTeam, "RED", true, false, false, true)
+						
+						
+					-- If otherTeam owns the post, add a blue marker for otherTeam and a red marker for playerTeam
+					elseif GetObjectTeam(postPtr) == otherTeam then
+						MapRemoveEntityMarker(postPtr, playerTeam)
+						MapRemoveEntityMarker(postPtr, otherTeam)
+						
+						MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, playerTeam, "RED", true, false, false, true)
+						MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, otherTeam, "BLUE", true, false, false, true)
+						
+						
+					-- If neither team owns the post, add a white marker for both teams
+					else
+						MapRemoveEntityMarker(postPtr, playerTeam)
+						MapRemoveEntityMarker(postPtr, otherTeam)
+						
+						MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, playerTeam, "WHITE", true, false, false, true)
+						MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, otherTeam, "WHITE", true, false, false, true)
+					end
+				end
 			end
 		end
 	end
@@ -510,6 +542,11 @@ function ObjectiveConquest:Start()
 		SetProperty(cp.name, "VO_Cis_RepCapture",	snd_CIS_cpCapture_enemy)
 		SetProperty(cp.name, "VO_Cis_CisLost",		snd_CIS_cpLost_ally)
 		SetProperty(cp.name, "VO_Cis_RepLost",		snd_CIS_cpLost_enemy)
+		
+		SetProperty(cp.name, "NeutralizeTime",	12.0)
+		SetProperty(cp.name, "CaptureTime",	8.0)
+    		
+		UpdatePostMapMarker(cp.name)
 	end
 	
 	--==========
@@ -525,6 +562,31 @@ function ObjectiveConquest:Start()
 	
 	--initialize internal values
 	self.commandPosts = self.commandPosts or {}
+	
+	--initialize ticket counts
+	if mapSize == xxs then
+		self.ticketsATT = self.ticketsATT or 200
+		self.ticketsDEF = self.ticketsDEF or 200
+	elseif mapSize == xs then
+		self.ticketsATT = self.ticketsATT or 250
+		self.ticketsDEF = self.ticketsDEF or 250
+	elseif mapSize == sm then
+		self.ticketsATT = self.ticketsATT or 300
+		self.ticketsDEF = self.ticketsDEF or 300
+	elseif mapSize == med then
+		self.ticketsATT = self.ticketsATT or 350
+		self.ticketsDEF = self.ticketsDEF or 350
+	elseif mapSize == lg then
+		self.ticketsATT = self.ticketsATT or 400
+		self.ticketsDEF = self.ticketsDEF or 400
+	else
+		self.ticketsATT = self.ticketsATT or 325
+		self.ticketsDEF = self.ticketsDEF or 325
+	end
+	
+	SetReinforcementCount(ATT, self.ticketsATT)
+	SetReinforcementCount(DEF, self.ticketsDEF)
+	
 	
 	self.bleedTimer = {}
 	InitBleedTimer(self.teamATT)

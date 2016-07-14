@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
--- Version 30619/06
+-- Version 30707/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Jun 19, 2016
+-- Jul 12, 2016
 -- Copyright (c) 2016 A. Gilbert.
 -- 
 -- About this script: The purpose of script is to set some global 
@@ -22,7 +22,7 @@
 	
 	-- The build version. Valid settings are "production", "release"
 	MEU_BuildVer		= "production"
-	MEU_BuildNum		= 30619
+	MEU_BuildNum		= 30712
 	MEU_ReleaseNum		= 6
 	MEU_VersionNum		= 1.21
 	
@@ -48,9 +48,10 @@
 	ME5_FactionVO			= nil
 	ME5_LowHealthSound		= nil
 	ME5_KillSound			= nil
+	ME5_PlayerDmgSound		= nil
 	
 	mapSize				= nil
-	MEUGameMode			= nil
+	MEUGameMode			= MEUGameMode or nil
 	EnvironmentType		= nil
 	onlineSideVar		= nil
 	onlineHeroSSV		= nil
