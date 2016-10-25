@@ -652,14 +652,14 @@ function ObjectiveSurvival:Complete(winningTeam)
 			MapRemoveEntityMarker(cp.name)
 		end
 		
-		if ME5_CustomHUD == 1 then
+		--[[if ME5_CustomHUD == 1 then
 			if bStockFontLoaded == false then
 				bStockFontLoaded = true
 					print("ME5_ObjectiveSurvival: Loading hud_font_stock.lvl...")
 				-- hotfix that reloads the stock fonts in the stats screen
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
 			end
-		end
+		end]]
 	end
 	
 	--then call the default objective complete method

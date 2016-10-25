@@ -561,14 +561,14 @@ function ObjectiveCTF:Start()
 						--SetFlagGameplayType("none")	-- moved to objective:start
 						self:Complete(team)
 						
-						if ME5_CustomHUD == 1 then
+						--[[if ME5_CustomHUD == 1 then
 							if bStockFontLoaded == false then
 								bStockFontLoaded = true
 									print("ME5_ObjectiveCTF: Loading hud_font_stock.lvl...")
 								-- hotfix that reloads the stock fonts in the stats screen
 								ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
 							end
-						end
+						end]]
 					end,
 				"flagDefeatTimer"
 				)
@@ -588,17 +588,7 @@ function ObjectiveCTF:Start()
 end
 	
 if not ScriptCB_InMultiplayer() then
-	if ME5_SideVar == 0 then
-		if RandomSide == 1 then
-			CTF_SoundEvents_Var = 1
-		elseif RandomSide == 2 then
-			CTF_SoundEvents_Var = 2
-		elseif RandomSide == 3 then
-			CTF_SoundEvents_Var = 3
-		elseif RandomSide == 4 then
-			CTF_SoundEvents_Var = 4
-		end
-	elseif ME5_SideVar == 1 then
+	if ME5_SideVar == 1 then
 		CTF_SoundEvents_Var = 1
 	elseif ME5_SideVar == 2 then
 		CTF_SoundEvents_Var = 2

@@ -1,5 +1,4 @@
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
-RandomSide = math.random(1,4)
 --
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
@@ -10,12 +9,37 @@ ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
 mapSize = lg
-EnvironmentType = 3
+EnvironmentType = EnvTypeSnow
 onlineSideVar = SSVxGTH
 onlineHeroSSV = shep_adept
 onlineHeroGTH = gethprime_me2
 onlineHeroCOL = colgeneral
 onlineHeroEVG = gethprime_me3
+
+-- AI hero spawns. CP name, CP spawn path name
+heroSupportCPs = {
+			{"CP3", "CP3_SpawnPath"},
+			{"CP4", "CP4_SpawnPath"},
+			{"CP5", "CP5_SpawnPath"},
+			{"CP6", "CP6_SpawnPath"},
+}
+
+-- Local ally spawns. CP name, CP spawn path name
+allySpawnCPs = {
+			{"CP3", "CP3_SpawnPath"},
+			{"CP4", "CP4_SpawnPath"},
+			{"CP5", "CP5_SpawnPath"},
+			{"CP6", "CP6_SpawnPath"},
+}
+
+-- Artillery strike path nodes. Path name, path node ID
+artilleryNodes = {
+			{"CP3_SpawnPath", 9},
+			{"CP4_SpawnPath", 0},
+			--{"CP5_SpawnPath", 1},
+			{"CP6_SpawnPath", 3},
+			{"artilleryNodes", 0},
+}
 
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
@@ -39,86 +63,6 @@ DEF = 2
 --              mission script must contain a version of this function, as
 --              it is called from C to start the mission.
 ---------------------------------------------------------------------------
-
-function SSVxGTH_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideSSVHeroClass()
-		DecideGTHHeroClass()
-		if ME5_AIHeroes == 0 then
-			SetHeroClass(REP, SSVHeroClass)
-			SetHeroClass(CIS, GTHHeroClass)
-		elseif ME5_AIHeroes == 1 then
-			herosupport = AIHeroSupport:New{AIATTHeroHealth = 3000, AIDEFHeroHealth = 3000, gameMode = "NonConquest",}
-			herosupport:SetHeroClass(REP, SSVHeroClass)
-			herosupport:SetHeroClass(CIS, GTHHeroClass)
-			herosupport:AddSpawnCP("CP3","CP3_SpawnPath")
-			herosupport:AddSpawnCP("CP4","CP4_SpawnPath")
-			herosupport:AddSpawnCP("CP5","CP5_SpawnPath")
-			herosupport:AddSpawnCP("CP6","CP6_SpawnPath")
-			herosupport:Start()
-		end
-	end
-end
-
-function SSVxCOL_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideSSVHeroClass()
-		DecideGTHHeroClass()
-		if ME5_AIHeroes == 0 then
-			SetHeroClass(REP, SSVHeroClass)
-			SetHeroClass(CIS, COLHeroClass)
-		elseif ME5_AIHeroes == 1 then
-			herosupport = AIHeroSupport:New{AIATTHeroHealth = 3000, AIDEFHeroHealth = 3000, gameMode = "NonConquest",}
-			herosupport:SetHeroClass(REP, SSVHeroClass)
-			herosupport:SetHeroClass(CIS, COLHeroClass)
-			herosupport:AddSpawnCP("CP3","CP3_SpawnPath")
-			herosupport:AddSpawnCP("CP4","CP4_SpawnPath")
-			herosupport:AddSpawnCP("CP5","CP5_SpawnPath")
-			herosupport:AddSpawnCP("CP6","CP6_SpawnPath")
-			herosupport:Start()
-		end
-	end
-end
-
-function EVGxGTH_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideEVGHeroClass()
-		DecideGTHHeroClass()
-		if ME5_AIHeroes == 0 then
-			SetHeroClass(REP, EVGHeroClass)
-			SetHeroClass(CIS, GTHHeroClass)
-		elseif ME5_AIHeroes == 1 then
-			herosupport = AIHeroSupport:New{AIATTHeroHealth = 3000, AIDEFHeroHealth = 3000, gameMode = "NonConquest",}
-			herosupport:SetHeroClass(REP, EVGHeroClass)
-			herosupport:SetHeroClass(CIS, GTHHeroClass)
-			herosupport:AddSpawnCP("CP3","CP3_SpawnPath")
-			herosupport:AddSpawnCP("CP4","CP4_SpawnPath")
-			herosupport:AddSpawnCP("CP5","CP5_SpawnPath")
-			herosupport:AddSpawnCP("CP6","CP6_SpawnPath")
-			herosupport:Start()
-		end
-	end
-end
-
-function EVGxCOL_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideEVGHeroClass()
-		DecideCOLHeroClass()
-		if ME5_AIHeroes == 0 then
-			SetHeroClass(REP, EVGHeroClass)
-			SetHeroClass(CIS, COLHeroClass)
-		elseif ME5_AIHeroes == 1 then
-			herosupport = AIHeroSupport:New{AIATTHeroHealth = 3000, AIDEFHeroHealth = 3000, gameMode = "NonConquest",}
-			herosupport:SetHeroClass(REP, EVGHeroClass)
-			herosupport:SetHeroClass(CIS, COLHeroClass)
-			herosupport:AddSpawnCP("CP3","CP3_SpawnPath")
-			herosupport:AddSpawnCP("CP4","CP4_SpawnPath")
-			herosupport:AddSpawnCP("CP5","CP5_SpawnPath")
-			herosupport:AddSpawnCP("CP6","CP6_SpawnPath")
-			herosupport:Start()
-		end
-	end
-end
 
 function ScriptPostLoad()
 
@@ -150,38 +94,12 @@ function ScriptPostLoad()
 --    conquest:AddCommandPost(cp5)
     
     conquest:Start()
-	
-	
-	SetProperty("CP3", "AllyPath", "CP3_SpawnPath")
-	SetProperty("CP4", "AllyPath", "CP4_SpawnPath")
-	SetProperty("CP5", "AllyPath", "CP5_SpawnPath")
-	SetProperty("CP6", "AllyPath", "CP6_SpawnPath")
+    
 	
 	AddAIGoal(HuskTeam, "Deathmatch", 100)
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide == 1 then
-				SSVxGTH_PostLoad()
-			elseif RandomSide == 2 then
-				SSVxCOL_PostLoad()
-			elseif RandomSide == 3 then
-				EVGxGTH_PostLoad()
-			elseif RandomSide == 4 then
-				EVGxCOL_PostLoad()
-			end
-		elseif ME5_SideVar == 1 then
-			SSVxGTH_PostLoad()
-		elseif ME5_SideVar == 2 then
-			SSVxCOL_PostLoad()
-		elseif ME5_SideVar == 3 then
-			EVGxGTH_PostLoad()
-		elseif ME5_SideVar == 4 then
-			EVGxCOL_PostLoad()
-		end
-	else
-		SSVxGTH_PostLoad()
-	end
+	SetAllySpawns(allySpawnCPs)
+	Init_SidesPostLoad("conquest", heroSupportCPs)
 	
 	SetProperty("VehicleSpawn_8", "ClassCisATK", "ssv_tread_mako")
 	SetProperty("VehicleSpawn_8", "ClassCisDEF", "ssv_tread_mako")
@@ -193,59 +111,15 @@ function ScriptPostLoad()
 	SetProperty("VehicleSpawn_9", "ClassRepATK", "ssv_tread_mako")
 	SetProperty("VehicleSpawn_9", "ClassRepDEF", "ssv_tread_mako")
 	SetProperty("VehicleSpawn_9", "SpawnTime", "20.0")
-    
---    KillObject("shield");
 	
-	--ShieldGenNode = GetPathPoint("CP2_SpawnPath", 3) --gets the path point
-	CP3Node = GetPathPoint("CP3_SpawnPath", 6)
-	CP4Node = GetPathPoint("CP4_SpawnPath", 0)
-	CP5Node = GetPathPoint("CP5_SpawnPath", 1)
-	--CP5Node = GetPathPoint("Path 13", 0)
-	CP6Node = GetPathPoint("CP6_SpawnPath", 3)
-	
-	--[[CreateTimer("artGameTimer")
-	SetTimerValue("artGameTimer", 720)
-	StartTimer("artGameTimer")
-	OnTimerElapse(
-		function(timer)]]
-			--local team1pts = GetReinforcementCount(1)
-			--if team1pts >= 100 then
-				artMatrices = { CP3Node, CP4Node, CP5Node, CP6Node }
-				goingthroughturrets = 0
-				
-				artInitTimer = CreateTimer("artInitTimer")
-				SetTimerValue("artInitTimer", 20.0)
-				StartTimer("artInitTimer")
-				--ShowTimer("artInitTimer")
-				OnTimerElapse(
-					function(timer)
-						goingthroughturrets = goingthroughturrets + 1
-						if goingthroughturrets == 5 then
-							goingthroughturrets = 1
-						end
-						
-						SetEntityMatrix( "artillery1", artMatrices[goingthroughturrets])
-						--ShowMessageText("level.common.events.surv.artillery.msg"..goingthroughturrets)
-							print("hot1n_con: Artillery transitioning to matrix: "..goingthroughturrets)
-						SetTimerValue("artInitTimer", 20.0)
-						StartTimer("artInitTimer")
-					end,
-				"artInitTimer"
-				)
-			--else
-			--end
-			
-			--[[DestroyTimer(Timer)
-		end,
-	"artGameTimer"
-	)]]
+	Init_ArtilleryStrikes("artillery1", artilleryNodes)
 	
 end
 
 function ScriptInit()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\load.lvl;hot1")
 	
-	SetMemoryPoolSize("ParticleTransformer::ColorTrans", 2202)
+	SetMemoryPoolSize("ParticleTransformer::ColorTrans", 2540)
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1305)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1665)
 	
@@ -300,7 +174,7 @@ function ScriptInit()
     SetMemoryPoolSize("PathFollower", 63)
 	SetMemoryPoolSize("PathNode", 128)
 	SetMemoryPoolSize("ShieldEffect", 0)
-	SetMemoryPoolSize("SoldierAnimation", 368)
+	SetMemoryPoolSize("SoldierAnimation", 433)
     SetMemoryPoolSize("TreeGridStack", 349)
     SetMemoryPoolSize("UnitController", 63)
     SetMemoryPoolSize("UnitAgent", 63)
@@ -321,17 +195,7 @@ function ScriptInit()
     --  Sound Stats
 	
 	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide == 1 then
-				Music03()
-			elseif RandomSide == 2 then
-				Music05()
-			elseif RandomSide == 3 then
-				Music09()
-			elseif RandomSide == 4 then
-				Music09()
-			end
-		elseif ME5_SideVar == 1 then
+		if ME5_SideVar == 1 then
 			Music03()
 		elseif ME5_SideVar == 2 then
 			Music05()

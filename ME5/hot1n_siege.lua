@@ -10,7 +10,7 @@ ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveBFConquest")
 
 mapSize = lg
-EnvironmentType = 3
+EnvironmentType = EnvTypeSnow
 onlineSideVar = SSVxGTH
 onlineHeroSSV = shep_adept
 onlineHeroGTH = gethprime_me2

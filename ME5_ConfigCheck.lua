@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
--- Version 30707/06
+-- Build 30801/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Jul 7, 2016
+-- Aug 01, 2016
 -- Copyright (c) 2016 A. Gilbert.
 -- 
 -- About this script: The purpose of script is to load configuration
@@ -27,7 +27,7 @@ local path = "..\\..\\addon\\ME5\\data\\_LVL_PC\\cfg\\"
 -- Checks the given setting and its value based on /setting/ and /value/.
 -- @param #string setting	The name of the setting file to check.
 -- @param #int value		The value of the setting to check for.
--- @return 					1 if the setting's value is valid, 0 if invalid. Will also return 0 if one of the function parameters wasn't inputted.
+-- @return 					1 if setting's value is valid, 0 if invalid. Will also return 0 if one of the function parameters wasn't inputted.
 -- 
 local function CheckSetting(setting, value)
 	
@@ -65,18 +65,18 @@ end
 
 
 -- ======================
---  SHELL UI
+--  MENU INTERFACE STYLE
 -- ======================
 if CheckSetting("cfg_CustomGUIEnabled", 0) == 1 then
-		print("ME5_ConfigCheck: Shell Style is CLASSIC")
+		print("ME5_ConfigCheck: Menu Interface Style is STAR WARS BATTLEFRONT II")
 	ME5_CustomGUIEnabled = 0
 	
 elseif CheckSetting("cfg_CustomGUIEnabled", 1) == 1 then
-		print("ME5_ConfigCheck: Shell Style is MASS EFFECT: UNIFICATION")
+		print("ME5_ConfigCheck: Menu Interface Style is MASS EFFECT: UNIFICATION")
 	ME5_CustomGUIEnabled = 1
 	
 elseif CheckSetting("cfg_CustomGUIEnabled", 2) == 1 then
-		print("ME5_ConfigCheck: Shell Style is MASS EFFECT 3")
+		print("ME5_ConfigCheck: Menu Interface Style is MASS EFFECT 3")
 	ME5_CustomGUIEnabled = 2
 	
 else
@@ -86,7 +86,7 @@ end
 
 
 -- ======================
---  IN-GAME HUD
+--  CUSTOM HUD
 -- ======================
 if CheckSetting("cfg_CustomHUD", 0) == 1 then
 		print("ME5_ConfigCheck: Custom HUD is DISABLED")
@@ -166,14 +166,14 @@ end
 
 
 -- ======================
---  SHIELDS FUNCTIONALITY
+--  SHIELD FUNCTIONALITY
 -- ======================
 if CheckSetting("cfg_ShieldFunc", 0) == 1 then
-		print("ME5_ConfigCheck: Shields Functionality is AUTO-REGEN")
+		print("ME5_ConfigCheck: Shield Functionality is REGEN")
 	ME5_ShieldFunc = 1
 	
 elseif CheckSetting("cfg_ShieldFunc", 1) == 1 then
-		print("ME5_ConfigCheck: Shields Functionality is PICKUPS")
+		print("ME5_ConfigCheck: Shield Functionality is PICKUPS")
 	ME5_ShieldFunc = 2
 	
 else
@@ -183,18 +183,18 @@ end
 
 
 -- ======================
---  DEFERRED SHIELD REGENERATION
+--  SHIELD REGEN FUNCTIONALITY
 -- ======================
 if CheckSetting("cfg_ShieldRegen", 0) == 1 then
-		print("ME5_ConfigCheck: Deferred Shield Regeneration is DISABLED")
+		print("ME5_ConfigCheck: Shield Regen Functionality (Player Only) is AUTOMATIC")
 	ME5_ShieldRegen = 0
 	
 elseif CheckSetting("cfg_ShieldRegen", 1) == 1 then
-		print("ME5_ConfigCheck: Deferred Shield Regeneration is ENABLED")
+		print("ME5_ConfigCheck: Shield Regen Functionality (Player Only) is DEFERRED")
 	ME5_ShieldRegen = 1
 	
 else
-		print("ME5_ConfigCheck: Error! ME5_ShieldRegen flag not found or invalid! Defaulting to ENABLED")
+		print("ME5_ConfigCheck: Error! ME5_ShieldRegen flag not found or invalid! Defaulting to DEFERRED")
 	ME5_ShieldRegen = 1
 end
 
@@ -269,6 +269,10 @@ elseif CheckSetting("cfg_HeroClassSSV", 1) == 1 then
 		print("ME5_ConfigCheck: SSV Hero Class is SHEPARD")
 	ME5_HeroClassSSV = 1
 	
+elseif CheckSetting("cfg_HeroClassSSV", 2) == 1 then
+		print("ME5_ConfigCheck: SSV Hero Class is JACK")
+	ME5_HeroClassSSV = 2
+	
 else
 		print("ME5_ConfigCheck: Error! ME5_HeroClassSSV flag not found or invalid! Defaulting to RANDOM")
 	ME5_HeroClassSSV = 0
@@ -338,7 +342,7 @@ end
 -- ======================
 if CheckSetting("cfg_SideVar", 0) == 1 then
 		print("ME5_ConfigCheck: Side Variation is RANDOM")
-	ME5_SideVar = 0
+	ME5_SideVar = math.random(1,4)
 	
 elseif CheckSetting("cfg_SideVar", 1) == 1 then
 		print("ME5_ConfigCheck: Side Variation is SSVxGTH")
@@ -363,10 +367,66 @@ end
 
 
 -- ======================
+--  EDEN PRIME WEATHER
+-- ======================
+if not ScriptCB_InMultiplayer() then
+	if CheckSetting("cfg_MapVarEDN", 0) == 1 then
+			print("ME5_ConfigCheck: Eden Prime Weather is RANDOM")
+		ME5_MapVarEDN = math.random(1,3)
+		
+	elseif CheckSetting("cfg_MapVarEDN", 1) == 1 then
+			print("ME5_ConfigCheck: Eden Prime Weather is STORMY")
+		ME5_MapVarEDN = 1
+		
+	elseif CheckSetting("cfg_MapVarEDN", 2) == 1 then
+			print("ME5_ConfigCheck: Eden Prime Weather is CLOUDY")
+		ME5_MapVarEDN = 2
+		
+	elseif CheckSetting("cfg_MapVarEDN", 3) == 1 then
+			print("ME5_ConfigCheck: Eden Prime Weather is NIGHT")
+		ME5_MapVarEDN = 3
+		
+	else
+			print("ME5_ConfigCheck: Error! ME5_MapVarEDN flag not found or invalid! Defaulting to RANDOM")
+		ME5_MapVarEDN = 0
+	end
+else
+		print("ME5_ConfigCheck: Eden Prime Weather is CLOUDY")
+	ME5_MapVarEDN = 2
+end
+
+
+-- ======================
+--  VIRMIRE PLAY AREA
+-- ======================
+if not ScriptCB_InMultiplayer() then
+	if CheckSetting("cfg_MapVarVRM", 0) == 1 then
+			print("ME5_ConfigCheck: Virmire Play Area is RANDOM")
+		ME5_MapVarVRM = math.random(1,2)
+		
+	elseif CheckSetting("cfg_MapVarVRM", 1) == 1 then
+			print("ME5_ConfigCheck: Virmire Play Area is UPPER LEVEL")
+		ME5_MapVarVRM = 1
+		
+	elseif CheckSetting("cfg_MapVarVRM", 2) == 1 then
+			print("ME5_ConfigCheck: Virmire Play Area is LOWER LEVEL")
+		ME5_MapVarVRM = 2
+		
+	else
+			print("ME5_ConfigCheck: Error! ME5_MapVarVRM flag not found or invalid! Defaulting to RANDOM")
+		ME5_MapVarVRM = 0
+	end
+else
+		print("ME5_ConfigCheck: Virmire Play Area is UPPER LEVEL")
+	ME5_MapVarVRM = 1
+end
+
+
+-- ======================
 --  SOL MAP MUSIC
 -- ======================
 if CheckSetting("cfg_SolMapMusic", 0) == 1 then
-		print("ME5_ConfigCheck: Sol Map Music is SOL")
+		print("ME5_ConfigCheck: Sol Map Music is AMBIENT SOUNDSCAPE")
 	ME5_SolMapMusic = 0
 	
 elseif CheckSetting("cfg_SolMapMusic", 1) == 1 then
@@ -404,11 +464,11 @@ end
 --  LOW HEALTH SOUND
 -- ======================
 if CheckSetting("cfg_LowHealthSound", 0) == 1 then
-		print("ME5_ConfigCheck: Low Health Sound is DISABLED")
+		print("ME5_ConfigCheck: 'Low Health' Feedback Sounds are DISABLED")
 	ME5_LowHealthSound = 0
 	
 elseif CheckSetting("cfg_LowHealthSound", 1) == 1 then
-		print("ME5_ConfigCheck: Low Health Sound is ENABLED")
+		print("ME5_ConfigCheck: 'Low Health' Feedback Sounds are ENABLED")
 	ME5_LowHealthSound = 1
 	
 else
@@ -421,15 +481,15 @@ end
 --  KILL SOUND
 -- ======================
 if CheckSetting("cfg_KillSound", 0) == 1 then
-		print("ME5_ConfigCheck: Kill Sound is DISABLED")
+		print("ME5_ConfigCheck: 'Enemy Killed' Feedback Sounds are DISABLED")
 	ME5_KillSound = 0
 	
 elseif CheckSetting("cfg_KillSound", 1) == 1 then
-		print("ME5_ConfigCheck: Kill Sound is QUIET")
+		print("ME5_ConfigCheck: 'Enemy Killed' Feedback Sounds are QUIET")
 	ME5_KillSound = 1
 	
 elseif CheckSetting("cfg_KillSound", 2) == 1 then
-		print("ME5_ConfigCheck: Kill Sound is LOUD")
+		print("ME5_ConfigCheck: 'Enemy Killed' Feedback Sounds are LOUD")
 	ME5_KillSound = 2
 	
 else
@@ -442,15 +502,15 @@ end
 --  PLAYER DAMAGE SOUNDS
 -- ======================
 if CheckSetting("cfg_PlayerDmgSound", 0) == 1 then
-		print("ME5_ConfigCheck: Player Damage Sounds are DISABLED")
+		print("ME5_ConfigCheck: 'Player Damaged' Feedback Sounds are DISABLED")
 	ME5_PlayerDmgSound = 0
 	
 elseif CheckSetting("cfg_PlayerDmgSound", 1) == 1 then
-		print("ME5_ConfigCheck: Player Damage Sounds are QUIET")
+		print("ME5_ConfigCheck: 'Player Damaged' Feedback Sounds are QUIET")
 	ME5_PlayerDmgSound = 1
 	
 elseif CheckSetting("cfg_PlayerDmgSound", 2) == 1 then
-		print("ME5_ConfigCheck: Player Damage Sounds are LOUD")
+		print("ME5_ConfigCheck: 'Player Damaged' Feedback Sounds are LOUD")
 	ME5_PlayerDmgSound = 2
 	
 else
@@ -459,11 +519,200 @@ else
 end
 
 
+-- ======================
+--  HIT MARKER SOUNDS
+-- ======================
+if CheckSetting("cfg_HitMarkerSound", 0) == 1 then
+		print("ME5_ConfigCheck: Hit Marker Sounds are DISABLED")
+	ME5_HitMarkerSound = 0
+	
+elseif CheckSetting("cfg_HitMarkerSound", 1) == 1 then
+		print("ME5_ConfigCheck: Hit Marker Sounds are QUIET")
+	ME5_HitMarkerSound = 1
+	
+elseif CheckSetting("cfg_HitMarkerSound", 2) == 1 then
+		print("ME5_ConfigCheck: Hit Marker Sounds are LOUD")
+	ME5_HitMarkerSound = 2
+	
+else
+		print("ME5_ConfigCheck: Error! ME5_HitMarkerSound flag not found or invalid! Defaulting to LOUD")
+	ME5_HitMarkerSound = 2
+end
+
+
 print("ME5_ConfigCheck: Checking configuration parameters... Done!")
 
 
 if ME5_AIHeroes == 1 then
 	ScriptCB_DoFile("ME5_AIHeroSupport")
+end
+
+
+function DecideShepClass()
+	if ME5_ShepardClass == 0 then
+		BroShepClass = math.random(1,6)
+		
+			print("ME5_ConfigCheck.DecideShepClass(): Deciding BroShep class...")
+		if BroShepClass == 1 then
+				print("ME5_ConfigCheck.DecideShepClass(): Deciding BroShep class... SOLDIER")
+			SSVHeroClass = "ssv_hero_shepard_soldier"
+			
+		elseif BroShepClass == 2 then
+				print("ME5_ConfigCheck.DecideShepClass(): Deciding BroShep class... INFILTRATOR")
+			SSVHeroClass = "ssv_hero_shepard_infiltrator"
+			
+		elseif BroShepClass == 3 then
+				print("ME5_ConfigCheck.DecideShepClass(): Deciding BroShep class... ENGINEER")
+			SSVHeroClass = "ssv_hero_shepard_engineer"
+			
+		elseif BroShepClass == 4 then
+				print("ME5_ConfigCheck.DecideShepClass(): Deciding BroShep class... ADEPT")
+			SSVHeroClass = "ssv_hero_shepard_adept"
+			
+		elseif BroShepClass == 5 then
+				print("ME5_ConfigCheck.DecideShepClass(): Deciding BroShep class... SENTINEL")
+			SSVHeroClass = "ssv_hero_shepard_sentinel"
+			
+		elseif BroShepClass == 6 then
+				print("ME5_ConfigCheck.DecideShepClass(): Deciding BroShep class... VANGUARD")
+			SSVHeroClass = "ssv_hero_shepard_vanguard"
+		end
+	elseif ME5_ShepardClass == 1 then
+			print("ME5_ConfigCheck.DecideShepClass(): Deciding BroShep class... SOLDIER")
+		SSVHeroClass = "ssv_hero_shepard_soldier"
+		
+	elseif ME5_ShepardClass == 2 then
+			print("ME5_ConfigCheck.DecideShepClass(): Deciding BroShep class... INFILTRATOR")
+		SSVHeroClass = "ssv_hero_shepard_infiltrator"
+		
+	elseif ME5_ShepardClass == 3 then
+			print("ME5_ConfigCheck.DecideShepClass(): Deciding BroShep class... ENGINEER")
+		SSVHeroClass = "ssv_hero_shepard_engineer"
+		
+	elseif ME5_ShepardClass == 4 then
+			print("ME5_ConfigCheck.DecideShepClass(): Deciding BroShep class... ADEPT")
+		SSVHeroClass = "ssv_hero_shepard_adept"
+		
+	elseif ME5_ShepardClass == 5 then
+			print("ME5_ConfigCheck.DecideShepClass(): Deciding BroShep class... SENTINEL")
+		SSVHeroClass = "ssv_hero_shepard_sentinel"
+		
+	elseif ME5_ShepardClass == 6 then
+			print("ME5_ConfigCheck.DecideShepClass(): Deciding BroShep class... VANGUARD")
+		SSVHeroClass = "ssv_hero_shepard_vanguard"
+	end
+	
+end
+
+function DecideSSVHeroClass()
+	if ME5_HeroClassSSV == 0 then
+		DecidedSSVHeroClass = math.random(1,2)
+		
+			print("ME5_ConfigCheck.DecideSSVHeroClass(): Deciding SSV hero class...")
+		if DecidedSSVHeroClass == 1 then
+				print("ME5_ConfigCheck.DecideSSVHeroClass(): Deciding SSV hero class... SHEPARD")
+			DecideShepClass()
+			
+		elseif DecidedSSVHeroClass == 2 then
+				print("ME5_ConfigCheck.DecideSSVHeroClass(): Deciding SSV hero class... JACK")
+			SSVHeroClass = "ssv_hero_jack"
+			
+		--[[elseif DecideSSVHeroClass == 3 then
+				print("ME5_ConfigCheck.DecideSSVHeroClass(): Deciding SSV hero class... SAMARA")
+			SSVHeroClass = "ssv_hero_samara"
+			
+		elseif DecideSSVHeroClass == 4 then
+				print("ME5_ConfigCheck.DecideSSVHeroClass(): Deciding SSV hero class... LEGION")
+			SSVHeroClass = "ssv_hero_legion"]]
+		end
+
+	elseif ME5_HeroClassSSV == 1 then
+			print("ME5_ConfigCheck.DecideSSVHeroClass(): Deciding SSV hero class... SHEPARD")
+		DecideShepClass()
+		
+	elseif ME5_HeroClassSSV == 2 then
+			print("ME5_ConfigCheck.DecideSSVHeroClass(): Deciding SSV hero class... JACK")
+		SSVHeroClass = "ssv_hero_jack"
+		
+	--[[elseif DecideSSVHeroClass == 3 then
+			print("ME5_ConfigCheck.DecideSSVHeroClass(): Deciding SSV hero class... SAMARA")
+		SSVHeroClass = "ssv_hero_samara"
+		
+	elseif DecideSSVHeroClass == 4 then
+			print("ME5_ConfigCheck.DecideSSVHeroClass(): Deciding SSV hero class... LEGION")
+		SSVHeroClass = "ssv_hero_legion"]]
+	end
+end
+
+function DecideGTHHeroClass()
+	if ME5_HeroClassGTH == 0 then
+		DecidedGTHHeroClass = math.random(1,2)
+		
+			print("ME5_ConfigCheck.DecideGTHHeroClass(): Deciding GTH hero class...")
+		if DecidedGTHHeroClass == 1 then
+				print("ME5_ConfigCheck.DecideGTHHeroClass(): Deciding GTH hero class... GETH PRIME (ME2)")
+			GTHHeroClass = "gth_hero_prime_me2"
+			
+		elseif DecidedGTHHeroClass == 2 then
+				print("ME5_ConfigCheck.DecideGTHHeroClass(): Deciding GTH hero class... GETH PRIME (ME3)")
+			GTHHeroClass = "gth_hero_prime_me3"
+			
+		else
+				print("ME5_ConfigCheck.DecideGTHHeroClass(): Error! DecideGTHHeroClass variable is invalid! Defaulting to GETH PRIME (ME2)")
+			GTHHeroClass = "gth_hero_prime_me2"
+		end
+		
+	elseif ME5_HeroClassGTH == 1 then
+			print("ME5_ConfigCheck.DecideGTHHeroClass(): Deciding GTH hero class... GETH PRIME (ME2)")
+		GTHHeroClass = "gth_hero_prime_me2"
+		
+	elseif ME5_HeroClassGTH == 2 then
+			print("ME5_ConfigCheck.DecideGTHHeroClass(): Deciding GTH hero class... GETH PRIME (ME3)")
+		GTHHeroClass = "gth_hero_prime_me3"
+		
+	else
+			print("ME5_ConfigCheck.DecideGTHHeroClass(): Error! ME5_HeroClassGTH variable is invalid! Defaulting to GETH PRIME (ME2)")
+		GTHHeroClass = "gth_hero_prime_me2"
+	end
+end
+
+function DecideCOLHeroClass()
+	--DecideSSVHeroClass = math.random(1,4)
+		print("ME5_ConfigCheck.DecideCOLHeroClass(): Deciding COL hero class...")
+	COLHeroClass = "col_hero_harbinger"
+end
+
+function DecideEVGHeroClass()
+	if ME5_HeroClassEVG == 0 then
+		DecidedEVGHeroClass = math.random(1,2)
+			print("ME5_ConfigCheck.DecideEVGHeroClass(): Deciding EVG hero class...")
+		if DecidedEVGHeroClass == 1 then
+				print("ME5_ConfigCheck.DecideEVGHeroClass(): Deciding EVG hero class... GETH PRIME (ME2)")
+			EVGHeroClass = "gth_hero_prime_me2"
+		elseif DecidedEVGHeroClass == 2 then
+				print("ME5_ConfigCheck.DecideEVGHeroClass(): Deciding EVG hero class... GETH PRIME (ME3)")
+			EVGHeroClass = "gth_hero_prime_me3"
+		else
+				print("ME5_ConfigCheck.DecideEVGHeroClass(): Error! DecideEVGHeroClass variable is invalid! Defaulting to GETH PRIME (ME3)")
+			EVGHeroClass = "gth_hero_prime_me3"
+		end
+	elseif ME5_HeroClassEVG == 1 then
+			print("ME5_ConfigCheck.DecideEVGHeroClass(): Deciding EVG hero class... GETH PRIME (ME2)")
+		EVGHeroClass = "gth_hero_prime_me2"
+	elseif ME5_HeroClassEVG == 2 then
+			print("ME5_ConfigCheck.DecideEVGHeroClass(): Deciding EVG hero class... GETH PRIME (ME3)")
+		EVGHeroClass = "gth_hero_prime_me3"
+	else
+			print("ME5_ConfigCheck.DecideEVGHeroClass(): Error! ME5_HeroClassEVG variable is invalid! Defaulting to GETH PRIME (ME3)")
+		EVGHeroClass = "gth_hero_prime_me3"
+	end
+end
+
+if not ScriptCB_InMultiplayer() then
+	DecideSSVHeroClass()
+	DecideGTHHeroClass()
+	DecideCOLHeroClass()
+	DecideEVGHeroClass()
 end
 
 	print("ME5_ConfigCheck: Exited")

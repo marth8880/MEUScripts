@@ -1,5 +1,4 @@
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
-RandomSide = math.random(1,4)
 
 isModMap = 1
 --
@@ -12,7 +11,7 @@ ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveCTF")
 
 mapSize = sm
-EnvironmentType = 2
+EnvironmentType = EnvTypeJungle
 onlineSideVar = SSVxGTH
 onlineHeroSSV = shep_engineer
 onlineHeroGTH = gethprime_me2
@@ -119,17 +118,7 @@ function ScriptPostLoad()
 		)]]
 	
 	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide == 1 then
-				SSVxGTH_PostLoad()
-			elseif RandomSide == 2 then
-				SSVxCOL_PostLoad()
-			elseif RandomSide == 3 then
-				EVGxGTH_PostLoad()
-			elseif RandomSide == 4 then
-				EVGxCOL_PostLoad()
-			end
-		elseif ME5_SideVar == 1 then
+		if ME5_SideVar == 1 then
 			SSVxGTH_PostLoad()
 		elseif ME5_SideVar == 2 then
 			SSVxCOL_PostLoad()
@@ -219,17 +208,7 @@ function ScriptInit()
 	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\Sound\\SFL_T4E_Streaming.lvl",  "T4E_ambiance")
     
 	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide == 1 then
-				Music06_CTF()
-			elseif RandomSide == 2 then
-				Music02_CTF()
-			elseif RandomSide == 3 then
-				Music06_CTF()
-			elseif RandomSide == 4 then
-				Music09_CTF()
-			end
-		elseif ME5_SideVar == 1 then
+		if ME5_SideVar == 1 then
 			Music06_CTF()
 		elseif ME5_SideVar == 2 then
 			Music02_CTF()

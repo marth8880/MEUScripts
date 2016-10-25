@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Miscellaneous Functions Script by A. Gilbert
--- Version 30707/06
+-- Build 31025/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Jul 7, 2016
+-- Oct 25, 2016
 -- Copyright (c) 2016 A. Gilbert.
 -- 
 -- About this script: The purpose of script is to create a list of 
@@ -92,21 +92,7 @@ function PreLoadStuff()
 	-- Load the appropriate faction CP icons
 	-- Which faction variation is active?
 	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide == 1 then
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamessv.lvl")
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamegth.lvl")
-			elseif RandomSide == 2 then
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamessv.lvl")
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamecol.lvl")
-			elseif RandomSide == 3 then
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingameevg.lvl")
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamegth.lvl")
-			elseif RandomSide == 4 then
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingameevg.lvl")
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamecol.lvl")
-			end
-		elseif ME5_SideVar == 1 then
+		if ME5_SideVar == 1 then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamessv.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamegth.lvl")
 		elseif ME5_SideVar == 2 then
@@ -176,7 +162,27 @@ function PreLoadStuff()
 		end
 		
 		-- Load MEU's ingame.lvl
-    	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
+		if not ScriptCB_InMultiplayer() then
+			if ME5_SideVar == 1 then
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_SSVxGTH")
+			elseif ME5_SideVar == 2 then
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_SSVxCOL")
+			elseif ME5_SideVar == 3 then
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxGTH")
+			elseif ME5_SideVar == 4 then
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxCOL")
+			end
+		else
+			if onlineSideVar == 1 then
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_SSVxGTH")
+			elseif onlineSideVar == 2 then
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_SSVxCOL")
+			elseif onlineSideVar == 3 then
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxGTH")
+			elseif onlineSideVar == 4 then
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxCOL")
+			end
+		end
     	
     	-- Purge the stock HUD mshs
     	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_purge_msh.lvl")
@@ -214,7 +220,27 @@ function PreLoadStuff()
 		--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_purge_text.lvl")
 	else
 		-- Load MEU's ingame.lvl
-    	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
+		if not ScriptCB_InMultiplayer() then
+			if ME5_SideVar == 1 then
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_SSVxGTH")
+			elseif ME5_SideVar == 2 then
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_SSVxCOL")
+			elseif ME5_SideVar == 3 then
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxGTH")
+			elseif ME5_SideVar == 4 then
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxCOL")
+			end
+		else
+			if onlineSideVar == 1 then
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_SSVxGTH")
+			elseif onlineSideVar == 2 then
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_SSVxCOL")
+			elseif onlineSideVar == 3 then
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxGTH")
+			elseif onlineSideVar == 4 then
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxCOL")
+			end
+		end
     	
     	-- Load the stock ingame.lvl
     	ReadDataFile("ingame.lvl")
@@ -297,25 +323,87 @@ function PreLoadStuff()
 	---
 	-- Load common sound LVL, includes many common sounds such as foley, explosions, prop sfx, etc. Also load weapon sound LVL, includes all weapon sounds.
 	-- @param #int factionVariation		The index of the faction variation whose sounds we're loading.
-	local function LoadFactionSounds(factionVariation)
+	local function LoadFactionSounds(factionVariation)	-- TODO: finish setting up hero sounds
+		
+		-- ===============================
+		-- ALLIANCE VS. HERETIC GETH
+		-- ===============================
 		if factionVariation == SSVxGTH then
 			print("ME5_MiscFunctions.PreLoadStuff.LoadFactionSounds(): Faction combination is SSVxGTH, loading associated common/wpn sound files")
 			
+			if string.find(SSVHeroClass, "shepard") then
+				print("ME5_MiscFunctions.PreLoadStuff.LoadFactionSounds(): Loading SHEPARD data files...")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_Shepard_NonStreaming.lvl")
+				
+			elseif (string.find(SSVHeroClass, "cooper") or (loadCooper and loadCooper == true)) then
+				print("ME5_MiscFunctions.PreLoadStuff.LoadFactionSounds(): Loading COOPER data files...")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_Cooper_NonStreaming.lvl")
+				
+			elseif string.find(SSVHeroClass, "jack") then
+				print("ME5_MiscFunctions.PreLoadStuff.LoadFactionSounds(): Loading JACK data files...")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_Jack_NonStreaming.lvl")
+				
+			elseif string.find(SSVHeroClass, "legion") then
+				print("ME5_MiscFunctions.PreLoadStuff.LoadFactionSounds(): Loading LEGION data files...")
+				
+				
+			elseif string.find(SSVHeroClass, "samara") then
+				print("ME5_MiscFunctions.PreLoadStuff.LoadFactionSounds(): Loading SAMARA data files...")
+				
+			else
+				print("ME5_MiscFunctions.PreLoadStuff.LoadFactionSounds(): Loading normal data files...")
+				
+			end
+			
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_GTH_NonStreaming.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_SSV_NonStreaming.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_NonStreaming.lvl")
 			
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_GTH_NonStreaming.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_NonStreaming.lvl")
 			
+			
+		-- ===============================
+		-- ALLIANCE VS. COLLECTORS
+		-- ===============================
 		elseif factionVariation == SSVxCOL then
 			print("ME5_MiscFunctions.PreLoadStuff.LoadFactionSounds(): Faction combination is SSVxCOL, loading associated common/wpn sound files")
 			
+			if string.find(SSVHeroClass, "shepard") then
+				print("ME5_MiscFunctions.PreLoadStuff.LoadFactionSounds(): Loading SHEPARD data files...")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_Shepard_NonStreaming.lvl")
+				
+			elseif (string.find(SSVHeroClass, "cooper") or (loadCooper and loadCooper == true)) then
+				print("ME5_MiscFunctions.PreLoadStuff.LoadFactionSounds(): Loading COOPER data files...")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_Cooper_NonStreaming.lvl")
+				
+			elseif string.find(SSVHeroClass, "jack") then
+				print("ME5_MiscFunctions.PreLoadStuff.LoadFactionSounds(): Loading JACK data files...")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_Jack_NonStreaming.lvl")
+				
+			elseif string.find(SSVHeroClass, "legion") then
+				print("ME5_MiscFunctions.PreLoadStuff.LoadFactionSounds(): Loading LEGION data files...")
+				
+				
+			elseif string.find(SSVHeroClass, "samara") then
+				print("ME5_MiscFunctions.PreLoadStuff.LoadFactionSounds(): Loading SAMARA data files...")
+				
+			else
+				print("ME5_MiscFunctions.PreLoadStuff.LoadFactionSounds(): Loading normal data files...")
+				
+			end
+			
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_COL_NonStreaming.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_SSV_NonStreaming.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_NonStreaming.lvl")
 			
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_COL_NonStreaming.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_NonStreaming.lvl")
 			
+			
+		-- ===============================
+		-- EVOLVED GETH VS. HERETIC GETH
+		-- ===============================
 		elseif factionVariation == EVGxGTH then
 			print("ME5_MiscFunctions.PreLoadStuff.LoadFactionSounds(): Faction combination is EVGxGTH, loading associated common/wpn sound files")
 			
@@ -325,6 +413,10 @@ function PreLoadStuff()
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_GTH_NonStreaming.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_NonStreaming.lvl")
 			
+			
+		-- ===============================
+		-- EVOLVED GETH VS. COLLECTORS
+		-- ===============================
 		elseif factionVariation == EVGxCOL then
 			print("ME5_MiscFunctions.PreLoadStuff.LoadFactionSounds(): Faction combination is EVGxCOL, loading associated common/wpn sound files")
 			
@@ -350,17 +442,7 @@ function PreLoadStuff()
 	end
 	
 	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide == 1 then
-				LoadFactionSounds(1)
-			elseif RandomSide == 2 then
-				LoadFactionSounds(2)
-			elseif RandomSide == 3 then
-				LoadFactionSounds(3)
-			elseif RandomSide == 4 then
-				LoadFactionSounds(4)
-			end
-		elseif ME5_SideVar == 1 then
+		if ME5_SideVar == 1 then
 			LoadFactionSounds(1)
 		elseif ME5_SideVar == 2 then
 			LoadFactionSounds(2)
@@ -391,6 +473,251 @@ function PreLoadStuff()
 	fKillSound()
 	--fLowHealthSound()
 	fEvgJugPowerDrain()
+end
+
+function SSVxGTH_PostLoad(spawns)
+	if not ScriptCB_InMultiplayer() then
+		if ME5_AIHeroes == 0 then
+			SetHeroClass(REP, SSVHeroClass)
+			SetHeroClass(CIS, GTHHeroClass)
+		elseif ME5_AIHeroes == 1 then
+			herosupport = AIHeroSupport:New{AIATTHeroHealth = 3000, AIDEFHeroHealth = 3000, gameMode = "NonConquest",}
+			herosupport:SetHeroClass(REP, SSVHeroClass)
+			herosupport:SetHeroClass(CIS, GTHHeroClass)
+			
+			for cp in ipairs(spawns) do
+				print("ME5_MiscFunctions.SSVxGTH_PostLoad(): Setting hero spawn cp, path = ", spawns[cp][1], spawns[cp][2])
+				herosupport:AddSpawnCP(spawns[cp][1], spawns[cp][2])
+			end
+			
+			herosupport:Start()
+		end
+	end
+end
+
+function SSVxCOL_PostLoad(spawns)
+	if not ScriptCB_InMultiplayer() then
+		if ME5_AIHeroes == 0 then
+			SetHeroClass(REP, SSVHeroClass)
+			SetHeroClass(CIS, COLHeroClass)
+		elseif ME5_AIHeroes == 1 then
+			herosupport = AIHeroSupport:New{AIATTHeroHealth = 3000, AIDEFHeroHealth = 3000, gameMode = "NonConquest",}
+			herosupport:SetHeroClass(REP, SSVHeroClass)
+			herosupport:SetHeroClass(CIS, COLHeroClass)
+			
+			for cp in ipairs(spawns) do
+				print("ME5_MiscFunctions.SSVxCOL_PostLoad(): Setting hero spawn cp, path = ", spawns[cp][1], spawns[cp][2])
+				herosupport:AddSpawnCP(spawns[cp][1], spawns[cp][2])
+			end
+			
+			herosupport:Start()
+		end
+	end
+end
+
+function EVGxGTH_PostLoad(spawns)
+	if not ScriptCB_InMultiplayer() then
+		if ME5_AIHeroes == 0 then
+			SetHeroClass(REP, EVGHeroClass)
+			SetHeroClass(CIS, GTHHeroClass)
+		elseif ME5_AIHeroes == 1 then
+			herosupport = AIHeroSupport:New{AIATTHeroHealth = 3000, AIDEFHeroHealth = 3000, gameMode = "NonConquest",}
+			herosupport:SetHeroClass(REP, EVGHeroClass)
+			herosupport:SetHeroClass(CIS, GTHHeroClass)
+			
+			for cp in ipairs(spawns) do
+				print("ME5_MiscFunctions.EVGxGTH_PostLoad(): Setting hero spawn cp, path = ", spawns[cp][1], spawns[cp][2])
+				herosupport:AddSpawnCP(spawns[cp][1], spawns[cp][2])
+			end
+			
+			herosupport:Start()
+		end
+	end
+end
+
+function EVGxCOL_PostLoad(spawns)
+	if not ScriptCB_InMultiplayer() then
+		if ME5_AIHeroes == 0 then
+			SetHeroClass(REP, EVGHeroClass)
+			SetHeroClass(CIS, COLHeroClass)
+		elseif ME5_AIHeroes == 1 then
+			herosupport = AIHeroSupport:New{AIATTHeroHealth = 3000, AIDEFHeroHealth = 3000, gameMode = "NonConquest",}
+			herosupport:SetHeroClass(REP, EVGHeroClass)
+			herosupport:SetHeroClass(CIS, COLHeroClass)
+			
+			for cp in ipairs(spawns) do
+				print("ME5_MiscFunctions.EVGxCOL_PostLoad(): Setting hero spawn cp, path = ", spawns[cp][1], spawns[cp][2])
+				herosupport:AddSpawnCP(spawns[cp][1], spawns[cp][2])
+			end
+			
+			herosupport:Start()
+		end
+	end
+end
+
+---
+-- Performs various postload operations relating to the sides, such as setting up AI hero support based on the game mode.
+-- @param #string gameMode		The mission's game mode. Acceptable values are "conquest", "1flag", "ctf", "siege", "survival", "campaign".
+-- @param #table spawns			Two-dimensional array containing CPs and their spawn paths to pass to the AI hero support script. SYNTAX: CP name (string), CP spawn path name (string)
+-- 
+function Init_SidesPostLoad(gameMode, spawns)
+	local mode = string.lower(gameMode)
+	
+	if mode == "conquest" or mode == "siege" then
+		if not ScriptCB_InMultiplayer() then
+			if ME5_SideVar == 1 then
+				SSVxGTH_PostLoad(spawns)
+			elseif ME5_SideVar == 2 then
+				SSVxCOL_PostLoad(spawns)
+			elseif ME5_SideVar == 3 then
+				EVGxGTH_PostLoad(spawns)
+			elseif ME5_SideVar == 4 then
+				EVGxCOL_PostLoad(spawns)
+			end
+		else
+			if onlineSideVar == SSVxGTH then
+				SSVxGTH_PostLoad(spawns)
+			elseif onlineSideVar == SSVxCOL then
+				SSVxCOL_PostLoad(spawns)
+			elseif onlineSideVar == EVGxGTH then
+				EVGxGTH_PostLoad(spawns)
+			elseif onlineSideVar == EVGxCOL then
+				EVGxCOL_PostLoad(spawns)
+			else
+				SSVxGTH_PostLoad(spawns)
+			end
+		end
+	end
+end
+
+---
+-- Sets the local ally spawns.
+-- @param #table spawns		Two-dimensional array containing CPs and their spawn paths to have local allies spawn at. SYNTAX: CP object name (string), CP spawn path name (string)
+-- 
+function SetAllySpawns(spawns)
+	if spawns == {} then return end
+	
+	for cp in ipairs(spawns) do
+		print("ME5_MiscFunctions.SetAllySpawns(): Setting ally spawn cp, path = ", spawns[cp][1], spawns[cp][2])
+		SetProperty(spawns[cp][1], "AllyPath", spawns[cp][2])
+	end
+end
+
+---
+-- Sets up artillery strikes.
+-- @param #string artilleryTurObj	The name of the artillery turret object.
+-- @param #table strikeNodes		Two-dimensional array listing nodes to strike at. SYNTAX: path name (string), path node ID (integer)
+-- @param #float strikeInitDelay	OPTIONAL: The length of time in seconds to wait before the first strike occurs. Set to 0 to disable initial delay completely. Default value: 20.0
+-- 
+function Init_ArtilleryStrikes(artilleryTurObj, strikeNodes, strikeInitDelay)
+	-- Is the artillery turret object name set? If not, print an error message and exit the function
+	if artilleryTurObj == nil then
+		print("ME5_MiscFunctions.Init_ArtilleryStrikes(): WARNING: artilleryTurObj must be specified! Exiting function")
+		return
+	end
+	
+	-- Are the artillery strike nodes set? If not, print an error message and exit the function
+	if strikeNodes == nil then
+		print("ME5_MiscFunctions.Init_ArtilleryStrikes(): WARNING: strikeNodes must be specified! Exiting function")
+		return
+	end
+	
+	-- Init data fields 
+	local strikeInitDelay = strikeInitDelay or 20.0
+	local strikeDelay = 20.0
+	local artilleryStrikeNodes = {}
+	local curNode = 0
+	
+	local artilleryStrikeDelay_Timer = nil
+	local artilleryStrikeDelay_TimerElapse = nil
+	local artilleryStrikeInitDelay_Timer = nil
+	local artilleryStrikeInitDelay_TimerElapse = nil
+	
+	
+	ShuffleTable(strikeNodes)
+	
+	-- Extract path points from artilleryStrikeNodes
+	for i in ipairs(strikeNodes) do
+		print("strikeNodes:", strikeNodes[i][1], strikeNodes[i][2])
+		artilleryStrikeNodes[i] = GetPathPoint(strikeNodes[i][1], strikeNodes[i][2])
+	end
+	
+	
+	local function MoveToNextNode()
+		-- Increment node
+		curNode = curNode + 1
+		if curNode == (table.getn(artilleryStrikeNodes) + 1) then
+			curNode = 1
+		end
+		print("ME5_MiscFunctions.Init_ArtilleryStrikes(): Artillery transitioning to node: "..curNode.." ("..strikeNodes[curNode][1]..")")
+		
+		-- Move turret to next node
+		SetEntityMatrix(artilleryTurObj, artilleryStrikeNodes[curNode])
+	end
+	
+	-- Do the initial move
+	MoveToNextNode()
+	
+	
+	--=============================
+	-- TIMERS
+	--=============================
+	
+	-- Get or create a new artilleryStrikeDelay_Timer (this ensures there's only one "artilleryStrikeDelay_Timer" in the game at one time)
+	artilleryStrikeDelay_Timer = FindTimer("artilleryStrikeDelay_Timer")
+	if not artilleryStrikeDelay_Timer then
+		artilleryStrikeDelay_Timer = CreateTimer("artilleryStrikeDelay_Timer")
+		SetTimerValue(artilleryStrikeDelay_Timer, strikeDelay)
+		--ShowTimer(artilleryStrikeDelay_Timer)	-- Uncomment me for test output!
+	end
+	
+	--SetClassProperty("com_weap_bldg_artillery1_shell", "ReloadTime", strikeDelayStr)
+	
+	
+	-- Has the initial strike delay been set?
+	if strikeInitDelay > 0 then
+		SetClassProperty("com_bldg_artillery1", "AutoFire", "0")
+	
+		-- Get or create a new artilleryStrikeInitDelay_Timer (this ensures there's only one "artilleryStrikeInitDelay_Timer" in the game at one time)
+		artilleryStrikeInitDelay_Timer = FindTimer("artilleryStrikeInitDelay_Timer")
+		if not artilleryStrikeInitDelay_Timer then
+			artilleryStrikeInitDelay_Timer = CreateTimer("artilleryStrikeInitDelay_Timer")
+			SetTimerValue(artilleryStrikeInitDelay_Timer, strikeInitDelay)
+			--ShowTimer(artilleryStrikeInitDelay_Timer)	-- Uncomment me for test output!
+		end
+		
+		StartTimer("artilleryStrikeInitDelay_Timer")
+		
+		-- Initial strike delay timer elapse
+		artilleryStrikeInitDelay_TimerElapse = OnTimerElapse(
+			function(timer)
+				SetClassProperty("com_bldg_artillery1", "AutoFire", "1")
+				
+				--ShowTimer(nil)
+				StartTimer("artilleryStrikeDelay_Timer")
+				
+				DestroyTimer(timer)
+				ReleaseTimerElapse(artilleryStrikeInitDelay_TimerElapse)
+			end,
+		"artilleryStrikeInitDelay_Timer"
+		)
+	else
+		SetClassProperty("com_bldg_artillery1", "AutoFire", "1")
+		StartTimer("artilleryStrikeDelay_Timer")
+	end
+	
+	
+	-- Strike delay timer elapse
+	artilleryStrikeDelay_TimerElapse = OnTimerElapse(
+		function(timer)
+			MoveToNextNode()
+			
+			-- Reset timer
+			SetTimerValue("artilleryStrikeDelay_Timer", strikeDelay)
+			StartTimer("artilleryStrikeDelay_Timer")
+		end,
+	"artilleryStrikeDelay_Timer"
+	)
 end
 
 ---
@@ -696,51 +1023,51 @@ function fShieldRegenDelay()
 	--=================================
 	
 	-- Shield regeneration parameters
-	local shieldRegenDelayValue = 5.0				-- How long in seconds does it take for shields to start regenerating?
-	local shieldRegenValueMult = 3.0				-- What is the player's base AddShield value multiplied by?
+	local shieldRegenValueMult = 4.25				-- What is the player's base AddShield value multiplied by?
 	local shieldRegenSound = "none"					-- The sound property that plays when the player's shields start regenerating. Use "none" if no sound is desired.
-	local shieldRegenPfx = "com_sfx_shieldregen"	-- Name of the particle effect to attach to the player when their shields start regenerating. Use "none" if no particle effect is desired.
+	local shieldRegenPfx = "com_sfx_shieldregen"	-- Name of the particle effect to spawn on the player when their shields start regenerating. Use "none" if no particle effect is desired.
 	
-	-- Table of unit classes with regenerating shields. /class/ is the class's name, /addShield/ is the class's AddShield value.
+	-- Table of unit classes with regenerating shields. /class/ is the class's name, /addShield/ is the class's AddShield value, /regenDelay/ is the class's 
+	--  shield regeneration delay. (this would be so much easier if Battlefront had a GetProperty() function :u)
 	local shieldClasses = {
-				{ class = "col_inf_guardian_shield", 				addShield = 14.0 }, 
-				{ class = "col_inf_guardian_online_shield", 		addShield = 14.0 }, 
-				{ class = "gth_inf_trooper_shield", 				addShield = 14.0 }, 
-				{ class = "gth_inf_rocketeer_shield", 				addShield = 14.0 }, 
-				{ class = "gth_inf_sniper_shield", 					addShield = 14.0 }, 
-				{ class = "gth_inf_machinist_shield", 				addShield = 14.0 }, 
-				{ class = "gth_inf_hunter_shield", 					addShield = 14.0 }, 
-				{ class = "gth_inf_shock_shield", 					addShield = 14.0 }, 
-				{ class = "gth_inf_shock_online_shield", 			addShield = 14.0 }, 
-				{ class = "gth_inf_destroyer_shield", 				addShield = 14.0 }, 
-				{ class = "gth_inf_juggernaut_shield", 				addShield = 14.0 }, 
-				{ class = "gth_inf_prime_shield", 					addShield = 22.0 }, 
-				{ class = "gth_ev_inf_trooper_shield", 				addShield = 14.0 }, 
-				{ class = "gth_ev_inf_infiltrator_shield", 			addShield = 14.0 }, 
-				{ class = "gth_ev_inf_engineer_shield", 			addShield = 14.0 }, 
-				{ class = "gth_ev_inf_rocketeer_shield", 			addShield = 14.0 }, 
-				{ class = "gth_ev_inf_hunter_shield", 				addShield = 14.0 }, 
-				{ class = "gth_ev_inf_pyro_shield", 				addShield = 14.0 }, 
-				{ class = "gth_ev_inf_juggernaut_shield", 			addShield = 14.0 }, 
-				{ class = "gth_ev_inf_juggernaut_online_shield",	addShield = 14.0 }, 
-				{ class = "ssv_inf_soldier_shield", 				addShield = 14.0 }, 
-				{ class = "ssv_inf_infiltrator_shield", 			addShield = 14.0 }, 
-				{ class = "ssv_inf_engineer_shield", 				addShield = 14.0 }, 
-				{ class = "ssv_inf_adept_shield", 					addShield = 14.0 }, 
-				{ class = "ssv_inf_sentinel_shield", 				addShield = 14.0 }, 
-				{ class = "ssv_inf_vanguard_shield", 				addShield = 14.0 }, 
-				{ class = "ssv_inf_cooper_soldier", 				addShield = 14.0 }, 
-				{ class = "ssv_inf_cooper_infiltrator", 			addShield = 14.0 }, 
-				{ class = "ssv_inf_cooper_engineer", 				addShield = 14.0 }, 
-				{ class = "ssv_inf_cooper_adept", 					addShield = 14.0 }, 
-				{ class = "ssv_inf_cooper_sentinel", 				addShield = 14.0 }, 
-				{ class = "ssv_inf_cooper_vanguard", 				addShield = 14.0 }, }
+				{ class = "col_inf_guardian_shield", 				addShield = 14.0,	regenDelay = 3.4 }, 
+				{ class = "col_inf_guardian_online_shield", 		addShield = 14.0,	regenDelay = 3.4 }, 
+				{ class = "gth_inf_trooper_shield", 				addShield = 14.0,	regenDelay = 3.0 }, 
+				{ class = "gth_inf_rocketeer_shield", 				addShield = 14.0,	regenDelay = 3.0 }, 
+				{ class = "gth_inf_sniper_shield", 					addShield = 14.0,	regenDelay = 3.0 }, 
+				{ class = "gth_inf_machinist_shield", 				addShield = 14.0,	regenDelay = 3.0 }, 
+				{ class = "gth_inf_hunter_shield", 					addShield = 14.0,	regenDelay = 3.0 }, 
+				{ class = "gth_inf_shock_shield", 					addShield = 14.0,	regenDelay = 3.0 }, 
+				{ class = "gth_inf_shock_online_shield", 			addShield = 14.0,	regenDelay = 3.0 }, 
+				{ class = "gth_inf_destroyer_shield", 				addShield = 14.0,	regenDelay = 3.2 }, 
+				{ class = "gth_inf_juggernaut_shield", 				addShield = 14.0,	regenDelay = 3.4 }, 
+				{ class = "gth_inf_prime_shield", 					addShield = 22.0,	regenDelay = 3.4 }, 
+				{ class = "gth_ev_inf_trooper_shield", 				addShield = 14.0,	regenDelay = 3.0 }, 
+				{ class = "gth_ev_inf_infiltrator_shield", 			addShield = 14.0,	regenDelay = 3.0 }, 
+				{ class = "gth_ev_inf_engineer_shield", 			addShield = 14.0,	regenDelay = 3.0 }, 
+				{ class = "gth_ev_inf_rocketeer_shield", 			addShield = 14.0,	regenDelay = 3.0 }, 
+				{ class = "gth_ev_inf_hunter_shield", 				addShield = 14.0,	regenDelay = 3.0 }, 
+				{ class = "gth_ev_inf_pyro_shield", 				addShield = 14.0,	regenDelay = 3.2 }, 
+				{ class = "gth_ev_inf_juggernaut_shield", 			addShield = 14.0,	regenDelay = 3.4 }, 
+				{ class = "gth_ev_inf_juggernaut_online_shield",	addShield = 14.0,	regenDelay = 3.4 }, 
+				{ class = "ssv_inf_soldier_shield", 				addShield = 14.0,	regenDelay = 3.4 }, 
+				{ class = "ssv_inf_infiltrator_shield", 			addShield = 14.0,	regenDelay = 3.4 }, 
+				{ class = "ssv_inf_engineer_shield", 				addShield = 14.0,	regenDelay = 3.4 }, 
+				{ class = "ssv_inf_adept_shield", 					addShield = 14.0,	regenDelay = 3.4 }, 
+				{ class = "ssv_inf_sentinel_shield", 				addShield = 14.0,	regenDelay = 3.4 }, 
+				{ class = "ssv_inf_vanguard_shield", 				addShield = 14.0,	regenDelay = 3.4 }, 
+				{ class = "ssv_inf_cooper_soldier", 				addShield = 14.0,	regenDelay = 3.4 }, 
+				{ class = "ssv_inf_cooper_infiltrator", 			addShield = 14.0,	regenDelay = 3.4 }, 
+				{ class = "ssv_inf_cooper_engineer", 				addShield = 14.0,	regenDelay = 3.4 }, 
+				{ class = "ssv_inf_cooper_adept", 					addShield = 14.0,	regenDelay = 3.4 }, 
+				{ class = "ssv_inf_cooper_sentinel", 				addShield = 14.0,	regenDelay = 3.4 }, 
+				{ class = "ssv_inf_cooper_vanguard", 				addShield = 14.0,	regenDelay = 3.4 }, }
 	
 	
 	-- Shield break parameters
-	local shieldRebreakDelayValue = 2.5					-- How many seconds must pass before shields can be re-broken?
+	local shieldRebreakDelayValue = 2.5					-- How many seconds must pass before shields can be re-broken? (this is so the player isn't constantly hearing the sounds)
 	local shieldBreakSound = "unit_shields_break"		-- The sound property that plays when the player's shields are completely depleted. Use "none" if no sound is desired.
-	local shieldBreakPfx = "none"						-- Name of the particle effect to attach to the player when their shields break. Use "none" if no particle effect is desired.
+	local shieldBreakPfx = "none"						-- Name of the particle effect to spawn on the player when their shields break. Use "none" if no particle effect is desired.
 	local shieldBreakCamShakeObj = "com_item_camshake"	-- The class name of the EntityMine object. Use "none" if camera shaking is not desired. If a valid name is 
 														--  specified, the object's explosion shake properties will be utilized to simulate camera shaking when the 
 														--  player's shields break.
@@ -752,15 +1079,18 @@ function fShieldRegenDelay()
 	
 	
 	-- Miscellaneous parameters
-	local bDebugEnabled = false			-- Should debug messages be enabled, and the delay timer be shown?
+	local bDebugMessagesEnabled = false		-- Should debug messages be enabled?
+	local bDebugShowRegenTimer = false		-- Should the shieldRegenTimer be shown?
+	local bDebugShowRebreakTimer = false	-- Should the shieldRebreakTimer be shown?
 	
 	
-	-- Fields that are handled internally
+	-- Fields that are handled internally (don't change these or your computer will explode)
 	local charUnit = nil				-- The player's character unit.
 	local charPtr = nil					-- The player's unit entity pointer.
 	local charClass = nil				-- The name of the player's class.
 	local regenBaseValue = nil			-- What is the player's base AddShield value?
 	local regenFinalValue = nil			-- What is the player's final AddShield value?
+	local regenDelayValue = 3.0			-- How long in seconds does it take for shields to start regenerating?
 	local bIsRegenStopped = false		-- Is shield regeneration currently stopped?
 	local bIsRegenTimerStarted = false	-- Is the shieldRegenTimer currently started?
 	local bIsPlayerCorrectClass = false	-- Is the player a class with shields?
@@ -774,22 +1104,28 @@ function fShieldRegenDelay()
 	--=================================
 	
 	-- Get or create a new shieldRegenTimer (this ensures there's only one "fShieldRegenDelay_regenTimer" in the game at one time)
+	-- Timer that starts regeneration upon elapse.
 	local shieldRegenTimer = FindTimer("fShieldRegenDelay_regenTimer")
 	if not shieldRegenTimer then
 		shieldRegenTimer = CreateTimer("fShieldRegenDelay_regenTimer")
-		SetTimerValue(shieldRegenTimer, shieldRegenDelayValue)
+		SetTimerValue(shieldRegenTimer, regenDelayValue)
 		
-		--ShowTimer(shieldRegenTimer)	-- Uncomment me for test output!
+		if bDebugShowRegenTimer == true then
+			ShowTimer(shieldRegenTimer)
+		end
 	end
 	
 	
 	-- Get or create a new shieldRebreakTimer (this ensures there's only one "fShieldRegenDelay_rebreakTimer" in the game at one time)
+	-- Timer that allows shields to be re-broken upon elapse.
 	local shieldRebreakTimer = FindTimer("fShieldRegenDelay_rebreakTimer")
 	if not shieldRebreakTimer then
 		shieldRebreakTimer = CreateTimer("fShieldRegenDelay_rebreakTimer")
 		SetTimerValue(shieldRebreakTimer, shieldRebreakDelayValue)
 		
-		--ShowTimer(shieldRebreakTimer)	-- Uncomment me for test output!
+		if bDebugShowRebreakTimer == true then
+			ShowTimer(shieldRebreakTimer)
+		end
 	end
 	
 	
@@ -798,7 +1134,7 @@ function fShieldRegenDelay()
 	--=================================
 	
 	---
-	-- Call this to attach a particle /effect/ to /unit/.
+	-- Call this to attach a particle effect to a unit.
 	-- @param #string effect The name of the particle effect to attach.
 	-- @param #object unit The character unit to attach the particle effect to.
 	--  
@@ -815,8 +1151,8 @@ function fShieldRegenDelay()
 	
 	
 	---
-	-- Call this to shake the camera utilizing the explosion properties from /object/.
-	-- @param #string object The class name of the EntityMine object whose explosion properties we're utilizing.
+	-- Call this to shake the camera utilizing the explosion properties from an EntityMine /object/.
+	-- @param #string object	The class name of the EntityMine object whose explosion properties we're utilizing.
 	-- 
 	local function ShakeCamera(object)
 		-- Increment the object count
@@ -829,10 +1165,10 @@ function fShieldRegenDelay()
 	
 	---
 	-- Call this to start shield regeneration for /unit/.
-	-- @param #object unit The object to start the regeneration for.
+	-- @param #object unit	The object to start the regeneration for.
 	-- 
 	local function StartRegeneration(unit)
-		-- Prevent the function from being executed multiple times at once
+		-- Prevent the function from being executed multiple times at once (because Battlefront's a timer whore)
 		if bIsRegenStopped == false then return end
 		
 		bIsRegenStopped = false
@@ -842,10 +1178,10 @@ function fShieldRegenDelay()
 		StartTimer(shieldRebreakTimer)
 		
 		
-		if bDebugEnabled == true then
+		if bDebugMessagesEnabled == true then
 			print("ME5_MiscFunctions.fShieldRegenDelay.StartRegeneration(): Starting shield regeneration")
-			ShowMessageText("level.common.debug.shields_starting", REP)
-			ShowMessageText("level.common.debug.shields_starting", CIS)
+			ShowMessageText("level.common.debug.shields_starting", ATT)
+			ShowMessageText("level.common.debug.shields_starting", DEF)
 		end
 		
 		-- Are we supposed to play a sound?
@@ -865,22 +1201,22 @@ function fShieldRegenDelay()
 	
 	---
 	-- Call this to stop shield regeneration for /unit/.
-	-- @param #object unit The object to stop the regeneration for.
+	-- @param #object unit	The object to stop the regeneration for.
 	-- 
 	local function StopRegeneration(unit)
 		-- Reset the regen timer value
-		SetTimerValue(shieldRegenTimer, shieldRegenDelayValue)
+		SetTimerValue(shieldRegenTimer, regenDelayValue)
 		
-		-- Prevent the function from being executed multiple times at once
+		-- Prevent the function from being executed multiple times at once (no seriously Battlefront, you have a problem)
 		if bIsRegenStopped == true then return end
 		
 		bIsRegenStopped = true
 		
 		
-		if bDebugEnabled == true then
+		if bDebugMessagesEnabled == true then
 			print("ME5_MiscFunctions.fShieldRegenDelay.StopRegeneration(): Stopping shield regeneration")
-			ShowMessageText("level.common.debug.shields_stopping", REP)
-			ShowMessageText("level.common.debug.shields_stopping", CIS)
+			ShowMessageText("level.common.debug.shields_stopping", ATT)
+			ShowMessageText("level.common.debug.shields_stopping", DEF)
 		end
 		
 		-- Reset the shield break timer
@@ -908,12 +1244,12 @@ function fShieldRegenDelay()
 	
 	---
 	-- Call this to duck (fade) all of the audio buses (excluding lowhealth). Only has an effect if the low health sound isn't playing.
-	-- @return #bool True if the buses are supposed to be ducked, false if not.
+	-- @return #bool	True if the buses are supposed to be ducked, false if not.
 	-- 
 	local function DuckBuses()
 		-- Are the audio buses supposed to be ducked when the shields break?
 		if bShieldBreakDucksBuses == true then
-		
+			
 			-- Is the low health sound not playing?
 			if LH_bIsLowHealthSoundPlaying == false then
 				-- Fade all of the appropriate audio buses
@@ -935,7 +1271,7 @@ function fShieldRegenDelay()
 	
 	---
 	-- Call this to unduck (unfade) all of the audio buses (excluding lowhealth). Only has an effect if the low health sound isn't playing.
-	-- @return #bool True if the buses are supposed to be ducked, false if not.
+	-- @return #bool	True if the buses are supposed to be ducked, false if not.
 	-- 
 	local function UnDuckBuses()
 		-- Are the audio buses supposed to be ducked when the shields break?
@@ -965,6 +1301,7 @@ function fShieldRegenDelay()
 	-- @param #object unit The character unit whose shields we're breaking.
 	-- 
 	local function BreakShields(unit)
+		print("ME5_MiscFunctions.fShieldRegenDelay.BreakShields(): Entered")
 		-- Are the player's shields able to be re-broken yet?
 		if bShieldsCanBeBroken == true then
 			
@@ -1020,11 +1357,13 @@ function fShieldRegenDelay()
 				busTimer
 				)
 			else
-				if bDebugEnabled == true then
+				if bDebugMessagesEnabled == true then
 					print("ME5_MiscFunctions.fShieldRegenDelay.playershieldschange(): playerHealthPercent, LH_playerHealthThreshold:", playerHealthPercent, LH_playerHealthThreshold)
 					print("ME5_MiscFunctions.fShieldRegenDelay.playershieldschange(): Low health sound activating, skipping bus ducking")
 				end
 			end
+		else
+			print("Shields can't be broken yet")
 		end
 	end
 	
@@ -1046,22 +1385,34 @@ function fShieldRegenDelay()
 	-- When the player spawns
     local playerspawn = OnCharacterSpawn(
 	    function(character)
-	    	-- Is the character human?
+	    	-- Is the character human? (i.e. the player)
 	        if character == 0 then
-	        	charUnit = GetCharacterUnit(character)
-	        	charPtr = GetEntityPtr(charUnit)
-	        	charClass = GetEntityClass(charPtr)
-				playerMaxHealth = GetObjectHealth(charPtr)	-- TODO: This might become an issue if CharacterSpawn also applies to changing classes at CPs.
+	        	charUnit = GetCharacterUnit(character)		-- Get the character's unit ID
+	        	charPtr = GetEntityPtr(charUnit)			-- Get the character's pointer
+	        	charClass = GetEntityClass(charPtr)			-- Get the character's class
+				playerMaxHealth = GetObjectHealth(charPtr)	-- Get the character's max health
+				
+				--print("ME5_MiscFunctions.fShieldRegenDelay.playerspawn(): playerMaxHealth:", playerMaxHealth)	-- Uncomment me for test output!
 	        	
-				-- For each shield class,
+				-- Check if the player's class is one of the shield classes
 				for i in pairs(shieldClasses) do
 					-- Is the player a shield class?
 					if charClass == FindEntityClass(shieldClasses[i]['class']) then
 						bIsPlayerCorrectClass = true
+						bShieldsCanBeBroken = true
+						
+						-- Turn off regeneration
+						if bIsRegenStopped == true then
+							SetProperty(charUnit, "AddShield", 0)
+						end
 						
 						-- Calculate the player's AddShield value
 						regenBaseValue = shieldClasses[i]['addShield']
 						regenFinalValue = regenBaseValue * shieldRegenValueMult
+						
+						-- Get and set the player's regen delay value
+						regenDelayValue = shieldClasses[i]['regenDelay']
+						SetTimerValue(shieldRegenTimer, regenDelayValue)
 					else
 						bIsPlayerCorrectClass = false
 					end
@@ -1079,7 +1430,7 @@ function fShieldRegenDelay()
 		
 			-- Is the player the affected object?
 			if charUnit == GetEntityPtr(object) and bIsPlayerCorrectClass == true then
-			
+				
 				-- Stop shield regeneration
 				StopRegeneration(object)
 			end
@@ -1095,9 +1446,18 @@ function fShieldRegenDelay()
 				
 				-- Are the player's shields completely depleted?
 				if shields <= 0 then
-				
+					
 					-- Break the player's shields
 					BreakShields(object)
+				else
+					--print("Shields aren't depleted")
+				end
+			else
+				--print("Player is not the affected object")
+				if bIsPlayerCorrectClass == false then
+					--print("and the player is not the correct class")
+				else
+					--print("but the player is the correct class")
 				end
 			end
 		end
@@ -1113,7 +1473,7 @@ function fShieldRegenDelay()
 				StopTimer(shieldRegenTimer)
 				
 				-- Reset the timer's value
-				SetTimerValue(shieldRegenTimer, shieldRegenDelayValue)
+				SetTimerValue(shieldRegenTimer, regenDelayValue)
 				bIsRegenStopped = false
 			end
 		end
@@ -1184,13 +1544,7 @@ function PostLoadStuff()
 	print("ME5_MiscFunctions.PostLoadStuff(): Entered")
 	
 	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide == 1 then
-				fGthJugSquad()
-			elseif RandomSide == 3 then
-				fEvgJugSquad()
-			end
-		elseif ME5_SideVar == 1 then
+		if ME5_SideVar == 1 then
 			fGthJugSquad()
 		elseif ME5_SideVar == 3 then
 			fEvgJugSquad()
@@ -1205,6 +1559,9 @@ function PostLoadStuff()
 	
 	fLowHealthSound()
 	fPlayerDamageSound()
+	if ME5_HitMarkerSound > 0 then
+		fHitMarkerSound()
+	end
 	--meu_lowhealth_postCall()
 	
     ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\camshake.lvl")
@@ -1356,7 +1713,12 @@ function fPlayerDamageSound()
 					"col_weap_inf_rifle_col_shredder",
 					"col_weap_inf_rifle_colcarbine",
 					"col_weap_inf_shotgun_pulse",
-					"col_weap_inf_shouldercannon" }
+					"col_weap_inf_shouldercannon",
+					
+					"tur_weap_bldg_mturret_cannon",
+					"tur_weap_hoth_dishturret",
+					"tur_weap_hoth_lasermortar_laser",
+					"tur_weap_laser" }
 	
 	-- GTH ballistic weapons.
 	local ballisticWeapons_GTH = {
@@ -1372,12 +1734,22 @@ function fPlayerDamageSound()
 					"gth_weap_inf_smg_pulse",
 					"gth_weap_inf_sniper_javelin",
 					"gth_weap_inf_sniper_m97",
-					"gth_weap_walk_colussus_gun" }
+					"gth_weap_walk_colussus_gun",
+					
+					"tur_weap_bldg_mturret_cannon",
+					"tur_weap_hoth_dishturret",
+					"tur_weap_hoth_lasermortar_laser",
+					"tur_weap_laser" }
 	
 	-- INDOC ballistic weapons.
 	local ballisticWeapons_INDOC = {
 					"indoc_weap_inf_armcannon",
-					"indoc_weap_inf_rifle_phaeston" }
+					"indoc_weap_inf_rifle_phaeston",
+					
+					"tur_weap_bldg_mturret_cannon",
+					"tur_weap_hoth_dishturret",
+					"tur_weap_hoth_lasermortar_laser",
+					"tur_weap_laser" }
 	
 	-- SSV ballistic weapons.
 	local ballisticWeapons_SSV = {
@@ -1390,8 +1762,10 @@ function fPlayerDamageSound()
 					"ssv_weap_inf_pistol_m5",
 					"ssv_weap_inf_pistol_m5_incendiary",
 					"ssv_weap_inf_pistol_m6",
+					"ssv_weap_inf_pistol_m77",
 					"ssv_weap_inf_pistol_n7eagle",
 					"ssv_weap_inf_pistol_n7eagle_armor",
+					"ssv_weap_inf_pistol_n7eagle_incendiary",
 					"ssv_weap_inf_rifle_m8",
 					"ssv_weap_inf_rifle_m8_armor",
 					"ssv_weap_inf_rifle_m8_disruptor",
@@ -1415,6 +1789,7 @@ function fPlayerDamageSound()
 					"ssv_weap_inf_smg_m9_disruptor",
 					"ssv_weap_inf_smg_m9_incendiary",
 					"ssv_weap_inf_smg_m12",
+					"ssv_weap_inf_smg_m12_shepard",
 					"ssv_weap_inf_smg_n7hurricane",
 					"ssv_weap_inf_smg_n7hurricane_disruptor",
 					"ssv_weap_inf_sniper_m92",
@@ -1430,7 +1805,19 @@ function fPlayerDamageSound()
 					"ssv_weap_inf_sniper_n7valiant",
 					"ssv_weap_tread_mako_cannon",
 					"ssv_weap_tread_mako_driver_cannon",
-					"ssv_weap_tread_mako_gun" }
+					"ssv_weap_tread_mako_gun",
+					
+					"tur_weap_bldg_mturret_cannon",
+					"tur_weap_hoth_dishturret",
+					"tur_weap_hoth_lasermortar_laser",
+					"tur_weap_laser" }
+	
+	-- Turret ballistic weapons.
+	local ballisticWeapons_TUR = {
+					"tur_weap_bldg_mturret_cannon",
+					"tur_weap_hoth_dishturret",
+					"tur_weap_hoth_lasermortar_laser",
+					"tur_weap_laser" }
 	
 	-- COL unit classes.
 	local colClasses = {
@@ -1520,7 +1907,9 @@ function fPlayerDamageSound()
 					"ssv_hero_shepard_engineer",
 					"ssv_hero_shepard_adept",
 					"ssv_hero_shepard_sentinel",
-					"ssv_hero_shepard_vanguard" }
+					"ssv_hero_shepard_vanguard",
+					
+					"ssv_hero_jack" }
 	
 	
 	
@@ -1706,6 +2095,643 @@ function fPlayerDamageSound()
 end
 
 ---
+-- Sets up the event responses for the hit marker sounds.
+-- 
+function fHitMarkerSound()
+	print("ME5_MiscFunctions.fHitMarkerSound(): Entered")
+	
+	local Iamhuman = nil					-- Pointer for human player.
+	local bIsDamagerCorrectClass = false	-- Is the damager the correct class?
+	local damagerFaction = "none"			-- Which faction is the damager from?
+	local weaponType = "normal"				-- The weapon type. ("normal", "sniper", "shotgun", "gps")
+	local bIsIncendiary = false				-- Is the weapon incendiary?
+	
+	-- COL ballistic weapons.
+	local ballisticWeapons = {
+					"col_weap_inf_rifle_col",
+					"col_weap_inf_rifle_col_colgen",
+					"col_weap_inf_rifle_col_shredder",
+					"col_weap_inf_rifle_colcarbine",
+					"col_weap_inf_rifle_colcarbine_colgen",
+					"col_weap_inf_shotgun_pulse",
+					"col_weap_inf_shouldercannon",
+					
+					"gth_weap_bldg_assaultdrone",
+					"gth_weap_bldg_gethturret",
+					"gth_weap_inf_heavy_spitfire",
+					"gth_weap_inf_rifle_m76",
+					"gth_weap_inf_rifle_m76_boss",
+					"gth_weap_inf_rifle_pulse",
+					"gth_weap_inf_shotgun_m23",
+					"gth_weap_inf_shotgun_m27",
+					"gth_weap_inf_shotgun_plasma",
+					"gth_weap_inf_smg_pulse",
+					"gth_weap_inf_sniper_javelin",
+					"gth_weap_inf_sniper_m97",
+					"gth_weap_walk_colussus_gun",
+					
+					"indoc_weap_inf_armcannon",
+					"indoc_weap_inf_rifle_phaeston",
+					
+					"ssv_weap_fly_a61_gunship_gun",
+					"ssv_weap_inf_heavy_spitfire",
+					"ssv_weap_inf_pistol_m3",
+					"ssv_weap_inf_pistol_m3_armor",
+					"ssv_weap_inf_pistol_m3_disruptor",
+					"ssv_weap_inf_pistol_m3_incendiary",
+					"ssv_weap_inf_pistol_m5",
+					"ssv_weap_inf_pistol_m5_incendiary",
+					"ssv_weap_inf_pistol_m6",
+					"ssv_weap_inf_pistol_m77",
+					"ssv_weap_inf_pistol_n7eagle",
+					"ssv_weap_inf_pistol_n7eagle_armor",
+					"ssv_weap_inf_pistol_n7eagle_incendiary",
+					"ssv_weap_inf_rifle_m8",
+					"ssv_weap_inf_rifle_m8_armor",
+					"ssv_weap_inf_rifle_m8_disruptor",
+					"ssv_weap_inf_rifle_m8_incendiary",
+					"ssv_weap_inf_rifle_m15",
+					"ssv_weap_inf_rifle_m76",
+					"ssv_weap_inf_rifle_m96",
+					"ssv_weap_inf_shotgun_m23",
+					"ssv_weap_inf_shotgun_m23_armor",
+					"ssv_weap_inf_shotgun_m23_disruptor",
+					"ssv_weap_inf_shotgun_m23_incendiary",
+					"ssv_weap_inf_shotgun_m27",
+					"ssv_weap_inf_shotgun_m27_disruptor",
+					"ssv_weap_inf_shotgun_n7crusader",
+					"ssv_weap_inf_shotgun_n7crusader_incendiary",
+					"ssv_weap_inf_shotgun_plasma",
+					"ssv_weap_inf_smg_m4",
+					"ssv_weap_inf_smg_m4_disruptor",
+					"ssv_weap_inf_smg_m9",
+					"ssv_weap_inf_smg_m9_armor",
+					"ssv_weap_inf_smg_m9_disruptor",
+					"ssv_weap_inf_smg_m9_incendiary",
+					"ssv_weap_inf_smg_m12",
+					"ssv_weap_inf_smg_m12_shepard",
+					"ssv_weap_inf_smg_n7hurricane",
+					"ssv_weap_inf_smg_n7hurricane_disruptor",
+					"ssv_weap_inf_sniper_m92",
+					"ssv_weap_inf_sniper_m92_armor",
+					"ssv_weap_inf_sniper_m92_disruptor",
+					"ssv_weap_inf_sniper_m92_incendiary",
+					"ssv_weap_inf_sniper_m97",
+					"ssv_weap_inf_sniper_m97_armor",
+					"ssv_weap_inf_sniper_m97_disruptor",
+					"ssv_weap_inf_sniper_m98",
+					"ssv_weap_inf_sniper_m98b",
+					"ssv_weap_inf_sniper_m98b_armor",
+					"ssv_weap_inf_sniper_n7valiant",
+					"ssv_weap_tread_mako_cannon",
+					"ssv_weap_tread_mako_driver_cannon",
+					"ssv_weap_tread_mako_gun",
+					
+					"tur_weap_bldg_mturret_cannon",
+					"tur_weap_hoth_dishturret",
+					"tur_weap_hoth_lasermortar_laser",
+					"tur_weap_laser" }
+	
+	-- COL ballistic weapons.
+	local ballisticWeapons_COL = {
+					"col_weap_inf_rifle_col",
+					"col_weap_inf_rifle_col_colgen",
+					"col_weap_inf_rifle_col_shredder",
+					"col_weap_inf_rifle_colcarbine",
+					"col_weap_inf_rifle_colcarbine_colgen",
+					"col_weap_inf_shotgun_pulse",
+					"col_weap_inf_shouldercannon",
+					
+					"tur_weap_bldg_mturret_cannon",
+					"tur_weap_hoth_dishturret",
+					"tur_weap_hoth_lasermortar_laser",
+					"tur_weap_laser" }
+	
+	-- GTH ballistic weapons.
+	local ballisticWeapons_GTH = {
+					"gth_weap_bldg_assaultdrone",
+					"gth_weap_bldg_gethturret",
+					"gth_weap_inf_heavy_spitfire",
+					"gth_weap_inf_rifle_m76",
+					"gth_weap_inf_rifle_m76_boss",
+					"gth_weap_inf_rifle_pulse",
+					"gth_weap_inf_shotgun_m23",
+					"gth_weap_inf_shotgun_m27",
+					"gth_weap_inf_shotgun_plasma",
+					"gth_weap_inf_smg_pulse",
+					"gth_weap_inf_sniper_javelin",
+					"gth_weap_inf_sniper_m97",
+					"gth_weap_walk_colussus_gun",
+					
+					"tur_weap_bldg_mturret_cannon",
+					"tur_weap_hoth_dishturret",
+					"tur_weap_hoth_lasermortar_laser",
+					"tur_weap_laser" }
+	
+	-- INDOC ballistic weapons.
+	local ballisticWeapons_INDOC = {
+					"indoc_weap_inf_armcannon",
+					"indoc_weap_inf_rifle_phaeston",
+					
+					"tur_weap_bldg_mturret_cannon",
+					"tur_weap_hoth_dishturret",
+					"tur_weap_hoth_lasermortar_laser",
+					"tur_weap_laser" }
+	
+	-- SSV ballistic weapons.
+	local ballisticWeapons_SSV = {
+					"ssv_weap_fly_a61_gunship_gun",
+					"ssv_weap_inf_heavy_spitfire",
+					"ssv_weap_inf_pistol_m3",
+					"ssv_weap_inf_pistol_m3_armor",
+					"ssv_weap_inf_pistol_m3_disruptor",
+					"ssv_weap_inf_pistol_m3_incendiary",
+					"ssv_weap_inf_pistol_m5",
+					"ssv_weap_inf_pistol_m5_incendiary",
+					"ssv_weap_inf_pistol_m6",
+					"ssv_weap_inf_pistol_m77",
+					"ssv_weap_inf_pistol_n7eagle",
+					"ssv_weap_inf_pistol_n7eagle_armor",
+					"ssv_weap_inf_pistol_n7eagle_incendiary",
+					"ssv_weap_inf_rifle_m8",
+					"ssv_weap_inf_rifle_m8_armor",
+					"ssv_weap_inf_rifle_m8_disruptor",
+					"ssv_weap_inf_rifle_m8_incendiary",
+					"ssv_weap_inf_rifle_m15",
+					"ssv_weap_inf_rifle_m76",
+					"ssv_weap_inf_rifle_m96",
+					"ssv_weap_inf_shotgun_m23",
+					"ssv_weap_inf_shotgun_m23_armor",
+					"ssv_weap_inf_shotgun_m23_disruptor",
+					"ssv_weap_inf_shotgun_m23_incendiary",
+					"ssv_weap_inf_shotgun_m27",
+					"ssv_weap_inf_shotgun_m27_disruptor",
+					"ssv_weap_inf_shotgun_n7crusader",
+					"ssv_weap_inf_shotgun_n7crusader_incendiary",
+					"ssv_weap_inf_shotgun_plasma",
+					"ssv_weap_inf_smg_m4",
+					"ssv_weap_inf_smg_m4_disruptor",
+					"ssv_weap_inf_smg_m9",
+					"ssv_weap_inf_smg_m9_armor",
+					"ssv_weap_inf_smg_m9_disruptor",
+					"ssv_weap_inf_smg_m9_incendiary",
+					"ssv_weap_inf_smg_m12",
+					"ssv_weap_inf_smg_m12_shepard",
+					"ssv_weap_inf_smg_n7hurricane",
+					"ssv_weap_inf_smg_n7hurricane_disruptor",
+					"ssv_weap_inf_sniper_m92",
+					"ssv_weap_inf_sniper_m92_armor",
+					"ssv_weap_inf_sniper_m92_disruptor",
+					"ssv_weap_inf_sniper_m92_incendiary",
+					"ssv_weap_inf_sniper_m97",
+					"ssv_weap_inf_sniper_m97_armor",
+					"ssv_weap_inf_sniper_m97_disruptor",
+					"ssv_weap_inf_sniper_m98",
+					"ssv_weap_inf_sniper_m98b",
+					"ssv_weap_inf_sniper_m98b_armor",
+					"ssv_weap_inf_sniper_n7valiant",
+					"ssv_weap_tread_mako_cannon",
+					"ssv_weap_tread_mako_driver_cannon",
+					"ssv_weap_tread_mako_gun",
+					
+					"tur_weap_bldg_mturret_cannon",
+					"tur_weap_hoth_dishturret",
+					"tur_weap_hoth_lasermortar_laser",
+					"tur_weap_laser" }
+	
+	-- Turret ballistic weapons.
+	local ballisticWeapons_TUR = {
+					"tur_weap_bldg_mturret_cannon",
+					"tur_weap_hoth_dishturret",
+					"tur_weap_hoth_lasermortar_laser",
+					"tur_weap_laser" }
+	
+	-- COL unit classes.
+	local colClasses = {
+					"col_inf_assassin",
+					"col_inf_drone",
+					"col_inf_guardian",
+					"col_inf_guardian_shield",
+					"col_inf_guardian_online",
+					"col_inf_guardian_online_shield",
+					"col_inf_scion",
+					
+					"col_hero_harbinger" }
+	
+	-- GTH unit classes.
+	local gthClasses = {
+					"gth_inf_destroyer",
+					"gth_inf_hunter",
+					"gth_inf_juggernaut",
+					"gth_inf_machinist",
+					"gth_inf_rocketeer",
+					"gth_inf_shock",
+					"gth_inf_shock_online",
+					"gth_inf_sniper",
+					"gth_inf_trooper",
+					"gth_inf_destroyer_shield",
+					"gth_inf_hunter_shield",
+					"gth_inf_juggernaut_shield",
+					"gth_inf_machinist_shield",
+					"gth_inf_rocketeer_shield",
+					"gth_inf_shock_shield",
+					"gth_inf_shock_online_shield",
+					"gth_inf_sniper_shield",
+					"gth_inf_trooper_shield",
+					"gth_ev_inf_trooper",
+					"gth_ev_inf_infiltrator",
+					"gth_ev_inf_engineer",
+					"gth_ev_inf_rocketeer",
+					"gth_ev_inf_hunter",
+					"gth_ev_inf_pyro",
+					"gth_ev_inf_juggernaut",
+					"gth_ev_inf_juggernaut_online",
+					"gth_ev_inf_trooper_shield",
+					"gth_ev_inf_infiltrator_shield",
+					"gth_ev_inf_engineer_shield",
+					"gth_ev_inf_rocketeer_shield",
+					"gth_ev_inf_hunter_shield",
+					"gth_ev_inf_pyro_shield",
+					"gth_ev_inf_juggernaut_shield",
+					"gth_ev_inf_juggernaut_online_shield",
+					
+					"gth_hero_prime_me2",
+					"gth_hero_prime_me3" }
+	
+	-- INDOC unit classes.
+	local indocClasses = {
+					"indoc_inf_abomination",
+					"indoc_inf_cannibal",
+					"indoc_inf_husk",
+					"indoc_inf_marauder" }
+	
+	-- SSV unit classes.
+	local ssvClasses = {
+					"ssv_inf_adept",
+					"ssv_inf_engineer",
+					"ssv_inf_infiltrator",
+					"ssv_inf_infiltrator_campaign",
+					"ssv_inf_sentinel",
+					"ssv_inf_soldier",
+					"ssv_inf_vanguard",
+					"ssv_inf_adept_shield",
+					"ssv_inf_engineer_shield",
+					"ssv_inf_infiltrator_shield",
+					"ssv_inf_infiltrator_shield_campaign",
+					"ssv_inf_sentinel_shield",
+					"ssv_inf_soldier_shield",
+					"ssv_inf_vanguard_shield",
+					
+					"ssv_inf_cooper_adept",
+					"ssv_inf_cooper_engineer",
+					"ssv_inf_cooper_infiltrator",
+					"ssv_inf_cooper_sentinel",
+					"ssv_inf_cooper_soldier",
+					"ssv_inf_cooper_vanguard",
+					
+					"ssv_hero_shepard_soldier",
+					"ssv_hero_shepard_infiltrator",
+					"ssv_hero_shepard_engineer",
+					"ssv_hero_shepard_adept",
+					"ssv_hero_shepard_sentinel",
+					"ssv_hero_shepard_vanguard",
+					
+					"ssv_hero_jack" }
+	
+	-- Armored classes.
+	local armorClasses = {
+					-- Units
+					"col_inf_scion",
+					"gth_inf_destroyer",
+					"gth_inf_juggernaut",
+					"gth_inf_destroyer_shield",
+					"gth_inf_juggernaut_shield",
+					"gth_ev_inf_pyro",
+					"gth_ev_inf_juggernaut",
+					"gth_ev_inf_juggernaut_online",
+					"gth_ev_inf_pyro_shield",
+					"gth_ev_inf_juggernaut_shield",
+					"gth_ev_inf_juggernaut_online_shield",
+					"gth_hero_prime_me2",
+					"gth_hero_prime_me3",
+					
+					-- Buildings
+					"tur_bldg_chaingun_roof",
+					"tur_bldg_chaingun_tripod",
+					"tur_bldg_hoth_dishturret",
+					"tur_bldg_hoth_lasermortar",
+					"tur_bldg_laser",
+					"tur_bldg_mturret",
+					"tur_bldg_recoilless_lg",
+					"tur_bldg_tat_barge",
+					"tur_bldg_tower",
+					
+					-- Vehicles & Deployable Turrets
+					"gth_bldg_assaultdrone",
+					"gth_bldg_gethturret",
+					"gth_bldg_rocketdrone",
+					"gth_walk_colussus",
+					"ssv_fly_a61_gunship",
+					"ssv_tread_mako",
+					"ssv_hero_jack" }
+	
+	
+	
+	---
+	-- @param #string type	The type of impact sounds to play ("armor" or "normal").
+	-- 
+	local function PlayDamageSound(type)
+		--print("ME5_MiscFunctions.fHitMarkerSound.PlayDamageSound(): Playing damage sound")
+		
+		if bIsIncendiary == false then
+			local randSnd = math.random(0,10)
+			
+			-- What is the surface type?
+			if type == "armor" then
+				--print("Playing armor sound")
+				
+				-- What is the weapon type?
+				if weaponType == "sniper" then
+					print("Weapon is sniper")
+					ScriptCB_SndPlaySound("enemy_armor_sniper_impact")
+				elseif weaponType == "shotgun" then
+					ScriptCB_SndPlaySound("enemy_armor_shotgun_impact")
+				elseif weaponType == "gps" then
+					ScriptCB_SndPlaySound("enemy_armor_gps_impact_layered")
+				else
+					ScriptCB_SndPlaySound("enemy_damage_armor_layered_"..randSnd)
+				end
+				
+			elseif type == "normal" then
+				--print("Playing normal sound")
+				
+				if weaponType == "sniper" then
+					print("Weapon is sniper")
+					ScriptCB_SndPlaySound("enemy_normal_sniper_impact")
+				elseif weaponType == "shotgun" then
+					ScriptCB_SndPlaySound("enemy_normal_shotgun_impact")
+				elseif weaponType == "gps" then
+					ScriptCB_SndPlaySound("enemy_normal_gps_impact_layered")
+				else
+					ScriptCB_SndPlaySound("enemy_damage_normal_layered_"..randSnd)
+				end
+			end
+		end
+	end
+	
+	
+	
+	-- When the player spawns
+	local playerspawn = OnCharacterSpawn(
+		function(player)
+			if IsCharacterHuman(player) then
+				--print("ME5_MiscFunctions.fHitMarkerSound(): Player spawned")
+				Iamhuman = GetEntityPtr(GetCharacterUnit(player))
+				
+				-- Reset class
+				bIsDamagerCorrectClass = false
+			end
+		end
+	)
+	
+	-- When an enemy is damaged
+	local enemydamage = OnObjectDamage(
+		function(object, damager)
+			
+			-- Abort if the damager is nil
+			if GetCharacterUnit(damager) == nil then
+				--print("Damager is nil")
+				return
+			end
+			
+			-- Was the damager the player?
+			if IsCharacterHuman(damager) then
+				--print("ME5_MiscFunctions.fHitMarkerSound.enemydamage(): Damager is the player")
+				
+				local playerPtr = GetEntityPtr(GetCharacterUnit(damager))	-- Damager's pointer.
+				local playerClass = GetEntityClass(playerPtr)				-- Damager's class.
+				local damagerWeapon = GetObjectLastHitWeaponClass(object)	-- Damager's weapon class.
+				
+				local objectPtr = GetEntityPtr(object)				-- Damaged object's pointer.
+				local objectClass = GetEntityClass(objectPtr)		-- Damaged object's class.
+				local bIsObjectArmorClass = false					-- Is the damaged object an armored class?
+				
+				
+				--[[if objectClass == FindEntityClass("ssv_tread_mako") then
+					print("Damaged object is the Mako")
+				end]]
+				
+				
+				-- TODO: determine what to do with incendiary weapons
+				-- Is the damager weapon incendiary?
+				if string.find(damagerWeapon, "incendiary") then
+					bIsIncendiary = true
+				else
+					bIsIncendiary = false
+				end
+				
+				
+				-- Immediately abort if the weapon was incendiary
+				if bIsIncendiary == false then
+				
+					-- Detect and set the damager weapon type
+					if string.find(damagerWeapon, "sniper") then
+						--print("Weapon is sniper rifle")
+						weaponType = "sniper"
+					elseif string.find(damagerWeapon, "shotgun_plasma") then
+						--print("Weapon is GPS")
+						weaponType = "gps"
+					elseif string.find(damagerWeapon, "shotgun") then
+						--print("Weapon is shotgun")
+						weaponType = "shotgun"
+					else
+						weaponType = "normal"
+					end
+					
+					--print("Damager weapon: "..damagerWeapon)
+					
+					-- Check if the object is an armored class
+					for i in ipairs(armorClasses) do
+						-- Is the object one of them?
+						if objectClass == FindEntityClass( armorClasses[i] ) then
+							bIsObjectArmorClass = true
+							break
+						else
+							bIsObjectArmorClass = false
+						end
+					end
+				
+					-- Only proceed if damager isn't correct class
+					if bIsDamagerCorrectClass == false then
+						--print("ME5_MiscFunctions.fHitMarkerSound.enemydamage_COL(): Player isn't correct class, proceeding")
+						
+						-- For each COL class,
+						for i=1, table.getn(colClasses) do
+							-- Is the damager one of them?
+							if playerClass == FindEntityClass( colClasses[i] ) then
+								bIsDamagerCorrectClass = true
+								damagerFaction = "col"
+							else
+								bIsDamagerCorrectClass = false
+							end
+							
+							-- Break out of the loop if correct class
+							if bIsDamagerCorrectClass == true then
+								--print("ME5_MiscFunctions.fHitMarkerSound.enemydamage_COL(): Player is correct class")
+								break 
+							end
+						end
+					end
+					
+					-- Only proceed if damager isn't correct class
+					if bIsDamagerCorrectClass == false then
+						--print("ME5_MiscFunctions.fHitMarkerSound.enemydamage_GTH(): Player isn't correct class, proceeding")
+						
+						-- For each GTH class,
+						for j=1, table.getn(gthClasses) do
+							-- Is the damager one of them?
+							if playerClass == FindEntityClass( gthClasses[j] ) then
+								bIsDamagerCorrectClass = true
+								damagerFaction = "gth"
+							else
+								bIsDamagerCorrectClass = false
+							end
+							
+							-- Break out of the loop if correct class
+							if bIsDamagerCorrectClass == true then
+								--print("ME5_MiscFunctions.fHitMarkerSound.enemydamage_GTH(): Player is correct class")
+								break 
+							end
+						end
+					end
+					
+					-- Only proceed if damager isn't correct class
+					if bIsDamagerCorrectClass == false then
+						--print("ME5_MiscFunctions.fHitMarkerSound.enemydamage_INDOC(): Player isn't correct class, proceeding")
+						
+						-- For each INDOC class,
+						for k=1, table.getn(indocClasses) do
+							-- Is the damager one of them?
+							if playerClass == FindEntityClass( indocClasses[k] ) then
+								bIsDamagerCorrectClass = true
+								damagerFaction = "indoc"
+							else
+								bIsDamagerCorrectClass = false
+							end
+							
+							-- Break out of the loop if correct class
+							if bIsDamagerCorrectClass == true then
+								--print("ME5_MiscFunctions.fHitMarkerSound.enemydamage_INDOC(): Player is correct class")
+								break 
+							end
+						end
+					end
+					
+					-- Only proceed if damager isn't correct class
+					if bIsDamagerCorrectClass == false then
+						--print("ME5_MiscFunctions.fHitMarkerSound.enemydamage_SSV(): Player isn't correct class, proceeding")
+						
+						-- For each SSV class,
+						for m=1, table.getn(ssvClasses) do
+							-- Is the damager one of them?
+							if playerClass == FindEntityClass( ssvClasses[m] ) then
+								bIsDamagerCorrectClass = true
+								damagerFaction = "ssv"
+							else
+								bIsDamagerCorrectClass = false
+							end
+							
+							-- Break out of the loop if correct class
+							if bIsDamagerCorrectClass == true then
+								--print("ME5_MiscFunctions.fHitMarkerSound.enemydamage_SSV(): Player is correct class")
+								break 
+							end
+						end
+					end
+					
+					
+					
+					-- Which team is the damager from?
+					if damagerFaction == "col" then
+						--print("ME5_MiscFunctions.fHitMarkerSound(): Damager is from team COL")
+						--ShowMessageText("level.common.debug.damager_col")
+						
+						-- For each weapon class
+						for i=1, table.getn(ballisticWeapons_COL) do
+							-- Was the weapon used a valid ballistic weapon?
+							if damagerWeapon == ballisticWeapons_COL[i] then
+								-- Play the player damage sound
+								if bIsObjectArmorClass == true then
+									PlayDamageSound("armor")
+								else
+									PlayDamageSound("normal")
+								end
+								break
+							end
+						end
+						
+					elseif damagerFaction == "gth" then
+						--print("ME5_MiscFunctions.fHitMarkerSound(): Damager is from team GTH")
+						--ShowMessageText("level.common.debug.damager_gth")
+						
+						-- For each weapon class
+						for i=1, table.getn(ballisticWeapons_GTH) do
+							-- Was the weapon used a valid ballistic weapon?
+							if damagerWeapon == ballisticWeapons_GTH[i] then
+								-- Play the player damage sound
+								if bIsObjectArmorClass == true then
+									PlayDamageSound("armor")
+								else
+									PlayDamageSound("normal")
+								end
+								break
+							end
+						end
+						
+					elseif damagerFaction == "indoc" then
+						--print("ME5_MiscFunctions.fHitMarkerSound(): Damager is from team INDOC")
+						--ShowMessageText("level.common.debug.damager_indoc")
+						
+						-- For each weapon class
+						for i=1, table.getn(ballisticWeapons_INDOC) do
+							-- Was the weapon used a valid ballistic weapon?
+							if damagerWeapon == ballisticWeapons_INDOC[i] then
+								-- Play the player damage sound
+								if bIsObjectArmorClass == true then
+									PlayDamageSound("armor")
+								else
+									PlayDamageSound("normal")
+								end
+								break
+							end
+						end
+						
+					elseif damagerFaction == "ssv" then
+						--print("ME5_MiscFunctions.fHitMarkerSound(): Damager is from team SSV")
+						--ShowMessageText("level.common.debug.damager_ssv")
+						
+						-- For each weapon class
+						for i=1, table.getn(ballisticWeapons_SSV) do
+							-- Was the weapon used a valid ballistic weapon?
+							if damagerWeapon == ballisticWeapons_SSV[i] then
+								-- Play the player damage sound if the damager weapon wasn't incendiary
+								if bIsObjectArmorClass == true then
+									PlayDamageSound("armor")
+								else
+									PlayDamageSound("normal")
+								end
+								break
+							end
+						end
+					end
+					
+				end
+			end
+		end
+	)
+end
+
+---
 -- Sets up the event responses for low health sounds.
 -- 
 function fLowHealthSound()	-- TODO: fix low health vignette
@@ -1725,11 +2751,12 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 			lowHealthStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl", "lowhealth_streaming")
 			--PlayAudioStreamUsingProperties("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl", "organic_lowhealth_streaming", 1)
 			
-			PlayAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl", 
-								"organic_lowhealth_streaming", "heartbeat_segment", 1.0, "lowhealth", lowHealthStream)
-			
 			-- Initial lowhealth bus fade
 			ScriptCB_SndBusFade("lowhealth", 0.0, 0.0)
+			
+			-- Play heartbeat sound stream
+			PlayAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl", 
+								"organic_lowhealth_streaming", "heartbeat_segment", 1.0, "lowhealth", lowHealthStream)
 			
 			LH_bIsLowHealthSoundPlaying = false	-- Is the low health sound playing?
 			LH_playerHealthThreshold = 0.35		-- Under what health percentage should the low health sound be active?
@@ -1740,7 +2767,7 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 			local busEndGain	= 0.15			-- What is the end gain for the audio bus?
 			local busFadeTime	= 1.0			-- What is the duration of the bus fade?
 			local playerMaxHealth = 0			-- What is the player's health when they spawn?
-			local synthClasses = {
+			local ignoreClasses = {
 					"gth_inf_destroyer",
 					"gth_inf_hunter",
 					"gth_inf_juggernaut",
@@ -1777,7 +2804,8 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 					"gth_ev_inf_juggernaut_online_shield",
 					"gth_hero_prime_me2",
 					"gth_hero_prime_me3",
-					"ssv_hero_shepard_soldier",	-- don't let hero units have the effect either
+					"ssv_hero_jack",					-- don't let hero units have the effect either
+					"ssv_hero_shepard_soldier",
 					"ssv_hero_shepard_infiltrator",
 					"ssv_hero_shepard_engineer",
 					"ssv_hero_shepard_adept",
@@ -1844,18 +2872,21 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 				end
 			)]]
 			
-			-- When the player spawns
+			-- When the player spawns or changes their class
 			local playerspawn = OnCharacterSpawn(
 				function(player)
 					if IsCharacterHuman(player) then
-							--print("fLowHealthSound: Player spawned")
+						--print("fLowHealthSound: Player spawned")
+						
 						Iamhuman = GetEntityPtr(GetCharacterUnit(player))
 						playerMaxHealth = GetObjectHealth(Iamhuman)
-							--print("fLowHealthSound: Player's max health is "..playerMaxHealth)
+						
+						--print("ME5_MiscFunctions.fLowHealthSound.playerspawn(): playerMaxHealth:", playerMaxHealth)	-- Uncomment me for test output!
 						
 						--if not ifs_lowhealth_vignette.TimerMngr == nil then
 							--[[if gIsGreaterThan0 > 0 then
-									print("fLowHealthSound: gIsGreaterThan0 is "..gIsGreaterThan0)
+								print("fLowHealthSound: gIsGreaterThan0 is "..gIsGreaterThan0)
+								
 								SetTimerValue(meu_lowhealth_scr_rspwn, 0.5)
 								StartTimer(meu_lowhealth_scr_rspwn)
 							else
@@ -1864,9 +2895,9 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 						--end
 						
 						-- For each synthetic class,
-						for i=1, table.getn(synthClasses) do
+						for i=1, table.getn(ignoreClasses) do
 							-- Is the player a non-synthetic class?
-							if GetEntityClass(Iamhuman) == FindEntityClass( synthClasses[i] ) then
+							if GetEntityClass(Iamhuman) == FindEntityClass( ignoreClasses[i] ) then
 								bIsPlayerCorrectClass = false
 							else
 								bIsPlayerCorrectClass = true
@@ -1878,7 +2909,8 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 						
 						-- Is the low health sound playing?
 						if LH_bIsLowHealthSoundPlaying == true then
-								--print("ME5_MiscFunctions.fLowHealthSound(): isSoundPlaying is true, setting to false")
+							--print("ME5_MiscFunctions.fLowHealthSound(): isSoundPlaying is true, setting to false")
+							
 							LH_bIsLowHealthSoundPlaying = false
 							
 							-- Remove our ifs screen
@@ -1904,68 +2936,78 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 				function(object, health)
 					-- Was the damaged object a human player?
 					if Iamhuman == GetEntityPtr(object) then
+						
+						-- Is the player alive? Make sure we don't fade in the low health 
+						--  sound if the player's corpse receives damage after having died
+						if IsObjectAlive(object) == true then
 							--print("fLowHealthSound: Player health changed")
 							--print("fLowHealthSound: Player health ratio is "..playerHealthPercent)
-							
-						-- What is the player's current health?
-						local playerCurHealth = GetObjectHealth(object)
-						
-						if playerMaxHealth <= 0 then
-							playerMaxHealth = 300
-						end
-						
-						-- What's the player's current health percentage?
-						local playerHealthPercent = playerCurHealth / playerMaxHealth
-						
-						-- Is the player's health low enough to activate the low health sound?
-						if playerHealthPercent < LH_playerHealthThreshold then
-								--print("fLowHealthSound: Player's health is "..playerCurHealth)
-							if LH_bIsLowHealthSoundPlaying == false then
-									--print("fLowHealthSound: isSoundPlaying is false, setting to true")
-								LH_bIsLowHealthSoundPlaying = true
-								--classCount = 0
 								
-								-- Is the player the correct class?
-								if bIsPlayerCorrectClass == true then
-										--print("fLowHealthSound: Player is correct class")
+							-- What is the player's current health?
+							local playerCurHealth = GetObjectHealth(object)
+							
+							if playerMaxHealth <= 0 then
+								playerMaxHealth = 300
+							end
+							
+							-- What's the player's current health percentage?
+							local playerHealthPercent = playerCurHealth / playerMaxHealth
+							
+							--[[print("ME5_MiscFunctions.fLowHealthSound.playerhealthchange():    playerMaxHealth, playerCurHealth, playerHealthPercent:", 
+							playerMaxHealth, playerCurHealth, playerHealthPercent)]]	-- Uncomment me for test output!
+							
+							-- Is the player's health low enough to activate the low health sound?
+							if playerHealthPercent < LH_playerHealthThreshold then
+								--print("fLowHealthSound: Player's health is "..playerCurHealth)
+								
+								if LH_bIsLowHealthSoundPlaying == false then
+									--print("fLowHealthSound: isSoundPlaying is false, setting to true")
 									
-									-- Activate our ifs screen
-									--ScriptCB_PushScreen("ifs_lowhealth_vignette")
+									LH_bIsLowHealthSoundPlaying = true
+									--classCount = 0
+									
+									-- Is the player the correct class?
+									if bIsPlayerCorrectClass == true then
+											--print("fLowHealthSound: Player is correct class")
+										
+										-- Activate our ifs screen
+										--ScriptCB_PushScreen("ifs_lowhealth_vignette")
+										
+										-- Fade all of the appropriate audio buses
+										ScriptCB_SndBusFade("main",				busFadeTime, busEndGain)
+										ScriptCB_SndBusFade("soundfx",			busFadeTime, busEndGain)
+										ScriptCB_SndBusFade("battlechatter",	busFadeTime, busEndGain)
+										ScriptCB_SndBusFade("music",			busFadeTime, 0.6)
+										ScriptCB_SndBusFade("ingamemusic",		busFadeTime, 0.6)
+										ScriptCB_SndBusFade("ambience",			busFadeTime, busEndGain)
+										ScriptCB_SndBusFade("voiceover",		busFadeTime, busEndGain)
+										ScriptCB_SndBusFade("lowhealth",		1.0, 1.0, 0.0)
+									else
+										--print("fLowHealthSound: Player is wrong class")
+									end
+								end
+							else
+								-- Is the low health sound playing?
+								if LH_bIsLowHealthSoundPlaying == true then
+									--print("fLowHealthSound: isSoundPlaying is true, setting to false")
+									
+									-- If it's playing, deactivate it
+									LH_bIsLowHealthSoundPlaying = false
+									
+									-- Remove our ifs screen
+									--ifs_lowhealth_vignette.Timer = 10
+									--ifs_lowhealth_vignette.TimerType = true
 									
 									-- Fade all of the appropriate audio buses
-									ScriptCB_SndBusFade("main",				busFadeTime, busEndGain)
-									ScriptCB_SndBusFade("soundfx",			busFadeTime, busEndGain)
-									ScriptCB_SndBusFade("battlechatter",	busFadeTime, busEndGain)
-									ScriptCB_SndBusFade("music",			busFadeTime, 0.6)
-									ScriptCB_SndBusFade("ingamemusic",		busFadeTime, 0.6)
-									ScriptCB_SndBusFade("ambience",			busFadeTime, busEndGain)
-									ScriptCB_SndBusFade("voiceover",		busFadeTime, busEndGain)
-									ScriptCB_SndBusFade("lowhealth",		1.0, 1.0, 0.0)
-								else
-									--print("fLowHealthSound: Player is wrong class")
+									ScriptCB_SndBusFade("main",				busFadeTime, 1.0)
+									ScriptCB_SndBusFade("soundfx",			busFadeTime, 0.7)
+									ScriptCB_SndBusFade("battlechatter",	busFadeTime, 1.0)
+									ScriptCB_SndBusFade("music",			busFadeTime, 1.0)
+									ScriptCB_SndBusFade("ingamemusic",		busFadeTime, 0.7)
+									ScriptCB_SndBusFade("ambience",			busFadeTime, 0.7)
+									ScriptCB_SndBusFade("voiceover",		busFadeTime, 0.8)
+									ScriptCB_SndBusFade("lowhealth",		1.0, 0.0, 1.0)
 								end
-							end
-						else
-							-- Is the low health sound playing?
-							if LH_bIsLowHealthSoundPlaying == true then
-									--print("fLowHealthSound: isSoundPlaying is true, setting to false")
-								
-								-- If it's playing, deactivate it
-								LH_bIsLowHealthSoundPlaying = false
-								
-								-- Remove our ifs screen
-								--ifs_lowhealth_vignette.Timer = 10
-								--ifs_lowhealth_vignette.TimerType = true
-								
-								-- Fade all of the appropriate audio buses
-								ScriptCB_SndBusFade("main",				busFadeTime, 1.0)
-								ScriptCB_SndBusFade("soundfx",			busFadeTime, 0.7)
-								ScriptCB_SndBusFade("battlechatter",	busFadeTime, 1.0)
-								ScriptCB_SndBusFade("music",			busFadeTime, 1.0)
-								ScriptCB_SndBusFade("ingamemusic",		busFadeTime, 0.7)
-								ScriptCB_SndBusFade("ambience",			busFadeTime, 0.7)
-								ScriptCB_SndBusFade("voiceover",		busFadeTime, 0.8)
-								ScriptCB_SndBusFade("lowhealth",		1.0, 0.0, 1.0)
 							end
 						end
 					end
@@ -1976,9 +3018,9 @@ function fLowHealthSound()	-- TODO: fix low health vignette
 			local playerdeath = OnCharacterDeath(
 				function(player, killer)
 					if IsCharacterHuman(player) then
-							--print("fLowHealthSound: Player died, resetting buses and variables")
+						--print("fLowHealthSound: Player died, resetting buses and variables")
+						
 						--if isSoundPlaying == true then
-							
 							-- Deactivate the low health sound
 							LH_bIsLowHealthSoundPlaying = false
 							
@@ -2043,7 +3085,7 @@ function fEvgJugPowerDrain()
 							
 							-- Are the Juggernaut's current shields over the limit?
 							if newShields > maxShields then
-									print("fEvgJugPowerDrain: Unit's shields are over the MaxShield limit at "..newShields.."... Resetting to "..maxShields)
+								print("fEvgJugPowerDrain: Unit's shields are over the MaxShield limit at "..newShields.."... Resetting to "..maxShields)
 								SetProperty( charPtr, "CurShield", maxShields )	-- reset the Juggernaut's shields to its maximum value
 							end
 						end

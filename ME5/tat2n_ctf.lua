@@ -1,5 +1,4 @@
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
-RandomSide = math.random(1,4)
 --
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
@@ -9,12 +8,18 @@ ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveCTF")
 
 mapSize = lg
-EnvironmentType = 1
+EnvironmentType = EnvTypeDesert
 onlineSideVar = SSVxCOL
 onlineHeroSSV = shep_adept
 onlineHeroGTH = gethprime_me2
 onlineHeroCOL = colgeneral
 onlineHeroEVG = gethprime_me3
+
+-- AI hero spawns. CP name, CP spawn path name
+heroSupportCPs = {}
+
+-- Local ally spawns. CP name, CP spawn path name
+allySpawnCPs = {}
 
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
@@ -28,34 +33,6 @@ HuskTeam = 3
 
 ATT = 1
 DEF = 2
-
-function SSVxGTH_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideSSVHeroClass()
-		DecideGTHHeroClass()
-	end
-end
-
-function SSVxCOL_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideSSVHeroClass()
-		DecideCOLHeroClass()
-	end
-end
-
-function EVGxGTH_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideEVGHeroClass()
-		DecideGTHHeroClass()
-	end
-end
-
-function EVGxCOL_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideEVGHeroClass()
-		DecideCOLHeroClass()
-	end
-end
 
 --PostLoad, this is all done after all loading, etc.
 function ScriptPostLoad()
@@ -137,30 +114,12 @@ function ScriptPostLoad()
 			end,
 			"music_timer"
 		)]]
+    
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide == 1 then
-				SSVxGTH_PostLoad()
-			elseif RandomSide == 2 then
-				SSVxCOL_PostLoad()
-			elseif RandomSide == 3 then
-				EVGxGTH_PostLoad()
-			elseif RandomSide == 4 then
-				EVGxCOL_PostLoad()
-			end
-		elseif ME5_SideVar == 1 then
-			SSVxGTH_PostLoad()
-		elseif ME5_SideVar == 2 then
-			SSVxCOL_PostLoad()
-		elseif ME5_SideVar == 3 then
-			EVGxGTH_PostLoad()
-		elseif ME5_SideVar == 4 then
-			EVGxCOL_PostLoad()
-		end
-	else
-		SSVxCOL_PostLoad()
-	end
+	AddAIGoal(HuskTeam, "Deathmatch", 100)
+	
+	SetAllySpawns(allySpawnCPs)
+	Init_SidesPostLoad("ctf", heroSupportCPs)
 	
 	KillObject("jawa_cp")
 	
@@ -252,17 +211,7 @@ function ScriptInit()
     OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\Sound\\SFL_TAT2_Streaming.lvl",  "TAT_ambiance")
 	
 	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide == 1 then
-				Music01_CTF()
-			elseif RandomSide == 2 then
-				Music05_CTF()
-			elseif RandomSide == 3 then
-				Music09_CTF()
-			elseif RandomSide == 4 then
-				Music09_CTF()
-			end
-		elseif ME5_SideVar == 1 then
+		if ME5_SideVar == 1 then
 			Music01_CTF()
 		elseif ME5_SideVar == 2 then
 			Music05_CTF()

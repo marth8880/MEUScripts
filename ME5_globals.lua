@@ -275,7 +275,7 @@ CrouchToStand = {
 
 --Rumble Region Junk 
 RumbleSmall = { 
----In A math.min/math.max string.format
+--In A math.min/math.max string.format
 	Interval = { 4.0 , 15.0 },  --how often the rumble gets set off
 	Light =  {1.0, 1.0},
 	Heavy =  {0.0,.2},
@@ -291,7 +291,7 @@ RumbleSmall = {
 	
 }
 RumbleMedium = { 
----In A math.min/math.max string.format
+--In A math.min/math.max string.format
 	Interval = { 4.0 , 15.0 },  --how often the rumble gets set off	
 	Light =  {1.0, 1.0},
 	Heavy =  {.2,.4},
@@ -308,7 +308,7 @@ RumbleMedium = {
 }
 
 RumbleLarge = { 
----In A math.min/math.max string.format
+--In A math.min/math.max string.format
 	Interval = { 4.0 , 15.0 },  --how often the rumble gets set off	
 	Light =  {1.0, 1.0},	
 	Heavy =  {.6,.8},

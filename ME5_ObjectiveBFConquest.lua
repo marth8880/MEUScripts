@@ -46,6 +46,7 @@ ObjectiveConquest = Objective:New
 	-- optional values
 	ticketsATT = nil,
 	ticketsDEF = nil,
+	bleedRateMultiplier = 1.5,
 	
 	-- internal values
 	defaultBleedRate = 1.05,			--how many units will be lost per second	-- 0.7777777777
@@ -77,8 +78,19 @@ function ObjectiveConquest:AddCommandPost(cp)
 		self.totalBleedValue[self.teamATT] = 0
 		self.totalBleedValue[self.teamDEF] = 0
 	end
-	self.totalBleedValue[self.teamATT] = self.totalBleedValue[self.teamATT] + GetCommandPostBleedValue(cp.name, self.teamATT)
-	self.totalBleedValue[self.teamDEF] = self.totalBleedValue[self.teamDEF] + GetCommandPostBleedValue(cp.name, self.teamDEF)
+	
+	-- If it's a captureable CP,
+	if not string.find(cp.name, "permacp") then
+		-- Set the bleed values all to 1
+		SetProperty(cp.name, "ValueBleed_Alliance",	1)
+		SetProperty(cp.name, "ValueBleed_CIS",		1)
+		SetProperty(cp.name, "ValueBleed_Empire",	1)
+		SetProperty(cp.name, "ValueBleed_Republic",	1)
+		
+		-- Add the bleed value to the total bleed points
+		self.totalBleedValue[self.teamATT] = self.totalBleedValue[self.teamATT] + GetCommandPostBleedValue(cp.name, self.teamATT)
+		self.totalBleedValue[self.teamDEF] = self.totalBleedValue[self.teamDEF] + GetCommandPostBleedValue(cp.name, self.teamDEF)
+	end
 end
 
 
@@ -121,12 +133,18 @@ function ObjectiveConquest:Start()
 	
 	
 	local UpdateBleedRate = function(team)
+		local bleedPoints = nil			-- The total number of CPs the other team owns
+		local bleedSteps = nil			-- The number of levels of bleeding
+		local curBleedStep = nil		-- The current bleed level
+		
 		--count up the total bleedPoints (bleedPoints only count if they're on a CP owned by a different team)
-		local bleedPoints = 0
+		bleedPoints = 0
 		for i, cp in pairs(self.commandPosts) do
 			local cpTeam = GetObjectTeam(cp.name)
 			if cpTeam == self:GetOpposingTeam(team) then
-				print("cp.name:", cp.name, "bleedPoints:", GetCommandPostBleedValue(cp.name, cpTeam))			--uncomment me for test output!
+				if not string.find(cp.name, "permacp") then
+--					print("cp.name:", cp.name, "bleedPoints:", GetCommandPostBleedValue(cp.name, cpTeam))			--uncomment me for test output!
+				end
 				bleedPoints = bleedPoints + GetCommandPostBleedValue(cp.name, cpTeam)
 			end
 		end		
@@ -144,15 +162,22 @@ function ObjectiveConquest:Start()
 				end
 			end
 		else
-			--default bleeding rule is to start bleeding when the team's bleed points are greater
-			--than half the total points
+			--start bleeding when the team's bleed points are greater than half the total points
 			if bleedPoints > (self.totalBleedValue[team] / 2.0) then
-				bleedRate = self.defaultBleedRate
+				--bleedRate = self.defaultBleedRate
+				
+				bleedSteps = (self.totalBleedValue[team] - math.floor(self.totalBleedValue[team] / 2))
+				curBleedStep = bleedPoints - math.floor(self.totalBleedValue[team] / 2)
+				
+				bleedRate = (curBleedStep / bleedSteps) * self.bleedRateMultiplier
 			end
 		end
 		
-		print("totalbleedpts:", self.totalBleedValue[team])													--uncomment me for test output!
-		print("team:", team, "bleedPoints:", bleedPoints, "bleedRate:", bleedRate)							--uncomment me for test output!
+--		print()
+--		print("team:", team, "totalbleedpts:", self.totalBleedValue[team])									--uncomment me for test output!
+--		print("team:", team, "bleedPoints:", bleedPoints, "bleedRate:", bleedRate)							--uncomment me for test output!
+--		print("team:", team, "bleedSteps:", bleedSteps, "curBleedStep:", curBleedStep)						--uncomment me for test output!
+--		print()
 	
 		--setup the bleedrate display (i.e. how fast the score flashes in the HUD)
 		SetBleedRate(team, bleedRate)
@@ -167,33 +192,7 @@ function ObjectiveConquest:Start()
 			
 			
 			if not ScriptCB_InMultiplayer() then
-				if ME5_SideVar == 0 then
-					if RandomSide == 1 then
-						if team == REP then
-							ShowMessageText("level.common.events.siege.control_".."gth")
-						elseif team == CIS then
-							ShowMessageText("level.common.events.siege.control_".."ssv")
-						end
-					elseif RandomSide == 2 then
-						if team == REP then
-							ShowMessageText("level.common.events.siege.control_".."col")
-						elseif team == CIS then
-							ShowMessageText("level.common.events.siege.control_".."ssv")
-						end
-					elseif RandomSide == 3 then
-						if team == REP then
-							ShowMessageText("level.common.events.siege.control_".."gth")
-						elseif team == CIS then
-							ShowMessageText("level.common.events.siege.control_".."evg")
-						end
-					elseif RandomSide == 4 then
-						if team == REP then
-							ShowMessageText("level.common.events.siege.control_".."col")
-						elseif team == CIS then
-							ShowMessageText("level.common.events.siege.control_".."evg")
-						end
-					end
-				elseif ME5_SideVar == 1 then
+				if ME5_SideVar == 1 then
 					if team == REP then
 						ShowMessageText("level.common.events.siege.control_".."gth")
 					elseif team == CIS then
@@ -393,53 +392,7 @@ function ObjectiveConquest:Start()
 	end
 	
 	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide == 1 then
-				snd_REP_cpCapture_ally	= snd_SSV_cpCapture_ally
-				snd_REP_cpCapture_enemy	= snd_SSV_cpCapture_enemy
-				snd_REP_cpLost_ally		= snd_SSV_cpLost_ally
-				snd_REP_cpLost_enemy	= snd_SSV_cpLost_enemy
-				
-				snd_CIS_cpCapture_ally	= snd_GTH_cpCapture_ally
-				snd_CIS_cpCapture_enemy	= snd_GTH_cpCapture_enemy
-				snd_CIS_cpLost_ally		= snd_GTH_cpLost_ally
-				snd_CIS_cpLost_enemy	= snd_GTH_cpLost_enemy
-				
-			elseif RandomSide == 2 then
-				snd_REP_cpCapture_ally	= snd_SSV_cpCapture_ally
-				snd_REP_cpCapture_enemy	= snd_SSV_cpCapture_enemy
-				snd_REP_cpLost_ally		= snd_SSV_cpLost_ally
-				snd_REP_cpLost_enemy	= snd_SSV_cpLost_enemy
-				
-				snd_CIS_cpCapture_ally	= snd_COL_cpCapture_ally
-				snd_CIS_cpCapture_enemy	= snd_COL_cpCapture_enemy
-				snd_CIS_cpLost_ally		= snd_COL_cpLost_ally
-				snd_CIS_cpLost_enemy	= snd_COL_cpLost_enemy
-				
-			elseif RandomSide == 3 then
-				snd_REP_cpCapture_ally	= snd_EVG_cpCapture_ally
-				snd_REP_cpCapture_enemy	= snd_EVG_cpCapture_enemy
-				snd_REP_cpLost_ally		= snd_EVG_cpLost_ally
-				snd_REP_cpLost_enemy	= snd_EVG_cpLost_enemy
-				
-				snd_CIS_cpCapture_ally	= snd_GTH_cpCapture_ally
-				snd_CIS_cpCapture_enemy	= snd_GTH_cpCapture_enemy
-				snd_CIS_cpLost_ally		= snd_GTH_cpLost_ally
-				snd_CIS_cpLost_enemy	= snd_GTH_cpLost_enemy
-				
-			elseif RandomSide == 4 then
-				snd_REP_cpCapture_ally	= snd_EVG_cpCapture_ally
-				snd_REP_cpCapture_enemy	= snd_EVG_cpCapture_enemy
-				snd_REP_cpLost_ally		= snd_EVG_cpLost_ally
-				snd_REP_cpLost_enemy	= snd_EVG_cpLost_enemy
-				
-				snd_CIS_cpCapture_ally	= snd_COL_cpCapture_ally
-				snd_CIS_cpCapture_enemy	= snd_COL_cpCapture_enemy
-				snd_CIS_cpLost_ally		= snd_COL_cpLost_ally
-				snd_CIS_cpLost_enemy	= snd_COL_cpLost_enemy
-				
-			end
-		elseif ME5_SideVar == 1 then
+		if ME5_SideVar == 1 then
 			snd_REP_cpCapture_ally	= snd_SSV_cpCapture_ally
 			snd_REP_cpCapture_enemy	= snd_SSV_cpCapture_enemy
 			snd_REP_cpLost_ally		= snd_SSV_cpLost_ally
@@ -544,7 +497,7 @@ function ObjectiveConquest:Start()
 		SetProperty(cp.name, "VO_Cis_RepLost",		snd_CIS_cpLost_enemy)
 		
 		SetProperty(cp.name, "NeutralizeTime",	12.0)
-		SetProperty(cp.name, "CaptureTime",	8.0)
+		SetProperty(cp.name, "CaptureTime",	3.0)	-- 8.0
     		
 		UpdatePostMapMarker(cp.name)
 	end
@@ -653,7 +606,7 @@ function ObjectiveConquest:Start()
 			if self.isComplete then	return end
 			if not self.commandPosts[GetEntityName(postPtr)] then return end
 			
-			UpdatePostMapMarker(postPtr)			
+			UpdatePostMapMarker(postPtr)
 			UpdateState()
 		end
 		)
@@ -677,6 +630,18 @@ function ObjectiveConquest:Start()
 		function (team, count)
 			if team == CIS and count == 20 then				
 				AllowAISpawn(3, false)
+			end
+		end
+		)
+	
+	-- player spawn
+	OnCharacterSpawn(
+		function (player)
+			if IsCharacterHuman(player) then
+				-- Update all of the post markers
+		    	for i, cp in pairs(self.commandPosts) do
+		    		UpdatePostMapMarker(cp.name)
+		    	end
 			end
 		end
 		)

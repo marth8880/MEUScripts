@@ -1,5 +1,4 @@
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
-RandomSide = math.random(1,4) 
 
 isModMap = 1
 --
@@ -11,13 +10,24 @@ ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
 mapSize = med
-EnvironmentType = 2
+EnvironmentType = EnvTypeJungle
 onlineSideVar = SSVxGTH
 onlineHeroSSV = shep_soldier
 onlineHeroGTH = gethprime_me2
 onlineHeroCOL = colgeneral
 onlineHeroEVG = gethprime_me3
 isTDM = true
+
+-- AI hero spawns. CP name, CP spawn path name
+heroSupportCPs = {}
+
+-- Local ally spawns. CP name, CP spawn path name
+allySpawnCPs = {
+			{"cp1_tdm", "cp1_tdm_spawn"},
+			{"cp2_tdm", "cp3_tdm_spawn"},
+			{"cp3_tdm", "cp5_tdm_spawn"},
+			{"cp4_tdm", "cp6_tdm_spawn"},
+}
 
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
@@ -32,38 +42,8 @@ HuskTeam = 3
 ATT = 1
 DEF = 2
 
-function SSVxGTH_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideSSVHeroClass()
-		DecideGTHHeroClass()
-	end
-end
-
-function SSVxCOL_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideSSVHeroClass()
-		DecideCOLHeroClass()
-	end
-end
-
-function EVGxGTH_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideEVGHeroClass()
-		DecideGTHHeroClass()
-	end
-end
-
-function EVGxCOL_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideEVGHeroClass()
-		DecideCOLHeroClass()
-	end
-end
-    
-function ScriptPostLoad() 
---WeatherMode = math.random(1,3)
---weather()
-    
+function ScriptPostLoad()
+	
     --This defines the CPs.  These need to happen first
     cp1 = CommandPost:New{name = "cp1_tdm"}
     cp2 = CommandPost:New{name = "cp2_tdm"}
@@ -83,11 +63,10 @@ function ScriptPostLoad()
     conquest:AddCommandPost(cp2)
     conquest:AddCommandPost(cp3)
     conquest:AddCommandPost(cp4)
-	
-	SetProperty("cp1_tdm", "AllyPath", "cp1_tdm_spawn")
-	SetProperty("cp2_tdm", "AllyPath", "cp2_tdm_spawn")
-	SetProperty("cp3_tdm", "AllyPath", "cp3_tdm_spawn")
-	SetProperty("cp4_tdm", "AllyPath", "cp4_tdm_spawn")
+    
+    conquest:Start()
+
+    EnableSPHeroRules()
 	
 	ClearAIGoals(1)
 	ClearAIGoals(2)
@@ -95,51 +74,13 @@ function ScriptPostLoad()
 	AddAIGoal(2, "Deathmatch", 100)
 	AddAIGoal(HuskTeam, "Deathmatch", 100)
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide == 1 then
-				SSVxGTH_PostLoad()
-			elseif RandomSide == 2 then
-				SSVxCOL_PostLoad()
-			elseif RandomSide == 3 then
-				EVGxGTH_PostLoad()
-			elseif RandomSide == 4 then
-				EVGxCOL_PostLoad()
-			end
-		elseif ME5_SideVar == 1 then
-			SSVxGTH_PostLoad()
-		elseif ME5_SideVar == 2 then
-			SSVxCOL_PostLoad()
-		elseif ME5_SideVar == 3 then
-			EVGxGTH_PostLoad()
-		elseif ME5_SideVar == 4 then
-			EVGxCOL_PostLoad()
-		end
-	else
-		SSVxGTH_PostLoad()
-	end
-	
-	SetReinforcementCount(REP, 200)
-	SetReinforcementCount(CIS, 200)
-    
-    conquest:Start()
-
-    EnableSPHeroRules()
+	SetAllySpawns(allySpawnCPs)
+	Init_SidesPostLoad("tdm", heroSupportCPs)
 
     AddDeathRegion("monorail")
     AddDeathRegion("ocean")
     
 end
-
---[[function weather()
-	if WeatherMode == 1 then
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\SKY\\spa_sky.lvl", "red")
-	elseif WeatherMode == 2 then
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\SKY\\spa_sky.lvl", "blue")
-	elseif WeatherMode == 3 then
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\SKY\\spa_sky.lvl", "night")
-	end
-end]]
 
 
 ---------------------------------------------------------------------------
@@ -176,9 +117,6 @@ function ScriptInit()
 	
 	Init_SideSetup()
 	
-	--SetTeamAggressiveness(CIS,(0.97))
-	--SetTeamAggressiveness(REP,(0.99))
-	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EDN_Streaming.lvl")
 
     --  Level Stats
@@ -210,44 +148,24 @@ function ScriptInit()
     SetMemoryPoolSize("Weapon", weaponCnt)
 	
 	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide >= 3 then
-					print("EDNn_con: Injecting Alliance Soldier textures workaround...")
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\GFX_EDN_Corpses.lvl")
-			end
-		elseif ME5_SideVar >= 3 then
-				print("EDNn_con: Injecting Alliance Soldier textures workaround...")
+		if ME5_SideVar >= 3 then
+			print("EDNn_tdm: Injecting Alliance Soldier textures workaround...")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\GFX_EDN_Corpses.lvl")
 		end
 	end
 
     SetSpawnDelay(10.0, 0.25)
-	WeatherMode = math.random(1,3)
-	if not ScriptCB_InMultiplayer() then
-		if WeatherMode == 1 then
-			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\SKY\\spa_sky.lvl", "red")
-			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\EDN.lvl", "EDN_tdm_red")
-			
-			SetDenseEnvironment("false")
-			SetAIViewMultiplier(0.85)
-		elseif WeatherMode == 2 then
-			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\SKY\\spa_sky.lvl", "blue")
-			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\EDN.lvl", "EDN_tdm_day")
-			
-			SetNumBirdTypes(1)
-			SetBirdType(0,1.0,"bird")
-			SetBirdFlockMinHeight(50);
-			
-			SetDenseEnvironment("false")
-			SetAIViewMultiplier(0.9)
-		elseif WeatherMode == 3 then
-			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\SKY\\spa_sky.lvl", "night")
-			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\EDN.lvl", "EDN_tdm_night")
-			
-			SetDenseEnvironment("false")
-			SetAIViewMultiplier(0.65)
-		end
-	else
+	
+	-- Stormy variant
+	if ME5_MapVarEDN == 1 then
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\SKY\\spa_sky.lvl", "red")
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\EDN.lvl", "EDN_tdm_red")
+		
+		SetDenseEnvironment("false")
+		SetAIViewMultiplier(0.85)
+		
+	-- Cloudy variant
+	elseif ME5_MapVarEDN == 2 then
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\SKY\\spa_sky.lvl", "blue")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\EDN.lvl", "EDN_tdm_day")
 		
@@ -257,25 +175,23 @@ function ScriptInit()
 		
 		SetDenseEnvironment("false")
 		SetAIViewMultiplier(0.9)
+		
+	-- Night variant
+	elseif ME5_MapVarEDN == 3 then
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\SKY\\spa_sky.lvl", "night")
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\EDN.lvl", "EDN_tdm_night")
+		
+		SetDenseEnvironment("false")
+		SetAIViewMultiplier(0.65)
 	end
-
-
+	
+	
 	--  Sound Stats
     
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\Sound\\SFL_EDN_Streaming.lvl",  "EDN_ambiance")
 	
 	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide == 1 then
-				Music01()
-			elseif RandomSide == 2 then
-				Music05()
-			elseif RandomSide == 3 then
-				Music09()
-			elseif RandomSide == 4 then
-				Music09()
-			end
-		elseif ME5_SideVar == 1 then
+		if ME5_SideVar == 1 then
 			Music01()
 		elseif ME5_SideVar == 2 then
 			Music05()
@@ -290,9 +206,7 @@ function ScriptInit()
 	
 	SoundFX()
 	
-    --  Camera Stats
-    --Tat2 Mos Eisley
-	-- Information: rot_y     rot_z      unknown   rot_x       pos_x     pos_y       pos_z
+    -- Camera Stats
 	AddCameraShot(0.327342, 0.011198, -0.944287, 0.032303, -74.878967, 5.497213, -69.507790);		-- tram station
 	--AddCameraShot(0.335859, -0.053222, -0.928818, -0.147186, -74.092560, 6.867630, -67.068901);
 	AddCameraShot(0.691021, -0.071285, 0.715514, 0.073812, 5.180315, 13.413967, 64.938232);			-- rock arena

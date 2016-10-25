@@ -1,7 +1,7 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Combat Manager Script by A. Gilbert
--- Version 30502/06
+-- Build 30502/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
 -- May 2, 2016

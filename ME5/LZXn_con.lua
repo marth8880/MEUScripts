@@ -1,5 +1,4 @@
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
-RandomSide = math.random(1,4)
 
 isModMap = 1
 
@@ -15,12 +14,36 @@ ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
 mapSize = lg
-EnvironmentType = 3
+EnvironmentType = EnvTypeSnow
 onlineSideVar = SSVxGTH
 onlineHeroSSV = shep_infiltrator
 onlineHeroGTH = gethprime_me2
 onlineHeroCOL = colgeneral
 onlineHeroEVG = gethprime_me3
+
+-- AI hero spawns. CP name, CP spawn path name
+heroSupportCPs = {
+			{"cp1", "cp1_spawn"},
+			{"cp2", "cp2_spawn"},
+			{"cp3", "cp3_spawn"},
+			{"cp4", "cp4_spawn"},
+			{"cp5", "cp5_spawn"},
+			{"cp6", "cp6_spawn"},
+			{"cp7", "cp7_spawn"},
+			{"cp8", "cp8_spawn"},
+}
+
+-- Local ally spawns. CP name, CP spawn path name
+allySpawnCPs = {
+			{"cp1", "cp1_spawn"},
+			{"cp2", "cp2_spawn"},
+			{"cp3", "cp3_spawn"},
+			{"cp4", "cp4_spawn"},
+			{"cp5", "cp5_spawn"},
+			{"cp6", "cp6_spawn"},
+			{"cp7", "cp7_spawn"},
+			{"cp8", "cp8_spawn"},
+}
 	
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
@@ -34,102 +57,6 @@ HuskTeam = 3
 
 ATT = 1
 DEF = 2
-
-function SSVxGTH_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideSSVHeroClass()
-		DecideGTHHeroClass()
-		if ME5_AIHeroes == 0 then
-			SetHeroClass(REP, SSVHeroClass)
-			SetHeroClass(CIS, GTHHeroClass)
-		elseif ME5_AIHeroes == 1 then
-			herosupport = AIHeroSupport:New{AIATTHeroHealth = 3000, AIDEFHeroHealth = 3000, gameMode = "NonConquest",}
-			herosupport:SetHeroClass(REP, SSVHeroClass)
-			herosupport:SetHeroClass(CIS, GTHHeroClass)
-			herosupport:AddSpawnCP("cp1","cp1_spawn")
-			herosupport:AddSpawnCP("cp2","cp2_spawn")
-			herosupport:AddSpawnCP("cp3","cp3_spawn")
-			herosupport:AddSpawnCP("cp4","cp4_spawn")
-			herosupport:AddSpawnCP("cp5","cp5_spawn")
-			herosupport:AddSpawnCP("cp6","cp6_spawn")
-			herosupport:AddSpawnCP("cp7","cp7_spawn")
-			herosupport:AddSpawnCP("cp8","cp8_spawn")
-			herosupport:Start()
-		end
-	end
-end
-
-function SSVxCOL_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideSSVHeroClass()
-		DecideCOLHeroClass()
-		if ME5_AIHeroes == 0 then
-			SetHeroClass(REP, SSVHeroClass)
-			SetHeroClass(CIS, COLHeroClass)
-		elseif ME5_AIHeroes == 1 then
-			herosupport = AIHeroSupport:New{AIATTHeroHealth = 3000, AIDEFHeroHealth = 3000, gameMode = "NonConquest",}
-			herosupport:SetHeroClass(REP, SSVHeroClass)
-			herosupport:SetHeroClass(CIS, COLHeroClass)
-			herosupport:AddSpawnCP("cp1","cp1_spawn")
-			herosupport:AddSpawnCP("cp2","cp2_spawn")
-			herosupport:AddSpawnCP("cp3","cp3_spawn")
-			herosupport:AddSpawnCP("cp4","cp4_spawn")
-			herosupport:AddSpawnCP("cp5","cp5_spawn")
-			herosupport:AddSpawnCP("cp6","cp6_spawn")
-			herosupport:AddSpawnCP("cp7","cp7_spawn")
-			herosupport:AddSpawnCP("cp8","cp8_spawn")
-			herosupport:Start()
-		end
-	end
-end
-
-function EVGxGTH_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideEVGHeroClass()
-		DecideGTHHeroClass()
-		if ME5_AIHeroes == 0 then
-			SetHeroClass(REP, EVGHeroClass)
-			SetHeroClass(CIS, GTHHeroClass)
-		elseif ME5_AIHeroes == 1 then
-			herosupport = AIHeroSupport:New{AIATTHeroHealth = 3000, AIDEFHeroHealth = 3000, gameMode = "NonConquest",}
-			herosupport:SetHeroClass(REP, EVGHeroClass)
-			herosupport:SetHeroClass(CIS, GTHHeroClass)
-			herosupport:AddSpawnCP("cp1","cp1_spawn")
-			herosupport:AddSpawnCP("cp2","cp2_spawn")
-			herosupport:AddSpawnCP("cp3","cp3_spawn")
-			herosupport:AddSpawnCP("cp4","cp4_spawn")
-			herosupport:AddSpawnCP("cp5","cp5_spawn")
-			herosupport:AddSpawnCP("cp6","cp6_spawn")
-			herosupport:AddSpawnCP("cp7","cp7_spawn")
-			herosupport:AddSpawnCP("cp8","cp8_spawn")
-			herosupport:Start()
-		end
-	end
-end
-
-function EVGxCOL_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideEVGHeroClass()
-		DecideCOLHeroClass()
-		if ME5_AIHeroes == 0 then
-			SetHeroClass(REP, EVGHeroClass)
-			SetHeroClass(CIS, COLHeroClass)
-		elseif ME5_AIHeroes == 1 then
-			herosupport = AIHeroSupport:New{AIATTHeroHealth = 3000, AIDEFHeroHealth = 3000, gameMode = "NonConquest",}
-			herosupport:SetHeroClass(REP, EVGHeroClass)
-			herosupport:SetHeroClass(CIS, COLHeroClass)
-			herosupport:AddSpawnCP("cp1","cp1_spawn")
-			herosupport:AddSpawnCP("cp2","cp2_spawn")
-			herosupport:AddSpawnCP("cp3","cp3_spawn")
-			herosupport:AddSpawnCP("cp4","cp4_spawn")
-			herosupport:AddSpawnCP("cp5","cp5_spawn")
-			herosupport:AddSpawnCP("cp6","cp6_spawn")
-			herosupport:AddSpawnCP("cp7","cp7_spawn")
-			herosupport:AddSpawnCP("cp8","cp8_spawn")
-			herosupport:Start()
-		end
-	end
-end
 
 function ScriptPostLoad()
 	
@@ -158,54 +85,30 @@ function ScriptPostLoad()
     conquest:AddCommandPost(cp6)
     conquest:AddCommandPost(cp7)
     conquest:AddCommandPost(cp8)
+	
+    conquest:Start()
+	
+    EnableSPHeroRules()
 
-	SetProperty("cp1", "AllyPath", "cp1_spawn")
-	SetProperty("cp2", "AllyPath", "cp2_spawn")
-	SetProperty("cp3", "AllyPath", "cp3_spawn")
-	SetProperty("cp4", "AllyPath", "cp4_spawn")
-	SetProperty("cp5", "AllyPath", "cp5_spawn")
-	SetProperty("cp6", "AllyPath", "cp6_spawn")
-	SetProperty("cp7", "AllyPath", "cp7_spawn")
-	SetProperty("cp8", "AllyPath", "cp8_spawn")
-
-	SetProperty("cp1", "HUDIndex", 7)
-	SetProperty("cp2", "HUDIndex", 1)
-	SetProperty("cp3", "HUDIndex", 4)
-	SetProperty("cp4", "HUDIndex", 6)
-	SetProperty("cp5", "HUDIndex", 5)
-	SetProperty("cp6", "HUDIndex", 2)
-	SetProperty("cp7", "HUDIndex", 8)
-	SetProperty("cp8", "HUDIndex", 3)
+	SetProperty("cp1", "HUDIndex", 7)	-- 7
+	SetProperty("cp2", "HUDIndex", 1)	-- 1
+	SetProperty("cp3", "HUDIndex", 5)	-- 4
+	SetProperty("cp4", "HUDIndex", 3)	-- 6
+	SetProperty("cp5", "HUDIndex", 6)	-- 5
+	SetProperty("cp6", "HUDIndex", 2)	-- 2
+	SetProperty("cp7", "HUDIndex", 8)	-- 8
+	SetProperty("cp8", "HUDIndex", 4)	-- 3
 	
 	ClearAIGoals(1)
 	ClearAIGoals(2)
 	AddAIGoal(1, "Conquest", 100)
 	AddAIGoal(2, "Conquest", 100)
+    
+	
 	AddAIGoal(HuskTeam, "Deathmatch", 100)
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide == 1 then
-				SSVxGTH_PostLoad()
-			elseif RandomSide == 2 then
-				SSVxCOL_PostLoad()
-			elseif RandomSide == 3 then
-				EVGxGTH_PostLoad()
-			elseif RandomSide == 4 then
-				EVGxCOL_PostLoad()
-			end
-		elseif ME5_SideVar == 1 then
-			SSVxGTH_PostLoad()
-		elseif ME5_SideVar == 2 then
-			SSVxCOL_PostLoad()
-		elseif ME5_SideVar == 3 then
-			EVGxGTH_PostLoad()
-		elseif ME5_SideVar == 4 then
-			EVGxCOL_PostLoad()
-		end
-	else
-		SSVxGTH_PostLoad()
-	end
+	SetAllySpawns(allySpawnCPs)
+	Init_SidesPostLoad("conquest", heroSupportCPs)
 	
 	CP1Node = GetPathPoint("cp1_spawn", 0) --gets the path point
 	CP2Node = GetPathPoint("cp2_spawn", 0)
@@ -252,10 +155,6 @@ function ScriptPostLoad()
 		end,
 	"artGameTimer"
 	)]]
-	
-    conquest:Start()
-	
-    EnableSPHeroRules()
 	
 	AddDeathRegion("deathregion")
 	
@@ -334,17 +233,7 @@ function ScriptInit()
 	--  Sound Stats
 	
 	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide == 1 then
-				Music03()
-			elseif RandomSide == 2 then
-				Music05()
-			elseif RandomSide == 3 then
-				Music09()
-			elseif RandomSide == 4 then
-				Music09()
-			end
-		elseif ME5_SideVar == 1 then
+		if ME5_SideVar == 1 then
 			Music03()
 		elseif ME5_SideVar == 2 then
 			Music05()

@@ -6,6 +6,8 @@
 -- component. The game should be able to include this file and nothing
 -- else.
 
+print("game_interface: Entered")
+
 gPlatformStr = ScriptCB_GetPlatform()
 
 -- Note: we don't call ScriptCB_GetOnlineService(), which returns what
@@ -15,6 +17,30 @@ gOnlineServiceStr = ScriptCB_GetConnectType()
 --	gOnlineServiceStr = ScriptCB_GetOnlineService()
 
 gLangStr,gLangEnum = ScriptCB_GetLanguage()
+
+-- Read in awards setting
+--[[if ScriptCB_IsFileExist("..\\..\\addon\\AAA-v1.3patch\\settings\\noAwards.txt") then
+	__v13patchSettings_noAwards__ = 0
+end
+
+ScriptCB_DoFile("utility_functions2")
+
+print("game_interface: Reading in custom strings")
+ReadDataFile("v1.3patch_strings.lvl")
+
+
+-- Load user scripts
+local curUserScript = 0
+
+while ScriptCB_IsFileExist("user_script_"..curUserScript..".lvl") do
+	ReadDataFile("user_script_"..curUserScript..".lvl")
+	
+	print("game_interface: Found user_script_"..curUserScript)
+	curUserScript = curUserScript + 1
+else
+	print("game_interface: No user_script_"..curUserScript)
+end]]
+
 
 -- Load designer-specified globals
 ScriptCB_DoFile("globals")

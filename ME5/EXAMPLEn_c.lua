@@ -30,7 +30,7 @@ ScriptCB_DoFile("ME5_CombatManager")
 ScriptCB_DoFile("Ambush")
 
 mapSize = xs
-EnvironmentType = 4
+EnvironmentType = EnvTypeUrban
 --[[onlineSideVar = SSVxGTH
 onlineHeroSSV = shep_vanguard
 onlineHeroGTH = gethprime_me2

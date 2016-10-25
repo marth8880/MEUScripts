@@ -11,7 +11,7 @@ ScriptCB_DoFile("ME5_ObjectiveConquest")
 ScriptCB_DoFile("ME5_RandomSides")
 
 mapSize = sm
-EnvironmentType = 2
+EnvironmentType = EnvTypeJungle
 onlineSideVar = SSVxGTH
 onlineHeroSSV = shep_soldier
 onlineHeroGTH = gethprime_me2

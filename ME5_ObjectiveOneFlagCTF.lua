@@ -353,17 +353,7 @@ end
 -----------------------------------------------------
 -- Sound cues for events
 if not ScriptCB_InMultiplayer() then
-	if ME5_SideVar == 0 then
-		if RandomSide == 1 then
-			CTF_SoundEvents_Var = 1
-		elseif RandomSide == 2 then
-			CTF_SoundEvents_Var = 2
-		elseif RandomSide == 3 then
-			CTF_SoundEvents_Var = 3
-		elseif RandomSide == 4 then
-			CTF_SoundEvents_Var = 4
-		end
-	elseif ME5_SideVar == 1 then
+	if ME5_SideVar == 1 then
 		CTF_SoundEvents_Var = 1
 	elseif ME5_SideVar == 2 then
 		CTF_SoundEvents_Var = 2

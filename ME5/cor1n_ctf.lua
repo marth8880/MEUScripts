@@ -1,5 +1,4 @@
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
-RandomSide = math.random(1,4)
 --
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
@@ -10,12 +9,18 @@ ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveCTF")
 
 mapSize = med
-EnvironmentType = 4
+EnvironmentType = EnvTypeUrban
 onlineSideVar = SSVxGTH
 onlineHeroSSV = shep_engineer
 onlineHeroGTH = gethprime_me2
 onlineHeroCOL = colgeneral
 onlineHeroEVG = gethprime_me3
+
+-- AI hero spawns. CP name, CP spawn path name
+heroSupportCPs = {}
+
+-- Local ally spawns. CP name, CP spawn path name
+allySpawnCPs = {}
 
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
@@ -39,34 +44,6 @@ DEF = 2
 --              mission script must contain a version of this function, as
 --              it is called from C to start the mission.
 ---------------------------------------------------------------------------
-
-function SSVxGTH_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideSSVHeroClass()
-		DecideGTHHeroClass()
-	end
-end
-
-function SSVxCOL_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideSSVHeroClass()
-		DecideCOLHeroClass()
-	end
-end
-
-function EVGxGTH_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideEVGHeroClass()
-		DecideGTHHeroClass()
-	end
-end
-
-function EVGxCOL_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideEVGHeroClass()
-		DecideCOLHeroClass()
-	end
-end
 
 --PostLoad, this is all done after all loading, etc.
 function ScriptPostLoad()
@@ -199,30 +176,12 @@ function ScriptPostLoad()
 			end,
 			"music_timer"
 		)]]
+    
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide == 1 then
-				SSVxGTH_PostLoad()
-			elseif RandomSide == 2 then
-				SSVxCOL_PostLoad()
-			elseif RandomSide == 3 then
-				EVGxGTH_PostLoad()
-			elseif RandomSide == 4 then
-				EVGxCOL_PostLoad()
-			end
-		elseif ME5_SideVar == 1 then
-			SSVxGTH_PostLoad()
-		elseif ME5_SideVar == 2 then
-			SSVxCOL_PostLoad()
-		elseif ME5_SideVar == 3 then
-			EVGxGTH_PostLoad()
-		elseif ME5_SideVar == 4 then
-			EVGxCOL_PostLoad()
-		end
-	else
-		SSVxGTH_PostLoad()
-	end
+	AddAIGoal(HuskTeam, "Deathmatch", 100)
+	
+	SetAllySpawns(allySpawnCPs)
+	Init_SidesPostLoad("ctf", heroSupportCPs)
 	
 end
 
@@ -262,7 +221,7 @@ function ScriptInit()
     AddWalkerType(2, 0) -- 2 spider walkers with 2 leg pairs each
     AddWalkerType(3, 0) -- 2 attes with 3 leg pairs each
     local guyCnt = 50
-    local weaponCnt = 200
+    local weaponCnt = 237
     SetMemoryPoolSize ("Aimer", 25)
     SetMemoryPoolSize ("AmmoCounter", weaponCnt)
     SetMemoryPoolSize ("BaseHint", 300)
@@ -292,17 +251,7 @@ function ScriptInit()
     --  Sound Stats
 	
 	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide == 1 then
-				Music06_CTF()
-			elseif RandomSide == 2 then
-				Music02_CTF()
-			elseif RandomSide == 3 then
-				Music09_CTF()
-			elseif RandomSide == 4 then
-				Music09_CTF()
-			end
-		elseif ME5_SideVar == 1 then
+		if ME5_SideVar == 1 then
 			Music06_CTF()
 		elseif ME5_SideVar == 2	then
 			Music02_CTF()

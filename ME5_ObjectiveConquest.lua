@@ -164,21 +164,7 @@ function ObjectiveConquest:Start()
 			
 			
 			--[[if not ScriptCB_InMultiplayer() then
-				if ME5_SideVar == 0 then
-					if RandomSide == 1 then
-						if team == REP then
-							ShowMessageText("level.common.events.siege.control_".."ssv")
-						elseif team == CIS then
-							ShowMessageText("level.common.events.siege.control_".."gth")
-						end
-					elseif RandomSide == 2 then
-						if team == REP then
-							ShowMessageText("level.common.events.siege.control_".."ssv")
-						elseif team == CIS then
-							ShowMessageText("level.common.events.siege.control_".."col")
-						end
-					end
-				elseif ME5_SideVar == 1 then
+				if ME5_SideVar == 1 then
 					if team == REP then
 						ShowMessageText("level.common.events.siege.control_".."ssv")
 					elseif team == CIS then
@@ -352,53 +338,7 @@ function ObjectiveConquest:Start()
 	
 	if isTDM == false then
     	if not ScriptCB_InMultiplayer() then
-    		if ME5_SideVar == 0 then
-    			if RandomSide == 1 then
-    				snd_REP_cpCapture_ally	= snd_SSV_cpCapture_ally
-    				snd_REP_cpCapture_enemy	= snd_SSV_cpCapture_enemy
-    				snd_REP_cpLost_ally		= snd_SSV_cpLost_ally
-    				snd_REP_cpLost_enemy	= snd_SSV_cpLost_enemy
-    				
-    				snd_CIS_cpCapture_ally	= snd_GTH_cpCapture_ally
-    				snd_CIS_cpCapture_enemy	= snd_GTH_cpCapture_enemy
-    				snd_CIS_cpLost_ally		= snd_GTH_cpLost_ally
-    				snd_CIS_cpLost_enemy	= snd_GTH_cpLost_enemy
-    				
-    			elseif RandomSide == 2 then
-    				snd_REP_cpCapture_ally	= snd_SSV_cpCapture_ally
-    				snd_REP_cpCapture_enemy	= snd_SSV_cpCapture_enemy
-    				snd_REP_cpLost_ally		= snd_SSV_cpLost_ally
-    				snd_REP_cpLost_enemy	= snd_SSV_cpLost_enemy
-    				
-    				snd_CIS_cpCapture_ally	= snd_COL_cpCapture_ally
-    				snd_CIS_cpCapture_enemy	= snd_COL_cpCapture_enemy
-    				snd_CIS_cpLost_ally		= snd_COL_cpLost_ally
-    				snd_CIS_cpLost_enemy	= snd_COL_cpLost_enemy
-    				
-    			elseif RandomSide == 3 then
-    				snd_REP_cpCapture_ally	= snd_EVG_cpCapture_ally
-    				snd_REP_cpCapture_enemy	= snd_EVG_cpCapture_enemy
-    				snd_REP_cpLost_ally		= snd_EVG_cpLost_ally
-    				snd_REP_cpLost_enemy	= snd_EVG_cpLost_enemy
-    				
-    				snd_CIS_cpCapture_ally	= snd_GTH_cpCapture_ally
-    				snd_CIS_cpCapture_enemy	= snd_GTH_cpCapture_enemy
-    				snd_CIS_cpLost_ally		= snd_GTH_cpLost_ally
-    				snd_CIS_cpLost_enemy	= snd_GTH_cpLost_enemy
-    				
-    			elseif RandomSide == 4 then
-    				snd_REP_cpCapture_ally	= snd_EVG_cpCapture_ally
-    				snd_REP_cpCapture_enemy	= snd_EVG_cpCapture_enemy
-    				snd_REP_cpLost_ally		= snd_EVG_cpLost_ally
-    				snd_REP_cpLost_enemy	= snd_EVG_cpLost_enemy
-    				
-    				snd_CIS_cpCapture_ally	= snd_COL_cpCapture_ally
-    				snd_CIS_cpCapture_enemy	= snd_COL_cpCapture_enemy
-    				snd_CIS_cpLost_ally		= snd_COL_cpLost_ally
-    				snd_CIS_cpLost_enemy	= snd_COL_cpLost_enemy
-    				
-    			end
-    		elseif ME5_SideVar == 1 then
+    		if ME5_SideVar == 1 then
     			snd_REP_cpCapture_ally	= snd_SSV_cpCapture_ally
     			snd_REP_cpCapture_enemy	= snd_SSV_cpCapture_enemy
     			snd_REP_cpLost_ally		= snd_SSV_cpLost_ally
@@ -585,7 +525,7 @@ function ObjectiveConquest:Start()
 			if self.isComplete then	return end
 			if not self.commandPosts[GetEntityName(postPtr)] then return end
 			
-			UpdatePostMapMarker(postPtr)			
+			UpdatePostMapMarker(postPtr)
 			UpdateState()
 		end
 		)
@@ -736,12 +676,12 @@ function ObjectiveConquest:Complete(winningTeam)
 	--then call the default objective complete method
 	Objective.Complete(self, winningTeam)
 	
-	if ME5_CustomHUD == 1 then
+	--[[if ME5_CustomHUD == 1 then
 		if bStockFontLoaded == false then
 			bStockFontLoaded = true
 				print("ME5_ObjectiveConquest: Loading hud_font_stock.lvl...")
 			-- hotfix that reloads the stock fonts in the stats screen
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
 		end
-	end
+	end]]
 end

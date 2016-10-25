@@ -1,5 +1,4 @@
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
-RandomSide = math.random(1,2)
 
 isModMap = 1
 --
@@ -102,7 +101,7 @@ function ScriptInit()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamegth.lvl")
 	PreLoadStuff()
 	
-	EnvironmentType = 4
+	EnvironmentType = EnvTypeUrban
 	
     SetMaxFlyHeight(16)
     SetMaxPlayerFlyHeight(16)

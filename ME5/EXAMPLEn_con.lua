@@ -12,7 +12,7 @@ ScriptCB_DoFile("ME5_ObjectiveConquest")
 
 -- Map-specific data fields
 mapSize = sm						-- The size of the map. Used for determining unit counts.
-EnvironmentType = 2					-- The map's biome (essentially). Used for determining which camo textures to load.
+EnvironmentType = EnvTypeJungle					-- The map's biome (essentially). Used for determining which camo textures to load.
 onlineSideVar = SSVxGTH				-- The side variation to use in online matches.
 onlineHeroSSV = shep_engineer		-- The SSV hero to use in online matches.
 onlineHeroGTH = gethprime_me2		-- The GTH hero to use in online matches.

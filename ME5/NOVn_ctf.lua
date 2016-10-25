@@ -49,9 +49,9 @@ DEF = 2
 function ScriptPostLoad()
 
         SoundEvent_SetupTeams( REP, 'rep', CIS, 'cis' )
-		SetProperty ("com_item_vehicle_spawn", "SpawnCount",1)
-		SetProperty ("com_item_vehicle_spawn1", "SpawnCount",0)
-		SetProperty ("com_item_vehicle_spawn2", "SpawnCount",0)
+		SetProperty("com_item_vehicle_spawn", "SpawnCount", 1)
+		SetProperty("com_item_vehicle_spawn1", "SpawnCount", 0)
+		SetProperty("com_item_vehicle_spawn2", "SpawnCount", 0)
 
 --Capture the Flag for stand-alone multiplayer
                 -- These set the flags geometry names.
@@ -139,7 +139,7 @@ end
     StealArtistHeap(550*1024)
 
 	SetPS2ModelMemory(4130000)
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\load.lvl;pol1")
+	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\NOV.lvl")
 	
 	SetMemoryPoolSize("ParticleTransformer::ColorTrans", 2183)
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1291)
@@ -160,72 +160,60 @@ end
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_POL_Streaming.lvl;pol1n")
 	
-    --  Level Stats
-        ClearWalkers()
-        AddWalkerType(0, 0) -- 3 droidekas (special case: 0 leg pairs)
-        --   AddWalkerType(1, 4) 
-        --    AddWalkerType(2, 0) -- 2 spider walkers with 2 leg pairs each
-        --    AddWalkerType(3, 0) -- 2 attes with 3 leg pairs each
-        local weaponCnt = 200
-        SetMemoryPoolSize("Aimer", 30)
-        SetMemoryPoolSize("AmmoCounter", weaponCnt)
-        SetMemoryPoolSize("BaseHint", 250)
-        SetMemoryPoolSize("EnergyBar", weaponCnt)
-        SetMemoryPoolSize("EntityHover", 0)
-        SetMemoryPoolSize("EntityLight", 63)
-        SetMemoryPoolSize("EntitySoundStream", 25)
-        SetMemoryPoolSize("EntitySoundStatic", 10)
-		SetMemoryPoolSize("FlagItem", 512)
-        SetMemoryPoolSize("MountedTurret", 18)
-        SetMemoryPoolSize("Navigator", 50)
-        SetMemoryPoolSize("Obstacle", 400)
-        SetMemoryPoolSize("PathFollower", 50)
-        SetMemoryPoolSize("PathNode", 200)
-        SetMemoryPoolSize("SoundSpaceRegion", 34)
-        SetMemoryPoolSize("TentacleSimulator", 0)
-        SetMemoryPoolSize("TreeGridStack", 180)
-        SetMemoryPoolSize("UnitAgent", 50)
-        SetMemoryPoolSize("UnitController", 50)
-        SetMemoryPoolSize("Weapon", weaponCnt)
-		SetMemoryPoolSize("EntityFlyer", 4)   
-
-        SetMemoryPoolSize ("Asteroid", 100)
+	--  Level Stats
+	ClearWalkers()
+	AddWalkerType(0, 0) -- 3 droidekas (special case: 0 leg pairs)
+	--AddWalkerType(1, 4) 
+	--AddWalkerType(2, 0) -- 2 spider walkers with 2 leg pairs each
+	--AddWalkerType(3, 0) -- 2 attes with 3 leg pairs each
+	local weaponCnt = 200
+	SetMemoryPoolSize("Aimer", 30)
+	SetMemoryPoolSize("AmmoCounter", weaponCnt)
+	SetMemoryPoolSize("BaseHint", 250)
+	SetMemoryPoolSize("EnergyBar", weaponCnt)
+	SetMemoryPoolSize("EntityHover", 0)
+	SetMemoryPoolSize("EntityLight", 63)
+	SetMemoryPoolSize("EntitySoundStream", 25)
+	SetMemoryPoolSize("EntitySoundStatic", 10)
+	SetMemoryPoolSize("FlagItem", 512)
+	SetMemoryPoolSize("MountedTurret", 18)
+	SetMemoryPoolSize("Navigator", 50)
+	SetMemoryPoolSize("Obstacle", 400)
+	SetMemoryPoolSize("PathFollower", 50)
+	SetMemoryPoolSize("PathNode", 200)
+	SetMemoryPoolSize("SoundSpaceRegion", 34)
+	SetMemoryPoolSize("TentacleSimulator", 0)
+	SetMemoryPoolSize("TreeGridStack", 180)
+	SetMemoryPoolSize("UnitAgent", 50)
+	SetMemoryPoolSize("UnitController", 50)
+	SetMemoryPoolSize("Weapon", weaponCnt)
+	SetMemoryPoolSize("EntityFlyer", 4)
 
     SetSpawnDelay(10.0, 0.25)
-     ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\pol1.lvl", "pol1_ctf")
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\minimap.lvl;pol1")
-     SetDenseEnvironment("True")   
-     AddDeathRegion("deathregion1")
+    ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\NOV.lvl", "NOV_ctf")
+    SetDenseEnvironment("True")   
+    AddDeathRegion("deathregion1")
      --SetStayInTurrets(1)
-
---asteroids start!
-SetParticleLODBias(3000)
-SetMaxCollisionDistance(1500)     
---    FillAsteroidPath("pathas01", 10, "pol1_prop_asteroid_01", 20, 1.0,0.0,0.0, -1.0,0.0,0.0);
---    FillAsteroidPath("pathas01", 20, "pol1_prop_asteroid_02", 40, 1.0,0.0,0.0, -1.0,0.0,0.0);
---    FillAsteroidPath("pathas02", 10, "pol1_prop_asteroid_01", 10, 1.0,0.0,0.0, -1.0,0.0,0.0);
---    FillAsteroidPath("pathas03", 10, "pol1_prop_asteroid_02", 20, 1.0,0.0,0.0, -1.0,0.0,0.0);
---    FillAsteroidPath("pathas04", 5, "pol1_prop_asteroid_02", 2, 1.0,0.0,0.0, -1.0,0.0,0.0);      
-
--- asteroids end!
+	
+	SetParticleLODBias(3000)
+	SetMaxCollisionDistance(1500)
 
     --  Sound Stats
 	
 	if not ScriptCB_InMultiplayer() then
 		if ME5_SideVar == 1 then
-			Music04_CTF()
+			Music03_CTF()
 		elseif ME5_SideVar == 2 then
-			Music02_CTF()
+			Music05_CTF()
 		elseif ME5_SideVar == 3	then
-			Music06_CTF()
+			Music09_CTF()
 		elseif ME5_SideVar == 4	then
 			Music09_CTF()
 		end
 	else
-		Music02_CTF()
+		Music05_CTF()
 	end
 	
-	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_POL_Streaming.lvl",  "pol1")
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_POL_Streaming.lvl",  "pol1")
 	
 	SoundFX()

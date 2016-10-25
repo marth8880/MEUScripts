@@ -1,5 +1,4 @@
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
-RandomSide = math.random(1,4)
 --
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
@@ -10,12 +9,45 @@ ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
 mapSize = lg
-EnvironmentType = 2
+EnvironmentType = EnvTypeJungle
 onlineSideVar = SSVxCOL
 onlineHeroSSV = shep_soldier
 onlineHeroGTH = gethprime_me2
 onlineHeroCOL = colgeneral
 onlineHeroEVG = gethprime_me3
+
+-- Local ally spawns. CP name, CP spawn path name
+heroSupportCPs = {
+			{"Bazaar",			"Bazaar_SpawnPath"},
+			{"CP1",				"CP1SpawnPath"},
+			{"LandingZone", 	"LandingZone_SpawnPath"},
+			{"ReflectingPool",	"ReflectingPool_SpawnPath"},
+			{"Temple",			"Temple_SpawnPath"},
+			{"Tflank",			"SmallTemple_SpawnPath"},
+			{"ViaDuct",			"ViaductSpawnPath01"},
+}
+
+-- AI hero spawns. CP name, CP spawn path name
+allySpawnCPs = {
+			{"Bazaar",			"Bazaar_SpawnPath"},
+			{"CP1",				"CP1SpawnPath"},
+			{"LandingZone", 	"LandingZone_SpawnPath"},
+			{"ReflectingPool",	"ReflectingPool_SpawnPath"},
+			{"Temple",			"Temple_SpawnPath"},
+			{"Tflank",			"SmallTemple_SpawnPath"},
+			{"ViaDuct",			"ViaductSpawnPath01"},
+}
+
+-- Artillery strike path nodes. Path name, path node ID
+artilleryNodes = {
+			{"Bazaar_SpawnPath",			0},
+			{"CP1SpawnPath",				0},
+			{"LandingZone_SpawnPath",		0},
+			{"ReflectingPool_SpawnPath",	0},
+			--{"Temple_SpawnPath",			0},
+			{"SmallTemple_SpawnPath",		0},
+			{"ViaductSpawnPath01",			0},
+}
 
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
@@ -39,98 +71,6 @@ DEF = 2
 --              mission script must contain a version of this function, as
 --              it is called from C to start the mission.
 ---------------------------------------------------------------------------
-
-function SSVxGTH_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideSSVHeroClass()
-		DecideGTHHeroClass()
-		if ME5_AIHeroes == 0 then
-			SetHeroClass(REP, SSVHeroClass)
-			SetHeroClass(CIS, GTHHeroClass)
-		elseif ME5_AIHeroes == 1 then
-			herosupport = AIHeroSupport:New{AIATTHeroHealth = 3000, AIDEFHeroHealth = 3000, gameMode = "NonConquest",}
-			herosupport:SetHeroClass(REP, SSVHeroClass)
-			herosupport:SetHeroClass(CIS, GTHHeroClass)
-			herosupport:AddSpawnCP("Bazaar",		"Bazaar_SpawnPath")
-			herosupport:AddSpawnCP("CP1",			"CP1SpawnPath")
-			herosupport:AddSpawnCP("LandingZone",	"LandingZone_SpawnPath")
-			herosupport:AddSpawnCP("ReflectingPool","ReflectingPool_SpawnPath")
-			herosupport:AddSpawnCP("Temple",		"Temple_SpawnPath")
-			herosupport:AddSpawnCP("Tflank",		"SmallTemple_SpawnPath")
-			herosupport:AddSpawnCP("ViaDuct",		"ViaductSpawnPath01")
-			herosupport:Start()
-		end
-	end
-end
-
-function SSVxCOL_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideSSVHeroClass()
-		DecideCOLHeroClass()
-		if ME5_AIHeroes == 0 then
-			SetHeroClass(REP, SSVHeroClass)
-			SetHeroClass(CIS, COLHeroClass)
-		elseif ME5_AIHeroes == 1 then
-			herosupport = AIHeroSupport:New{AIATTHeroHealth = 3000, AIDEFHeroHealth = 3000, gameMode = "NonConquest",}
-			herosupport:SetHeroClass(REP, SSVHeroClass)
-			herosupport:SetHeroClass(CIS, COLHeroClass)
-			herosupport:AddSpawnCP("Bazaar",		"Bazaar_SpawnPath")
-			herosupport:AddSpawnCP("CP1",			"CP1SpawnPath")
-			herosupport:AddSpawnCP("LandingZone",	"LandingZone_SpawnPath")
-			herosupport:AddSpawnCP("ReflectingPool","ReflectingPool_SpawnPath")
-			herosupport:AddSpawnCP("Temple",		"Temple_SpawnPath")
-			herosupport:AddSpawnCP("Tflank",		"SmallTemple_SpawnPath")
-			herosupport:AddSpawnCP("ViaDuct",		"ViaductSpawnPath01")
-			herosupport:Start()
-		end
-	end
-end
-
-function EVGxGTH_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideEVGHeroClass()
-		DecideGTHHeroClass()
-		if ME5_AIHeroes == 0 then
-			SetHeroClass(REP, EVGHeroClass)
-			SetHeroClass(CIS, GTHHeroClass)
-		elseif ME5_AIHeroes == 1 then
-			herosupport = AIHeroSupport:New{AIATTHeroHealth = 3000, AIDEFHeroHealth = 3000, gameMode = "NonConquest",}
-			herosupport:SetHeroClass(REP, EVGHeroClass)
-			herosupport:SetHeroClass(CIS, GTHHeroClass)
-			herosupport:AddSpawnCP("Bazaar",		"Bazaar_SpawnPath")
-			herosupport:AddSpawnCP("CP1",			"CP1SpawnPath")
-			herosupport:AddSpawnCP("LandingZone",	"LandingZone_SpawnPath")
-			herosupport:AddSpawnCP("ReflectingPool","ReflectingPool_SpawnPath")
-			herosupport:AddSpawnCP("Temple",		"Temple_SpawnPath")
-			herosupport:AddSpawnCP("Tflank",		"SmallTemple_SpawnPath")
-			herosupport:AddSpawnCP("ViaDuct",		"ViaductSpawnPath01")
-			herosupport:Start()
-		end
-	end
-end
-
-function EVGxCOL_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideEVGHeroClass()
-		DecideCOLHeroClass()
-		if ME5_AIHeroes == 0 then
-			SetHeroClass(REP, EVGHeroClass)
-			SetHeroClass(CIS, COLHeroClass)
-		elseif ME5_AIHeroes == 1 then
-			herosupport = AIHeroSupport:New{AIATTHeroHealth = 3000, AIDEFHeroHealth = 3000, gameMode = "NonConquest",}
-			herosupport:SetHeroClass(REP, EVGHeroClass)
-			herosupport:SetHeroClass(CIS, COLHeroClass)
-			herosupport:AddSpawnCP("Bazaar",		"Bazaar_SpawnPath")
-			herosupport:AddSpawnCP("CP1",			"CP1SpawnPath")
-			herosupport:AddSpawnCP("LandingZone",	"LandingZone_SpawnPath")
-			herosupport:AddSpawnCP("ReflectingPool","ReflectingPool_SpawnPath")
-			herosupport:AddSpawnCP("Temple",		"Temple_SpawnPath")
-			herosupport:AddSpawnCP("Tflank",		"SmallTemple_SpawnPath")
-			herosupport:AddSpawnCP("ViaDuct",		"ViaductSpawnPath01")
-			herosupport:Start()
-		end
-	end
-end
 
 function ScriptPostLoad()
 	KillObject ("TempleBlastDoor")
@@ -172,84 +112,12 @@ function ScriptPostLoad()
     EnableSPHeroRules()
 	
 	
-	SetProperty("Bazaar",			"AllyPath", "Bazaar_SpawnPath")
-	SetProperty("CP1",				"AllyPath", "CP1SpawnPath")
-	SetProperty("LandingZone",		"AllyPath", "LandingZone_SpawnPath")
-	SetProperty("ReflectingPool",	"AllyPath", "ReflectingPool_SpawnPath")
-	SetProperty("Temple",			"AllyPath", "Temple_SpawnPath")
-	SetProperty("Tflank", 			"AllyPath", "Tflank_SpawnPath")
-	SetProperty("ViaDuct",			"AllyPath", "ViaDuctSpawnPath01")
-	
 	AddAIGoal(HuskTeam, "Deathmatch", 100)
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide == 1 then
-				SSVxGTH_PostLoad()
-			elseif RandomSide == 2 then
-				SSVxCOL_PostLoad()
-			elseif RandomSide == 3 then
-				EVGxGTH_PostLoad()
-			elseif RandomSide == 4 then
-				EVGxCOL_PostLoad()
-			end
-		elseif ME5_SideVar == 1 then
-			SSVxGTH_PostLoad()
-		elseif ME5_SideVar == 2 then
-			SSVxCOL_PostLoad()
-		elseif ME5_SideVar == 3 then
-			EVGxGTH_PostLoad()
-		elseif ME5_SideVar == 4 then
-			EVGxCOL_PostLoad()
-		end
-	else
-		SSVxCOL_PostLoad()
-	end
-    
-	CP1Node = GetPathPoint("Bazaar_SpawnPath", 0) --gets the path point
-	CP2Node = GetPathPoint("CP1SpawnPath", 0)
-	CP3Node = GetPathPoint("LandingZone_SpawnPath", 0)
-	CP4Node = GetPathPoint("ReflectingPool_SpawnPath", 0)
-	--CP5Node = GetPathPoint("Temple_SpawnPath", 0)
-	CP6Node = GetPathPoint("SmallTemple_SpawnPath", 0)
-	CP7Node = GetPathPoint("ViaductSpawnPath01", 0)
+	SetAllySpawns(allySpawnCPs)
+	Init_SidesPostLoad("conquest", heroSupportCPs)
 	
-	--[[CreateTimer("artGameTimer")
-	SetTimerValue("artGameTimer", 720)
-	StartTimer("artGameTimer")
-	OnTimerElapse(
-		function(timer)]]
-			--local team1pts = GetReinforcementCount(1)
-			--if team1pts >= 100 then
-				artMatrices = { CP1Node, CP2Node, CP3Node, CP4Node, CP6Node, CP7Node }
-				goingthroughturrets = 0
-				
-				artInitTimer = CreateTimer("artInitTimer")
-				SetTimerValue("artInitTimer", 20.0)
-				StartTimer("artInitTimer")
-				--ShowTimer("artInitTimer")
-				OnTimerElapse(
-					function(timer)
-						goingthroughturrets = goingthroughturrets + 1
-						if goingthroughturrets == 7 then
-							goingthroughturrets = 1
-						end
-						
-						SetEntityMatrix( "artillery1", artMatrices[goingthroughturrets])
-						--ShowMessageText("level.common.events.surv.artillery.msg"..goingthroughturrets)
-							print("yav1n_con: Artillery transitioning to matrix: "..goingthroughturrets)
-						SetTimerValue("artInitTimer", 20.0)
-						StartTimer("artInitTimer")
-					end,
-				"artInitTimer"
-				)
-			--else
-			--end
-			
-			--[[DestroyTimer(Timer)
-		end,
-	"artGameTimer"
-	)]]
+	Init_ArtilleryStrikes("artillery1", artilleryNodes)
 	
  end
  
@@ -303,7 +171,7 @@ function ScriptInit()
     SetMemoryPoolSize("Navigator", 47)
     SetMemoryPoolSize("Obstacle", 760)
 	SetMemoryPoolSize("PathFollower", 47)
-	SetMemoryPoolSize("PathNode", 217)
+	SetMemoryPoolSize("PathNode", 271)
 	SetMemoryPoolSize("SoldierAnimation", 410)
     SetMemoryPoolSize("SoundSpaceRegion", 30)
     SetMemoryPoolSize("TentacleSimulator", 0)
@@ -332,17 +200,7 @@ function ScriptInit()
     --  Sound
 	
 	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide == 1 then
-				Music01()
-			elseif RandomSide == 2 then
-				Music05()
-			elseif RandomSide == 3 then
-				Music09()
-			elseif RandomSide == 4 then
-				Music09()
-			end
-		elseif ME5_SideVar == 1 then
+		if ME5_SideVar == 1 then
 			Music01()
 		elseif ME5_SideVar == 2 then
 			Music05()

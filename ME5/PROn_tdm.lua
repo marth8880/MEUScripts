@@ -1,5 +1,4 @@
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
-RandomSide = math.random(1,4)
 
 isModMap = 1
 --
@@ -13,13 +12,22 @@ ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
 mapSize = xs
-EnvironmentType = 4
+EnvironmentType = EnvTypeUrban
 onlineSideVar = SSVxGTH
 onlineHeroSSV = shep_vanguard
 onlineHeroGTH = gethprime_me2
 onlineHeroCOL = colgeneral
 onlineHeroEVG = gethprime_me3
 isTDM = true
+
+-- AI hero spawns. CP name, CP spawn path name
+heroSupportCPs = {}
+
+-- Local ally spawns. CP name, CP spawn path name
+allySpawnCPs = {
+			{"cp1_tdm", "cp1_tdm_spawn"},
+			{"cp2_tdm", "cp2_tdm_spawn"},
+}
 	
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
@@ -33,34 +41,6 @@ HuskTeam = 3
 
 ATT = 1
 DEF = 2
-
-function SSVxGTH_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideSSVHeroClass()
-		DecideGTHHeroClass()
-	end
-end
-
-function SSVxCOL_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideSSVHeroClass()
-		DecideCOLHeroClass()
-	end
-end
-
-function EVGxGTH_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideEVGHeroClass()
-		DecideGTHHeroClass()
-	end
-end
-
-function EVGxCOL_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideEVGHeroClass()
-		DecideCOLHeroClass()
-	end
-end
 
 function ScriptPostLoad()
 	
@@ -94,38 +74,14 @@ function ScriptPostLoad()
 						 multiplayerRules = true, isCelebrityDeathmatch = true}
 	TDM:Start()]]
 	
-	SetProperty("cp1_tdm", "AllyPath", "cp1_tdm_spawn")
-	SetProperty("cp2_tdm", "AllyPath", "cp2_tdm_spawn")
-	
 	ClearAIGoals(1)
 	ClearAIGoals(2)
 	AddAIGoal(1, "Deathmatch", 100)
 	AddAIGoal(2, "Deathmatch", 100)
 	AddAIGoal(HuskTeam, "Deathmatch", 100)
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide == 1 then
-				SSVxGTH_PostLoad()
-			elseif RandomSide == 2 then
-				SSVxCOL_PostLoad()
-			elseif RandomSide == 3 then
-				EVGxGTH_PostLoad()
-			elseif RandomSide == 4 then
-				EVGxCOL_PostLoad()
-			end
-		elseif ME5_SideVar == 1 then
-			SSVxGTH_PostLoad()
-		elseif ME5_SideVar == 2 then
-			SSVxCOL_PostLoad()
-		elseif ME5_SideVar == 3 then
-			EVGxGTH_PostLoad()
-		elseif ME5_SideVar == 4 then
-			EVGxCOL_PostLoad()
-		end
-	else
-		SSVxGTH_PostLoad()
-	end
+	SetAllySpawns(allySpawnCPs)
+	Init_SidesPostLoad("tdm", heroSupportCPs)
     
 end
 
@@ -207,17 +163,7 @@ function ScriptInit()
     -- Sound
     
 	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide == 1 then
-				Music03()
-			elseif RandomSide == 2 then
-				Music05()
-			elseif RandomSide == 3 then
-				Music09()
-			elseif RandomSide == 4 then
-				Music09()
-			end
-		elseif ME5_SideVar == 1 then
+		if ME5_SideVar == 1 then
 			Music03()
 		elseif ME5_SideVar == 2 then
 			Music05()

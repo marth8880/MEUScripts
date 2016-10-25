@@ -1,5 +1,5 @@
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
-RandomSide = 1
+RandomSide = 1		-- TODO: remove and replace with ME5_SideVar
 
 isModMap = 1
 local bDebug = false
@@ -8,11 +8,16 @@ local mapDebug = false
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
 
+-- Set the game mode
 MEUGameMode = 7
 
 -- load the gametype script
 ScriptCB_DoFile("ME5_Master")
 
+-- Override the faction combination set in the Config Tool
+ME5_SideVar = 1
+
+-- Set the game mode
 MEUGameMode = meu_campaign
 
 ScriptCB_DoFile("ME5_setup_teams")
@@ -21,6 +26,7 @@ ScriptCB_DoFile("ME5_ObjectiveAssault")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 ScriptCB_DoFile("ME5_ObjectiveGoto")
 
+-- Set the game mode
 MEUGameMode = meu_campaign
 
 ScriptCB_DoFile("ME5_CinematicContainer")
@@ -30,7 +36,7 @@ ScriptCB_DoFile("ME5_CombatManager")
 ScriptCB_DoFile("Ambush")
 
 mapSize = xs
-EnvironmentType = 4
+EnvironmentType = EnvTypeUrban
 --[[onlineSideVar = SSVxGTH
 onlineHeroSSV = shep_vanguard
 onlineHeroGTH = gethprime_me2
@@ -70,7 +76,7 @@ local bossAggro = nil		-- The aggressiveness of the final boss.
 local bInCombat = false			-- Is the player currently in combat?
 local currentZoneID = "none"	-- What is the name ID of the current combat zone?
 
-local numCinematicShakes = 0		-- How many cinematic shakes have there been?
+local numCinematicShakes = 0		-- How many cinematic shakes have occurred?
 local camShakeCharUnit = nil		-- The player character unit.
 
 local bConsoleWorkaround = true
@@ -151,7 +157,8 @@ enemyTeams	= { GethPawns,
 				GethSpecials, 
 				GethHeavys, 
 				GethPrimes }
-		
+
+-- Table of all enemy deployable turrets.
 enemyBuildingClasses = {	"gth_bldg_assaultdrone", 
 							"gth_bldg_gethturret", 
 							"gth_bldg_rocketdrone", 
@@ -283,8 +290,9 @@ doorBlocks_S3	= {  -- Main Atrium
 					"seismolab_doors_enter_block", 
 					"seismolab_doors_exit_block" }
 
+
 ---
--- Locks the doors, enables the barriers, and blocks the planning connections in given sublevel 'sublevelID'.
+-- Locks the doors, enables the barriers, and blocks the planning connections in given sublevel /sublevelID/.
 -- @param #int sublevelID The numerical ID of the sublevel to block.
 -- 
 function BlockCombatZoneExits(sublevelID)
@@ -451,7 +459,7 @@ function BlockCombatZoneExits(sublevelID)
 end
 
 ---
--- Unlocks the doors, disables the barriers, and unblocks the planning connections in given sublevel 'sublevelID'.
+-- Unlocks the doors, disables the barriers, and unblocks the planning connections in given sublevel /sublevelID/.
 -- @param #int sublevelID The numerical ID of the sublevel to unblock.
 -- 
 function UnblockCombatZoneExits(sublevelID)
@@ -612,8 +620,9 @@ function UnblockCombatZoneExits(sublevelID)
 	end
 end
 
+
 ---
--- Sets the path 'spawnPathName' that the player and allied teams should respawn at.
+-- Sets the path /spawnPathName/ that the player and allied teams should respawn at.
 -- @param #string spawnPathName The name of the path to spawn at.
 -- 
 function SetRespawnPoint(spawnPathName)
@@ -631,8 +640,9 @@ function SetRespawnPoint(spawnPathName)
 	SetProperty("cp1", "AllyPath", pathName)
 end
 
+
 ---
--- Sets the path 'spawnPathName' that the player should respawn at.
+-- Sets the path /spawnPathName/ that the player should respawn at.
 -- @param #string spawnPathName The name of the path to spawn at.
 -- 
 function SetRespawnPointPlayer(spawnPathName)
@@ -649,8 +659,9 @@ function SetRespawnPointPlayer(spawnPathName)
 	SetProperty("cp1", "SpawnPath", pathName)
 end
 
+
 ---
--- Sets the path 'spawnPathName' that allied teams should respawn at.
+-- Sets the path /spawnPathName/ that allied teams should respawn at.
 -- @param #string spawnPathName The name of the path to spawn at.
 -- 
 function SetRespawnPointSquad(spawnPathName)
@@ -667,20 +678,37 @@ function SetRespawnPointSquad(spawnPathName)
 	SetProperty("cp1", "AllyPath", pathName)
 end
 
+
 ---
--- Sets up the combat zone 'zoneID'.
+-- Sets up the combat zone /zoneID/.
 -- @param #string combatZoneID The name ID of the zone to set up.
+-- @param #string combatMusicID The music ID to start playing. Use "none" if no music change desired.
 -- 
-function SetupCombatZoneInit(combatZoneID)
+function SetupCombatZoneInit(combatZoneID, combatMusicID)
 		print("EURn_c.SetupCombatZoneInit(): Entered")
 	if not InCombat() then
 		-- Make sure we can't be called again while already in a WaveSequence
 		bInCombat = true
 		
 		local zoneID = combatZoneID
+		local musicID = combatMusicID
 		bDebug = mapDebug
 		
 		print("EURn_c.SetupCombatZoneInit(): Setting up combat zone "..zoneID)
+		
+		-- Is debug enabled?
+		if bDebug == true then
+			ShowMessageText("level.EUR.debug.comzone_entered", REP)
+			ShowMessageText("level.EUR.debug.comzone_spawning", REP)
+		end
+		
+		-- Was a value entered for combatMusicID?
+		if musicID ~= "none" then
+			-- Start playing combat music
+			ScriptCB_PlayInGameMusic(musicID)
+		else
+			print("EURn_c.SetupCombatZoneInit(): combatMusicID not specified! Continuing...")
+		end
 		
 		ClearAIGoals(SQD)
 		AddAIGoal(SQD, "Deathmatch", 100)
@@ -1182,8 +1210,9 @@ function SetupCombatZoneInit(combatZoneID)
 	end
 end
 
+
 ---
--- This is called when all the enemies in combat zone 'combatZoneID' are dead.
+-- This is called when all the enemies in combat zone /combatZoneID/ are dead.
 -- @param #string combatZoneID The name ID of the zone to release.
 -- 
 function ReleaseCombatZone(combatZoneID)
@@ -1272,35 +1301,38 @@ function ReleaseCombatZone(combatZoneID)
 	currentZoneID = "none"
 end
 
+
 ---
--- Starts and sets up the event logic for combat zone 'combatZoneID'.
+-- Starts and sets up the event logic for combat zone /combatZoneID/.
 -- @param #string combatZoneID The name of the zone ID to set up.
 -- @param #string combatMusicID The music ID to start playing. Use "none" if no music change desired.
 -- 
-function StartCombatZone(combatZoneID, combatMusicID)
+
+--[[function StartCombatZone(combatZoneID, combatMusicID)
 	print("EURn_c.StartCombatZone(\""..combatZoneID.."\", \""..combatMusicID.."\"): Entered")
+	
+	if not InCombat() then
+		local zoneID = combatZoneID
+		local musicID = combatMusicID
 		
-	local zoneID = combatZoneID
-	local musicID = combatMusicID
-	
-	print("EURn_c.StartCombatZone(): Starting combat zone "..zoneID)
-	
-	
-	-- Is debug enabled?
-	if bDebug == true then
-		ShowMessageText("level.EUR.debug.comzone_entered", REP)
-		ShowMessageText("level.EUR.debug.comzone_spawning", REP)
+		print("EURn_c.StartCombatZone(): Starting combat zone "..zoneID)
+		
+		
+		-- Is debug enabled?
+		if bDebug == true then
+			ShowMessageText("level.EUR.debug.comzone_entered", REP)
+			ShowMessageText("level.EUR.debug.comzone_spawning", REP)
+		end
+		
+		-- Was a value entered for combatMusicID?
+		if musicID ~= "none" then
+			-- Start playing combat music
+			ScriptCB_PlayInGameMusic(musicID)
+		else
+			print("EURn_c.StartCombatZone(): combatMusicID not specified! Continuing...")
+		end
 	end
-	
-	-- Was a value entered for combatMusicID?
-	if musicID ~= "none" then
-		-- Start playing combat music
-		ScriptCB_PlayInGameMusic(musicID)
-	else
-		print("EURn_c.StartCombatZone(): combatMusicID not specified! Continuing...")
-	end
-	
-end
+end]]
 
 
 ---
@@ -1326,24 +1358,24 @@ end
 
 
 ---
--- Restores the player's health until the health threshold is reached.
+-- Begins regenerating the player's health until the health threshold is reached. (it's not perfect, but it works (usually (sometimes (never (okay sometimes)))))
 -- 
 function RestorePlayerHealth()
-		print("EURn_c.RestorePlayerHealth(): Entered")
-		
-	local charPtr = GetCharacterUnit(0)
-	local entPtr = GetEntityPtr(charPtr)
+	print("EURn_c.RestorePlayerHealth(): Entered")
+	
+	local charUnit = GetCharacterUnit(0)	-- The player's character unit ID.
+	local charPtr = GetEntityPtr(charUnit)	-- The player's entity pointer.
 			
 	-- What is the player's current health?
-	playerCurHealth = GetObjectHealth(entPtr)
+	playerCurHealth = GetObjectHealth(charPtr)
 	
 	-- How often in seconds will we check the player's health?
 	local checkInterval = 0.5
 	
-	
+	-- Is the player's health under the minimum health threshold?
 	if playerCurHealth < playerMinHealth then
 		-- Start restoring the player's health
-		SetProperty(charPtr, "AddHealth", playerHealthAddRate)
+		SetProperty(charUnit, "AddHealth", playerHealthAddRate)
 		
 		-- Our timer for checking the player's health
 		local checkTimer = CreateTimer("checkTimer")
@@ -1356,7 +1388,7 @@ function RestorePlayerHealth()
 		local checkTimerElapse = OnTimerElapse(
 			function(timer)
 				-- Update the player's health
-				playerCurHealth = GetObjectHealth(entPtr)
+				playerCurHealth = GetObjectHealth(charPtr)
 				
 				print("EURn_c.RestorePlayerHealth(): playerCurHealth:", playerCurHealth)
 				
@@ -1372,7 +1404,7 @@ function RestorePlayerHealth()
 					StopTimer(checkTimer)
 					
 					-- Stop restoring health
-					SetProperty(charPtr, "AddHealth", 0)
+					SetProperty(charUnit, "AddHealth", 0)
 					
 					DestroyTimer(checkTimer)
 				end
@@ -1413,7 +1445,7 @@ function PushSubtitleSet(subtitleID)
 	local brief_4b_sets = 2
 	local brief_4c_sets = 1
 	
-	-- "Enumerator" for the list of sets
+	-- "Enumerator" for the list of sets (no really why doesn't Lua support actual enums...or integer incrementing...or a decent for-loop syntax)
 	local brief_1a = 0
 	local brief_1b = 1
 	local brief_2a = 2
@@ -1578,52 +1610,93 @@ end
 -- Call this to shake the camera.
 -- @param #float shakeAmount	The amount to shake the camera.
 -- @param #float shakeLength	The length of time in seconds of the shake.
+-- @param #float shakeDelay		OPTIONAL: The length of time in seconds to wait before initiating the shake.
+-- @param #string shakeSound	OPTIONAL: The name of the sound property to play when the shake is initiated.
+-- @return #int					Returns 1 if the shake was successful, or 0 if it was unsuccessful.
 -- 
-function CinematicShakeCamera(shakeAmount, shakeLength)
-	print("EURn_c.CinematicShakeCamera("..shakeAmount..", "..shakeLength.."): Entered")
+function CinematicShakeCamera(shakeAmount, shakeLength, shakeDelay)
+	if (shakeAmount == nil or shakeAmount <= 0) then
+		print("EURn_c.CinematicShakeCamera(): WARNING: shakeAmount must be specified and greater than 0!")
+		return 0
+	end
+	if (shakeLength == nil or shakeLength <= 0) then
+		print("EURn_c.CinematicShakeCamera(): WARNING: shakeLength must be specified and greater than 0!")
+		return 0
+	end
 	
-	-- Make sure we don't reuse an old shake timer
+	-- Initialize optional fields
+	shakeDelay = shakeDelay or 0
+	shakeSound = shakeSound or "none"
+	
+	print("EURn_c.CinematicShakeCamera("..shakeAmount..", "..shakeLength..", "..shakeDelay.."): Entered")
+	
+	local function DoShake()
+		-- Start shaking
+		SetClassProperty("eur_cinematic_rumble", "MinShakeAmt", shakeAmount)
+		SetClassProperty("eur_cinematic_rumble", "MaxShakeAmt", shakeAmount)
+		SetClassProperty("eur_cinematic_rumble", "MinShakeLen", shakeLength)
+		SetClassProperty("eur_cinematic_rumble", "MaxShakeLen", shakeLength)
+		SetClassProperty("eur_cinematic_rumble", "SoundName", " ")
+		--SetClassProperty("eur_cinematic_rumble", "MinInterval", shakeLength+0.1)
+		--SetClassProperty("eur_cinematic_rumble", "MaxInterval", shakeLength+0.1)
+		
+		if shakeSound ~= "none" then
+			ScriptCB_SndPlaySound(shakeSound)
+		end
+		
+		-- Timer to control shaking
+		local cinematicShakeTimer = CreateTimer("cinematicShakeTimer_"..numCinematicShakes)
+		SetTimerValue(cinematicShakeTimer, shakeLength+0.1)
+		StartTimer(cinematicShakeTimer)
+		
+		local cinematicShakeTimerElapse = OnTimerElapse(
+			function(timer)
+				print("EURn_c.CinematicShakeCamera: Stopping shaking")
+				
+				-- Stop shaking
+				SetClassProperty("eur_cinematic_rumble", "MinShakeAmt", 0.0)
+				SetClassProperty("eur_cinematic_rumble", "MaxShakeAmt", 0.0)
+				SetClassProperty("eur_cinematic_rumble", "MinShakeLen", 0.01)
+				SetClassProperty("eur_cinematic_rumble", "MaxShakeLen", 0.01)
+				--SetClassProperty("eur_cinematic_rumble", "MinInterval", 0.2)
+				--SetClassProperty("eur_cinematic_rumble", "MaxInterval", 0.2)
+				SetClassProperty("eur_cinematic_rumble", "SoundName", " ")
+				
+				DestroyTimer(timer)
+				ReleaseTimerElapse(cinematicShakeTimerElapse)
+			end,
+		cinematicShakeTimer
+		)
+	end
+	
+	-- Was a valid shakeDelay value entered?
+	if (shakeDelay and shakeDelay > 0) then
+		-- Timer to control shake delay
+		local cinematicShakeDelayTimer = CreateTimer("cinematicShakeDelayTimer_"..numCinematicShakes)
+		SetTimerValue(cinematicShakeDelayTimer, shakeDelay)
+		StartTimer(cinematicShakeDelayTimer)
+		
+		local cinematicShakeDelayTimerElapse = OnTimerElapse(
+			function(timer)
+				DoShake()
+				
+				DestroyTimer(timer)
+				ReleaseTimerElapse(cinematicShakeDelayTimerElapse)
+			end,
+		cinematicShakeDelayTimer
+		)
+	else
+		DoShake()
+	end
+	
+	-- Make sure we don't somehow reuse an old shake timer
 	numCinematicShakes = numCinematicShakes + 1
-	
-	-- Start shaking
-	SetClassProperty("eur_cinematic_rumble", "MinShakeAmt", shakeAmount)
-	SetClassProperty("eur_cinematic_rumble", "MaxShakeAmt", shakeAmount)
-	SetClassProperty("eur_cinematic_rumble", "MinShakeLen", shakeLength)
-	SetClassProperty("eur_cinematic_rumble", "MaxShakeLen", shakeLength)
-	SetClassProperty("eur_cinematic_rumble", "SoundName", " ")
-	--SetClassProperty("eur_cinematic_rumble", "MinInterval", shakeLength+0.1)
-	--SetClassProperty("eur_cinematic_rumble", "MaxInterval", shakeLength+0.1)
-	
-	-- Timer to control shaking
-	local cinematicShakeTimer = CreateTimer("cinematicShakeTimer_"..numCinematicShakes)
-	SetTimerValue(cinematicShakeTimer, shakeLength+0.1)
-	StartTimer(cinematicShakeTimer)
-	
-	local cinematicShakeTimerElapse = OnTimerElapse(
-		function(timer)
-			print("EURn_c.CinematicShakeCamera: Stopping shaking")
-			
-			-- Stop shaking
-			SetClassProperty("eur_cinematic_rumble", "MinShakeAmt", 0.0)
-			SetClassProperty("eur_cinematic_rumble", "MaxShakeAmt", 0.0)
-			SetClassProperty("eur_cinematic_rumble", "MinShakeLen", 0.01)
-			SetClassProperty("eur_cinematic_rumble", "MaxShakeLen", 0.01)
-			--SetClassProperty("eur_cinematic_rumble", "MinInterval", 0.2)
-			--SetClassProperty("eur_cinematic_rumble", "MaxInterval", 0.2)
-			SetClassProperty("eur_cinematic_rumble", "SoundName", " ")
-			
-			DestroyTimer(timer)
-			ReleaseTimerElapse(cinematicShakeTimerElapse)
-		end,
-	cinematicShakeTimer
-	)
 	
 end
 
 
 ---
 -- Call this to change whether or not the squad can kill enemies.
--- 
 -- @param #bool canKill		True, squad can kill enemies. False, squad cannot kill enemies.
 -- 
 function SetSquadCanKillEnemies(canKill)
@@ -1651,7 +1724,6 @@ end
 
 ---
 -- Call this to unblock an elevator's doors.
--- 
 -- @param #int id	The numeric ID of the elevator whose doors we are unblocking.
 -- 
 function UnblockElevatorDoors(id)
@@ -1721,7 +1793,7 @@ function ScriptPostLoad()
     ScriptCB_EnableHeroMusic(0)
     
     
-    print("EURn_c.ScriptPostLoad(): Multiplying unit health/shield values by enemyDefenseBuff...")
+    print("EURn_c.ScriptPostLoad(): Setting unit movement speeds and multiplying health/shield values by enemyDefenseBuff...")
     
     SetClassProperty(gth_inf_trooper, "MaxHealth", 230*enemyDefenseBuff)
     SetClassProperty(gth_inf_trooper, "MaxShields", 520*enemyDefenseBuff)
@@ -1959,10 +2031,10 @@ function ScriptPostLoad()
 		currentZoneID = "S0_Hangar"
 		
 		-- Set up init params for combat zone
-		SetupCombatZoneInit(currentZoneID)
+		--SetupCombatZoneInit(currentZoneID)
 		
 		-- Start combat zone
-		StartCombatZone(currentZoneID, "eur_amb_01_combat")
+		SetupCombatZoneInit(currentZoneID, "eur_amb_01_combat")
 		
 		-- Update the player's respawn point
 		SetRespawnPoint("ps_s0_hangar")
@@ -2018,10 +2090,10 @@ function ScriptPostLoad()
     				currentZoneID = "S0_CargoBay"
     				
     				-- Set up init params for combat zone
-    				SetupCombatZoneInit(currentZoneID)
+    				--SetupCombatZoneInit(currentZoneID)
     				
     				-- Start combat zone
-    				StartCombatZone(currentZoneID, "eur_amb_01_combat")
+    				SetupCombatZoneInit(currentZoneID, "eur_amb_01_combat")
     				
     				-- Update the player's respawn point
     				SetRespawnPoint("ps_s0_cargo")
@@ -2067,10 +2139,10 @@ function ScriptPostLoad()
     				currentZoneID = "S0_Reception"
     				
     				-- Set up init params for combat zone
-    				SetupCombatZoneInit(currentZoneID)
+    				--SetupCombatZoneInit(currentZoneID)
     				
     				-- Start combat zone
-    				StartCombatZone(currentZoneID, "eur_amb_01_combat")
+    				SetupCombatZoneInit(currentZoneID, "eur_amb_01_combat")
     				
     				-- Update the player's respawn point
     				SetRespawnPoint("ps_s0_reception")
@@ -2117,10 +2189,10 @@ function ScriptPostLoad()
     				currentZoneID = "S0_Management"
     				
     				-- Set up init params for combat zone
-    				SetupCombatZoneInit(currentZoneID)
+    				--SetupCombatZoneInit(currentZoneID)
     				
     				-- Start combat zone
-    				StartCombatZone(currentZoneID, "eur_amb_01_combat")
+    				SetupCombatZoneInit(currentZoneID, "eur_amb_01_combat")
     				
     				-- Update the player's respawn point
     				SetRespawnPoint("ps_s0_management_in")
@@ -2167,10 +2239,10 @@ function ScriptPostLoad()
     				currentZoneID = "S0_PowerControl"
     				
     				-- Set up init params for combat zone
-    				SetupCombatZoneInit(currentZoneID)
+    				--SetupCombatZoneInit(currentZoneID)
     				
     				-- Start combat zone
-    				StartCombatZone(currentZoneID, "eur_amb_01_combat")
+    				SetupCombatZoneInit(currentZoneID, "eur_amb_01_combat")
     				
     				-- Update the player's respawn point
     				SetRespawnPoint("ps_s0_power_in")
@@ -2217,10 +2289,10 @@ function ScriptPostLoad()
     				currentZoneID = "S0_CommsControl"
     				
     				-- Set up init params for combat zone
-    				SetupCombatZoneInit(currentZoneID)
+    				--SetupCombatZoneInit(currentZoneID)
     				
     				-- Start combat zone
-    				StartCombatZone(currentZoneID, "eur_amb_01_combat")
+    				SetupCombatZoneInit(currentZoneID, "eur_amb_01_combat")
     				
     				-- Update the player's respawn point
     				SetRespawnPoint("ps_s0_comms_in")
@@ -2432,10 +2504,10 @@ function ScriptPostLoad()
     				currentZoneID = "S1_MainAtrium"
     				
     				-- Set up init params for combat zone
-    				SetupCombatZoneInit(currentZoneID)
+    				--SetupCombatZoneInit(currentZoneID)
     				
     				-- Start combat zone
-    				StartCombatZone(currentZoneID, "eur_amb_02_combat")
+    				SetupCombatZoneInit(currentZoneID, "eur_amb_02_combat")
     				
     				-- Update the player's respawn point
     				SetRespawnPoint("ps_s1_atrium")
@@ -2485,10 +2557,10 @@ function ScriptPostLoad()
     				currentZoneID = "S1_MarineLifeLab"
     				
     				-- Set up init params for combat zone
-    				SetupCombatZoneInit(currentZoneID)
+    				--SetupCombatZoneInit(currentZoneID)
     				
     				-- Start combat zone
-    				StartCombatZone(currentZoneID, "eur_amb_02_combat")
+    				SetupCombatZoneInit(currentZoneID, "eur_amb_02_combat")
     				
     				-- Update the player's respawn point
     				SetRespawnPoint("ps_s1_biolab")
@@ -2538,10 +2610,10 @@ function ScriptPostLoad()
     				currentZoneID = "S1_IceSamplesLab"
     				
     				-- Set up init params for combat zone
-    				SetupCombatZoneInit(currentZoneID)
+    				--SetupCombatZoneInit(currentZoneID)
     				
     				-- Start combat zone
-    				StartCombatZone(currentZoneID, "eur_amb_02_combat")
+    				SetupCombatZoneInit(currentZoneID, "eur_amb_02_combat")
     				
     				-- Update the player's respawn point
     				SetRespawnPoint("ps_s1_icelab")
@@ -2652,10 +2724,10 @@ function ScriptPostLoad()
     				currentZoneID = "S3_MainAtrium"
     				
     				-- Set up init params for combat zone
-    				SetupCombatZoneInit(currentZoneID)
+    				--SetupCombatZoneInit(currentZoneID)
     				
     				-- Start combat zone
-    				StartCombatZone(currentZoneID, "eur_amb_03_combat")
+    				SetupCombatZoneInit(currentZoneID, "eur_amb_03_combat")
     				
     				-- Update the player's respawn point
     				SetRespawnPoint("ps_s3_atrium")
@@ -2705,10 +2777,10 @@ function ScriptPostLoad()
     				currentZoneID = "S3_MarineLifeLab"
     				
     				-- Set up init params for combat zone
-    				SetupCombatZoneInit(currentZoneID)
+    				--SetupCombatZoneInit(currentZoneID)
     				
     				-- Start combat zone
-    				StartCombatZone(currentZoneID, "eur_amb_03_combat")
+    				SetupCombatZoneInit(currentZoneID, "eur_amb_03_combat")
     				
     				-- Update the player's respawn point
     				SetRespawnPoint("ps_s3_biolab")
@@ -2758,10 +2830,10 @@ function ScriptPostLoad()
     				currentZoneID = "S3_EnergyLab"
     				
     				-- Set up init params for combat zone
-    				SetupCombatZoneInit(currentZoneID)
+    				--SetupCombatZoneInit(currentZoneID)
     				
     				-- Start combat zone
-    				StartCombatZone(currentZoneID, "eur_amb_03_combat")
+    				SetupCombatZoneInit(currentZoneID, "eur_amb_03_combat")
     				
     				-- Update the player's respawn point
     				SetRespawnPoint("ps_s3_energylab")
@@ -2872,10 +2944,10 @@ function ScriptPostLoad()
     				currentZoneID = "S4_MainAtrium"
     				
     				-- Set up init params for combat zone
-    				SetupCombatZoneInit(currentZoneID)
+    				--SetupCombatZoneInit(currentZoneID)
     				
     				-- Start combat zone
-    				StartCombatZone(currentZoneID, "eur_amb_04_combat")
+    				SetupCombatZoneInit(currentZoneID, "eur_amb_04_combat")
     				
     				-- Update the player's respawn point
     				SetRespawnPoint("ps_s4_atrium")
@@ -2925,10 +2997,10 @@ function ScriptPostLoad()
     				currentZoneID = "S4_SeismoLab"
     				
     				-- Set up init params for combat zone
-    				SetupCombatZoneInit(currentZoneID)
+    				--SetupCombatZoneInit(currentZoneID)
     				
     				-- Start combat zone
-    				StartCombatZone(currentZoneID, "eur_amb_04_combat")
+    				SetupCombatZoneInit(currentZoneID, "eur_amb_04_combat")
     				
     				-- Update the player's respawn point
     				SetRespawnPoint("ps_s4_seismolab")
@@ -2978,10 +3050,10 @@ function ScriptPostLoad()
     				currentZoneID = "S4_GeoLab"
     				
     				-- Set up init params for combat zone
-    				SetupCombatZoneInit(currentZoneID)
+    				--SetupCombatZoneInit(currentZoneID)
     				
     				-- Start combat zone
-    				StartCombatZone(currentZoneID, "eur_amb_04_combat")
+    				SetupCombatZoneInit(currentZoneID, "eur_amb_04_combat")
     				
     				-- Update the player's respawn point
     				SetRespawnPoint("ps_s4_geolab")
@@ -3059,10 +3131,10 @@ function ScriptPostLoad()
     				currentZoneID = "S4_Caves_1a"
     				
     				-- Set up init params for combat zone
-    				SetupCombatZoneInit(currentZoneID)
+    				--SetupCombatZoneInit(currentZoneID)
     				
     				-- Start combat zone (AND NO COMBAT MUSIC)
-    				StartCombatZone(currentZoneID, "none")
+    				SetupCombatZoneInit(currentZoneID, "none")
     				
     				-- Update the player's respawn point
     				SetRespawnPoint("ps_s4_caves_1a")
@@ -3095,10 +3167,10 @@ function ScriptPostLoad()
     				currentZoneID = "S4_Caves_1b"
     				
     				-- Set up init params for combat zone
-    				SetupCombatZoneInit(currentZoneID)
+    				--SetupCombatZoneInit(currentZoneID)
     				
     				-- Start combat zone (AND NO COMBAT MUSIC)
-    				StartCombatZone(currentZoneID, "none")
+    				SetupCombatZoneInit(currentZoneID, "none")
     				
     				-- Update the player's respawn point
     				SetRespawnPoint("ps_s4_caves_1b")
@@ -3131,10 +3203,10 @@ function ScriptPostLoad()
     				currentZoneID = "S4_Caves_1c"
     				
     				-- Set up init params for combat zone
-    				SetupCombatZoneInit(currentZoneID)
+    				--SetupCombatZoneInit(currentZoneID)
     				
     				-- Start combat zone (AND NO COMBAT MUSIC)
-    				StartCombatZone(currentZoneID, "none")
+    				SetupCombatZoneInit(currentZoneID, "none")
     				
     				-- Update the player's respawn point
     				SetRespawnPoint("ps_s4_caves_1c")
@@ -3167,10 +3239,10 @@ function ScriptPostLoad()
     				currentZoneID = "S4_Caves_2"
     				
     				-- Set up init params for combat zone
-    				SetupCombatZoneInit(currentZoneID)
+    				--SetupCombatZoneInit(currentZoneID)
     				
     				-- Start combat zone (AND NO COMBAT MUSIC)
-    				StartCombatZone(currentZoneID, "none")
+    				SetupCombatZoneInit(currentZoneID, "none")
     				
     				-- Update the player's respawn point
     				SetRespawnPoint("ps_s4_caves_2")
@@ -3197,10 +3269,10 @@ function ScriptPostLoad()
     				currentZoneID = "S4_Caves_3"
     				
     				-- Set up init params for combat zone
-    				SetupCombatZoneInit(currentZoneID)
+    				--SetupCombatZoneInit(currentZoneID)
     				
     				-- Start combat zone (AND NO COMBAT MUSIC)
-    				StartCombatZone(currentZoneID, "none")
+    				SetupCombatZoneInit(currentZoneID, "none")
     				
     				-- Update the player's respawn point
     				SetRespawnPoint("ps_s4_caves_3")
@@ -3606,6 +3678,7 @@ function BeginOpeningCinematic()
 		flybySoundTimerElapse = OnTimerElapse(
 			function(timer)
 				ScriptCB_SndPlaySound("kodiak_shuttles_flyby")
+				CinematicShakeCamera(0.1, 0.6, 1.42)
 				
 				ReleaseTimerElapse(flybySoundTimerElapse)
 				DestroyTimer(flybySoundTimer)
@@ -3734,6 +3807,8 @@ function BeginOpeningCinematic()
 		ShowMessageText("level.eur.subtitles.newline")
 		ShowMessageText("level.eur.subtitles.brief_4a_1")
 		ShowMessageText("level.eur.subtitles.brief_4a_2")
+		
+		StartTimer(musicStingerAmbushTimer)
 	end
 	
 	Shot4b.OnStart = function(self)
@@ -4119,6 +4194,20 @@ function BeginOpeningCinematic()
 		
 		-- Mute the weaponfoley audio bus
 		MuteAudioBus("weaponfoley")
+		
+		-- 'Ambush' music stinger timer
+		musicStingerAmbushTimer = CreateTimer("musicStingerAmbushTimer")
+		SetTimerValue(musicStingerAmbushTimer, 12.3)	-- Originally 12.617, offset by -0.317 seconds
+		musicStingerAmbushTimerElapse = OnTimerElapse(
+			function(timer)
+				-- Play the music stinger
+				ScriptCB_PlayInGameMusic("eur_sting_02_ambush")
+				
+				DestroyTimer(timer)
+				ReleaseTimerElapse(musicStingerAmbushTimerElapse)
+			end,
+		musicStingerAmbushTimer
+		)
 	end
 	
 	openingCinematicSequence.OnComplete = function(self)
@@ -4335,7 +4424,7 @@ function ScriptInit()
 			soldier = { "indoc_inf_husk",9, 12},
 		},]]
 		
-		pawns = {
+		neu = {
 			team = GethPawns,
 			units = 100,
 			reinforcements = -1,
@@ -4343,7 +4432,7 @@ function ScriptInit()
 			rocketeer = { gth_inf_rocketeer,5, 60},	-- 5, 8
 		},
 		
-		tacticals = {
+		neutral = {
 			team = GethTacticals,
 			units = 100,
 			reinforcements = -1,
@@ -4351,7 +4440,7 @@ function ScriptInit()
 			hunter = { gth_inf_hunter,7, 60},	-- 7, 14
 		},
 		
-		specials = {
+		all = {
 			team = GethSpecials,
 			units = 100,
 			reinforcements = -1,
@@ -4359,7 +4448,7 @@ function ScriptInit()
 			shock = { gth_inf_shock,7, 60},			-- 7, 15
 		},
 		
-		heavys = {
+		alliance = {
 			team = GethHeavys,
 			units = 100,
 			reinforcements = -1,
@@ -4367,7 +4456,7 @@ function ScriptInit()
 			juggernaut = { gth_inf_juggernaut,5, 60},	-- 5, 12
 		},
 		
-		primes = {
+		empire = {
 			team = GethPrimes,
 			units = 100,
 			reinforcements = -1,

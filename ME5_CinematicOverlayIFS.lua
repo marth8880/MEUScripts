@@ -1,7 +1,7 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Cinematic Overlay Interface Screen Script by A. Gilbert
--- Version 30307/06
+-- Build 30307/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
 -- Mar 7, 2016

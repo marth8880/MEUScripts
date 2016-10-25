@@ -1,14 +1,14 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
--- Version 30707/06
+-- Build 31025/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Jul 12, 2016
+-- Oct 25, 2016
 -- Copyright (c) 2016 A. Gilbert.
 -- 
--- About this script: The purpose of script is to set some global 
--- variables and load the other scripts.
+-- About this script: This is MEU's master include script. It sets  
+-- some global variables and loads the other scripts.
 -- 
 -- 
 -- Legal Stuff:
@@ -18,37 +18,42 @@
 -- THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
 -----------------------------------------------------------------
 -----------------------------------------------------------------
+
 	print("ME5_Master: Entered")
 	
 	-- The build version. Valid settings are "production", "release"
 	MEU_BuildVer		= "production"
-	MEU_BuildNum		= 30712
+	MEU_BuildNum		= "31025/06"
 	MEU_ReleaseNum		= 6
-	MEU_VersionNum		= 1.21
+	MEU_VersionNum		= "1.3"
 	
-	print("ME5_Master: Mass Effect: Unification is currently running on Build "..MEU_BuildNum.."/0"..MEU_ReleaseNum..", Release "..MEU_ReleaseNum..", Version "..MEU_VersionNum)
+	print("ME5_Master: Mass Effect: Unification is currently running on Build "..MEU_BuildNum..", Release "..MEU_ReleaseNum..", Version "..MEU_VersionNum)
 	
 	print("ME5_Master: Performing garbage collection...")
 	
 	ME5_AIHeroes			= nil
+	ME5_CarnageMode			= nil
 	ME5_CustomGUIEnabled	= nil
 	ME5_CustomHUD			= nil
 	ME5_Difficulty			= nil
+	ME5_FactionVO			= nil
 	ME5_HealthFunc			= nil
-	ME5_ShieldFunc			= nil
-	ME5_ShieldRegen			= nil
 	ME5_HeroClassCOL		= nil
 	ME5_HeroClassEVG		= nil
 	ME5_HeroClassGTH		= nil
 	ME5_HeroClassSSV		= nil
+	ME5_HitMarkerSound		= nil
+	ME5_KillSound			= nil
+	ME5_LowHealthSound		= nil
+	ME5_MapVarEDN			= nil
+	ME5_MapVarVRM			= nil
+	ME5_PlayerDmgSound		= nil
 	ME5_ShepardClass		= nil
 	ME5_ShepardGender		= nil
+	ME5_ShieldFunc			= nil
+	ME5_ShieldRegen			= nil
 	ME5_SideVar				= nil
 	ME5_SolMapMusic			= nil
-	ME5_FactionVO			= nil
-	ME5_LowHealthSound		= nil
-	ME5_KillSound			= nil
-	ME5_PlayerDmgSound		= nil
 	
 	mapSize				= nil
 	MEUGameMode			= MEUGameMode or nil
@@ -165,10 +170,10 @@
 	GTHHeroClass		= nil
 	COLHeroClass		= nil
 	EVGHeroClass		= nil
-	DecideCOLHeroClass	= nil
-	DecideEVGHeroClass	= nil
-	DecideGTHHeroClass	= nil
-	DecideSSVHeroClass	= nil
+	DecidedCOLHeroClass	= nil
+	DecidedEVGHeroClass	= nil
+	DecidedGTHHeroClass	= nil
+	DecidedSSVHeroClass	= nil
 	MusicVariation		= nil
 	
 	DecideMus02StartVar		= nil
@@ -177,6 +182,7 @@
 	DecideMus04Var			= nil
 	DecideMus05Var			= nil
 	DecideMus06Var			= nil
+	
 	
 	-- Load custom scripts, designer-specified globals & player stats points
 	if isLowG == 1 then
@@ -193,8 +199,9 @@
 	ScriptCB_DoFile("ME5_UtilityFunctions")
 	--ScriptCB_DoFile("ME5_LowHealthIFS")
 	
+	
+	-- HUD font stuff
 	if ME5_CustomHUD == 1 then
-		-- HUD font stuff
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\scr_hud_fontfix.lvl")
 		ReadDataFile("common.lvl")
 	else
@@ -206,7 +213,7 @@
 --print("ME5_Master.cbRandomTest: Output = "..cbRandomTest)
 
 
-	-- Declare global info variables
+	-- Declare global enum variables
 		xxs	= 1
 		xs	= 2
 		sm	= 3
@@ -226,6 +233,11 @@
 		EVGxGTH	= 3
 		EVGxCOL	= 4
 		
+		EnvTypeDesert	= 1
+		EnvTypeJungle	= 2
+		EnvTypeSnow		= 3
+		EnvTypeUrban	= 4
+		
 		shep_soldier	 = 1
 		shep_infiltrator = 2
 		shep_engineer	 = 3
@@ -240,6 +252,7 @@
 		
 		gethprime_me3	= 1
 		
+		-- CP voice over strings
 		snd_SSV_cpCapture_ally	= "ssv_adm_com_report_captured_commandpost"
 		snd_SSV_cpCapture_enemy	= "ssv_adm_com_report_enemyCaptured_commandpost"
 		snd_SSV_cpLost_ally		= "ssv_adm_com_report_lost_commandpost"

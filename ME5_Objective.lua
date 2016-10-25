@@ -185,21 +185,7 @@ function Objective:Start()
     --=================================
 	
 	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide == 1 then
-				rep_sndcue	= "ssv_adm_"
-				cis_sndcue	= "gth_ann_"
-			elseif RandomSide == 2 then
-				rep_sndcue	= "ssv_adm_"
-				cis_sndcue	= "col_gen_"
-			elseif RandomSide == 3 then
-				rep_sndcue	= "evg_prm_"
-				cis_sndcue	= "gth_ann_"
-			elseif RandomSide == 4 then
-				rep_sndcue	= "evg_prm_"
-				cis_sndcue	= "col_gen_"
-			end
-		elseif ME5_SideVar == 1 then
+		if ME5_SideVar == 1 then
 			rep_sndcue	= "ssv_adm_"
 			cis_sndcue	= "gth_ann_"
 		elseif ME5_SideVar == 2 then
@@ -260,14 +246,14 @@ function Objective:Start()
 							MissionDefeat(team)
 							DestroyTimer("ticketDefeatTimer")
 							
-							if ME5_CustomHUD == 1 then
+							--[[if ME5_CustomHUD == 1 then
 								if bStockFontLoaded == false then
 									bStockFontLoaded = true
 										print("ME5_Objective: Loading hud_font_stock.lvl...")
 									-- hotfix that reloads the stock fonts in the stats screen
 									ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
 								end
-							end
+							end]]
 						end,
 					"ticketDefeatTimer"
 					)
@@ -287,25 +273,25 @@ function Objective:Start()
                 if self.usingGameOptionsTimeLimit ~= 0 then
 					self:GameOptionsTimeLimitUp()
 					
-					if ME5_CustomHUD == 1 then
+					--[[if ME5_CustomHUD == 1 then
 						if bStockFontLoaded == false then
 							bStockFontLoaded = true
 								print("ME5_Objective: Loading hud_font_stock.lvl...")
 							-- hotfix that reloads the stock fonts in the stats screen
 							ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
 						end
-					end
+					end]]
                 else
 					self:Complete(self.timeLimitWinningTeam)
 					
-					if ME5_CustomHUD == 1 then
+					--[[if ME5_CustomHUD == 1 then
 						if bStockFontLoaded == false then
 							bStockFontLoaded = true
 								print("ME5_Objective: Loading hud_font_stock.lvl...")
 							-- hotfix that reloads the stock fonts in the stats screen
 							ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
 						end
-					end
+					end]]
 				end
             end,
             self.loseTimer
@@ -388,14 +374,14 @@ function Objective:Complete(winningTeam)
 			else				
 				MissionVictory(winningTeam)
 				
-				if ME5_CustomHUD == 1 then
+				--[[if ME5_CustomHUD == 1 then
 					if bStockFontLoaded == false then
 						bStockFontLoaded = true
 							print("ME5_Objective: Loading hud_font_stock.lvl...")
 						-- hotfix that reloads the stock fonts in the stats screen
 						ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
 					end
-				end
+				end]]
 			end
 			
 			self:OnComplete(winningTeam)

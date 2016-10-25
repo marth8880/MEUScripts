@@ -145,7 +145,7 @@ function ScriptInit()
     -- Designers, these two lines *MUST* be first!
     StealArtistHeap(600*1024)
     SetPS2ModelMemory(4100000)
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\load.lvl;pol1")
+	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\NOV.lvl")
 	
 	SetMemoryPoolSize("ParticleTransformer::ColorTrans", 2520)
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1291)
@@ -164,77 +164,66 @@ function ScriptInit()
 	
 	Init_SideSetup()
 	
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_POL_Streaming.lvl;pol1n")
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_NOV_Streaming.lvl")
    
 
     --  Level Stats
-        ClearWalkers()
-        --   AddWalkerType(1, 3) 
-        --    AddWalkerType(2, 0) -- 2 spider walkers with 2 leg pairs each
-        --    AddWalkerType(3, 0) -- 2 attes with 3 leg pairs each
-        local weaponCnt = 244
-        SetMemoryPoolSize ("Aimer", 60)
-        SetMemoryPoolSize ("AmmoCounter", weaponCnt)
-        SetMemoryPoolSize ("BaseHint", 245)
-        SetMemoryPoolSize ("EnergyBar", weaponCnt)
-        SetMemoryPoolSize ("EntityCloth", 17)
-        SetMemoryPoolSize ("EntityHover",4)
-        SetMemoryPoolSize ("EntitySoundStatic", 9)
-        SetMemoryPoolSize ("FLEffectObject::OffsetMatrix", 95)
-		SetMemoryPoolSize("FlagItem", 512)
-        SetMemoryPoolSize ("MountedTurret", 18)
-        SetMemoryPoolSize ("Music", 80)
-        SetMemoryPoolSize ("Navigator", 45)
-        SetMemoryPoolSize ("Obstacle", 390)
-        SetMemoryPoolSize ("PathFollower", 45)
-        SetMemoryPoolSize ("PathNode", 180)
-		SetMemoryPoolSize ("SoldierAnimation", 403)
-        SetMemoryPoolSize ("SoundSpaceRegion", 34)
-        SetMemoryPoolSize ("TentacleSimulator", 0)
-        SetMemoryPoolSize ("TreeGridStack", 180)
-        SetMemoryPoolSize ("UnitAgent", 45)
-        SetMemoryPoolSize ("UnitController", 45)
-        SetMemoryPoolSize ("Weapon", weaponCnt)
-		SetMemoryPoolSize("EntityFlyer", 4)   
-
-        SetMemoryPoolSize ("Asteroid", 100)
-
-    SetSpawnDelay(10.0, 0.25)
-     ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\pol1.lvl", "pol1_Conquest")
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\minimap.lvl;pol1")
-     SetDenseEnvironment("True")   
-     AddDeathRegion("deathregion1")
-     --SetStayInTurrets(1)
-
---asteroids start!
-SetParticleLODBias(3000)
-SetMaxCollisionDistance(1500)     
---    FillAsteroidPath("pathas01", 10, "pol1_prop_asteroid_01", 20, 1.0,0.0,0.0, -1.0,0.0,0.0);
---    FillAsteroidPath("pathas01", 20, "pol1_prop_asteroid_02", 40, 1.0,0.0,0.0, -1.0,0.0,0.0);
---    FillAsteroidPath("pathas02", 10, "pol1_prop_asteroid_01", 10, 1.0,0.0,0.0, -1.0,0.0,0.0);
---    FillAsteroidPath("pathas03", 10, "pol1_prop_asteroid_02", 20, 1.0,0.0,0.0, -1.0,0.0,0.0);
---    FillAsteroidPath("pathas04", 5, "pol1_prop_asteroid_02", 2, 1.0,0.0,0.0, -1.0,0.0,0.0);      
-
--- asteroids end!
-
+	ClearWalkers()
+	--AddWalkerType(1, 3) 
+	--AddWalkerType(2, 0) -- 2 spider walkers with 2 leg pairs each
+	--AddWalkerType(3, 0) -- 2 attes with 3 leg pairs each
+	local weaponCnt = 244
+	SetMemoryPoolSize("Aimer", 60)
+	SetMemoryPoolSize("AmmoCounter", weaponCnt)
+	SetMemoryPoolSize("BaseHint", 245)
+	SetMemoryPoolSize("EnergyBar", weaponCnt)
+	SetMemoryPoolSize("EntityCloth", 17)
+	SetMemoryPoolSize("EntityHover",4)
+	SetMemoryPoolSize("EntitySoundStatic", 9)
+	SetMemoryPoolSize("FLEffectObject::OffsetMatrix", 95)
+	SetMemoryPoolSize("FlagItem", 512)
+	SetMemoryPoolSize("MountedTurret", 18)
+	SetMemoryPoolSize("Music", 80)
+	SetMemoryPoolSize("Navigator", 45)
+	SetMemoryPoolSize("Obstacle", 390)
+	SetMemoryPoolSize("PathFollower", 45)
+	SetMemoryPoolSize("PathNode", 180)
+	SetMemoryPoolSize("SoldierAnimation", 403)
+	SetMemoryPoolSize("SoundSpaceRegion", 34)
+	SetMemoryPoolSize("TentacleSimulator", 0)
+	SetMemoryPoolSize("TreeGridStack", 180)
+	SetMemoryPoolSize("UnitAgent", 45)
+	SetMemoryPoolSize("UnitController", 45)
+	SetMemoryPoolSize("Weapon", weaponCnt)
+	SetMemoryPoolSize("EntityFlyer", 4)
+	
+	SetSpawnDelay(10.0, 0.25)
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\NOV.lvl", "NOV_Conquest")
+	SetDenseEnvironment("True")   
+	AddDeathRegion("deathregion1")
+	--SetStayInTurrets(1)
+	
+	SetParticleLODBias(3000)
+	SetMaxCollisionDistance(1500)
+	
     --  Sound Stats
 	
 	if not ScriptCB_InMultiplayer() then
 		if ME5_SideVar == 1 then
-			Music04()
+			Music03()
 		elseif ME5_SideVar == 2 then
-			Music02()
+			Music05()
 		elseif ME5_SideVar == 3	then
-			Music06()
+			Music09()
 		elseif ME5_SideVar == 4	then
 			Music09()
 		end
 	else
-		Music02()
+		Music05()
 	end
 	
-	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_POL_Streaming.lvl",  "pol1")
-	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_POL_Streaming.lvl",  "pol1")
+	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_NOV_Streaming.lvl",  "NOV_ambiance")
+	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_NOV_Streaming.lvl",  "NOV_ambiance")
 	
 	SoundFX()
 
