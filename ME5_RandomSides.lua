@@ -18,7 +18,9 @@
 -- THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
 -----------------------------------------------------------------
 -----------------------------------------------------------------
-	print("ME5_RandomSides: Entered")
+
+print("ME5_RandomSides: Entered")
+
 -- Calls the functions necessary for the chosen faction combination (based on int var, ME5_SideVar). No params required.
 function Init_SideSetup()
 	if not ScriptCB_InMultiplayer() then
@@ -3199,4 +3201,6 @@ function Drones_SSVxGTH()
 	Drones_SSV()
 	Drones_GTH()
 end
-	print("ME5_RandomSides: Exited")
+
+
+print("ME5_RandomSides: Exited")

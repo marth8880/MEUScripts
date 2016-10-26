@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Utility Functions Script by A. Gilbert
--- Version 30707/06
+-- Version 31025/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Jul 7, 2016
+-- Oct 25, 2016
 -- Copyright (c) 2016 A. Gilbert.
 -- 
 -- About this script: This script contains various utility functions 
@@ -29,11 +29,14 @@
 -- THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
 -----------------------------------------------------------------
 -----------------------------------------------------------------
-	print("ME5_UtilityFunctions: Entered")
+
+print("ME5_UtilityFunctions: Entered")
 
 ---
--- Returns the number of units alive in a table of teams 'teams'.
--- @param #table teams The table of teams to process.
+-- Returns the number of units alive in a table of teams /teams/.
+-- @param #table teams	The table of teams to process.
+-- @return #int			The number of units alive.
+-- 
 function GetNumTeamMembersAliveInTable(teams)
 	-- The number of members that are alive
 	local numAlive = 0
@@ -48,8 +51,9 @@ function GetNumTeamMembersAliveInTable(teams)
 end
 
 ---
--- Kills all units on team 'teamID'.
--- @param #int teamID The numeric ID of the team to perform the function on.
+-- Kills all units on team /teamID/.
+-- @param #int teamID	The numeric ID of the team to perform the function on.
+-- 
 function KillAllTeamMembers(teamID)
 		print("ME5_UtilityFunctions.KillAllTeamMembers(): Entered")
 		
@@ -63,13 +67,15 @@ function KillAllTeamMembers(teamID)
 	end
 end
 
+
 ---
--- Applies the given function to all the units of the given teams
---@param #function cont The continuation function to call.  Should take 3 parameters: unit, property, value
---@param #data property Value to be passed on to the given cont function
---@param #data value Value to be passed on to the given cont function
---@param #table teams Table of numbers which represent team numbers 
---@param #string aiOrHuman "ai" to only process AI bots, "human" to only process human players, nil to process both bots and humans
+-- Applies the given function to all the units of the given teams.
+-- @param #function cont		The continuation function to call.  Should take 3 parameters: unit, property, value
+-- @param #data property		Value to be passed on to the given cont function.
+-- @param #data value			Value to be passed on to the given cont function.
+-- @param #table teams			Table of numbers which represent team numbers.
+-- @param #string aiOrHuman		"ai" to only process AI bots, "human" to only process human players, nil to process both bots and humans.
+--
 function ApplyFunctionOnTeamUnits( cont, property, value, teams, aiOrHuman )
 	if cont == nil then return end   --if have nothing to do, then do nothing
 	
@@ -105,9 +111,10 @@ end
 
 
 ---
---  Kills the units on the given teams
--- @param #table teams Table of teams whose units should be killed
--- @param #bool ai True to kill only AI units, false to kill only human units.
+-- Kills the units on the given /teams/.
+-- @param #table teams	Table of teams whose units should be killed.
+-- @param #bool ai		True to kill only AI units, false to kill only human units.
+-- 
 function KillUnits( teams, ai )
 	--check input
 	if teams == nil then return end
@@ -132,19 +139,21 @@ function KillUnits( teams, ai )
 	ApplyFunctionOnTeamUnits( miniFun, nil, ai, teams )
 end
 
+
 ---
--- Moves entity 'entIn' to path node 'nodeIn' of path 'pathIn'.
--- @param #entity entIn The entity to move.
--- @param #string pathIn The name of the path to get the node from.
--- @param #int nodeIn The numeric path node to move the entity to.
+-- Moves entity /entIn/ to path node /nodeIn/ of path /pathIn/.
+-- @param #entity entIn		The entity to move.
+-- @param #string pathIn	The name of the path to get the node from.
+-- @param #int nodeIn		The numeric path node to move the entity to.
+-- 
 function MoveEntityToNode(entIn, pathIn, nodeIn)
-	print("ME5_UtilityFunctions.MoveEntityToNode(): Entered")
+	print("MoveEntityToNode(): Entered")
 
 	if not entIn then
-		print("Warning!: Entity not specified for move")
+		print("MoveEntityToNode(): Warning! Entity not specified for move")
 		return false
 	elseif not pathIn then
-		print("Warning!: Path not specified for Entity " .. entIn .. " move")
+		print("MoveEntityToNode(): Warning! Path not specified for entity "..entIn.." move")
 		return false
 	end
 	
@@ -168,12 +177,14 @@ function MoveEntityToNode(entIn, pathIn, nodeIn)
 		return false
 end
 
+
 ---
--- Moves all units in team 'teamID' to path 'pathName'.
--- @param #int teamID The numeric ID of the team to reset.
--- @param #string pathName The name of the path to move the units to.
+-- Moves all units in team /teamID/ to path /pathName/.
+-- @param #int teamID		The numeric ID of the team to reset.
+-- @param #string pathName	The name of the path to move the units to.
+-- 
 function ResetTeamMemberLocations(team, pathName)
-		print("EURn_c.ResetTeamMemberLocations(): Entered")
+	print("ResetTeamMemberLocations(): Entered")
 	
 	--get the team's size
 	local size = GetTeamSize( team )
@@ -186,7 +197,7 @@ function ResetTeamMemberLocations(team, pathName)
 		local player = GetTeamMember(team, m)
 		
 		local unit = GetCharacterUnit(player)
-		print( "ApplyFunctionOnTeamUnits(): Team, Unit:", team, m )
+		print("ResetTeamMemberLocations(): Team, Unit:", team, m)
 		
 		local pathPtr = GetPathPoint(pathName, 0)
 		
@@ -198,8 +209,9 @@ function ResetTeamMemberLocations(team, pathName)
 	end
 end
 
+
 ---
--- Shuffles the table /t/.
+-- Shuffles the order of the cells in table /t/.
 -- @param #table t	The table to shuffle.
 -- 
 function ShuffleTable( t )
@@ -214,4 +226,5 @@ function ShuffleTable( t )
 	end
 end
 
-	print("ME5_UtilityFunctions: Exited")
+
+print("ME5_UtilityFunctions: Exited")

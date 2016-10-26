@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Template Script by A. Gilbert
--- Build 30318/06
+-- Build 31025/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Mar 18, 2016
+-- Oct 25, 2016
 -- Copyright (c) 2016 A. Gilbert.
 -- 
 -- About this script: <script description>
@@ -26,8 +26,9 @@
 -- THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
 -----------------------------------------------------------------
 -----------------------------------------------------------------
-	print("ME5_Template: Entered")
+
+print("ME5_Template: Entered")
 
 -- insert code here
 
-	print("ME5_Template: Exited")
+print("ME5_Template: Exited")

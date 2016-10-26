@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
--- Build 30801/06
+-- Build 31025/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Aug 01, 2016
+-- Oct 25, 2016
 -- Copyright (c) 2016 A. Gilbert.
 -- 
 -- About this script: The purpose of script is to load configuration
@@ -18,7 +18,8 @@
 -- THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
 -----------------------------------------------------------------
 -----------------------------------------------------------------
-	print("ME5_ConfigCheck: Entered")
+
+print("ME5_ConfigCheck: Entered")
 
 -- The base path for all of the config files.
 local path = "..\\..\\addon\\ME5\\data\\_LVL_PC\\cfg\\"
@@ -126,7 +127,7 @@ elseif CheckSetting("cfg_Difficulty", 4) == 1 then
 	ME5_Difficulty = 5
 	
 else
-		print("ME5_ConfigCheck: Error! ME5_Difficulty flag not found or invalid! Defaulting to HARDCORE")
+		print("ME5_ConfigCheck: Error! ME5_Difficulty flag not found or invalid! Defaulting to VETERAN")
 	ME5_Difficulty = 3
 end
 
@@ -204,7 +205,7 @@ end
 -- ======================
 if CheckSetting("cfg_HeroClassCOL", 0) == 1 then
 		print("ME5_ConfigCheck: COL Hero Class is RANDOM")
-	ME5_HeroClassCOL = 0
+	ME5_HeroClassCOL = math.random(1, MAX_COL_HERO_COUNT)
 	
 elseif CheckSetting("cfg_HeroClassCOL", 1) == 1 then
 		print("ME5_ConfigCheck: COL Hero Class is HARBINGER")
@@ -212,7 +213,7 @@ elseif CheckSetting("cfg_HeroClassCOL", 1) == 1 then
 	
 else
 		print("ME5_ConfigCheck: Error! ME5_HeroClassCOL flag not found or invalid! Defaulting to RANDOM")
-	ME5_HeroClassCOL = 0
+	ME5_HeroClassCOL = math.random(1, MAX_COL_HERO_COUNT)
 end
 
 
@@ -221,7 +222,7 @@ end
 -- ======================
 if CheckSetting("cfg_HeroClassEVG", 0) == 1 then
 		print("ME5_ConfigCheck: EVG Hero Class is RANDOM")
-	ME5_HeroClassEVG = 0
+	ME5_HeroClassEVG = math.random(1, MAX_EVG_HERO_COUNT)
 	
 elseif CheckSetting("cfg_HeroClassEVG", 1) == 1 then
 		print("ME5_ConfigCheck: EVG Hero Class is GETH PRIME (ME2)")
@@ -233,7 +234,7 @@ elseif CheckSetting("cfg_HeroClassEVG", 2) == 1 then
 	
 else
 		print("ME5_ConfigCheck: Error! ME5_HeroClassEVG flag not found or invalid! Defaulting to RANDOM")
-	ME5_HeroClassEVG = 0
+	ME5_HeroClassEVG = math.random(1, MAX_EVG_HERO_COUNT)
 end
 
 
@@ -242,7 +243,7 @@ end
 -- ======================
 if CheckSetting("cfg_HeroClassGTH", 0) == 1 then
 		print("ME5_ConfigCheck: GTH Hero Class is RANDOM")
-	ME5_HeroClassGTH = 0
+	ME5_HeroClassGTH = math.random(1, MAX_GTH_HERO_COUNT)
 	
 elseif CheckSetting("cfg_HeroClassGTH", 1) == 1 then
 		print("ME5_ConfigCheck: GTH Hero Class is GETH PRIME (ME2)")
@@ -254,7 +255,7 @@ elseif CheckSetting("cfg_HeroClassGTH", 2) == 1 then
 	
 else
 		print("ME5_ConfigCheck: Error! ME5_HeroClassGTH flag not found or invalid! Defaulting to RANDOM")
-	ME5_HeroClassGTH = 0
+	ME5_HeroClassGTH = math.random(1, MAX_GTH_HERO_COUNT)
 end
 
 
@@ -263,7 +264,7 @@ end
 -- ======================
 if CheckSetting("cfg_HeroClassSSV", 0) == 1 then
 		print("ME5_ConfigCheck: SSV Hero Class is RANDOM")
-	ME5_HeroClassSSV = 0
+	ME5_HeroClassSSV = math.random(1, MAX_SSV_HERO_COUNT)
 	
 elseif CheckSetting("cfg_HeroClassSSV", 1) == 1 then
 		print("ME5_ConfigCheck: SSV Hero Class is SHEPARD")
@@ -275,7 +276,7 @@ elseif CheckSetting("cfg_HeroClassSSV", 2) == 1 then
 	
 else
 		print("ME5_ConfigCheck: Error! ME5_HeroClassSSV flag not found or invalid! Defaulting to RANDOM")
-	ME5_HeroClassSSV = 0
+	ME5_HeroClassSSV = math.random(1, MAX_SSV_HERO_COUNT)
 end
 
 
@@ -284,7 +285,7 @@ end
 -- ======================
 if CheckSetting("cfg_ShepardClass", 0) == 1 then
 		print("ME5_ConfigCheck: Shepard Class is RANDOM")
-	ME5_ShepardClass = 0
+	ME5_ShepardClass = math.random(1, MAX_SHEP_CLASS_COUNT)
 	
 elseif CheckSetting("cfg_ShepardClass", 1) == 1 then
 		print("ME5_ConfigCheck: Shepard Class is SOLDIER")
@@ -312,7 +313,7 @@ elseif CheckSetting("cfg_ShepardClass", 6) == 1 then
 	
 else
 		print("ME5_ConfigCheck: Error! ME5_ShepardClass flag not found or invalid! Defaulting to RANDOM")
-	ME5_ShepardClass = 0
+	ME5_ShepardClass = math.random(1, MAX_SHEP_CLASS_COUNT)
 end
 
 
@@ -321,7 +322,7 @@ end
 -- ======================
 if CheckSetting("cfg_ShepardGender", 0) == 1 then
 		print("ME5_ConfigCheck: Shepard Gender is RANDOM")
-	ME5_ShepardGender = 0
+	ME5_ShepardGender = math.random(1, MAX_SHEP_GENDER_COUNT)
 	
 elseif CheckSetting("cfg_ShepardGender", 1) == 1 then
 		print("ME5_ConfigCheck: Shepard Gender is MALE")
@@ -333,7 +334,7 @@ elseif CheckSetting("cfg_ShepardGender", 2) == 1 then
 	
 else
 		print("ME5_ConfigCheck: Error! ME5_ShepardGender flag not found or invalid! Defaulting to RANDOM")
-	ME5_ShepardGender = 0
+	ME5_ShepardGender = math.random(1, MAX_SHEP_GENDER_COUNT)
 end
 
 
@@ -342,7 +343,7 @@ end
 -- ======================
 if CheckSetting("cfg_SideVar", 0) == 1 then
 		print("ME5_ConfigCheck: Side Variation is RANDOM")
-	ME5_SideVar = math.random(1,4)
+	ME5_SideVar = math.random(1, MAX_FACTION_COUNT)
 	
 elseif CheckSetting("cfg_SideVar", 1) == 1 then
 		print("ME5_ConfigCheck: Side Variation is SSVxGTH")
@@ -362,7 +363,7 @@ elseif CheckSetting("cfg_SideVar", 4) == 1 then
 	
 else
 		print("ME5_ConfigCheck: Error! ME5_SideVar flag not found or invalid! Defaulting to RANDOM")
-	ME5_SideVar = 0
+	ME5_SideVar = math.random(1, MAX_FACTION_COUNT)
 end
 
 
@@ -388,7 +389,7 @@ if not ScriptCB_InMultiplayer() then
 		
 	else
 			print("ME5_ConfigCheck: Error! ME5_MapVarEDN flag not found or invalid! Defaulting to RANDOM")
-		ME5_MapVarEDN = 0
+		ME5_MapVarEDN = math.random(1,3)
 	end
 else
 		print("ME5_ConfigCheck: Eden Prime Weather is CLOUDY")
@@ -414,7 +415,7 @@ if not ScriptCB_InMultiplayer() then
 		
 	else
 			print("ME5_ConfigCheck: Error! ME5_MapVarVRM flag not found or invalid! Defaulting to RANDOM")
-		ME5_MapVarVRM = 0
+		ME5_MapVarVRM = math.random(1,2)
 	end
 else
 		print("ME5_ConfigCheck: Virmire Play Area is UPPER LEVEL")
@@ -426,15 +427,15 @@ end
 --  SOL MAP MUSIC
 -- ======================
 if CheckSetting("cfg_SolMapMusic", 0) == 1 then
-		print("ME5_ConfigCheck: Sol Map Music is AMBIENT SOUNDSCAPE")
+		print("ME5_ConfigCheck: 'Sol Map Pack' Map Music is AMBIENT SOUNDSCAPE")
 	ME5_SolMapMusic = 0
 	
 elseif CheckSetting("cfg_SolMapMusic", 1) == 1 then
-		print("ME5_ConfigCheck: Sol Map Music is MASS EFFECT")
+		print("ME5_ConfigCheck: 'Sol Map Pack' Map Music is MASS EFFECT")
 	ME5_SolMapMusic = 1
 	
 else
-		print("ME5_ConfigCheck: Error! ME5_SolMapMusic flag not found or invalid! Defaulting to SOL")
+		print("ME5_ConfigCheck: Error! ME5_SolMapMusic flag not found or invalid! Defaulting to AMBIENT SOUNDSCAPE")
 	ME5_SolMapMusic = 0
 end
 
@@ -539,45 +540,17 @@ else
 	ME5_HitMarkerSound = 2
 end
 
-
 print("ME5_ConfigCheck: Checking configuration parameters... Done!")
 
 
+-- Call the AI hero support script if AI heroes are enabled
 if ME5_AIHeroes == 1 then
 	ScriptCB_DoFile("ME5_AIHeroSupport")
 end
 
-
+-- Determines Shepard's class.
 function DecideShepClass()
-	if ME5_ShepardClass == 0 then
-		BroShepClass = math.random(1,6)
-		
-			print("ME5_ConfigCheck.DecideShepClass(): Deciding BroShep class...")
-		if BroShepClass == 1 then
-				print("ME5_ConfigCheck.DecideShepClass(): Deciding BroShep class... SOLDIER")
-			SSVHeroClass = "ssv_hero_shepard_soldier"
-			
-		elseif BroShepClass == 2 then
-				print("ME5_ConfigCheck.DecideShepClass(): Deciding BroShep class... INFILTRATOR")
-			SSVHeroClass = "ssv_hero_shepard_infiltrator"
-			
-		elseif BroShepClass == 3 then
-				print("ME5_ConfigCheck.DecideShepClass(): Deciding BroShep class... ENGINEER")
-			SSVHeroClass = "ssv_hero_shepard_engineer"
-			
-		elseif BroShepClass == 4 then
-				print("ME5_ConfigCheck.DecideShepClass(): Deciding BroShep class... ADEPT")
-			SSVHeroClass = "ssv_hero_shepard_adept"
-			
-		elseif BroShepClass == 5 then
-				print("ME5_ConfigCheck.DecideShepClass(): Deciding BroShep class... SENTINEL")
-			SSVHeroClass = "ssv_hero_shepard_sentinel"
-			
-		elseif BroShepClass == 6 then
-				print("ME5_ConfigCheck.DecideShepClass(): Deciding BroShep class... VANGUARD")
-			SSVHeroClass = "ssv_hero_shepard_vanguard"
-		end
-	elseif ME5_ShepardClass == 1 then
+	if ME5_ShepardClass == 1 then
 			print("ME5_ConfigCheck.DecideShepClass(): Deciding BroShep class... SOLDIER")
 		SSVHeroClass = "ssv_hero_shepard_soldier"
 		
@@ -600,33 +573,15 @@ function DecideShepClass()
 	elseif ME5_ShepardClass == 6 then
 			print("ME5_ConfigCheck.DecideShepClass(): Deciding BroShep class... VANGUARD")
 		SSVHeroClass = "ssv_hero_shepard_vanguard"
+	else
+			print("ME5_ConfigCheck.DecideShepClass(): Error! ME5_ShepardClass is invalid! Defaulting to SOLDIER")
+		SSVHeroClass = "ssv_hero_shepard_soldier"
 	end
-	
 end
 
+-- Determines the Systems Alliance's hero unit.
 function DecideSSVHeroClass()
-	if ME5_HeroClassSSV == 0 then
-		DecidedSSVHeroClass = math.random(1,2)
-		
-			print("ME5_ConfigCheck.DecideSSVHeroClass(): Deciding SSV hero class...")
-		if DecidedSSVHeroClass == 1 then
-				print("ME5_ConfigCheck.DecideSSVHeroClass(): Deciding SSV hero class... SHEPARD")
-			DecideShepClass()
-			
-		elseif DecidedSSVHeroClass == 2 then
-				print("ME5_ConfigCheck.DecideSSVHeroClass(): Deciding SSV hero class... JACK")
-			SSVHeroClass = "ssv_hero_jack"
-			
-		--[[elseif DecideSSVHeroClass == 3 then
-				print("ME5_ConfigCheck.DecideSSVHeroClass(): Deciding SSV hero class... SAMARA")
-			SSVHeroClass = "ssv_hero_samara"
-			
-		elseif DecideSSVHeroClass == 4 then
-				print("ME5_ConfigCheck.DecideSSVHeroClass(): Deciding SSV hero class... LEGION")
-			SSVHeroClass = "ssv_hero_legion"]]
-		end
-
-	elseif ME5_HeroClassSSV == 1 then
+	if ME5_HeroClassSSV == 1 then
 			print("ME5_ConfigCheck.DecideSSVHeroClass(): Deciding SSV hero class... SHEPARD")
 		DecideShepClass()
 		
@@ -634,35 +589,22 @@ function DecideSSVHeroClass()
 			print("ME5_ConfigCheck.DecideSSVHeroClass(): Deciding SSV hero class... JACK")
 		SSVHeroClass = "ssv_hero_jack"
 		
-	--[[elseif DecideSSVHeroClass == 3 then
+	--[[elseif ME5_HeroClassSSV == 3 then
 			print("ME5_ConfigCheck.DecideSSVHeroClass(): Deciding SSV hero class... SAMARA")
 		SSVHeroClass = "ssv_hero_samara"
 		
-	elseif DecideSSVHeroClass == 4 then
+	elseif ME5_HeroClassSSV == 4 then
 			print("ME5_ConfigCheck.DecideSSVHeroClass(): Deciding SSV hero class... LEGION")
 		SSVHeroClass = "ssv_hero_legion"]]
+	else
+			print("ME5_ConfigCheck.DecideSSVHeroClass(): Error! ME5_HeroClassSSV value is invalid! Defaulting to SHEPARD")
+		DecideShepClass()
 	end
 end
 
+-- Determines the Heretic Geth's hero unit.
 function DecideGTHHeroClass()
-	if ME5_HeroClassGTH == 0 then
-		DecidedGTHHeroClass = math.random(1,2)
-		
-			print("ME5_ConfigCheck.DecideGTHHeroClass(): Deciding GTH hero class...")
-		if DecidedGTHHeroClass == 1 then
-				print("ME5_ConfigCheck.DecideGTHHeroClass(): Deciding GTH hero class... GETH PRIME (ME2)")
-			GTHHeroClass = "gth_hero_prime_me2"
-			
-		elseif DecidedGTHHeroClass == 2 then
-				print("ME5_ConfigCheck.DecideGTHHeroClass(): Deciding GTH hero class... GETH PRIME (ME3)")
-			GTHHeroClass = "gth_hero_prime_me3"
-			
-		else
-				print("ME5_ConfigCheck.DecideGTHHeroClass(): Error! DecideGTHHeroClass variable is invalid! Defaulting to GETH PRIME (ME2)")
-			GTHHeroClass = "gth_hero_prime_me2"
-		end
-		
-	elseif ME5_HeroClassGTH == 1 then
+	if ME5_HeroClassGTH == 1 then
 			print("ME5_ConfigCheck.DecideGTHHeroClass(): Deciding GTH hero class... GETH PRIME (ME2)")
 		GTHHeroClass = "gth_hero_prime_me2"
 		
@@ -671,39 +613,32 @@ function DecideGTHHeroClass()
 		GTHHeroClass = "gth_hero_prime_me3"
 		
 	else
-			print("ME5_ConfigCheck.DecideGTHHeroClass(): Error! ME5_HeroClassGTH variable is invalid! Defaulting to GETH PRIME (ME2)")
+			print("ME5_ConfigCheck.DecideGTHHeroClass(): Error! ME5_HeroClassGTH value is invalid! Defaulting to GETH PRIME (ME2)")
 		GTHHeroClass = "gth_hero_prime_me2"
 	end
 end
 
+-- Determines the Collectors' hero unit.
 function DecideCOLHeroClass()
-	--DecideSSVHeroClass = math.random(1,4)
-		print("ME5_ConfigCheck.DecideCOLHeroClass(): Deciding COL hero class...")
-	COLHeroClass = "col_hero_harbinger"
+	if ME5_HeroClassCOL == 1 then
+			print("ME5_ConfigCheck.DecideCOLHeroClass(): Deciding COL hero class... HARBINGER")
+		COLHeroClass = "col_hero_harbinger"
+	else
+			print("ME5_ConfigCheck.DecideCOLHeroClass(): Error! ME5_HeroClassCOL value is invalid! Defaulting to HARBINGER")
+		COLHeroClass = "col_hero_harbinger"
+	end
 end
 
+-- Determines the Evolved Geth's hero unit.
 function DecideEVGHeroClass()
-	if ME5_HeroClassEVG == 0 then
-		DecidedEVGHeroClass = math.random(1,2)
-			print("ME5_ConfigCheck.DecideEVGHeroClass(): Deciding EVG hero class...")
-		if DecidedEVGHeroClass == 1 then
-				print("ME5_ConfigCheck.DecideEVGHeroClass(): Deciding EVG hero class... GETH PRIME (ME2)")
-			EVGHeroClass = "gth_hero_prime_me2"
-		elseif DecidedEVGHeroClass == 2 then
-				print("ME5_ConfigCheck.DecideEVGHeroClass(): Deciding EVG hero class... GETH PRIME (ME3)")
-			EVGHeroClass = "gth_hero_prime_me3"
-		else
-				print("ME5_ConfigCheck.DecideEVGHeroClass(): Error! DecideEVGHeroClass variable is invalid! Defaulting to GETH PRIME (ME3)")
-			EVGHeroClass = "gth_hero_prime_me3"
-		end
-	elseif ME5_HeroClassEVG == 1 then
+	if ME5_HeroClassEVG == 1 then
 			print("ME5_ConfigCheck.DecideEVGHeroClass(): Deciding EVG hero class... GETH PRIME (ME2)")
 		EVGHeroClass = "gth_hero_prime_me2"
 	elseif ME5_HeroClassEVG == 2 then
 			print("ME5_ConfigCheck.DecideEVGHeroClass(): Deciding EVG hero class... GETH PRIME (ME3)")
 		EVGHeroClass = "gth_hero_prime_me3"
 	else
-			print("ME5_ConfigCheck.DecideEVGHeroClass(): Error! ME5_HeroClassEVG variable is invalid! Defaulting to GETH PRIME (ME3)")
+			print("ME5_ConfigCheck.DecideEVGHeroClass(): Error! ME5_HeroClassEVG value is invalid! Defaulting to GETH PRIME (ME3)")
 		EVGHeroClass = "gth_hero_prime_me3"
 	end
 end
@@ -715,4 +650,4 @@ if not ScriptCB_InMultiplayer() then
 	DecideEVGHeroClass()
 end
 
-	print("ME5_ConfigCheck: Exited")
+print("ME5_ConfigCheck: Exited")

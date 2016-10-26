@@ -18,8 +18,8 @@
 -- THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
 -----------------------------------------------------------------
 -----------------------------------------------------------------
-	print("ME5_AudioFunctions: Entered")
 
+print("ME5_AudioFunctions: Entered")
 
 ---
 -- Opens music streams based on /variation/.
@@ -962,4 +962,6 @@ function UnmuteAudioBus(busID, originalGain)
 	
 	ScriptCB_SndBusFade(busID, 0.0, originalGain)
 end
-	print("ME5_AudioFunctions: Exited")
+
+
+print("ME5_AudioFunctions: Exited")
