@@ -10,13 +10,13 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
-mapSize = lg
-EnvironmentType = EnvTypeJungle
-onlineSideVar = SSVxGTH
-onlineHeroSSV = shep_engineer
-onlineHeroGTH = gethprime_me2
-onlineHeroCOL = colgeneral
-onlineHeroEVG = gethprime_me3
+mapSize = "lg"
+EnvironmentType = "jungle"
+onlineSideVar = "SSVxGTH"
+onlineHeroSSV = "shep_engineer"
+onlineHeroGTH = "gethprime_me2"
+onlineHeroCOL = "colgeneral"
+onlineHeroEVG = "gethprime_me3"
 
 --  CIS Attacking (attacker is always #1)
 --SupportSSV = 4

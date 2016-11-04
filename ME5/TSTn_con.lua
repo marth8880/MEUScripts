@@ -73,8 +73,8 @@ function ScriptInit()
 	
 		ReadDataFile("sound\\kas.lvl;kas2cw")
 		
-		LoadSSV()
-		LoadGTH()
+		Load_SSV()
+		Load_GTH()
 		Setup_SSVxGTH_xs()
    
 

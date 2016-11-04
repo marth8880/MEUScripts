@@ -6,13 +6,13 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveBFConquest")
 
-mapSize = med
-EnvironmentType = EnvTypeDesert
-onlineSideVar = SSVxGTH
-onlineHeroSSV = shep_sentinel
-onlineHeroGTH = gethprime_me2
-onlineHeroCOL = colgeneral
-onlineHeroEVG = gethprime_me3
+mapSize = "med"
+EnvironmentType = "desert"
+onlineSideVar = "SSVxGTH"
+onlineHeroSSV = "shep_sentinel"
+onlineHeroGTH = "gethprime_me2"
+onlineHeroCOL = "colgeneral"
+onlineHeroEVG = "gethprime_me3"
 
 -- AI hero spawns. CP name, CP spawn path name
 heroSupportCPs = {

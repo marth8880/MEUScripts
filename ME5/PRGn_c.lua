@@ -480,8 +480,8 @@ function ScriptInit()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\ME5.lvl;ME5n")
     ReadDataFile("sound\\kam.lvl;kam1cw")
 	
-    LoadSSV()
-	LoadGTH()
+    Load_SSV()
+	Load_GTH()
 	SetupTeams{
 		rep = {
 			team = REP,

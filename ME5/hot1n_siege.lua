@@ -9,12 +9,12 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveBFConquest")
 
-mapSize = lg
-EnvironmentType = EnvTypeSnow
-onlineSideVar = SSVxGTH
-onlineHeroSSV = shep_adept
-onlineHeroGTH = gethprime_me2
-onlineHeroCOL = colgeneral
+mapSize = "lg"
+EnvironmentType = "snow"
+onlineSideVar = "SSVxGTH"
+onlineHeroSSV = "shep_adept"
+onlineHeroGTH = "gethprime_me2"
+onlineHeroCOL = "colgeneral"
 
     --  Empire Attacking (attacker is always #1)
     REP = 2

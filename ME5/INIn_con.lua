@@ -10,12 +10,12 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
-mapSize = sm
-EnvironmentType = EnvTypeDesert
-onlineSideVar = SSVxGTH
-onlineHeroSSV = shep_infiltrator
-onlineHeroGTH = gethprime_me2
-onlineHeroCOL = colgeneral
+mapSize = "sm"
+EnvironmentType = "desert"
+onlineSideVar = "SSVxGTH"
+onlineHeroSSV = "shep_infiltrator"
+onlineHeroGTH = "gethprime_me2"
+onlineHeroCOL = "colgeneral"
 	
 	--  REP Attacking (attacker is always #1)
 	REP = 2;

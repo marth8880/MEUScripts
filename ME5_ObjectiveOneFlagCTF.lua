@@ -5,7 +5,7 @@
 ScriptCB_DoFile("ME5_Objective")
 ScriptCB_DoFile("ME5_SoundEvent_ctf")
 
-MEUGameMode = meu_1flag
+MEU_GameMode = "meu_1flag"
 
 --=============================
 -- ObjectiveCTF
@@ -363,13 +363,13 @@ if not ScriptCB_InMultiplayer() then
 		CTF_SoundEvents_Var = 4
 	end
 else
-	if onlineSideVar == 1 then
+	if onlineSideVar == "SSVxGTH" or onlineSideVar == 1 then
 		CTF_SoundEvents_Var = 1
-	elseif onlineSideVar == 2 then
+	elseif onlineSideVar == "SSVxCOL" or onlineSideVar == 2 then
 		CTF_SoundEvents_Var = 2
-	elseif onlineSideVar == 3 then
+	elseif onlineSideVar == "EVGxGTH" or onlineSideVar == 3 then
 		CTF_SoundEvents_Var = 3
-	elseif onlineSideVar == 4 then
+	elseif onlineSideVar == "EVGxCOL" or onlineSideVar == 4 then
 		CTF_SoundEvents_Var = 4
 	end
 end

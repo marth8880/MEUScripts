@@ -269,23 +269,23 @@ function ScriptInit()
 					
 	if not ScriptCB_InMultiplayer() then
 		if RandomSide == 1 then
-			LoadSSV()
-			LoadGTH()
+			Load_SSV()
+			Load_GTH()
 			Setup_SSVxGTH_med()
 			DecideSSVHeroClass()
 			team2ticketstring = "level.common.events.con.ticketboost.ssv"
 			team1ticketstring = "level.common.events.con.ticketboost.gth"
 		elseif RandomSide == 2 then
-			LoadSSV()
-			LoadCOL()
+			Load_SSV()
+			Load_COL()
 			Setup_SSVxCOL_med()
 			DecideSSVHeroClass()
 			team2ticketstring = "level.common.events.con.ticketboost.ssv"
 			team1ticketstring = "level.common.events.con.ticketboost.col"
 		end
 	else
-		LoadSSV()
-		LoadGTH()
+		Load_SSV()
+		Load_GTH()
 		Setup_SSVxGTH_med()
 		SetHeroClass(REP, "ssv_hero_shepard_engineer")
 		team2ticketstring = "level.common.events.con.ticketboost.ssv"

@@ -101,7 +101,7 @@ function ScriptInit()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamegth.lvl")
 	PreLoadStuff()
 	
-	EnvironmentType = EnvTypeUrban
+	EnvironmentType = "urban"
 	
     SetMaxFlyHeight(16)
     SetMaxPlayerFlyHeight(16)
@@ -116,8 +116,8 @@ function ScriptInit()
     SetMemoryPoolSize ("Combo::Deflect",100)     -- should be ~1x #combo  
     
 	
-	LoadSSV()
-	LoadGTH()
+	Load_SSV()
+	Load_GTH()
 	Setup_SSVxGTH_xs()
 	if not ScriptCB_InMultiplayer() then
 		DecideSSVHeroClass()

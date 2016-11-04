@@ -112,16 +112,16 @@ function PreLoadStuff()
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamecol.lvl")
 		end
 	else
-		if onlineSideVar == 1 then
+		if onlineSideVar == "SSVxGTH" or onlineSideVar == 1 then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamessv.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamegth.lvl")
-		elseif onlineSideVar == 2 then
+		elseif onlineSideVar == "SSVxCOL" or onlineSideVar == 2 then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamessv.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamecol.lvl")
-		elseif onlineSideVar == 3 then
+		elseif onlineSideVar == "EVGxGTH" or onlineSideVar == 3 then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingameevg.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamegth.lvl")
-		elseif onlineSideVar == 4 then
+		elseif onlineSideVar == "EVGxCOL" or onlineSideVar == 4 then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingameevg.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamecol.lvl")
 		end
@@ -179,13 +179,13 @@ function PreLoadStuff()
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxCOL")
 			end
 		else
-			if onlineSideVar == 1 then
+			if onlineSideVar == "SSVxGTH" or onlineSideVar == 1 then
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_SSVxGTH")
-			elseif onlineSideVar == 2 then
+			elseif onlineSideVar == "SSVxCOL" or onlineSideVar == 2 then
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_SSVxCOL")
-			elseif onlineSideVar == 3 then
+			elseif onlineSideVar == "EVGxGTH" or onlineSideVar == 3 then
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxGTH")
-			elseif onlineSideVar == 4 then
+			elseif onlineSideVar == "EVGxCOL" or onlineSideVar == 4 then
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxCOL")
 			end
 		end
@@ -201,19 +201,19 @@ function PreLoadStuff()
 		
 		-- Load the new custom HUD and the objective screen text based on the game mode
 		-- What is the active game mode? (NOTE: This is set near the beginning of each game mode's objective script)
-		if MEUGameMode == meu_1flag then
+		if MEU_GameMode == "meu_1flag" or MEU_GameMode == 1 then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_1flag")
-		elseif MEUGameMode == meu_con then
+		elseif MEU_GameMode == "meu_con" or MEU_GameMode == 2 then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_con")
-		elseif MEUGameMode == meu_ctf then
+		elseif MEU_GameMode == "meu_ctf" or MEU_GameMode == 3 then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_ctf")
-		elseif MEUGameMode == meu_siege then
+		elseif MEU_GameMode == "meu_siege" or MEU_GameMode == 4 then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_siege")
-		elseif MEUGameMode == meu_surv then
+		elseif MEU_GameMode == "meu_surv" or MEU_GameMode == 5 then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_surv")
-		elseif MEUGameMode == meu_tdm then
+		elseif MEU_GameMode == "meu_tdm" or MEU_GameMode == 6 then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_tdm")
-		elseif MEUGameMode == meu_campaign then
+		elseif MEU_GameMode == "meu_campaign" or MEU_GameMode == 7 then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_campaign")
 		else
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl")
@@ -237,13 +237,13 @@ function PreLoadStuff()
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxCOL")
 			end
 		else
-			if onlineSideVar == 1 then
+			if onlineSideVar == "SSVxGTH" or onlineSideVar == 1 then
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_SSVxGTH")
-			elseif onlineSideVar == 2 then
+			elseif onlineSideVar == "SSVxCOL" or onlineSideVar == 2 then
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_SSVxCOL")
-			elseif onlineSideVar == 3 then
+			elseif onlineSideVar == "EVGxGTH" or onlineSideVar == 3 then
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxGTH")
-			elseif onlineSideVar == 4 then
+			elseif onlineSideVar == "EVGxCOL" or onlineSideVar == 4 then
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxCOL")
 			end
 		end
@@ -270,8 +270,8 @@ function PreLoadStuff()
 	-- What is the aspect ratio of the player's display?
 	if aspectRatioStr == "4:3" then
 		print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 4:3, loading scopes as such")
-		if (MEUGameMode == meu_con or meu_siege) then
-			print("ME5_MiscFunctions.PreLoadStuff(): Game mode is Conquest or Siege ("..MEUGameMode.."), also loading CP objective markers")
+		if (MEU_GameMode == "meu_con" or "meu_siege") or (MEU_GameMode == 2 or 4) then
+			print("ME5_MiscFunctions.PreLoadStuff(): Game mode is Conquest or Siege ("..MEU_GameMode.."), also loading CP objective markers")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar43\\ar.lvl;conquest")
 		else
 			print("ME5_MiscFunctions.PreLoadStuff(): Game mode is not Conquest or Siege")
@@ -280,8 +280,8 @@ function PreLoadStuff()
 		
 	elseif aspectRatioStr == "16:10" then
 		print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 16:10, loading scopes as such")
-		if (MEUGameMode == meu_con or meu_siege) then
-			print("ME5_MiscFunctions.PreLoadStuff(): Game mode is Conquest or Siege ("..MEUGameMode.."), also loading CP objective markers")
+		if (MEU_GameMode == "meu_con" or "meu_siege") or (MEU_GameMode == 2 or 4) then
+			print("ME5_MiscFunctions.PreLoadStuff(): Game mode is Conquest or Siege ("..MEU_GameMode.."), also loading CP objective markers")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar1610\\ar.lvl;conquest")
 		else
 			print("ME5_MiscFunctions.PreLoadStuff(): Game mode is not Conquest or Siege")
@@ -290,8 +290,8 @@ function PreLoadStuff()
 		
 	elseif aspectRatioStr == "16:9" then
 		print("ME5_MiscFunctions.PreLoadStuff(): Aspect Ratio is 16:9, loading scopes as such")
-		if (MEUGameMode == meu_con or meu_siege) then
-			print("ME5_MiscFunctions.PreLoadStuff(): Game mode is Conquest or Siege ("..MEUGameMode.."), also loading CP objective markers")
+		if (MEU_GameMode == "meu_con" or "meu_siege") or (MEU_GameMode == 2 or 4) then
+			print("ME5_MiscFunctions.PreLoadStuff(): Game mode is Conquest or Siege ("..MEU_GameMode.."), also loading CP objective markers")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar169\\ar.lvl;conquest")
 		else
 			print("ME5_MiscFunctions.PreLoadStuff(): Game mode is not Conquest or Siege")
@@ -301,8 +301,8 @@ function PreLoadStuff()
 	else
 		print("ME5_MiscFunctions.PreLoadStuff(): Error! Invalid aspect ratio ("..aspectRatio..")! Defaulting to workaround")
 		
-		if (MEUGameMode == meu_con or meu_siege) then
-			print("ME5_MiscFunctions.PreLoadStuff(): Game mode is Conquest or Siege ("..MEUGameMode.."), also loading CP objective markers")
+		if (MEU_GameMode == "meu_con" or "meu_siege") or (MEU_GameMode == 2 or 4) then
+			print("ME5_MiscFunctions.PreLoadStuff(): Game mode is Conquest or Siege ("..MEU_GameMode.."), also loading CP objective markers")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar.lvl;conquest")
 		else
 			print("ME5_MiscFunctions.PreLoadStuff(): Game mode is not Conquest or Siege")
@@ -310,8 +310,8 @@ function PreLoadStuff()
 		end
 	end
 	
-	-- Is this a non-conquest/non-siege match? 
-	if (MEUGameMode ~= meu_con) and (MEUGameMode ~= meu_siege) then
+	-- Is this a non-conquest/non-siege match?
+	if (MEU_GameMode ~= "meu_con") and (MEU_GameMode ~= "meu_siege") and (MEU_GameMode ~= 2) and (MEU_GameMode ~= 4) then
 		-- Load the normal objective marker icons
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_purge_obj_marker.lvl")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_obj_marker.lvl")
@@ -471,13 +471,13 @@ function PreLoadStuff()
 			LoadFactionSounds(4)
 		end
 	else
-		if onlineSideVar == 1 then
+		if onlineSideVar == "SSVxGTH" or onlineSideVar == 1 then
 			LoadFactionSounds(1)
-		elseif onlineSideVar == 2 then
+		elseif onlineSideVar == "SSVxCOL" or onlineSideVar == 2 then
 			LoadFactionSounds(2)
-		elseif onlineSideVar == 3 then
+		elseif onlineSideVar == "EVGxGTH" or onlineSideVar == 3 then
 			LoadFactionSounds(3)
-		elseif onlineSideVar == 4 then
+		elseif onlineSideVar == "EVGxCOL" or onlineSideVar == 4 then
 			LoadFactionSounds(4)
 		end
 	end
@@ -818,9 +818,9 @@ function PostLoadStuff()
 			Init_JuggernautSquads_EVG()
 		end
 	else
-		if onlineSideVar == 1 then
+		if onlineSideVar == "SSVxGTH" or onlineSideVar == 1 then
 			Init_JuggernautSquads_GTH()
-		elseif onlineSideVar == 3 then
+		elseif onlineSideVar == "EVGxGTH" or onlineSideVar == 3 then
 			Init_JuggernautSquads_EVG()
 		end
 	end

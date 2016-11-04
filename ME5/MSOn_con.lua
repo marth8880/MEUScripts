@@ -101,7 +101,7 @@ function ScriptInit()
 					"tur_bldg_spa_rep_chaingun",
 					"tur_bldg_chaingun_roof")
 	
-	LoadCOL()
+	Load_COL()
 	LoadSSVspa()
 	Setup_SSVxSUN_spa()
 			print("Load/setup SSV versus SUN")

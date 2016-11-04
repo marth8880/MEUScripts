@@ -11,13 +11,13 @@ ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
 -- Map-specific data fields
-mapSize = sm						-- The size of the map. Used for determining unit counts.
-EnvironmentType = EnvTypeJungle					-- The map's biome (essentially). Used for determining which camo textures to load.
-onlineSideVar = SSVxGTH				-- The side variation to use in online matches.
-onlineHeroSSV = shep_engineer		-- The SSV hero to use in online matches.
-onlineHeroGTH = gethprime_me2		-- The GTH hero to use in online matches.
-onlineHeroCOL = colgeneral			-- The COL hero to use in online matches.
-onlineHeroEVG = gethprime_me3		-- The EVG hero to use in online matches.
+mapSize = "sm"						-- The size of the map. Used for determining unit counts.
+EnvironmentType = "jungle"					-- The map's biome (essentially). Used for determining which camo textures to load.
+onlineSideVar = "SSVxGTH"				-- The side variation to use in online matches.
+onlineHeroSSV = "shep_engineer"		-- The SSV hero to use in online matches.
+onlineHeroGTH = "gethprime_me2"		-- The GTH hero to use in online matches.
+onlineHeroCOL = "colgeneral"			-- The COL hero to use in online matches.
+onlineHeroEVG = "gethprime_me3"		-- The EVG hero to use in online matches.
 
 -- Randomize the teams' starting spawns
 if not ScriptCB_InMultiplayer() then

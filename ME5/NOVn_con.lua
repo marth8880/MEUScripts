@@ -8,13 +8,13 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
-mapSize = xl
-EnvironmentType = EnvTypeUrban
-onlineSideVar = SSVxCOL
-onlineHeroSSV = shep_vanguard
-onlineHeroGTH = gethprime_me2
-onlineHeroCOL = colgeneral
-onlineHeroEVG = gethprime_me3
+mapSize = "xl"
+EnvironmentType = "urban"
+onlineSideVar = "SSVxCOL"
+onlineHeroSSV = "shep_vanguard"
+onlineHeroGTH = "gethprime_me2"
+onlineHeroCOL = "colgeneral"
+onlineHeroEVG = "gethprime_me3"
 
 -- Local ally spawns. CP name, CP spawn path name
 heroSupportCPs = {

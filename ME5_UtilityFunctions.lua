@@ -15,8 +15,8 @@
 -- Load the script using ScriptCB_DoFile() in your main mission script
 -- Call whichever functions you need out of this script. Example:
 -- 
--- LoadSSV()
--- LoadGTH()
+-- Load_SSV()
+-- Load_GTH()
 -- Setup_SSVxGTH_sm()
 -- 
 -- The above example would load and then set up the Systems Alliance and Geth side

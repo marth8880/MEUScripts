@@ -9,7 +9,7 @@ local mapDebug = false
 --
 
 -- Set the game mode
-MEUGameMode = 7
+MEU_GameMode = 7
 
 -- load the gametype script
 ScriptCB_DoFile("ME5_Master")
@@ -18,7 +18,7 @@ ScriptCB_DoFile("ME5_Master")
 ME5_SideVar = 1
 
 -- Set the game mode
-MEUGameMode = meu_campaign
+MEU_GameMode = "meu_campaign"
 
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_MultiObjectiveContainer")
@@ -27,7 +27,7 @@ ScriptCB_DoFile("ME5_ObjectiveConquest")
 ScriptCB_DoFile("ME5_ObjectiveGoto")
 
 -- Set the game mode
-MEUGameMode = meu_campaign
+MEU_GameMode = "meu_campaign"
 
 ScriptCB_DoFile("ME5_CinematicContainer")
 ScriptCB_DoFile("ME5_CameraFunctions")
@@ -35,13 +35,13 @@ ScriptCB_DoFile("ME5_CombatManager")
 --ScriptCB_DoFile("ME5_CinematicOverlayIFS")
 ScriptCB_DoFile("Ambush")
 
-mapSize = xs
-EnvironmentType = EnvTypeUrban
---[[onlineSideVar = SSVxGTH
-onlineHeroSSV = shep_vanguard
-onlineHeroGTH = gethprime_me2
-onlineHeroCOL = colgeneral
-onlineHeroEVG = gethprime_me3]]
+mapSize = "xs"
+EnvironmentType = "urban"
+--[[onlineSideVar = "SSVxGTH"
+onlineHeroSSV = "shep_vanguard"
+onlineHeroGTH = "gethprime_me2"
+onlineHeroCOL = "colgeneral"
+onlineHeroEVG = "gethprime_me3"]]
 
 REP = 1	-- The player's team.
 CIS = 2	-- Team for the Geth Troopers and Rocketeers. Note: synonymous with teamID 'GethPawns'.
@@ -62,7 +62,7 @@ local playerMaxHealth = nil	-- The player's max health for their current class.
 local playerMinHealth = nil	-- The value to restore the player's health to after every combat zone.
 local playerCurHealth = nil	-- The player's current health.
 
-local playerHealthThreshold = 0.4	-- The percentage form of playerMinHealth. Must be > playerHealthThreshold in fLowHealthSound().
+local playerHealthThreshold = 0.4	-- The percentage form of playerMinHealth. Must be > playerHealthThreshold in Init_LowHealthFeedback().
 local playerHealthAddRate = 50		-- The amount of health that is restored to the player per second.
 
 local squadDefenseBuff = nil	-- The multiplier for the player's squad's health/shields.
@@ -83,6 +83,12 @@ local bConsoleWorkaround = true
 
 SmartSpawn_curAllySpawn = nil
 SmartSpawn_curEnemySpawn = nil
+
+GethPawns_Stats = {}
+GethTacticals_Stats = {}
+GethSpecials_Stats = {}
+GethHeavys_Stats = {}
+GethPrimes_Stats = {}
 
 
 -- CASUAL
@@ -1700,22 +1706,92 @@ end
 -- @param #bool canKill		True, squad can kill enemies. False, squad cannot kill enemies.
 -- 
 function SetSquadCanKillEnemies(canKill)
-	local result = nil
-	if canKill == true then
-		result = 1
-	else
-		result = 0
+	-- Reset the stats tables to make room for new data
+	if canKill == false then
+		GethPawns_Stats = {}
+		GethTacticals_Stats = {}
+		GethSpecials_Stats = {}
+		GethHeavys_Stats = {}
+		GethPrimes_Stats = {}
 	end
 	
-	-- Set the AI damage threshold for each enemy unit
-	for curTeam in pairs(enemyTeams) do
+	for curTeam in ipairs(enemyTeams) do
 		local teamSize = GetTeamSize(curTeam)
 		if teamSize > 0 then
+			print()
+			print("SetSquadCanKillEnemies(): curTeam:", enemyTeams[curTeam])
+			
+			if canKill == false then
+				print("SetSquadCanKillEnemies(): Making units invincible")
+			else
+				print("SetSquadCanKillEnemies(): Making units killable")
+			end
+			
 			for curMember = 0, teamSize-1 do
-				local characterIndex = GetTeamMember(curTeam, curMember)
-				local charUnit = GetCharacterUnit(characterIndex)
+				local charIndex = GetTeamMember(curTeam, curMember)
+				local charUnit = GetCharacterUnit(charIndex)
 				
-				SetAIDamageThreshold(charUnit, result)
+				if canKill == false then
+					-- Store the unit's current health and shields in a table
+					local charHealth = GetObjectHealth(charUnit)
+					local charShields = GetObjectShield(charUnit)
+					
+					if curTeam == GethPawns then
+						GethPawns_Stats[curMember] = charHealth
+						--GethPawns_Stats[curMember][2] = charShields
+						
+					elseif curTeam == GethTacticals then
+						GethTacticals_Stats[curMember] = charHealth
+						--GethTacticals_Stats[curMember][2] = charShields
+						
+					elseif curTeam == GethSpecials then
+						GethSpecials_Stats[curMember] = charHealth
+						--GethSpecials_Stats[curMember][2] = charShields
+						
+					elseif curTeam == GethHeavys then
+						GethHeavys_Stats[curMember] = charHealth
+						--GethHeavys_Stats[curMember][2] = charShields
+						
+					elseif curTeam == GethPrimes then
+						GethPrimes_Stats[curMember] = charHealth
+						--GethPrimes_Stats[curMember][2] = charShields
+					end
+					
+					print("SetSquadCanKillEnemies(): curMember, charHealth, charShields:", curMember, charHealth, charShields)
+					
+					-- Make the unit invincible
+					--SetProperty(charUnit, "CurHealth", 9999999)
+					--SetProperty(charUnit, "CurShield", 9999999)
+					
+				else
+					local charHealth, charShields
+					
+					if curTeam == GethPawns then
+						charHealth = GethPawns_Stats[curMember]
+						--charShields = GethPawns_Stats[curMember][2]
+						
+					elseif curTeam == GethTacticals then
+						charHealth = GethTacticals_Stats[curMember]
+						--charShields = GethTacticals_Stats[curMember][2]
+						
+					elseif curTeam == GethSpecials then
+						charHealth = GethSpecials_Stats[curMember]
+						--charShields = GethSpecials_Stats[curMember][2]
+						
+					elseif curTeam == GethHeavys then
+						charHealth = GethHeavys_Stats[curMember]
+						--charShields = GethHeavys_Stats[curMember][2]
+						
+					elseif curTeam == GethPrimes then
+						charHealth = GethPrimes_Stats[curMember]
+						--charShields = GethPrimes_Stats[curMember][2]
+					end
+					
+					print("SetSquadCanKillEnemies(): curMember, charHealth, charShields:", curMember, charHealth, charShields)
+					
+					--SetProperty(charUnit, "CurHealth", charHealth)
+					--SetProperty(charUnit, "CurShield", charShields)
+				end
 			end
 		end
 	end
@@ -4158,7 +4234,7 @@ function BeginOpeningCinematic()
 	
 	openingCinematicSequence = CinematicContainer:New{pathName = "ps_start_shuttle"}
 	openingCinematicSequence:AddShot(ShotIntro1)
-	openingCinematicSequence:AddShot(ShotTransition0)
+	--[[openingCinematicSequence:AddShot(ShotTransition0)
 	openingCinematicSequence:AddShot(Shot1a)
 	openingCinematicSequence:AddShot(Shot1b)
 	openingCinematicSequence:AddShot(ShotTransition1)
@@ -4175,7 +4251,7 @@ function BeginOpeningCinematic()
 	openingCinematicSequence:AddShot(Shot4a)
 	openingCinematicSequence:AddShot(Shot4b)
 	openingCinematicSequence:AddShot(ShotTransition4)
-	openingCinematicSequence:AddShot(Shot4c)
+	openingCinematicSequence:AddShot(Shot4c)]]
 	openingCinematicSequence:AddShot(ShotTransition5a)
 	openingCinematicSequence:AddShot(ShotShuttles1a)
 	openingCinematicSequence:AddShot(ShotTransition5b)
@@ -4383,7 +4459,7 @@ function ScriptInit()
     --
     
 	LoadSSV(true)
-	LoadGTH()
+	Load_GTH()
 	
 	
 	SetupTeams{

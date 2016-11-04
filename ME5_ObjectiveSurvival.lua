@@ -9,7 +9,7 @@ if bStockFontLoaded == nil then
 	bStockFontLoaded = false
 end
 
-MEUGameMode = meu_surv
+MEU_GameMode = "meu_surv"
 
 ObjectiveSurvivalHasRan = 1
 	print("ObjectiveSurvival: Entered")

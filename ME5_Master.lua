@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
--- Build 31102/06
+-- Build 31104/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Nov 2, 2016
+-- Nov 4, 2016
 -- Copyright (c) 2016 A. Gilbert.
 -- 
 -- About this script: This is MEU's master include script. It sets  
@@ -23,7 +23,7 @@ print("ME5_Master: Entered")
 
 -- The build version. Valid settings are "production", "release"
 MEU_BuildVer		= "production"
-MEU_BuildNum		= "31102/06"
+MEU_BuildNum		= "31104/06"
 MEU_ReleaseNum		= 6
 MEU_VersionNum		= "1.3"
 
@@ -56,7 +56,7 @@ ME5_SideVar				= nil
 ME5_SolMapMusic			= nil
 
 mapSize				= nil
-MEUGameMode			= MEUGameMode or nil
+MEU_GameMode			= MEU_GameMode or nil
 EnvironmentType		= nil
 onlineSideVar		= nil
 onlineHeroSSV		= nil

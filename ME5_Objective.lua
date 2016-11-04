@@ -199,16 +199,16 @@ function Objective:Start()
 			cis_sndcue	= "col_gen_"
 		end
 	else
-		if onlineSideVar == 1 then
+		if onlineSideVar == "SSVxGTH" or onlineSideVar == 1 then
 			rep_sndcue	= "ssv_adm_"
 			cis_sndcue	= "gth_ann_"
-		elseif onlineSideVar == 2 then
+		elseif onlineSideVar == "SSVxCOL" or onlineSideVar == 2 then
 			rep_sndcue	= "ssv_adm_"
 			cis_sndcue	= "col_gen_"
-		elseif onlineSideVar == 3 then
+		elseif onlineSideVar == "EVGxGTH" or onlineSideVar == 3 then
 			rep_sndcue	= "evg_prm_"
 			cis_sndcue	= "gth_ann_"
-		elseif onlineSideVar == 4 then
+		elseif onlineSideVar == "EVGxCOL" or onlineSideVar == 4 then
 			rep_sndcue	= "evg_prm_"
 			cis_sndcue	= "col_gen_"
 		end

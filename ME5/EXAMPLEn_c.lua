@@ -8,12 +8,12 @@ local mapDebug = false
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
 
-MEUGameMode = 7
+MEU_GameMode = 7
 
 -- load the gametype script
 ScriptCB_DoFile("ME5_Master")
 
-MEUGameMode = meu_campaign
+MEU_GameMode = "meu_campaign"
 
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_MultiObjectiveContainer")
@@ -21,7 +21,7 @@ ScriptCB_DoFile("ME5_ObjectiveAssault")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 ScriptCB_DoFile("ME5_ObjectiveGoto")
 
-MEUGameMode = meu_campaign
+MEU_GameMode = "meu_campaign"
 
 ScriptCB_DoFile("ME5_CinematicContainer")
 ScriptCB_DoFile("ME5_CameraFunctions")
@@ -29,13 +29,13 @@ ScriptCB_DoFile("ME5_CombatManager")
 --ScriptCB_DoFile("ME5_CinematicOverlayIFS")
 ScriptCB_DoFile("Ambush")
 
-mapSize = xs
-EnvironmentType = EnvTypeUrban
---[[onlineSideVar = SSVxGTH
-onlineHeroSSV = shep_vanguard
-onlineHeroGTH = gethprime_me2
-onlineHeroCOL = colgeneral
-onlineHeroEVG = gethprime_me3]]
+mapSize = "xs"
+EnvironmentType = "urban"
+--[[onlineSideVar = "SSVxGTH"
+onlineHeroSSV = "shep_vanguard"
+onlineHeroGTH = "gethprime_me2"
+onlineHeroCOL = "colgeneral"
+onlineHeroEVG = "gethprime_me3"]]
 
 REP = 1	-- The player's team.
 CIS = 2	-- Team for the Geth Troopers and Rocketeers. Note: synonymous with teamID 'GethPawns'.
@@ -4294,7 +4294,7 @@ function ScriptInit()
     --
     
 	LoadSSV(true)
-	LoadGTH()
+	Load_GTH()
 	
 	
 	SetupTeams{

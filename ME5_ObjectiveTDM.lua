@@ -9,7 +9,7 @@ if bStockFontLoaded == nil then
 	bStockFontLoaded = false
 end
 
-MEUGameMode = meu_tdm
+MEU_GameMode = "meu_tdm"
 
 --=============================
 -- ObjectiveTDM

@@ -10,12 +10,12 @@ ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 ScriptCB_DoFile("ME5_RandomSides")
 
-mapSize = sm
-EnvironmentType = EnvTypeJungle
-onlineSideVar = SSVxGTH
-onlineHeroSSV = shep_soldier
-onlineHeroGTH = gethprime_me2
-onlineHeroCOL = colgeneral
+mapSize = "sm"
+EnvironmentType = "jungle"
+onlineSideVar = "SSVxGTH"
+onlineHeroSSV = "shep_soldier"
+onlineHeroGTH = "gethprime_me2"
+onlineHeroCOL = "colgeneral"
 
 	--  Empire Attacking (attacker is always #1)
     REP = 1

@@ -9,7 +9,7 @@ if bStockFontLoaded == nil then
 	bStockFontLoaded = false
 end
 
-MEUGameMode = meu_con
+MEU_GameMode = "meu_con"
 
 --=============================
 -- CommandPost
@@ -178,13 +178,13 @@ function ObjectiveConquest:Start()
 					end
 				end
 			else
-				if onlineSideVar == 1 then
+				if onlineSideVar == "SSVxGTH" or onlineSideVar == 1 then
 					if team == REP then
 						ShowMessageText("level.common.events.siege.control_".."ssv")
 					elseif team == CIS then
 						ShowMessageText("level.common.events.siege.control_".."gth")
 					end
-				elseif onlineSideVar == 2 then
+				elseif onlineSideVar == "SSVxCOL" or onlineSideVar == 2 then
 					if team == REP then
 						ShowMessageText("level.common.events.siege.control_".."ssv")
 					elseif team == CIS then
@@ -384,7 +384,7 @@ function ObjectiveConquest:Start()
     			
     		end
     	else
-    		if onlineSideVar == 1 then
+    		if onlineSideVar == "SSVxGTH" or onlineSideVar == 1 then
     			snd_REP_cpCapture_ally	= snd_SSV_cpCapture_ally
     			snd_REP_cpCapture_enemy	= snd_SSV_cpCapture_enemy
     			snd_REP_cpLost_ally		= snd_SSV_cpLost_ally
@@ -395,7 +395,7 @@ function ObjectiveConquest:Start()
     			snd_CIS_cpLost_ally		= snd_GTH_cpLost_ally
     			snd_CIS_cpLost_enemy	= snd_GTH_cpLost_enemy
     			
-    		elseif onlineSideVar == 2 then
+    		elseif onlineSideVar == "SSVxCOL" or onlineSideVar == 2 then
     			snd_REP_cpCapture_ally	= snd_SSV_cpCapture_ally
     			snd_REP_cpCapture_enemy	= snd_SSV_cpCapture_enemy
     			snd_REP_cpLost_ally		= snd_SSV_cpLost_ally
@@ -406,7 +406,7 @@ function ObjectiveConquest:Start()
     			snd_CIS_cpLost_ally		= snd_COL_cpLost_ally
     			snd_CIS_cpLost_enemy	= snd_COL_cpLost_enemy
     			
-    		elseif onlineSideVar == 3 then
+    		elseif onlineSideVar == "EVGxGTH" or onlineSideVar == 3 then
     			snd_REP_cpCapture_ally	= snd_EVG_cpCapture_ally
     			snd_REP_cpCapture_enemy	= snd_EVG_cpCapture_enemy
     			snd_REP_cpLost_ally		= snd_EVG_cpLost_ally
@@ -417,7 +417,7 @@ function ObjectiveConquest:Start()
     			snd_CIS_cpLost_ally		= snd_GTH_cpLost_ally
     			snd_CIS_cpLost_enemy	= snd_GTH_cpLost_enemy
     			
-    		elseif onlineSideVar == 4 then
+    		elseif onlineSideVar == "EVGxCOL" or onlineSideVar == 4 then
     			snd_REP_cpCapture_ally	= snd_EVG_cpCapture_ally
     			snd_REP_cpCapture_enemy	= snd_EVG_cpCapture_enemy
     			snd_REP_cpLost_ally		= snd_EVG_cpLost_ally

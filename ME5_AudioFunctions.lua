@@ -835,16 +835,16 @@ function SoundFX()
 			COLWorldVO()
 		end
 	else
-		if onlineSideVar == 1 then
+		if onlineSideVar == "SSVxGTH" or onlineSideVar == 1 then
 			SSVWorldVO()
 			GTHWorldVO()
-		elseif onlineSideVar == 2 then
+		elseif onlineSideVar == "SSVxCOL" or onlineSideVar == 2 then
 			SSVWorldVO()
 			COLWorldVO()
-		elseif onlineSideVar == 3 then
+		elseif onlineSideVar == "EVGxGTH" or onlineSideVar == 3 then
 			EVGWorldVO()
 			GTHWorldVO()
-		elseif onlineSideVar == 4 then
+		elseif onlineSideVar == "EVGxCOL" or onlineSideVar == 4 then
 			EVGWorldVO()
 			COLWorldVO()
 		end
