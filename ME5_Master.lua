@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
--- Build 31025/06
+-- Build 31102/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Oct 25, 2016
+-- Nov 2, 2016
 -- Copyright (c) 2016 A. Gilbert.
 -- 
 -- About this script: This is MEU's master include script. It sets  
@@ -23,7 +23,7 @@ print("ME5_Master: Entered")
 
 -- The build version. Valid settings are "production", "release"
 MEU_BuildVer		= "production"
-MEU_BuildNum		= "31025/06"
+MEU_BuildNum		= "31102/06"
 MEU_ReleaseNum		= 6
 MEU_VersionNum		= "1.3"
 
@@ -70,6 +70,7 @@ xs		= nil
 sm		= nil
 med		= nil
 lg		= nil
+xl		= nil
 
 meu_1flag		= nil
 meu_con			= nil
@@ -200,6 +201,7 @@ xs	= 2
 sm	= 3
 med	= 4
 lg	= 5
+xl	= 6
 
 meu_1flag		= 1
 meu_con			= 2

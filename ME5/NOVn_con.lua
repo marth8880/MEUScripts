@@ -8,7 +8,7 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
-mapSize = med
+mapSize = xl
 EnvironmentType = EnvTypeUrban
 onlineSideVar = SSVxCOL
 onlineHeroSSV = shep_vanguard
@@ -18,22 +18,24 @@ onlineHeroEVG = gethprime_me3
 
 -- Local ally spawns. CP name, CP spawn path name
 heroSupportCPs = {
-			{"CP1Con", "CP1SpawnPathCon"},
+			--{"CP1Con", "CP1SpawnPathCon"},
 			{"CP2Con", "CP2SpawnPathCon"},
 			{"CP3Con", "CP3SpawnPathCon"},
 			{"CP4Con", "CP4SpawnPathCon"},
 			{"CP5Con", "CP5SpawnPathCon"},
 			{"CP6Con", "CP6SpawnPathCon"},
+			{"CP7Con", "CP7SpawnPathCon"},
 }
 
 -- AI hero spawns. CP name, CP spawn path name
 allySpawnCPs = {
-			{"CP1Con", "CP1SpawnPathCon"},
+			--{"CP1Con", "CP1SpawnPathCon"},
 			{"CP2Con", "CP2SpawnPathCon"},
 			{"CP3Con", "CP3SpawnPathCon"},
 			{"CP4Con", "CP4SpawnPathCon"},
 			{"CP5Con", "CP5SpawnPathCon"},
 			{"CP6Con", "CP6SpawnPathCon"},
+			{"CP7Con", "CP7SpawnPathCon"},
 }
 
 if not ScriptCB_InMultiplayer() then
@@ -60,18 +62,21 @@ DEF = 2
 ---------------------------------------------------------------------------
 
 function ScriptPostLoad()
-	--[[SetObjectTeam("CP1Con", 0)
+	--SetObjectTeam("CP1Con", 0)
 	SetObjectTeam("CP2Con", 0)
 	SetObjectTeam("CP3Con", 0)
-	SetObjectTeam("CP4Con", 0)]]
+	SetObjectTeam("CP4Con", 0)
+	
+	KillObject("CP1Con")
 	
     --This defines the CPs.  These need to happen first
-    cp1 = CommandPost:New{name = "CP1Con"}
+    --cp1 = CommandPost:New{name = "CP1Con"}
     cp2 = CommandPost:New{name = "CP2Con"}
     cp3 = CommandPost:New{name = "CP3Con"}
     cp4 = CommandPost:New{name = "CP4Con"}
     cp5 = CommandPost:New{name = "CP5Con"}
     cp6 = CommandPost:New{name = "CP6Con"}
+    cp7 = CommandPost:New{name = "CP7Con"}
     
     --This sets up the actual objective.  This needs to happen after cp's are defined
     conquest = ObjectiveConquest:New{teamATT = ATT, teamDEF = DEF, 
@@ -79,12 +84,13 @@ function ScriptPostLoad()
                                      multiplayerRules = true}
     
     --This adds the CPs to the objective.  This needs to happen after the objective is set up
-    conquest:AddCommandPost(cp1)
+    --conquest:AddCommandPost(cp1)
     conquest:AddCommandPost(cp2)
     conquest:AddCommandPost(cp3)
     conquest:AddCommandPost(cp4)
     conquest:AddCommandPost(cp5)
     conquest:AddCommandPost(cp6)
+    conquest:AddCommandPost(cp7)
     
     conquest:Start()
  
@@ -101,7 +107,7 @@ function ScriptPostLoad()
 	SetAllySpawns(allySpawnCPs)
 	Init_SidesPostLoad("conquest", heroSupportCPs)
 	
-	SetProperty("CP1Con", "NeutralizeTime", 40)
+	--[[SetProperty("CP1Con", "NeutralizeTime", 40)
 	SetProperty("CP1Con", "CaptureTime", 35)
 	SetProperty("CP2Con", "NeutralizeTime", 40)
 	SetProperty("CP2Con", "CaptureTime", 35)
@@ -112,7 +118,7 @@ function ScriptPostLoad()
 	SetProperty("CP5Con", "NeutralizeTime", 40)
 	SetProperty("CP5Con", "CaptureTime", 35)
 	SetProperty("CP6Con", "NeutralizeTime", 40)
-	SetProperty("CP6Con", "CaptureTime", 35)
+	SetProperty("CP6Con", "CaptureTime", 35)]]
 	
 end
  
@@ -175,7 +181,7 @@ function ScriptInit()
 	local weaponCnt = 244
 	SetMemoryPoolSize("Aimer", 60)
 	SetMemoryPoolSize("AmmoCounter", weaponCnt)
-	SetMemoryPoolSize("BaseHint", 245)
+	SetMemoryPoolSize("BaseHint", 366)
 	SetMemoryPoolSize("EnergyBar", weaponCnt)
 	SetMemoryPoolSize("EntityCloth", 17)
 	SetMemoryPoolSize("EntityHover",4)
@@ -191,7 +197,7 @@ function ScriptInit()
 	SetMemoryPoolSize("SoldierAnimation", 403)
 	SetMemoryPoolSize("SoundSpaceRegion", 34)
 	SetMemoryPoolSize("TentacleSimulator", 0)
-	SetMemoryPoolSize("TreeGridStack", 180)
+	SetMemoryPoolSize("TreeGridStack", 229)
 	SetMemoryPoolSize("UnitAgent", 45)
 	SetMemoryPoolSize("UnitController", 45)
 	SetMemoryPoolSize("Weapon", weaponCnt)
@@ -200,6 +206,7 @@ function ScriptInit()
 	SetSpawnDelay(10.0, 0.25)
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\NOV.lvl", "NOV_Conquest")
 	SetDenseEnvironment("True")   
+	AddDeathRegion("chasm_death")
 	AddDeathRegion("deathregion1")
 	--SetStayInTurrets(1)
 	

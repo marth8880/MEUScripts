@@ -282,7 +282,8 @@ function ScriptInit()
 
 
     SetSpawnDelay(10.0, 0.25)
-    ReadDataFile("dea\\dea1.lvl", "dea1_CTF-SingleFlag")
+    --ReadDataFile("dea\\dea1.lvl", "dea1_CTF-SingleFlag")
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\dea1.lvl", "dea1_CTF-SingleFlag")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\minimap.lvl;dea1")
     SetDenseEnvironment("true")
     AddDeathRegion("DeathRegion01")

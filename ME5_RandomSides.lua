@@ -65,6 +65,9 @@ function Setup_SSVxGTH()
 	elseif mapSize == 5 then
 			print("ME5_RandomSides.Setup_SSVxGTH(): Map size is lg")
 		Setup_SSVxGTH_lg()
+	elseif mapSize == 6 then
+			print("ME5_RandomSides.Setup_SSVxGTH(): Map size is xl")
+		Setup_SSVxGTH_xl()
 	else
 		print("ME5_RandomSides.Setup_SSVxGTH(): ALL YOUR MAP SIZE ARE BELONG TO US!!")
 	end
@@ -128,6 +131,9 @@ function Setup_SSVxCOL()
 	elseif mapSize == 5 then
 			print("ME5_RandomSides.Setup_SSVxCOL(): Map size is lg")
 		Setup_SSVxCOL_lg()
+	elseif mapSize == 6 then
+			print("ME5_RandomSides.Setup_SSVxCOL(): Map size is xl")
+		Setup_SSVxCOL_xl()
 	else
 		print("ME5_RandomSides.Setup_SSVxCOL(): ALL YOUR MAP SIZE ARE BELONG TO US!!")
 	end
@@ -190,6 +196,9 @@ function Setup_EVGxGTH()
 	elseif mapSize == 5 then
 			print("ME5_RandomSides.Setup_EVGxGTH(): Map size is lg")
 		Setup_EVGxGTH_lg()
+	elseif mapSize == 6 then
+			print("ME5_RandomSides.Setup_EVGxGTH(): Map size is xl")
+		Setup_EVGxGTH_xl()
 	else
 		print("ME5_RandomSides.Setup_EVGxGTH(): ALL YOUR MAP SIZE ARE BELONG TO US!!")
 	end
@@ -238,6 +247,9 @@ function Setup_EVGxCOL()
 	elseif mapSize == 5 then
 			print("ME5_RandomSides.Setup_EVGxCOL(): Map size is lg")
 		Setup_EVGxCOL_lg()
+	elseif mapSize == 6 then
+			print("ME5_RandomSides.Setup_EVGxCOL(): Map size is xl")
+		Setup_EVGxCOL_xl()
 	else
 		print("ME5_RandomSides.Setup_EVGxCOL(): ALL YOUR MAP SIZE ARE BELONG TO US!!")
 	end
@@ -3077,6 +3089,318 @@ function Setup_SSVxCER_lg()
 	
 	-- SetHeroClass(CIS, heroGTH)
 	-- SetHeroClass(REP, heroSSV)
+end
+
+function Setup_SSVxGTH_xl()
+		print("ME5_RandomSides.Setup_SSVxGTH_xl(): Entered")
+	--Setup_SSVxGTH_lg = 1
+	ssvEngCnt = 8
+	
+	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
+	if not ScriptCB_InMultiplayer() then
+		SetupTeams{
+		rep = {
+			team = REP,
+			units = 36,
+			reinforcements = 200,
+			soldier  = { ssv_inf_soldier,6, 15},
+			sniper  = { ssv_inf_infiltrator,6, 15},
+			adept = { ssv_inf_adept,6, 15},
+			engineer   = { ssv_inf_engineer,6, 15},
+			sentinel = { ssv_inf_sentinel,6, 15},
+			vanguard = { ssv_inf_vanguard,6, 15},
+		},
+		
+		cis = {
+			team = CIS,
+			units = 33,
+			reinforcements = 200,
+			soldier  = { gth_inf_trooper,8, 20},
+			assault  = { gth_inf_rocketeer,4, 8},
+			sniper = { gth_inf_sniper,4, 8},
+			engineer = { gth_inf_machinist,4, 12},
+			hunter   = { gth_inf_hunter,4, 10},
+			shock  = { gth_inf_shock,4, 10},
+			destroyer = { gth_inf_destroyer,3, 6},
+			juggernaut = { gth_inf_juggernaut,2, 4},
+		}
+		}
+	else
+		SetupTeams{
+		rep = {
+			team = REP,
+			units = 36,
+			reinforcements = 200,
+			soldier  = { ssv_inf_soldier,6, 15},
+			sniper  = { ssv_inf_infiltrator,6, 15},
+			adept = { ssv_inf_adept,6, 15},
+			engineer   = { ssv_inf_engineer,6, 15},
+			sentinel = { ssv_inf_sentinel,6, 15},
+			vanguard = { ssv_inf_vanguard,6, 15},
+		},
+		
+		cis = {
+			team = CIS,
+			units = 33,
+			reinforcements = 200,
+			soldier  = { gth_inf_trooper,8, 20},
+			assault  = { gth_inf_rocketeer,4, 8},
+			sniper = { gth_inf_sniper,4, 8},
+			engineer = { gth_inf_machinist,4, 12},
+			hunter   = { gth_inf_hunter,4, 10},
+			shock  = { gth_inf_shock_online,4, 10},
+			destroyer = { gth_inf_destroyer,3, 6},
+			juggernaut = { gth_inf_juggernaut,2, 4},
+		}
+		}
+	end
+	
+	SetTeamName(HuskTeam, CIS)
+	SetTeamIcon(HuskTeam, "cis_icon")
+	SetUnitCount(HuskTeam, 7)
+	AddUnitClass(HuskTeam, "indoc_inf_husk", 7)
+	
+	SetTeamAsEnemy(REP,HuskTeam)
+	SetTeamAsEnemy(HuskTeam,REP)
+	SetTeamAsFriend(CIS,HuskTeam)
+	SetTeamAsFriend(HuskTeam,CIS)
+	
+	--[[if not ScriptCB_InMultiplayer() then
+		SetHeroClass(CIS, "gth_hero_prime_me2")
+	end]]
+end
+
+function Setup_SSVxCOL_xl()
+		print("ME5_RandomSides.Setup_SSVxCOL_xl(): Entered")
+	--Setup_SSVxCOL_lg = 1
+	ssvEngCnt = 8
+	
+	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVCOL_NonStreaming.lvl")
+	if not ScriptCB_InMultiplayer() then
+		SetupTeams{
+		rep = {
+			team = REP,
+			units = 34,
+			reinforcements = 200,
+			soldier  = { ssv_inf_soldier,6, 15},
+			sniper  = { ssv_inf_infiltrator,5, 15},
+			adept = { ssv_inf_adept,6, 15},
+			engineer   = { ssv_inf_engineer,6, 15},
+			sentinel = { ssv_inf_sentinel,6, 15},
+			vanguard = { ssv_inf_vanguard,5, 15},
+		},
+		
+		cis = {
+			team = CIS,
+			units = 29,
+			reinforcements = 200,
+			-- husk  = { "indoc_inf_husk",5, 8},
+			soldier  = { "col_inf_drone",11, 25},
+			assault  = { "col_inf_assassin",9, 14},
+			-- special = { "indoc_inf_abomination",5, 8},
+			support  = { col_inf_guardian,6, 14},
+			scion  = { "col_inf_scion",3, 6},
+		}
+		}
+	else
+		SetupTeams{
+		rep = {
+			team = REP,
+			units = 34,
+			reinforcements = 200,
+			soldier  = { ssv_inf_soldier,5, 8},
+			sniper  = { ssv_inf_infiltrator,4, 8},
+			adept = { ssv_inf_adept,5, 8},
+			engineer   = { ssv_inf_engineer,5, 8},
+			sentinel = { ssv_inf_sentinel,4, 8},
+			vanguard = { ssv_inf_vanguard,4, 8},	
+		},
+		
+		cis = {
+			team = CIS,
+			units = 29,
+			reinforcements = 200,
+			-- husk  = { "indoc_inf_husk",5, 8},
+			soldier  = { "col_inf_drone",11, 25},
+			assault  = { "col_inf_assassin",9, 14},
+			-- special = { "indoc_inf_abomination",5, 8},
+			support  = { col_inf_guardian_online,6, 14},
+			scion  = { "col_inf_scion",3, 6},
+		}
+		}
+	end
+	
+	SetTeamName(HuskTeam, CIS)
+	SetTeamIcon(HuskTeam, "cis_icon")
+	SetUnitCount(HuskTeam, 8)
+	AddUnitClass(HuskTeam, "indoc_inf_husk", 5)
+	AddUnitClass(HuskTeam, "indoc_inf_abomination", 3)
+	
+	SetTeamAsEnemy(REP,HuskTeam)
+	SetTeamAsEnemy(HuskTeam,REP)
+	SetTeamAsFriend(CIS,HuskTeam)
+	SetTeamAsFriend(HuskTeam,CIS)
+	
+	--SetHeroClass(CIS, "col_hero_harbinger")
+end
+
+function Setup_EVGxGTH_xl()
+		print("ME5_RandomSides.Setup_EVGxGTH_xl(): Entered")
+	--Setup_SSVxGTH_lg = 1
+	ssvEngCnt = 8
+	
+	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
+	if not ScriptCB_InMultiplayer() then
+		SetupTeams{
+		rep = {
+			team = REP,
+			units = 37,
+			reinforcements = 200,
+			soldier  = { gth_ev_inf_trooper,10, 20},
+			sniper = { gth_ev_inf_infiltrator,6, 10},
+			rocketeer  = { gth_ev_inf_rocketeer,5, 10},
+			engineer = { gth_ev_inf_engineer,5, 12},
+			hunter   = { gth_ev_inf_hunter,6, 10},
+			destroyer = { gth_ev_inf_pyro,3, 6},
+			juggernaut = { gth_ev_inf_juggernaut,2, 4},
+		},
+		
+		cis = {
+			team = CIS,
+			units = 31,
+			reinforcements = 200,
+			soldier  = { gth_inf_trooper,7, 20},
+			assault  = { gth_inf_rocketeer,4, 8},
+			sniper = { gth_inf_sniper,4, 8},
+			engineer = { gth_inf_machinist,4, 12},
+			hunter   = { gth_inf_hunter,4, 10},
+			shock  = { gth_inf_shock,3, 10},
+			destroyer = { gth_inf_destroyer,3, 6},
+			juggernaut = { gth_inf_juggernaut,2, 4},
+		}
+		}
+	else
+		SetupTeams{
+		rep = {
+			team = REP,
+			units = 37,
+			reinforcements = 200,
+			soldier  = { gth_ev_inf_trooper,10, 20},
+			sniper = { gth_ev_inf_infiltrator,6, 10},
+			rocketeer  = { gth_ev_inf_rocketeer,5, 10},
+			engineer = { gth_ev_inf_engineer,5, 12},
+			hunter   = { gth_ev_inf_hunter,6, 10},
+			destroyer = { gth_ev_inf_pyro,3, 6},
+			juggernaut = { gth_ev_inf_juggernaut_online,2, 4},
+		},
+		
+		cis = {
+			team = CIS,
+			units = 31,
+			reinforcements = 200,
+			soldier  = { gth_inf_trooper,7, 20},
+			assault  = { gth_inf_rocketeer,4, 8},
+			sniper = { gth_inf_sniper,4, 8},
+			engineer = { gth_inf_machinist,4, 12},
+			hunter   = { gth_inf_hunter,4, 10},
+			shock  = { gth_inf_shock_online,3, 10},
+			destroyer = { gth_inf_destroyer,3, 6},
+			juggernaut = { gth_inf_juggernaut,2, 4},
+		}
+		}
+	end
+	
+	SetTeamName(HuskTeam, CIS)
+	SetTeamIcon(HuskTeam, "cis_icon")
+	SetUnitCount(HuskTeam, 5)
+	AddUnitClass(HuskTeam, "indoc_inf_husk", 5)
+	
+	SetTeamAsEnemy(REP,HuskTeam)
+	SetTeamAsEnemy(HuskTeam,REP)
+	SetTeamAsFriend(CIS,HuskTeam)
+	SetTeamAsFriend(HuskTeam,CIS)
+	
+	--[[if not ScriptCB_InMultiplayer() then
+		SetHeroClass(CIS, "gth_hero_prime_me2")
+	end]]
+end
+
+function Setup_EVGxCOL_xl()
+		print("ME5_RandomSides.Setup_EVGxCOL_xl(): Entered")
+	--Setup_SSVxGTH_lg = 1
+	ssvEngCnt = 8
+	
+	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
+	if not ScriptCB_InMultiplayer() then
+		SetupTeams{
+		rep = {
+			team = REP,
+			units = 37,
+			reinforcements = 200,
+			soldier  = { gth_ev_inf_trooper,10, 20},
+			sniper = { gth_ev_inf_infiltrator,6, 10},
+			rocketeer  = { gth_ev_inf_rocketeer,5, 10},
+			engineer = { gth_ev_inf_engineer,5, 12},
+			hunter   = { gth_ev_inf_hunter,6, 10},
+			destroyer = { gth_ev_inf_pyro,3, 6},
+			juggernaut = { gth_ev_inf_juggernaut,2, 4},
+		},
+		
+		cis = {
+			team = CIS,
+			units = 31,
+			reinforcements = 200,
+			-- husk  = { "indoc_inf_husk",5, 8},
+			soldier  = { "col_inf_drone",12, 25},
+			assault  = { "col_inf_assassin",9, 14},
+			-- special = { "indoc_inf_abomination",5, 8},
+			support  = { col_inf_guardian,7, 14},
+			scion  = { "col_inf_scion",3, 6},
+		}
+		}
+	else
+		SetupTeams{
+		rep = {
+			team = REP,
+			units = 37,
+			reinforcements = 200,
+			soldier  = { gth_ev_inf_trooper,10, 20},
+			sniper = { gth_ev_inf_infiltrator,6, 10},
+			rocketeer  = { gth_ev_inf_rocketeer,5, 10},
+			engineer = { gth_ev_inf_engineer,5, 12},
+			hunter   = { gth_ev_inf_hunter,6, 10},
+			destroyer = { gth_ev_inf_pyro,3, 6},
+			juggernaut = { gth_ev_inf_juggernaut_online,2, 4},
+		},
+		
+		cis = {
+			team = CIS,
+			units = 31,
+			reinforcements = 200,
+			-- husk  = { "indoc_inf_husk",5, 8},
+			soldier  = { "col_inf_drone",12, 25},
+			assault  = { "col_inf_assassin",9, 14},
+			-- special = { "indoc_inf_abomination",5, 8},
+			support  = { col_inf_guardian_online,7, 14},
+			scion  = { "col_inf_scion",3, 6},
+		}
+		}
+	end
+	
+	SetTeamName(HuskTeam, CIS)
+	SetTeamIcon(HuskTeam, "cis_icon")
+	SetUnitCount(HuskTeam, 8)
+	AddUnitClass(HuskTeam, "indoc_inf_husk", 5)
+	AddUnitClass(HuskTeam, "indoc_inf_abomination", 3)
+	
+	SetTeamAsEnemy(REP,HuskTeam)
+	SetTeamAsEnemy(HuskTeam,REP)
+	SetTeamAsFriend(CIS,HuskTeam)
+	SetTeamAsFriend(HuskTeam,CIS)
+	
+	--[[if not ScriptCB_InMultiplayer() then
+		SetHeroClass(CIS, "gth_hero_prime_me2")
+	end]]
 end
 
 function Setup_SSVxSUN_spa()

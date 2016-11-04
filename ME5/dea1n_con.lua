@@ -253,7 +253,8 @@ function ScriptInit()
 
   --  SetMemoryPoolSize("Obstacle", 725)
     SetSpawnDelay(10.0, 0.25)
-    ReadDataFile("dea\\dea1.lvl", "dea1_Conquest")
+    --ReadDataFile("dea\\dea1.lvl", "dea1_Conquest")
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\dea1.lvl", "dea1_Conquest")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\minimap.lvl;dea1")
     SetDenseEnvironment("false")
     

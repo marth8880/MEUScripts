@@ -870,6 +870,8 @@ function SoundFX()
 	ScaleSoundParameter("Ordnance",				"Gain", 0.84)
 	ScaleSoundParameter("Ordnance_large",		"Gain", 1.0)
 	ScaleSoundParameter("Ordnance_grenade",		"Gain", 0.8)
+	
+	-- Player damage sounds
 	if ME5_PlayerDmgSound == 2 then
 		ScaleSoundParameter("Ordnance_playerdmg",	"Gain", 1.0)
 	elseif ME5_PlayerDmgSound == 1 then
@@ -877,12 +879,25 @@ function SoundFX()
 	elseif ME5_PlayerDmgSound == 0 then
 		ScaleSoundParameter("Ordnance_playerdmg",	"Gain", 0.0)
 	end
+	
+	-- Hit marker sounds
 	if ME5_HitMarkerSound == 2 then
 		ScaleSoundParameter("Ordnance_hitmarker",	"Gain", 1.0)
 	elseif ME5_HitMarkerSound == 1 then
 		ScaleSoundParameter("Ordnance_hitmarker",	"Gain", 0.5)
 	elseif ME5_HitMarkerSound == 0 then
 		ScaleSoundParameter("Ordnance_hitmarker",	"Gain", 0.0)
+	end
+	
+	-- Shepard omni-blade shout sounds
+	if ME5_ShepardGender == 1 then
+		-- Male
+		ScaleSoundParameter("omniblade_broShep",	"Gain", 1.0)
+		ScaleSoundParameter("omniblade_femShep",	"Gain", 0.0)
+	elseif ME5_ShepardGender == 2 then
+		-- Female
+		ScaleSoundParameter("omniblade_broShep",	"Gain", 0.0)
+		ScaleSoundParameter("omniblade_femShep",	"Gain", 1.0)
 	end
 	ScaleSoundParameter("Explosion",	"Gain", 0.9)
 	ScaleSoundParameter("vehicles",	"Gain", 0.8)
@@ -900,11 +915,15 @@ function SoundFX()
 	ScaleSoundParameter("col_inf_pain_vo",	"Gain", 0.75)
 	ScaleSoundParameter("evg_inf_pain_vo",	"Gain", 0.99)
 	--ScaleSoundParameter("Music",	"Gain", 0.9)
+	
+	-- Map ambience
 	if isModMap == 1 then
 		ScaleSoundParameter("ambientenv",	"Gain", 0.95)
 	else
 		ScaleSoundParameter("ambientenv",	"Gain", 0.45)
 	end
+	
+	-- Faction announcer VOs
 	if ME5_FactionVO == 1 then
 		ScaleSoundParameter("ssv_vo_slow",	"Gain", 0.5)
 		ScaleSoundParameter("gth_vo_slow",	"Gain", 0.5)
@@ -916,9 +935,12 @@ function SoundFX()
 		ScaleSoundParameter("col_vo_slow",	"Gain", 0.0)
 		ScaleSoundParameter("evg_vo_slow",	"Gain", 0.0)
 	end
+	
+	-- Kill sounds
 	if ME5_KillSound == 1 then
 		ScaleSoundParameter("objectives_killsound",	"Gain", 0.5)
 	end
+	
 	
 	SetSoundEffect("ScopeDisplayAmbient",  "me5_sniper_scope_ambient")
     SetSoundEffect("ScopeDisplayZoomIn",  "me5_sniper_scope_zoomin")
