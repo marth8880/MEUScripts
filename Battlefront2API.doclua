@@ -1,0 +1,708 @@
+--------------------------------------------------------------
+-- @module Battlefront2API
+
+--------------------------------------------------------------
+-- 
+-- @param #int playerTeam			Player's team number
+-- @param #int bleedTeam			The team that's started/stopped bleeding
+-- @param #string streamSoundName	Stream sound to play when the local player is playerTeam and bleedTeam has started/stopped bleeding
+-- @param #int bleeding				Set to 1 to assign a started bleeding sound, set to 0 to assign a stopped bleeding sound
+function SetBleedingVoiceOver(playerTeam, bleedTeam, streamSoundName, bleeding) end
+
+--------------------------------------------------------------
+-- 
+-- @param #float repeatTime		Time between each repetition of the started bleeding voice over
+function SetBleedingRepeatTime(repeatTime) end
+
+--------------------------------------------------------------
+-- 
+-- @param #int playerTeam			Player's team number
+-- @param #int bonusNum				The number of the bonus to be set.  
+-- 									 0 - medical regen bonus (played on level load, heard by players team).  
+--									 1 - surplus supplies bonus (played on level load, heard by players team).  
+--									 2 - sensor boost bonus (played on level load, heard by players team).  
+--									 3 - hero is on the battlefield (played on level load, heard by both teams).  
+--									 4 - our team just got the reserves bonus (played when it happens, heard by players team).  
+--									 5 - the other team just got reserves bonus (played when it happens, heard by other team).
+-- @param #string streamSoundName	Stream sound to play when the bonus occurs (or at level load if the bonus is ongoing)
+function SetPlanetaryBonusVoiceOver(playerTeam, bonusNum, streamSoundName) end
+
+--------------------------------------------------------------
+-- 
+-- @param #int playerTeam				Player's team number
+-- @param #int lowReinforcementTeam		Team which has low reinforcements
+-- @param #string streamSoundName		Stream sound to play when the local player is playerTeam and lowReinforcementTeam's reinforcements
+-- 										 have dropped below numReinforcements
+-- @param #int numReinforcements		Number of reinforcements which triggers the low reinforcement stream
+-- @param #int isPercentage				Optional argument which when set to 1 treats numReinforcements as a fraction (0..1.0) of maximum reinforcements
+function SetLowReinforcementsVoiceOver(playerTeam, lowReinforcementTeam, streamSoundName, numReinforcements, isPercentage) end
+
+--------------------------------------------------------------
+-- 
+-- @param #int playerTeam				Player's team number
+-- @param #string streamSoundName		Name of the stream to play when the player goes out of bounds
+function SetOutOfBoundsVoiceOver(playerTeam, streamSoundName) end
+
+--------------------------------------------------------------
+-- 
+-- @param #int playerTeam			Player's team number
+-- @param #int reinforcementCount	Number of reinforcement count of the player's team which triggers the specified music
+-- @param #string musicName			Name of the music configuration
+-- @param #int gameStage			Value from 0 to 2, where 0 = beginning, 1 = middle, and 2 = end
+-- @param #int isPercentage			Optional argument which when set to 1 treats reinforcementCount as a fraction (0..1.0) of maximum reinforcements
+function SetAmbientMusic(playerTeam, reinforcementCount, musicName, gameStage, isPercentage) end
+
+--------------------------------------------------------------
+-- 
+-- @param #int teamIndex			Index of the attacking team, this is used to resolve which music and voice overs are heard when in two player split screen
+function SetAttackingTeam(teamIndex) end
+
+--------------------------------------------------------------
+-- 
+-- @param #int teamIndex			Index of player's team
+-- @param #string soundStreamID		ID of sound stream properties to play when player's team is victorious
+function SetVictoryMusic(teamIndex, soundStreamID) end
+
+--------------------------------------------------------------
+-- 
+-- @param #int teamIndex			Index of player's team
+-- @param #string soundStreamID		ID of sound stream properties to play when player's team is defeated
+function SetDefeatMusic(teamIndex, soundStreamID) end
+
+--------------------------------------------------------------
+-- 
+-- @param #string streamFilename	File containing the audio stream
+-- @param #string streamID			ID of stream within the file
+-- @param #string segmentID			ID of segment within the stream
+-- @param #float gain				Initial gain of the stream
+-- @param #string busName			Bus stream is assigned to (default = "Root")
+-- @param #int streamIndex			Index of the open stream to play, streamFilename can be "" if this is specified.  (NOTE : This is an optional argument)
+-- @return #int						ID of the opened stream, streamIndex if it was specified or 0 if the function fails
+function PlayAudioStream(streamFilename, streamID, segmentID, gain, busName, streamIndex) end
+
+--------------------------------------------------------------
+-- 
+-- @param #string streamFilename	File containing the audio stream specified in the sound stream properties
+-- @param #string soundStreamID		ID of the sound stream properties to play
+-- @param #int noOpen				Set to 1 to play using a previously opened stream. (NOTE : This is an optional argument)
+-- @return #int						ID of the opened stream (this may not be the stream that's playing)
+function PlayAudioStreamUsingProperties(streamFilename, soundStreamID, noOpen) end
+
+--------------------------------------------------------------
+-- 
+-- @param #string streamIndex		Index of the audio stream to stop
+-- @param #int close				Optional argument.  Set to 1 to close the stream, 0 to leave the stream open
+function StopAudioStream(streamIndex, close) end
+
+--------------------------------------------------------------
+-- 
+-- @param #string streamFilename	File containing the audio stream
+-- @param #string streamID			ID of stream within the file
+-- @return #int						ID of the opened stream or 0 if the function fails
+function OpenAudioStream(streamFilename, streamID) end
+
+--------------------------------------------------------------
+-- 
+-- @param #string streamFilename	File containing the stream to append to the currently open stream
+-- @param #string streamID			ID of the stream within the file
+-- @param #string streamIndex		Number returned from OpenAudioStream() which is the index of the stream to append segments to
+-- @return #int						ID of the opened stream or 0 if the function fails
+function AudioStreamAppendSegments(streamFilename, streamID, streamIndex) end
+
+--------------------------------------------------------------
+-- 
+-- @param #string streamID		ID of the stream to query
+-- @return #int					1 if the stream has stopped, 0 otherwise
+function AudioStreamComplete(streamID) end
+
+--------------------------------------------------------------
+-- 
+-- @param #string soundID		ID of sound properties to play
+function ScriptCB_SndPlaySound(soundID) end
+
+--------------------------------------------------------------
+-- 
+-- @param #string busName		Name of the bus to fade
+-- @param #float endGain		Final gain of the bus
+-- @param #float fadeTime		Time to fade the bus
+-- @param #float startGain		Start gain of the bus (NOTE : this is an optional argument)
+function ScriptCB_SndBusFade(busName, endGain, fadeTime, startGain) end
+
+--------------------------------------------------------------
+-- 
+-- @param #string groupID		Identifies the group which contains sounds that are changed
+-- @param #string parameter		Parameter to scale on each sound within the group.  Can be one of the following...  
+-- 								 Gain  
+-- 								 GainDev  
+-- 								 Pitch  
+-- 								 PitchDev  
+-- 								 PlayProbability  
+-- 								 PlayInterval  
+-- 								 PlayIntervalDev  
+-- 								 ReverbGain  
+-- 								 Pan  
+-- 								 MinDistance  
+-- 								 MuteDistance  
+-- 								 MaxDistance  
+-- 								 RollOff  
+-- 								 RollIn  
+-- 								 RollInDistance
+-- @param #float scale			Scale factor for the parameter
+function ScaleSoundParameter(groupID, parameter, scale) end
+
+--------------------------------------------------------------
+-- 
+-- @param #string busID			ID of the bus which controls the movie audio volume
+function ScriptCB_SetMovieAudioBus(busID) end
+
+--------------------------------------------------------------
+-- 
+-- @param #float dopplerFactor		Used to exaggerate or reduce doppler effects.  Default value is 1.0.  To reduce doppler effects use values 
+-- 									 less than 1.0, to exaggerate use values greater than 1.0
+function ScriptCB_SetDopplerFactor(dopplerFactor) end
+
+--------------------------------------------------------------
+-- 
+-- @param #string musicID		ID of the music to play in game
+function ScriptCB_PlayInGameMusic(musicID) end
+
+--------------------------------------------------------------
+-- Stops the music previously played using ScriptCB_PlayInGameMusic()
+-- 
+function ScriptCB_StopInGameMusic() end
+
+--------------------------------------------------------------
+-- 
+-- @param #int enable			Set to 1 to enable command post VO, 0 to disable command post VO
+function ScriptCB_EnableCommandPostVO(enable) end
+
+--------------------------------------------------------------
+-- 
+-- @param #int enable			Set to 1 to enable hero music, 0 to disable hero music
+function ScriptCB_EnableHeroMusic(enable) end
+
+--------------------------------------------------------------
+-- 
+-- @param #int enable			Set to 1 to enable hero voice overs, 0 to disable hero voice overs
+function ScriptCB_EnableHeroVO(enable) end
+
+--------------------------------------------------------------
+-- 
+-- @param #float gain			0..1 - Gain of the ingame bus when the spawn display is visible (default 0.2)
+-- @param #float fadeTime		Time, in seconds, to fade the ingame bus (default 3.0)
+function ScriptCB_SetSpawnDisplayGain(gain, fadeTime) end
+
+--------------------------------------------------------------
+-- 
+-- @param #string groupName		Name of the trigger sound region group to enable/disable
+-- @param #int enable			1 to enable, 0 to disable.  Enabled by default
+function ScriptCB_TriggerSoundRegionEnable(groupName, enable) end
+
+
+
+
+
+
+
+FindEntityClass(entity)
+SetPS2ModelMemory(number)
+SetWorldExtents(number) -- for CollisionManager and TreeGrid sizes...
+StealArtistHeap(number*number) --for PS2
+ReadDataFile(sourcefile)
+ReadDataFileInGame(lua_State* aState)
+SetupTempHeap(lua_State *aState)
+ClearTempHeap(lua_State *aState)
+AddCameraShot(x,y,y, rotx, roty, rotz)
+SetCameraRotation(lua_State* aState)
+SetCameraPosition(lua_State* aState)
+MoveCameraToEntity(lua_State* aState)
+SetMapCameraOffset(lua_State* aState)
+SetMapCameraPitch(lua_State* aState)
+SetMapCameraZoom(lua_State* aState)
+GetMapCameraZoom(lua_State* aState)
+SnapMapCamera(lua_State* aState)
+SetState("Shell") --restarts the shell
+SetHistorical() --obsolete, from swbf1
+SetTeamName(team, name)
+SetTeamAggressiveness(team, number)
+SetMinFlyHeight(number)
+SetMaxFlyHeight(number)
+SetMinPlayerFlyHeight(number)
+SetMaxPlayerFlyHeight(number)
+SetUberMode(boolean)
+SetAllowBlindJetJumps(1 or 0)
+SetStationaryWaitTime(lua_State* aState) --unused
+SetTeamIcon(team, icon)
+SetTeamAsEnemy(team, enemyteam)
+SetTeamAsNeutral(team, neutralteam)
+SetTeamAsFriend(team, friendteam)
+SetUnitCount(team, number)
+GetUnitCount(team)
+SetReinforcementCount(team, number)
+GetReinforcementCount(team)
+AddReinforcements(team, number)
+SetTeamPoints(team, number)
+GetTeamPoints(team)
+AddTeamPoints(team, number)
+AddFlagCapturePoints(character)
+AddAssaultDestroyPoints(character)
+AddSpaceAssaultDestroyPoints(character, object)
+GetTeamFactionId(lua_State* aState)
+AddUnitClass(team, unitclass, minunits, maxunits)
+
+--Hero
+SetHeroClass(team, heroclass)
+EnableSPHeroRules(boolean)
+EnableSPScriptedHeroes(boolean)
+SetHeroUnlockRule(lua_State* aState)
+SetHeroTeamRule(lua_State* aState)
+SetHeroPlayerRule(lua_State* aState)
+SetHeroRespawnRule(lua_State* aState)
+UnlockHeroForTeam(teamnumber)
+AcceptHero(team)
+
+ShowAllUnitsOnMinimap(lua_State* aState) --unused
+ShowTeamPoints(team, boolean)
+ActivateBonus(team, bonus{energy_boost,supplies,garrison,autoturrets,bacta_tanks,combat_shielding,sabotage,advanced_blasters,leader})--not sure if these are the right strings
+SetBleedRate(team, rate)
+GetBleedRate(team)
+
+SetCarrierClass(lua_State* aState) --unused
+SetSpawnDelay(number, number)
+SetSpawnDelayTeam(number, number, team)
+SetDenseEnvironment("boolean")
+SetAttackerSnipeRange(number)
+SetDefenderSnipeRange(number)
+SetStayInTurrets(1 or 0) --found on endor
+SetMaxCollisionDistance(number) --used in combination with asterioids
+SetParticleLODBias(value)
+
+SetMemoryPoolSize(memorypool, size)
+
+SetNumBirdTypes(lua_State* aState)
+SetBirdType(lua_State* aState)
+SetBirdFlockMinHeight(lua_State* aState)
+
+SetNumFishTypes(lua_State* aState)
+SetFishType(lua_State* aState)
+
+--Asterioids --require: SetMemoryPoolSize("Asteroid", count)
+FillAsteroidRegion(region, class, count, x, y, z, rotx, roty, rotz) --last values guessed
+FillAsteroidPath(path, number, class, count, x, y, z, rotx, roty, rotz) --last values guessed
+
+AddDeathRegion(region)
+AddLandingRegion(region)
+RemoveRegion(region)
+
+ClearWalkers()
+AddWalkerType(legpairs, number)
+
+SetAIVehicleNotifyRadius(number)
+SetAIViewMultiplier(number )
+AISnipeSuitabilityDist(number)
+SetGroundFlyerMap(1 or 0)
+
+EnableAIAutoBalance()
+DisableAIAutoBalance()
+SetAIDifficulty(number{friends}, number{enemys})
+SetAIDifficulty(number{friends}, number{enemys}, difficulty{easy,medium,hard})
+
+AddMissionObjective(lua_State* aState)
+ActivateObjective(lua_State* aState)
+CompleteObjective(lua_State* aState)
+AddMissionHint(hint)
+
+SetFlagGameplayType(type{oneflag,twoflag,campaign})
+
+-- Space Assault
+SpaceAssaultEnable(boolean)
+SpaceAssaultAddCriticalSystem(name, point, hudx, hudy, displayhudmarker_boolean)
+SpaceAssaultLinkCriticalSystems(lua_State* aState)
+SpaceAssaultSetupTeamNumbers(lua_State* aState)
+SpaceAssaultSetupBitmaps(bitmap1, bitmap2, etc)
+SpaceAssaultGetScoreLimit()
+
+IsCampaign()
+GetWorldFilename() -- used in multiobjectivescontainer.lua for soundsetup
+
+-- Messages
+ShowMessageText(string, team)
+ShowPopup(string)
+ShowObjectiveTextPopup(string)
+ShowTimer(timer)
+ShowSelectionTextPopup(string) -- used in spa2c_c for decision making but not for pc?!
+
+--------------------------------------------------------------
+-- 
+-- @param #string streamID		ID of sound stream properties to play
+-- @param #int teamIndex		Optional argument.  If set, plays the sound stream properties only for players on this team
+function BroadcastVoiceOver(streamID, teamIndex) end
+
+ScriptCB_PlayerSuicide(lua_State *aState)
+
+-- Markers
+MapAddRegionMarker(region, markerclass, number, number, team, color, boolean, boolean, boolean, boolean)
+MapRemoveRegionMarker(region)
+MapAddEntityMarker(objectname, markerclass, number, number, team, color, boolean, boolean, boolean, boolean)
+MapRemoveEntityMarker(objectname)
+MapAddClassMarker(class, markerclass, number, number, team, color, boolean, boolean, boolean, boolean)
+MapRemoveClassMarker(class)
+MapHideCommandPosts()
+
+EnableBuildingLockOn(object, boolean)
+
+-- Timer
+FindTimer(timer)
+CreateTimer(timer)
+DestroyTimer(timer)
+StartTimer(timer)
+StopTimer(timer)
+SetTimerValue(timer, value)
+GetTimerValue(timer)
+SetTimerRate(timer, rate)
+GetTimerRate(timer)
+GetTimerName(lua_State *aState) -- unused
+
+SetDefeatTimer(timer, team)
+SetMissionTimer(lua_State* aState) -- unused
+SetVictoryTimer(timer, team)
+
+-- Object
+
+--------------------------------------------------------------
+-- 
+-- @param #string objectName		ID of object to get pointer of
+-- @return 							The object's pointer
+function GetObjectPtr(objectName) end
+
+--------------------------------------------------------------
+-- 
+-- @param #string objectName		ID of object to activate
+function ActivateObject(objectName) end
+
+--------------------------------------------------------------
+-- 
+-- @param #string objectName		ID of object to deactivate
+function DeactivateObject(objectName) end
+
+--------------------------------------------------------------
+-- 
+-- @param #string objectName		ID of object to set the team of
+-- @param #int teamIndex			Index of the team to assign to the object
+function SetObjectTeam(objectName, teamIndex) end
+
+--------------------------------------------------------------
+-- 
+-- @param #string objectName		ID of object to destroy
+-- @return #int						Index of the team the object belongs to
+function GetObjectTeam(objectName) end
+
+--------------------------------------------------------------
+-- 
+-- @param #string objectName		ID of object to get the name of
+-- @return #int						1 if object is alive, 0 if object is not alive
+function IsObjectAlive(objectName) end
+
+--------------------------------------------------------------
+-- 
+-- @param #string objectName		ID of object to get the current health value of
+-- @return #float					Object's current health value
+function GetObjectHealth(objectName) end
+
+--------------------------------------------------------------
+-- 
+-- @param #string objectName		ID of object to get the current shield value of
+-- @return #float					Object's current shield value
+function GetObjectShield(objectName) end
+GetObjectLastHitWeaponClass(objectName)
+
+--------------------------------------------------------------
+-- 
+-- @param #string objectName		ID of object to destroy
+function KillObject(objectName) end
+
+--------------------------------------------------------------
+-- 
+-- @param #string objectName		ID of object to respawn
+function RespawnObject(objectName) end
+
+-- Entity
+GetEntityPtr(entity)
+GetEntityName(entity)
+GetEntityClass(entity)
+GetEntityClassName(entity)
+SetEntityMatrix(entity, matrix)
+GetEntityMatrix(entity)
+SetProperty(object, property, value)
+CreateEntity(class, node, name)
+DeleteEntity(entity)
+
+GetEntityClassPtr(entity)
+SetClassProperty(class, property, value)
+
+
+-- flyer = vehiclespawnname
+EntityFlyerTakeOff(flyer)
+EntityFlyerLand(flyer)
+
+EntityFlyerInitAsFlying(flyer)
+EntityFlyerInitAsLanded(flyer)
+
+EnterVehicle()
+ExitVehicle()
+
+--------------------------------------------------------------
+-- 
+-- @param #int pathID		ID of flyer spline path to enable
+-- @param #int enable		Set to 1 to enable the path, or set to 0 to disable the path
+function EnableFlyerPath(pathID, enable) end
+
+GetPathPoint(path, nodenumber)
+
+
+--------------------------------------------------------------
+-- 
+-- @param #int teamIndex		Index of team
+-- @return #int					Number of units currently alive in team
+function GetNumTeamMembersAlive(teamIndex) end
+
+CreateMatrix(lua_State* aState)
+
+GetScreenPosition(object)
+
+-- procedural animation callbacks
+
+--------------------------------------------------------------
+-- Resumes playing of animationGroupName from whichever time it was at last.
+-- 
+-- @param #string animationGroupName		ID of animation group to resume
+function PlayAnimation(animationGroupName) end
+
+--------------------------------------------------------------
+-- Pauses animationGroupName's playback – objects remain where they are currently.
+-- 
+-- @param #string animationGroupName		ID of animation group to pause
+function PauseAnimation(animationGroupName) end
+
+--------------------------------------------------------------
+-- Instanly rewinds the animationGroupName to the beginning.  Can be called while the group is playing. 
+--  If called while the group is stopped, play will resume from the beginning when Play is called.
+-- 
+-- @param #string animationGroupName		ID of animation group to rewind
+function RewindAnimation(animationGroupName) end
+
+--------------------------------------------------------------
+-- Takes the current positions of the objects referenced by the group, and uses those positions 
+--  as the new start point for when that object is next animated.
+-- 
+-- @param #string animationGroupName		ID of animation group to affect
+function SetAnimationStartPoint(animationGroupName) end
+
+--------------------------------------------------------------
+-- Plays the indicated animation from beginTime to endTime.  So for a 10-second animation, playing 
+--  from 0 to 5 plays the first half, and playing from 5 to 10 plays the second half.
+-- 
+-- @param #string animationGroupName		ID of animation group to play
+-- @param #float beginTime					Start point of animation in seconds
+-- @param #float endTime					End point of animation in seconds
+function PlayAnimationFromTo(animationGroupName, beginTime, endTime) end
+
+-- Character
+
+--------------------------------------------------------------
+-- 
+-- @param #int teamIndex		Index of team to get size of
+-- @return #int					Size of team
+function GetTeamSize(teamIndex) end
+GetTeamMember(team, unitindex) --returns character
+
+--------------------------------------------------------------
+-- 
+-- @param #int characterIndex		Index of character to get team of
+-- @return #int						Index of team the character belongs to
+function GetCharacterTeam(characterIndex) end
+SelectCharacterTeam(character, teamIndex)
+
+--------------------------------------------------------------
+-- 
+-- @param #int characterIndex		Index of character to check "humanity" of
+-- @return #int						1 if character is human, 0 if character is not human
+function IsCharacterHuman(characterIndex) end
+SelectCharacterClass(character, class)
+GetCharacterClass(character)
+BatchChangeTeams(sourceteam, destinationteam, unitnumber)
+
+--------------------------------------------------------------
+-- 
+-- @param #int teamIndex		Index of team to affect
+-- @param #int canSpawn			Set to 1 to allow AI units on this team to spawn, or 0 to prevent them from spawning
+function AllowAISpawn(teamIndex, canSpawn) end
+SpawnCharacter(character, nodename)
+GetCharacterUnit(character)
+GetCharacterVehicle(character)
+GetCharacterRemote(character)
+GetCharacterControllable(character)
+
+
+--------------------------------------------------------------
+-- Gets a command post's capture region.
+-- 
+-- @param #string postID		ID of command post
+-- @return #string				ID of command post's capture region
+function GetCommandPostCaptureRegion(postID) end
+
+--------------------------------------------------------------
+-- Gets a command post's bleed value.
+-- 
+-- @param #string postID		ID of command post
+-- @return #int					Command post's bleed value
+function GetCommandPostBleedValue(postID) end
+
+--------------------------------------------------------------
+-- Gets a command post's owning team.
+-- 
+-- @param #string postID		ID of command post
+-- @return #int					Index of owning team
+function GetCommandPostTeam(postID) end
+
+
+--------------------------------------------------------------
+-- 
+-- @param #int teamIndex		Index of team to declare victory for
+function MissionVictory(teamIndex) end
+
+--------------------------------------------------------------
+-- 
+-- @param #int teamIndex		Index of team to declare defeat for
+function MissionDefeat(teamIndex) end
+
+SetMissionEndMovie(sourcefile, movieID)
+
+-- AI Goal management functions
+
+--------------------------------------------------------------
+-- Removes all previous AI goals for this team.  You should call this before you set the 
+--  first goals for a team, since teams 1, 2, and 3 start out with a default Conquest goal.
+-- 
+-- @param #int teamIndex		Index of team to clear goals of
+function ClearAIGoals(teamIndex) end
+
+--------------------------------------------------------------
+-- Remove the specified goal.
+-- 
+-- @param goalHandle			Handle returned by AddAIGoal
+function DeleteAIGoal(goalHandle) end
+
+--------------------------------------------------------------
+-- Add an AI goal for this team.
+-- 
+-- @param #int teamIndex		Index of team to add goal to
+-- @param #string goalType		Goal's type.  Can be one of the following...  
+-- 								 "Conquest" - capture enemy team's CPs while preventing own from being captured.  
+-- 								 "Deathmatch" - just kill everyone.  
+-- 								 "Destroy" - destroy the target (a gameobject pointer, or a character index) (set in target1).  
+-- 								 "Defend" - defend the target (a gameobject pointer, or a character index) (set in target1).  
+-- 								 "CTFOffense" - try to get the specified flag (set in target2) and bring it back to the specified region (set in target1).  
+-- 								 "CTFDefense" - protect the specified flag (set in target1), and hunt down and return it when its stolen.  
+-- 								 "Follow" - follow around the target (like defend, but uses a tight follow).
+-- @param #int weight			Weight is a relative weight for this goal.  Since you can specify more than one goal for a 
+-- 								 team at a time, this specifies how the guys are divided.  A goal with weight 2 will get 
+-- 								 twice as many guys as the goal with weight 1.  The size of the numbers doesn't matter and 
+-- 								 they don't have to add up to 100 or anything.
+-- @param target1				If goalType is:  
+-- 								 "Destroy", this is a gameobject pointer or a character index.  
+-- 								 "Defend", this is a gameobject pointer or a character index.  
+-- 								 "CTFOffense", this is a region name.  
+-- 								 "CTFDefense", this is a flag pointer.  
+-- 								 "Follow", this is a gameobject pointer. 
+-- @param target2				If goalType is:  
+-- 								 "CTFOffense", this is a flag pointer.
+-- @return						Goal's handle.
+function AddAIGoal(teamIndex, goalType, weight, target1, target2) end
+
+-- dynamic congraph functions
+
+--------------------------------------------------------------
+-- Blocks the given dynamic connection/group if it is currently unblocked, or unblocks it if it is currently blocked.
+-- 
+-- @param #int connection		ID of dynamic connection or planning group to toggle
+function TogglePlanningGraphArcs(connection) end
+
+--------------------------------------------------------------
+-- Blocks the given dynamic connection/group.
+-- 
+-- @param #int connection		ID of dynamic connection or planning group to block
+function BlockPlanningGraphArcs(connection) end
+
+--------------------------------------------------------------
+-- Unblocks the given dynamic connection/group.
+-- 
+-- @param #int connection		ID of dynamic connection or planning group to unblock
+function UnblockPlanningGraphArcs(connection) end
+
+-- dynamic barrier functions
+
+--------------------------------------------------------------
+-- Disables the given barrier if it is currently enabled, or enables it if it is currently disabled.
+-- 
+-- @param #int connection		ID of barrier to toggle
+function ToggleBarriers(barrierID) end
+
+--------------------------------------------------------------
+-- Enables the given barrier.
+-- 
+-- @param #int connection		ID of barrier to enable
+function EnableBarriers(barrierID) end
+
+--------------------------------------------------------------
+-- Disables the given barrier.
+-- 
+-- @param #int connection		ID of barrier to disable
+function DisableBarriers(barrierID) end
+
+ForceAIOutOfVehicles(teamIndex, boolean)
+
+--------------------------------------------------------------
+-- Disables the given barrier.
+-- 
+-- @param #string postID		ID of command post
+-- @param #int teamIndex		Index of team whose AI to affect
+-- @param #int canCapture		Set to 1 to allow AI from teamIndex to capture postID, set to 0 to prevent them from capturing it
+function AICanCaptureCP(postID, teamIndex, canCapture) end
+SetAIDamageThreshold(object, number)
+
+-- Translate AI command ID's to strings
+TranslateAICommand(lua_State* aState) -- unused
+
+-- space boarding party functions
+AddShieldStrength(lua_State* aState)
+
+-- set the north angle on the minimap
+SetMapNorthAngle(angle, number)
+SetMapNorthAngle(angle)
+
+-- for this map, forces all the non-AI players to join team 1
+
+--------------------------------------------------------------
+-- Forces all the non-AI players to join team 1.
+function ForceHumansOntoTeam1() end
+
+CanCharacterInteractWithFlag(character)
+GetFlagCarrier(flag)
+
+SetMapRangeOverall(lua_State *aState)
+SetMapRangeShooting(lua_State *aState)
+SetMapRangeViewCone(lua_State *aState)
+SetMapViewConeAngle(lua_State *aState)
+
+DisableSmallMapMiniMap()
+
+-- effects
+CreateEffect(effectfile)
+RemoveEffect(effect)
+AttachEffectToObject(effect, object)
+AttachEffectToMatrix(effect, matrix)
+GetEffectMatrix(effect)
+SetEffectMatrix(lua_State* aState)
+IsEffectActive(lua_State* aState)
+SetEffectActive(lua_State* aState)
