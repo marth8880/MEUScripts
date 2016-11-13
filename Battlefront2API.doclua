@@ -221,16 +221,26 @@ SetMapCameraPitch(lua_State* aState)
 SetMapCameraZoom(lua_State* aState)
 GetMapCameraZoom(lua_State* aState)
 SnapMapCamera(lua_State* aState)
-SetState("Shell") --restarts the shell
+
+--------------------------------------------------------------
+-- Restart the shell.
+-- 
+-- @param #string state		Set to "State"
+function SetState(state) end
 SetHistorical() --obsolete, from swbf1
 SetTeamName(team, name)
-SetTeamAggressiveness(team, number)
+
+--------------------------------------------------------------
+-- Sets the aggressiveness of the AI on the given team.
+-- 
+-- @param #float aggressiveness		ID of sound stream properties to play
+SetTeamAggressiveness(teamIndex, aggressiveness)
 SetMinFlyHeight(number)
 SetMaxFlyHeight(number)
 SetMinPlayerFlyHeight(number)
 SetMaxPlayerFlyHeight(number)
-SetUberMode(boolean)
-SetAllowBlindJetJumps(1 or 0)
+SetUberMode(enabled)
+SetAllowBlindJetJumps(allow)
 SetStationaryWaitTime(lua_State* aState) --unused
 SetTeamIcon(team, icon)
 SetTeamAsEnemy(team, enemyteam)
@@ -298,13 +308,35 @@ ClearWalkers()
 AddWalkerType(legpairs, number)
 
 SetAIVehicleNotifyRadius(number)
-SetAIViewMultiplier(number )
+
+--------------------------------------------------------------
+-- Sets the overall view distance for AI.
+-- 
+-- @param #float visibility		Multiplier for how far AI can see
+function SetAIViewMultiplier(visibility) end
 AISnipeSuitabilityDist(number)
 SetGroundFlyerMap(1 or 0)
 
-EnableAIAutoBalance()
-DisableAIAutoBalance()
-SetAIDifficulty(number{friends}, number{enemys})
+
+--------------------------------------------------------------
+-- Turns on AutoBalancing.  This will work for Conquest/Assault/CTF games. Not campaign. Basically 
+--  if the score gets too far in one teams favor (+/- 40 conquest, 60 assault, 1 ctf) it will make 
+--  the losing team better and the winning team worse until things get back to close again.
+function EnableAIAutoBalance() end
+
+--------------------------------------------------------------
+-- Turns off AutoBalancing.  It is on by default so you should use this for your campaign mode scripts.
+function DisableAIAutoBalance() end
+
+--------------------------------------------------------------
+-- Sets the current difficulty modifier.  This can be called from any point within a mission. So if you 
+--  want the bad guys to be more difficult on just one objective, call this with say (0,2) in the OnStart 
+--  function, then call it again with (0,0) to reset it in the OnComplete function.
+-- 
+-- @param #int player			Modifier for player team, positive value = team is better, negative value = team is worse (default is 0)
+-- @param #int enemy			Modifier for enemy team, positive value = team is better, negative value = team is worse (default is 0)
+-- @param #string difficulty	Optional argument. Sets the player and enemy difficulty only for this profile difficulty mode ("easy", "medium", or "hard")
+function SetAIDifficulty(player, enemy, difficulty) end
 SetAIDifficulty(number{friends}, number{enemys}, difficulty{easy,medium,hard})
 
 AddMissionObjective(lua_State* aState)
@@ -322,14 +354,23 @@ SpaceAssaultSetupTeamNumbers(lua_State* aState)
 SpaceAssaultSetupBitmaps(bitmap1, bitmap2, etc)
 SpaceAssaultGetScoreLimit()
 
-IsCampaign()
+--------------------------------------------------------------
+-- Returns whether or not the current mission is using non-multiplayer rules.
+-- 
+-- @return #int			1 if using non-multiplayer rules, 0 if using multiplayer rules
+function IsCampaign() end
 GetWorldFilename() -- used in multiobjectivescontainer.lua for soundsetup
 
 -- Messages
 ShowMessageText(string, team)
 ShowPopup(string)
 ShowObjectiveTextPopup(string)
-ShowTimer(timer)
+
+--------------------------------------------------------------
+-- Shows or hides the specified Timer.
+-- 
+-- @param #string timer		ID (or handler returned from CreateTimer) of the Timer to show. Set to nil (or leave blank) to hide all Timers
+function ShowTimer(timer) end
 ShowSelectionTextPopup(string) -- used in spa2c_c for decision making but not for pc?!
 
 --------------------------------------------------------------
@@ -352,35 +393,106 @@ MapHideCommandPosts()
 EnableBuildingLockOn(object, boolean)
 
 -- Timer
-FindTimer(timer)
-CreateTimer(timer)
-DestroyTimer(timer)
-StartTimer(timer)
-StopTimer(timer)
-SetTimerValue(timer, value)
-GetTimerValue(timer)
-SetTimerRate(timer, rate)
-GetTimerRate(timer)
-GetTimerName(lua_State *aState) -- unused
 
-SetDefeatTimer(timer, team)
-SetMissionTimer(lua_State* aState) -- unused
-SetVictoryTimer(timer, team)
+--------------------------------------------------------------
+-- Checks whether or not a timer exists.
+-- 
+-- @param #string timer		ID (or handler returned from CreateTimer) of the timer to find
+function FindTimer(timer) end
+
+--------------------------------------------------------------
+-- Creates a new Timer with the specified name and returns it.
+-- 
+-- @param #string name		Name to give the Timer
+-- @return					The Timer's handler
+function CreateTimer(name) end
+
+--------------------------------------------------------------
+-- Deletes the specified Timer. Do not use the timer after destroying it!
+-- 
+-- @param #string timer		ID (or handler returned from CreateTimer) of the Timer
+function DestroyTimer(timer) end
+
+--------------------------------------------------------------
+-- Activates the specified Timer.
+-- 
+-- @param #string timer		ID (or handler returned from CreateTimer) of the Timer
+function StartTimer(timer) end
+
+--------------------------------------------------------------
+-- Deactivates the specified Timer.
+-- 
+-- @param #string timer		ID (or handler returned from CreateTimer) of the Timer
+function StopTimer(timer) end
+
+--------------------------------------------------------------
+-- Sets the value of the specified Timer.
+-- 
+-- @param #string timer		ID (or handler returned from CreateTimer) of the Timer
+-- @param #float value		Timer's duration in seconds
+function SetTimerValue(timer, value) end
+
+--------------------------------------------------------------
+-- Returns the value of the specified Timer.
+-- 
+-- @param #string timer		ID (or handler returned from CreateTimer) of the Timer
+-- @return #float			The Timer's value
+function GetTimerValue(timer) end
+
+--------------------------------------------------------------
+-- Sets the rate of the specified Timer.
+-- 
+-- @param #string timer		ID (or handler returned from CreateTimer) of the Timer
+-- @param #float rate		Multiplier for Timer's elapse speed (default is 1.0)
+function SetTimerRate(timer, rate) end
+
+--------------------------------------------------------------
+-- Returns the rate of the specified Timer.
+-- 
+-- @param #string timer		ID (or handler returned from CreateTimer) of the Timer
+-- @return #float			The Timer's rate
+function GetTimerRate(timer) end
+
+--------------------------------------------------------------
+-- Shows or hides the timer.
+-- 
+-- @param #string timer		ID (or handler returned from CreateTimer) of the Timer
+function GetTimerName(timer) end
+
+
+--------------------------------------------------------------
+-- Tell the C++ code about the defeat timer (which will display it on the HUD).
+-- 
+-- @param #string timer		ID (or handler returned from CreateTimer) of the Timer to pair with the defeat timer
+-- @param #int teamIndex	Index of team to associate with the defeat timer
+function SetDefeatTimer(timer, teamIndex) end
+
+--------------------------------------------------------------
+-- Tell the C++ code about the victory timer (which will display it on the HUD).
+-- 
+-- @param #string timer		ID (or handler returned from CreateTimer) of the Timer to pair with the victory timer. Set to nil (or leave blank) to hide it
+-- @param #int teamIndex	Index of team to associate with the victory timer
+function SetVictoryTimer(timer, team) end
+
+SetMissionTimer() -- unused	-- TODO
 
 -- Object
 
 --------------------------------------------------------------
+-- Returns the object pointer of the specified object
 -- 
 -- @param #string objectName		ID of object to get pointer of
 -- @return 							The object's pointer
 function GetObjectPtr(objectName) end
 
 --------------------------------------------------------------
+-- Activates the specified object.
 -- 
 -- @param #string objectName		ID of object to activate
 function ActivateObject(objectName) end
 
 --------------------------------------------------------------
+-- Deactivates the specified object.
 -- 
 -- @param #string objectName		ID of object to deactivate
 function DeactivateObject(objectName) end
@@ -392,83 +504,193 @@ function DeactivateObject(objectName) end
 function SetObjectTeam(objectName, teamIndex) end
 
 --------------------------------------------------------------
+-- Returns the team index of the specified object.
 -- 
 -- @param #string objectName		ID of object to destroy
 -- @return #int						Index of the team the object belongs to
 function GetObjectTeam(objectName) end
 
 --------------------------------------------------------------
+-- Returns whether or not the specified object is alive.
 -- 
 -- @param #string objectName		ID of object to get the name of
 -- @return #int						1 if object is alive, 0 if object is not alive
 function IsObjectAlive(objectName) end
 
 --------------------------------------------------------------
+-- Returns the current health value of the specified object.
 -- 
 -- @param #string objectName		ID of object to get the current health value of
 -- @return #float					Object's current health value
 function GetObjectHealth(objectName) end
 
 --------------------------------------------------------------
+-- Returns the current shield value of the specified object.
 -- 
 -- @param #string objectName		ID of object to get the current shield value of
 -- @return #float					Object's current shield value
 function GetObjectShield(objectName) end
-GetObjectLastHitWeaponClass(objectName)
 
 --------------------------------------------------------------
+-- Returns the name of the most recent weapon that the specified object was hit by.
+-- 
+-- @param #string objectName		ID of object to check
+-- @return #string					Weapon class name
+function GetObjectLastHitWeaponClass(objectName) end
+
+--------------------------------------------------------------
+-- Kills the specified object.
 -- 
 -- @param #string objectName		ID of object to destroy
 function KillObject(objectName) end
 
 --------------------------------------------------------------
+-- Respawns the specified object.
 -- 
 -- @param #string objectName		ID of object to respawn
 function RespawnObject(objectName) end
 
 -- Entity
-GetEntityPtr(entity)
-GetEntityName(entity)
-GetEntityClass(entity)
-GetEntityClassName(entity)
-SetEntityMatrix(entity, matrix)
-GetEntityMatrix(entity)
-SetProperty(object, property, value)
-CreateEntity(class, node, name)
-DeleteEntity(entity)
 
-GetEntityClassPtr(entity)
-SetClassProperty(class, property, value)
+--------------------------------------------------------------
+-- Returns the entity pointer of the specified object or character unit index.
+-- 
+-- @param object		ID of object or character unit index
+-- @return				Entity pointer of object or character
+function GetEntityPtr(object) end
+
+--------------------------------------------------------------
+-- Returns the name of the specified entity.
+-- 
+-- @param entity		ID of entity
+-- @return #string		Entity name
+function GetEntityName(entity) end
+
+--------------------------------------------------------------
+-- Returns the class of the specified entity.
+-- 
+-- @param entity		ID of entity
+-- @return				Entity class
+function GetEntityClass(entity) end
+
+--------------------------------------------------------------
+-- Returns the class name of the specified entity.
+-- 
+-- @param entity		ID of entity
+-- @return #string		Entity class name
+function GetEntityClassName(entity) end
+
+--------------------------------------------------------------
+-- Sets the matrix of the specified entity.
+-- 
+-- @param entity		ID of entity
+-- @param matrix		New entity matrix
+function SetEntityMatrix(entity, matrix) end
+
+--------------------------------------------------------------
+-- Returns the matrix of the specified entity.
+-- 
+-- @param entity		ID of entity
+-- @return				Entity matrix
+function GetEntityMatrix(entity) end
+
+--------------------------------------------------------------
+-- Sets the value of a property for the specified object.
+-- 
+-- @param objectName			ID of object or character unit index
+-- @param #string property		ID of the property to set
+-- @param value					Value to set the property to
+function SetProperty(objectName, property, value) end
+
+--------------------------------------------------------------
+-- Creates a new instance of the specified entity and returns it.
+-- 
+-- @param #string class			Name of the entity class to instantiate
+-- @param node					Path point to create the entity at
+-- @param #string name			Name to assign to the entity
+-- @return						Entity instance
+function CreateEntity(class, node, name) end
+
+--------------------------------------------------------------
+-- Deletes the specified entity.
+-- 
+-- @param entity		ID of entity
+function DeleteEntity(entity) end
+
+
+--------------------------------------------------------------
+-- Returns the entity class pointer of the specified entity.
+-- 
+-- @param entity		ID of entity
+-- @return				Entity class pointer
+function GetEntityClassPtr(entity) end
+
+--------------------------------------------------------------
+-- Sets the value of a property for the specified object class.
+-- 
+-- @param objectClass			ID of object class
+-- @param #string property		ID of the property to set
+-- @param value					Property's value to set
+function SetClassProperty(objectClass, property, value) end
 
 
 -- flyer = vehiclespawnname
-EntityFlyerTakeOff(flyer)
-EntityFlyerLand(flyer)
+EntityFlyerTakeOff(flyer)	-- TODO
+EntityFlyerLand(flyer)	-- TODO
 
-EntityFlyerInitAsFlying(flyer)
-EntityFlyerInitAsLanded(flyer)
-
-EnterVehicle()
-ExitVehicle()
+EntityFlyerInitAsFlying(flyer)	-- TODO
+EntityFlyerInitAsLanded(flyer)	-- TODO
 
 --------------------------------------------------------------
+-- Forces the specified entity into the specified vehicle.
+-- 
+-- @param entity				Entity or character unit index to force into vehicle
+-- @param #string vehicle		ID of the vehicle class
+function EnterVehicle(entity, vehicle) end
+
+--------------------------------------------------------------
+-- Forces the specified entity out of whatever vehicle it's currently in.
+-- 
+-- @param entity			Entity or character unit index to force out of vehicle
+function ExitVehicle(entity) end
+
+--------------------------------------------------------------
+-- Enables or disables the specified flyer path.
 -- 
 -- @param #int pathID		ID of flyer spline path to enable
 -- @param #int enable		Set to 1 to enable the path, or set to 0 to disable the path
 function EnableFlyerPath(pathID, enable) end
 
-GetPathPoint(path, nodenumber)
-
+--------------------------------------------------------------
+-- Returns the path point based on the specified path node.
+-- 
+-- @param #string pathName		ID of path
+-- @param #int nodeIdx			Numeric ID of path node
+-- @return						Path point
+function GetPathPoint(pathName, nodeIdx) end
 
 --------------------------------------------------------------
+-- Returns the number of units that are currently alive in the specified team.
 -- 
 -- @param #int teamIndex		Index of team
 -- @return #int					Number of units currently alive in team
 function GetNumTeamMembersAlive(teamIndex) end
 
-CreateMatrix(lua_State* aState)
+--------------------------------------------------------------
+-- Creates a new matrix based on an existing one.
+-- 
+-- @param #float rad		Rotation angle in radians around chosen axes or X axis if none chosen
+-- @param #float rotX		Rotation around x axis if rotX ~= 0
+-- @param #float rotY		Rotation around y axis if rotY ~= 0
+-- @param #float rotZ		Rotation around z axis if rotZ ~= 0
+-- @param #float posX		Translates unit on X axis
+-- @param #float posY		Translates unit on Y axis
+-- @param #float posZ		Translates unit on Z axis
+-- @param matrix			Starting point for matrix changes
+-- @return					Newly created matrix
+function CreateMatrix(rad, rotX, rotY, rotZ, posX, posY, posZ, matrix) end
 
-GetScreenPosition(object)
+GetScreenPosition(object)	-- TODO
 
 -- procedural animation callbacks
 
@@ -514,34 +736,56 @@ function PlayAnimationFromTo(animationGroupName, beginTime, endTime) end
 -- @param #int teamIndex		Index of team to get size of
 -- @return #int					Size of team
 function GetTeamSize(teamIndex) end
-GetTeamMember(team, unitindex) --returns character
+
+GetTeamMember(team, unitindex) --returns character	-- TODO
 
 --------------------------------------------------------------
 -- 
 -- @param #int characterIndex		Index of character to get team of
 -- @return #int						Index of team the character belongs to
 function GetCharacterTeam(characterIndex) end
-SelectCharacterTeam(character, teamIndex)
+
+SelectCharacterTeam(character, teamIndex)	-- TODO
 
 --------------------------------------------------------------
 -- 
 -- @param #int characterIndex		Index of character to check "humanity" of
 -- @return #int						1 if character is human, 0 if character is not human
 function IsCharacterHuman(characterIndex) end
-SelectCharacterClass(character, class)
-GetCharacterClass(character)
-BatchChangeTeams(sourceteam, destinationteam, unitnumber)
+
+SelectCharacterClass(character, class)	-- TODO
+GetCharacterClass(character)	-- TODO
+BatchChangeTeams(sourceteam, destinationteam, unitnumber)	-- TODO
 
 --------------------------------------------------------------
+-- Prevents or allows spawning of AI units from the specified team.
 -- 
 -- @param #int teamIndex		Index of team to affect
 -- @param #int canSpawn			Set to 1 to allow AI units on this team to spawn, or 0 to prevent them from spawning
 function AllowAISpawn(teamIndex, canSpawn) end
-SpawnCharacter(character, nodename)
-GetCharacterUnit(character)
-GetCharacterVehicle(character)
-GetCharacterRemote(character)
-GetCharacterControllable(character)
+
+--------------------------------------------------------------
+-- Spawns the specified character unit index at the specified path point.
+-- 
+-- @param #int integerChrIdx	Unit returned from GetCharacterUnit
+-- @param pathPoint				Path point returned from GetPathPoint
+function SpawnCharacter(integerChrIdx, nodename) end
+
+--------------------------------------------------------------
+-- Returns the integer character index from the specified entity or team member index.
+-- 
+-- @param entity			Character entity, or character index returned from GetTeamMember
+-- @return #int				Character unit index
+function GetCharacterUnit(entity) end
+
+--------------------------------------------------------------
+-- Returns the integer vehicle index from the specified vehicle entity.
+-- 
+-- @param entity				Vehicle entity
+-- @return #int					Character unit index
+function GetCharacterVehicle(entity) end
+GetCharacterRemote(entity)	-- TODO
+GetCharacterControllable(entity)	-- TODO
 
 
 --------------------------------------------------------------
@@ -576,7 +820,7 @@ function MissionVictory(teamIndex) end
 -- @param #int teamIndex		Index of team to declare defeat for
 function MissionDefeat(teamIndex) end
 
-SetMissionEndMovie(sourcefile, movieID)
+SetMissionEndMovie(sourcefile, movieID)	-- TODO
 
 -- AI Goal management functions
 
@@ -660,7 +904,13 @@ function EnableBarriers(barrierID) end
 -- @param #int connection		ID of barrier to disable
 function DisableBarriers(barrierID) end
 
-ForceAIOutOfVehicles(teamIndex, boolean)
+--------------------------------------------------------------
+-- Prevents all AI or AI on a specified team from using any vehicle. When this 
+--  is called, AI currently in a vehicle will be forced out of it.
+-- 
+-- @param #int teamIndex		Index of team to force out of vehicles
+-- @param #bool enable			True to prevent AI from entering vehicles, false to allow them to do so
+function ForceAIOutOfVehicles(teamIndex, enable) end
 
 --------------------------------------------------------------
 -- Disables the given barrier.
@@ -669,40 +919,111 @@ ForceAIOutOfVehicles(teamIndex, boolean)
 -- @param #int teamIndex		Index of team whose AI to affect
 -- @param #int canCapture		Set to 1 to allow AI from teamIndex to capture postID, set to 0 to prevent them from capturing it
 function AICanCaptureCP(postID, teamIndex, canCapture) end
-SetAIDamageThreshold(object, number)
-
--- Translate AI command ID's to strings
-TranslateAICommand(lua_State* aState) -- unused
-
--- space boarding party functions
-AddShieldStrength(lua_State* aState)
-
--- set the north angle on the minimap
-SetMapNorthAngle(angle, number)
-SetMapNorthAngle(angle)
-
--- for this map, forces all the non-AI players to join team 1
 
 --------------------------------------------------------------
--- Forces all the non-AI players to join team 1.
+-- Sets the threshold at which AI units can no longer damage the specified 
+--  object or entity.  For example, if threshold is 0.5, AI will not be able 
+--  to damage the object or entity if its health percentage is <= 50%.
+-- 
+-- @param object				Object or entity to affect
+-- @param #float threshold		Lowest health percentage that object can be brought to by AI
+function SetAIDamageThreshold(object, threshold) end
+
+--------------------------------------------------------------
+-- Translates AI command IDs to strings.
+-- 
+-- @param command_id			command_id returned by CharacterIssueAICommand event
+-- @return #string				Depending on command_id, will be one of the following: "getintovehicle", 
+-- 								 "getoutofvehicle", "waitforpickup", "followchr", or "stopfollowchr"
+function TranslateAICommand(command_id) end
+
+-- space boarding party functions
+AddShieldStrength(lua_State* aState)	-- TODO
+
+-- set the north angle on the minimap
+SetMapNorthAngle(angle, number)	-- TODO
+SetMapNorthAngle(angle)	-- TODO
+
+--------------------------------------------------------------
+-- Forces all non-AI players to join team 1.
 function ForceHumansOntoTeam1() end
 
-CanCharacterInteractWithFlag(character)
-GetFlagCarrier(flag)
+--------------------------------------------------------------
+-- Returns whether or not the specified character can interact with flags.
+-- 
+-- @param #int integerChrIdx	Character unit index to check for flag interactibility (yeah I made up that word, so what, big whoop, wanna fight about it?)
+-- @return #int					1 if character can interact with flag, 0 if not
+function CanCharacterInteractWithFlag(integerChrIdx) end
 
-SetMapRangeOverall(lua_State *aState)
-SetMapRangeShooting(lua_State *aState)
-SetMapRangeViewCone(lua_State *aState)
-SetMapViewConeAngle(lua_State *aState)
+--------------------------------------------------------------
+-- Returns the character unit carrying the specified flag.
+-- 
+-- @param #string flag			Name of the flag in the level
+-- @return #int					Character unit index of flag carrier
+function GetFlagCarrier(flag) end
 
-DisableSmallMapMiniMap()
+SetMapRangeOverall(lua_State *aState)	-- TODO
+SetMapRangeShooting(lua_State *aState)	-- TODO
+SetMapRangeViewCone(lua_State *aState)	-- TODO
+SetMapViewConeAngle(lua_State *aState)	-- TODO
+
+DisableSmallMapMiniMap()	-- TODO
 
 -- effects
-CreateEffect(effectfile)
-RemoveEffect(effect)
-AttachEffectToObject(effect, object)
-AttachEffectToMatrix(effect, matrix)
-GetEffectMatrix(effect)
-SetEffectMatrix(lua_State* aState)
-IsEffectActive(lua_State* aState)
-SetEffectActive(lua_State* aState)
+
+--------------------------------------------------------------
+-- Spawns a new instance of the specified particle effect and returns it.
+-- 
+-- @param effectFilename		Name of particle effect to instantiate
+-- @return						Particle effect instance
+function CreateEffect(effectFilename) end
+
+--------------------------------------------------------------
+-- Deletes the specified particle effect instance.
+-- 
+-- @param effect		Particle effect instance returned by CreateEffect
+function RemoveEffect(effect) end
+
+--------------------------------------------------------------
+-- Attaches the specified particle effect instance to the specified object.
+-- 
+-- @param effect			Particle effect instance returned by CreateEffect
+-- @param #string object	ID of object to attach effect to
+function AttachEffectToObject(effect, object) end
+
+--------------------------------------------------------------
+-- Attaches the specified particle effect instance to the specified matrix.
+-- 
+-- @param effect		Particle effect instance returned by CreateEffect
+-- @param matrix		Matrix to attach effect to
+function AttachEffectToMatrix(effect, matrix) end
+
+--------------------------------------------------------------
+-- Returns the matrix of the specified particle effect instance.
+-- 
+-- @param effect		Particle effect instance returned by CreateEffect
+-- @return				Effect matrix
+function GetEffectMatrix(effect) end
+
+--------------------------------------------------------------
+-- Sets the matrix of the specified particle effect instance.
+-- 
+-- @param effect		Particle effect instance returned by CreateEffect
+function SetEffectMatrix(effect, matrix) end
+
+--------------------------------------------------------------
+-- Returns whether or not the specified particle effect is active.
+-- 
+-- @param effect		Particle effect instance returned by CreateEffect
+-- @return #int			1 if effect is active, 0 if effect is inactive 
+function IsEffectActive(effect) end
+
+--------------------------------------------------------------
+-- Sets the state of the specified particle effect.
+-- 
+-- @param effect		Particle effect instance returned by CreateEffect
+-- @param #int active	Set to 1 to activate effect, set to 0 to deactivate effect
+function SetEffectActive(effect, active) end
+
+
+
