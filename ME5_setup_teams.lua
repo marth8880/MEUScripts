@@ -5,7 +5,33 @@ function SetupTeams(sides)
     --              "tur_bldg_defensegridturret")
 
     -- list of types
-    local typeList = { "LOKI", "husk", "soldier", "assault", "sniper", "rocketeer", "engineer", "officer", "special", "pilot", "marine", "adept", "sentinel", "vanguard", "heavy", "operative", "commando", "YMIR", "hunter", "shock", "destroyer", "juggernaut", "prime", "support", "scion", "pilot" }
+    local typeList = { 
+				"LOKI", 
+				"husk", 
+				"soldier", 
+				"assault", 
+				"sniper", 
+				"rocketeer", 
+				"engineer", 
+				"officer", 
+				"special", 
+				"pilot", 
+				"marine", 
+				"adept", 
+				"sentinel", 
+				"vanguard", 
+				"heavy", 
+				"operative", 
+				"commando", 
+				"YMIR", 
+				"hunter", 
+				"shock", 
+				"destroyer", 
+				"juggernaut", 
+				"prime", 
+				"support", 
+				"scion", 
+				"pilot" }
 
     -- items for each team code
     local teamItems = nil
