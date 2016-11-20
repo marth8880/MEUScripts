@@ -7,39 +7,19 @@
 -- Mar 7, 2016
 -- Copyright (c) 2016 Aaron Gilbert
 -- 
--- 
--- PURPOSE:
--- Lightly based on Objective.lua
---  Sets up individual camera shots. Designers can specify 
---  the camera, shot duration, the starting FOV, whether or 
---  not to zoom, the zoom FOV, when the zoom occurs, and, 
---  where the player is put (if the shot is being put into 
---  a container). Perhaps the most convenient aspect of this 
---  script is the fact that it can work in tandem with the 
---  CinematicContainer script, meaning chains/sequences of 
---  shots can be easily set up with full customization.
---
---
--- USAGE:
+-- About:
 -- 
 -- 
 -- 
--- LEGAL:
--- This script is free software: you can redistribute it and/or modify 
--- it under the terms of the GNU General Public License as published by
--- the Free Software Foundation, either version 3 of the License, or
--- (at your option) any later version.
--- 
--- This script is distributed in the hope that it will be useful, 
--- but WITHOUT ANY WARRANTY; without even the implied warranty of 
--- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
--- GNU General Public License for more details.
--- 
--- You should have received a copy of the GNU General Public License 
--- along with this script.  If not, see <http://www.gnu.org/licenses/>.
+-- Usage:
 -- 
 -- 
--- THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
+-- 
+-- Legal:
+--  This script is licensed under the BSD 3-Clause License. A copy of this license (as LICENSE.md) should have been included
+--  with this script. If it wasn't, it can also be found here: https://www.w3.org/Consortium/Legal/2008/03-bsd-license.html
+--  
+--  THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 

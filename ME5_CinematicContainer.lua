@@ -1,71 +1,57 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Cinematic Container Script by A. Gilbert
--- Build 30318/06
+-- Build 31110/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Mar 18, 2016
+-- Nov 10, 2016
 -- Copyright (c) 2016 Aaron Gilbert
 -- 
+-- About:
+--  Largely based on MultiObjectiveContainer.lua
+--  Manages a table of a chain of camera shots. Basically, there are one or more camera shots in a cinematic sequence. When a shot finishes, 
+--  it moves onto the next shot. When all of the shots are completed, it exits the cinematic.
 -- 
--- PURPOSE:
--- Largely based on MultiObjectiveContainer.lua
---  Manages a table of a chain of camera shots. Basically, there are 
---  one or more camera shots in a cinematic sequence. When a shot 
---	finishes, it moves onto the next shot. When all of the shots 
---	are completed, it exits the cinematic.
---
---
--- USAGE:
--- 1. Load the script using ScriptCB_DoFile() in your main mission script.
--- 2. Initialize CinematicContainer:New{} into a variable. Example: 
 -- 
--- 		testCinematicSequence = CinematicContainer:New{pathName = "playerspawn_start"}
--- 
--- 3. Call :AddShot() on your CinematicContainer variable for each CameraShot:New{} variable you assigned previous to CinematicContainer:New{}. Example: 
--- 
--- 		testCinematicSequence:AddShot(TestShot1)
--- 		testCinematicSequence:AddShot(TestShot2)
--- 		<...>
--- 		testCinematicSequence:AddShot(TestShot6)
--- 
--- 4. After you've done step 3 for each shot, call :Start() on your CinematicContainer variable to start the cinematic. Example: 
--- 
--- 		testCinematicSequence:Start()
--- 
--- 5. CinematicContainer includes a Start() and Complete() function that you can override to add extra behavior when the cinematic starts or ends.
---  To do so, call .OnStart() or .OnComplete() somewhere in your mission script and assign a new function to it. Example: 
--- 
--- 		testCinematicSequence.OnStart() = function(self)
--- 			-- do stuff
--- 		end
+-- Usage:
+--  1. Load the script using ScriptCB_DoFile() in your main mission script.
+--  2. Initialize CinematicContainer:New{} into a variable. Example: 
+--  
+--  		testCinematicSequence = CinematicContainer:New{pathName = "playerspawn_start"}
+--  
+--  3. Call :AddShot() on your CinematicContainer variable for each CameraShot:New{} variable you assigned previous to CinematicContainer:New{}. Example: 
+--  
+--  		testCinematicSequence:AddShot(TestShot1)
+--  		testCinematicSequence:AddShot(TestShot2)
+--  		<...>
+--  		testCinematicSequence:AddShot(TestShot6)
+--  
+--  4. After you've done step 3 for each shot, call :Start() on your CinematicContainer variable to start the cinematic. Example: 
+--  
+--  		testCinematicSequence:Start()
+--  
+--  5. CinematicContainer includes a Start() and Complete() function that you can override to add extra behavior when the cinematic starts or ends.
+--   To do so, call .OnStart() or .OnComplete() somewhere in your mission script and assign a new function to it. Example: 
+--  
+--  		testCinematicSequence.OnStart() = function(self)
+--  			-- do stuff
+--  		end
+--  		
+--  		testCinematicSequence.OnComplete() = function(self)
+--  			-- do stuff
+--  		end
 -- 		
--- 		testCinematicSequence.OnComplete() = function(self)
--- 			-- do stuff
--- 		end
--- 		
--- 	NOTE: You can only override these functions BEFORE :Start() has been called!
+-- 		NOTE: You can only override these functions BEFORE :Start() has been called!
 -- 
 -- 
--- LEGAL:
--- This script is free software: you can redistribute it and/or modify 
--- it under the terms of the GNU General Public License as published by
--- the Free Software Foundation, either version 3 of the License, or
--- (at your option) any later version.
--- 
--- This script is distributed in the hope that it will be useful, 
--- but WITHOUT ANY WARRANTY; without even the implied warranty of 
--- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
--- GNU General Public License for more details.
--- 
--- You should have received a copy of the GNU General Public License 
--- along with this script.  If not, see <http://www.gnu.org/licenses/>.
--- 
--- 
--- THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
+-- Legal:
+--  This script is licensed under the BSD 3-Clause License. A copy of this license (as LICENSE.md) should have been included
+--  with this script. If it wasn't, it can also be found here: https://www.w3.org/Consortium/Legal/2008/03-bsd-license.html
+--  
+--  THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
 -----------------------------------------------------------------
 -----------------------------------------------------------------
-	print("ME5_CinematicContainer: Entered")
+print("ME5_CinematicContainer: Entered")
 
 ---
 -- This is a constructor for a CinematicContainer object.
@@ -77,7 +63,7 @@ CinematicContainer = {
     pathName = nil, 				-- The name of the path to move the player to after the scene has ended.
     
     -- Optional fields
-    pathNode = nil, 				-- The node of the path 'pathName' to move the player to.
+    pathNode = nil, 				-- The node of the path /pathName/ to move the player to.
 }
 
 
@@ -201,4 +187,4 @@ function CinematicContainer:Complete()
 	self:OnComplete()
 end
 
-	print("ME5_CinematicContainer: Exited")
+print("ME5_CinematicContainer: Exited")

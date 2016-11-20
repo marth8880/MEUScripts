@@ -7,15 +7,16 @@
 -- Oct 25, 2016
 -- Copyright (c) 2016 A. Gilbert.
 -- 
--- About this script: The purpose of script is to load configuration
--- parameters set by the config tool and set variables based on existing files.
+-- About: 
+--  The purpose of this script is to load configuration parameters set by the Config Tool and set variables based on 
+--  existing files.
 -- 
 -- 
--- Legal Stuff:
--- Usage of this script is unauthorized without my prior consent. Contact me if you wish to use it.
--- Do not claim this script as your own. It may not be much, but I did spend some time writing it after all.
--- I am not responsible for any damages that might be incurred through the use of this script.
--- THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
+-- Legal:
+--  This script is licensed under the BSD 3-Clause License. A copy of this license (as LICENSE.md) should have been included
+--  with this script. If it wasn't, it can also be found here: https://www.w3.org/Consortium/Legal/2008/03-bsd-license.html
+--  
+--  THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 

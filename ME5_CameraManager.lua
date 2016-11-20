@@ -7,79 +7,63 @@
 -- Nov 10, 2016
 -- Copyright (c) 2016 Aaron Gilbert
 -- 
--- 
--- PURPOSE:
--- Lightly based on Objective.lua
---  Sets up individual camera shots. Designers can specify 
---  the camera, shot duration, the starting FOV, whether or 
---  not to zoom, the zoom FOV, when the zoom occurs, and, 
---  where the player is put (if the shot is being put into 
---  a container). Perhaps the most convenient aspect of this 
---  script is the fact that it can work in tandem with the 
---  CinematicContainer script, meaning chains/sequences of 
---  shots can be easily set up with full customization.
---
---
--- USAGE:
--- 1. Load the script using ScriptCB_DoFile() in your main mission script.
--- 2. Initialize CameraShot:New{} into a variable. Do this for each shot you wish to add. Example: 
--- 
--- 		TestShot1 = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "camera_test_1", shotDuration = 3.0}
--- 		TestShot2 = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "camera_test_2", shotDuration = 2.0}
--- 		<...>
--- 		TestShot6 = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "camera_test_6", shotDuration = 3.0}
--- 		
--- 	NOTE: You must set a CameraShot's pathName if you aren't putting the CameraShot into a CinematicContainer! Example: 
--- 	
--- 		TestShot = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "camera_test_1", shotDuration = 3.0, pathName = "playerspawn_camera_exit"}
--- 
--- 3. After you've done step 2 for each shot, either start setting up the CinematicContainer for your shots if you want to have a 
---  continous sequence of shots, or call :Start() on one of your CameraShot variable if you want to start each one manually and at a 
---  different time. Example: 
--- 
--- 		testCinematicSequence = CinematicContainer:New{pathName = "playerspawn_start"}
--- 		testCinematicSequence:AddShot(TestShot1)
--- 		testCinematicSequence:AddShot(TestShot2)
--- 		<...>
--- 		testCinematicSequence:AddShot(TestShot6)
--- 		testCinematicSequence:Start()
--- 		
--- 	OR:
--- 		
--- 		TestShot:Start()
--- 		
--- 	NOTE: You must initialize a CameraShot variable before you can call :Start() (or anything) on it.
--- 
--- 4. CameraManager includes a Start() and Complete() function that you can override to add extra behavior when the shot starts or ends.
---  To do so, call .OnStart() or .OnComplete() somewhere in your mission script and assign a new function to it. Example: 
--- 
--- 		TestShot1.OnStart() = function(self)
--- 			-- do stuff
--- 		end
--- 		
--- 		TestShot1.OnComplete() = function(self)
--- 			-- do stuff
--- 		end
--- 		
--- 	NOTE: You can only override these functions BEFORE :Start() has been called!
+-- About:
+--  Lightly based on Objective.lua
+--  Sets up individual camera shots. Designers can specify the camera, shot duration, the starting FOV, whether or not to zoom, the zoom FOV, 
+--  when the zoom occurs, and, where the player is put (if the shot is being put into a container). Perhaps the most convenient aspect of this 
+--  script is the fact that it can work in tandem with the CinematicContainer script, meaning chains/sequences of shots can be easily set up 
+--  with full customization.
 -- 
 -- 
--- LEGAL:
--- This script is free software: you can redistribute it and/or modify 
--- it under the terms of the GNU General Public License as published by
--- the Free Software Foundation, either version 3 of the License, or
--- (at your option) any later version.
+-- Usage:
+--  1. Load the script using ScriptCB_DoFile() in your main mission script.
+--  2. Initialize CameraShot:New{} into a variable. Do this for each shot you wish to add. Example: 
+--  
+--  		TestShot1 = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "camera_test_1", shotDuration = 3.0}
+--  		TestShot2 = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "camera_test_2", shotDuration = 2.0}
+--  		<...>
+--  		TestShot6 = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "camera_test_6", shotDuration = 3.0}
+--  		
+--  	NOTE: You must set a CameraShot's pathName if you aren't putting the CameraShot into a CinematicContainer! Example: 
+--  	
+--  		TestShot = CameraShot:New{cameraClassName = "eur_prop_camera", cameraObj = "camera_test_1", shotDuration = 3.0, pathName = "playerspawn_camera_exit"}
+--  
+--  3. After you've done step 2 for each shot, either start setting up the CinematicContainer for your shots if you want to have a 
+--   continous sequence of shots, or call :Start() on one of your CameraShot variable if you want to start each one manually and at a 
+--   different time. Example: 
 -- 
--- This script is distributed in the hope that it will be useful, 
--- but WITHOUT ANY WARRANTY; without even the implied warranty of 
--- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
--- GNU General Public License for more details.
+--  		testCinematicSequence = CinematicContainer:New{pathName = "playerspawn_start"}
+--  		testCinematicSequence:AddShot(TestShot1)
+--  		testCinematicSequence:AddShot(TestShot2)
+--  		<...>
+--  		testCinematicSequence:AddShot(TestShot6)
+--  		testCinematicSequence:Start()
+--  		
+--  	OR:
+--  		
+--  		TestShot:Start()
+--  		
+--  NOTE: You must initialize a CameraShot variable before you can call :Start() (or anything) on it.
+--  
+--  4. CameraManager includes a Start() and Complete() function that you can override to add extra behavior when the shot starts or ends.
+--   To do so, call .OnStart() or .OnComplete() somewhere in your mission script and assign a new function to it. Example: 
+--  
+--  		TestShot1.OnStart() = function(self)
+--  			-- do stuff
+--  		end
+-- 	 	
+--  		TestShot1.OnComplete() = function(self)
+--  			-- do stuff
+--  		end
+--  		
+--  	NOTE: You can only override these functions BEFORE :Start() has been called!
 -- 
--- You should have received a copy of the GNU General Public License 
--- along with this script.  If not, see <http://www.gnu.org/licenses/>.
 -- 
--- 
--- THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
+-- Legal:
+--  This script is licensed under the BSD 3-Clause License. A copy of this license (as LICENSE.md) should have been included
+--  with this script. If it wasn't, it can also be found here: https://www.w3.org/Consortium/Legal/2008/03-bsd-license.html
+--  
+--  THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 print("ME5_CameraManager: Entered")

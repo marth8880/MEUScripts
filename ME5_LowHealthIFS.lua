@@ -7,16 +7,15 @@
 -- Apr 04, 2015
 -- Copyright (c) 2015 Nedarb7
 -- 
--- About this script: The purpose of script is to work with MEU's 
--- low health function and display a red vignette when the player 
--- has low health.
+-- About: 
+--  The purpose of script is to work with MEU's low health function and display a red vignette when the player has low health.
 -- 
 -- 
--- Legal Stuff:
--- Usage of this script is unauthorized without mine and Nedarb7's prior consent. Contact us if you wish to use it.
--- Do not claim this script as your own. It may not be much, but we did spend some time writing it after all.
--- We are not responsible for any damages that might be incurred through the use of this script.
--- THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
+-- Legal:
+--  This script is licensed under the BSD 3-Clause License. A copy of this license (as LICENSE.md) should have been included
+--  with this script. If it wasn't, it can also be found here: https://www.w3.org/Consortium/Legal/2008/03-bsd-license.html
+--  
+--  THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 

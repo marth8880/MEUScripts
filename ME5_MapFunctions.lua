@@ -7,23 +7,19 @@
 -- Mar 18, 2016
 -- Copyright (c) 2016 A. Gilbert.
 -- 
--- About this script: The purpose of script is to simplify the process 
--- of loading specific maps' functions such as that of disabling barriers, etc.
+-- About: 
+--  The purpose of script is to simplify the process of loading specific maps' functions such as that of disabling barriers, etc.
+-- 
 -- 
 -- Usage:
--- Load the script using ScriptCB_DoFile() in your main mission script
--- Call whichever functions you need out of this script. Example:
--- 
--- VRM_DisablePlanningGraphArcs1()
--- 
--- The above example would load and then set up the Systems Alliance and Geth side
+--  Load this script using ScriptCB_DoFile() in your main mission script. Call whichever functions you need out of this script.
 -- 
 -- 
--- Legal Stuff:
--- Usage of this script is unauthorized without my prior consent. Contact me if you wish to use it.
--- Do not claim this script as your own. It may not be much, but I did spend some time writing it after all.
--- I am not responsible for any damages that might be incurred through the use of this script.
--- THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
+-- Legal:
+--  This script is licensed under the BSD 3-Clause License. A copy of this license (as LICENSE.md) should have been included
+--  with this script. If it wasn't, it can also be found here: https://www.w3.org/Consortium/Legal/2008/03-bsd-license.html
+--  
+--  THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 	print("ME5_MapFunctions: Entered")

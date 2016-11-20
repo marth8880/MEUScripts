@@ -1,21 +1,21 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by A. Gilbert
--- Build 31104/06
+-- Build 31119/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Nov 4, 2016
--- Copyright (c) 2016 A. Gilbert.
+-- Nov 19, 2016
+-- Copyright (c) 2016, Aaron Gilbert All rights reserved.
 -- 
--- About this script: This is MEU's master include script. It sets  
--- some global variables and loads the other scripts.
+-- About: 
+--  This is MEU's master include script. It sets some global variables and loads the other scripts.
 -- 
 -- 
--- Legal Stuff:
--- Usage of this script is unauthorized without my prior consent. Contact me if you wish to use it. 
--- Do not claim this script as your own. I did spend time writing it after all. I cannot be held  
--- accountable for any damages that might be incurred through the use of this script.
--- THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
+-- Legal:
+--  This script is licensed under the BSD 3-Clause License. A copy of this license (as LICENSE.md) should have been included
+--  with this script. If it wasn't, it can also be found here: https://www.w3.org/Consortium/Legal/2008/03-bsd-license.html
+--  
+--  THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 
@@ -23,7 +23,7 @@ print("ME5_Master: Entered")
 
 -- The build version. Valid settings are "production", "release"
 MEU_BuildVer		= "production"
-MEU_BuildNum		= "31104/06"
+MEU_BuildNum		= "31119/06"
 MEU_ReleaseNum		= 6
 MEU_VersionNum		= "1.3"
 

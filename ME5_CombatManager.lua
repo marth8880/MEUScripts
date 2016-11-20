@@ -7,65 +7,74 @@
 -- May 2, 2016
 -- Copyright (c) 2016 A. Gilbert.
 -- 
--- 
--- PURPOSE:
--- Largely based on MultiObjectiveContainer.lua
---  Manages a table of a chain of camera shots. Basically, there are 
---  one or more camera shots in a cinematic sequence. When a shot 
---	finishes, it moves onto the next shot. When all of the shots 
---	are completed, it exits the cinematic.
---
---
--- USAGE:
--- 1. Load the script using ScriptCB_DoFile() in your main mission script.
--- 2. Initialize WaveSequence:New{} into a variable. Example: 
--- 
--- 		testCinematicSequence = WaveSequence:New{pathName = "playerspawn_start"}
--- 
--- 3. Call :AddShot() on your WaveSequence variable for each CameraShot:New{} variable you assigned previous to WaveSequence:New{}. Example: 
--- 
--- 		testCinematicSequence:AddShot(TestShot1)
--- 		testCinematicSequence:AddShot(TestShot2)
--- 		<...>
--- 		testCinematicSequence:AddShot(TestShot6)
--- 
--- 4. After you've done step 3 for each shot, call :Start() on your WaveSequence variable to start the cinematic. Example: 
--- 
--- 		testCinematicSequence:Start()
--- 
--- 5. WaveSequence includes a Start() and Complete() function that you can override to add extra behavior when the cinematic starts or ends.
---  To do so, call .OnStart() or .OnComplete() somewhere in your mission script and assign a new function to it. Example: 
--- 
--- 		testCinematicSequence.OnStart() = function(self)
--- 			-- do stuff
--- 		end
--- 		
--- 		testCinematicSequence.OnComplete() = function(self)
--- 			-- do stuff
--- 		end
--- 		
--- 	NOTE: You can only override these functions BEFORE :Start() has been called!
+-- About:
+--  Largely based on MultiObjectiveContainer.lua
+--  Sets up a list of waves in a combat zone. Basically, there are one or more waves of enemies in a combat sequence. When 
+--  a wave is completed, it moves onto the next wave. When all of the shots are completed, the combat zone is released. 
+--  Also contains the functions for the SmartSpawn system, which controls where enemies and allies spawn based on where the 
+--  player is physically located within the combat zone.
 -- 
 -- 
--- LEGAL:
--- This script is free software: you can redistribute it and/or modify 
--- it under the terms of the GNU General Public License as published by
--- the Free Software Foundation, either version 3 of the License, or
--- (at your option) any later version.
+-- Usage:
+--  1. Load the script using ScriptCB_DoFile() in your main mission script.
+--  2. Initialize WaveSequence:New{} into a variable. Example: 
+--  
+--  		testWaveSequence = WaveSequence:New{pathName = "playerspawn_start"}
+--  
+--  3. Call :AddWave() on your WaveSequence variable for each CombatWave:New{} variable you assigned previous to WaveSequence:New{}. Example: 
+--  
+--  		testWaveSequence:AddWave(Wave1)
+--  		testWaveSequence:AddWave(Wave2)
+--  		<...>
+--  		testWaveSequence:AddWave(Wave6)
+--  
+--  4. After you've done step 3 for each wave, call :Start() on your WaveSequence variable to start the combat zone. Example: 
+--  
+--  		testWaveSequence:Start()
+--  
+--  5. WaveSequence includes a Start() and Complete() function that you can override to add extra behavior when the combat zone starts or ends.
+--   To do so, call .OnStart() or .OnComplete() somewhere in your mission script and assign a new function to it. Example: 
+--  
+--  		testWaveSequence.OnStart() = function(self)
+--  			-- do stuff
+--  		end
+--  		
+--  		testWaveSequence.OnComplete() = function(self)
+--  			-- do stuff
+--  		end
+--  		
+-- 		NOTE: You can only override these functions BEFORE :Start() has been called!
+-- 	
+-- 	====================
+-- 	Attaching SmartSpawn
+-- 	====================
+-- 	
+-- 	If you wish to attach SmartSpawn to the WaveSequence...
+-- 	
+-- 	1. Initialize SmartSpawn:New{} into a variable. Example: 
+--  
+--  		testSmartSpawner = SmartSpawn:New{ regionName = "cz_courtyard", allySpawnIn = "ps_courtyard_in", allySpawnOut = "ps_courtyard_out", 
+--																		enemySpawnIn = "es_courtyard_in", enemySpawnOut = "es_courtyard_out" }
+--																		
+--	2. Call :AddSmartSpawn() on your WaveSequence variable for the SmartSpawn:New{} variable you assigned, *after* the :AddWave() calls but *before* 
+--	 the :Start() call. Example: 
+--  
+--  		testWaveSequence:AddWave(Wave1)
+--  		<...>
+--  		testWaveSequence:AddWave(Wave6)
+--  		testWaveSequence:AddSmartSpawn(testSmartSpawner)
+--  		testWaveSequence:Start()
 -- 
--- This script is distributed in the hope that it will be useful, 
--- but WITHOUT ANY WARRANTY; without even the implied warranty of 
--- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
--- GNU General Public License for more details.
 -- 
--- You should have received a copy of the GNU General Public License 
--- along with this script.  If not, see <http://www.gnu.org/licenses/>.
--- 
--- 
--- THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
+-- Legal:
+--  This script is licensed under the BSD 3-Clause License. A copy of this license (as LICENSE.md) should have been included
+--  with this script. If it wasn't, it can also be found here: https://www.w3.org/Consortium/Legal/2008/03-bsd-license.html
+--  
+--  THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
 -----------------------------------------------------------------
 -----------------------------------------------------------------
-	print("ME5_CombatManager: Entered")
+
+print("ME5_CombatManager: Entered")
 
 
 --=================================
@@ -653,4 +662,4 @@ function CombatWave:Complete()
 	self:OnComplete()
 end
 
-	print("ME5_CombatManager: Exited")
+print("ME5_CombatManager: Exited")

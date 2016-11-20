@@ -1,21 +1,21 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Miscellaneous Functions Script by A. Gilbert
--- Build 31025/06
+-- Build 31104/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Oct 25, 2016
+-- Nov 4, 2016
 -- Copyright (c) 2016 A. Gilbert.
 -- 
--- About this script: The purpose of script is to create a list of 
--- various functions that are loaded in a map's mission script.
+-- About: 
+--  This script contains various functions that are loaded in a map's mission script.
 -- 
 -- 
--- Legal Stuff:
--- Usage of this script is unauthorized without my prior consent. Contact me if you wish to use it.
--- Do not claim this script as your own. It may not be much, but I did spend some time writing it after all.
--- I am not responsible for any damages that might be incurred through the use of this script.
--- THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
+-- Legal:
+--  This script is licensed under the BSD 3-Clause License. A copy of this license (as LICENSE.md) should have been included
+--  with this script. If it wasn't, it can also be found here: https://www.w3.org/Consortium/Legal/2008/03-bsd-license.html
+--  
+--  THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 
