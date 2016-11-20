@@ -167,6 +167,9 @@ function ScriptInit()
 	AISnipeSuitabilityDist(50)
 	SetAttackerSnipeRange(70)
 	SetDefenderSnipeRange(100)
+    
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\me5tur.lvl",
+					"tur_bldg_mturret")
 	
 	Init_SideSetup()
 	
