@@ -2,7 +2,7 @@
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
 
-	print("ME5_points: Entered")
+print("ME5_points: Entered")
 
 if not __POINTS_LUA__ then
 __POINTS_LUA__ = 1
@@ -71,4 +71,4 @@ Player_Stats_Points = nil
 
 end --if not __POINTS_LUA__
 
-	print("ME5_points: Exited")
+print("ME5_points: Exited")

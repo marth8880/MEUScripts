@@ -14,7 +14,7 @@
 --Dive (needs adjusting, its too fast right now) = .5f
 --crouchToProne = 1.33
 
-	print("ME5_globals: Entered")
+print("ME5_globals: Entered")
 
 RollLeft = {
 	Size = 3,  --number of points interpolated between current math.max is 6, each point MUST have a vec,slop,ore,rslope and time associated with it
@@ -324,4 +324,4 @@ RumbleLarge = {
 	
 }
 
-	print("ME5_globals: Exited")
+print("ME5_globals: Exited")
