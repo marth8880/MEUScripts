@@ -299,7 +299,7 @@ doorBlocks_S3	= {  -- Main Atrium
 
 ---
 -- Locks the doors, enables the barriers, and blocks the planning connections in given sublevel /sublevelID/.
--- @param #int sublevelID The numerical ID of the sublevel to block.
+-- @param #int sublevelID	The numerical ID of the sublevel to block.
 -- 
 function BlockCombatZoneExits(sublevelID)
 	print("EURn_c.BlockCombatZoneExits("..sublevelID.."): Entered")
@@ -466,7 +466,7 @@ end
 
 ---
 -- Unlocks the doors, disables the barriers, and unblocks the planning connections in given sublevel /sublevelID/.
--- @param #int sublevelID The numerical ID of the sublevel to unblock.
+-- @param #int sublevelID	The numerical ID of the sublevel to unblock.
 -- 
 function UnblockCombatZoneExits(sublevelID)
 	print("EURn_c.UnblockCombatZoneExits("..sublevelID.."): Entered")
@@ -629,7 +629,7 @@ end
 
 ---
 -- Sets the path /spawnPathName/ that the player and allied teams should respawn at.
--- @param #string spawnPathName The name of the path to spawn at.
+-- @param #string spawnPathName		The name of the path to spawn at.
 -- 
 function SetRespawnPoint(spawnPathName)
 
@@ -649,7 +649,7 @@ end
 
 ---
 -- Sets the path /spawnPathName/ that the player should respawn at.
--- @param #string spawnPathName The name of the path to spawn at.
+-- @param #string spawnPathName		The name of the path to spawn at.
 -- 
 function SetRespawnPointPlayer(spawnPathName)
 
@@ -668,7 +668,7 @@ end
 
 ---
 -- Sets the path /spawnPathName/ that allied teams should respawn at.
--- @param #string spawnPathName The name of the path to spawn at.
+-- @param #string spawnPathName		The name of the path to spawn at.
 -- 
 function SetRespawnPointSquad(spawnPathName)
 
@@ -687,8 +687,8 @@ end
 
 ---
 -- Sets up the combat zone /zoneID/.
--- @param #string combatZoneID The name ID of the zone to set up.
--- @param #string combatMusicID The music ID to start playing. Use "none" if no music change desired.
+-- @param #string combatZoneID		The name ID of the zone to set up.
+-- @param #string combatMusicID		The music ID to start playing. Use "none" if no music change desired.
 -- 
 function SetupCombatZoneInit(combatZoneID, combatMusicID)
 		print("EURn_c.SetupCombatZoneInit(): Entered")
@@ -1598,8 +1598,8 @@ end
 
 ---
 -- Returns and optionally sets the combat state.
--- @param #bool newState Combat state. True, player is in combat, false if not.
--- @return The combat state from /bInCombat/.
+-- @param #bool newState	Combat state. True, player is in combat, false if not.
+-- @return #bool			The combat state from /bInCombat/.
 -- 
 function InCombat(newState)
 	
@@ -1705,7 +1705,9 @@ end
 -- Call this to change whether or not the squad can kill enemies.
 -- @param #bool canKill		True, squad can kill enemies. False, squad cannot kill enemies.
 -- 
-function SetSquadCanKillEnemies(canKill)
+function SetSquadCanKillEnemies(canKill)	-- TODO: fix function tbh
+	if canKill then return end
+	
 	-- Reset the stats tables to make room for new data
 	if canKill == false then
 		GethPawns_Stats = {}
@@ -4415,7 +4417,6 @@ function BeginOpeningCinematic()
 	openingCinematicSequence:Start()
 end
 
-
 ---------------------------------------------------------------------------
 -- FUNCTION:    ScriptInit
 -- PURPOSE:     This function is only run once
@@ -4458,7 +4459,7 @@ function ScriptInit()
     -- Sides setup begin
     --
     
-	LoadSSV(true)
+	Load_SSV(true)
 	Load_GTH()
 	
 	
