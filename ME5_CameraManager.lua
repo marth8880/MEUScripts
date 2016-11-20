@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Camera Manager Script by A. Gilbert
--- Build 30318/06
+-- Build 31110/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Mar 18, 2016
+-- Nov 10, 2016
 -- Copyright (c) 2016 Aaron Gilbert
 -- 
 -- 
@@ -82,7 +82,7 @@
 -- THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
 -----------------------------------------------------------------
 -----------------------------------------------------------------
-	print("ME5_CameraManager: Entered")
+print("ME5_CameraManager: Entered")
 
 ---
 -- This is a constructor for a CameraShot object.
@@ -182,6 +182,7 @@ function CameraShot:Start()
     self.soundStreamDelay = self.soundStreamDelay or 0
     self.bDebugShowTimer = self.bDebugShowTimer or false
 	
+	
     -- Get or create a new shotDurationTimer (this ensures there's only one "shotDurationTimer" in the game at one time)
     self.shotDurationTimer = FindTimer("shotDurationTimer")
     if not self.shotDurationTimer then
@@ -196,6 +197,7 @@ function CameraShot:Start()
     if bDebugShowTimer == true then
     	ShowTimer(self.shotDurationTimer)
     end
+	
 	
 	-- Is the zoom FOV set? If so, set up the zoomTimer
 	if self.zoomFOV > 0 then
@@ -212,7 +214,6 @@ function CameraShot:Start()
 	    -- Create a new soundEffectDelayTimer 
         self.soundEffectDelayTimer = CreateTimer("soundEffectDelayTimer")
 	    
-	    -- Start ticking down the time
 	    SetTimerValue(self.soundEffectDelayTimer, self.soundEffectDelay)
 	    StartTimer(self.soundEffectDelayTimer)
 	end
@@ -222,16 +223,17 @@ function CameraShot:Start()
 	    -- Create a new soundStreamDelayTimer 
         self.soundStreamDelayTimer = CreateTimer("soundStreamDelayTimer")
 	    
-	    -- Start ticking down the time
 	    SetTimerValue(self.soundStreamDelayTimer, self.soundStreamDelay)
 	    StartTimer(self.soundStreamDelayTimer)
 	end
+	
 	
 	-- Set the initial field of view
 	self:ZoomCamera(self.startFOV)
     
     -- Switch to the shot's camera
     self:EnterCamera(self.cameraObj)
+    
     
     --=================================
     -- Event Responses
@@ -241,9 +243,7 @@ function CameraShot:Start()
     if self.shotDurationTimer then
         OnTimerElapse(
             function(timer)
-                if self.isComplete then
-                    return
-                end
+                if self.isComplete then return end
                 
 				self:Complete()
             end,
@@ -270,7 +270,7 @@ function CameraShot:Start()
     if self.soundStreamDelayTimer then
         local soundStreamDelayTimerElapse = OnTimerElapse(
             function(timer)
-				BroadcastVoiceOver(self.soundStream)	-- TODO: Make sure this works without specifying the team!
+				BroadcastVoiceOver(self.soundStream)
 				
 				-- Garbage collection
 				DestroyTimer(self.soundStreamDelayTimer)
@@ -339,7 +339,7 @@ function CameraShot:ExitCamera()
 end
 
 ---
--- Zooms the camera object to angle 'FOV'.
+-- Zooms the camera object to angle /FOV/.
 --  NOTE: This affects all objects of the camera's class.
 -- @param #int FOV		The field of view angle to zoom to.
 -- 
@@ -376,4 +376,4 @@ function CameraShot:Complete()
 	self:OnComplete()
 end
 
-	print("ME5_CameraManager: Exited")
+print("ME5_CameraManager: Exited")
