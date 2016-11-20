@@ -189,12 +189,12 @@ function ScriptInit()
 
     --  Birdies
     SetNumBirdTypes(2)
-    SetBirdType(0,1.0,"bird")
-    SetBirdType(1,1.5,"bird2")
+    SetBirdType(0, 1.0, "bird")
+    SetBirdType(1, 1.5, "bird2")
 
     --  Fishies
     SetNumFishTypes(1)
-    SetFishType(0,0.8,"fish")
+    SetFishType(0, 0.8, "fish")
 	
 
     --  Sound
