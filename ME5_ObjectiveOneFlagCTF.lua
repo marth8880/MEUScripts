@@ -275,6 +275,8 @@ function ObjectiveOneFlagCTF:Start()
                 FlagMessage(carrierTeam, "taken")
             end
 			
+			ScriptCB_SndPlaySound("common_flagAction_pickup")
+			
 			UpdateMarkerPulses(self.flag)
         end
         )
@@ -291,6 +293,8 @@ function ObjectiveOneFlagCTF:Start()
             end
 			
 			self.carrier = nil
+			
+			ScriptCB_SndPlaySound("common_flagAction_drop")
             
             FlagMessage(GetCharacterTeam(carrierObj), "dropped")
 			
