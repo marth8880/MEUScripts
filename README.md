@@ -12,12 +12,12 @@ In contrast, scripts headed with my own header are entirely my own original work
 ```lua
 -----------------------------------------------------------------
 -----------------------------------------------------------------
--- MASS EFFECT: UNIFICATION <script name> Script by A. Gilbert
+-- MASS EFFECT: UNIFICATION <script name> Script by Aaron Gilbert
 -- Build <build num>/<release num>
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
 -- <MMM> <D>, <YYYY>
--- Copyright (c) <YYYY> A. Gilbert.
+-- Copyright (c) <YYYY>, Aaron Gilbert All rights reserved.
 -- 
 -- About: 
 --  <script description>
