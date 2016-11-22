@@ -19,16 +19,42 @@ function SetBleedingRepeatTime(repeatTime) end
 --------------------------------------------------------------
 -- Sets the voice over to play for the specified bonus.
 -- 
--- @param #int playerTeam			Player's team number
--- @param #int bonusNum				The number of the bonus to be set.  
--- 									 0 - medical regen bonus (played on level load, heard by players team).  
---									 1 - surplus supplies bonus (played on level load, heard by players team).  
---									 2 - sensor boost bonus (played on level load, heard by players team).  
---									 3 - hero is on the battlefield (played on level load, heard by both teams).  
---									 4 - our team just got the reserves bonus (played when it happens, heard by players team).  
---									 5 - the other team just got reserves bonus (played when it happens, heard by other team).
--- @param #string streamSoundName	Stream sound to play when the bonus occurs (or at level load if the bonus is ongoing)
+-- @param #int playerTeam				Player's team number
+-- @param #int bonusNum					The number of the bonus to be set.  
+-- 										 `0` - medical regen bonus (played on level load, heard by players team)  
+--										 `1` - surplus supplies bonus (played on level load, heard by players team)  
+--										 `2` - sensor boost bonus (played on level load, heard by players team)  
+--										 `3` - hero is on the battlefield (played on level load, heard by both teams)  
+--										 `4` - our team just got the reserves bonus (played when it happens, heard by players team)  
+--										 `5` - the other team just got reserves bonus (played when it happens, heard by other team)
+-- @param #string streamSoundName		Stream sound to play when the bonus occurs (or at level load if the bonus is ongoing)
 function SetPlanetaryBonusVoiceOver(playerTeam, bonusNum, streamSoundName) end
+
+--------------------------------------------------------------
+-- Sets the sound effect to play for the specified sound event.
+-- 
+-- @param #string soundEventType		Type of event. Can be any of the following...  
+-- 										 `BirdScatter` - Played when birds are spawned  
+-- 										 `Bird` - Attached to each bird  
+-- 										 `LeafFall` - Played when a falling leaf is spawned  
+-- 										 `ScopeDisplayAmbient` - Played when scope display is active  
+-- 										 `ScopeDisplayZoomIn` - When scope display zooms in  
+-- 										 `ScopeDisplayZoomOut` - When scope display zooms out  
+-- 										 `WeaponUnableSelect` - When the weapon change button is pressed but another weapon is not available  
+-- 										 `WeaponModeUnableSelect` - When the weapon mode change button is pressed but another mode is not available  
+-- 										 `SpawnDisplayUnitChange` - When unit is changed in spawn display  
+-- 										 `SpawnDisplayUnitAccept` - When unit is selected in spawn display  
+-- 										 `SpawnDisplaySpawnPointChange` - When spawn point is changed in spawn display  
+-- 										 `SpawnDisplaySpawnPointAccept` - When spawn point is selected in spawn display  
+-- 										 `SpawnDisplayBack` - When user presses the back button and returns from the map to the unit select screen in 
+-- 										   the spawn display  
+-- 										 `LockOn` - Played when player locks onto someone using the targetting display  
+-- 										 `HeroesUnlocked` - When heroes are unlocked in multiplayer  
+-- 										 `HeroSpawned` - When a player on Team `teamIndex` spawns in as the hero  
+-- 										 `HeroDefeated` - When a player on Team `teamIndex` dies in as the hero
+-- @param #string soundPropertyName		Name of a SoundProperty assigned to the event
+-- @param #int teamIndex				Only required if `soundEventType` == `"HeroSpawned"` or `"HeroDefeated"`. Index of team that player is on
+function SetSoundEffect(soundEventType, soundPropertyName, teamIndex) end
 
 --------------------------------------------------------------
 -- Sets the voice over for when the specified team has low reinforcements.
@@ -739,10 +765,10 @@ function SetDefenderSnipeRange(distance) end
 function SetStayInTurrets(enabled) end
 
 --------------------------------------------------------------
--- Sets the maximum collision distance for asteroids.
+-- Sets the maximum collision distance for asteroids. What this does exactly is unclear.
 -- 
 -- @param #int distance			Maximum collision distance (likely in meters)
-function SetMaxCollisionDistance(distance) end	-- TODO
+function SetMaxCollisionDistance(distance) end
 
 --------------------------------------------------------------
 -- Sets the particle LOD bias (probably correlates to particle view distance). Needed for particles in space 
@@ -859,20 +885,46 @@ function SetNumFishTypes(types) end
 function SetFishType(disable, size, texture) end
 
 --------------------------------------------------------------
--- Fills the specified region with asteroids.  NOTE: Asteroids won't appear unless the "Asteroid" memory pool is 
---  filled with the total number of asteroids that are in the level!
+-- Fills the specified region with asteroids.  Each asteroid will move in the X, Y, and Z directions at a random velocity within the range 
+--  of each `minSpeed` and `maxSpeed` argument. Asteroid velocity is probably measured in meters per second. This randomized velocity is 
+--  different for each asteroid.  
+--  
+--  NOTE: Asteroids won't appear unless the "Asteroid" memory pool is filled >= the total number of asteroids that 
+--  are in the level!
 -- 
--- @param #string region			Exact functionality unknown, seems to disable fish of this type when set to 1
--- @param #string class				Name of the asteroid class (example: `"spa1_prop_asteroid_01"`)
+-- @param #string region			ID of region class
+-- @param #string class				Name of asteroid class (example: `"spa1_prop_asteroid_03"`)
 -- @param #int count				Number of asteroids to fill the region with
--- @param #int posX					
--- @param #int posY					
--- @param #int posZ					
--- @param #int rotX					
--- @param #int rotY					
--- @param #int rotZ					
-function FillAsteroidRegion(region, class, count, posX, posY, posZ, rotX, rotY, rotZ) end	-- TODO
-function FillAsteroidPath(path, number, class, count, posX, posY, posZ, rotX, rotY, rotZ) end	-- TODO
+-- @param #float maxSpeedX			Maximum asteroid drift speed in X direction (default = 0)
+-- @param #float maxSpeedY			Maximum asteroid drift speed in Y direction (default = 0)
+-- @param #float maxSpeedZ			Maximum asteroid drift speed in Z direction (default = 0)
+-- @param #float minSpeedX			Minimum asteroid drift speed in X direction (default = 0)
+-- @param #float minSpeedY			Minimum asteroid drift speed in Y direction (default = 0)
+-- @param #float minSpeedZ			Minimum asteroid drift speed in Z direction (default = 0)
+function FillAsteroidRegion(region, class, count, maxSpeedX, maxSpeedY, maxSpeedZ, minSpeedX, minSpeedY, minSpeedZ) end
+
+--------------------------------------------------------------
+-- Fills the specified path with asteroids.  The distribution of the asteroids along the path's spline is more-or-less even. However, the 
+--  position of each asteroid is also offset in a random direction. The distance of this offset is a random value between 0 and `maxOffset`. 
+--  This randomized offset is different for each asteroid.  
+-- 
+--  Each asteroid will move in the X, Y, and Z directions at a random velocity within the range of each `minSpeed` and `maxSpeed` 
+--  argument. Asteroid velocity is probably measured in meters per second. This randomized velocity is different for each asteroid.  
+--  
+--  NOTE: Asteroids won't appear unless the "Asteroid" memory pool is filled >= the total number of asteroids that 
+--  are in the level!
+-- 
+-- @param #string path				ID of path
+-- @param #float maxOffset			Maximum distance (probably in meters) to offset each asteroid's position by (default = 0)
+-- @param #string class				Name of asteroid class (example: `"spa1_prop_asteroid_03"`)
+-- @param #int count				Number of asteroids to fill the path with
+-- @param #float maxSpeedX			Maximum asteroid drift speed in X direction (default = 0)
+-- @param #float maxSpeedY			Maximum asteroid drift speed in Y direction (default = 0)
+-- @param #float maxSpeedZ			Maximum asteroid drift speed in Z direction (default = 0)
+-- @param #float minSpeedX			Minimum asteroid drift speed in X direction (default = 0)
+-- @param #float minSpeedY			Minimum asteroid drift speed in Y direction (default = 0)
+-- @param #float minSpeedZ			Minimum asteroid drift speed in Z direction (default = 0)
+function FillAsteroidPath(path, maxOffset, class, count, maxSpeedX, maxSpeedY, maxSpeedZ, minSpeedX, minSpeedY, minSpeedZ) end
 
 --------------------------------------------------------------
 -- Registers the specified region class as a death region. Entities that enter this region will be immediately killed.
@@ -892,6 +944,28 @@ function AddLandingRegion(regionClass) end
 -- 
 -- @param #string regionClass		ID of region class
 function RemoveRegion(regionClass) end
+
+--------------------------------------------------------------
+-- Returns whether or not the specified character is in the specified region.
+-- 
+-- @param #int integerChrIdx		Integer index of character
+-- @param #string region			ID of region class
+-- @return #int						1 if character is in region, 0 if not
+function IsCharacterInRegion(integerChrIdx, region) end
+
+--------------------------------------------------------------
+-- Returns the name of the specified region class.
+-- 
+-- @param #string region		ID of region class
+-- @return #string				Name of region
+function GetRegionName(region) end
+
+--------------------------------------------------------------
+-- Returns the class of the specified region.
+-- 
+-- @param #string region		Name of region
+-- @return #string				ID of region class
+function GetRegion(region) end
 
 --------------------------------------------------------------
 -- Wipes out any allocations that may have been done automatically for walkers.  You’ll need to have this line in, 
@@ -1115,7 +1189,7 @@ function ScriptCB_PlayerSuicide(viewport) end
 -- Attaches a map marker to the specified region class.
 -- 
 -- @param #string region		ID of region class to attach marker to
--- @param #icon markerClass		Name of marker icon texture to use (the only value that seems to work is `"hud_objective_icon_circle"`)
+-- @param #string markerClass	Name of marker icon texture to use (the only value that seems to work is `"hud_objective_icon_circle"`)
 -- @param #float size			Icon size multiplier
 -- @param #int teamIndex		Index of team that should be able to see the marker
 -- @param #string color			Icon color. Possible values:  
@@ -1146,7 +1220,7 @@ function MapRemoveRegionMarker(region) end
 -- Attaches a map marker to the specified entity.
 -- 
 -- @param #string entity		ID of entity to attach marker to
--- @param #icon markerClass		Name of marker icon texture to use (the only value that seems to work is `"hud_objective_icon_circle"`)
+-- @param #string markerClass	Name of marker icon texture to use (the only value that seems to work is `"hud_objective_icon_circle"`)
 -- @param #float size			Icon size multiplier
 -- @param #int teamIndex		Index of team that should be able to see the marker
 -- @param #string color			Icon color. Possible values:  
@@ -1176,7 +1250,7 @@ function MapRemoveEntityMarker(entity) end
 -- Attaches a map marker to all instances of the specified entity class.
 -- 
 -- @param #string class			Name of entity class to attach markers to (example: `"imp_inf_trooper"`)
--- @param #icon markerClass		Name of marker icon texture to use (the only value that seems to work is `"hud_objective_icon"`)
+-- @param #string markerClass	Name of marker icon texture to use (the only value that seems to work is `"hud_objective_icon"`)
 -- @param #float size			Icon size multiplier
 -- @param #int teamIndex		Index of team that should be able to see the marker
 -- @param #string color			Icon color. Possible values:  
