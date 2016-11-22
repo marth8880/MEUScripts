@@ -1,11 +1,11 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
--- MASS EFFECT: UNIFICATION Random Sides Script by A. Gilbert
+-- MASS EFFECT: UNIFICATION Random Sides Script by Aaron Gilbert
 -- Build 31104/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
 -- Nov 4, 2016
--- Copyright (c) 2016 A. Gilbert.
+-- Copyright (c) 2016, Aaron Gilbert All rights reserved.
 -- 
 -- About: 
 --  The purpose of this script is to simplify the process of loading the mod's sides.

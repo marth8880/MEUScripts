@@ -1,11 +1,11 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
--- MASS EFFECT: UNIFICATION Kill Sounds Script by A. Gilbert
+-- MASS EFFECT: UNIFICATION Kill Sounds Script by Aaron Gilbert
 -- Build 31025/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
 -- Oct 25, 2016
--- Copyright (c) 2016 A. Gilbert.
+-- Copyright (c) 2016, Aaron Gilbert All rights reserved.
 -- 
 -- About: 
 --  This script contains various functions regarding kill sounds.
