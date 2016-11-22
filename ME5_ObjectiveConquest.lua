@@ -311,8 +311,8 @@ function ObjectiveConquest:Start()
 					MapRemoveEntityMarker(postPtr, playerTeam)
 					MapRemoveEntityMarker(postPtr, otherTeam)
 					
-					MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, playerTeam, "BLUE", true, false, false, true)
-					MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, otherTeam, "RED", true, false, false, true)
+					MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, playerTeam, "BLUE", true, false, false)
+					MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, otherTeam, "RED", true, false, false)
 					
 					
 				-- If otherTeam owns the post, add a blue marker for otherTeam and a red marker for playerTeam
@@ -320,8 +320,8 @@ function ObjectiveConquest:Start()
 					MapRemoveEntityMarker(postPtr, playerTeam)
 					MapRemoveEntityMarker(postPtr, otherTeam)
 					
-					MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, playerTeam, "RED", true, false, false, true)
-					MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, otherTeam, "BLUE", true, false, false, true)
+					MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, playerTeam, "RED", true, false, false)
+					MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, otherTeam, "BLUE", true, false, false)
 					
 					
 				-- If neither team owns the post, add a white marker for both teams
@@ -329,8 +329,8 @@ function ObjectiveConquest:Start()
 					MapRemoveEntityMarker(postPtr, playerTeam)
 					MapRemoveEntityMarker(postPtr, otherTeam)
 					
-					MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, playerTeam, "WHITE", true, false, false, true)
-					MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, otherTeam, "WHITE", true, false, false, true)
+					MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, playerTeam, "WHITE", true, false, false)
+					MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, otherTeam, "WHITE", true, false, false)
 				end
 			end
 		end
