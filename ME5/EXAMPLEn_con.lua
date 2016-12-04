@@ -15,7 +15,7 @@ manager = MapManager:New{
 	mapSize = "sm",						-- Size of the map. Used for determining unit counts.
 	environmentType = "jungle",			-- Map's biome (essentially). Used for determining which camo textures to load. ("desert", "jungle", "snow", or "urban")
 	
-	-- In-game music (you can also specify a table of values and one of them will be picked at random each time the mission is run, example: `musicVariation_SSVxGTH = {"1","3"}` )
+	-- In-game music (you can also specify a table of values and one of them will be randomly selected at runtime, example: `musicVariation_SSVxGTH = {"1","3"}` )
 	musicVariation_SSVxGTH = "3",		-- Music variation to use for SSVxGTH matches.
 	musicVariation_SSVxCOL = "5",		-- Music variation to use for SSVxCOL matches.
 	musicVariation_EVGxGTH = "9",		-- Music variation to use for EVGxGTH matches.
