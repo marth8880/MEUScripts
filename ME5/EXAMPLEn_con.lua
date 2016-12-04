@@ -1,40 +1,61 @@
-ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
-
-isModMap = 1
+ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")	-- Load MEU's pre-packaged scripts (required)
 --
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
 
-ScriptCB_DoFile("ME5_Master")				-- MEU's master include file, which is vital to make things work
-ScriptCB_DoFile("ME5_setup_teams")			-- MEU's version of setup_teams.lua, also vital
-ScriptCB_DoFile("ME5_ObjectiveConquest")	-- MEU's ObjectiveConquest script
+ScriptCB_DoFile("ME5_Master")				-- MEU's master include file (required)
+ScriptCB_DoFile("ME5_setup_teams")			-- MEU's version of setup_teams.lua (required)
+ScriptCB_DoFile("ME5_ObjectiveConquest")	-- MEU's ObjectiveConquest script (required for Conquest matches)
 
--- Map-specific data fields
-mapSize = "sm"						-- Size of the map. Used for determining unit counts.
-EnvironmentType = "jungle"			-- Map's biome (essentially). Used for determining which camo textures to load.
-onlineSideVar = "SSVxGTH"			-- Side variation to use in online matches.
-onlineHeroSSV = "shep_engineer"		-- SSV hero to use in online matches.
-onlineHeroGTH = "gethprime_me2"		-- GTH hero to use in online matches.
-onlineHeroCOL = "colgeneral"		-- COL hero to use in online matches.
-onlineHeroEVG = "gethprime_me3"		-- EVG hero to use in online matches.
-
--- AI hero spawns. CP name, CP spawn path name
-heroSupportCPs = {
-			{"cp1", "cp1_spawn"},
-			{"cp2", "cp2_spawn"},
-			{"cp3", "cp3_spawn"},
-			{"cp4", "cp4_spawn"},
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	bIsModMap = true,					-- Whether or not this is a mod map (as opposed to a stock map).
+	gameMode = "conquest",				-- The mission's game mode.
+	mapSize = "sm",						-- Size of the map. Used for determining unit counts.
+	environmentType = "jungle",			-- Map's biome (essentially). Used for determining which camo textures to load. ("desert", "jungle", "snow", or "urban")
+	
+	-- In-game music (you can also specify a table of values and one of them will be picked at random each time the mission is run, example: `musicVariation_SSVxGTH = {"1","3"}` )
+	musicVariation_SSVxGTH = "3",		-- Music variation to use for SSVxGTH matches.
+	musicVariation_SSVxCOL = "5",		-- Music variation to use for SSVxCOL matches.
+	musicVariation_EVGxGTH = "9",		-- Music variation to use for EVGxGTH matches.
+	musicVariation_EVGxCOL = "9",		-- Music variation to use for EVGxCOL matches.
+	
+	-- Online matches
+	onlineSideVar = "SSVxGTH",			-- Faction combination to use in online matches.
+	onlineHeroSSV = "shep_engineer",	-- SSV hero to use in online matches.
+	onlineHeroGTH = "gethprime_me2",	-- GTH hero to use in online matches.
+	onlineHeroCOL = "colgeneral",		-- COL hero to use in online matches.
+	onlineHeroEVG = "gethprime_me3",	-- EVG hero to use in online matches.
+	
+	-- AI hero spawns (required). CP name, CP spawn path name
+	heroSupportCPs = {
+				{"cp1", "cp1_spawn"},
+				{"cp2", "cp2_spawn"},
+				{"cp3", "cp3_spawn"},
+				{"cp4", "cp4_spawn"},
+	},
+	-- Local ally spawns (required). CP name, CP spawn path name
+	allySpawnCPs = {
+				{"cp1", "cp1_spawn"},
+				{"cp2", "cp2_spawn"},
+				{"cp3", "cp3_spawn"},
+				{"cp4", "cp4_spawn"},
+	},
+	
+	-- Artillery strike path nodes (required only if artillery strikes are desired). Path name, path node ID
+	artilleryNodes = {
+				{"cp1_spawn", 0},
+				{"cp2_spawn", 0},
+				{"cp3_spawn", 0},
+				{"cp4_spawn", 0},
+	},
+	terrainType = "dirt",	-- Type of terrain in the map ("dirt, "sand", or "snow") (required if `artilleryNodes` is specified).
 }
+-- Initialize the MapManager
+manager:Init()
 
--- Local ally spawns. CP name, CP spawn path name
-allySpawnCPs = {
-			{"cp1", "cp1_spawn"},
-			{"cp2", "cp2_spawn"},
-			{"cp3", "cp3_spawn"},
-			{"cp4", "cp4_spawn"},
-}
-
--- Randomize the teams' starting spawns
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -43,7 +64,7 @@ else
 	CIS = 2
 end
 
-HuskTeam = 3
+HuskTeam = 3	-- The husk team (required, name cannot be changed)
 
 ATT = 1
 DEF = 2
@@ -51,13 +72,11 @@ DEF = 2
 
 function ScriptPostLoad()	   
 	
-	
 	--This defines the CPs.  These need to happen first
 	cp1 = CommandPost:New{name = "cp1"}
 	cp2 = CommandPost:New{name = "cp2"}
 	cp3 = CommandPost:New{name = "cp3"}
 	cp4 = CommandPost:New{name = "cp4"}
-	
 	
 	
 	--This sets up the actual objective.  This needs to happen after cp's are defined
@@ -76,10 +95,8 @@ function ScriptPostLoad()
 	
 	EnableSPHeroRules()
 	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("conquest", heroSupportCPs)
+	-- Perform various post-load operations
+	manager:Proc_ScriptPostLoad_End()
 	
 end
 
@@ -102,7 +119,7 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1533)
 	
 	-- Perform various pre-game operations
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	
 	SetMaxFlyHeight(30)
 	SetMaxPlayerFlyHeight(30)
@@ -116,8 +133,8 @@ function ScriptInit()
 					"tur_bldg_mturret",
 					"tur_bldg_laser")
 	
-	-- Load and set up the sides based on RandomSide
-	Init_SideSetup()
+	-- Load and set up the sides
+	manager:Proc_ScriptInit_SideSetup()
 	
 	-- Load our map-specific sound lvl
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EXAMPLE_Streaming.lvl")
@@ -159,22 +176,10 @@ function ScriptInit()
 	--  Sound Stats
 	
 	-- Open our map-specific ambient sound streams
-	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\Sound\\SFL_EXAMPLE_Streaming.lvl",  "EXAMPLE_ambiance")
+	OpenAudioStream("..\\..\\addon\\EXAMPLE\\data\\_LVL_PC\\Sound\\SFL_EXAMPLE_Streaming.lvl",  "EXAMPLE_ambiance")
 
-	-- Set up music stuff
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music06()
-		elseif ME5_SideVar == 2	then
-			Music02()
-		elseif ME5_SideVar == 3	then
-			Music09()
-		elseif ME5_SideVar == 4	then
-			Music09()
-		end
-	else
-		Music06()
-	end
+	-- Set up music
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	-- Set up common sound stuff
 	SoundFX()
@@ -184,5 +189,5 @@ function ScriptInit()
 	AddCameraShot(0.991073, 0.002392, 0.133299, -0.000322, 84.069084, 23.668301, -95.802574);
 	
 	-- Perform various post-load operations
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 end
