@@ -50,12 +50,12 @@ function ObjectiveOneFlagCTF:GetGameTimeLimit()
 end
 
 function ObjectiveOneFlagCTF:GameOptionsTimeLimitUp()
-	local team1pts = GetTeamPoints(1)
-	local team2pts = GetTeamPoints(2)
-	if ( team1pts > team2pts ) then
-		MissionVictory(1)
-	elseif ( team1pts < team2pts ) then
-		MissionVictory(2)
+	local teamATTpts = GetTeamPoints(teamATT)
+	local teamDEFpts = GetTeamPoints(teamDEF)
+	if ( teamATTpts > teamDEFpts ) then
+		self:Complete(teamATT)
+	elseif ( teamATTpts < teamDEFpts ) then
+		self:Complete(teamDEF)
 	else	
 		--tied, so victory for both
 		MissionVictory({1,2})
@@ -367,13 +367,13 @@ if not ScriptCB_InMultiplayer() then
 		CTF_SoundEvents_Var = 4
 	end
 else
-	if onlineSideVar == "SSVxGTH" or onlineSideVar == 1 then
+	if gCurrentMapManager.onlineSideVar == "SSVxGTH" or gCurrentMapManager.onlineSideVar == 1 then
 		CTF_SoundEvents_Var = 1
-	elseif onlineSideVar == "SSVxCOL" or onlineSideVar == 2 then
+	elseif gCurrentMapManager.onlineSideVar == "SSVxCOL" or gCurrentMapManager.onlineSideVar == 2 then
 		CTF_SoundEvents_Var = 2
-	elseif onlineSideVar == "EVGxGTH" or onlineSideVar == 3 then
+	elseif gCurrentMapManager.onlineSideVar == "EVGxGTH" or gCurrentMapManager.onlineSideVar == 3 then
 		CTF_SoundEvents_Var = 3
-	elseif onlineSideVar == "EVGxCOL" or onlineSideVar == 4 then
+	elseif gCurrentMapManager.onlineSideVar == "EVGxCOL" or gCurrentMapManager.onlineSideVar == 4 then
 		CTF_SoundEvents_Var = 4
 	end
 end

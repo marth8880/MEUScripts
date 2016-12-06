@@ -106,12 +106,12 @@ function ObjectiveCTF:GetGameTimeLimit()
 end
 
 function ObjectiveCTF:GameOptionsTimeLimitUp()
-	local team1pts = GetTeamPoints(1)
-	local team2pts = GetTeamPoints(2)
-	if ( team1pts > team2pts ) then
-		MissionVictory(1)
-	elseif ( team1pts < team2pts ) then
-		MissionVictory(2)
+	local teamATTpts = GetTeamPoints(teamATT)
+	local teamDEFpts = GetTeamPoints(teamDEF)
+	if ( teamATTpts > teamDEFpts ) then
+		self:Complete(teamATT)
+	elseif ( teamATTpts < teamDEFpts ) then
+		self:Complete(teamDEF)
 	else	
 		--tied, so victory for both
 		MissionVictory({1,2})
@@ -542,36 +542,12 @@ function ObjectiveCTF:Start()
             if self.isComplete then return end
                     
             if points >= self.captureLimit then
-				if team == CIS then
-					BroadcastVoiceOver( rep_sndcue.."com_report_defeat", REP )
-					BroadcastVoiceOver( cis_sndcue.."com_report_victory", CIS )
-				elseif team == REP then
-					BroadcastVoiceOver( rep_sndcue.."com_report_victory", REP )
-					BroadcastVoiceOver( cis_sndcue.."com_report_defeat", CIS )
+				for i, flag in pairs(self.flags) do
+					MapRemoveRegionMarker(flag.captureRegion)
+					MapRemoveEntityMarker(flag.name)
 				end
-				flagDefeatTimer = CreateTimer("flagDefeatTimer")
-				SetTimerValue("flagDefeatTimer", 6.0)
-				StartTimer("flagDefeatTimer")
-				OnTimerElapse(
-					function(timer)
-						for i, flag in pairs(self.flags) do
-							MapRemoveRegionMarker(flag.captureRegion)
-							MapRemoveEntityMarker(flag.name)
-						end
-						--SetFlagGameplayType("none")	-- moved to objective:start
-						self:Complete(team)
-						
-						--[[if ME5_CustomHUD == 1 then
-							if bStockFontLoaded == false then
-								bStockFontLoaded = true
-									print("ME5_ObjectiveCTF: Loading hud_font_stock.lvl...")
-								-- hotfix that reloads the stock fonts in the stats screen
-								ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
-							end
-						end]]
-					end,
-				"flagDefeatTimer"
-				)
+				--SetFlagGameplayType("none")	-- moved to objective:start
+				self:Complete(team)
             end
         end
         )
@@ -598,13 +574,13 @@ if not ScriptCB_InMultiplayer() then
 		CTF_SoundEvents_Var = 4
 	end
 else
-	if onlineSideVar == "SSVxGTH" or onlineSideVar == 1 then
+	if gCurrentMapManager.onlineSideVar == "SSVxGTH" or gCurrentMapManager.onlineSideVar == 1 then
 		CTF_SoundEvents_Var = 1
-	elseif onlineSideVar == "SSVxCOL" or onlineSideVar == 2 then
+	elseif gCurrentMapManager.onlineSideVar == "SSVxCOL" or gCurrentMapManager.onlineSideVar == 2 then
 		CTF_SoundEvents_Var = 2
-	elseif onlineSideVar == "EVGxGTH" or onlineSideVar == 3 then
+	elseif gCurrentMapManager.onlineSideVar == "EVGxGTH" or gCurrentMapManager.onlineSideVar == 3 then
 		CTF_SoundEvents_Var = 3
-	elseif onlineSideVar == "EVGxCOL" or onlineSideVar == 4 then
+	elseif gCurrentMapManager.onlineSideVar == "EVGxCOL" or gCurrentMapManager.onlineSideVar == 4 then
 		CTF_SoundEvents_Var = 4
 	end
 end

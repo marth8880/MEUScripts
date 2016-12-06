@@ -44,6 +44,14 @@ function Objective:New(o)
     return o
 end
 
+-- NOTE: added from ObjectiveConquest.lua - AG 30-NOV-2016
+function Objective:GetOpposingTeam(team)
+	if team == self.teamATT then
+		return self.teamDEF
+	else
+		return self.teamATT
+	end
+end
 
 
 --
@@ -199,16 +207,16 @@ function Objective:Start()
 			cis_sndcue	= "col_gen_"
 		end
 	else
-		if onlineSideVar == "SSVxGTH" or onlineSideVar == 1 then
+		if gCurrentMapManager.onlineSideVar == "SSVxGTH" then
 			rep_sndcue	= "ssv_adm_"
 			cis_sndcue	= "gth_ann_"
-		elseif onlineSideVar == "SSVxCOL" or onlineSideVar == 2 then
+		elseif gCurrentMapManager.onlineSideVar == "SSVxCOL" then
 			rep_sndcue	= "ssv_adm_"
 			cis_sndcue	= "col_gen_"
-		elseif onlineSideVar == "EVGxGTH" or onlineSideVar == 3 then
+		elseif gCurrentMapManager.onlineSideVar == "EVGxGTH" then
 			rep_sndcue	= "evg_prm_"
 			cis_sndcue	= "gth_ann_"
-		elseif onlineSideVar == "EVGxCOL" or onlineSideVar == 4 then
+		elseif gCurrentMapManager.onlineSideVar == "EVGxCOL" then
 			rep_sndcue	= "evg_prm_"
 			cis_sndcue	= "col_gen_"
 		end
@@ -231,32 +239,9 @@ function Objective:Start()
 		OnTicketCountChange(
 			function (team, count)
 				if count <= 0 then
-					if team == REP then
-						BroadcastVoiceOver( rep_sndcue.."com_report_defeat", REP )
-						BroadcastVoiceOver( cis_sndcue.."com_report_victory", CIS )
-					elseif team == CIS then
-						BroadcastVoiceOver( rep_sndcue.."com_report_victory", REP )
-						BroadcastVoiceOver( cis_sndcue.."com_report_defeat", CIS )
-					end
-					ticketDefeatTimer = CreateTimer("ticketDefeatTimer")
-					SetTimerValue("ticketDefeatTimer", 6.0)	-- 1.5
-					StartTimer("ticketDefeatTimer")
-					OnTimerElapse(
-						function(timer)
-							MissionDefeat(team)
-							DestroyTimer("ticketDefeatTimer")
-							
-							--[[if ME5_CustomHUD == 1 then
-								if bStockFontLoaded == false then
-									bStockFontLoaded = true
-										print("ME5_Objective: Loading hud_font_stock.lvl...")
-									-- hotfix that reloads the stock fonts in the stats screen
-									ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
-								end
-							end]]
-						end,
-					"ticketDefeatTimer"
-					)
+					-- Complete the objective for the opposing team instead of calling MissionDefeat - AG 30-NOV-2016
+					self:Complete(self:GetOpposingTeam(team))
+					--MissionDefeat(team)
 				end
 			end
 		)
@@ -371,17 +356,65 @@ function Objective:Complete(winningTeam)
 			
 			if self.container then
 				self.container:NotifyObjectiveComplete(self)
-			else				
-				MissionVictory(winningTeam)
-				
-				--[[if ME5_CustomHUD == 1 then
-					if bStockFontLoaded == false then
-						bStockFontLoaded = true
-							print("ME5_Objective: Loading hud_font_stock.lvl...")
-						-- hotfix that reloads the stock fonts in the stats screen
-						ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
+			else
+				-- Play a short VO narration if we're not a campaign mission 
+				if gCurrentMapManager.gameMode ~= "campaign" then
+					-- Set the VO to use for each team
+					if not ScriptCB_InMultiplayer() then
+						if ME5_SideVar == 1 then
+							rep_sndcue	= "ssv_adm_"
+							cis_sndcue	= "gth_ann_"
+						elseif ME5_SideVar == 2 then
+							rep_sndcue	= "ssv_adm_"
+							cis_sndcue	= "col_gen_"
+						elseif ME5_SideVar == 3	then
+							rep_sndcue	= "evg_prm_"
+							cis_sndcue	= "gth_ann_"
+						elseif ME5_SideVar == 4	then
+							rep_sndcue	= "evg_prm_"
+							cis_sndcue	= "col_gen_"
+						end
+					else
+						if gCurrentMapManager.onlineSideVar == "SSVxGTH" then
+							rep_sndcue	= "ssv_adm_"
+							cis_sndcue	= "gth_ann_"
+						elseif gCurrentMapManager.onlineSideVar == "SSVxCOL" then
+							rep_sndcue	= "ssv_adm_"
+							cis_sndcue	= "col_gen_"
+						elseif gCurrentMapManager.onlineSideVar == "EVGxGTH" then
+							rep_sndcue	= "evg_prm_"
+							cis_sndcue	= "gth_ann_"
+						elseif gCurrentMapManager.onlineSideVar == "EVGxCOL" then
+							rep_sndcue	= "evg_prm_"
+							cis_sndcue	= "col_gen_"
+						end
 					end
-				end]]
+					
+					-- Play the appropriate narration for each team
+					if winningTeam == CIS then
+						BroadcastVoiceOver( rep_sndcue.."com_report_defeat", REP )
+						BroadcastVoiceOver( cis_sndcue.."com_report_victory", CIS )
+					elseif winningTeam == REP then
+						BroadcastVoiceOver( rep_sndcue.."com_report_victory", REP )
+						BroadcastVoiceOver( cis_sndcue.."com_report_defeat", CIS )
+					end
+					
+					-- TODO: consider using AudioStreamComplete instead of a pre-set timer (see MultiObjectiveContainer.lua for how)
+					-- Allow enough time for the VO to fully play
+					missionEndingNarrationTimer = CreateTimer("missionEndingNarrationTimer")
+					SetTimerValue("missionEndingNarrationTimer", 6.0)	-- 1.5
+					StartTimer("missionEndingNarrationTimer")
+					OnTimerElapse(
+						function(timer)
+							-- FINISH HIM.
+							MissionVictory(winningTeam)
+							DestroyTimer("missionEndingNarrationTimer")
+						end,
+					"missionEndingNarrationTimer"
+					)
+				else
+					MissionVictory(winningTeam)
+				end
 			end
 			
 			self:OnComplete(winningTeam)
@@ -394,18 +427,6 @@ function Objective:Complete(winningTeam)
 		end,
 		self.dittyTimer
 	)
-	
-	-- Is this a campaign mission?
-	--[[if IsCampaign() then
-		if ME5_CustomHUD == 1 then
-			if bStockFontLoaded == false then
-				bStockFontLoaded = true
-					print("ME5_Objective: Loading hud_font_stock.lvl...")
-				-- hotfix that reloads the stock fonts in the stats screen
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
-			end
-		end
-	end]]
 end
 
 
