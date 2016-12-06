@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by Aaron Gilbert
--- Build 31119/06
+-- Build 31206/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Nov 19, 2016
+-- Dec 6, 2016
 -- Copyright (c) 2016, Aaron Gilbert All rights reserved.
 -- 
 -- About: 
@@ -23,7 +23,7 @@ print("ME5_Master: Entered")
 
 -- The build version. Valid settings are "production", "release"
 MEU_BuildVer		= "production"
-MEU_BuildNum		= "31119/06"
+MEU_BuildNum		= "31206/06"
 MEU_ReleaseNum		= 6
 MEU_VersionNum		= "1.3"
 
@@ -55,15 +55,16 @@ ME5_ShieldRegen			= nil
 ME5_SideVar				= nil
 ME5_SolMapMusic			= nil
 
-mapSize				= nil
-MEU_GameMode			= MEU_GameMode or nil
-EnvironmentType		= nil
-onlineSideVar		= nil
-onlineHeroSSV		= nil
-onlineHeroGTH		= nil
-onlineHeroCOL		= nil
-onlineHeroEVG		= nil
-isTDM				= false
+gCurrentMapManager	= nil
+
+--mapSize				= nil
+MEU_GameMode		= MEU_GameMode or nil
+--environmentType		= nil
+--onlineSideVar		= nil
+--onlineHeroSSV		= nil
+--onlineHeroGTH		= nil
+--onlineHeroCOL		= nil
+--onlineHeroEVG		= nil
 
 xxs		= nil
 xs		= nil
@@ -271,7 +272,9 @@ ScriptCB_DoFile("ME5_DamageFeedback")
 ScriptCB_DoFile("ME5_KillSounds")
 ScriptCB_DoFile("ME5_LowHealthFeedback")
 ScriptCB_DoFile("ME5_GethJuggernautFunc")
-ScriptCB_DoFile("ME5_MiscFunctions")
+ScriptCB_DoFile("ME5_IncendiaryOrdnance")
+ScriptCB_DoFile("ME5_MapManager")
+--ScriptCB_DoFile("ME5_MiscFunctions")
 ScriptCB_DoFile("ME5_RandomSides")
 ScriptCB_DoFile("ME5_AudioFunctions")
 ScriptCB_DoFile("ME5_UtilityFunctions")

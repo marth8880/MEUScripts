@@ -34,13 +34,13 @@ function Init_SideSetup()
 			Setup_EVGxCOL()
 		end
 	else
-		if onlineSideVar == "SSVxGTH" or onlineSideVar == 1 then
+		if gCurrentMapManager.onlineSideVar == "SSVxGTH" or gCurrentMapManager.onlineSideVar == 1 then
 			Setup_SSVxGTH()
-		elseif onlineSideVar == "SSVxCOL" or onlineSideVar == 2 then
+		elseif gCurrentMapManager.onlineSideVar == "SSVxCOL" or gCurrentMapManager.onlineSideVar == 2 then
 			Setup_SSVxCOL()
-		elseif onlineSideVar == "EVGxGTH" or onlineSideVar == 3 then
+		elseif gCurrentMapManager.onlineSideVar == "EVGxGTH" or gCurrentMapManager.onlineSideVar == 3 then
 			Setup_EVGxGTH()
-		elseif onlineSideVar == "EVGxCOL" or onlineSideVar == 4 then
+		elseif gCurrentMapManager.onlineSideVar == "EVGxCOL" or gCurrentMapManager.onlineSideVar == 4 then
 			Setup_EVGxCOL()
 		end
 	end
@@ -50,27 +50,27 @@ function Setup_SSVxGTH()
 	Load_SSV()
 	Load_GTH()
 	
-	if mapSize == "xxs" or mapSize == 1 then
+	if gCurrentMapManager.mapSize == "xxs" or gCurrentMapManager.mapSize == 1 then
 		print("ME5_RandomSides.Setup_SSVxGTH(): Map size is xxs")
 		Setup_SSVxGTH_xxs()
 		
-	elseif mapSize == "xs" or mapSize == 2 then
+	elseif gCurrentMapManager.mapSize == "xs" or gCurrentMapManager.mapSize == 2 then
 		print("ME5_RandomSides.Setup_SSVxGTH(): Map size is xs")
 		Setup_SSVxGTH_xs()
 		
-	elseif mapSize == "sm" or mapSize == 3 then
+	elseif gCurrentMapManager.mapSize == "sm" or gCurrentMapManager.mapSize == 3 then
 		print("ME5_RandomSides.Setup_SSVxGTH(): Map size is sm")
 		Setup_SSVxGTH_sm()
 		
-	elseif mapSize == "med" or mapSize == 4 then
+	elseif gCurrentMapManager.mapSize == "med" or gCurrentMapManager.mapSize == 4 then
 		print("ME5_RandomSides.Setup_SSVxGTH(): Map size is med")
 		Setup_SSVxGTH_med()
 		
-	elseif mapSize == "lg" or mapSize == 5 then
+	elseif gCurrentMapManager.mapSize == "lg" or gCurrentMapManager.mapSize == 5 then
 		print("ME5_RandomSides.Setup_SSVxGTH(): Map size is lg")
 		Setup_SSVxGTH_lg()
 		
-	elseif mapSize == "xl" or mapSize == 6 then
+	elseif gCurrentMapManager.mapSize == "xl" or gCurrentMapManager.mapSize == 6 then
 		print("ME5_RandomSides.Setup_SSVxGTH(): Map size is xl")
 		Setup_SSVxGTH_xl()
 	else
@@ -80,41 +80,41 @@ function Setup_SSVxGTH()
 	
 	if ScriptCB_InMultiplayer() then
 		-- SYSTEMS ALLIANCE HERO
-		if onlineHeroSSV == "shep_soldier" or onlineHeroSSV == 1 then
+		if gCurrentMapManager.onlineHeroSSV == "shep_soldier" or gCurrentMapManager.onlineHeroSSV == 1 then
 			print("ME5_RandomSides.Setup_SSVxGTH(): Online SSV hero is Shepard Soldier")
 			SetHeroClass(REP, "ssv_hero_shepard_soldier")
 			
-		elseif onlineHeroSSV == "shep_infiltrator" or onlineHeroSSV == 2 then
+		elseif gCurrentMapManager.onlineHeroSSV == "shep_infiltrator" or gCurrentMapManager.onlineHeroSSV == 2 then
 			print("ME5_RandomSides.Setup_SSVxGTH(): Online SSV hero is Shepard Infiltrator")
 			SetHeroClass(REP, "ssv_hero_shepard_infiltrator")
 			
-		elseif onlineHeroSSV == "shep_engineer" or onlineHeroSSV == 3 then
+		elseif gCurrentMapManager.onlineHeroSSV == "shep_engineer" or gCurrentMapManager.onlineHeroSSV == 3 then
 			print("ME5_RandomSides.Setup_SSVxGTH(): Online SSV hero is Shepard Engineer")
 			SetHeroClass(REP, "ssv_hero_shepard_engineer")
 			
-		elseif onlineHeroSSV == "shep_adept" or onlineHeroSSV == 4 then
+		elseif gCurrentMapManager.onlineHeroSSV == "shep_adept" or gCurrentMapManager.onlineHeroSSV == 4 then
 			print("ME5_RandomSides.Setup_SSVxGTH(): Online SSV hero is Shepard Adept")
 			SetHeroClass(REP, "ssv_hero_shepard_adept")
 			
-		elseif onlineHeroSSV == "shep_sentinel" or onlineHeroSSV == 5 then
+		elseif gCurrentMapManager.onlineHeroSSV == "shep_sentinel" or gCurrentMapManager.onlineHeroSSV == 5 then
 			print("ME5_RandomSides.Setup_SSVxGTH(): Online SSV hero is Shepard Sentinel")
 			SetHeroClass(REP, "ssv_hero_shepard_sentinel")
 			
-		elseif onlineHeroSSV == "shep_vanguard" or onlineHeroSSV == 6 then
+		elseif gCurrentMapManager.onlineHeroSSV == "shep_vanguard" or gCurrentMapManager.onlineHeroSSV == 6 then
 			print("ME5_RandomSides.Setup_SSVxGTH(): Online SSV hero is Shepard Vanguard")
 			SetHeroClass(REP, "ssv_hero_shepard_vanguard")
 			
-		elseif onlineHeroSSV == "jack" or onlineHeroSSV == 7 then
+		elseif gCurrentMapManager.onlineHeroSSV == "jack" or gCurrentMapManager.onlineHeroSSV == 7 then
 			print("ME5_RandomSides.Setup_SSVxGTH(): Online SSV hero is Jack")
 			SetHeroClass(REP, "ssv_hero_jack")
 		end
 		
 		-- HERETIC GETH HERO
-		if onlineHeroGTH == "gethprime_me2" or onlineHeroGTH == 1 then
+		if gCurrentMapManager.onlineHeroGTH == "gethprime_me2" or gCurrentMapManager.onlineHeroGTH == 1 then
 			print("ME5_RandomSides.Setup_SSVxGTH(): Online GTH hero is ME2 Geth Prime")
 			SetHeroClass(CIS, "gth_hero_prime_me2")
 			
-		elseif onlineHeroGTH == "gethprime_me3" or onlineHeroGTH == 2 then
+		elseif gCurrentMapManager.onlineHeroGTH == "gethprime_me3" or gCurrentMapManager.onlineHeroGTH == 2 then
 			print("ME5_RandomSides.Setup_SSVxGTH(): Online GTH hero is ME3 Geth Prime")
 			SetHeroClass(CIS, "gth_hero_prime_me3")
 		end
@@ -125,27 +125,27 @@ function Setup_SSVxCOL()
 	Load_SSV()
 	Load_COL()
 	
-	if mapSize == "xxs" or mapSize == 1 then
+	if gCurrentMapManager.mapSize == "xxs" or gCurrentMapManager.mapSize == 1 then
 		print("ME5_RandomSides.Setup_SSVxCOL(): Map size is xxs")
 		Setup_SSVxCOL_xxs()
 		
-	elseif mapSize == "xs" or mapSize == 2 then
+	elseif gCurrentMapManager.mapSize == "xs" or gCurrentMapManager.mapSize == 2 then
 		print("ME5_RandomSides.Setup_SSVxCOL(): Map size is xs")
 		Setup_SSVxCOL_xs()
 		
-	elseif mapSize == "sm" or mapSize == 3 then
+	elseif gCurrentMapManager.mapSize == "sm" or gCurrentMapManager.mapSize == 3 then
 		print("ME5_RandomSides.Setup_SSVxCOL(): Map size is sm")
 		Setup_SSVxCOL_sm()
 		
-	elseif mapSize == "med" or mapSize == 4 then
+	elseif gCurrentMapManager.mapSize == "med" or gCurrentMapManager.mapSize == 4 then
 		print("ME5_RandomSides.Setup_SSVxCOL(): Map size is med")
 		Setup_SSVxCOL_med()
 		
-	elseif mapSize == "lg" or mapSize == 5 then
+	elseif gCurrentMapManager.mapSize == "lg" or gCurrentMapManager.mapSize == 5 then
 		print("ME5_RandomSides.Setup_SSVxCOL(): Map size is lg")
 		Setup_SSVxCOL_lg()
 		
-	elseif mapSize == "xl" or mapSize == 6 then
+	elseif gCurrentMapManager.mapSize == "xl" or gCurrentMapManager.mapSize == 6 then
 		print("ME5_RandomSides.Setup_SSVxCOL(): Map size is xl")
 		Setup_SSVxCOL_xl()
 	else
@@ -155,33 +155,33 @@ function Setup_SSVxCOL()
 	
 	if ScriptCB_InMultiplayer() then
 		-- SYSTEMS ALLIANCE HERO
-		if onlineHeroSSV == "shep_soldier" or onlineHeroSSV == 1 then
+		if gCurrentMapManager.onlineHeroSSV == "shep_soldier" or gCurrentMapManager.onlineHeroSSV == 1 then
 			print("ME5_RandomSides.Setup_SSVxCOL(): Online SSV hero is Shepard Soldier")
 			SetHeroClass(REP, "ssv_hero_shepard_soldier")
 			
-		elseif onlineHeroSSV == "shep_infiltrator" or onlineHeroSSV == 2 then
+		elseif gCurrentMapManager.onlineHeroSSV == "shep_infiltrator" or gCurrentMapManager.onlineHeroSSV == 2 then
 			print("ME5_RandomSides.Setup_SSVxCOL(): Online SSV hero is Shepard Infiltrator")
 			SetHeroClass(REP, "ssv_hero_shepard_infiltrator")
 			
-		elseif onlineHeroSSV == "shep_engineer" or onlineHeroSSV == 3 then
+		elseif gCurrentMapManager.onlineHeroSSV == "shep_engineer" or gCurrentMapManager.onlineHeroSSV == 3 then
 			print("ME5_RandomSides.Setup_SSVxCOL(): Online SSV hero is Shepard Engineer")
 			SetHeroClass(REP, "ssv_hero_shepard_engineer")
 			
-		elseif onlineHeroSSV == "shep_adept" or onlineHeroSSV == 4 then
+		elseif gCurrentMapManager.onlineHeroSSV == "shep_adept" or gCurrentMapManager.onlineHeroSSV == 4 then
 			print("ME5_RandomSides.Setup_SSVxCOL(): Online SSV hero is Shepard Adept")
 			SetHeroClass(REP, "ssv_hero_shepard_adept")
 			
-		elseif onlineHeroSSV == "shep_sentinel" or onlineHeroSSV == 5 then
+		elseif gCurrentMapManager.onlineHeroSSV == "shep_sentinel" or gCurrentMapManager.onlineHeroSSV == 5 then
 			print("ME5_RandomSides.Setup_SSVxCOL(): Online SSV hero is Shepard Sentinel")
 			SetHeroClass(REP, "ssv_hero_shepard_sentinel")
 			
-		elseif onlineHeroSSV == "shep_vanguard" or onlineHeroSSV == 6 then
+		elseif gCurrentMapManager.onlineHeroSSV == "shep_vanguard" or gCurrentMapManager.onlineHeroSSV == 6 then
 			print("ME5_RandomSides.Setup_SSVxCOL(): Online SSV hero is Shepard Vanguard")
 			SetHeroClass(REP, "ssv_hero_shepard_vanguard")
 		end
 		
 		-- COLLECTORS HERO
-		if onlineHeroCOL == "colgeneral" or onlineHeroCOL == 1 then
+		if gCurrentMapManager.onlineHeroCOL == "colgeneral" or gCurrentMapManager.onlineHeroCOL == 1 then
 			print("ME5_RandomSides.Setup_SSVxCOL(): Online COL hero is Harby")
 			SetHeroClass(CIS, "col_hero_harbinger")
 		end
@@ -191,27 +191,27 @@ end
 function Setup_EVGxGTH()
 	Load_EVGxGTH()
 	
-	if mapSize == "xxs" or mapSize == 1 then
+	if gCurrentMapManager.mapSize == "xxs" or gCurrentMapManager.mapSize == 1 then
 		print("ME5_RandomSides.Setup_EVGxGTH(): Map size is xxs")
 		Setup_EVGxGTH_xxs()
 		
-	elseif mapSize == "xs" or mapSize == 2 then
+	elseif gCurrentMapManager.mapSize == "xs" or gCurrentMapManager.mapSize == 2 then
 		print("ME5_RandomSides.Setup_EVGxGTH(): Map size is xs")
 		Setup_EVGxGTH_xs()
 		
-	elseif mapSize == "sm" or mapSize == 3 then
+	elseif gCurrentMapManager.mapSize == "sm" or gCurrentMapManager.mapSize == 3 then
 		print("ME5_RandomSides.Setup_EVGxGTH(): Map size is sm")
 		Setup_EVGxGTH_sm()
 		
-	elseif mapSize == "med" or mapSize == 4 then
+	elseif gCurrentMapManager.mapSize == "med" or gCurrentMapManager.mapSize == 4 then
 		print("ME5_RandomSides.Setup_EVGxGTH(): Map size is med")
 		Setup_EVGxGTH_med()
 		
-	elseif mapSize == "lg" or mapSize == 5 then
+	elseif gCurrentMapManager.mapSize == "lg" or gCurrentMapManager.mapSize == 5 then
 		print("ME5_RandomSides.Setup_EVGxGTH(): Map size is lg")
 		Setup_EVGxGTH_lg()
 		
-	elseif mapSize == "xl" or mapSize == 6 then
+	elseif gCurrentMapManager.mapSize == "xl" or gCurrentMapManager.mapSize == 6 then
 		print("ME5_RandomSides.Setup_EVGxGTH(): Map size is xl")
 		Setup_EVGxGTH_xl()
 	else
@@ -221,21 +221,21 @@ function Setup_EVGxGTH()
 	
 	if ScriptCB_InMultiplayer() then
 		-- EVOLVED GETH HERO
-		if onlineHeroEVG == "gethprime_me2" or onlineHeroEVG == 1 then
+		if gCurrentMapManager.onlineHeroEVG == "gethprime_me2" or gCurrentMapManager.onlineHeroEVG == 1 then
 			print("ME5_RandomSides.Setup_EVGxGTH(): Online EVG hero is ME2 Geth Prime")
 			SetHeroClass(REP, "gth_hero_prime_me2")
 			
-		elseif onlineHeroEVG == "gethprime_me3" or onlineHeroEVG == 2 then
+		elseif gCurrentMapManager.onlineHeroEVG == "gethprime_me3" or gCurrentMapManager.onlineHeroEVG == 2 then
 			print("ME5_RandomSides.Setup_EVGxGTH(): Online EVG hero is ME3 Geth Prime")
 			SetHeroClass(REP, "gth_hero_prime_me3")
 		end
 		
 		-- HERETIC GETH HERO
-		if onlineHeroGTH == "gethprime_me2" or onlineHeroGTH == 1 then
+		if gCurrentMapManager.onlineHeroGTH == "gethprime_me2" or gCurrentMapManager.onlineHeroGTH == 1 then
 			print("ME5_RandomSides.Setup_EVGxGTH(): Online GTH hero is ME2 Geth Prime")
 			SetHeroClass(CIS, "gth_hero_prime_me2")
 			
-		elseif onlineHeroGTH == "gethprime_me3" or onlineHeroGTH == 2 then
+		elseif gCurrentMapManager.onlineHeroGTH == "gethprime_me3" or gCurrentMapManager.onlineHeroGTH == 2 then
 			print("ME5_RandomSides.Setup_EVGxGTH(): Online GTH hero is ME3 Geth Prime")
 			SetHeroClass(CIS, "gth_hero_prime_me3")
 		end
@@ -246,23 +246,28 @@ function Setup_EVGxCOL()
 	Load_EVG()
 	Load_COL()
 	
-	if mapSize == "xxs" or mapSize == 1 then
-			print("ME5_RandomSides.Setup_EVGxCOL(): Map size is xxs")
+	if gCurrentMapManager.mapSize == "xxs" or gCurrentMapManager.mapSize == 1 then
+		print("ME5_RandomSides.Setup_EVGxCOL(): Map size is xxs")
 		Setup_EVGxCOL_xxs()
-	elseif mapSize == "xs" or mapSize == 2 then
-			print("ME5_RandomSides.Setup_EVGxCOL(): Map size is xs")
+		
+	elseif gCurrentMapManager.mapSize == "xs" or gCurrentMapManager.mapSize == 2 then
+		print("ME5_RandomSides.Setup_EVGxCOL(): Map size is xs")
 		Setup_EVGxCOL_xs()
-	elseif mapSize == "sm" or mapSize == 3 then
-			print("ME5_RandomSides.Setup_EVGxCOL(): Map size is sm")
+		
+	elseif gCurrentMapManager.mapSize == "sm" or gCurrentMapManager.mapSize == 3 then
+		print("ME5_RandomSides.Setup_EVGxCOL(): Map size is sm")
 		Setup_EVGxCOL_sm()
-	elseif mapSize == "med" or mapSize == 4 then
-			print("ME5_RandomSides.Setup_EVGxCOL(): Map size is med")
+		
+	elseif gCurrentMapManager.mapSize == "med" or gCurrentMapManager.mapSize == 4 then
+		print("ME5_RandomSides.Setup_EVGxCOL(): Map size is med")
 		Setup_EVGxCOL_med()
-	elseif mapSize == "lg" or mapSize == 5 then
-			print("ME5_RandomSides.Setup_EVGxCOL(): Map size is lg")
+		
+	elseif gCurrentMapManager.mapSize == "lg" or gCurrentMapManager.mapSize == 5 then
+		print("ME5_RandomSides.Setup_EVGxCOL(): Map size is lg")
 		Setup_EVGxCOL_lg()
-	elseif mapSize == "xl" or mapSize == 6 then
-			print("ME5_RandomSides.Setup_EVGxCOL(): Map size is xl")
+		
+	elseif gCurrentMapManager.mapSize == "xl" or gCurrentMapManager.mapSize == 6 then
+		print("ME5_RandomSides.Setup_EVGxCOL(): Map size is xl")
 		Setup_EVGxCOL_xl()
 	else
 		print("ME5_RandomSides.Setup_EVGxCOL(): ALL YOUR MAP SIZE ARE BELONG TO US!!")
@@ -271,17 +276,17 @@ function Setup_EVGxCOL()
 	
 	if ScriptCB_InMultiplayer() then
 		-- EVOLVED GETH HERO
-		if onlineHeroEVG == "gethprime_me2" or onlineHeroEVG == 1 then
-				print("ME5_RandomSides.Setup_EVGxCOL(): Online EVG hero is ME2 Geth Prime")
+		if gCurrentMapManager.onlineHeroEVG == "gethprime_me2" or gCurrentMapManager.onlineHeroEVG == 1 then
+			print("ME5_RandomSides.Setup_EVGxCOL(): Online EVG hero is ME2 Geth Prime")
 			SetHeroClass(REP, "gth_hero_prime_me2")
-		elseif onlineHeroEVG == "gethprime_me3" or onlineHeroEVG == 2 then
-				print("ME5_RandomSides.Setup_EVGxCOL(): Online EVG hero is ME3 Geth Prime")
+		elseif gCurrentMapManager.onlineHeroEVG == "gethprime_me3" or gCurrentMapManager.onlineHeroEVG == 2 then
+			print("ME5_RandomSides.Setup_EVGxCOL(): Online EVG hero is ME3 Geth Prime")
 			SetHeroClass(REP, "gth_hero_prime_me3")
 		end
 		
 		-- COLLECTORS HERO
-		if onlineHeroCOL == "colgeneral" or onlineHeroCOL == 1 then
-				print("ME5_RandomSides.Setup_EVGxCOL(): Online COL hero is Harby")
+		if gCurrentMapManager.onlineHeroCOL == "colgeneral" or gCurrentMapManager.onlineHeroCOL == 1 then
+			print("ME5_RandomSides.Setup_EVGxCOL(): Online COL hero is Harby")
 			SetHeroClass(CIS, "col_hero_harbinger")
 		end
 	end
@@ -378,19 +383,19 @@ function Load_SSV(loadCooper)
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\CON_SSV.lvl", "units")
 	end
 	
-	if EnvironmentType == "desert" or EnvironmentType == 1 then
+	if gCurrentMapManager.environmentType == "desert" or gCurrentMapManager.environmentType == 1 then
 		print("ME5_RandomSides.Load_SSV(): Loading SSV environment type Desert")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\ssv_desert.lvl")
 		
-	elseif EnvironmentType == "jungle" or EnvironmentType == 2 then
+	elseif gCurrentMapManager.environmentType == "jungle" or gCurrentMapManager.environmentType == 2 then
 		print("ME5_RandomSides.Load_SSV(): Loading SSV environment type Jungle")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\ssv_jungle.lvl")
 		
-	elseif EnvironmentType == "snow" or EnvironmentType == 3 then
+	elseif gCurrentMapManager.environmentType == "snow" or gCurrentMapManager.environmentType == 3 then
 		print("ME5_RandomSides.Load_SSV(): Loading SSV environment type Snow")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\ssv_snow.lvl")
 		
-	elseif EnvironmentType == "urban" or EnvironmentType == 4 then
+	elseif gCurrentMapManager.environmentType == "urban" or gCurrentMapManager.environmentType == 4 then
 		print("ME5_RandomSides.Load_SSV(): Loading SSV environment type Urban")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\ssv_urban.lvl")
 	else
@@ -597,20 +602,21 @@ function Load_COL()
 	
 	if not ScriptCB_InMultiplayer() then
 		if ME5_ShieldFunc == 1 then
-				print("ME5_RandomSides.Load_COL(): Configuring COL Shield Functionality for AUTO-REGEN...")
+			print("ME5_RandomSides.Load_COL(): Configuring COL Shield Functionality for AUTO-REGEN...")
 			col_inf_guardian		= "col_inf_guardian_shield"
 			col_inf_guardian_online	= "col_inf_guardian_online_shield"
+			
 		elseif ME5_ShieldFunc == 2 then
-				print("ME5_RandomSides.Load_COL(): Configuring COL Shield Functionality for PICKUPS...")
+			print("ME5_RandomSides.Load_COL(): Configuring COL Shield Functionality for PICKUPS...")
 			col_inf_guardian		= "col_inf_guardian"
 			col_inf_guardian_online	= "col_inf_guardian_online"
 		else
-				print("ME5_RandomSides.Load_COL(): Error! ME5_ShieldFunc setting is invalid! Defaulting to COL Shield Functionality for AUTO-REGEN")
+			print("ME5_RandomSides.Load_COL(): Error! ME5_ShieldFunc setting is invalid! Defaulting to COL Shield Functionality for AUTO-REGEN")
 			col_inf_guardian		= "col_inf_guardian_shield"
 			col_inf_guardian_online	= "col_inf_guardian_online_shield"
 		end
 	else
-			print("ME5_RandomSides.Load_COL(): Configuring COL Shield Functionality for AUTO-REGEN...")
+		print("ME5_RandomSides.Load_COL(): Configuring COL Shield Functionality for AUTO-REGEN...")
 		col_inf_guardian		= "col_inf_guardian_shield"
 		col_inf_guardian_online	= "col_inf_guardian_online_shield"
 	end
@@ -657,7 +663,7 @@ function Load_EVGxGTH()
 	
 	if not ScriptCB_InMultiplayer() then
 		if ME5_ShieldFunc == 1 then
-				print("ME5_RandomSides.Load_EVGxGTH(): Configuring GTHxEVG Shield Functionality for AUTO-REGEN...")
+			print("ME5_RandomSides.Load_EVGxGTH(): Configuring GTHxEVG Shield Functionality for AUTO-REGEN...")
 			gth_inf_trooper			= "gth_inf_trooper_shield"
 			gth_inf_rocketeer		= "gth_inf_rocketeer_shield"
 			gth_inf_sniper			= "gth_inf_sniper_shield"
@@ -678,7 +684,7 @@ function Load_EVGxGTH()
 			gth_ev_inf_juggernaut			= "gth_ev_inf_juggernaut_shield"
 			gth_ev_inf_juggernaut_online	= "gth_ev_inf_juggernaut_online_shield"
 		elseif ME5_ShieldFunc == 2 then
-				print("ME5_RandomSides.Load_EVGxGTH(): Configuring GTHxEVG Shield Functionality for PICKUPS...")
+			print("ME5_RandomSides.Load_EVGxGTH(): Configuring GTHxEVG Shield Functionality for PICKUPS...")
 			gth_inf_trooper			= "gth_inf_trooper"
 			gth_inf_rocketeer		= "gth_inf_rocketeer"
 			gth_inf_sniper			= "gth_inf_sniper"
@@ -699,7 +705,7 @@ function Load_EVGxGTH()
 			gth_ev_inf_juggernaut			= "gth_ev_inf_juggernaut"
 			gth_ev_inf_juggernaut_online	= "gth_ev_inf_juggernaut_online"
 		else
-				print("ME5_RandomSides.Load_EVGxGTH(): Error! ME5_ShieldFunc setting is invalid! Defaulting to GTHxEVG Shield Functionality for AUTO-REGEN")
+			print("ME5_RandomSides.Load_EVGxGTH(): Error! ME5_ShieldFunc setting is invalid! Defaulting to GTHxEVG Shield Functionality for AUTO-REGEN")
 			gth_inf_trooper			= "gth_inf_trooper_shield"
 			gth_inf_rocketeer		= "gth_inf_rocketeer_shield"
 			gth_inf_sniper			= "gth_inf_sniper_shield"
@@ -721,7 +727,7 @@ function Load_EVGxGTH()
 			gth_ev_inf_juggernaut_online	= "gth_ev_inf_juggernaut_online_shield"
 		end
 	else
-			print("ME5_RandomSides.Load_EVGxGTH(): Configuring GTH Shield Functionality for AUTO-REGEN...")
+		print("ME5_RandomSides.Load_EVGxGTH(): Configuring GTH Shield Functionality for AUTO-REGEN...")
 		gth_inf_trooper			= "gth_inf_trooper_shield"
 		gth_inf_rocketeer		= "gth_inf_rocketeer_shield"
 		gth_inf_sniper			= "gth_inf_sniper_shield"
@@ -772,7 +778,7 @@ function Load_EVG()
 	
 	if not ScriptCB_InMultiplayer() then
 		if ME5_ShieldFunc == 1 then
-				print("ME5_RandomSides.Load_EVG(): Configuring EVG Shield Functionality for AUTO-REGEN...")
+			print("ME5_RandomSides.Load_EVG(): Configuring EVG Shield Functionality for AUTO-REGEN...")
 			gth_ev_inf_trooper				= "gth_ev_inf_trooper_shield"
 			gth_ev_inf_infiltrator			= "gth_ev_inf_infiltrator_shield"
 			gth_ev_inf_engineer				= "gth_ev_inf_engineer_shield"
@@ -782,7 +788,7 @@ function Load_EVG()
 			gth_ev_inf_juggernaut			= "gth_ev_inf_juggernaut_shield"
 			gth_ev_inf_juggernaut_online	= "gth_ev_inf_juggernaut_online_shield"
 		elseif ME5_ShieldFunc == 2 then
-				print("ME5_RandomSides.Load_EVG(): Configuring EVG Shield Functionality for PICKUPS...")
+			print("ME5_RandomSides.Load_EVG(): Configuring EVG Shield Functionality for PICKUPS...")
 			gth_ev_inf_trooper				= "gth_ev_inf_trooper"
 			gth_ev_inf_infiltrator			= "gth_ev_inf_infiltrator"
 			gth_ev_inf_engineer				= "gth_ev_inf_engineer"
@@ -792,7 +798,7 @@ function Load_EVG()
 			gth_ev_inf_juggernaut			= "gth_ev_inf_juggernaut"
 			gth_ev_inf_juggernaut_online	= "gth_ev_inf_juggernaut_online"
 		else
-				print("ME5_RandomSides.Load_EVG(): Error! ME5_ShieldFunc setting is invalid! Defaulting to EVG Shield Functionality for AUTO-REGEN")
+			print("ME5_RandomSides.Load_EVG(): Error! ME5_ShieldFunc setting is invalid! Defaulting to EVG Shield Functionality for AUTO-REGEN")
 			gth_ev_inf_trooper				= "gth_ev_inf_trooper_shield"
 			gth_ev_inf_infiltrator			= "gth_ev_inf_infiltrator_shield"
 			gth_ev_inf_engineer				= "gth_ev_inf_engineer_shield"
@@ -803,7 +809,7 @@ function Load_EVG()
 			gth_ev_inf_juggernaut_online	= "gth_ev_inf_juggernaut_online_shield"
 		end
 	else
-			print("ME5_RandomSides.Load_EVG(): Configuring EVG Shield Functionality for AUTO-REGEN...")
+		print("ME5_RandomSides.Load_EVG(): Configuring EVG Shield Functionality for AUTO-REGEN...")
 		gth_ev_inf_trooper				= "gth_ev_inf_trooper_shield"
 		gth_ev_inf_infiltrator			= "gth_ev_inf_infiltrator_shield"
 		gth_ev_inf_engineer				= "gth_ev_inf_engineer_shield"
@@ -895,7 +901,7 @@ end
 end]]
 
 function Setup_SSVxGTH_xxs()
-		print("ME5_RandomSides.Setup_SSVxGTH_xxs(): Entered")
+	print("ME5_RandomSides.Setup_SSVxGTH_xxs(): Entered")
 	--Setup_SSVxGTH_xxs = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
@@ -957,23 +963,21 @@ function Setup_SSVxGTH_xxs()
 		}
 	end
 	
-	SetTeamName(HuskTeam, CIS)
-	SetTeamIcon(HuskTeam, "cis_icon")
-	SetUnitCount(HuskTeam, 1)
-	AddUnitClass(HuskTeam, "indoc_inf_husk", 1)
-	
-	SetTeamAsEnemy(REP,HuskTeam)
-	SetTeamAsEnemy(HuskTeam,REP)
-	SetTeamAsFriend(CIS,HuskTeam)
-	SetTeamAsFriend(HuskTeam,CIS)
-	
-	--[[if not ScriptCB_InMultiplayer() then
-		SetHeroClass(CIS, "gth_hero_prime_me2")
-	end]]
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 1)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 1)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
 end
 
 function Setup_SSVxCOL_xxs()
-		print("ME5_RandomSides.Setup_SSVxCOL_xxs(): Entered")
+	print("ME5_RandomSides.Setup_SSVxCOL_xxs(): Entered")
 	--Setup_SSVxCOL_xxs = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVCOL_NonStreaming.lvl")
@@ -1031,22 +1035,22 @@ function Setup_SSVxCOL_xxs()
 		}
 	end
 	
-	SetTeamName(HuskTeam, CIS)
-	SetTeamIcon(HuskTeam, "cis_icon")
-	SetUnitCount(HuskTeam, 2)
-	AddUnitClass(HuskTeam, "indoc_inf_husk", 1)
-	AddUnitClass(HuskTeam, "indoc_inf_abomination", 1)
-	
-	SetTeamAsEnemy(REP,HuskTeam)
-	SetTeamAsEnemy(HuskTeam,REP)
-	SetTeamAsFriend(CIS,HuskTeam)
-	SetTeamAsFriend(HuskTeam,CIS)
-	
-	--SetHeroClass(CIS, "col_hero_harbinger")
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 2)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 1)
+		AddUnitClass(HuskTeam, "indoc_inf_abomination", 1)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
 end
 
 function Setup_EVGxGTH_xxs()
-		print("ME5_RandomSides.Setup_EVGxGTH_xxs(): Entered")
+	print("ME5_RandomSides.Setup_EVGxGTH_xxs(): Entered")
 	--Setup_SSVxGTH_xxs = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
@@ -1110,23 +1114,21 @@ function Setup_EVGxGTH_xxs()
 		}
 	end
 	
-	SetTeamName(HuskTeam, CIS)
-	SetTeamIcon(HuskTeam, "cis_icon")
-	SetUnitCount(HuskTeam, 1)
-	AddUnitClass(HuskTeam, "indoc_inf_husk", 1)
-	
-	SetTeamAsEnemy(REP,HuskTeam)
-	SetTeamAsEnemy(HuskTeam,REP)
-	SetTeamAsFriend(CIS,HuskTeam)
-	SetTeamAsFriend(HuskTeam,CIS)
-	
-	--[[if not ScriptCB_InMultiplayer() then
-		SetHeroClass(CIS, "gth_hero_prime_me2")
-	end]]
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 1)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 1)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
 end
 
 function Setup_EVGxCOL_xxs()
-		print("ME5_RandomSides.Setup_EVGxCOL_xxs(): Entered")
+	print("ME5_RandomSides.Setup_EVGxCOL_xxs(): Entered")
 	--Setup_SSVxGTH_xxs = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
@@ -1186,24 +1188,22 @@ function Setup_EVGxCOL_xxs()
 		}
 	end
 	
-	SetTeamName(HuskTeam, CIS)
-	SetTeamIcon(HuskTeam, "cis_icon")
-	SetUnitCount(HuskTeam, 2)
-	AddUnitClass(HuskTeam, "indoc_inf_husk", 1)
-	AddUnitClass(HuskTeam, "indoc_inf_abomination", 1)
-	
-	SetTeamAsEnemy(REP,HuskTeam)
-	SetTeamAsEnemy(HuskTeam,REP)
-	SetTeamAsFriend(CIS,HuskTeam)
-	SetTeamAsFriend(HuskTeam,CIS)
-	
-	--[[if not ScriptCB_InMultiplayer() then
-		SetHeroClass(CIS, "gth_hero_prime_me2")
-	end]]
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 2)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 1)
+		AddUnitClass(HuskTeam, "indoc_inf_abomination", 1)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
 end
 
 function Setup_SSVxGTH_xs()
-		print("ME5_RandomSides.Setup_SSVxGTH_xs(): Entered")
+	print("ME5_RandomSides.Setup_SSVxGTH_xs(): Entered")
 	--Setup_SSVxGTH_xs = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
@@ -1265,23 +1265,21 @@ function Setup_SSVxGTH_xs()
 		}
 	end
 	
-	SetTeamName(HuskTeam, CIS)
-	SetTeamIcon(HuskTeam, "cis_icon")
-	SetUnitCount(HuskTeam, 2)
-	AddUnitClass(HuskTeam, "indoc_inf_husk", 2)
-	
-	SetTeamAsEnemy(REP,HuskTeam)
-	SetTeamAsEnemy(HuskTeam,REP)
-	SetTeamAsFriend(CIS,HuskTeam)
-	SetTeamAsFriend(HuskTeam,CIS)
-	
-	--[[if not ScriptCB_InMultiplayer() then
-		SetHeroClass(CIS, "gth_hero_prime_me2")
-	end]]
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 2)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 2)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
 end
 
 function Setup_SSVxCOL_xs()
-		print("ME5_RandomSides.Setup_SSVxCOL_xs(): Entered")
+	print("ME5_RandomSides.Setup_SSVxCOL_xs(): Entered")
 	--Setup_SSVxCOL_xs = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVCOL_NonStreaming.lvl")
@@ -1339,22 +1337,22 @@ function Setup_SSVxCOL_xs()
 		}
 	end
 	
-	SetTeamName(HuskTeam, CIS)
-	SetTeamIcon(HuskTeam, "cis_icon")
-	SetUnitCount(HuskTeam, 2)
-	AddUnitClass(HuskTeam, "indoc_inf_husk", 1)
-	AddUnitClass(HuskTeam, "indoc_inf_abomination", 1)
-	
-	SetTeamAsEnemy(REP,HuskTeam)
-	SetTeamAsEnemy(HuskTeam,REP)
-	SetTeamAsFriend(CIS,HuskTeam)
-	SetTeamAsFriend(HuskTeam,CIS)
-	
-	--SetHeroClass(CIS, "col_hero_harbinger")
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 2)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 1)
+		AddUnitClass(HuskTeam, "indoc_inf_abomination", 1)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
 end
 
 function Setup_EVGxGTH_xs()
-		print("ME5_RandomSides.Setup_EVGxGTH_xs(): Entered")
+	print("ME5_RandomSides.Setup_EVGxGTH_xs(): Entered")
 	--Setup_SSVxGTH_xs = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
@@ -1418,23 +1416,21 @@ function Setup_EVGxGTH_xs()
 		}
 	end
 	
-	SetTeamName(HuskTeam, CIS)
-	SetTeamIcon(HuskTeam, "cis_icon")
-	SetUnitCount(HuskTeam, 1)
-	AddUnitClass(HuskTeam, "indoc_inf_husk", 1)
-	
-	SetTeamAsEnemy(REP,HuskTeam)
-	SetTeamAsEnemy(HuskTeam,REP)
-	SetTeamAsFriend(CIS,HuskTeam)
-	SetTeamAsFriend(HuskTeam,CIS)
-	
-	--[[if not ScriptCB_InMultiplayer() then
-		SetHeroClass(CIS, "gth_hero_prime_me2")
-	end]]
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 1)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 1)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
 end
 
 function Setup_EVGxCOL_xs()
-		print("ME5_RandomSides.Setup_EVGxCOL_xs(): Entered")
+	print("ME5_RandomSides.Setup_EVGxCOL_xs(): Entered")
 	--Setup_SSVxGTH_xs = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
@@ -1494,19 +1490,17 @@ function Setup_EVGxCOL_xs()
 		}
 	end
 	
-	SetTeamName(HuskTeam, CIS)
-	SetTeamIcon(HuskTeam, "cis_icon")
-	SetUnitCount(HuskTeam, 2)
-	AddUnitClass(HuskTeam, "indoc_inf_husk", 1)
-	AddUnitClass(HuskTeam, "indoc_inf_abomination", 1)
-	
-	--[[if not ScriptCB_InMultiplayer() then
-		SetHeroClass(CIS, "gth_hero_prime_me2")
-	end]]
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 2)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 1)
+		AddUnitClass(HuskTeam, "indoc_inf_abomination", 1)
+	end
 end
 
 function Setup_SSVxECL_xs()
-		print("Load/setup SSV versus ECL - level mode:xs")
+	print("Load/setup SSV versus ECL - level mode:xs")
 	
 	--SetTeamAggressiveness(CIS,(0.96))
 	--SetTeamAggressiveness(REP,(0.99))
@@ -1544,7 +1538,7 @@ function Setup_SSVxECL_xs()
 end
 
 function Setup_GTHxECL_xs()
-		print("Load/setup GTH versus ECL - level mode:xs")
+	print("Load/setup GTH versus ECL - level mode:xs")
 	
 	--SetTeamAggressiveness(REP,(0.96))
 	--SetTeamAggressiveness(CIS,(0.99))
@@ -1584,7 +1578,7 @@ function Setup_GTHxECL_xs()
 end
 
 function Setup_SSVxRPR_xs()
-		print("Load/setup SSV versus RPR - level mode:xs")
+	print("Load/setup SSV versus RPR - level mode:xs")
 	
 	--SetTeamAggressiveness(REP,(0.99))
 	--SetTeamAggressiveness(CIS,(0.96))
@@ -1619,7 +1613,7 @@ function Setup_SSVxRPR_xs()
 end
 
 function Setup_SSVxCER_xs()
-		print("Load/setup SSV versus CER - level mode:xs")
+	print("Load/setup SSV versus CER - level mode:xs")
 	
 	--SetTeamAggressiveness(REP,(0.99))
 	--SetTeamAggressiveness(CIS,(0.99))
@@ -1654,7 +1648,7 @@ function Setup_SSVxCER_xs()
 end
 
 function Setup_SSVxGTH_sm()
-		print("ME5_RandomSides.Setup_SSVxGTH_sm(): Entered")
+	print("ME5_RandomSides.Setup_SSVxGTH_sm(): Entered")
 	--Setup_SSVxGTH_sm = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
@@ -1716,23 +1710,21 @@ function Setup_SSVxGTH_sm()
 		}
 	end
 	
-	SetTeamName(HuskTeam, CIS)
-	SetTeamIcon(HuskTeam, "cis_icon")
-	SetUnitCount(HuskTeam, 3)
-	AddUnitClass(HuskTeam, "indoc_inf_husk", 3)
-	
-	SetTeamAsEnemy(REP,HuskTeam)
-	SetTeamAsEnemy(HuskTeam,REP)
-	SetTeamAsFriend(CIS,HuskTeam)
-	SetTeamAsFriend(HuskTeam,CIS)
-	
-	--[[if not ScriptCB_InMultiplayer() then
-		SetHeroClass(CIS, "gth_hero_prime_me2")
-	end]]
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 3)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 3)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
 end
 
 function Setup_SSVxCOL_sm()
-		print("ME5_RandomSides.Setup_SSVxCOL_sm(): Entered")
+	print("ME5_RandomSides.Setup_SSVxCOL_sm(): Entered")
 	--Setup_SSVxCOL_sm = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVCOL_NonStreaming.lvl")
@@ -1790,22 +1782,22 @@ function Setup_SSVxCOL_sm()
 		}
 	end
 	
-	SetTeamName(HuskTeam, CIS)
-	SetTeamIcon(HuskTeam, "cis_icon")
-	SetUnitCount(HuskTeam, 3)
-	AddUnitClass(HuskTeam, "indoc_inf_husk", 2)
-	AddUnitClass(HuskTeam, "indoc_inf_abomination", 1)
-	
-	SetTeamAsEnemy(REP,HuskTeam)
-	SetTeamAsEnemy(HuskTeam,REP)
-	SetTeamAsFriend(CIS,HuskTeam)
-	SetTeamAsFriend(HuskTeam,CIS)
-	
-	--SetHeroClass(CIS, "col_hero_harbinger")
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 3)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 2)
+		AddUnitClass(HuskTeam, "indoc_inf_abomination", 1)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
 end
 
 function Setup_EVGxGTH_sm()
-		print("ME5_RandomSides.Setup_EVGxGTH_sm(): Entered")
+	print("ME5_RandomSides.Setup_EVGxGTH_sm(): Entered")
 	--Setup_SSVxGTH_sm = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
@@ -1869,23 +1861,21 @@ function Setup_EVGxGTH_sm()
 		}
 	end
 	
-	SetTeamName(HuskTeam, CIS)
-	SetTeamIcon(HuskTeam, "cis_icon")
-	SetUnitCount(HuskTeam, 2)
-	AddUnitClass(HuskTeam, "indoc_inf_husk", 2)
-	
-	SetTeamAsEnemy(REP,HuskTeam)
-	SetTeamAsEnemy(HuskTeam,REP)
-	SetTeamAsFriend(CIS,HuskTeam)
-	SetTeamAsFriend(HuskTeam,CIS)
-	
-	--[[if not ScriptCB_InMultiplayer() then
-		SetHeroClass(CIS, "gth_hero_prime_me2")
-	end]]
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 2)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 2)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
 end
 
 function Setup_EVGxCOL_sm()
-		print("ME5_RandomSides.Setup_EVGxCOL_sm(): Entered")
+	print("ME5_RandomSides.Setup_EVGxCOL_sm(): Entered")
 	--Setup_SSVxGTH_sm = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
@@ -1945,24 +1935,22 @@ function Setup_EVGxCOL_sm()
 		}
 	end
 	
-	SetTeamName(HuskTeam, CIS)
-	SetTeamIcon(HuskTeam, "cis_icon")
-	SetUnitCount(HuskTeam, 3)
-	AddUnitClass(HuskTeam, "indoc_inf_husk", 2)
-	AddUnitClass(HuskTeam, "indoc_inf_abomination", 1)
-	
-	SetTeamAsEnemy(REP,HuskTeam)
-	SetTeamAsEnemy(HuskTeam,REP)
-	SetTeamAsFriend(CIS,HuskTeam)
-	SetTeamAsFriend(HuskTeam,CIS)
-	
-	--[[if not ScriptCB_InMultiplayer() then
-		SetHeroClass(CIS, "gth_hero_prime_me2")
-	end]]
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 3)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 2)
+		AddUnitClass(HuskTeam, "indoc_inf_abomination", 1)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
 end
 
 function Setup_SSVxECL_sm()
-		print("Load/setup SSV versus ECL - level mode:sm")
+	print("Load/setup SSV versus ECL - level mode:sm")
 	
 	--SetTeamAggressiveness(CIS,(0.96))
 	--SetTeamAggressiveness(REP,(0.99))
@@ -2000,7 +1988,7 @@ function Setup_SSVxECL_sm()
 end
 
 function Setup_GTHxECL_sm()
-		print("Load/setup GTH versus ECL - level mode:sm")
+	print("Load/setup GTH versus ECL - level mode:sm")
 	
 	--SetTeamAggressiveness(REP,(0.96))
 	--SetTeamAggressiveness(CIS,(0.99))
@@ -2040,7 +2028,7 @@ function Setup_GTHxECL_sm()
 end
 
 function Setup_SSVxRPR_sm()
-		print("Load/setup SSV versus RPR - level mode:sm")
+	print("Load/setup SSV versus RPR - level mode:sm")
 	
 	--SetTeamAggressiveness(REP,(0.99))
 	--SetTeamAggressiveness(CIS,(0.96))
@@ -2075,7 +2063,7 @@ function Setup_SSVxRPR_sm()
 end
 
 function Setup_SSVxCER_sm()
-		print("Load/setup SSV versus CER - level mode:sm")
+	print("Load/setup SSV versus CER - level mode:sm")
 	
 	--SetTeamAggressiveness(REP,(0.99))
 	--SetTeamAggressiveness(CIS,(0.99))
@@ -2110,7 +2098,7 @@ function Setup_SSVxCER_sm()
 end
 
 function Setup_SSVxGTH_med()
-		print("ME5_RandomSides.Setup_SSVxGTH_med(): Entered")
+	print("ME5_RandomSides.Setup_SSVxGTH_med(): Entered")
 	--Setup_SSVxGTH_med = 1
 	ssvEngCnt = 8
 	
@@ -2173,24 +2161,21 @@ function Setup_SSVxGTH_med()
 		}
 	end
 	
-	SetTeamName(HuskTeam, CIS)
-	SetTeamIcon(HuskTeam, "cis_icon")
-	SetUnitCount(HuskTeam, 4)
-	AddUnitClass(HuskTeam, "indoc_inf_husk", 4)
-	
-	SetTeamAsEnemy(REP,HuskTeam)
-	SetTeamAsEnemy(HuskTeam,REP)
-	SetTeamAsFriend(CIS,HuskTeam)
-	SetTeamAsFriend(HuskTeam,CIS)
-	
-	--[[if not ScriptCB_InMultiplayer() then
-		SetHeroClass(CIS, "gth_hero_prime_me2")
-	end]]
-	--ObjectiveSurvival_125tick()
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 4)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 4)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
 end
 
 function Setup_SSVxCOL_med()
-		print("ME5_RandomSides.Setup_SSVxCOL_med(): Entered")
+	print("ME5_RandomSides.Setup_SSVxCOL_med(): Entered")
 	--Setup_SSVxCOL_med = 1
 	ssvEngCnt = 8
 	
@@ -2249,22 +2234,22 @@ function Setup_SSVxCOL_med()
 		}
 	end
 	
-	SetTeamName(HuskTeam, CIS)
-	SetTeamIcon(HuskTeam, "cis_icon")
-	SetUnitCount(HuskTeam, 4)
-	AddUnitClass(HuskTeam, "indoc_inf_husk", 3)
-	AddUnitClass(HuskTeam, "indoc_inf_abomination", 1)
-	
-	SetTeamAsEnemy(REP,HuskTeam)
-	SetTeamAsEnemy(HuskTeam,REP)
-	SetTeamAsFriend(CIS,HuskTeam)
-	SetTeamAsFriend(HuskTeam,CIS)
-	
-	--SetHeroClass(CIS, "col_hero_harbinger")
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 4)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 3)
+		AddUnitClass(HuskTeam, "indoc_inf_abomination", 1)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
 end
 
 function Setup_EVGxGTH_med()
-		print("ME5_RandomSides.Setup_EVGxGTH_med(): Entered")
+	print("ME5_RandomSides.Setup_EVGxGTH_med(): Entered")
 	--Setup_SSVxGTH_med = 1
 	ssvEngCnt = 8
 	
@@ -2329,24 +2314,21 @@ function Setup_EVGxGTH_med()
 		}
 	end
 	
-	SetTeamName(HuskTeam, CIS)
-	SetTeamIcon(HuskTeam, "cis_icon")
-	SetUnitCount(HuskTeam, 3)
-	AddUnitClass(HuskTeam, "indoc_inf_husk", 3)
-	
-	SetTeamAsEnemy(REP,HuskTeam)
-	SetTeamAsEnemy(HuskTeam,REP)
-	SetTeamAsFriend(CIS,HuskTeam)
-	SetTeamAsFriend(HuskTeam,CIS)
-	
-	--[[if not ScriptCB_InMultiplayer() then
-		SetHeroClass(CIS, "gth_hero_prime_me2")
-	end]]
-	--ObjectiveSurvival_125tick()
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 3)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 3)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
 end
 
 function Setup_EVGxCOL_med()
-		print("ME5_RandomSides.Setup_EVGxCOL_med(): Entered")
+	print("ME5_RandomSides.Setup_EVGxCOL_med(): Entered")
 	--Setup_SSVxGTH_med = 1
 	ssvEngCnt = 8
 	
@@ -2407,25 +2389,22 @@ function Setup_EVGxCOL_med()
 		}
 	end
 	
-	SetTeamName(HuskTeam, CIS)
-	SetTeamIcon(HuskTeam, "cis_icon")
-	SetUnitCount(HuskTeam, 4)
-	AddUnitClass(HuskTeam, "indoc_inf_husk", 3)
-	AddUnitClass(HuskTeam, "indoc_inf_abomination", 1)
-	
-	SetTeamAsEnemy(REP,HuskTeam)
-	SetTeamAsEnemy(HuskTeam,REP)
-	SetTeamAsFriend(CIS,HuskTeam)
-	SetTeamAsFriend(HuskTeam,CIS)
-	
-	--[[if not ScriptCB_InMultiplayer() then
-		SetHeroClass(CIS, "gth_hero_prime_me2")
-	end]]
-	--ObjectiveSurvival_125tick()
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 4)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 3)
+		AddUnitClass(HuskTeam, "indoc_inf_abomination", 1)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
 end
 
 function Setup_SSVxECL_med()
-		print("Load/setup SSV versus ECL - level mode:med")
+	print("Load/setup SSV versus ECL - level mode:med")
 	
 	--SetTeamAggressiveness(CIS, 0.96)
 	--SetTeamAggressiveness(REP, 0.99)
@@ -2463,7 +2442,7 @@ function Setup_SSVxECL_med()
 end
 
 function Setup_GTHxECL_med()
-		print("Load/setup GTH versus ECL - level mode:med")
+	print("Load/setup GTH versus ECL - level mode:med")
 	
 	--SetTeamAggressiveness(REP, 0.96)
 	--SetTeamAggressiveness(CIS, 0.99)
@@ -2503,7 +2482,7 @@ function Setup_GTHxECL_med()
 end
 
 function Setup_SSVxRPR_med()
-		print("Load/setup SSV versus RPR - level mode:med")
+	print("Load/setup SSV versus RPR - level mode:med")
 	
 	--SetTeamAggressiveness(REP, 0.99)
 	--SetTeamAggressiveness(CIS, 0.96)
@@ -2538,7 +2517,7 @@ function Setup_SSVxRPR_med()
 end
 
 function Setup_SSVxCER_med()
-		print("Load/setup SSV versus CER - level mode:med")
+	print("Load/setup SSV versus CER - level mode:med")
 	
 	--SetTeamAggressiveness(REP, 0.99)
 	--SetTeamAggressiveness(CIS, 0.99)
@@ -2573,7 +2552,7 @@ function Setup_SSVxCER_med()
 end
 
 function Setup_SSVxGTH_lg()
-		print("ME5_RandomSides.Setup_SSVxGTH_lg(): Entered")
+	print("ME5_RandomSides.Setup_SSVxGTH_lg(): Entered")
 	--Setup_SSVxGTH_lg = 1
 	ssvEngCnt = 8
 	
@@ -2636,23 +2615,21 @@ function Setup_SSVxGTH_lg()
 		}
 	end
 	
-	SetTeamName(HuskTeam, CIS)
-	SetTeamIcon(HuskTeam, "cis_icon")
-	SetUnitCount(HuskTeam, 6)
-	AddUnitClass(HuskTeam, "indoc_inf_husk", 6)
-	
-	SetTeamAsEnemy(REP,HuskTeam)
-	SetTeamAsEnemy(HuskTeam,REP)
-	SetTeamAsFriend(CIS,HuskTeam)
-	SetTeamAsFriend(HuskTeam,CIS)
-	
-	--[[if not ScriptCB_InMultiplayer() then
-		SetHeroClass(CIS, "gth_hero_prime_me2")
-	end]]
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 6)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 6)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
 end
 
 function Setup_SSVxCOL_lg()
-		print("ME5_RandomSides.Setup_SSVxCOL_lg(): Entered")
+	print("ME5_RandomSides.Setup_SSVxCOL_lg(): Entered")
 	--Setup_SSVxCOL_lg = 1
 	ssvEngCnt = 8
 	
@@ -2711,22 +2688,22 @@ function Setup_SSVxCOL_lg()
 		}
 	end
 	
-	SetTeamName(HuskTeam, CIS)
-	SetTeamIcon(HuskTeam, "cis_icon")
-	SetUnitCount(HuskTeam, 6)
-	AddUnitClass(HuskTeam, "indoc_inf_husk", 4)
-	AddUnitClass(HuskTeam, "indoc_inf_abomination", 2)
-	
-	SetTeamAsEnemy(REP,HuskTeam)
-	SetTeamAsEnemy(HuskTeam,REP)
-	SetTeamAsFriend(CIS,HuskTeam)
-	SetTeamAsFriend(HuskTeam,CIS)
-	
-	--SetHeroClass(CIS, "col_hero_harbinger")
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 6)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 4)
+		AddUnitClass(HuskTeam, "indoc_inf_abomination", 2)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
 end
 
 function Setup_EVGxGTH_lg()
-		print("ME5_RandomSides.Setup_EVGxGTH_lg(): Entered")
+	print("ME5_RandomSides.Setup_EVGxGTH_lg(): Entered")
 	--Setup_SSVxGTH_lg = 1
 	ssvEngCnt = 8
 	
@@ -2791,23 +2768,21 @@ function Setup_EVGxGTH_lg()
 		}
 	end
 	
-	SetTeamName(HuskTeam, CIS)
-	SetTeamIcon(HuskTeam, "cis_icon")
-	SetUnitCount(HuskTeam, 4)
-	AddUnitClass(HuskTeam, "indoc_inf_husk", 4)
-	
-	SetTeamAsEnemy(REP,HuskTeam)
-	SetTeamAsEnemy(HuskTeam,REP)
-	SetTeamAsFriend(CIS,HuskTeam)
-	SetTeamAsFriend(HuskTeam,CIS)
-	
-	--[[if not ScriptCB_InMultiplayer() then
-		SetHeroClass(CIS, "gth_hero_prime_me2")
-	end]]
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 4)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 4)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
 end
 
 function Setup_EVGxCOL_lg()
-		print("ME5_RandomSides.Setup_EVGxCOL_lg(): Entered")
+	print("ME5_RandomSides.Setup_EVGxCOL_lg(): Entered")
 	--Setup_SSVxGTH_lg = 1
 	ssvEngCnt = 8
 	
@@ -2868,24 +2843,22 @@ function Setup_EVGxCOL_lg()
 		}
 	end
 	
-	SetTeamName(HuskTeam, CIS)
-	SetTeamIcon(HuskTeam, "cis_icon")
-	SetUnitCount(HuskTeam, 6)
-	AddUnitClass(HuskTeam, "indoc_inf_husk", 4)
-	AddUnitClass(HuskTeam, "indoc_inf_abomination", 2)
-	
-	SetTeamAsEnemy(REP,HuskTeam)
-	SetTeamAsEnemy(HuskTeam,REP)
-	SetTeamAsFriend(CIS,HuskTeam)
-	SetTeamAsFriend(HuskTeam,CIS)
-	
-	--[[if not ScriptCB_InMultiplayer() then
-		SetHeroClass(CIS, "gth_hero_prime_me2")
-	end]]
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 6)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 4)
+		AddUnitClass(HuskTeam, "indoc_inf_abomination", 2)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
 end
 
 function Setup_SSVxECL_lg()
-		print("Load/setup SSV versus ECL - level mode:lg")
+	print("Load/setup SSV versus ECL - level mode:lg")
 	
 	--SetTeamAggressiveness(CIS,(0.96))
 	--SetTeamAggressiveness(REP,(0.99))
@@ -2923,7 +2896,7 @@ function Setup_SSVxECL_lg()
 end
 
 function Setup_GTHxECL_lg()
-		print("Load/setup GTH versus ECL - level mode:lg")
+	print("Load/setup GTH versus ECL - level mode:lg")
 	
 	--SetTeamAggressiveness(REP,(0.96))
 	--SetTeamAggressiveness(CIS,(0.99))
@@ -2963,7 +2936,7 @@ function Setup_GTHxECL_lg()
 end
 
 function Setup_SSVxRPR_lg()
-		print("Load/setup SSV versus RPR - level mode:lg")
+	print("Load/setup SSV versus RPR - level mode:lg")
 	
 	--SetTeamAggressiveness(REP,(0.99))
 	--SetTeamAggressiveness(CIS,(0.96))
@@ -2998,7 +2971,7 @@ function Setup_SSVxRPR_lg()
 end
 
 function Setup_SSVxCER_lg()
-		print("Load/setup SSV versus CER - level mode:lg")
+	print("Load/setup SSV versus CER - level mode:lg")
 	
 	--SetTeamAggressiveness(REP,(0.99))
 	--SetTeamAggressiveness(CIS,(0.99))
@@ -3033,7 +3006,7 @@ function Setup_SSVxCER_lg()
 end
 
 function Setup_SSVxGTH_xl()
-		print("ME5_RandomSides.Setup_SSVxGTH_xl(): Entered")
+	print("ME5_RandomSides.Setup_SSVxGTH_xl(): Entered")
 	--Setup_SSVxGTH_lg = 1
 	ssvEngCnt = 8
 	
@@ -3096,23 +3069,21 @@ function Setup_SSVxGTH_xl()
 		}
 	end
 	
-	SetTeamName(HuskTeam, CIS)
-	SetTeamIcon(HuskTeam, "cis_icon")
-	SetUnitCount(HuskTeam, 7)
-	AddUnitClass(HuskTeam, "indoc_inf_husk", 7)
-	
-	SetTeamAsEnemy(REP,HuskTeam)
-	SetTeamAsEnemy(HuskTeam,REP)
-	SetTeamAsFriend(CIS,HuskTeam)
-	SetTeamAsFriend(HuskTeam,CIS)
-	
-	--[[if not ScriptCB_InMultiplayer() then
-		SetHeroClass(CIS, "gth_hero_prime_me2")
-	end]]
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 7)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 7)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
 end
 
 function Setup_SSVxCOL_xl()
-		print("ME5_RandomSides.Setup_SSVxCOL_xl(): Entered")
+	print("ME5_RandomSides.Setup_SSVxCOL_xl(): Entered")
 	--Setup_SSVxCOL_lg = 1
 	ssvEngCnt = 8
 	
@@ -3171,22 +3142,22 @@ function Setup_SSVxCOL_xl()
 		}
 	end
 	
-	SetTeamName(HuskTeam, CIS)
-	SetTeamIcon(HuskTeam, "cis_icon")
-	SetUnitCount(HuskTeam, 8)
-	AddUnitClass(HuskTeam, "indoc_inf_husk", 5)
-	AddUnitClass(HuskTeam, "indoc_inf_abomination", 3)
-	
-	SetTeamAsEnemy(REP,HuskTeam)
-	SetTeamAsEnemy(HuskTeam,REP)
-	SetTeamAsFriend(CIS,HuskTeam)
-	SetTeamAsFriend(HuskTeam,CIS)
-	
-	--SetHeroClass(CIS, "col_hero_harbinger")
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 8)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 5)
+		AddUnitClass(HuskTeam, "indoc_inf_abomination", 3)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
 end
 
 function Setup_EVGxGTH_xl()
-		print("ME5_RandomSides.Setup_EVGxGTH_xl(): Entered")
+	print("ME5_RandomSides.Setup_EVGxGTH_xl(): Entered")
 	--Setup_SSVxGTH_lg = 1
 	ssvEngCnt = 8
 	
@@ -3251,23 +3222,21 @@ function Setup_EVGxGTH_xl()
 		}
 	end
 	
-	SetTeamName(HuskTeam, CIS)
-	SetTeamIcon(HuskTeam, "cis_icon")
-	SetUnitCount(HuskTeam, 5)
-	AddUnitClass(HuskTeam, "indoc_inf_husk", 5)
-	
-	SetTeamAsEnemy(REP,HuskTeam)
-	SetTeamAsEnemy(HuskTeam,REP)
-	SetTeamAsFriend(CIS,HuskTeam)
-	SetTeamAsFriend(HuskTeam,CIS)
-	
-	--[[if not ScriptCB_InMultiplayer() then
-		SetHeroClass(CIS, "gth_hero_prime_me2")
-	end]]
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 5)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 5)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
 end
 
 function Setup_EVGxCOL_xl()
-		print("ME5_RandomSides.Setup_EVGxCOL_xl(): Entered")
+	print("ME5_RandomSides.Setup_EVGxCOL_xl(): Entered")
 	--Setup_SSVxGTH_lg = 1
 	ssvEngCnt = 8
 	
@@ -3328,20 +3297,18 @@ function Setup_EVGxCOL_xl()
 		}
 	end
 	
-	SetTeamName(HuskTeam, CIS)
-	SetTeamIcon(HuskTeam, "cis_icon")
-	SetUnitCount(HuskTeam, 8)
-	AddUnitClass(HuskTeam, "indoc_inf_husk", 5)
-	AddUnitClass(HuskTeam, "indoc_inf_abomination", 3)
-	
-	SetTeamAsEnemy(REP,HuskTeam)
-	SetTeamAsEnemy(HuskTeam,REP)
-	SetTeamAsFriend(CIS,HuskTeam)
-	SetTeamAsFriend(HuskTeam,CIS)
-	
-	--[[if not ScriptCB_InMultiplayer() then
-		SetHeroClass(CIS, "gth_hero_prime_me2")
-	end]]
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 8)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 5)
+		AddUnitClass(HuskTeam, "indoc_inf_abomination", 3)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
 end
 
 function Setup_SSVxSUN_spa()
