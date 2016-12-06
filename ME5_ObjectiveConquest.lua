@@ -47,6 +47,9 @@ ObjectiveConquest = Objective:New
 	-- defaultBleedRate = 0.3333333333,			--how many units will be lost per second
 	defaultBleedRate = 0.4444444444,			--how many units will be lost per second
 	defeatTimerSeconds = 40,		--how long the defeat timer lasts after capping the all the CPs
+	
+	bCanShowCaptureMessage = true,
+	numMsgDelayTimers = 0,
 }
 
 function ObjectiveConquest:GetOpposingTeam(team)
@@ -99,12 +102,12 @@ function ObjectiveConquest:GetGameTimeLimit()
 end
 
 function ObjectiveConquest:GameOptionsTimeLimitUp()
-	local team1pts = GetReinforcementCount(1)
-	local team2pts = GetReinforcementCount(2)
-	if ( team1pts > team2pts ) then
-		MissionVictory(1)
-	elseif ( team1pts < team2pts ) then
-		MissionVictory(2)
+	local teamATTpts = GetReinforcementCount(teamATT)
+	local teamDEFpts = GetReinforcementCount(teamDEF)
+	if ( teamATTpts > teamDEFpts ) then
+		self:Complete(teamATT)
+	elseif ( teamATTpts < teamDEFpts ) then
+		self:Complete(teamDEF)
 	else
 		--tied, so victory for both
 		MissionVictory({1,2})
@@ -178,13 +181,13 @@ function ObjectiveConquest:Start()
 					end
 				end
 			else
-				if onlineSideVar == "SSVxGTH" or onlineSideVar == 1 then
+				if gCurrentMapManager.onlineSideVar == "SSVxGTH" or gCurrentMapManager.onlineSideVar == 1 then
 					if team == REP then
 						ShowMessageText("level.common.events.siege.control_".."ssv")
 					elseif team == CIS then
 						ShowMessageText("level.common.events.siege.control_".."gth")
 					end
-				elseif onlineSideVar == "SSVxCOL" or onlineSideVar == 2 then
+				elseif gCurrentMapManager.onlineSideVar == "SSVxCOL" or gCurrentMapManager.onlineSideVar == 2 then
 					if team == REP then
 						ShowMessageText("level.common.events.siege.control_".."ssv")
 					elseif team == CIS then
@@ -293,7 +296,7 @@ function ObjectiveConquest:Start()
 			function (timer)
 				StopTimer(timer)
 				SetReinforcementCount(self:GetOpposingTeam(self.winningTeam), 0)
-				self:Complete(self.winningTeam)	
+				self:Complete(self.winningTeam)
 			end,
 			self.defeatTimer
 		)
@@ -336,7 +339,63 @@ function ObjectiveConquest:Start()
 		end
 	end
 	
-	if isTDM == false then
+	
+	local function ShowCaptureMessage(postPtr)
+		--print("ShowCaptureMessage(): Entered")
+		if self.bCanShowCaptureMessage == false then return end
+		
+		if self.bCanShowCaptureMessage == true then
+			-- Don't allow another capture message to be shown for a little bit
+			self.bCanShowCaptureMessage = false
+			SetTimerValue(self.postCaptureMsgBufferTimer, 3.0)
+			StartTimer(self.postCaptureMsgBufferTimer)
+			
+			local msgDelayValue = 0.05					-- Duration in seconds to delay the message displaying which CP was captured
+			local postName = GetEntityName(postPtr)		-- Name of the post that was captured
+			local postTeam = GetObjectTeam(postName)	-- Captured post's team
+			local playerTeam = GetCharacterTeam(0)		-- Player's team
+			local msgContext = nil						-- Who captured the post from the player's perspective ("ally" or "enemy")
+			local messageStr = nil
+			
+			if string.lower(GetWorldFilename()) == "vrm" then
+				postName = string.sub(postName,1,3)
+			end
+			
+			-- Does the captured post now belong to the player's team?
+			if playerTeam == postTeam then
+				msgContext = "ally"		-- "Allied forces have captured the..."
+			else
+				msgContext = "enemy"	-- "Enemy forces have captured the..."
+			end
+			
+			-- Show first message
+			ShowMessageText("level.common.events.con.post.captured_"..msgContext)
+			
+			-- Short delay before showing second message displaying which CP was captured
+			self.numMsgDelayTimers = self.numMsgDelayTimers + 1
+			local postCaptureMsgDelayTimer = CreateTimer("postCaptureMsgDelayTimer"..self.numMsgDelayTimers)
+			
+			SetTimerValue(postCaptureMsgDelayTimer, msgDelayValue)
+			StartTimer(postCaptureMsgDelayTimer)
+			local postCaptureMsgDelayTimerElapse = OnTimerElapse(
+				function(timer)
+					messageStr = "level."..GetWorldFilename().."."..postName
+					print("ShowCaptureMessage(): messageStr = ", messageStr)
+					
+					ShowMessageText(messageStr)
+					
+					DestroyTimer(timer)
+					postCaptureMsgDelayTimer = nil
+					postCaptureMsgDelayTimerElapse = nil
+					ReleaseTimerElapse(postCaptureMsgDelayTimerElapse)
+				end,
+			postCaptureMsgDelayTimer
+			)
+		end
+	end
+	
+	
+	if gCurrentMapManager.gameMode ~= "tdm" then
     	if not ScriptCB_InMultiplayer() then
     		if ME5_SideVar == 1 then
     			snd_REP_cpCapture_ally	= snd_SSV_cpCapture_ally
@@ -384,7 +443,7 @@ function ObjectiveConquest:Start()
     			
     		end
     	else
-    		if onlineSideVar == "SSVxGTH" or onlineSideVar == 1 then
+    		if gCurrentMapManager.onlineSideVar == "SSVxGTH" or gCurrentMapManager.onlineSideVar == 1 then
     			snd_REP_cpCapture_ally	= snd_SSV_cpCapture_ally
     			snd_REP_cpCapture_enemy	= snd_SSV_cpCapture_enemy
     			snd_REP_cpLost_ally		= snd_SSV_cpLost_ally
@@ -395,7 +454,7 @@ function ObjectiveConquest:Start()
     			snd_CIS_cpLost_ally		= snd_GTH_cpLost_ally
     			snd_CIS_cpLost_enemy	= snd_GTH_cpLost_enemy
     			
-    		elseif onlineSideVar == "SSVxCOL" or onlineSideVar == 2 then
+    		elseif gCurrentMapManager.onlineSideVar == "SSVxCOL" or gCurrentMapManager.onlineSideVar == 2 then
     			snd_REP_cpCapture_ally	= snd_SSV_cpCapture_ally
     			snd_REP_cpCapture_enemy	= snd_SSV_cpCapture_enemy
     			snd_REP_cpLost_ally		= snd_SSV_cpLost_ally
@@ -406,7 +465,7 @@ function ObjectiveConquest:Start()
     			snd_CIS_cpLost_ally		= snd_COL_cpLost_ally
     			snd_CIS_cpLost_enemy	= snd_COL_cpLost_enemy
     			
-    		elseif onlineSideVar == "EVGxGTH" or onlineSideVar == 3 then
+    		elseif gCurrentMapManager.onlineSideVar == "EVGxGTH" or gCurrentMapManager.onlineSideVar == 3 then
     			snd_REP_cpCapture_ally	= snd_EVG_cpCapture_ally
     			snd_REP_cpCapture_enemy	= snd_EVG_cpCapture_enemy
     			snd_REP_cpLost_ally		= snd_EVG_cpLost_ally
@@ -417,7 +476,7 @@ function ObjectiveConquest:Start()
     			snd_CIS_cpLost_ally		= snd_GTH_cpLost_ally
     			snd_CIS_cpLost_enemy	= snd_GTH_cpLost_enemy
     			
-    		elseif onlineSideVar == "EVGxCOL" or onlineSideVar == 4 then
+    		elseif gCurrentMapManager.onlineSideVar == "EVGxCOL" or gCurrentMapManager.onlineSideVar == 4 then
     			snd_REP_cpCapture_ally	= snd_EVG_cpCapture_ally
     			snd_REP_cpCapture_enemy	= snd_EVG_cpCapture_enemy
     			snd_REP_cpLost_ally		= snd_EVG_cpLost_ally
@@ -491,23 +550,37 @@ function ObjectiveConquest:Start()
 		table.insert(self.AIGoals, AddAIGoal(self.teamDEF, "Conquest", 100*self.AIGoalWeight))
 	end
 	
+	-- Create timers for CP capture messages
+	self.postCaptureMsgBufferTimer = CreateTimer("postCaptureMsgBufferTimer")
+	--ShowTimer(self.postCaptureMsgBufferTimer)		-- uncomment me for test output!
+	
 	--do an initial update on the state
 	UpdateState()
 	
 	--=======================================
 	-- Event responses
 	--=======================================
+	
+	-- command post capture message buffer timer
+	self.postCaptureMsgBufferTimerElapse = OnTimerElapse(
+		function(timer)
+			self.bCanShowCaptureMessage = true
+		end,
+	self.postCaptureMsgBufferTimer
+	)
+	
 	-- command post captures
 	OnFinishCapture(
 		function (postPtr)
 			if self.isComplete then	return end
 			if not self.commandPosts[GetEntityName(postPtr)] then return end
-						
+			
+			ShowCaptureMessage(postPtr)
 			UpdatePostMapMarker(postPtr)
 			UpdateState()
 		end
 		)
-		
+	
 	-- command post neutralize
 	OnFinishNeutralize(
 		function (postPtr)				
@@ -666,6 +739,8 @@ function ObjectiveConquest:Start()
 end
 
 function ObjectiveConquest:Complete(winningTeam)
+	print("ObjectiveConquest:Complete(): Entered")
+	
 	if not self.multiplayerRules then
 		--remove all the cp markers
 		for i, cp in pairs(self.commandPosts) do
@@ -675,13 +750,4 @@ function ObjectiveConquest:Complete(winningTeam)
 	
 	--then call the default objective complete method
 	Objective.Complete(self, winningTeam)
-	
-	--[[if ME5_CustomHUD == 1 then
-		if bStockFontLoaded == false then
-			bStockFontLoaded = true
-				print("ME5_ObjectiveConquest: Loading hud_font_stock.lvl...")
-			-- hotfix that reloads the stock fonts in the stats screen
-			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
-		end
-	end]]
 end

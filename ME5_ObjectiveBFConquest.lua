@@ -51,6 +51,9 @@ ObjectiveConquest = Objective:New
 	-- internal values
 	defaultBleedRate = 1.05,			--how many units will be lost per second	-- 0.7777777777
 	defeatTimerSeconds = 40,		--how long the defeat timer lasts after capping all the CPs
+	
+	bCanShowCaptureMessage = true,
+	numMsgDelayTimers = 0,
 }
 
 function ObjectiveConquest:GetOpposingTeam(team)
@@ -114,12 +117,12 @@ function ObjectiveConquest:GetGameTimeLimit()
 end
 
 function ObjectiveConquest:GameOptionsTimeLimitUp()
-	local team1pts = GetReinforcementCount(1)
-	local team2pts = GetReinforcementCount(2)
-	if ( team1pts > team2pts ) then
-		MissionVictory(1)
-	elseif ( team1pts < team2pts ) then
-		MissionVictory(2)
+	local teamATTpts = GetReinforcementCount(teamATT)
+	local teamDEFpts = GetReinforcementCount(teamDEF)
+	if ( teamATTpts > teamDEFpts ) then
+		self:Complete(teamATT)
+	elseif ( teamATTpts < teamDEFpts ) then
+		self:Complete(teamDEF)
 	else
 		--tied, so victory for both
 		MissionVictory({1,2})
@@ -218,25 +221,25 @@ function ObjectiveConquest:Start()
 					end
 				end
 			else
-				if onlineSideVar == "SSVxGTH" or onlineSideVar == 1 then
+				if gCurrentMapManager.onlineSideVar == "SSVxGTH" or gCurrentMapManager.onlineSideVar == 1 then
 					if team == REP then
 						ShowMessageText("level.common.events.siege.control_".."gth")
 					elseif team == CIS then
 						ShowMessageText("level.common.events.siege.control_".."ssv")
 					end
-				elseif onlineSideVar == "SSVxCOL" or onlineSideVar == 2 then
+				elseif gCurrentMapManager.onlineSideVar == "SSVxCOL" or gCurrentMapManager.onlineSideVar == 2 then
 					if team == REP then
 						ShowMessageText("level.common.events.siege.control_".."col")
 					elseif team == CIS then
 						ShowMessageText("level.common.events.siege.control_".."ssv")
 					end
-				elseif onlineSideVar == "EVGxGTH" or onlineSideVar == 3 then
+				elseif gCurrentMapManager.onlineSideVar == "EVGxGTH" or gCurrentMapManager.onlineSideVar == 3 then
 					if team == REP then
 						ShowMessageText("level.common.events.siege.control_".."gth")
 					elseif team == CIS then
 						ShowMessageText("level.common.events.siege.control_".."evg")
 					end
-				elseif onlineSideVar == "EVGxCOL" or onlineSideVar == 4 then
+				elseif gCurrentMapManager.onlineSideVar == "EVGxCOL" or gCurrentMapManager.onlineSideVar == 4 then
 					if team == REP then
 						ShowMessageText("level.common.events.siege.control_".."col")
 					elseif team == CIS then
@@ -391,6 +394,62 @@ function ObjectiveConquest:Start()
 		end
 	end
 	
+	
+	local function ShowCaptureMessage(postPtr)
+		print("ShowCaptureMessage(): Entered")
+		if self.bCanShowCaptureMessage == false then return end
+		
+		if self.bCanShowCaptureMessage == true then
+			-- Don't allow another capture message to be shown for a little bit
+			self.bCanShowCaptureMessage = false
+			SetTimerValue(self.postCaptureMsgBufferTimer, 3.0)
+			StartTimer(self.postCaptureMsgBufferTimer)
+			
+			local msgDelayValue = 0.05					-- Duration in seconds to delay the message displaying which CP was captured
+			local postName = GetEntityName(postPtr)		-- Name of the post that was captured
+			local postTeam = GetObjectTeam(postName)	-- Captured post's team
+			local playerTeam = GetCharacterTeam(0)		-- Player's team
+			local msgContext = nil						-- Who captured the post from the player's perspective ("ally" or "enemy")
+			local messageStr = nil
+			
+			if string.lower(GetWorldFilename()) == "vrm" then
+				postName = string.sub(postName,1,3)
+			end
+			
+			-- Does the captured post now belong to the player's team?
+			if playerTeam == postTeam then
+				msgContext = "ally"		-- "Allied forces have captured the..."
+			else
+				msgContext = "enemy"	-- "Enemy forces have captured the..."
+			end
+			
+			-- Show first message
+			ShowMessageText("level.common.events.con.post.captured_"..msgContext)
+			
+			-- Short delay before showing second message displaying which CP was captured
+			self.numMsgDelayTimers = self.numMsgDelayTimers + 1
+			local postCaptureMsgDelayTimer = CreateTimer("postCaptureMsgDelayTimer"..self.numMsgDelayTimers)
+			
+			SetTimerValue(postCaptureMsgDelayTimer, msgDelayValue)
+			StartTimer(postCaptureMsgDelayTimer)
+			local postCaptureMsgDelayTimerElapse = OnTimerElapse(
+				function(timer)
+					messageStr = "level."..GetWorldFilename().."."..postName
+					print("ShowCaptureMessage(): messageStr = ", messageStr)
+					
+					ShowMessageText(messageStr)
+					
+					DestroyTimer(timer)
+					postCaptureMsgDelayTimer = nil
+					postCaptureMsgDelayTimerElapse = nil
+					ReleaseTimerElapse(postCaptureMsgDelayTimerElapse)
+				end,
+			postCaptureMsgDelayTimer
+			)
+		end
+	end
+	
+	
 	if not ScriptCB_InMultiplayer() then
 		if ME5_SideVar == 1 then
 			snd_REP_cpCapture_ally	= snd_SSV_cpCapture_ally
@@ -438,7 +497,7 @@ function ObjectiveConquest:Start()
 			
 		end
 	else
-		if onlineSideVar == "SSVxGTH" or onlineSideVar == 1 then
+		if gCurrentMapManager.onlineSideVar == "SSVxGTH" or gCurrentMapManager.onlineSideVar == 1 then
 			snd_REP_cpCapture_ally	= snd_SSV_cpCapture_ally
 			snd_REP_cpCapture_enemy	= snd_SSV_cpCapture_enemy
 			snd_REP_cpLost_ally		= snd_SSV_cpLost_ally
@@ -449,7 +508,7 @@ function ObjectiveConquest:Start()
 			snd_CIS_cpLost_ally		= snd_GTH_cpLost_ally
 			snd_CIS_cpLost_enemy	= snd_GTH_cpLost_enemy
 			
-		elseif onlineSideVar == "SSVxCOL" or onlineSideVar == 2 then
+		elseif gCurrentMapManager.onlineSideVar == "SSVxCOL" or gCurrentMapManager.onlineSideVar == 2 then
 			snd_REP_cpCapture_ally	= snd_SSV_cpCapture_ally
 			snd_REP_cpCapture_enemy	= snd_SSV_cpCapture_enemy
 			snd_REP_cpLost_ally		= snd_SSV_cpLost_ally
@@ -460,7 +519,7 @@ function ObjectiveConquest:Start()
 			snd_CIS_cpLost_ally		= snd_COL_cpLost_ally
 			snd_CIS_cpLost_enemy	= snd_COL_cpLost_enemy
 			
-		elseif onlineSideVar == "EVGxGTH" or onlineSideVar == 3 then
+		elseif gCurrentMapManager.onlineSideVar == "EVGxGTH" or gCurrentMapManager.onlineSideVar == 3 then
 			snd_REP_cpCapture_ally	= snd_EVG_cpCapture_ally
 			snd_REP_cpCapture_enemy	= snd_EVG_cpCapture_enemy
 			snd_REP_cpLost_ally		= snd_EVG_cpLost_ally
@@ -471,7 +530,7 @@ function ObjectiveConquest:Start()
 			snd_CIS_cpLost_ally		= snd_GTH_cpLost_ally
 			snd_CIS_cpLost_enemy	= snd_GTH_cpLost_enemy
 			
-		elseif onlineSideVar == "EVGxCOL" or onlineSideVar == 4 then
+		elseif gCurrentMapManager.onlineSideVar == "EVGxCOL" or gCurrentMapManager.onlineSideVar == 4 then
 			snd_REP_cpCapture_ally	= snd_EVG_cpCapture_ally
 			snd_REP_cpCapture_enemy	= snd_EVG_cpCapture_enemy
 			snd_REP_cpLost_ally		= snd_EVG_cpLost_ally
@@ -517,19 +576,19 @@ function ObjectiveConquest:Start()
 	self.commandPosts = self.commandPosts or {}
 	
 	--initialize ticket counts
-	if mapSize == xxs then
+	if gCurrentMapManager.mapSize == "xxs" then
 		self.ticketsATT = self.ticketsATT or 200
 		self.ticketsDEF = self.ticketsDEF or 200
-	elseif mapSize == xs then
+	elseif gCurrentMapManager.mapSize == "xs" then
 		self.ticketsATT = self.ticketsATT or 250
 		self.ticketsDEF = self.ticketsDEF or 250
-	elseif mapSize == sm then
+	elseif gCurrentMapManager.mapSize == "sm" then
 		self.ticketsATT = self.ticketsATT or 300
 		self.ticketsDEF = self.ticketsDEF or 300
-	elseif mapSize == med then
+	elseif gCurrentMapManager.mapSize == "med" then
 		self.ticketsATT = self.ticketsATT or 350
 		self.ticketsDEF = self.ticketsDEF or 350
-	elseif mapSize == lg then
+	elseif gCurrentMapManager.mapSize == "lg" or gCurrentMapManager.mapSize == "xl" then
 		self.ticketsATT = self.ticketsATT or 400
 		self.ticketsDEF = self.ticketsDEF or 400
 	else
@@ -572,18 +631,32 @@ function ObjectiveConquest:Start()
 		table.insert(self.AIGoals, AddAIGoal(self.teamDEF, "Conquest", 100*self.AIGoalWeight))
 	end
 	
+	-- Create timers for CP capture messages
+	self.postCaptureMsgBufferTimer = CreateTimer("postCaptureMsgBufferTimer")
+	--ShowTimer(self.postCaptureMsgBufferTimer)		-- uncomment me for test output!
+	
 	--do an initial update on the state
 	UpdateState()
 	
 	--=======================================
 	-- Event responses
 	--=======================================
+	
+	-- command post capture message buffer timer
+	self.postCaptureMsgBufferTimerElapse = OnTimerElapse(
+		function(timer)
+			self.bCanShowCaptureMessage = true
+		end,
+	self.postCaptureMsgBufferTimer
+	)
+	
 	-- command post captures
 	OnFinishCapture(
 		function (postPtr)
 			if self.isComplete then	return end
 			if not self.commandPosts[GetEntityName(postPtr)] then return end
-						
+			
+			ShowCaptureMessage(postPtr)
 			UpdatePostMapMarker(postPtr)
 			UpdateState()
 		end
