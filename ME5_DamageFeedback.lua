@@ -1,26 +1,25 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Damage Feedback Script by Aaron Gilbert
--- Build 31025/06
+-- Build 31205/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Oct 25, 2016
+-- Dec 5, 2016
 -- Copyright (c) 2016, Aaron Gilbert All rights reserved.
 -- 
--- About this script: This script contains various functions 
--- regarding player and enemy damage feedback.
--- 
--- Usage: Simply call Init_PlayerDamageFeedback() or Init_HitMarkerSounds() 
--- anywhere in ScriptInit().
+-- About:
+--  This script contains various functions regarding player and enemy damage feedback.
 -- 
 -- 
--- Legal Stuff:
--- You are welcome to use this script in your custom-made mods and maps so long as they are not being rented or sold.
--- If you use this script, please credit me in the readme of the project you used it in.
--- Do not claim this script as your own. It may not be much, but I did spend some time writing it after all.
--- You may edit this script as you need in order to make it work with your own map or mod.
--- I am not responsible for any damages that might be incurred through the use of this script.
--- THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
+-- Usage:
+--  Simply call Init_PlayerDamageFeedback() or Init_HitMarkerSounds() anywhere in ScriptInit().
+-- 
+-- 
+-- Legal:
+--  This script is licensed under the BSD 3-Clause License. A copy of this license (as LICENSE.md) should have been included
+--  with this script. If it wasn't, it can also be found here: https://www.w3.org/Consortium/Legal/2008/03-bsd-license.html
+--  
+--  THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 
@@ -264,6 +263,9 @@ function Init_PlayerDamageFeedback()
 	-- When the player loses health
 	local playerdamage = OnObjectDamage(
 		function(object, damager)
+			-- Abort if the damager is nil
+			if not damager then return end
+			if GetCharacterUnit(damager) == nil then return end
 			
 			-- Was the damaged object the player?
 			if Iamhuman == GetEntityPtr(object) then
@@ -433,7 +435,7 @@ function Init_HitMarkerSounds()
 	local Iamhuman = nil					-- Pointer for human player.
 	local bIsDamagerCorrectClass = false	-- Is the damager the correct class?
 	local damagerFaction = "none"			-- Which faction is the damager from?
-	local weaponType = "normal"				-- The weapon type. ("normal", "sniper", "shotgun", "gps")
+	local weaponType = 1					-- The weapon type. (1 = "normal", 2 = "sniper", 3 = "shotgun", 4 = "gps")
 	local bIsIncendiary = false				-- Is the weapon incendiary?
 	
 	-- COL ballistic weapons.
@@ -746,8 +748,9 @@ function Init_HitMarkerSounds()
 					"gth_hero_prime_me3",
 					
 					-- Buildings
-					"tur_bldg_chaingun_roof",
-					"tur_bldg_chaingun_tripod",
+					"hoth_bldg_shieldgenerator",
+					--"tur_bldg_chaingun_roof",
+					--"tur_bldg_chaingun_tripod",
 					"tur_bldg_hoth_dishturret",
 					"tur_bldg_hoth_lasermortar",
 					"tur_bldg_laser",
@@ -762,8 +765,7 @@ function Init_HitMarkerSounds()
 					"gth_bldg_rocketdrone",
 					"gth_walk_colussus",
 					"ssv_fly_a61_gunship",
-					"ssv_tread_mako",
-					"ssv_hero_jack" }
+					"ssv_tread_mako" }
 	
 	
 	
@@ -781,12 +783,12 @@ function Init_HitMarkerSounds()
 				--print("Playing armor sound")
 				
 				-- What is the weapon type?
-				if weaponType == "sniper" then
+				if weaponType == 2 then
 					print("Weapon is sniper")
 					ScriptCB_SndPlaySound("enemy_armor_sniper_impact")
-				elseif weaponType == "shotgun" then
+				elseif weaponType == 3 then
 					ScriptCB_SndPlaySound("enemy_armor_shotgun_impact")
-				elseif weaponType == "gps" then
+				elseif weaponType == 4 then
 					ScriptCB_SndPlaySound("enemy_armor_gps_impact_layered")
 				else
 					ScriptCB_SndPlaySound("enemy_damage_armor_layered_"..randSnd)
@@ -795,12 +797,12 @@ function Init_HitMarkerSounds()
 			elseif type == "normal" then
 				--print("Playing normal sound")
 				
-				if weaponType == "sniper" then
+				if weaponType == 2 then
 					print("Weapon is sniper")
 					ScriptCB_SndPlaySound("enemy_normal_sniper_impact")
-				elseif weaponType == "shotgun" then
+				elseif weaponType == 3 then
 					ScriptCB_SndPlaySound("enemy_normal_shotgun_impact")
-				elseif weaponType == "gps" then
+				elseif weaponType == 4 then
 					ScriptCB_SndPlaySound("enemy_normal_gps_impact_layered")
 				else
 					ScriptCB_SndPlaySound("enemy_damage_normal_layered_"..randSnd)
@@ -827,19 +829,18 @@ function Init_HitMarkerSounds()
 	-- When an enemy is damaged
 	local enemydamage = OnObjectDamage(
 		function(object, damager)
-			
-			-- Abort if the damager is nil
-			if GetCharacterUnit(damager) == nil then
-				--print("Damager is nil")
-				return
-			end
+			-- Abort if the damager or object is nil
+			if not damager then return end
+			if not object then return end
+			if GetCharacterUnit(damager) == nil then return end
 			
 			-- Was the damager the player?
 			if IsCharacterHuman(damager) then
 				--print("ME5_DamageFeedback.Init_HitMarkerSounds.enemydamage(): Damager is the player")
 				
-				local playerPtr = GetEntityPtr(GetCharacterUnit(damager))	-- Damager's pointer.
-				local playerClass = GetEntityClass(playerPtr)				-- Damager's class.
+				--local playerPtr = GetEntityPtr(GetCharacterUnit(damager))	-- Damager's pointer.
+				--local playerClass = GetEntityClass(playerPtr)				-- Damager's class.
+				local playerTeam = GetCharacterTeam(damager)				-- Damager's team.
 				local damagerWeapon = GetObjectLastHitWeaponClass(object)	-- Damager's weapon class.
 				
 				local objectPtr = GetEntityPtr(object)				-- Damaged object's pointer.
@@ -851,31 +852,36 @@ function Init_HitMarkerSounds()
 					print("Damaged object is the Mako")
 				end]]
 				
+				-- Exit immediately if any fields are wrong
+				if not playerTeam then return end
+				if playerTeam <= 0 then return end
+				if not damagerWeapon then return end
+				if not objectClass then return end
 				
-				-- TODO: determine what to do with incendiary weapons
+				
 				-- Is the damager weapon incendiary?
-				if string.find(damagerWeapon, "incendiary") then
+				--[[if string.sub(damagerWeapon,-10,-1) == "incendiary" then
 					bIsIncendiary = true
 				else
 					bIsIncendiary = false
-				end
+				end]]
 				
 				
 				-- Immediately abort if the weapon was incendiary
-				if bIsIncendiary == false then
+				--if bIsIncendiary == false then
 				
 					-- Detect and set the damager weapon type
-					if string.find(damagerWeapon, "sniper") then
+					if string.sub(damagerWeapon,14,19) == "sniper" then
 						--print("Weapon is sniper rifle")
-						weaponType = "sniper"
-					elseif string.find(damagerWeapon, "shotgun_plasma") then
+						weaponType = 2
+					elseif string.sub(damagerWeapon,14,27) == "shotgun_plasma" then
 						--print("Weapon is GPS")
-						weaponType = "gps"
-					elseif string.find(damagerWeapon, "shotgun") then
+						weaponType = 4
+					elseif string.sub(damagerWeapon,14,20) == "shotgun" then
 						--print("Weapon is shotgun")
-						weaponType = "shotgun"
+						weaponType = 3
 					else
-						weaponType = "normal"
+						weaponType = 1
 					end
 					
 					--print("Damager weapon: "..damagerWeapon)
@@ -890,9 +896,39 @@ function Init_HitMarkerSounds()
 							bIsObjectArmorClass = false
 						end
 					end
+					
+					-- Determine the damager's faction
+					if ME5_SideVar == 1 or (ScriptCB_InMultiplayer() and gCurrentMapManager.onlineSideVar == "SSVxGTH") then
+						if playerTeam == REP then
+							damagerFaction = "ssv"
+						elseif playerTeam == CIS then
+							damagerFaction = "gth"
+						end
+						
+					elseif ME5_SideVar == 2 or (ScriptCB_InMultiplayer() and gCurrentMapManager.onlineSideVar == "SSVxCOL") then
+						if playerTeam == REP then
+							damagerFaction = "ssv"
+						elseif playerTeam == CIS then
+							damagerFaction = "col"
+						end
+						
+					elseif ME5_SideVar == 3 or (ScriptCB_InMultiplayer() and gCurrentMapManager.onlineSideVar == "EVGxGTH") then
+						if playerTeam == REP then
+							damagerFaction = "evg"
+						elseif playerTeam == CIS then
+							damagerFaction = "gth"
+						end
+						
+					elseif ME5_SideVar == 4 or (ScriptCB_InMultiplayer() and gCurrentMapManager.onlineSideVar == "EVGxCOL") then
+						if playerTeam == REP then
+							damagerFaction = "evg"
+						elseif playerTeam == CIS then
+							damagerFaction = "col"
+						end
+					end
 				
 					-- Only proceed if damager isn't correct class
-					if bIsDamagerCorrectClass == false then
+					--[[if bIsDamagerCorrectClass == false then
 						--print("ME5_DamageFeedback.Init_HitMarkerSounds.enemydamage_COL(): Player isn't correct class, proceeding")
 						
 						-- For each COL class,
@@ -977,7 +1013,7 @@ function Init_HitMarkerSounds()
 								break 
 							end
 						end
-					end
+					end]]
 					
 					
 					
@@ -1055,7 +1091,7 @@ function Init_HitMarkerSounds()
 						end
 					end
 					
-				end
+				--end
 			end
 		end
 	)
