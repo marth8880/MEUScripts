@@ -112,16 +112,16 @@ function PreLoadStuff()
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamecol.lvl")
 		end
 	else
-		if onlineSideVar == "SSVxGTH" or onlineSideVar == 1 then
+		if gCurrentMapManager.onlineSideVar == "SSVxGTH" or gCurrentMapManager.onlineSideVar == 1 then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamessv.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamegth.lvl")
-		elseif onlineSideVar == "SSVxCOL" or onlineSideVar == 2 then
+		elseif gCurrentMapManager.onlineSideVar == "SSVxCOL" or gCurrentMapManager.onlineSideVar == 2 then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamessv.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamecol.lvl")
-		elseif onlineSideVar == "EVGxGTH" or onlineSideVar == 3 then
+		elseif gCurrentMapManager.onlineSideVar == "EVGxGTH" or gCurrentMapManager.onlineSideVar == 3 then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingameevg.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamegth.lvl")
-		elseif onlineSideVar == "EVGxCOL" or onlineSideVar == 4 then
+		elseif gCurrentMapManager.onlineSideVar == "EVGxCOL" or gCurrentMapManager.onlineSideVar == 4 then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingameevg.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamecol.lvl")
 		end
@@ -179,13 +179,13 @@ function PreLoadStuff()
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxCOL")
 			end
 		else
-			if onlineSideVar == "SSVxGTH" or onlineSideVar == 1 then
+			if gCurrentMapManager.onlineSideVar == "SSVxGTH" or gCurrentMapManager.onlineSideVar == 1 then
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_SSVxGTH")
-			elseif onlineSideVar == "SSVxCOL" or onlineSideVar == 2 then
+			elseif gCurrentMapManager.onlineSideVar == "SSVxCOL" or gCurrentMapManager.onlineSideVar == 2 then
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_SSVxCOL")
-			elseif onlineSideVar == "EVGxGTH" or onlineSideVar == 3 then
+			elseif gCurrentMapManager.onlineSideVar == "EVGxGTH" or gCurrentMapManager.onlineSideVar == 3 then
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxGTH")
-			elseif onlineSideVar == "EVGxCOL" or onlineSideVar == 4 then
+			elseif gCurrentMapManager.onlineSideVar == "EVGxCOL" or gCurrentMapManager.onlineSideVar == 4 then
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxCOL")
 			end
 		end
@@ -201,19 +201,19 @@ function PreLoadStuff()
 		
 		-- Load the new custom HUD and the objective screen text based on the game mode
 		-- What is the active game mode? (NOTE: This is set near the beginning of each game mode's objective script)
-		if MEU_GameMode == "meu_1flag" or MEU_GameMode == 1 then
+		if gCurrentMapManager.gameMode == "1flag" then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_1flag")
-		elseif MEU_GameMode == "meu_con" or MEU_GameMode == 2 then
+		elseif gCurrentMapManager.gameMode == "conquest" then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_con")
-		elseif MEU_GameMode == "meu_ctf" or MEU_GameMode == 3 then
+		elseif gCurrentMapManager.gameMode == "ctf" then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_ctf")
-		elseif MEU_GameMode == "meu_siege" or MEU_GameMode == 4 then
+		elseif gCurrentMapManager.gameMode == "siege" then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_siege")
-		elseif MEU_GameMode == "meu_surv" or MEU_GameMode == 5 then
+		elseif gCurrentMapManager.gameMode == "survival" then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_surv")
-		elseif MEU_GameMode == "meu_tdm" or MEU_GameMode == 6 then
+		elseif gCurrentMapManager.gameMode == "tdm" then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_tdm")
-		elseif MEU_GameMode == "meu_campaign" or MEU_GameMode == 7 then
+		elseif gCurrentMapManager.gameMode == "campaign" then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_campaign")
 		else
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl")
@@ -237,13 +237,13 @@ function PreLoadStuff()
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxCOL")
 			end
 		else
-			if onlineSideVar == "SSVxGTH" or onlineSideVar == 1 then
+			if gCurrentMapManager.onlineSideVar == "SSVxGTH" or gCurrentMapManager.onlineSideVar == 1 then
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_SSVxGTH")
-			elseif onlineSideVar == "SSVxCOL" or onlineSideVar == 2 then
+			elseif gCurrentMapManager.onlineSideVar == "SSVxCOL" or gCurrentMapManager.onlineSideVar == 2 then
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_SSVxCOL")
-			elseif onlineSideVar == "EVGxGTH" or onlineSideVar == 3 then
+			elseif gCurrentMapManager.onlineSideVar == "EVGxGTH" or gCurrentMapManager.onlineSideVar == 3 then
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxGTH")
-			elseif onlineSideVar == "EVGxCOL" or onlineSideVar == 4 then
+			elseif gCurrentMapManager.onlineSideVar == "EVGxCOL" or gCurrentMapManager.onlineSideVar == 4 then
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxCOL")
 			end
 		end
@@ -471,13 +471,13 @@ function PreLoadStuff()
 			LoadFactionSounds(4)
 		end
 	else
-		if onlineSideVar == "SSVxGTH" or onlineSideVar == 1 then
+		if gCurrentMapManager.onlineSideVar == "SSVxGTH" or gCurrentMapManager.onlineSideVar == 1 then
 			LoadFactionSounds(1)
-		elseif onlineSideVar == "SSVxCOL" or onlineSideVar == 2 then
+		elseif gCurrentMapManager.onlineSideVar == "SSVxCOL" or gCurrentMapManager.onlineSideVar == 2 then
 			LoadFactionSounds(2)
-		elseif onlineSideVar == "EVGxGTH" or onlineSideVar == 3 then
+		elseif gCurrentMapManager.onlineSideVar == "EVGxGTH" or gCurrentMapManager.onlineSideVar == 3 then
 			LoadFactionSounds(3)
-		elseif onlineSideVar == "EVGxCOL" or onlineSideVar == 4 then
+		elseif gCurrentMapManager.onlineSideVar == "EVGxCOL" or gCurrentMapManager.onlineSideVar == 4 then
 			LoadFactionSounds(4)
 		end
 	end
@@ -513,6 +513,9 @@ function SSVxGTH_PostLoad(spawns)
 			herosupport:Start()
 		end
 	end
+	
+	-- Add a new goal for the HuskTeam
+	AddAIGoal(HuskTeam, "Deathmatch", 100)
 end
 
 function SSVxCOL_PostLoad(spawns)
@@ -533,6 +536,9 @@ function SSVxCOL_PostLoad(spawns)
 			herosupport:Start()
 		end
 	end
+	
+	-- Add a new goal for the HuskTeam
+	AddAIGoal(HuskTeam, "Deathmatch", 100)
 end
 
 function EVGxGTH_PostLoad(spawns)
@@ -553,6 +559,9 @@ function EVGxGTH_PostLoad(spawns)
 			herosupport:Start()
 		end
 	end
+	
+	-- Add a new goal for the HuskTeam
+	AddAIGoal(HuskTeam, "Deathmatch", 100)
 end
 
 function EVGxCOL_PostLoad(spawns)
@@ -573,6 +582,9 @@ function EVGxCOL_PostLoad(spawns)
 			herosupport:Start()
 		end
 	end
+	
+	-- Add a new goal for the HuskTeam
+	AddAIGoal(HuskTeam, "Deathmatch", 100)
 end
 
 
@@ -596,13 +608,13 @@ function Init_SidesPostLoad(gameMode, spawns)
 				EVGxCOL_PostLoad(spawns)
 			end
 		else
-			if onlineSideVar == SSVxGTH then
+			if gCurrentMapManager.onlineSideVar == SSVxGTH then
 				SSVxGTH_PostLoad(spawns)
-			elseif onlineSideVar == SSVxCOL then
+			elseif gCurrentMapManager.onlineSideVar == SSVxCOL then
 				SSVxCOL_PostLoad(spawns)
-			elseif onlineSideVar == EVGxGTH then
+			elseif gCurrentMapManager.onlineSideVar == EVGxGTH then
 				EVGxGTH_PostLoad(spawns)
-			elseif onlineSideVar == EVGxCOL then
+			elseif gCurrentMapManager.onlineSideVar == EVGxCOL then
 				EVGxCOL_PostLoad(spawns)
 			else
 				SSVxGTH_PostLoad(spawns)
@@ -806,6 +818,35 @@ function fHeadshotKill()
 end
 
 ---
+-- Sets the hero the specified team will use in online matches.
+-- @param #string teamID		ID of the team to set the online hero class for. Possible values:  
+-- 								 `"SSV"` - Systems Alliance  
+-- 								 `"GTH"` - Heretic Geth  
+-- 								 `"COL"` - Collectors  
+-- 								 `"EVG"` - Evolved Geth
+-- @param #string heroID		ID of the hero class to set. Possible values:  
+-- 								 **SYSTEMS ALLIANCE:**  
+-- 								 `"shep_soldier"` - Commander Shepard (Soldier)  
+-- 								 `"shep_infiltrator"` - Commander Shepard (Infiltrator)  
+-- 								 `"shep_engineer"` - Commander Shepard (Engineer)  
+-- 								 `"shep_adept"` - Commander Shepard (Adept)  
+-- 								 `"shep_sentinel"` - Commander Shepard (Sentinel)  
+-- 								 `"shep_vanguard"` - Commander Shepard (Vanguard)  
+-- 								 `"jack"` - Jack  
+-- 								 **HERETIC GETH:**  
+-- 								 `"gethprime_me2"` - Geth Prime (ME2)  
+-- 								 `"gethprime_me3"` - Geth Prime (ME3)  
+-- 								 **COLLECTORS:**  
+-- 								 `"colgeneral"` - Harbinger  
+-- 								 **EVOLVED GETH:**  
+-- 								 `"gethprime_me2"` - Geth Prime (ME2)  
+-- 								 `"gethprime_me3"` - Geth Prime (ME3)  
+-- @return #bool				True if the function succeeded, or false if something went wrong and it failed
+function SetOnlineHero(teamID, heroID)
+	
+end
+
+---
 -- Runs the Juggernaut Squad functions (based on the faction combination) and low health functions. Also purges stock fonts if custom HUD is enabled.
 -- 
 function PostLoadStuff()
@@ -818,9 +859,9 @@ function PostLoadStuff()
 			Init_JuggernautSquads_EVG()
 		end
 	else
-		if onlineSideVar == "SSVxGTH" or onlineSideVar == 1 then
+		if gCurrentMapManager.onlineSideVar == "SSVxGTH" or gCurrentMapManager.onlineSideVar == 1 then
 			Init_JuggernautSquads_GTH()
-		elseif onlineSideVar == "EVGxGTH" or onlineSideVar == 3 then
+		elseif gCurrentMapManager.onlineSideVar == "EVGxGTH" or gCurrentMapManager.onlineSideVar == 3 then
 			Init_JuggernautSquads_EVG()
 		end
 	end
