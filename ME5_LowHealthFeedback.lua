@@ -169,6 +169,9 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 			-- When the player spawns or changes their class
 			local playerspawn = OnCharacterSpawn(
 				function(player)
+					-- Exit immediately if there are incorrect values
+					if not player then return end
+					
 					if IsCharacterHuman(player) then
 						--print("Init_LowHealthFeedback: Player spawned")
 						
@@ -228,6 +231,9 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 			-- When the player is damaged
 			local playerhealthchange = OnHealthChange(
 				function(object, health)
+					-- Exit immediately if there are incorrect values
+					if not object then return end
+					
 					-- Was the damaged object a human player?
 					if Iamhuman == GetEntityPtr(object) then
 						
@@ -311,6 +317,10 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 			-- When the player dies
 			local playerdeath = OnCharacterDeath(
 				function(player, killer)
+					-- Exit immediately if there are incorrect values
+					if not player then return end
+					--if not killer then return end
+					
 					if IsCharacterHuman(player) then
 						--print("Init_LowHealthFeedback: Player died, resetting buses and variables")
 						

@@ -100,6 +100,10 @@ function Init_ShieldFunc()
 			local itempickup = OnFlagPickUp(
 				function(flag, character)
 					print("ME5_HealthShieldFunc.Init_ShieldFunc(): Unit picked up flag")
+					-- Exit immediately if there are incorrect values
+					if not flag then return end
+					if not character then return end
+					
 					local charPtr = GetCharacterUnit(character)
 					
 					if GetEntityClass(flag) == FindEntityClass("com_item_powerup_shields") then
@@ -152,20 +156,6 @@ function Init_ShieldFunc()
 						local shieldPfx = CreateEffect("com_sfx_pickup_shield")
 						local charPos = GetEntityMatrix(charPtr)
 						AttachEffectToMatrix(shieldPfx, charPos)
-						
-						--[[local shieldTimer = CreateTimer("shieldTimer")
-						SetTimerValue(shieldTimer, 1)
-						StartTimer(shieldTimer)
-						local shield_timer = OnTimerElapse(
-							function(timer)
-									print("ShieldRegen: Shield regen complete")
-									ShowMessageText("level.common.events.debug.noregen")	-- debug text
-								SetProperty(charPtr, "AddShield", 0)
-								
-								DestroyTimer(timer)
-							end,
-						shieldTimer
-						)]]
 					end
 				end
 			)
@@ -308,8 +298,8 @@ function Init_DeferredShieldRegen()
 	
 	---
 	-- Call this to attach a particle effect to a unit.
-	-- @param #string effect The name of the particle effect to attach.
-	-- @param #object unit The character unit to attach the particle effect to.
+	-- @param #string effect	The name of the particle effect to attach.
+	-- @param #object unit		The character unit to attach the particle effect to.
 	--  
 	local function PlayParticleEffectOnUnit(effect, unit)
 		-- Instantiate the particle effect
@@ -324,7 +314,7 @@ function Init_DeferredShieldRegen()
 	
 	
 	---
-	-- Call this to shake the camera utilizing the explosion properties from an EntityMine /object/.
+	-- Call this to shake the camera utilizing the explosion properties from an EntityMine `object`.
 	-- @param #string object	The class name of the EntityMine object whose explosion properties we're utilizing.
 	-- 
 	local function ShakeCamera(object)
@@ -337,12 +327,15 @@ function Init_DeferredShieldRegen()
 	
 	
 	---
-	-- Call this to start shield regeneration for /unit/.
-	-- @param #object unit	The object to start the regeneration for.
+	-- Call this to start shield regeneration for `unit`.
+	-- @param #object unit		The object to start the regeneration for.
 	-- 
 	local function StartRegeneration(unit)
 		-- Prevent the function from being executed multiple times at once (because Battlefront's a timer whore)
 		if bIsRegenStopped == false then return end
+		
+		-- Exit immediately if `unit` isn't specified
+		if not unit then return end
 		
 		bIsRegenStopped = false
 		
@@ -373,10 +366,13 @@ function Init_DeferredShieldRegen()
 	
 	
 	---
-	-- Call this to stop shield regeneration for /unit/.
-	-- @param #object unit	The object to stop the regeneration for.
+	-- Call this to stop shield regeneration for `unit`.
+	-- @param #object unit		The object to stop the regeneration for.
 	-- 
 	local function StopRegeneration(unit)
+		-- Exit immediately if `unit` isn't specified
+		if not unit then return end
+		
 		-- Reset the regen timer value
 		SetTimerValue(shieldRegenTimer, regenDelayValue)
 		
@@ -417,7 +413,7 @@ function Init_DeferredShieldRegen()
 	
 	---
 	-- Call this to duck (fade) all of the audio buses (excluding lowhealth). Only has an effect if the low health sound isn't playing.
-	-- @return #bool	True if the buses are supposed to be ducked, false if not.
+	-- @return #bool			True if the buses are supposed to be ducked, false if not.
 	-- 
 	local function DuckBuses()
 		-- Are the audio buses supposed to be ducked when the shields break?
@@ -444,7 +440,7 @@ function Init_DeferredShieldRegen()
 	
 	---
 	-- Call this to unduck (unfade) all of the audio buses (excluding lowhealth). Only has an effect if the low health sound isn't playing.
-	-- @return #bool	True if the buses are supposed to be ducked, false if not.
+	-- @return #bool			True if the buses are supposed to be ducked, false if not.
 	-- 
 	local function UnDuckBuses()
 		-- Are the audio buses supposed to be ducked when the shields break?
@@ -470,11 +466,15 @@ function Init_DeferredShieldRegen()
 	
 	
 	---
-	-- Call this to break the shields of /unit/.
-	-- @param #object unit The character unit whose shields we're breaking.
+	-- Call this to break the shields of `unit`.
+	-- @param #object unit		The character unit whose shields we're breaking.
 	-- 
 	local function BreakShields(unit)
 		print("ME5_HealthShieldFunc.Init_DeferredShieldRegen.BreakShields(): Entered")
+		
+		-- Exit immediately if `unit` isn't specified
+		if not unit then return end
+		
 		-- Are the player's shields able to be re-broken yet?
 		if bShieldsCanBeBroken == true then
 			
@@ -558,6 +558,9 @@ function Init_DeferredShieldRegen()
 	-- When the player spawns
     local playerspawn = OnCharacterSpawn(
 	    function(character)
+	    	-- Exit immediately if there are incorrect values
+	    	if not character then return end
+	    	
 	    	-- Is the character human? (i.e. the player)
 	        if character == 0 then
 	        	charUnit = GetCharacterUnit(character)		-- Get the character's unit ID
@@ -600,6 +603,8 @@ function Init_DeferredShieldRegen()
 	-- When the player is damaged
 	local playerdamage = OnObjectDamage(
 		function(object, damager)
+			-- Exit immediately if there are incorrect values
+			if not object then return end
 		
 			-- Is the player the affected object?
 			if charUnit == GetEntityPtr(object) and bIsPlayerCorrectClass == true then
@@ -613,6 +618,8 @@ function Init_DeferredShieldRegen()
 	-- When the player's shields are altered (except from AddShield, of course)
 	local playershieldschange = OnShieldChange(
 		function(object, shields)
+			-- Exit immediately if there are incorrect values
+			if not object then return end
 			
 			-- Is the player the affected object?
 			if charUnit == GetEntityPtr(object) and bIsPlayerCorrectClass == true then
@@ -620,8 +627,11 @@ function Init_DeferredShieldRegen()
 				-- Are the player's shields completely depleted?
 				if shields <= 0 then
 					
-					-- Break the player's shields
-					BreakShields(object)
+					-- Is the player still alive? (no, not you Eddie)
+					if GetObjectHealth(object) > 0 then
+						-- Break the player's shields
+						BreakShields(object)
+					end
 				else
 					--print("Shields aren't depleted")
 				end
@@ -639,6 +649,8 @@ function Init_DeferredShieldRegen()
 	-- When the player dies
 	local playerdeath = OnObjectKill(
 		function(player, killer)
+			-- Exit immediately if there are incorrect values
+			if not player then return end
 		
 			-- Is the player the affected object?
 			if charUnit == GetEntityPtr(player) then

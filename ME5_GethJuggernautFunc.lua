@@ -37,6 +37,9 @@ function Init_JuggernautSquads_GTH()
 	local count = 0
 	local addgoal = OnCharacterSpawn(
 		function(player)
+			-- Exit immediately if there are incorrect values
+			if not player then return end
+			
 			if GetCharacterClass(player) == 7 and GetCharacterTeam(player) == CIS then -- replace 4 with the index of your commander, starting with 0
 				local seen = false
 				for i = 1,count do
@@ -55,7 +58,11 @@ function Init_JuggernautSquads_GTH()
 	)
 	
 	local removegoal = OnCharacterDeath(
-		function(player,killer)
+		function(player, killer)
+			-- Exit immediately if there are incorrect values
+			if not player then return end
+			--if not killer then return end
+			
 			for j = 1,count do
 				if players[i] == player and not goals[i] == nil then
 					DeleteAIGoal(goals[i])
@@ -78,6 +85,9 @@ function Init_JuggernautSquads_EVG()
 	local count = 0
 	local addgoal = OnCharacterSpawn(
 		function(player)
+			-- Exit immediately if there are incorrect values
+			if not player then return end
+			
 			if GetCharacterClass(player) == 6 and GetCharacterTeam(player) == REP then -- replace 4 with the index of your commander, starting with 0
 				local seen = false
 				for i = 1,count do
@@ -96,7 +106,10 @@ function Init_JuggernautSquads_EVG()
 	)
 	
 	local removegoal = OnCharacterDeath(
-		function(player,killer)
+		function(player, killer)
+			-- Exit immediately if there are incorrect values
+			if not player then return end
+			
 			for j = 1,count do
 				if players[i] == player and not goals[i] == nil then
 					DeleteAIGoal(goals[i])
@@ -116,6 +129,10 @@ function Init_EvolvedJuggernautPowerDrain()
 	
 	local enemydamage = OnObjectDamage(
 		function(object, damager)
+			-- Exit immediately if there are incorrect values
+			if not object then return end
+			if not damager then return end
+			
 			--local dmgrPtr = GetEntityPtr(GetCharacterUnit(damager))
 			--print(object)
 			--print(damager)

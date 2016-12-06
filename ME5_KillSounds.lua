@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Kill Sounds Script by Aaron Gilbert
--- Build 31025/06
+-- Build 31205/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Oct 25, 2016
+-- Dec 5, 2016
 -- Copyright (c) 2016, Aaron Gilbert All rights reserved.
 -- 
 -- About: 
@@ -39,6 +39,10 @@ function Init_KillSounds()
 			
 			local enemydeath = OnCharacterDeath(
 				function(player, killer)
+					-- Exit immediately if there are incorrect values
+					if not player then return end
+					if not killer then return end
+					
 					if killer and IsCharacterHuman(killer) then
 						local playerTeam = GetCharacterTeam(player)
 						local killerTeam = GetCharacterTeam(killer)
