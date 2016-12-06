@@ -8,34 +8,49 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
-mapSize = "med"
-EnvironmentType = "urban"
-onlineSideVar = "EVGxGTH"
-onlineHeroSSV = "shep_vanguard"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
-
--- AI hero spawns. CP name, CP spawn path name
-heroSupportCPs = {
-			{"CP1", "CP1Spawn"},
-			{"CP2", "CP2Spawn"},
-			{"CP3", "CP3Spawn"},
-			{"CP4", "CP4Spawn"},
-			{"CP5", "CP5Spawn"},
-			{"CP7", "CP7Spawn"},
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	gameMode = "conquest",
+	mapSize = "med",
+	environmentType = "urban",
+	
+	-- In-game music
+	musicVariation_SSVxGTH = {"4","6"},
+	musicVariation_SSVxCOL = "2",
+	musicVariation_EVGxGTH = "9",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "EVGxGTH",
+	onlineHeroSSV = "shep_vanguard",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- AI hero spawns. CP name, CP spawn path name
+	heroSupportCPs = {
+				{"CP1", "CP1Spawn"},
+				{"CP2", "CP2Spawn"},
+				{"CP3", "CP3Spawn"},
+				{"CP4", "CP4Spawn"},
+				{"CP5", "CP5Spawn"},
+				{"CP7", "CP7Spawn"},
+	},
+	-- Local ally spawns. CP name, CP spawn path name
+	allySpawnCPs = {
+				{"CP1", "CP1Spawn"},
+				{"CP2", "CP2Spawn"},
+				{"CP3", "CP3Spawn"},
+				{"CP4", "CP4Spawn"},
+				{"CP5", "CP5Spawn"},
+				{"CP7", "CP7Spawn"},
+	},
 }
+-- Initialize the MapManager
+manager:Init()
 
--- Local ally spawns. CP name, CP spawn path name
-allySpawnCPs = {
-			{"CP1", "CP1Spawn"},
-			{"CP2", "CP2Spawn"},
-			{"CP3", "CP3Spawn"},
-			{"CP4", "CP4Spawn"},
-			{"CP5", "CP5Spawn"},
-			{"CP7", "CP7Spawn"},
-}
-
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -112,12 +127,8 @@ function ScriptPostLoad()
     AddDeathRegion("DeathRegion03")
     AddDeathRegion("DeathRegion04")
     AddDeathRegion("DeathRegion05")
-    
 	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("conquest", heroSupportCPs)
+	manager:Proc_ScriptPostLoad_End()
     
 end
 
@@ -216,14 +227,14 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1383)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1533)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
     
 	AISnipeSuitabilityDist(45)
 	SetAttackerSnipeRange(70)
 	SetDefenderSnipeRange(100)
 	
 	
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_DEA_Streaming.lvl;dea1n")
     
@@ -242,10 +253,10 @@ function ScriptInit()
 	SetMemoryPoolSize("FlagItem", 512)
     SetMemoryPoolSize ("MountedTurret", 2)
     SetMemoryPoolSize ("Navigator", 45)
-    SetMemoryPoolSize ("Obstacle", 270)
+    SetMemoryPoolSize ("Obstacle", 325)
     SetMemoryPoolSize ("PathFollower", 45)
     SetMemoryPoolSize ("PathNode", 512)
-	SetMemoryPoolSize ("SoldierAnimation", 371)
+	SetMemoryPoolSize ("SoldierAnimation", 432)
     SetMemoryPoolSize ("SoundSpaceRegion", 50)
     SetMemoryPoolSize ("TreeGridStack", 250)
     SetMemoryPoolSize ("Weapon", weaponNum)
@@ -263,19 +274,7 @@ function ScriptInit()
 
     --  Sound Stats
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music04()
-		elseif ME5_SideVar == 2 then
-			Music02()
-		elseif ME5_SideVar == 3	then
-			Music09()
-		elseif ME5_SideVar == 4	then
-			Music09()
-		end
-	else
-		Music09()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_DEA_Streaming.lvl",  "dea1")
 	
@@ -291,5 +290,5 @@ function ScriptInit()
     --Sarlac Pit
     AddCameraShot(-1.0, 0.0, -0.514360, 0.0, -55.381485, 50.450953, -96.514324)
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 end

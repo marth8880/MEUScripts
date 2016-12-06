@@ -1,6 +1,4 @@
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
-
-isModMap = 1
 --
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
@@ -11,20 +9,36 @@ ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_MapFunctions")
 ScriptCB_DoFile("ME5_ObjectiveOneFlagCTF")
 
-mapSize = "xs"
-EnvironmentType = "jungle"
-onlineSideVar = "SSVxGTH"
-onlineHeroSSV = "shep_infiltrator"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
-
--- AI hero spawns. CP name, CP spawn path name
-heroSupportCPs = {}
-
--- Local ally spawns. CP name, CP spawn path name
-allySpawnCPs = {}
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	bIsModMap = true,
+	gameMode = "1flag",
+	mapSize = "xs",
+	environmentType = "jungle",
 	
+	-- In-game music
+	musicVariation_SSVxGTH = "3_vrm",
+	musicVariation_SSVxCOL = "5",
+	musicVariation_EVGxGTH = "9",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxGTH",
+	onlineHeroSSV = "shep_infiltrator",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- AI hero spawns. CP name, CP spawn path name
+	heroSupportCPs = {},
+	-- Local ally spawns. CP name, CP spawn path name
+	allySpawnCPs = {},
+}
+-- Initialize the MapManager
+manager:Init()
+
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -40,16 +54,7 @@ DEF = 2
 
 function ScriptPostLoad()
 	
-	
 	SoundEvent_SetupTeams( CIS, 'cis', REP, 'rep' )
-	
-	
-	
-	--AddAIGoal(1, "Defend", 70, "team1_capture1")
-	--AddAIGoal(2, "Defend", 70, "team2_capture1")
-	--AddAIGoal(1, "Defend", 40, "flag_null_defend")
-	--AddAIGoal(2, "Defend", 40, "flag_null_defend")
-	
 	
 	--This defines the CPs.  These need to happen first
 	if ME5_MapVarVRM == 1 then
@@ -77,9 +82,6 @@ function ScriptPostLoad()
 		--VRM_DisablePlanningGraphArcs1()
 		VRM_DisableBarriers1()
 		
-		SetProperty("1flag_cp1_1", "AllyPath", "1flag_cp1_spawn1")
-		SetProperty("1flag_cp2_1", "AllyPath", "1flag_cp2_spawn1")
-		
 	elseif ME5_MapVarVRM == 2 then
 		print("start 1flag objective")
 		--This sets up the actual objective.  This needs to happen after cp's are defined
@@ -104,50 +106,9 @@ function ScriptPostLoad()
 		
 		--VRM_DisablePlanningGraphArcs2()
 		VRM_DisableBarriers2()
-		
-		SetProperty("1flag_cp1_2", "AllyPath", "1flag_cp1_spawn2")
-		SetProperty("1flag_cp2_2", "AllyPath", "1flag_cp1_spawn2")
-		
 	end
 	
-	
-	--[[Music06_CTF()
-	music01 = music06_start
-	music02 = music06_mid
-	music03 = music06_end
-	
-	ScriptCB_PlayInGameMusic(music01)
-	
-	CreateTimer("music_timer")
-		SetTimerValue("music_timer", 185)
-		StartTimer("music_timer")
-		--ShowTimer("music_timer")
-		OnTimerElapse(
-			function(timer)
-				RandomMusic = math.random(1,3)
-				
-				if RandomMusic == 1 then
-						print("execute music variation 1")
-					ScriptCB_PlayInGameMusic(music01)
-				elseif RandomMusic == 2 then
-						print("execute music variation 2")
-					ScriptCB_PlayInGameMusic(music02)
-				elseif RandomMusic == 3 then
-						print("execute music variation 3")
-					ScriptCB_PlayInGameMusic(music03)
-				end
-				
-				SetTimerValue("music_timer", 185)
-				StartTimer("music_timer")
-			end,
-			"music_timer"
-		)]]
-    
-	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	--SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("1flag", heroSupportCPs)
+	manager:Proc_ScriptPostLoad_End()
 	
 end
 
@@ -183,9 +144,9 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1513)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1659)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_VRM_Streaming.lvl")
 	
@@ -232,19 +193,7 @@ function ScriptInit()
 
     --  Sound
 	
-    if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music03_CTF()
-		elseif ME5_SideVar == 2 then
-			Music05_CTF()
-		elseif ME5_SideVar == 3	then
-			Music09_CTF()
-		elseif ME5_SideVar == 4	then
-			Music09_CTF()
-		end
-	else
-		Music03_CTF()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_VRM_Streaming.lvl",  "VRM_ambiance")
 	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_VRM_Streaming.lvl",  "VRM_ambiance")
@@ -269,5 +218,5 @@ function ScriptInit()
 		AddCameraShot(-0.001765, 0.000128, -0.997398, -0.072065, -144.066025, 3.884599, 44.273586);
 	end
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 end

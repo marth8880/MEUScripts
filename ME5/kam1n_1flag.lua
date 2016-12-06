@@ -7,20 +7,35 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveOneFlagCTF")
 
-mapSize = "med"
-EnvironmentType = "urban"
-onlineSideVar = "SSVxCOL"
-onlineHeroSSV = "shep_infiltrator"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	gameMode = "1flag",
+	mapSize = "med",
+	environmentType = "urban",
+	
+	-- In-game music
+	musicVariation_SSVxGTH = "1",
+	musicVariation_SSVxCOL = "5",
+	musicVariation_EVGxGTH = "9",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxCOL",
+	onlineHeroSSV = "shep_infiltrator",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- AI hero spawns. CP name, CP spawn path name
+	heroSupportCPs = {},
+	-- Local ally spawns. CP name, CP spawn path name
+	allySpawnCPs = {},
+}
+-- Initialize the MapManager
+manager:Init()
 
--- AI hero spawns. CP name, CP spawn path name
-heroSupportCPs = {}
-
--- Local ally spawns. CP name, CP spawn path name
-allySpawnCPs = {}
-
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -151,60 +166,7 @@ KillObject("cp1")
                            capRegionMarkerScaleATT = 3.0, capRegionMarkerScaleDEF = 3.0, hideCPs = true, multiplayerRules = true}
     ctf:Start()
 	
-	--[[if not ScriptCB_InMultiplayer() then
-		if RandomSide == 1 then
-			Music06_CTF()
-			music01 = music06_start
-			music02 = music06_mid
-			music03 = music06_end
-			musicTimerValue = 185
-		elseif RandomSide == 2 then
-			Music05_CTF()
-			music01 = music05_start
-			music02 = music05_mid
-			music03 = music05_end
-			musicTimerValue = 130
-		end
-	else
-		Music05_CTF()
-		music01 = music05_start
-		music02 = music05_mid
-		music03 = music05_end
-		musicTimerValue = 130
-	end
-	
-	ScriptCB_PlayInGameMusic(music01)
-	
-	CreateTimer("music_timer")
-		SetTimerValue("music_timer", musicTimerValue)
-		StartTimer("music_timer")
-		--ShowTimer("music_timer")
-		OnTimerElapse(
-			function(timer)
-				RandomMusic = math.random(1,3)
-				
-				if RandomMusic == 1 then
-						print("execute music variation 1")
-					ScriptCB_PlayInGameMusic(music01)
-				elseif RandomMusic == 2 then
-						print("execute music variation 2")
-					ScriptCB_PlayInGameMusic(music02)
-				elseif RandomMusic == 3 then
-						print("execute music variation 3")
-					ScriptCB_PlayInGameMusic(music03)
-				end
-				
-				SetTimerValue("music_timer", musicTimerValue)
-				StartTimer("music_timer")
-			end,
-			"music_timer"
-		)]]
-    
-	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("1flag", heroSupportCPs)
+	manager:Proc_ScriptPostLoad_End()
 	
 end
 
@@ -219,14 +181,14 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1330)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1478)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl;vehcommon")
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\me5tur.lvl",
 					"tur_bldg_laser",
 					"tur_bldg_mturret")
 	
-    Init_SideSetup()
+    manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_KAM_Streaming.lvl;kam1n")
 
@@ -271,19 +233,7 @@ function ScriptInit()
 
     --  Sound
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music03_CTF()
-		elseif ME5_SideVar == 2 then
-			Music05_CTF()
-		elseif ME5_SideVar == 3	then
-			Music09_CTF()
-		elseif ME5_SideVar == 4	then
-			Music09_CTF()
-		end
-	else
-		Music05_CTF()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_KAM_Streaming.lvl",  "kam1")
 	
@@ -307,6 +257,6 @@ function ScriptInit()
 
             AddCameraShot(-0.344152, 0.086702, -0.906575, -0.228393, 95.062233, 105.285820, -37.661552);
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 
 end

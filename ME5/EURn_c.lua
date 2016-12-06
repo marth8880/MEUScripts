@@ -1,15 +1,9 @@
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
-RandomSide = 1		-- TODO: remove and replace with ME5_SideVar
-
-isModMap = 1
 local bDebug = false
 local mapDebug = false
 --
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
-
--- Set the game mode
-MEU_GameMode = 7
 
 -- load the gametype script
 ScriptCB_DoFile("ME5_Master")
@@ -17,41 +11,38 @@ ScriptCB_DoFile("ME5_Master")
 -- Override the faction combination set in the Config Tool
 ME5_SideVar = 1
 
--- Set the game mode
-MEU_GameMode = "meu_campaign"
-
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_MultiObjectiveContainer")
 ScriptCB_DoFile("ME5_ObjectiveAssault")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 ScriptCB_DoFile("ME5_ObjectiveGoto")
-
--- Set the game mode
-MEU_GameMode = "meu_campaign"
-
 ScriptCB_DoFile("ME5_CinematicContainer")
 ScriptCB_DoFile("ME5_CameraFunctions")
 ScriptCB_DoFile("ME5_CombatManager")
 --ScriptCB_DoFile("ME5_CinematicOverlayIFS")
 ScriptCB_DoFile("Ambush")
 
-mapSize = "xs"
-EnvironmentType = "urban"
---[[onlineSideVar = "SSVxGTH"
-onlineHeroSSV = "shep_vanguard"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"]]
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	bIsModMap = true,
+	gameMode = "campaign",
+	mapSize = "xs",
+	environmentType = "urban",
+}
+-- Initialize the MapManager
+manager:Init()
 
+-- Initialize teams
 REP = 1	-- The player's team.
-CIS = 2	-- Team for the Geth Troopers and Rocketeers. Note: synonymous with teamID 'GethPawns'.
+CIS = 2	-- Team for Geth Troopers and Rocketeers. Note: synonymous with teamID `GethPawns`.
 SQD = 3	-- Team for the player's squad.
-GethHusks = 0	-- Team for the Husks. (DEPRECATED)
-GethPawns = CIS	-- Team for the Geth Troopers and Rocketeers. Note: synonymous with teamID 'CIS'.
-GethTacticals = 4	-- Team for the Geth Snipers and Hunters.
-GethSpecials = 5	-- Team for the Geth Machinists and Shock Troopers.
-GethHeavys = 6	-- Team for the Geth Destroyers and Juggernauts.
-GethPrimes = 7	-- Team for the Geth Primes.
+GethHusks = 0	-- Team for Husks. (DEPRECATED)
+GethPawns = CIS	-- Team for Geth Troopers and Rocketeers. Note: synonymous with teamID `CIS`.
+GethTacticals = 4	-- Team for Geth Snipers and Hunters.
+GethSpecials = 5	-- Team for Geth Machinists and Shock Troopers.
+GethHeavys = 6	-- Team for Geth Destroyers and Juggernauts.
+GethPrimes = 7	-- Team for Geth Primes.
 
 ATT = 1
 DEF = 2
@@ -4434,7 +4425,7 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1293)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1409)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	
 	-- Player's squad's aggressiveness
 	SetTeamAggressiveness(3, (squadAggro))
@@ -4676,5 +4667,5 @@ function ScriptInit()
 	-- Opening satellite shots
 	AddCameraShot(-0.461276, -0.061869, -0.877234, 0.117716, -51.108570, 127.905670, 150.074707);
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 end

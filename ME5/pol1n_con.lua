@@ -8,34 +8,49 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
-mapSize = "med"
-EnvironmentType = "urban"
-onlineSideVar = "SSVxCOL"
-onlineHeroSSV = "shep_vanguard"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
-
--- Local ally spawns. CP name, CP spawn path name
-heroSupportCPs = {
-			{"CP1Con", "CP1SpawnPathCon"},
-			{"CP2Con", "CP2SpawnPathCon"},
-			{"CP3Con", "CP3SpawnPathCon"},
-			{"CP4Con", "CP4SpawnPathCon"},
-			{"CP5Con", "CP5SpawnPathCon"},
-			{"CP6Con", "CP6SpawnPathCon"},
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	gameMode = "conquest",
+	mapSize = "med",
+	environmentType = "urban",
+	
+	-- In-game music
+	musicVariation_SSVxGTH = {"4","6"},
+	musicVariation_SSVxCOL = "2",
+	musicVariation_EVGxGTH = "6",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxCOL",
+	onlineHeroSSV = "shep_vanguard",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- Local ally spawns. CP name, CP spawn path name
+	heroSupportCPs = {
+				{"CP1Con", "CP1SpawnPathCon"},
+				{"CP2Con", "CP2SpawnPathCon"},
+				{"CP3Con", "CP3SpawnPathCon"},
+				{"CP4Con", "CP4SpawnPathCon"},
+				{"CP5Con", "CP5SpawnPathCon"},
+				{"CP6Con", "CP6SpawnPathCon"},
+	},
+	-- AI hero spawns. CP name, CP spawn path name
+	allySpawnCPs = {
+				{"CP1Con", "CP1SpawnPathCon"},
+				{"CP2Con", "CP2SpawnPathCon"},
+				{"CP3Con", "CP3SpawnPathCon"},
+				{"CP4Con", "CP4SpawnPathCon"},
+				{"CP5Con", "CP5SpawnPathCon"},
+				{"CP6Con", "CP6SpawnPathCon"},
+	},
 }
+-- Initialize the MapManager
+manager:Init()
 
--- AI hero spawns. CP name, CP spawn path name
-allySpawnCPs = {
-			{"CP1Con", "CP1SpawnPathCon"},
-			{"CP2Con", "CP2SpawnPathCon"},
-			{"CP3Con", "CP3SpawnPathCon"},
-			{"CP4Con", "CP4SpawnPathCon"},
-			{"CP5Con", "CP5SpawnPathCon"},
-			{"CP6Con", "CP6SpawnPathCon"},
-}
-
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -95,11 +110,7 @@ function ScriptPostLoad()
  
     EnableSPHeroRules()
     
-	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("conquest", heroSupportCPs)
+	manager:Proc_ScriptPostLoad_End()
 	
 	SetProperty("CP1Con", "NeutralizeTime", 40)
 	SetProperty("CP1Con", "CaptureTime", 35)
@@ -151,7 +162,7 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1291)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1635)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl;vehcommon")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl;vehnormal")
 	
@@ -162,7 +173,7 @@ function ScriptInit()
 	SetAttackerSnipeRange(70)
 	SetDefenderSnipeRange(100)
 	
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_POL_Streaming.lvl;pol1n")
    
@@ -219,19 +230,7 @@ SetMaxCollisionDistance(1500)
 
     --  Sound Stats
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music04()
-		elseif ME5_SideVar == 2 then
-			Music02()
-		elseif ME5_SideVar == 3	then
-			Music06()
-		elseif ME5_SideVar == 4	then
-			Music09()
-		end
-	else
-		Music02()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_POL_Streaming.lvl",  "pol1")
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_POL_Streaming.lvl",  "pol1")
@@ -263,7 +262,7 @@ SetMaxCollisionDistance(1500)
     AddCameraShot(-0.269503, 0.031284, -0.956071, -0.110983, 111.260330, 16.927542, -114.045715);
     AddCameraShot(-0.338119, 0.041636, -0.933134, -0.114906, 134.970169, 26.441256, -82.282082);
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 
 
 end

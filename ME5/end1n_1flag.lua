@@ -8,20 +8,35 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveOneFlagCTF")
 
-mapSize = "lg"
-EnvironmentType = "jungle"
-onlineSideVar = "SSVxCOL"
-onlineHeroSSV = "shep_infiltrator"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	gameMode = "1flag",
+	mapSize = "lg",
+	environmentType = "jungle",
+	
+	-- In-game music
+	musicVariation_SSVxGTH = "1",
+	musicVariation_SSVxCOL = "5",
+	musicVariation_EVGxGTH = "9",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxCOL",
+	onlineHeroSSV = "shep_infiltrator",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- AI hero spawns. CP name, CP spawn path name
+	heroSupportCPs = {},
+	-- Local ally spawns. CP name, CP spawn path name
+	allySpawnCPs = {},
+}
+-- Initialize the MapManager
+manager:Init()
 
--- AI hero spawns. CP name, CP spawn path name
-heroSupportCPs = {}
-
--- Local ally spawns. CP name, CP spawn path name
-allySpawnCPs = {}
-
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -55,11 +70,7 @@ function ScriptPostLoad()
 	
 	EnableSPHeroRules()
     
-	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("1flag", heroSupportCPs)
+	manager:Proc_ScriptPostLoad_End()
 end
 
 ---------------------------------------------------------------------------
@@ -76,10 +87,9 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1449)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1606)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl;vehcommon")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl;vehnormal")
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\artillery_dirt.lvl")
 
     SetMemoryPoolSize("Music", 99)
 	
@@ -95,7 +105,7 @@ function ScriptInit()
 					"tur_bldg_mturret",
 					"tur_bldg_laser")
 	
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_END_Streaming.lvl;end1n")
 	
@@ -169,19 +179,7 @@ function ScriptInit()
 
 	--	Sound
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music01_CTF()
-		elseif ME5_SideVar == 2 then
-			Music05_CTF()
-		elseif ME5_SideVar == 3	then
-			Music09_CTF()
-		elseif ME5_SideVar == 4	then
-			Music09_CTF()
-		end
-	else
-		Music05_CTF()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_YAV_Streaming.lvl",	"yav1")
 	
@@ -197,6 +195,6 @@ function ScriptInit()
 	--Village
 	AddCameraShot(0.694277, 0.005100, 0.719671, -0.005287, -11.105947, -2.753207, 67.982201)
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 end
 

@@ -8,34 +8,49 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
-mapSize = "med"
-EnvironmentType = "jungle"
-onlineSideVar = "SSVxGTH"
-onlineHeroSSV = "shep_infiltrator"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
-
--- AI hero spawns. CP name, CP spawn path name
-heroSupportCPs = {
-			{"cp1", "cp1_spawn"},
-			{"cp2", "cp2_spawn"},
-			{"cp3", "cp3_spawn"},
-			{"cp4", "cp4_spawn"},
-			{"cp5", "cp5_spawn"},
-			{"cp6", "cp6_spawn"},
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	gameMode = "conquest",
+	mapSize = "med",
+	environmentType = "jungle",
+	
+	-- In-game music
+	musicVariation_SSVxGTH = "1",
+	musicVariation_SSVxCOL = "5",
+	musicVariation_EVGxGTH = "9",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxGTH",
+	onlineHeroSSV = "shep_infiltrator",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- AI hero spawns. CP name, CP spawn path name
+	heroSupportCPs = {
+				{"cp1", "cp1_spawn"},
+				{"cp2", "cp2_spawn"},
+				{"cp3", "cp3_spawn"},
+				{"cp4", "cp4_spawn"},
+				{"cp5", "cp5_spawn"},
+				{"cp6", "cp6_spawn"},
+	},
+	-- Local ally spawns. CP name, CP spawn path name
+	allySpawnCPs = {
+				{"cp1", "cp1_spawn"},
+				{"cp2", "cp2_spawn"},
+				{"cp3", "cp3_spawn"},
+				{"cp4", "cp4_spawn"},
+				{"cp5", "cp5_spawn"},
+				{"cp6", "cp6_spawn"},
+	},
 }
+-- Initialize the MapManager
+manager:Init()
 
--- Local ally spawns. CP name, CP spawn path name
-allySpawnCPs = {
-			{"cp1", "cp1_spawn"},
-			{"cp2", "cp2_spawn"},
-			{"cp3", "cp3_spawn"},
-			{"cp4", "cp4_spawn"},
-			{"cp5", "cp5_spawn"},
-			{"cp6", "cp6_spawn"},
-}
-
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -82,11 +97,7 @@ function ScriptPostLoad()
 
 	EnableSPHeroRules()
     
-	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("conquest", heroSupportCPs)
+	manager:Proc_ScriptPostLoad_End()
 	
 end
  
@@ -100,7 +111,7 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1293)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1413)
 	
-    PreLoadStuff()
+    manager:Proc_ScriptInit_Begin()
     
 	SetMaxFlyHeight(20)
 	SetMaxPlayerFlyHeight(20)
@@ -109,7 +120,7 @@ function ScriptInit()
 	SetDefenderSnipeRange(100)
 	
 	
-    Init_SideSetup()
+    manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_DAG_Streaming.lvl;dag1n")
 	
@@ -150,21 +161,7 @@ function ScriptInit()
 
     --  Sound
     
-	
-	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music01()
-		elseif ME5_SideVar == 2 then
-			Music05()
-		elseif ME5_SideVar == 3	then
-			Music09()
-		elseif ME5_SideVar == 4	then
-			Music09()
-		end
-	else
-		Music01()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_DAG_Streaming.lvl",   "dag1")
 	
@@ -176,5 +173,5 @@ function ScriptInit()
     AddCameraShot(-0.442911, 0.055229, -0.887986, -0.110728, 39.894440, 9.234127, -59.177147);
     AddCameraShot(-0.038618, 0.006041, -0.987228, -0.154444, 28.671711, 10.001163, 128.892181);
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 end

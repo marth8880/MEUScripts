@@ -146,7 +146,7 @@ function ScriptPostLoad()
 ---------------------------------------------------------------------------
 function ScriptInit()
     
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	
 	-- This sets the agressiveness for each team.
 	-- SetTeamAggressiveness(1,(0.99))

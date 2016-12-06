@@ -8,47 +8,63 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
-mapSize = "lg"
-EnvironmentType = "jungle"
-onlineSideVar = "SSVxCOL"
-onlineHeroSSV = "shep_soldier"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
-
--- Local ally spawns. CP name, CP spawn path name
-heroSupportCPs = {
-			{"Bazaar",			"Bazaar_SpawnPath"},
-			{"CP1",				"CP1SpawnPath"},
-			{"LandingZone", 	"LandingZone_SpawnPath"},
-			{"ReflectingPool",	"ReflectingPool_SpawnPath"},
-			{"Temple",			"Temple_SpawnPath"},
-			{"Tflank",			"SmallTemple_SpawnPath"},
-			{"ViaDuct",			"ViaductSpawnPath01"},
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	gameMode = "conquest",
+	mapSize = "lg",
+	environmentType = "jungle",
+	
+	-- In-game music
+	musicVariation_SSVxGTH = "1",
+	musicVariation_SSVxCOL = "5",
+	musicVariation_EVGxGTH = "9",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxCOL",
+	onlineHeroSSV = "shep_soldier",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- Local ally spawns. CP name, CP spawn path name
+	heroSupportCPs = {
+				{"Bazaar",			"Bazaar_SpawnPath"},
+				{"CP1",				"CP1SpawnPath"},
+				{"LandingZone", 	"LandingZone_SpawnPath"},
+				{"ReflectingPool",	"ReflectingPool_SpawnPath"},
+				{"Temple",			"Temple_SpawnPath"},
+				{"Tflank",			"SmallTemple_SpawnPath"},
+				{"ViaDuct",			"ViaductSpawnPath01"},
+	},
+	-- AI hero spawns. CP name, CP spawn path name
+	allySpawnCPs = {
+				{"Bazaar",			"Bazaar_SpawnPath"},
+				{"CP1",				"CP1SpawnPath"},
+				{"LandingZone", 	"LandingZone_SpawnPath"},
+				{"ReflectingPool",	"ReflectingPool_SpawnPath"},
+				{"Temple",			"Temple_SpawnPath"},
+				{"Tflank",			"SmallTemple_SpawnPath"},
+				{"ViaDuct",			"ViaductSpawnPath01"},
+	},
+	
+	-- Artillery strike path nodes. Path name, path node ID
+	artilleryNodes = {
+				{"Bazaar_SpawnPath",			0},
+				{"CP1SpawnPath",				0},
+				{"LandingZone_SpawnPath",		0},
+				{"ReflectingPool_SpawnPath",	0},
+				--{"Temple_SpawnPath",			0},
+				{"SmallTemple_SpawnPath",		0},
+				{"ViaductSpawnPath01",			0},
+	},
+	terrainType = "dirt",
 }
+-- Initialize the MapManager
+manager:Init()
 
--- AI hero spawns. CP name, CP spawn path name
-allySpawnCPs = {
-			{"Bazaar",			"Bazaar_SpawnPath"},
-			{"CP1",				"CP1SpawnPath"},
-			{"LandingZone", 	"LandingZone_SpawnPath"},
-			{"ReflectingPool",	"ReflectingPool_SpawnPath"},
-			{"Temple",			"Temple_SpawnPath"},
-			{"Tflank",			"SmallTemple_SpawnPath"},
-			{"ViaDuct",			"ViaductSpawnPath01"},
-}
-
--- Artillery strike path nodes. Path name, path node ID
-artilleryNodes = {
-			{"Bazaar_SpawnPath",			0},
-			{"CP1SpawnPath",				0},
-			{"LandingZone_SpawnPath",		0},
-			{"ReflectingPool_SpawnPath",	0},
-			--{"Temple_SpawnPath",			0},
-			{"SmallTemple_SpawnPath",		0},
-			{"ViaductSpawnPath01",			0},
-}
-
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -111,13 +127,7 @@ function ScriptPostLoad()
     conquest:Start()
     EnableSPHeroRules()
 	
-	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("conquest", heroSupportCPs)
-	
-	Init_ArtilleryStrikes("artillery1", artilleryNodes)
+	manager:Proc_ScriptPostLoad_End()
 	
  end
  
@@ -132,8 +142,7 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1298)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1416)
 	
-	PreLoadStuff()
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\artillery_dirt.lvl")
+	manager:Proc_ScriptInit_Begin()
 
     SetMaxFlyHeight(14)
     SetMaxPlayerFlyHeight(14)
@@ -145,7 +154,7 @@ function ScriptInit()
 					"tur_bldg_laser",
 					"tur_bldg_tower")
 	
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_YAV_Streaming.lvl;yav1n")
 	
@@ -183,7 +192,6 @@ function ScriptInit()
 
     SetSpawnDelay(10.0, 0.25)
     ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\yav1.lvl","yavin1_Conquest")
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\artillery.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\minimap.lvl;yav1")
     SetDenseEnvironment("false")
 
@@ -199,19 +207,7 @@ function ScriptInit()
 
     --  Sound
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music01()
-		elseif ME5_SideVar == 2 then
-			Music05()
-		elseif ME5_SideVar == 3	then
-			Music09()
-		elseif ME5_SideVar == 4	then
-			Music09()
-		end
-	else
-		Music05()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_YAV_Streaming.lvl",  "yav1")
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_YAV_Streaming.lvl",  "yav1")
@@ -245,5 +241,5 @@ function ScriptInit()
 	AddCameraShot(0.865750, -0.184352, 0.455084, 0.096905, 137.221359, -19.694859, -436.057556);
 	AddCameraShot(0.026915, -0.002609, -0.994969, -0.096461, 128.397949, -30.249140, -428.447418);
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 end

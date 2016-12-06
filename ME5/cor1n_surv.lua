@@ -252,7 +252,7 @@ function ScriptInit()
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamessv.lvl")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamegth.lvl")
 	end
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
     
     SetMapNorthAngle(180, 1)
     SetMaxFlyHeight(25)

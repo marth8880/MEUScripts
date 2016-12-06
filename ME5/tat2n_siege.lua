@@ -6,46 +6,62 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveBFConquest")
 
-mapSize = "lg"
-EnvironmentType = "desert"
-onlineSideVar = "SSVxCOL"
-onlineHeroSSV = "shep_adept"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
-
--- AI hero spawns. CP name, CP spawn path name
-heroSupportCPs = {
-			{"team1_permacp", "CP1_SpawnPath"},
-			{"team2_permacp", "CP6_SpawnPath"},
-			{"cp2", "CP2_SpawnPath"},
-			{"cp3", "CP3_SpawnPath"},
-			{"cp7", "CP7SpawnPath"},
-			{"cp8", "CP8SpawnPath"},
-			{"cp10", "cp10_spawn"},
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	gameMode = "siege",
+	mapSize = "lg",
+	environmentType = "desert",
+	
+	-- In-game music
+	musicVariation_SSVxGTH = "1",
+	musicVariation_SSVxCOL = "5",
+	musicVariation_EVGxGTH = "9",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxCOL",
+	onlineHeroSSV = "shep_adept",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- AI hero spawns. CP name, CP spawn path name
+	heroSupportCPs = {
+				{"team1_permacp", "CP1_SpawnPath"},
+				{"team2_permacp", "CP6_SpawnPath"},
+				{"cp2", "CP2_SpawnPath"},
+				{"cp3", "CP3_SpawnPath"},
+				{"cp7", "CP7SpawnPath"},
+				{"cp8", "CP8SpawnPath"},
+				{"cp10", "cp10_spawn"},
+	},
+	-- Local ally spawns. CP name, CP spawn path name
+	allySpawnCPs = {
+				{"team1_permacp", "CP1_SpawnPath"},
+				{"team2_permacp", "CP6_SpawnPath"},
+				{"cp2", "CP2_SpawnPath"},
+				{"cp3", "CP3_SpawnPath"},
+				{"cp7", "CP7SpawnPath"},
+				{"cp8", "CP8SpawnPath"},
+				{"cp10", "cp10_spawn"},
+	},
+	
+	-- Artillery strike path nodes. Path name, path node ID
+	artilleryNodes = {
+				{"CP1_SpawnPath", 0},
+				{"CP2_SpawnPath", 0},
+				--{"CP3_SpawnPath", 0},
+				{"CP6_SpawnPath", 0},
+				{"CP9SpawnPath", 0},
+				{"CP8SpawnPath", 0},	-- TODO: look into adding node for cp10
+	},
+	terrainType = "sand",
 }
+-- Initialize the MapManager
+manager:Init()
 
--- Local ally spawns. CP name, CP spawn path name
-allySpawnCPs = {
-			{"team1_permacp", "CP1_SpawnPath"},
-			{"team2_permacp", "CP6_SpawnPath"},
-			{"cp2", "CP2_SpawnPath"},
-			{"cp3", "CP3_SpawnPath"},
-			{"cp7", "CP7SpawnPath"},
-			{"cp8", "CP8SpawnPath"},
-			{"cp10", "cp10_spawn"},
-}
-
--- Artillery strike path nodes. Path name, path node ID
-artilleryNodes = {
-			{"CP1_SpawnPath", 0},
-			{"CP2_SpawnPath", 0},
-			--{"CP3_SpawnPath", 0},
-			{"CP6_SpawnPath", 0},
-			{"CP9SpawnPath", 0},
-			{"CP8SpawnPath", 0},	-- TODO: look into adding node for cp10
-}
-
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -101,20 +117,12 @@ function ScriptPostLoad()
 	conquest:AddCommandPost(cp7)
 	conquest:AddCommandPost(cp8)
 	conquest:AddCommandPost(cp10)
-    
-	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("siege", heroSupportCPs)
-	
-	Init_ArtilleryStrikes("artillery1", artilleryNodes)
 	
 	conquest:Start()
-	AddAIGoal(1, "conquest", 100)
-	AddAIGoal(2, "conquest", 100)
-	--AddAIGoal(3, "conquest", 1000)
-	EnableSPHeroRules()    
+	
+	EnableSPHeroRules()
+	
+	manager:Proc_ScriptPostLoad_End()
 	
 	KillObject("jawa_cp")
 	
@@ -141,8 +149,7 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1494)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1645)
 	
-	PreLoadStuff()
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\artillery_sand.lvl")
+	manager:Proc_ScriptInit_Begin()
 	
     SetMaxFlyHeight(40)
 	SetMaxPlayerFlyHeight(40)
@@ -157,7 +164,7 @@ function ScriptInit()
 					"tur_bldg_mturret",
 					"tur_bldg_tat_barge")
 	
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_TAT2_Streaming.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_TAT_Streaming.lvl;tat2n")
@@ -193,28 +200,15 @@ function ScriptInit()
 
     SetSpawnDelay(10.0, 0.25)
     ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\tat2.lvl", "tat2_siege")
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\artillery.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\minimap.lvl;tat2")
     SetDenseEnvironment("false")
 
 
     --  Sound Stats
     
-    OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\Sound\\SFL_TAT2_Streaming.lvl",  "TAT_ambiance")
+    OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\Sound\\SFL_TAT2_Streaming.lvl",  "TAT_ambiance")	-- TODO: merge this with SFL_s_TAT_Streaming.lvl!
 
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music01()
-		elseif ME5_SideVar == 2 then
-			Music05()
-		elseif ME5_SideVar == 3	then
-			Music09()
-		elseif ME5_SideVar == 4	then
-			Music09()
-		end
-	else
-		Music05()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_TAT_Streaming.lvl",  "tat2")
 	
@@ -231,7 +225,7 @@ function ScriptInit()
 	AddCameraShot(0.677453, -0.041535, 0.733016, 0.044942, 97.517807, 4.039628, 36.853477);
 	AddCameraShot(0.866029, -0.156506, 0.467299, 0.084449, 7.685640, 7.130688, -10.895234);
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 end
 
 

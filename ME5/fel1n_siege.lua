@@ -8,44 +8,60 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveBFConquest")
 
-mapSize = "lg"
-EnvironmentType = "jungle"
-onlineSideVar = "SSVxCOL"
-onlineHeroSSV = "shep_infiltrator"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
-
--- AI hero spawns. CP name, CP spawn path name
-heroSupportCPs = {
-			{"team1_permacp", "cp1spawn"},
-			{"team2_permacp", "cp2spawn"},
-			{"cp3-1", "cp2spawn"},
-			{"cp4-1", "cp2spawn"},
-			{"cp5-1", "cp2spawn"},
-			{"cp6-1", "cp6-1_spawn"},
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	gameMode = "siege",
+	mapSize = "lg",
+	environmentType = "jungle",
+	
+	-- In-game music
+	musicVariation_SSVxGTH = "3",
+	musicVariation_SSVxCOL = "5",
+	musicVariation_EVGxGTH = "9",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxCOL",
+	onlineHeroSSV = "shep_infiltrator",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- AI hero spawns. CP name, CP spawn path name
+	heroSupportCPs = {
+				{"team1_permacp", "cp1spawn"},
+				{"team2_permacp", "cp2spawn"},
+				{"cp3-1", "cp2spawn"},
+				{"cp4-1", "cp2spawn"},
+				{"cp5-1", "cp2spawn"},
+				{"cp6-1", "cp6-1_spawn"},
+	},
+	-- Local ally spawns. CP name, CP spawn path name
+	allySpawnCPs = {
+				{"team1_permacp", "cp1spawn"},
+				{"team2_permacp", "cp2spawn"},
+				{"cp3-1", "cp2spawn"},
+				{"cp4-1", "cp2spawn"},
+				{"cp5-1", "cp2spawn"},
+				{"cp6-1", "cp6-1_spawn"},
+	},
+	
+	-- Artillery strike path nodes. Path name, path node ID
+	artilleryNodes = {
+				{"cp1spawn", 0},
+				{"cp2spawn", 0},
+				{"cp3spawn", 0},
+				{"cp4spawn", 0},
+				{"cp5spawn", 0},
+				{"cp6-1_spawn", 0},
+	},
+	terrainType = "dirt",
 }
+-- Initialize the MapManager
+manager:Init()
 
--- Local ally spawns. CP name, CP spawn path name
-allySpawnCPs = {
-			{"team1_permacp", "cp1spawn"},
-			{"team2_permacp", "cp2spawn"},
-			{"cp3-1", "cp2spawn"},
-			{"cp4-1", "cp2spawn"},
-			{"cp5-1", "cp2spawn"},
-			{"cp6-1", "cp6-1_spawn"},
-}
-
--- Artillery strike path nodes. Path name, path node ID
-artilleryNodes = {
-			{"cp1spawn", 0},
-			{"cp2spawn", 0},
-			{"cp3spawn", 0},
-			{"cp4spawn", 0},
-			{"cp5spawn", 0},
-			{"cp6-1_spawn", 0},
-}
-
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -100,13 +116,7 @@ function ScriptPostLoad()
 	conquest:Start()   
     EnableSPHeroRules()
     
-	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("siege", heroSupportCPs)
-	
-	Init_ArtilleryStrikes("artillery1", artilleryNodes)
+	manager:Proc_ScriptPostLoad_End()
     
 end
 
@@ -120,10 +130,9 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1318)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1468)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl;vehcommon")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl;vehnormal")
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\artillery_dirt.lvl")
 
     SetMemoryPoolSize("Music", 99)
 
@@ -139,7 +148,7 @@ function ScriptInit()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\me5tur.lvl",
 					"tur_bldg_mturret")
 	
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_FEL_Streaming.lvl;fel1n")
 
@@ -171,7 +180,6 @@ function ScriptInit()
     
     SetSpawnDelay(10.0, 0.25)
     ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\fel1.lvl", "fel1_siege")
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\artillery.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\minimap.lvl;fel1")
     SetDenseEnvironment("false")
     SetAIViewMultiplier(0.65)
@@ -184,25 +192,11 @@ function ScriptInit()
 
     --  Sound Stats
 
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music03()
-		elseif ME5_SideVar == 2 then
-			Music05()
-		elseif ME5_SideVar == 3	then
-			Music09()
-		elseif ME5_SideVar == 4	then
-			Music09()
-		end
-	else
-		Music05()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_FEL_Streaming.lvl",  "fel1")
 	
 	SoundFX()
-	
-	
 	
     --  Camera Stats
     AddCameraShot(0.896307, -0.171348, -0.401716, -0.076796, -116.306931, 31.039505, 20.757469)
@@ -212,5 +206,5 @@ function ScriptInit()
     AddCameraShot(0.346130, 0.046311, -0.928766, 0.124267, 87.431061, 20.881388, 13.070729)
     AddCameraShot(0.468084, 0.095611, -0.860724, 0.175812, 18.063482, 19.360580, 18.178158)
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 end

@@ -8,36 +8,51 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
-mapSize = "xl"
-EnvironmentType = "urban"
-onlineSideVar = "SSVxCOL"
-onlineHeroSSV = "shep_vanguard"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
-
--- Local ally spawns. CP name, CP spawn path name
-heroSupportCPs = {
-			--{"CP1Con", "CP1SpawnPathCon"},
-			{"CP2Con", "CP2SpawnPathCon"},
-			{"CP3Con", "CP3SpawnPathCon"},
-			{"CP4Con", "CP4SpawnPathCon"},
-			{"CP5Con", "CP5SpawnPathCon"},
-			{"CP6Con", "CP6SpawnPathCon"},
-			{"CP7Con", "CP7SpawnPathCon"},
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	gameMode = "conquest",
+	mapSize = "xl",
+	environmentType = "snow",
+	
+	-- In-game music
+	musicVariation_SSVxGTH = "3_nov",
+	musicVariation_SSVxCOL = "5",
+	musicVariation_EVGxGTH = "9",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxCOL",
+	onlineHeroSSV = "shep_vanguard",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- Local ally spawns. CP name, CP spawn path name
+	heroSupportCPs = {
+				--{"CP1Con", "CP1SpawnPathCon"},
+				{"CP2Con", "CP2SpawnPathCon"},
+				{"CP3Con", "CP3SpawnPathCon"},
+				{"CP4Con", "CP4SpawnPathCon"},
+				{"CP5Con", "CP5SpawnPathCon"},
+				{"CP6Con", "CP6SpawnPathCon"},
+				{"CP7Con", "CP7SpawnPathCon"},
+	},
+	-- AI hero spawns. CP name, CP spawn path name
+	allySpawnCPs = {
+				--{"CP1Con", "CP1SpawnPathCon"},
+				{"CP2Con", "CP2SpawnPathCon"},
+				{"CP3Con", "CP3SpawnPathCon"},
+				{"CP4Con", "CP4SpawnPathCon"},
+				{"CP5Con", "CP5SpawnPathCon"},
+				{"CP6Con", "CP6SpawnPathCon"},
+				{"CP7Con", "CP7SpawnPathCon"},
+	},
 }
+-- Initialize the MapManager
+manager:Init()
 
--- AI hero spawns. CP name, CP spawn path name
-allySpawnCPs = {
-			--{"CP1Con", "CP1SpawnPathCon"},
-			{"CP2Con", "CP2SpawnPathCon"},
-			{"CP3Con", "CP3SpawnPathCon"},
-			{"CP4Con", "CP4SpawnPathCon"},
-			{"CP5Con", "CP5SpawnPathCon"},
-			{"CP6Con", "CP6SpawnPathCon"},
-			{"CP7Con", "CP7SpawnPathCon"},
-}
-
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -67,7 +82,7 @@ function ScriptPostLoad()
 	SetObjectTeam("CP3Con", 0)
 	SetObjectTeam("CP4Con", 0)
 	
-	KillObject("CP1Con")
+	--KillObject("CP1Con")
 	
     --This defines the CPs.  These need to happen first
     --cp1 = CommandPost:New{name = "CP1Con"}
@@ -101,11 +116,7 @@ function ScriptPostLoad()
  
     EnableSPHeroRules()
     
-	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("conquest", heroSupportCPs)
+	manager:Proc_ScriptPostLoad_End()
 	
 	--[[SetProperty("CP1Con", "NeutralizeTime", 40)
 	SetProperty("CP1Con", "CaptureTime", 35)
@@ -157,7 +168,7 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1291)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1635)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl;vehcommon")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl;vehnormal")
 	
@@ -171,7 +182,7 @@ function ScriptInit()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\me5tur.lvl",
 					"tur_bldg_mturret")
 	
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_NOV_Streaming.lvl")
    
@@ -194,7 +205,7 @@ function ScriptInit()
 	SetMemoryPoolSize("MountedTurret", 18)
 	SetMemoryPoolSize("Music", 80)
 	SetMemoryPoolSize("Navigator", 45)
-	SetMemoryPoolSize("Obstacle", 390)
+	SetMemoryPoolSize("Obstacle", 455)
 	SetMemoryPoolSize("PathFollower", 45)
 	SetMemoryPoolSize("PathNode", 180)
 	SetMemoryPoolSize("SoldierAnimation", 403)
@@ -210,7 +221,7 @@ function ScriptInit()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\NOV.lvl", "NOV_Conquest")
 	SetDenseEnvironment("True")   
 	AddDeathRegion("chasm_death")
-	AddDeathRegion("deathregion1")
+	--AddDeathRegion("deathregion1")
 	--SetStayInTurrets(1)
 	
 	SetParticleLODBias(3000)
@@ -218,19 +229,7 @@ function ScriptInit()
 	
     --  Sound Stats
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music03()
-		elseif ME5_SideVar == 2 then
-			Music05()
-		elseif ME5_SideVar == 3	then
-			Music09()
-		elseif ME5_SideVar == 4	then
-			Music09()
-		end
-	else
-		Music05()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_NOV_Streaming.lvl",  "NOV_ambiance")
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_NOV_Streaming.lvl",  "NOV_ambiance")
@@ -262,7 +261,7 @@ function ScriptInit()
     AddCameraShot(-0.269503, 0.031284, -0.956071, -0.110983, 111.260330, 16.927542, -114.045715);
     AddCameraShot(-0.338119, 0.041636, -0.933134, -0.114906, 134.970169, 26.441256, -82.282082);
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 
 
 end

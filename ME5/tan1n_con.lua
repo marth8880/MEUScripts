@@ -8,30 +8,45 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
-mapSize = "sm"
-EnvironmentType = "urban"
-onlineSideVar = "SSVxCOL"
-onlineHeroSSV = "shep_engineer"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
-
--- Local ally spawns. CP name, CP spawn path name
-heroSupportCPs = {
-			{"CP4CON", "cp4path"},
-			{"CP5CON", "cp5path"},
-			{"CP6CON", "cp6path"},
-			{"CP7CON", "CP7SPAWNPATH"},
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	gameMode = "conquest",
+	mapSize = "sm",
+	environmentType = "urban",
+	
+	-- In-game music
+	musicVariation_SSVxGTH = "6",
+	musicVariation_SSVxCOL = "2",
+	musicVariation_EVGxGTH = "6",
+	musicVariation_EVGxCOL = "2",
+	
+	-- Online matches
+	onlineSideVar = "SSVxCOL",
+	onlineHeroSSV = "shep_engineer",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- Local ally spawns. CP name, CP spawn path name
+	heroSupportCPs = {
+				{"CP4CON", "cp4path"},
+				{"CP5CON", "cp5path"},
+				{"CP6CON", "cp6path"},
+				{"CP7CON", "CP7SPAWNPATH"},
+	},
+	-- AI hero spawns. CP name, CP spawn path name
+	allySpawnCPs = {
+				{"CP4CON", "cp4path"},
+				{"CP5CON", "cp5path"},
+				{"CP6CON", "cp6path"},
+				{"CP7CON", "CP7SPAWNPATH"},
+	},
 }
+-- Initialize the MapManager
+manager:Init()
 
--- AI hero spawns. CP name, CP spawn path name
-allySpawnCPs = {
-			{"CP4CON", "cp4path"},
-			{"CP5CON", "cp5path"},
-			{"CP6CON", "cp6path"},
-			{"CP7CON", "CP7SPAWNPATH"},
-}
-
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -86,11 +101,7 @@ function ScriptPostLoad()
     
     EnableSPHeroRules()
     
-	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("conquest", heroSupportCPs)
+	manager:Proc_ScriptPostLoad_End()
     
    --Setup Timer-- 
 
@@ -452,7 +463,7 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1623)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1821)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
     SetWorldExtents(1064.5)
 	
 	
@@ -466,7 +477,7 @@ function ScriptInit()
 	
 	SetMemoryPoolSize("Music", 72)
 	
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_TAN_Streaming.lvl;tan1n")
 	
@@ -504,6 +515,7 @@ function ScriptInit()
     ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\tan1.lvl", "tan1_conquest")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\minimap.lvl;tan1")
     SetDenseEnvironment("false")
+    
 	AISnipeSuitabilityDist(50)
 	SetAttackerSnipeRange(60)
 	SetDefenderSnipeRange(70)
@@ -512,19 +524,7 @@ function ScriptInit()
 
     --  Sound Stats
 
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music06()
-		elseif ME5_SideVar == 2 then
-			Music02()
-		elseif ME5_SideVar == 3	then
-			Music06()
-		elseif ME5_SideVar == 4	then
-			Music09()
-		end
-	else
-		Music02()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_TAN_Streaming.lvl",  "tan1")	-- ambient streams
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_TAN_Streaming.lvl",  "tan")	-- levolution streams
@@ -537,6 +537,6 @@ function ScriptInit()
     AddCameraShot(-0.395561, 0.079428, -0.897092, -0.180135, -264.022278, 6.745873, 122.715752);
     AddCameraShot(0.546703, -0.041547, -0.833891, -0.063371, -309.709900, 5.168304, 145.334381);
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 
 end

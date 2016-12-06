@@ -8,20 +8,36 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveOneFlagCTF")
 
-mapSize = "lg"
-EnvironmentType = "snow"
-onlineSideVar = "SSVxGTH"
-onlineHeroSSV = "shep_adept"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	gameMode = "1flag",
+	mapSize = "lg",
+	environmentType = "snow",
+	
+	-- In-game music
+	musicVariation_SSVxGTH = "3_nov",
+	musicVariation_SSVxCOL = "5",
+	musicVariation_EVGxGTH = "9",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxGTH",
+	onlineHeroSSV = "shep_adept",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- AI hero spawns. CP name, CP spawn path name
+	heroSupportCPs = {},
+	
+	-- Local ally spawns. CP name, CP spawn path name
+	allySpawnCPs = {},
+}
+-- Initialize the MapManager
+manager:Init()
 
--- AI hero spawns. CP name, CP spawn path name
-heroSupportCPs = {}
-
--- Local ally spawns. CP name, CP spawn path name
-allySpawnCPs = {}
-
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -86,44 +102,7 @@ function ScriptPostLoad()
                            
     ctf:Start()
 	
-			--[[Music04_CTF()
-			music01 = music04_start
-			music02 = music04_mid
-			music03 = music04_end
-			musicTimerValue = 225
-	
-	ScriptCB_PlayInGameMusic(music01)
-	
-	CreateTimer("music_timer")
-		SetTimerValue("music_timer", musicTimerValue)
-		StartTimer("music_timer")
-		--ShowTimer("music_timer")
-		OnTimerElapse(
-			function(timer)
-				RandomMusic = math.random(1,3)
-				
-				if RandomMusic == 1 then
-						print("execute music variation 1")
-					ScriptCB_PlayInGameMusic(music01)
-				elseif RandomMusic == 2 then
-						print("execute music variation 2")
-					ScriptCB_PlayInGameMusic(music02)
-				elseif RandomMusic == 3 then
-						print("execute music variation 3")
-					ScriptCB_PlayInGameMusic(music03)
-				end
-				
-				SetTimerValue("music_timer", musicTimerValue)
-				StartTimer("music_timer")
-			end,
-			"music_timer"
-		)]]
-    
-	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("1flag", heroSupportCPs)
+	manager:Proc_ScriptPostLoad_End()
 	
 end
 
@@ -137,7 +116,7 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1305)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1423)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl;vehcommon")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl;vehnormal")
 
@@ -151,7 +130,7 @@ function ScriptInit()
 					"tur_bldg_hoth_dishturret",
 					"tur_bldg_hoth_lasermortar")]]
 	
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_HOT_Streaming.lvl;hot1n")
    
@@ -186,7 +165,7 @@ function ScriptInit()
     SetMemoryPoolSize("UnitController", 46)
     SetMemoryPoolSize("Weapon", weaponCnt)
 
-	ReadDataFile("HOT\\hot1.lvl", "hoth_ctf")	-- TODO: we should probably be loading MEU's hot1.lvl and not the stock one
+	ReadDataFile("HOT\\hot1.lvl", "hoth_ctf")	-- TODO: we should probably be loading MEU's hot1.lvl and not the stock one tbh
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\minimap.lvl;hot1")
     SetSpawnDelay(15.0, 0.25)
     SetDenseEnvironment("false")
@@ -196,19 +175,7 @@ function ScriptInit()
 
     --  Sound Stats
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music03_CTF()
-		elseif ME5_SideVar == 2 then
-			Music05_CTF()
-		elseif ME5_SideVar == 3	then
-			Music09_CTF()
-		elseif ME5_SideVar == 4	then
-			Music09_CTF()
-		end
-	else
-		Music03_CTF()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_HOT_Streaming.lvl",  "hot1")
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_HOT_Streaming.lvl",  "hot1")
@@ -226,7 +193,7 @@ function ScriptInit()
     --Battlefield
     AddCameraShot(0.927083, 0.020456, -0.374206, 0.008257, -333.221558, 0.676043, -14.027348)
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 
 
 end

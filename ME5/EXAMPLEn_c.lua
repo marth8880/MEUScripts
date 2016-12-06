@@ -30,7 +30,7 @@ ScriptCB_DoFile("ME5_CombatManager")
 ScriptCB_DoFile("Ambush")
 
 mapSize = "xs"
-EnvironmentType = "urban"
+environmentType = "urban"
 --[[onlineSideVar = "SSVxGTH"
 onlineHeroSSV = "shep_vanguard"
 onlineHeroGTH = "gethprime_me2"
@@ -4268,7 +4268,7 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1293)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1409)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	
 	-- Player's squad's aggressiveness
 	SetTeamAggressiveness(3, (squadAggro))
@@ -4510,5 +4510,5 @@ function ScriptInit()
 	-- Opening satellite shots
 	AddCameraShot(-0.461276, -0.061869, -0.877234, 0.117716, -51.108570, 127.905670, 150.074707);
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 end

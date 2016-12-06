@@ -7,34 +7,49 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
-mapSize = "med"
-EnvironmentType = "urban"
-onlineSideVar = "EVGxCOL"
-onlineHeroSSV = "shep_engineer"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
-
--- AI hero spawns. CP name, CP spawn path name
-heroSupportCPs = {
-			{"cp1", "cp1spawn"},
-			{"cp2", "cp2spawn"},
-			{"cp3", "cp3spawn"},
-			{"cp4", "cp4spawn"},
-			{"cp5", "cp5spawn"},
-			{"cp6", "path37"},
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	gameMode = "conquest",
+	mapSize = "med",
+	environmentType = "urban",
+	
+	-- In-game music
+	musicVariation_SSVxGTH = {"4","6"},
+	musicVariation_SSVxCOL = "2",
+	musicVariation_EVGxGTH = "9",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "EVGxCOL",
+	onlineHeroSSV = "shep_engineer",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- AI hero spawns. CP name, CP spawn path name
+	heroSupportCPs = {
+				{"cp1", "cp1spawn"},
+				{"cp2", "cp2spawn"},
+				{"cp3", "cp3spawn"},
+				{"cp4", "cp4spawn"},
+				{"cp5", "cp5spawn"},
+				{"cp6", "path37"},
+	},
+	-- Local ally spawns. CP name, CP spawn path name
+	allySpawnCPs = {
+				{"cp1", "cp1spawn"},
+				{"cp2", "cp2spawn"},
+				{"cp3", "cp3spawn"},
+				{"cp4", "cp4spawn"},
+				{"cp5", "cp5spawn"},
+				{"cp6", "path37"},
+	},
 }
+-- Initialize the MapManager
+manager:Init()
 
--- Local ally spawns. CP name, CP spawn path name
-allySpawnCPs = {
-			{"cp1", "cp1spawn"},
-			{"cp2", "cp2spawn"},
-			{"cp3", "cp3spawn"},
-			{"cp4", "cp4spawn"},
-			{"cp5", "cp5spawn"},
-			{"cp6", "path37"},
-}
-
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -92,11 +107,7 @@ function ScriptPostLoad()
     OnObjectKillName(PlayAnimDrop, "DingDong");
     EnableSPHeroRules()
     
-	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("conquest", heroSupportCPs)
+	manager:Proc_ScriptPostLoad_End()
 	
  end
  --START BRIDGEWORK!
@@ -138,7 +149,7 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1528)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1684)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl;vehcommon")
 	
     --SetTeamAggressiveness(REP, 0.95)
@@ -155,7 +166,7 @@ function ScriptInit()
 	SetMemoryPoolSize("Combo::DamageSample",580)  -- should be ~8-12x #Combo::Attack
 	SetMemoryPoolSize("Combo::Deflect",4)     -- should be ~1x #combo
 	
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_MUS_Streaming.lvl;mus1n")
 
@@ -188,25 +199,13 @@ function ScriptInit()
 
     SetDenseEnvironment("false")
     --AddDeathRegion("Sarlac01")
-        SetMaxFlyHeight(90)
-SetMaxPlayerFlyHeight(90)
+    SetMaxFlyHeight(90)
+    SetMaxPlayerFlyHeight(90)
 
 
     --  Sound Stats
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music06()
-		elseif ME5_SideVar == 2 then
-			Music02()
-		elseif ME5_SideVar == 3	then
-			Music09()
-		elseif ME5_SideVar == 4	then
-			Music09()
-		end
-	else
-		Music09()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_MUS_Streaming.lvl",  "mus1")
 	
@@ -224,5 +223,5 @@ SetMaxPlayerFlyHeight(90)
 	AddCameraShot(0.178437, 0.004624, -0.983610, 0.025488, -66.947433, 68.543945, 6.745875);
     AddCameraShot(-0.400665, 0.076364, -0896894, -0.170941, 96.201210, 79.913033, -58.604382)
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 end

@@ -101,7 +101,7 @@ end
 function ScriptInit()
     
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\vrm1.lvl")
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
    
     SetMaxFlyHeight(30)
     SetMaxPlayerFlyHeight (30)

@@ -1,34 +1,47 @@
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
-
-isModMap = 1
 --
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
 
 -- load the gametype script
--- ScriptCB_DoFile("ME5_ObjectiveTDM")
 ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
+--ScriptCB_DoFile("ME5_ObjectiveTDM")
 
-mapSize = "xs"
-EnvironmentType = "urban"
-onlineSideVar = "SSVxGTH"
-onlineHeroSSV = "shep_vanguard"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
-isTDM = true
-
--- AI hero spawns. CP name, CP spawn path name
-heroSupportCPs = {}
-
--- Local ally spawns. CP name, CP spawn path name
-allySpawnCPs = {
-			{"cp1_tdm", "cp1_tdm_spawn"},
-			{"cp2_tdm", "cp2_tdm_spawn"},
-}
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	bIsModMap = true,
+	gameMode = "tdm",
+	mapSize = "xs",
+	environmentType = "urban",
 	
+	-- In-game music
+	musicVariation_SSVxGTH = "3_vrm",
+	musicVariation_SSVxCOL = "5",
+	musicVariation_EVGxGTH = "9",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxGTH",
+	onlineHeroSSV = "shep_vanguard",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- AI hero spawns. CP name, CP spawn path name
+	heroSupportCPs = {},
+	-- Local ally spawns. CP name, CP spawn path name
+	allySpawnCPs = {
+				{"cp1_tdm", "cp1_tdm_spawn"},
+				{"cp2_tdm", "cp2_tdm_spawn"},
+	},
+}
+-- Initialize the MapManager
+manager:Init()
+
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -44,14 +57,9 @@ DEF = 2
 
 function ScriptPostLoad()
 	
-	--AllowAISpawn(REP, false)
-	--AllowAISpawn(CIS, false)
-    
-    
     --This defines the CPs.  These need to happen first
     cp1 = CommandPost:New{name = "cp1_tdm"}
     cp2 = CommandPost:New{name = "cp2_tdm"}
-    
     
     
     --This sets up the actual objective.  This needs to happen after cp's are defined
@@ -74,15 +82,8 @@ function ScriptPostLoad()
 						 multiplayerRules = true, isCelebrityDeathmatch = true}
 	TDM:Start()]]
 	
-	ClearAIGoals(1)
-	ClearAIGoals(2)
-	AddAIGoal(1, "Deathmatch", 100)
-	AddAIGoal(2, "Deathmatch", 100)
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
+	manager:Proc_ScriptPostLoad_End()
 	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("tdm", heroSupportCPs)
-    
 end
 
 
@@ -103,7 +104,7 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1293)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1409)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
    
     SetMaxFlyHeight(16)
     SetMaxPlayerFlyHeight(16)
@@ -119,7 +120,7 @@ function ScriptInit()
     SetMemoryPoolSize ("Combo::DamageSample",6000)  -- should be ~8-12x #Combo::Attack
     SetMemoryPoolSize ("Combo::Deflect",100)     -- should be ~1x #combo  ]]
     
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_PRO_Streaming.lvl")
 	
@@ -155,26 +156,13 @@ function ScriptInit()
 	SetMemoryPoolSize("Weapon", weaponCnt)
     
     SetSpawnDelay(10.0, 0.25)
-    --ReadDataFile("dc:PRO\\PRO.lvl", "PRO_conquest")
     ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\PRO.lvl", "PRO_tdm")
     SetDenseEnvironment("false")
 	
 	
     -- Sound
     
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music03()
-		elseif ME5_SideVar == 2 then
-			Music05()
-		elseif ME5_SideVar == 3	then
-			Music09()
-		elseif ME5_SideVar == 4	then
-			Music09()
-		end
-	else
-		Music03()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_PRO_Streaming.lvl",  "PRO_ambiance")
 	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_PRO_Streaming.lvl",  "PRO_ambiance")
@@ -189,6 +177,6 @@ function ScriptInit()
 	AddCameraShot(0.459203, 0.042688, -0.883496, 0.082130, -19.666098, 7.762414, -125.828354);		-- towers wide
 	AddCameraShot(-0.428738, -0.031436, -0.900465, 0.066023, 20.310499, 2.323809, -157.813171);		-- skyway tower interior
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 end
 

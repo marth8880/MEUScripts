@@ -244,7 +244,7 @@ function ScriptInit()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\vrm1.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamessv.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamegth.lvl")
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
    
     SetMaxFlyHeight(30)
     SetMaxPlayerFlyHeight (30)

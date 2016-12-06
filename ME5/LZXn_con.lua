@@ -1,9 +1,5 @@
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
-
-isModMap = 1
-
-ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\core.lvl")
-
+ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\core.lvl")		-- TODO: this probably shouldn't be here tbh
 -- 
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved. 
 -- 
@@ -13,38 +9,67 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
-mapSize = "lg"
-EnvironmentType = "snow"
-onlineSideVar = "SSVxGTH"
-onlineHeroSSV = "shep_infiltrator"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
-
--- AI hero spawns. CP name, CP spawn path name
-heroSupportCPs = {
-			{"cp1", "cp1_spawn"},
-			{"cp2", "cp2_spawn"},
-			{"cp3", "cp3_spawn"},
-			{"cp4", "cp4_spawn"},
-			{"cp5", "cp5_spawn"},
-			{"cp6", "cp6_spawn"},
-			{"cp7", "cp7_spawn"},
-			{"cp8", "cp8_spawn"},
-}
-
--- Local ally spawns. CP name, CP spawn path name
-allySpawnCPs = {
-			{"cp1", "cp1_spawn"},
-			{"cp2", "cp2_spawn"},
-			{"cp3", "cp3_spawn"},
-			{"cp4", "cp4_spawn"},
-			{"cp5", "cp5_spawn"},
-			{"cp6", "cp6_spawn"},
-			{"cp7", "cp7_spawn"},
-			{"cp8", "cp8_spawn"},
-}
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	bIsModMap = true,
+	gameMode = "conquest",
+	mapSize = "lg",
+	environmentType = "snow",
 	
+	-- In-game music
+	musicVariation_SSVxGTH = "3_nov",
+	musicVariation_SSVxCOL = "5",
+	musicVariation_EVGxGTH = "9",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxGTH",
+	onlineHeroSSV = "shep_infiltrator",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- AI hero spawns. CP name, CP spawn path name
+	heroSupportCPs = {
+				{"cp1", "cp1_spawn"},
+				{"cp2", "cp2_spawn"},
+				{"cp3", "cp3_spawn"},
+				{"cp4", "cp4_spawn"},
+				{"cp5", "cp5_spawn"},
+				{"cp6", "cp6_spawn"},
+				{"cp7", "cp7_spawn"},
+				{"cp8", "cp8_spawn"},
+	},
+	-- Local ally spawns. CP name, CP spawn path name
+	allySpawnCPs = {
+				{"cp1", "cp1_spawn"},
+				{"cp2", "cp2_spawn"},
+				{"cp3", "cp3_spawn"},
+				{"cp4", "cp4_spawn"},
+				{"cp5", "cp5_spawn"},
+				{"cp6", "cp6_spawn"},
+				{"cp7", "cp7_spawn"},
+				{"cp8", "cp8_spawn"},
+	},
+	
+	-- Artillery strike path nodes. Path name, path node ID
+	artilleryNodes = {
+				{"cp1_spawn", 0},
+				{"cp2_spawn", 0},
+				{"cp3_spawn", 0},
+				{"cp4_spawn", 0},
+				{"cp5_spawn", 0},
+				{"cp6_spawn", 0},
+				{"cp7_spawn", 0},
+				{"cp8_spawn", 0},
+	},
+	terrainType = "snow",
+}
+-- Initialize the MapManager
+manager:Init()
+
+-- Randomize which team is ATT/DEF	
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -99,62 +124,7 @@ function ScriptPostLoad()
 	SetProperty("cp7", "HUDIndex", 8)	-- 8
 	SetProperty("cp8", "HUDIndex", 4)	-- 3
 	
-	ClearAIGoals(1)
-	ClearAIGoals(2)
-	AddAIGoal(1, "Conquest", 100)
-	AddAIGoal(2, "Conquest", 100)
-    
-	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("conquest", heroSupportCPs)
-	
-	CP1Node = GetPathPoint("cp1_spawn", 0) --gets the path point
-	CP2Node = GetPathPoint("cp2_spawn", 0)
-	CP3Node = GetPathPoint("cp3_spawn", 0)
-	CP4Node = GetPathPoint("cp4_spawn", 0)
-	CP5Node = GetPathPoint("cp5_spawn", 0)
-	CP6Node = GetPathPoint("cp6_spawn", 0)
-	CP7Node = GetPathPoint("cp7_spawn", 0)
-	CP8Node = GetPathPoint("cp8_spawn", 0)
-	
-	--[[CreateTimer("artGameTimer")
-	SetTimerValue("artGameTimer", 720)
-	StartTimer("artGameTimer")
-	OnTimerElapse(
-		function(timer)]]
-			--local team1pts = GetReinforcementCount(1)
-			--if team1pts >= 100 then
-				artMatrices = { CP1Node, CP2Node, CP3Node, CP4Node, CP5Node, CP6Node, CP7Node, CP8Node }
-				goingthroughturrets = 0
-				
-				artInitTimer = CreateTimer("artInitTimer")
-				SetTimerValue("artInitTimer", 20.0)
-				StartTimer("artInitTimer")
-				--ShowTimer("artInitTimer")
-				OnTimerElapse(
-					function(timer)
-						goingthroughturrets = goingthroughturrets + 1
-						if goingthroughturrets == 9 then
-							goingthroughturrets = 1
-						end
-						
-						SetEntityMatrix( "artillery1", artMatrices[goingthroughturrets])
-						--ShowMessageText("level.common.events.surv.artillery.msg"..goingthroughturrets)
-							print("hot1n_surv: Artillery transitioning to matrix: "..goingthroughturrets)					
-						SetTimerValue("artInitTimer", 20.0)
-						StartTimer("artInitTimer")
-					end,
-				"artInitTimer"
-				)
-			--else
-			--end
-			
-			--[[DestroyTimer(Timer)
-		end,
-	"artGameTimer"
-	)]]
+	manager:Proc_ScriptPostLoad_End()
 	
 	AddDeathRegion("deathregion")
 	
@@ -178,9 +148,8 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1403)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1547)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl;vehcommon")
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\artillery_snow.lvl")
 	
     SetMaxFlyHeight(96)
     SetMaxPlayerFlyHeight(96)
@@ -193,7 +162,7 @@ function ScriptInit()
 					"tur_bldg_laser",
 					"tur_bldg_hoth_dishturret")
 	
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LZX_Streaming.lvl")
 
@@ -226,36 +195,23 @@ function ScriptInit()
 	SetSpawnDelay(10.0, 0.25)
 	ReadDataFile("..\\..\\addon\\LZX\\data\\_LVL_PC\\LZX\\LZX.lvl", "LZX_conquest")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\LZX_AMB.lvl")	-- loads the soundstream region and the minimap
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\artillery.lvl")
 	SetDenseEnvironment("false")
 	
 	
 	--  Sound Stats
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music03()
-		elseif ME5_SideVar == 2 then
-			Music05()
-		elseif ME5_SideVar == 3	then
-			Music09()
-		elseif ME5_SideVar == 4	then
-			Music09()
-		end
-	else
-		Music03()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LZX_Streaming.lvl",  "LZX_ambiance")
 	
 	SoundFX()
 
---OpeningSateliteShot 
-   AddCameraShot(-0.276930, -0.006705, -0.960585, 0.023256, 91.842682, 14.668467, 84.243149); 
-   AddCameraShot(0.811569, -0.051904, 0.580760, 0.037143, 130.966812, 14.082601, 34.935509); 
-   AddCameraShot(0.284131, -0.009807, -0.958165, -0.033073, -39.626015, 14.090186, 117.456718); 
-   AddCameraShot(0.661070, -0.102405, -0.734542, -0.113787, 96.750153, 23.179926, 146.376358); 
-   AddCameraShot(0.977186, -0.004879, -0.212328, -0.001060, -81.759819, 5.994357, 69.543793); 
+	-- Camera Stats 
+	AddCameraShot(-0.276930, -0.006705, -0.960585, 0.023256, 91.842682, 14.668467, 84.243149);
+	AddCameraShot(0.811569, -0.051904, 0.580760, 0.037143, 130.966812, 14.082601, 34.935509);
+	AddCameraShot(0.284131, -0.009807, -0.958165, -0.033073, -39.626015, 14.090186, 117.456718);
+	AddCameraShot(0.661070, -0.102405, -0.734542, -0.113787, 96.750153, 23.179926, 146.376358);
+	AddCameraShot(0.977186, -0.004879, -0.212328, -0.001060, -81.759819, 5.994357, 69.543793);
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 end 

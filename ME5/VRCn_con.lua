@@ -11,7 +11,7 @@ ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
 mapSize = "lg"
-EnvironmentType = "jungle"
+environmentType = "jungle"
 onlineSideVar = "SSVxGTH"
 onlineHeroSSV = "shep_engineer"
 onlineHeroGTH = "gethprime_me2"
@@ -291,7 +291,7 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1291)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1409)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl;vehcommon")
 	
     SetMaxFlyHeight(30)
@@ -300,7 +300,7 @@ function ScriptInit()
 	SetAttackerSnipeRange(90)
 	SetDefenderSnipeRange(150)
 	
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_VRM_Streaming.lvl")
 	
@@ -382,6 +382,6 @@ function ScriptInit()
 	AddCameraShot(0.943805, -0.094135, 0.315250, 0.031443, -95.917686, 12.469149, 164.284882);
 	AddCameraShot(0.039136, -0.004479, -0.992743, -0.113616, -145.351196, 12.469149, 7.593871);
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 	
 end

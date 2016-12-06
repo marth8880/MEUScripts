@@ -2,38 +2,54 @@ ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
 --
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
+
 ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveBFConquest")
 
-mapSize = "med"
-EnvironmentType = "desert"
-onlineSideVar = "SSVxGTH"
-onlineHeroSSV = "shep_sentinel"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
-
--- AI hero spawns. CP name, CP spawn path name
-heroSupportCPs = {
-			{"team1_permacp", "con_cp1spawn"},
-			{"team2_permacp", "con_cp5spawn"},
-			{"con_cp1a", "con_cp1aspawn"},
-			{"con_cp2", "con_cp2spawn"},
-			{"con_cp6", "con_cp6spawn"},
-			{"con_cp7", "con_cp7_spawn"},
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	gameMode = "siege",
+	mapSize = "med",
+	environmentType = "desert",
+	
+	-- In-game music
+	musicVariation_SSVxGTH = "4",
+	musicVariation_SSVxCOL = "2",
+	musicVariation_EVGxGTH = "9",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxGTH",
+	onlineHeroSSV = "shep_sentinel",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- AI hero spawns. CP name, CP spawn path name
+	heroSupportCPs = {
+				{"team1_permacp", "con_cp1spawn"},
+				{"team2_permacp", "con_cp5spawn"},
+				{"con_cp1a", "con_cp1aspawn"},
+				{"con_cp2", "con_cp2spawn"},
+				{"con_cp6", "con_cp6spawn"},
+				{"con_cp7", "con_cp7_spawn"},
+	},
+	-- Local ally spawns. CP name, CP spawn path name
+	allySpawnCPs = {
+				{"team1_permacp", "con_cp1spawn"},
+				{"team2_permacp", "con_cp5spawn"},
+				{"con_cp1a", "con_cp1aspawn"},
+				{"con_cp2", "con_cp2spawn"},
+				{"con_cp6", "con_cp6spawn"},
+				{"con_cp7", "con_cp7_spawn"},
+	},
 }
+-- Initialize the MapManager
+manager:Init()
 
--- Local ally spawns. CP name, CP spawn path name
-allySpawnCPs = {
-			{"team1_permacp", "con_cp1spawn"},
-			{"team2_permacp", "con_cp5spawn"},
-			{"con_cp1a", "con_cp1aspawn"},
-			{"con_cp2", "con_cp2spawn"},
-			{"con_cp6", "con_cp6spawn"},
-			{"con_cp7", "con_cp7_spawn"},
-}
-
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -84,11 +100,7 @@ function ScriptPostLoad()
     conquest:Start()
     DisableBarriers("Barrier445");
     
-	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("siege", heroSupportCPs)
+	manager:Proc_ScriptPostLoad_End()
 	
 end
  
@@ -103,7 +115,7 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1309)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1430)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 
     --  Republic Attacking (attacker is always #1)
    
@@ -113,7 +125,7 @@ function ScriptInit()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\me5tur.lvl",
 					"tur_bldg_mturret")
 
-    Init_SideSetup()
+    manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_UTA_Streaming.lvl;uta1n")
 
@@ -159,19 +171,7 @@ function ScriptInit()
 
     --  Sound Stats
 
-    if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music04()
-		elseif ME5_SideVar == 2 then
-			Music02()
-		elseif ME5_SideVar == 3	then
-			Music09()
-		elseif ME5_SideVar == 4	then
-			Music09()
-		end
-	else
-		Music04()
-	end
+    manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_UTA_Streaming.lvl",  "uta1")
 	
@@ -185,6 +185,6 @@ function ScriptInit()
 	AddCameraShot(0.827070, 0.017093, 0.561719, -0.011609, -24.457638, 8.834146, 296.544586);
 	AddCameraShot(0.998875, 0.004912, -0.047174, 0.000232, -45.868237, 2.978215, 216.217880);
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 
 end

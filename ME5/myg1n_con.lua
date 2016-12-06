@@ -8,32 +8,47 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
-mapSize = "med"
-EnvironmentType = "snow"
-onlineSideVar = "SSVxGTH"
-onlineHeroSSV = "shep_sentinel"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
-
--- Local ally spawns. CP name, CP spawn path name
-heroSupportCPs = {
-			{"CP1_CON", "CP1JERKPATH"},
-			{"CP2_CON", "CP2JERKPATH"},
-			{"CP4_CON", "CP4JERKPATH"},
-			{"CP5_CON", "CP5JERKPATH"},
-			{"CP7_CON", "CP7JERKPATH"},
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	gameMode = "conquest",
+	mapSize = "med",
+	environmentType = "snow",
+	
+	-- In-game music
+	musicVariation_SSVxGTH = "3_nov",
+	musicVariation_SSVxCOL = "5",
+	musicVariation_EVGxGTH = "9",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxGTH",
+	onlineHeroSSV = "shep_sentinel",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- Local ally spawns. CP name, CP spawn path name
+	heroSupportCPs = {
+				{"CP1_CON", "CP1JERKPATH"},
+				{"CP2_CON", "CP2JERKPATH"},
+				{"CP4_CON", "CP4JERKPATH"},
+				{"CP5_CON", "CP5JERKPATH"},
+				{"CP7_CON", "CP7JERKPATH"},
+	},
+	-- AI hero spawns. CP name, CP spawn path name
+	allySpawnCPs = {
+				{"CP1_CON", "CP1JERKPATH"},
+				{"CP2_CON", "CP2JERKPATH"},
+				{"CP4_CON", "CP4JERKPATH"},
+				{"CP5_CON", "CP5JERKPATH"},
+				{"CP7_CON", "CP7JERKPATH"},
+	},
 }
+-- Initialize the MapManager
+manager:Init()
 
--- AI hero spawns. CP name, CP spawn path name
-allySpawnCPs = {
-			{"CP1_CON", "CP1JERKPATH"},
-			{"CP2_CON", "CP2JERKPATH"},
-			{"CP4_CON", "CP4JERKPATH"},
-			{"CP5_CON", "CP5JERKPATH"},
-			{"CP7_CON", "CP7JERKPATH"},
-}
-
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -91,11 +106,7 @@ function ScriptPostLoad()
     
     conquest:Start()
     
-	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("conquest", heroSupportCPs)
+	manager:Proc_ScriptPostLoad_End()
     
 end
  
@@ -109,12 +120,12 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1295)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1413)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\me5tur.lvl",
 					"tur_bldg_mturret")
 	
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_MYG_Streaming.lvl;myg1n")
 	
@@ -156,19 +167,7 @@ function ScriptInit()
 
     --  Sound Stats
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music03()
-		elseif ME5_SideVar == 2 then
-			Music05()
-		elseif ME5_SideVar == 3	then
-			Music09()
-		elseif ME5_SideVar == 4	then
-			Music09()
-		end
-	else
-		Music03()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_MYG_Streaming.lvl",  "myg1")
 	
@@ -186,5 +185,5 @@ function ScriptInit()
 	AddCameraShot(0.797017, 0.029661, 0.602810, -0.022434, -45.726467, 7.754435, -47.544712);
 	AddCameraShot(0.998764, 0.044818, -0.021459, 0.000963, -71.276566, 4.417432, 221.054550);
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 end

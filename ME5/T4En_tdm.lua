@@ -1,6 +1,4 @@
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
-
-isModMap = 1
 --
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
@@ -9,15 +7,41 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
-mapSize = "sm"
-EnvironmentType = "jungle"
-onlineSideVar = "SSVxGTH"
-onlineHeroSSV = "shep_engineer"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
-isTDM = true
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	bIsModMap = true,
+	gameMode = "tdm",
+	mapSize = "sm",
+	environmentType = "urban",
+	
+	-- In-game music
+	musicVariation_SSVxGTH = "6",
+	musicVariation_SSVxCOL = "2",
+	musicVariation_EVGxGTH = "6",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxGTH",
+	onlineHeroSSV = "shep_engineer",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- AI hero spawns. CP name, CP spawn path name
+	heroSupportCPs = {},
+	-- Local ally spawns. CP name, CP spawn path name
+	allySpawnCPs = {
+				{"cp1_tdm", "cp1_tdm_spawn"},
+				{"cp2_tdm", "cp2_tdm_spawn"},
+				{"cp3_tdm", "cp3_tdm_spawn"},
+				{"cp4_tdm", "cp4_tdm_spawn"},
+	},
+}
+-- Initialize the MapManager
+manager:Init()
 
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -31,38 +55,9 @@ HuskTeam = 3
 ATT = 1
 DEF = 2
 
-function SSVxGTH_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideSSVHeroClass()
-		DecideGTHHeroClass()
-	end
-end
-
-function SSVxCOL_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideSSVHeroClass()
-		DecideCOLHeroClass()
-	end
-end
-
-function EVGxGTH_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideEVGHeroClass()
-		DecideGTHHeroClass()
-	end
-end
-
-function EVGxCOL_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideEVGHeroClass()
-		DecideCOLHeroClass()
-	end
-end
 
 function ScriptPostLoad()
---WeatherMode = math.random(1,3)
---weather()
-    
+	
     --This defines the CPs.  These need to happen first
     cp1 = CommandPost:New{name = "cp1_tdm"}
     cp2 = CommandPost:New{name = "cp2_tdm"}
@@ -74,7 +69,6 @@ function ScriptPostLoad()
     --This sets up the actual objective.  This needs to happen after cp's are defined
     conquest = ObjectiveConquest:New{teamATT = ATT, teamDEF = DEF, 
                                      textATT = "game.modes.tdm", textDEF = "game.modes.tdm2", 
-                                     
                                      multiplayerRules = true}
     
     --This adds the CPs to the objective.  This needs to happen after the objective is set up
@@ -82,38 +76,12 @@ function ScriptPostLoad()
     conquest:AddCommandPost(cp2)
     conquest:AddCommandPost(cp3)
     conquest:AddCommandPost(cp4)
-	
-	SetProperty("cp1_tdm", "AllyPath", "cp1_tdm_spawn")
-	SetProperty("cp2_tdm", "AllyPath", "cp2_tdm_spawn")
-	SetProperty("cp3_tdm", "AllyPath", "cp3_tdm_spawn")
-	SetProperty("cp4_tdm", "AllyPath", "cp4_tdm_spawn")
-	
-	ClearAIGoals(1)
-	ClearAIGoals(2)
-	AddAIGoal(1, "Deathmatch", 100)
-	AddAIGoal(2, "Deathmatch", 100)
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			SSVxGTH_PostLoad()
-		elseif ME5_SideVar == 2 then
-			SSVxCOL_PostLoad()
-		elseif ME5_SideVar == 3 then
-			EVGxGTH_PostLoad()
-		elseif ME5_SideVar == 4 then
-			EVGxCOL_PostLoad()
-		end
-	else
-		SSVxGTH_PostLoad()
-	end
-	
-	SetReinforcementCount(REP, 200)
-	SetReinforcementCount(CIS, 200)
     
     conquest:Start()
 
     EnableSPHeroRules()
+    
+    manager:Proc_ScriptPostLoad_End()
     
 end
 
@@ -134,7 +102,7 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1380)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1533)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	
     SetMaxFlyHeight(30)
     SetMaxPlayerFlyHeight(30)
@@ -146,7 +114,7 @@ function ScriptInit()
 					"tur_bldg_mturret",
 					"tur_bldg_laser")
 	
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_T4E_Streaming.lvl")
 
@@ -188,29 +156,7 @@ function ScriptInit()
     
 	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\Sound\\SFL_T4E_Streaming.lvl",  "T4E_ambiance")
 
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide == 1 then
-				Music06()
-			elseif RandomSide == 2 then
-				Music02()
-			elseif RandomSide == 3 then
-				Music06()
-			elseif RandomSide == 4 then
-				Music09()
-			end
-		elseif ME5_SideVar == 1 then
-			Music06()
-		elseif ME5_SideVar == 2 then
-			Music02()
-		elseif ME5_SideVar == 3	then
-			Music06()
-		elseif ME5_SideVar == 4	then
-			Music09()
-		end
-	else
-		Music06()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	SoundFX()
 
@@ -218,5 +164,5 @@ function ScriptInit()
 	AddCameraShot(-0.370814, 0.035046, -0.923929, -0.087320, -71.966255, 23.668301, 27.930090);
 	AddCameraShot(0.991073, 0.002392, 0.133299, -0.000322, 84.069084, 23.668301, -95.802574);
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 end

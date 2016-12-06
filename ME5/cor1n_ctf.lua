@@ -8,20 +8,35 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveCTF")
 
-mapSize = "med"
-EnvironmentType = "urban"
-onlineSideVar = "SSVxGTH"
-onlineHeroSSV = "shep_engineer"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	gameMode = "ctf",
+	mapSize = "med",
+	environmentType = "urban",
+	
+	-- In-game music
+	musicVariation_SSVxGTH = {"4","6"},
+	musicVariation_SSVxCOL = "2",
+	musicVariation_EVGxGTH = "9",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxGTH",
+	onlineHeroSSV = "shep_engineer",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- AI hero spawns. CP name, CP spawn path name
+	heroSupportCPs = {},
+	-- Local ally spawns. CP name, CP spawn path name
+	allySpawnCPs = {},
+}
+-- Initialize the MapManager
+manager:Init()
 
--- AI hero spawns. CP name, CP spawn path name
-heroSupportCPs = {}
-
--- Local ally spawns. CP name, CP spawn path name
-allySpawnCPs = {}
-
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -64,7 +79,7 @@ function ScriptPostLoad()
     	SetProperty ("LibCase1","MaxHealth",1000)
     	SetProperty ("LibCase2","MaxHealth",1000)
     	SetProperty ("LibCase3","MaxHealth",1000)
-    	SetProperty ("LibCase4","MaxHealth",1000)
+    	--SetProperty ("LibCase4","MaxHealth",1000)
     	SetProperty ("LibCase5","MaxHealth",1000)
     	SetProperty ("LibCase6","MaxHealth",1000)
     	SetProperty ("LibCase7","MaxHealth",1000)
@@ -80,7 +95,7 @@ function ScriptPostLoad()
     	SetProperty ("LibCase1","CurHealth",1000)
     	SetProperty ("LibCase2","CurHealth",1000)
     	SetProperty ("LibCase3","CurHealth",1000)
-    	SetProperty ("LibCase4","CurHealth",1000)
+    	--SetProperty ("LibCase4","CurHealth",1000)
     	SetProperty ("LibCase5","CurHealth",1000)
     	SetProperty ("LibCase6","CurHealth",1000)
     	SetProperty ("LibCase7","CurHealth",1000)
@@ -128,60 +143,7 @@ function ScriptPostLoad()
     ctf:AddFlag{name = "flag2", homeRegion = "Team2FlagCapture", captureRegion = "Team1FlagCapture"}
     ctf:Start()
     
-	--[[if not ScriptCB_InMultiplayer() then
-		if RandomSide == 1 then
-			Music06_CTF()
-			music01 = music06_start
-			music02 = music06_mid
-			music03 = music06_end
-			musicTimerValue = 185
-		elseif RandomSide == 2 then
-			Music02_CTF()
-			music01 = Mus02Start
-			music02 = Mus02Mid
-			music03 = Mus02End
-			musicTimerValue = 120
-		end
-	else
-		Music06_CTF()
-		music01 = music06_start
-		music02 = music06_mid
-		music03 = music06_end
-		musicTimerValue = 185
-	end
-	
-	ScriptCB_PlayInGameMusic(music01)
-	
-	CreateTimer("music_timer")
-		SetTimerValue("music_timer", musicTimerValue)
-		StartTimer("music_timer")
-		--ShowTimer("music_timer")
-		OnTimerElapse(
-			function(timer)
-				RandomMusic = math.random(1,3)
-				
-				if RandomMusic == 1 then
-						print("execute music variation 1")
-					ScriptCB_PlayInGameMusic(music01)
-				elseif RandomMusic == 2 then
-						print("execute music variation 2")
-					ScriptCB_PlayInGameMusic(music02)
-				elseif RandomMusic == 3 then
-						print("execute music variation 3")
-					ScriptCB_PlayInGameMusic(music03)
-				end
-				
-				SetTimerValue("music_timer", musicTimerValue)
-				StartTimer("music_timer")
-			end,
-			"music_timer"
-		)]]
-    
-	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("ctf", heroSupportCPs)
+	manager:Proc_ScriptPostLoad_End()
 	
 end
 
@@ -194,7 +156,7 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1321)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1468)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl;vehcommon")
  
     SetMapNorthAngle(180, 1)
@@ -210,7 +172,7 @@ function ScriptInit()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\me5tur.lvl", 
 					"tur_bldg_laser")
 					
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_COR_Streaming.lvl;cor1n")
     
@@ -226,7 +188,7 @@ function ScriptInit()
     SetMemoryPoolSize ("AmmoCounter", weaponCnt)
     SetMemoryPoolSize ("BaseHint", 300)
     SetMemoryPoolSize ("EnergyBar", weaponCnt)
-	SetMemoryPoolSize ("EntityFlyer", 4)   
+	SetMemoryPoolSize ("EntityFlyer", 0)   
     SetMemoryPoolSize ("EntitySoundStatic", 0)
 	SetMemoryPoolSize("FlagItem", 512)
     SetMemoryPoolSize ("MountedTurret", 18)
@@ -250,19 +212,7 @@ function ScriptInit()
 
     --  Sound Stats
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music06_CTF()
-		elseif ME5_SideVar == 2	then
-			Music02_CTF()
-		elseif ME5_SideVar == 3	then
-			Music09_CTF()
-		elseif ME5_SideVar == 4	then
-			Music09_CTF()
-		end
-	else
-		Music06_CTF()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_COR_Streaming.lvl",  "cor1")
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_COR_Streaming.lvl",  "cor1")
@@ -289,6 +239,6 @@ function ScriptInit()
 	AddCameraShot(0.452286, -0.179031, -0.812390, -0.321572, -50.015198, 15.394646, -114.879379);
 	AddCameraShot(0.927563, -0.243751, 0.273918, 0.071982, 26.149965, 26.947924, -46.834148);
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 
 end

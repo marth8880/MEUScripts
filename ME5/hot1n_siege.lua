@@ -9,20 +9,67 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveBFConquest")
 
-mapSize = "lg"
-EnvironmentType = "snow"
-onlineSideVar = "SSVxGTH"
-onlineHeroSSV = "shep_adept"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	gameMode = "siege",
+	mapSize = "lg",
+	environmentType = "snow",
+	
+	-- In-game music
+	musicVariation_SSVxGTH = "3_nov",
+	musicVariation_SSVxCOL = "5",
+	musicVariation_EVGxGTH = "9",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxGTH",
+	onlineHeroSSV = "shep_adept",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- AI hero spawns. CP name, CP spawn path name
+	heroSupportCPs = {
+				{"CP3", "CP3_SpawnPath"},
+				{"CP4", "CP4_SpawnPath"},
+				{"team1_permacp", "CP5_SpawnPath"},
+				{"team2_permacp", "CP6_SpawnPath"},
+	},
+	-- Local ally spawns. CP name, CP spawn path name
+	allySpawnCPs = {
+				{"CP3", "CP3_SpawnPath"},
+				{"CP4", "CP4_SpawnPath"},
+				{"team1_permacp", "CP5_SpawnPath"},
+				{"team2_permacp", "CP6_SpawnPath"},
+	},
+	
+	-- Artillery strike path nodes. Path name, path node ID
+	artilleryNodes = {
+				{"CP3_SpawnPath", 9},
+				{"CP4_SpawnPath", 0},
+				--{"CP5_SpawnPath", 1},
+				{"CP6_SpawnPath", 3},
+				{"artilleryNodes", 0},
+	},
+	terrainType = "snow",
+}
+-- Initialize the MapManager
+manager:Init()
 
-    --  Empire Attacking (attacker is always #1)
-    REP = 2
-    CIS = 1
-	ColHuskTeam = 3
-    --  These variables do not change
-    ATT = 1
-    DEF = 2
+-- Randomize which team is ATT/DEF
+if not ScriptCB_InMultiplayer() then
+	CIS = math.random(1,2)
+	REP = (3 - CIS)
+else
+	REP = 2
+	CIS = 1
+end
+
+HuskTeam = 3
+
+ATT = 1
+DEF = 2
 
 
 ---------------------------------------------------------------------------
@@ -34,98 +81,6 @@ onlineHeroCOL = "colgeneral"
 --              mission script must contain a version of this function, as
 --              it is called from C to start the mission.
 ---------------------------------------------------------------------------
-
-function SSVxGTH_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideSSVHeroClass()
-		DecideGTHHeroClass()
-		if ME5_AIHeroes == 0 then
-			SetHeroClass(REP, SSVHeroClass)
-			SetHeroClass(CIS, GTHHeroClass)
-		elseif ME5_AIHeroes == 1 then
-			herosupport = AIHeroSupport:New{AIATTHeroHealth = 3000, AIDEFHeroHealth = 3000, gameMode = "NonConquest",}
-			herosupport:SetHeroClass(REP, SSVHeroClass)
-			herosupport:SetHeroClass(CIS, GTHHeroClass)
-			herosupport:AddSpawnCP("CP3","CP3_SpawnPath")
-			herosupport:AddSpawnCP("CP4","CP4_SpawnPath")
-			herosupport:AddSpawnCP("team1_permacp","CP5_SpawnPath")
-			herosupport:AddSpawnCP("team2_permacp","CP6_SpawnPath")
-			herosupport:Start()
-		end
-	end
-	
-	SetProperty("CP3", "VO_Rep_RepCapture", snd_SSV_cpCapture_SSV)
-	SetProperty("CP4", "VO_Rep_RepCapture", snd_SSV_cpCapture_SSV)
-	SetProperty("team1_permacp", "VO_Rep_RepCapture", snd_SSV_cpCapture_SSV)
-	SetProperty("team2_permacp", "VO_Rep_RepCapture", snd_SSV_cpCapture_SSV)
-	SetProperty("CP3", "VO_Rep_RepLost", snd_SSV_cpLost_SSV)
-	SetProperty("CP4", "VO_Rep_RepLost", snd_SSV_cpLost_SSV)
-	SetProperty("team1_permacp", "VO_Rep_RepLost", snd_SSV_cpLost_SSV)
-	SetProperty("team2_permacp", "VO_Rep_RepLost", snd_SSV_cpLost_SSV)
-	SetProperty("CP3", "VO_Rep_CisCapture", snd_SSV_cpCapture_GTH)
-	SetProperty("CP4", "VO_Rep_CisCapture", snd_SSV_cpCapture_GTH)
-	SetProperty("team1_permacp", "VO_Rep_CisCapture", snd_SSV_cpCapture_GTH)
-	SetProperty("team2_permacp", "VO_Rep_CisCapture", snd_SSV_cpCapture_GTH)
-	SetProperty("CP3", "VO_Rep_CisLost", snd_SSV_cpLost_GTH)
-	SetProperty("CP4", "VO_Rep_CisLost", snd_SSV_cpLost_GTH)
-	SetProperty("team1_permacp", "VO_Rep_CisLost", snd_SSV_cpLost_GTH)
-	SetProperty("team2_permacp", "VO_Rep_CisLost", snd_SSV_cpLost_GTH)
-	
-	SetProperty("CP3", "VO_Cis_CisCapture", snd_GTH_cpCapture_GTH)
-	SetProperty("CP4", "VO_Cis_CisCapture", snd_GTH_cpCapture_GTH)
-	SetProperty("team1_permacp", "VO_Cis_CisCapture", snd_GTH_cpCapture_GTH)
-	SetProperty("team2_permacp", "VO_Cis_CisCapture", snd_GTH_cpCapture_GTH)
-	SetProperty("CP3", "VO_Cis_CisLost", snd_GTH_cpLost_GTH)
-	SetProperty("CP4", "VO_Cis_CisLost", snd_GTH_cpLost_GTH)
-	SetProperty("team1_permacp", "VO_Cis_CisLost", snd_GTH_cpLost_GTH)
-	SetProperty("team2_permacp", "VO_Cis_CisLost", snd_GTH_cpLost_GTH)
-	SetProperty("CP3", "VO_Cis_RepCapture", snd_GTH_cpCapture_SSV)
-	SetProperty("CP4", "VO_Cis_RepCapture", snd_GTH_cpCapture_SSV)
-	SetProperty("team1_permacp", "VO_Cis_RepCapture", snd_GTH_cpCapture_SSV)
-	SetProperty("team2_permacp", "VO_Cis_RepCapture", snd_GTH_cpCapture_SSV)
-	SetProperty("CP3", "VO_Cis_RepLost", snd_GTH_cpLost_SSV)
-	SetProperty("CP4", "VO_Cis_RepLost", snd_GTH_cpLost_SSV)
-	SetProperty("team1_permacp", "VO_Cis_RepLost", snd_GTH_cpLost_SSV)
-	SetProperty("team2_permacp", "VO_Cis_RepLost", snd_GTH_cpLost_SSV)
-end
-
-function SSVxCOL_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideSSVHeroClass()
-		DecideGTHHeroClass()
-		if ME5_AIHeroes == 0 then
-			SetHeroClass(REP, SSVHeroClass)
-			SetHeroClass(CIS, COLHeroClass)
-		elseif ME5_AIHeroes == 1 then
-			herosupport = AIHeroSupport:New{AIATTHeroHealth = 3000, AIDEFHeroHealth = 3000, gameMode = "NonConquest",}
-			herosupport:SetHeroClass(REP, SSVHeroClass)
-			herosupport:SetHeroClass(CIS, COLHeroClass)
-			herosupport:AddSpawnCP("CP3","CP3_SpawnPath")
-			herosupport:AddSpawnCP("CP4","CP4_SpawnPath")
-			herosupport:AddSpawnCP("team1_permacp","CP5_SpawnPath")
-			herosupport:AddSpawnCP("team2_permacp","CP6_SpawnPath")
-			herosupport:Start()
-		end
-	end
-	
-	SetProperty("CP3", "VO_Rep_RepCapture", snd_SSV_cpCapture_SSV)
-	SetProperty("CP4", "VO_Rep_RepCapture", snd_SSV_cpCapture_SSV)
-	SetProperty("team1_permacp", "VO_Rep_RepCapture", snd_SSV_cpCapture_SSV)
-	SetProperty("team2_permacp", "VO_Rep_RepCapture", snd_SSV_cpCapture_SSV)
-	SetProperty("CP3", "VO_Rep_RepLost", snd_SSV_cpLost_SSV)
-	SetProperty("CP4", "VO_Rep_RepLost", snd_SSV_cpLost_SSV)
-	SetProperty("team1_permacp", "VO_Rep_RepLost", snd_SSV_cpLost_SSV)
-	SetProperty("team2_permacp", "VO_Rep_RepLost", snd_SSV_cpLost_SSV)
-	
-	SetProperty("CP3", "VO_Rep_CisCapture", snd_SSV_cpCapture_COL)
-	SetProperty("CP4", "VO_Rep_CisCapture", snd_SSV_cpCapture_COL)
-	SetProperty("team1_permacp", "VO_Rep_CisCapture", snd_SSV_cpCapture_COL)
-	SetProperty("team2_permacp", "VO_Rep_CisCapture", snd_SSV_cpCapture_COL)
-	SetProperty("CP3", "VO_Rep_CisLost", snd_SSV_cpLost_COL)
-	SetProperty("CP4", "VO_Rep_CisLost", snd_SSV_cpLost_COL)
-	SetProperty("team1_permacp", "VO_Rep_CisLost", snd_SSV_cpLost_COL)
-	SetProperty("team2_permacp", "VO_Rep_CisLost", snd_SSV_cpLost_COL)
-end
 
 function ScriptPostLoad()
 
@@ -161,90 +116,9 @@ function ScriptPostLoad()
     
     conquest:Start()
 	
-	SetProperty("CP3", "AllyPath", "CP3_SpawnPath")
-	SetProperty("CP4", "AllyPath", "CP4_SpawnPath")
-	SetProperty("team1_permacp", "AllyPath", "CP5_SpawnPath")
-	SetProperty("team2_permacp", "AllyPath", "CP6_SpawnPath")
+	manager:Proc_ScriptPostLoad_End()
 	
-	AddAIGoal(ColHuskTeam, "Deathmatch", 100)
-	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide == 1 then
-				SSVxGTH_PostLoad()
-			elseif RandomSide == 2 then
-				SSVxCOL_PostLoad()
-			end
-		elseif ME5_SideVar == 1 then
-			SSVxGTH_PostLoad()
-		elseif ME5_SideVar == 2 then
-			SSVxCOL_PostLoad()
-		end
-	else
-		SSVxGTH_PostLoad()
-	end
-	
-	SetProperty("VehicleSpawn_8", "ClassCisATK", "ssv_tread_mako")
-	SetProperty("VehicleSpawn_8", "ClassCisDEF", "ssv_tread_mako")
-	SetProperty("VehicleSpawn_8", "ClassRepATK", "ssv_tread_mako")
-	SetProperty("VehicleSpawn_8", "ClassRepDEF", "ssv_tread_mako")
-	SetProperty("VehicleSpawn_8", "SpawnTime", "20.0")
-	SetProperty("VehicleSpawn_9", "ClassCisATK", "ssv_tread_mako")
-	SetProperty("VehicleSpawn_9", "ClassCisDEF", "ssv_tread_mako")
-	SetProperty("VehicleSpawn_9", "ClassRepATK", "ssv_tread_mako")
-	SetProperty("VehicleSpawn_9", "ClassRepDEF", "ssv_tread_mako")
-	SetProperty("VehicleSpawn_9", "SpawnTime", "20.0")
-	
-	SetReinforcementCount(REP, 350)
-	SetReinforcementCount(CIS, 350)
-    
---    KillObject("shield");
-	
-	--ShieldGenNode = GetPathPoint("CP2_SpawnPath", 3) --gets the path point
-	CP3Node = GetPathPoint("CP3_SpawnPath", 6)
-	CP4Node = GetPathPoint("CP4_SpawnPath", 0)
-	CP5Node = GetPathPoint("CP5_SpawnPath", 1)
-	--team1_permacpNode = GetPathPoint("Path 13", 0)
-	CP6Node = GetPathPoint("CP6_SpawnPath", 3)
-	
-	--[[CreateTimer("artGameTimer")
-	SetTimerValue("artGameTimer", 720)
-	StartTimer("artGameTimer")
-	OnTimerElapse(
-		function(timer)]]
-			--local team1pts = GetReinforcementCount(1)
-			--if team1pts >= 100 then
-				artMatrices = { CP3Node, CP4Node, CP5Node, CP6Node }
-				goingthroughturrets = 0			
-				
-				artInitTimer = CreateTimer("artInitTimer")
-				SetTimerValue("artInitTimer", 20.0)
-				StartTimer("artInitTimer")
-				--ShowTimer("artInitTimer")
-				OnTimerElapse(
-					function(timer)
-						goingthroughturrets = goingthroughturrets + 1
-						if goingthroughturrets == 5 then
-							goingthroughturrets = 1
-						end
-						
-						SetEntityMatrix( "artillery1", artMatrices[goingthroughturrets])
-						--ShowMessageText("level.common.events.surv.artillery.msg"..goingthroughturrets)
-							print("hot1n_surv: Artillery transitioning to matrix: "..goingthroughturrets)					
-						SetTimerValue("artInitTimer", 20.0)
-						StartTimer("artInitTimer")
-					end,
-				"artInitTimer"
-				)
-			--else
-			--end
-			
-			--[[DestroyTimer(Timer)
-		end,
-	"artGameTimer"
-	)]]
-	
- end
+end
 
 function ScriptInit()
 	if(ScriptCB_GetPlatform() == "PS2") then
@@ -260,12 +134,9 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1305)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1423)
 	
-	PreLoadStuff()
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\artillery_snow.lvl")
-
-    --SetAttackingTeam(ATT)
-
-
+	manager:Proc_ScriptInit_Begin()
+	
+	
     SetMaxFlyHeight(70)
     SetMaxPlayerFlyHeight(70)
     SetGroundFlyerMap(1);
@@ -275,7 +146,7 @@ function ScriptInit()
 					"tur_bldg_hoth_dishturret",
 					"tur_bldg_hoth_lasermortar")
 	
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_HOT_Streaming.lvl;hot1n")
 	
@@ -317,9 +188,8 @@ function ScriptInit()
     SetMemoryPoolSize("Weapon", weaponCnt)
 
     ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\hot1.lvl", "hoth_siege")
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\artillery.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\minimap.lvl;hot1")
-    --ReadDataFile("tan\\tan1.lvl", "tan1_obj")
+    
     SetSpawnDelay(10.0, 0.25)
     SetDenseEnvironment("false")
     SetDefenderSnipeRange(170)
@@ -328,21 +198,7 @@ function ScriptInit()
 
     --  Sound Stats
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 0 then
-			if RandomSide == 1 then
-				Music03()
-			elseif RandomSide == 2 then
-				Music05()
-			end
-		elseif ME5_SideVar == 1 then
-			Music03()
-		elseif ME5_SideVar == 2 then
-			Music05()
-		end
-	else
-		Music03()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_HOT_Streaming.lvl",  "hot1")
 	
@@ -350,14 +206,13 @@ function ScriptInit()
 	ScaleSoundParameter("ambientenv",	"Gain", 0.75)
 
 
-    --  Camera Stats
-    --Hoth
+    -- Camera Stats
     --Hangar
     AddCameraShot(0.944210, 0.065541, 0.321983, -0.022350, -500.489838, 0.797472, -68.773849)
     --Shield Generator
     AddCameraShot(0.371197, 0.008190, -0.928292, 0.020482, -473.384155, -17.880533, 132.126801)
     --Battlefield
     AddCameraShot(0.927083, 0.020456, -0.374206, 0.008257, -333.221558, 0.676043, -14.027348)
-
-
+    
+    manager:Proc_ScriptInit_End()
 end

@@ -1,6 +1,4 @@
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
-
-isModMap = 1
 --
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
@@ -9,34 +7,50 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
-mapSize = "med"
-EnvironmentType = "jungle"
-onlineSideVar = "SSVxGTH"
-onlineHeroSSV = "shep_soldier"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
-
--- AI hero spawns. CP name, CP spawn path name
-heroSupportCPs = {
-			{"cp1", "cp1_spawn"},
-			{"cp2", "cp2_spawn"},
-			{"cp3", "cp3_spawn"},
-			{"cp4", "cp4_spawn"},
-			{"cp5", "cp5_spawn"},
-			{"cp6", "cp6_spawn"},
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	bIsModMap = true,
+	gameMode = "conquest",
+	mapSize = "med",
+	environmentType = "jungle",
+	
+	-- In-game music
+	musicVariation_SSVxGTH = "1",
+	musicVariation_SSVxCOL = "5",
+	musicVariation_EVGxGTH = "9",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxGTH",
+	onlineHeroSSV = "shep_soldier",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- AI hero spawns. CP name, CP spawn path name
+	heroSupportCPs = {
+				{"cp1", "cp1_spawn"},
+				{"cp2", "cp2_spawn"},
+				{"cp3", "cp3_spawn"},
+				{"cp4", "cp4_spawn"},
+				{"cp5", "cp5_spawn"},
+				{"cp6", "cp6_spawn"},
+	},
+	-- Local ally spawns. CP name, CP spawn path name
+	allySpawnCPs = {
+				{"cp1", "cp1_spawn"},
+				{"cp2", "cp2_spawn"},
+				{"cp3", "cp3_spawn"},
+				{"cp4", "cp4_spawn"},
+				{"cp5", "cp5_spawn"},
+				{"cp6", "cp6_spawn"},
+	},
 }
+-- Initialize the MapManager
+manager:Init()
 
--- Local ally spawns. CP name, CP spawn path name
-allySpawnCPs = {
-			{"cp1", "cp1_spawn"},
-			{"cp2", "cp2_spawn"},
-			{"cp3", "cp3_spawn"},
-			{"cp4", "cp4_spawn"},
-			{"cp5", "cp5_spawn"},
-			{"cp6", "cp6_spawn"},
-}
-
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -65,7 +79,6 @@ function ScriptPostLoad()
     --This sets up the actual objective.  This needs to happen after cp's are defined
     conquest = ObjectiveConquest:New{teamATT = ATT, teamDEF = DEF, 
                                      textATT = "game.modes.con", textDEF = "game.modes.con2", 
-                                     
                                      multiplayerRules = true}
     
     --This adds the CPs to the objective.  This needs to happen after the objective is set up
@@ -80,16 +93,7 @@ function ScriptPostLoad()
 
     EnableSPHeroRules()
 	
-	ClearAIGoals(1)
-	ClearAIGoals(2)
-	AddAIGoal(1, "Conquest", 100)
-	AddAIGoal(2, "Conquest", 100)
-    
-	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("conquest", heroSupportCPs)
+	manager:Proc_ScriptPostLoad_End()
 
     AddDeathRegion("monorail")
     AddDeathRegion("ocean")
@@ -128,7 +132,7 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1532)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1691)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	
 	if not ScriptCB_InMultiplayer() then
 		if ME5_Difficulty == 1 then
@@ -172,10 +176,7 @@ function ScriptInit()
 					"tur_bldg_mturret",
 					"tur_bldg_laser")
 	
-	Init_SideSetup()
-	
-	--SetTeamAggressiveness(CIS,(0.97))
-	--SetTeamAggressiveness(REP,(0.99))
+	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EDN_Streaming.lvl")
 
@@ -250,19 +251,7 @@ function ScriptInit()
     
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\Sound\\SFL_EDN_Streaming.lvl",  "EDN_ambiance")
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music01()
-		elseif ME5_SideVar == 2 then
-			Music05()
-		elseif ME5_SideVar == 3	then
-			Music09()
-		elseif ME5_SideVar == 4	then
-			Music09()
-		end
-	else
-		Music01()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	SoundFX()
 	
@@ -275,5 +264,5 @@ function ScriptInit()
 	AddCameraShot(-0.288168, 0.029941, -0.951987, -0.098914, -10.234917, 8.470562, -24.091652);		-- crate arena
 	AddCameraShot(-0.000239, 0.000023, -0.995519, -0.094558, -1.801559, 5.236121, 14.380723);		-- greenhouse
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 end

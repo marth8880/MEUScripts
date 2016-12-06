@@ -8,38 +8,54 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
-mapSize = "lg"
-EnvironmentType = "jungle"
-onlineSideVar = "SSVxGTH"
-onlineHeroSSV = "shep_infiltrator"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
-
--- AI hero spawns. CP name, CP spawn path name
-heroSupportCPs = {
-			{"CP1CON", "CP1CONPATH"},
-			{"CP3CON", "CP3CONPATH"},
-			{"CP4CON", "CP4CONPATH"},
-			{"CP5CON", "CP5CONPATH"},
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	gameMode = "conquest",
+	mapSize = "lg",
+	environmentType = "jungle",
+	
+	-- In-game music
+	musicVariation_SSVxGTH = "3_vrm",
+	musicVariation_SSVxCOL = "5",
+	musicVariation_EVGxGTH = "9",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxGTH",
+	onlineHeroSSV = "shep_infiltrator",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- AI hero spawns. CP name, CP spawn path name
+	heroSupportCPs = {
+				{"CP1CON", "CP1CONPATH"},
+				{"CP3CON", "CP3CONPATH"},
+				{"CP4CON", "CP4CONPATH"},
+				{"CP5CON", "CP5CONPATH"},
+	},
+	-- Local ally spawns. CP name, CP spawn path name
+	allySpawnCPs = {
+				{"CP1CON", "CP1CONPATH"},
+				{"CP3CON", "CP3CONPATH"},
+				{"CP4CON", "CP4CONPATH"},
+				{"CP5CON", "CP5CONPATH"},
+	},
+	
+	-- Artillery strike path nodes. Path name, path node ID
+	artilleryNodes = {
+				{"CP1CONPATH", 0},
+				{"CP3CONPATH", 0},
+				{"CP4CONPATH", 0},
+				{"CP5CONPATH", 0},
+	},
+	terrainType = "dirt",
 }
+-- Initialize the MapManager
+manager:Init()
 
--- Local ally spawns. CP name, CP spawn path name
-allySpawnCPs = {
-			{"CP1CON", "CP1CONPATH"},
-			{"CP3CON", "CP3CONPATH"},
-			{"CP4CON", "CP4CONPATH"},
-			{"CP5CON", "CP5CONPATH"},
-}
-
--- Artillery strike path nodes. Path name, path node ID
-artilleryNodes = {
-			{"CP1CONPATH", 0},
-			{"CP3CONPATH", 0},
-			{"CP4CONPATH", 0},
-			{"CP5CONPATH", 0},
-}
-
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -96,14 +112,8 @@ function ScriptPostLoad()
 	end
     
     conquest:Start()
-    
 	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("conquest", heroSupportCPs)
-	
-	Init_ArtilleryStrikes("artillery1", artilleryNodes)
+	manager:Proc_ScriptPostLoad_End()
     
     --Gate Stuff -- 
     BlockPlanningGraphArcs("seawall1")
@@ -219,9 +229,8 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1302)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1420)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl")
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\artillery_dirt.lvl")
 
     SetMaxFlyHeight(70);
 	SetGroundFlyerMap(1);
@@ -229,7 +238,7 @@ function ScriptInit()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\me5tur.lvl",
 					"tur_bldg_mturret")
 	
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_KAS_Streaming.lvl;kas2n")
 
@@ -265,7 +274,6 @@ function ScriptInit()
 
     SetSpawnDelay(10.0, 0.25)
     ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\kas2.lvl", "kas2_con")
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\artillery.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\minimap.lvl;kas2")
     SetDenseEnvironment("false")
     
@@ -285,19 +293,7 @@ function ScriptInit()
 
     --  Sound
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music03()
-		elseif ME5_SideVar == 2 then
-			Music05()
-		elseif ME5_SideVar == 3	then
-			Music09()
-		elseif ME5_SideVar == 4	then
-			Music09()
-		end
-	else
-		Music03()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_KAS_Streaming.lvl",  "kas2")
 	
@@ -330,7 +326,7 @@ function ScriptInit()
 --    AddCameraShot(0.993669, -0.099610, -0.051708, -0.005183, 109.473549, 34.506077, 272.889221);
 --    AddCameraShot(0.940831, -0.108255, -0.319013, -0.036707, -65.793930, 66.455177, 289.432678);
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 
 
 end

@@ -171,7 +171,7 @@ function ScriptInit()
     StealArtistHeap(2048 * 1024)
     SetPS2ModelMemory(4000000)
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\load.lvl;myg1")
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 
 
     -- RandomSide = math.random(1,2)

@@ -8,20 +8,35 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveCTF")
 
-mapSize = "sm"
-EnvironmentType = "urban"
-onlineSideVar = "SSVxCOL"
-onlineHeroSSV = "shep_vanguard"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	gameMode = "ctf",
+	mapSize = "sm",
+	environmentType = "urban",
+	
+	-- In-game music
+	musicVariation_SSVxGTH = {"4","6"},
+	musicVariation_SSVxCOL = "2",
+	musicVariation_EVGxGTH = "6",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxCOL",
+	onlineHeroSSV = "shep_vanguard",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- AI hero spawns. CP name, CP spawn path name
+	heroSupportCPs = {},
+	-- Local ally spawns. CP name, CP spawn path name
+	allySpawnCPs = {},
+}
+-- Initialize the MapManager
+manager:Init()
 
--- AI hero spawns. CP name, CP spawn path name
-heroSupportCPs = {}
-
--- Local ally spawns. CP name, CP spawn path name
-allySpawnCPs = {}
-
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -64,71 +79,16 @@ function ScriptPostLoad()
 
                 --This makes sure the flag is colorized when it has been dropped on the ground
         SetClassProperty("com_item_flag_carried", "DroppedColorize", 1)
-
-    --This is all the actual ctf objective setup
-
+	
     --This is all the actual ctf objective setup
     ctf = ObjectiveCTF:New{teamATT = ATT, teamDEF = DEF, textATT = "game.modes.ctf", textDEF = "game.modes.ctf2", hideCPs = true, multiplayerRules = true}
     ctf:AddFlag{name = "flag1", homeRegion = "Team1FlagCapture", captureRegion = "Team2FlagCapture"}
     ctf:AddFlag{name = "flag2", homeRegion = "Team2FlagCapture", captureRegion = "Team1FlagCapture"}
     ctf:Start()
-
     
     EnableSPHeroRules()
 	
-	--[[if not ScriptCB_InMultiplayer() then
-		if RandomSide == 1 then
-			Music06_CTF()
-			music01 = music06_start
-			music02 = music06_mid
-			music03 = music06_end
-			musicTimerValue = 185
-		elseif RandomSide == 2 then
-			Music02_CTF()
-			music01 = Mus02Start
-			music02 = Mus02Mid
-			music03 = Mus02End
-			musicTimerValue = 120
-		end
-	else
-		music01 = Mus02Start
-		music02 = Mus02Mid
-		music03 = Mus02End
-		musicTimerValue = 120
-	end
-	
-	ScriptCB_PlayInGameMusic(music01)
-	
-	CreateTimer("music_timer")
-		SetTimerValue("music_timer", musicTimerValue)
-		StartTimer("music_timer")
-		--ShowTimer("music_timer")
-		OnTimerElapse(
-			function(timer)
-				RandomMusic = math.random(1,3)
-				
-				if RandomMusic == 1 then
-						print("execute music variation 1")
-					ScriptCB_PlayInGameMusic(music01)
-				elseif RandomMusic == 2 then
-						print("execute music variation 2")
-					ScriptCB_PlayInGameMusic(music02)
-				elseif RandomMusic == 3 then
-						print("execute music variation 3")
-					ScriptCB_PlayInGameMusic(music03)
-				end
-				
-				SetTimerValue("music_timer", musicTimerValue)
-				StartTimer("music_timer")
-			end,
-			"music_timer"
-		)]]
-    
-	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("ctf", heroSupportCPs)
+	manager:Proc_ScriptPostLoad_End()
 	
 end
 
@@ -145,7 +105,7 @@ end
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1291)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1406)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl;vehcommon")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl;vehnormal")
 
@@ -156,7 +116,7 @@ end
 	SetAttackerSnipeRange(70)
 	SetDefenderSnipeRange(100)
 	
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_POL_Streaming.lvl;pol1n")
 	
@@ -256,7 +216,7 @@ SetMaxCollisionDistance(1500)
     AddCameraShot(-0.269503, 0.031284, -0.956071, -0.110983, 111.260330, 16.927542, -114.045715);
     AddCameraShot(-0.338119, 0.041636, -0.933134, -0.114906, 134.970169, 26.441256, -82.282082);
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 
 
 end

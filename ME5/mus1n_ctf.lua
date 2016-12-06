@@ -7,20 +7,35 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveCTF")
 
-mapSize = "med"
-EnvironmentType = "urban"
-onlineSideVar = "SSVxGTH"
-onlineHeroSSV = "shep_engineer"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	gameMode = "ctf",
+	mapSize = "med",
+	environmentType = "urban",
+	
+	-- In-game music
+	musicVariation_SSVxGTH = {"4","6"},
+	musicVariation_SSVxCOL = "2",
+	musicVariation_EVGxGTH = "9",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxGTH",
+	onlineHeroSSV = "shep_engineer",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- AI hero spawns. CP name, CP spawn path name
+	heroSupportCPs = {},
+	-- Local ally spawns. CP name, CP spawn path name
+	allySpawnCPs = {},
+}
+-- Initialize the MapManager
+manager:Init()
 
--- AI hero spawns. CP name, CP spawn path name
-heroSupportCPs = {}
-
--- Local ally spawns. CP name, CP spawn path name
-allySpawnCPs = {}
-
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -69,64 +84,11 @@ function ScriptPostLoad()
                 icon = "", mapIcon = "flag_icon", mapIconScale = 3.0}
     ctf:Start()
     EnableSPHeroRules()
-	
-	--[[if not ScriptCB_InMultiplayer() then
-		if RandomSide == 1 then
-			Music06_CTF()
-			music01 = music06_start
-			music02 = music06_mid
-			music03 = music06_end
-			musicTimerValue = 185
-		elseif RandomSide == 2 then
-			Music02_CTF()
-			music01 = Mus02Start
-			music02 = Mus02Mid
-			music03 = Mus02End
-			musicTimerValue = 120
-		end
-	else
-		Music06_CTF()
-		music01 = music06_start
-		music02 = music06_mid
-		music03 = music06_end
-		musicTimerValue = 185
-	end
-	
-	ScriptCB_PlayInGameMusic(music01)
-	
-	CreateTimer("music_timer")
-		SetTimerValue("music_timer", musicTimerValue)
-		StartTimer("music_timer")
-		--ShowTimer("music_timer")
-		OnTimerElapse(
-			function(timer)
-				RandomMusic = math.random(1,3)
-				
-				if RandomMusic == 1 then
-						print("execute music variation 1")
-					ScriptCB_PlayInGameMusic(music01)
-				elseif RandomMusic == 2 then
-						print("execute music variation 2")
-					ScriptCB_PlayInGameMusic(music02)
-				elseif RandomMusic == 3 then
-						print("execute music variation 3")
-					ScriptCB_PlayInGameMusic(music03)
-				end
-				
-				SetTimerValue("music_timer", musicTimerValue)
-				StartTimer("music_timer")
-			end,
-			"music_timer"
-		)]]
     
+	manager:Proc_ScriptPostLoad_End()
 	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("ctf", heroSupportCPs)
-	
- end
- --START BRIDGEWORK!
+end
+-- START BRIDGEWORK!
 
 -- OPEN
 function PlayAnimDrop()
@@ -151,7 +113,7 @@ function PlayAnimRise()
     UnblockPlanningGraphArcs("Connection82");
     UnblockPlanningGraphArcs("Connection83");
     DisableBarriers("Bridge");
- end
+end
 
 
 function ScriptInit()
@@ -164,13 +126,10 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1528)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1684)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl;vehcommon")
 	
-    --SetTeamAggressiveness(REP, 0.95)
-    --SetTeamAggressiveness(CIS, 0.95)
-	
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_MUS_Streaming.lvl;mus1n")
 	
@@ -200,8 +159,9 @@ function ScriptInit()
     SetSpawnDelay(10.0, 0.25)
     SetDenseEnvironment("false")
     --AddDeathRegion("Sarlac01")
-        SetMaxFlyHeight(84.16)
-SetMaxPlayerFlyHeight(90)
+    
+    SetMaxFlyHeight(84.16)
+	SetMaxPlayerFlyHeight(90)
 	AISnipeSuitabilityDist(50)
 	SetAttackerSnipeRange(70)
 	SetDefenderSnipeRange(100)
@@ -211,19 +171,7 @@ SetMaxPlayerFlyHeight(90)
      
     --  Sound Stats
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music06_CTF()
-		elseif ME5_SideVar == 2 then
-			Music02_CTF()
-		elseif ME5_SideVar == 3	then
-			Music09_CTF()
-		elseif ME5_SideVar == 4	then
-			Music09_CTF()
-		end
-	else
-		Music06_CTF()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_MUS_Streaming.lvl",  "mus1")
 	
@@ -250,5 +198,5 @@ SetMaxPlayerFlyHeight(90)
 
     AddCameraShot(-0.400665, 0.076364, -0896894, -0.170941, 96.201210, 79.913033, -58.604382)
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 end

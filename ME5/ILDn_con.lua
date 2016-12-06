@@ -11,7 +11,7 @@ ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
 mapSize = "sm"
-EnvironmentType = "jungle"
+environmentType = "jungle"
 onlineSideVar = "SSVxGTH"
 onlineHeroSSV = "shep_soldier"
 onlineHeroGTH = "gethprime_me2"
@@ -189,7 +189,7 @@ function ScriptInit()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\load.lvl;common")
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	
     SetMaxFlyHeight(30)
     SetMaxPlayerFlyHeight(30)
@@ -197,7 +197,7 @@ function ScriptInit()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\me5tur.lvl",
 					"tur_bldg_laser")
 	
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_GE7_Streaming.lvl")
 	

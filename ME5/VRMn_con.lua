@@ -1,6 +1,4 @@
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
-
-isModMap = 1
 --
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
@@ -11,17 +9,11 @@ ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_MapFunctions")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
-mapSize = "xs"
-EnvironmentType = "jungle"
-onlineSideVar = "SSVxGTH"
-onlineHeroSSV = "shep_infiltrator"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
+local heroSupportCPsVar, allySpawnCPsVar
 
 if ME5_MapVarVRM == 1 then
 	-- Local ally spawns. CP name, CP spawn path name
-	heroSupportCPs = {
+	heroSupportCPsVar = {
 				{"cp1_1", "cp1_spawn1"},
 				{"cp2_1", "cp2_spawn1"},
 				{"cp3_1", "cp3_spawn1"},
@@ -31,7 +23,7 @@ if ME5_MapVarVRM == 1 then
 	}
 	
 	-- AI hero spawns. CP name, CP spawn path name
-	allySpawnCPs = {
+	allySpawnCPsVar = {
 				{"cp1_1", "cp1_spawn1"},
 				{"cp2_1", "cp2_spawn1"},
 				{"cp3_1", "cp3_spawn1"},
@@ -42,7 +34,7 @@ if ME5_MapVarVRM == 1 then
 	
 elseif ME5_MapVarVRM == 2 then
 	-- Local ally spawns. CP name, CP spawn path name
-	heroSupportCPs = {
+	heroSupportCPsVar = {
 				{"cp1_2", "cp1_spawn2"},
 				{"cp2_2", "cp2_spawn2"},
 				{"cp3_2", "cp3_spawn2"},
@@ -52,7 +44,7 @@ elseif ME5_MapVarVRM == 2 then
 	}
 	
 	-- AI hero spawns. CP name, CP spawn path name
-	allySpawnCPs = {
+	allySpawnCPsVar = {
 				{"cp1_2", "cp1_spawn2"},
 				{"cp2_2", "cp2_spawn2"},
 				{"cp3_2", "cp3_spawn2"},
@@ -61,7 +53,37 @@ elseif ME5_MapVarVRM == 2 then
 				{"cp6_2", "cp6_spawn2"},
 	}
 end
+
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	bIsModMap = true,
+	gameMode = "conquest",
+	mapSize = "xs",
+	environmentType = "jungle",
 	
+	-- In-game music
+	musicVariation_SSVxGTH = "3_vrm",
+	musicVariation_SSVxCOL = "5",
+	musicVariation_EVGxGTH = "9",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxGTH",
+	onlineHeroSSV = "shep_infiltrator",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- AI hero spawns. CP name, CP spawn path name
+	heroSupportCPs = heroSupportCPsVar,
+	-- Local ally spawns. CP name, CP spawn path name
+	allySpawnCPs = allySpawnCPsVar,
+}
+-- Initialize the MapManager
+manager:Init()
+
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -141,11 +163,7 @@ function ScriptPostLoad()
 	AddAIGoal(1, "Conquest", 100)
 	AddAIGoal(2, "Conquest", 100)
     
-	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("conquest", heroSupportCPs)
+	manager:Proc_ScriptPostLoad_End()
 	
 end
 
@@ -180,9 +198,9 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1513)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1659)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_VRM_Streaming.lvl")
 	
@@ -230,19 +248,7 @@ function ScriptInit()
 	
     --  Sound
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music03()
-		elseif ME5_SideVar == 2 then
-			Music05()
-		elseif ME5_SideVar == 3	then
-			Music09()
-		elseif ME5_SideVar == 4	then
-			Music09()
-		end
-	else
-		Music03()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_VRM_Streaming.lvl",  "VRM_ambiance")
 	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_VRM_Streaming.lvl",  "VRM_ambiance")
@@ -267,5 +273,5 @@ function ScriptInit()
 		AddCameraShot(-0.001765, 0.000128, -0.997398, -0.072065, -144.066025, 3.884599, 44.273586);
 	end
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 end

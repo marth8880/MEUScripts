@@ -8,35 +8,49 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
-mapSize = "med"
-EnvironmentType = "urban"
-onlineSideVar = "SSVxGTH"
-onlineHeroSSV = "shep_engineer"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
-
--- AI hero spawns. CP name, CP spawn path name
-heroSupportCPs = {
-			{"cp1", "CP1SpawnPath"},
-			{"cp2", "CP2SpawnPath"},
-			{"cp3", "CP3SpawnPath"},
-			{"cp4", "CP4SpawnPath"},
-			{"cp5", "CP5SpawnPath"},
-			{"cp6", "CP6SpawnPath"},
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	gameMode = "conquest",
+	mapSize = "med",
+	environmentType = "urban",
+	
+	-- In-game music
+	musicVariation_SSVxGTH = {"4","6"},
+	musicVariation_SSVxCOL = "2",
+	musicVariation_EVGxGTH = "9",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxGTH",
+	onlineHeroSSV = "shep_engineer",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- AI hero spawns. CP name, CP spawn path name
+	heroSupportCPs = {
+				{"cp1", "CP1SpawnPath"},
+				{"cp2", "CP2SpawnPath"},
+				{"cp3", "CP3SpawnPath"},
+				{"cp4", "CP4SpawnPath"},
+				{"cp5", "CP5SpawnPath"},
+				{"cp6", "CP6SpawnPath"},
+	},
+	-- Local ally spawns. CP name, CP spawn path name
+	allySpawnCPs = {
+				{"cp1", "CP1SpawnPath"},
+				{"cp2", "CP2SpawnPath"},
+				{"cp3", "CP3SpawnPath"},
+				{"cp4", "CP4SpawnPath"},
+				{"cp5", "CP5SpawnPath"},
+				{"cp6", "CP6SpawnPath"},
+	},
 }
+-- Initialize the MapManager
+manager:Init()
 
--- Local ally spawns. CP name, CP spawn path name
-allySpawnCPs = {
-			{"cp1", "CP1SpawnPath"},
-			{"cp2", "CP2SpawnPath"},
-			{"cp3", "CP3SpawnPath"},
-			{"cp4", "CP4SpawnPath"},
-			{"cp5", "CP5SpawnPath"},
-			{"cp6", "CP6SpawnPath"},
-}
-
-
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -62,7 +76,7 @@ DEF = 2
 
 function ScriptPostLoad()
 		
-	-- TODO: Disable the stock minimap to make room for ours
+	-- TODO: disable the stock minimap to make room for ours
 	--DisableSmallMapMiniMap()
 	
 	    AddDeathRegion("death")
@@ -77,7 +91,7 @@ function ScriptPostLoad()
     	SetProperty ("LibCase1","MaxHealth",1000)
     	SetProperty ("LibCase2","MaxHealth",1000)
     	SetProperty ("LibCase3","MaxHealth",1000)
-    	SetProperty ("LibCase4","MaxHealth",1000)
+    	--SetProperty ("LibCase4","MaxHealth",1000)
     	SetProperty ("LibCase5","MaxHealth",1000)
     	SetProperty ("LibCase6","MaxHealth",1000)
     	SetProperty ("LibCase7","MaxHealth",1000)
@@ -93,7 +107,7 @@ function ScriptPostLoad()
     	SetProperty ("LibCase1","CurHealth",1000)
     	SetProperty ("LibCase2","CurHealth",1000)
     	SetProperty ("LibCase3","CurHealth",1000)
-    	SetProperty ("LibCase4","CurHealth",1000)
+    	--SetProperty ("LibCase4","CurHealth",1000)
     	SetProperty ("LibCase5","CurHealth",1000)
     	SetProperty ("LibCase6","CurHealth",1000)
     	SetProperty ("LibCase7","CurHealth",1000)
@@ -148,36 +162,7 @@ function ScriptPostLoad()
     
     conquest:Start()
     
-	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("conquest", heroSupportCPs)
-	
-	
-	--[[ActivateRegion("CP3Capture")
-	
-	fShieldRegen1a = OnEnterRegion(
-		function(region, player)
-				print("ShieldRegen: Player entered region")
-			ShowMessageText("level.common.events.debug.shieldregen")
-			
-			local charPtr = GetCharacterUnit(player)
-			SetProperty(charPtr, "AddShield", 30)
-		end,
-	"CP3Capture"
-	)
-	
-	fShieldRegen1b = OnLeaveRegion(
-		function(region, player)
-				print("ShieldRegen: Player left region")
-			ShowMessageText("level.common.events.debug.noregen")
-			
-			local charPtr = GetCharacterUnit(player)
-			SetProperty(charPtr, "AddShield", 0)
-		end,
-	"CP3Capture"
-	)]]
+	manager:Proc_ScriptPostLoad_End()
 
 end
 
@@ -188,7 +173,7 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1522)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1699)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl;vehcommon")
 	
     SetMapNorthAngle(180, 1)
@@ -203,7 +188,7 @@ function ScriptInit()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\me5tur.lvl", 
 					"tur_bldg_laser")
 					
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_COR_Streaming.lvl;cor1n")
     
@@ -248,19 +233,7 @@ function ScriptInit()
 
     --  Sound Stats
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music06()
-		elseif ME5_SideVar == 2	then
-			Music02()
-		elseif ME5_SideVar == 3	then
-			Music09()
-		elseif ME5_SideVar == 4	then
-			Music09()
-		end
-	else
-		Music06()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_COR_Streaming.lvl",  "cor1")
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_COR_Streaming.lvl",  "cor1")
@@ -286,5 +259,5 @@ function ScriptInit()
 	AddCameraShot(0.452286, -0.179031, -0.812390, -0.321572, -50.015198, 15.394646, -114.879379);
 	AddCameraShot(0.927563, -0.243751, 0.273918, 0.071982, 26.149965, 26.947924, -46.834148);
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 end

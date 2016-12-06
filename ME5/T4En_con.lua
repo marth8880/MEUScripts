@@ -1,6 +1,4 @@
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
-
-isModMap = 1
 --
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
@@ -9,14 +7,46 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
-mapSize = "sm"
-EnvironmentType = "jungle"
-onlineSideVar = "SSVxGTH"
-onlineHeroSSV = "shep_engineer"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	bIsModMap = true,
+	gameMode = "conquest",
+	mapSize = "sm",
+	environmentType = "urban",
+	
+	-- In-game music
+	musicVariation_SSVxGTH = "6",
+	musicVariation_SSVxCOL = "2",
+	musicVariation_EVGxGTH = "6",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxGTH",
+	onlineHeroSSV = "shep_engineer",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- AI hero spawns. CP name, CP spawn path name
+	heroSupportCPs = {
+				{"cp1", "cp1_spawn"},
+				{"cp2", "cp2_spawn"},
+				{"cp3", "cp3_spawn"},
+				{"cp4", "cp4_spawn"},
+	},
+	-- Local ally spawns. CP name, CP spawn path name
+	allySpawnCPs = {
+				{"cp1", "cp1_spawn"},
+				{"cp2", "cp2_spawn"},
+				{"cp3", "cp3_spawn"},
+				{"cp4", "cp4_spawn"},
+	},
+}
+-- Initialize the MapManager
+manager:Init()
 
+-- Randomize which team is ATT/DEF
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
@@ -30,86 +60,6 @@ HuskTeam = 3
 ATT = 1
 DEF = 2
 
-
-function SSVxGTH_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideSSVHeroClass()
-		DecideGTHHeroClass()
-		if ME5_AIHeroes == 0 then
-			SetHeroClass(REP, SSVHeroClass)
-			SetHeroClass(CIS, GTHHeroClass)
-		elseif ME5_AIHeroes == 1 then
-			herosupport = AIHeroSupport:New{AIATTHeroHealth = 3000, AIDEFHeroHealth = 3000, gameMode = "NonConquest",}
-			herosupport:SetHeroClass(REP, SSVHeroClass)
-			herosupport:SetHeroClass(CIS, GTHHeroClass)
-			herosupport:AddSpawnCP("cp1","cp1_spawn")
-			herosupport:AddSpawnCP("cp2","cp2_spawn")
-			herosupport:AddSpawnCP("cp3","cp3_spawn")
-			herosupport:AddSpawnCP("cp4","cp4_spawn")
-			herosupport:Start()
-		end
-	end
-end
-
-function SSVxCOL_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideSSVHeroClass()
-		DecideCOLHeroClass()
-		if ME5_AIHeroes == 0 then
-			SetHeroClass(REP, SSVHeroClass)
-			SetHeroClass(CIS, COLHeroClass)
-		elseif ME5_AIHeroes == 1 then
-			herosupport = AIHeroSupport:New{AIATTHeroHealth = 3000, AIDEFHeroHealth = 3000, gameMode = "NonConquest",}
-			herosupport:SetHeroClass(REP, SSVHeroClass)
-			herosupport:SetHeroClass(CIS, COLHeroClass)
-			herosupport:AddSpawnCP("cp1","cp1_spawn")
-			herosupport:AddSpawnCP("cp2","cp2_spawn")
-			herosupport:AddSpawnCP("cp3","cp3_spawn")
-			herosupport:AddSpawnCP("cp4","cp4_spawn")
-			herosupport:Start()
-		end
-	end
-end
-
-function EVGxGTH_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideEVGHeroClass()
-		DecideGTHHeroClass()
-		if ME5_AIHeroes == 0 then
-			SetHeroClass(REP, EVGHeroClass)
-			SetHeroClass(CIS, GTHHeroClass)
-		elseif ME5_AIHeroes == 1 then
-			herosupport = AIHeroSupport:New{AIATTHeroHealth = 3000, AIDEFHeroHealth = 3000, gameMode = "NonConquest",}
-			herosupport:SetHeroClass(REP, EVGHeroClass)
-			herosupport:SetHeroClass(CIS, GTHHeroClass)
-			herosupport:AddSpawnCP("cp1","cp1_spawn")
-			herosupport:AddSpawnCP("cp2","cp2_spawn")
-			herosupport:AddSpawnCP("cp3","cp3_spawn")
-			herosupport:AddSpawnCP("cp4","cp4_spawn")
-			herosupport:Start()
-		end
-	end
-end
-
-function EVGxCOL_PostLoad()
-	if not ScriptCB_InMultiplayer() then
-		DecideEVGHeroClass()
-		DecideCOLHeroClass()
-		if ME5_AIHeroes == 0 then
-			SetHeroClass(REP, EVGHeroClass)
-			SetHeroClass(CIS, COLHeroClass)
-		elseif ME5_AIHeroes == 1 then
-			herosupport = AIHeroSupport:New{AIATTHeroHealth = 3000, AIDEFHeroHealth = 3000, gameMode = "NonConquest",}
-			herosupport:SetHeroClass(REP, EVGHeroClass)
-			herosupport:SetHeroClass(CIS, COLHeroClass)
-			herosupport:AddSpawnCP("cp1","cp1_spawn")
-			herosupport:AddSpawnCP("cp2","cp2_spawn")
-			herosupport:AddSpawnCP("cp3","cp3_spawn")
-			herosupport:AddSpawnCP("cp4","cp4_spawn")
-			herosupport:Start()
-		end
-	end
-end
 
 function ScriptPostLoad()	   
     
@@ -133,35 +83,12 @@ function ScriptPostLoad()
     conquest:AddCommandPost(cp2)
     conquest:AddCommandPost(cp3)
     conquest:AddCommandPost(cp4)
-
-	SetProperty("cp1", "AllyPath", "cp1_spawn")
-	SetProperty("cp2", "AllyPath", "cp2_spawn")
-	SetProperty("cp3", "AllyPath", "cp3_spawn")
-	SetProperty("cp4", "AllyPath", "cp4_spawn")
-	
-	ClearAIGoals(1)
-	ClearAIGoals(2)
-	AddAIGoal(1, "Conquest", 100)
-	AddAIGoal(2, "Conquest", 100)
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			SSVxGTH_PostLoad()
-		elseif ME5_SideVar == 2 then
-			SSVxCOL_PostLoad()
-		elseif ME5_SideVar == 3 then
-			EVGxGTH_PostLoad()
-		elseif ME5_SideVar == 4 then
-			EVGxCOL_PostLoad()
-		end
-	else
-		SSVxGTH_PostLoad()
-	end
     
     conquest:Start()
 
     EnableSPHeroRules()
+    
+    manager:Proc_ScriptPostLoad_End()
     
  end
 
@@ -182,7 +109,7 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1380)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1533)
 	
-	PreLoadStuff()
+	manager:Proc_ScriptInit_Begin()
 	
     SetMaxFlyHeight(30)
     SetMaxPlayerFlyHeight(30)
@@ -194,7 +121,7 @@ function ScriptInit()
 					"tur_bldg_mturret",
 					"tur_bldg_laser")
 	
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	-- TODO: create sound LVL 
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_T4E_Streaming.lvl")
@@ -238,19 +165,7 @@ function ScriptInit()
     -- TODO: create sound streams
 	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\Sound\\SFL_T4E_Streaming.lvl",  "T4E_ambiance")
 
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music06()
-		elseif ME5_SideVar == 2 then
-			Music02()
-		elseif ME5_SideVar == 3	then
-			Music06()
-		elseif ME5_SideVar == 4	then
-			Music09()
-		end
-	else
-		Music06()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	SoundFX()
 	
@@ -258,5 +173,5 @@ function ScriptInit()
 	AddCameraShot(-0.370814, 0.035046, -0.923929, -0.087320, -71.966255, 23.668301, 27.930090);
 	AddCameraShot(0.991073, 0.002392, 0.133299, -0.000322, 84.069084, 23.668301, -95.802574);
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
 end

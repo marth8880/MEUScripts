@@ -8,42 +8,54 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
-mapSize = "med"
-EnvironmentType = "urban"
-onlineSideVar = "SSVxGTH"
-onlineHeroSSV = "shep_soldier"
-onlineHeroGTH = "gethprime_me2"
-onlineHeroCOL = "colgeneral"
-onlineHeroEVG = "gethprime_me3"
-
--- Local ally spawns. CP name, CP spawn path name
-heroSupportCPs = {
-			{"cp1", "cp1spawn"},
-			{"cp2", "cp2spawn"},
-			{"cp3", "cp3spawn"},
-			{"cp4", "cp4spawn"},
-			{"cp5", "cp5spawn"},
-			{"cp6", "cp6spawn"},
-}
-
--- AI hero spawns. CP name, CP spawn path name
-allySpawnCPs = {
-			{"cp1", "cp1spawn"},
-			{"cp2", "cp2spawn"},
-			{"cp3", "cp3spawn"},
-			{"cp4", "cp4spawn"},
-			{"cp5", "cp5spawn"},
-			{"cp6", "cp6spawn"},
-}
-
--- Artillery strike path nodes. Path name, path node ID
-artilleryNodes = {
-			{"cp1spawn", 0},
-			{"cp2spawn", 0},
-			{"cp3spawn", 0},
-			{"cp4spawn", 0},
-			{"cp5spawn", 0},
-			{"cp6spawn", 0},
+-- Create a new MapManager object
+manager = MapManager:New{
+	-- Map-specific details
+	gameMode = "conquest",
+	mapSize = "med",
+	environmentType = "urban",
+	
+	-- In-game music
+	musicVariation_SSVxGTH = "4",
+	musicVariation_SSVxCOL = "5",
+	musicVariation_EVGxGTH = "9",
+	musicVariation_EVGxCOL = "9",
+	
+	-- Online matches
+	onlineSideVar = "SSVxGTH",
+	onlineHeroSSV = "shep_soldier",
+	onlineHeroGTH = "gethprime_me2",
+	onlineHeroCOL = "colgeneral",
+	onlineHeroEVG = "gethprime_me3",
+	
+	-- Local ally spawns. CP name, CP spawn path name
+	heroSupportCPs = {
+				{"cp1", "cp1spawn"},
+				{"cp2", "cp2spawn"},
+				{"cp3", "cp3spawn"},
+				{"cp4", "cp4spawn"},
+				{"cp5", "cp5spawn"},
+				{"cp6", "cp6spawn"},
+	},
+	-- AI hero spawns. CP name, CP spawn path name
+	allySpawnCPs = {
+				{"cp1", "cp1spawn"},
+				{"cp2", "cp2spawn"},
+				{"cp3", "cp3spawn"},
+				{"cp4", "cp4spawn"},
+				{"cp5", "cp5spawn"},
+				{"cp6", "cp6spawn"},
+	},
+	-- Artillery strike path nodes. Path name, path node ID
+	artilleryNodes = {
+				{"cp1spawn", 0},
+				{"cp2spawn", 0},
+				{"cp3spawn", 0},
+				{"cp4spawn", 0},
+				{"cp5spawn", 0},
+				{"cp6spawn", 0},
+	},
+	terrainType = "dirt",
 }
 
 if not ScriptCB_InMultiplayer() then
@@ -78,6 +90,8 @@ function ScriptPostLoad()
 	DisableBarriers("turbar3")
 	DisableBarriers("camveh")
     SetMapNorthAngle(180, 1)
+    
+    EnableSPHeroRules()
    
     --This defines the CPs.  These need to happen first
     cp1 = CommandPost:New{name = "CP1"}
@@ -100,19 +114,10 @@ function ScriptPostLoad()
     conquest:AddCommandPost(cp4)
     conquest:AddCommandPost(cp5)
     conquest:AddCommandPost(cp6)
-  
-  
+	
+    conquest:Start()
     
-    conquest:Start()   
-    EnableSPHeroRules()
-    
-	
-	AddAIGoal(HuskTeam, "Deathmatch", 100)
-	
-	SetAllySpawns(allySpawnCPs)
-	Init_SidesPostLoad("conquest", heroSupportCPs)
-	
-	Init_ArtilleryStrikes("artillery1", artilleryNodes)
+	manager:Proc_ScriptPostLoad_End()
 	
 	KillObject("GuardCP")
 	
@@ -128,13 +133,12 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1547)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1730)
 	
-	PreLoadStuff()
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\artillery_dirt.lvl")
+	manager:Proc_ScriptInit_Begin()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\me5tur.lvl", 
 					"tur_bldg_laser")
 				
-	Init_SideSetup()
+	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_NAB_Streaming.lvl;nab2n")
 
@@ -167,11 +171,11 @@ function ScriptInit()
     
     SetSpawnDelay(10.0, 0.25)
     ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\nab2.lvl","naboo2_Conquest")
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\artillery.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\minimap.lvl;nab2")
     SetDenseEnvironment("true")
     --AddDeathRegion("Water")
     AddDeathRegion("Waterfall")
+    
     SetMaxFlyHeight(25)
     SetMaxPlayerFlyHeight (25)
 	AISnipeSuitabilityDist(75)
@@ -182,19 +186,7 @@ function ScriptInit()
 
     --  Sound
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music04()
-		elseif ME5_SideVar == 2 then
-			Music05()
-		elseif ME5_SideVar == 3	then
-			Music09()
-		elseif ME5_SideVar == 4	then
-			Music09()
-		end
-	else
-		Music04()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_NAB_Streaming.lvl",  "nab2")
 	
@@ -219,6 +211,6 @@ function ScriptInit()
     AddCameraShot(0.327573, -0.024828, -0.941798, -0.071382, -109.700180, 15.415476, -84.413605);
     AddCameraShot(-0.400505, 0.030208, -0.913203, -0.068878, 82.372711, 15.415476, -42.439548);
 	
-	PostLoadStuff()
+	manager:Proc_ScriptInit_End()
     
 end
