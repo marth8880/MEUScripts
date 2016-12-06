@@ -121,7 +121,6 @@ function WaveSequence:OnStart()
 
 end
 
-
 ---
 -- DESIGNERS: Override this function when you want to customize extra behavior when the wave sequence completes
 --  (ask a lua coder if you need help with this...it's really pretty easy)
