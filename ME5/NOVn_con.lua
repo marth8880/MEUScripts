@@ -174,7 +174,7 @@ function ScriptInit()
 	
     SetMapNorthAngle(0)
     SetMaxFlyHeight(55)
-    SetMaxPlayerFlyHeight (55)
+    SetMaxPlayerFlyHeight(55)
 	AISnipeSuitabilityDist(50)
 	SetAttackerSnipeRange(70)
 	SetDefenderSnipeRange(100)
@@ -202,7 +202,7 @@ function ScriptInit()
 	SetMemoryPoolSize("EntitySoundStatic", 9)
 	SetMemoryPoolSize("FLEffectObject::OffsetMatrix", 95)
 	SetMemoryPoolSize("FlagItem", 512)
-	SetMemoryPoolSize("MountedTurret", 18)
+	SetMemoryPoolSize("MountedTurret", 100)	-- 18
 	SetMemoryPoolSize("Music", 80)
 	SetMemoryPoolSize("Navigator", 45)
 	SetMemoryPoolSize("Obstacle", 455)
@@ -215,7 +215,8 @@ function ScriptInit()
 	SetMemoryPoolSize("UnitAgent", 45)
 	SetMemoryPoolSize("UnitController", 45)
 	SetMemoryPoolSize("Weapon", weaponCnt)
-	SetMemoryPoolSize("EntityFlyer", 4)
+	--SetMemoryPoolSize("EntityFlyer", 4)
+	SetMemoryPoolSize("EntityPortableTurret", 100)
 	
 	SetSpawnDelay(10.0, 0.25)
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\NOV.lvl", "NOV_Conquest")
@@ -224,8 +225,8 @@ function ScriptInit()
 	--AddDeathRegion("deathregion1")
 	--SetStayInTurrets(1)
 	
-	SetParticleLODBias(3000)
-	SetMaxCollisionDistance(1500)
+	--SetParticleLODBias(3000)
+	--SetMaxCollisionDistance(1500)
 	
     --  Sound Stats
 	
