@@ -5,7 +5,7 @@
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
 -- Dec 5, 2016
--- Copyright (c) 2016, Aaron Gilbert All rights reserved.
+-- Copyright (c) 2017, Aaron Gilbert All rights reserved.
 -- 
 -- About:
 --  This script contains various functions regarding player and enemy damage feedback.
@@ -25,6 +25,315 @@
 
 print("ME5_DamageFeedback: Entered")
 
+
+--==========================
+-- INITIALIZE TABLES
+--==========================
+
+-- COL ballistic weapons.
+local ballisticWeapons = {
+				"col_weap_inf_rifle_col",
+				"col_weap_inf_rifle_col_colgen",
+				"col_weap_inf_rifle_col_shredder",
+				"col_weap_inf_rifle_colcarbine",
+				"col_weap_inf_rifle_colcarbine_colgen",
+				"col_weap_inf_shotgun_pulse",
+				"col_weap_inf_shouldercannon",
+				
+				"gth_weap_bldg_assaultdrone",
+				"gth_weap_bldg_gethturret",
+				"gth_weap_inf_heavy_spitfire",
+				"gth_weap_inf_rifle_m76",
+				"gth_weap_inf_rifle_m76_boss",
+				"gth_weap_inf_rifle_pulse",
+				"gth_weap_inf_shotgun_m23",
+				"gth_weap_inf_shotgun_m27",
+				"gth_weap_inf_shotgun_plasma",
+				"gth_weap_inf_smg_pulse",
+				"gth_weap_inf_sniper_javelin",
+				"gth_weap_inf_sniper_m97",
+				"gth_weap_walk_colussus_gun",
+				
+				"indoc_weap_inf_armcannon",
+				"indoc_weap_inf_rifle_phaeston",
+				
+				"ssv_weap_fly_a61_gunship_gun",
+				"ssv_weap_inf_heavy_spitfire",
+				"ssv_weap_inf_pistol_m3",
+				"ssv_weap_inf_pistol_m3_armor",
+				"ssv_weap_inf_pistol_m3_disruptor",
+				"ssv_weap_inf_pistol_m3_incendiary",
+				"ssv_weap_inf_pistol_m5",
+				"ssv_weap_inf_pistol_m5_incendiary",
+				"ssv_weap_inf_pistol_m6",
+				"ssv_weap_inf_pistol_m77",
+				"ssv_weap_inf_pistol_n7eagle",
+				"ssv_weap_inf_pistol_n7eagle_armor",
+				"ssv_weap_inf_pistol_n7eagle_incendiary",
+				"ssv_weap_inf_rifle_m8",
+				"ssv_weap_inf_rifle_m8_armor",
+				"ssv_weap_inf_rifle_m8_disruptor",
+				"ssv_weap_inf_rifle_m8_incendiary",
+				"ssv_weap_inf_rifle_m15",
+				"ssv_weap_inf_rifle_m76",
+				"ssv_weap_inf_rifle_m96",
+				"ssv_weap_inf_shotgun_m23",
+				"ssv_weap_inf_shotgun_m23_armor",
+				"ssv_weap_inf_shotgun_m23_disruptor",
+				"ssv_weap_inf_shotgun_m23_incendiary",
+				"ssv_weap_inf_shotgun_m27",
+				"ssv_weap_inf_shotgun_m27_disruptor",
+				"ssv_weap_inf_shotgun_n7crusader",
+				"ssv_weap_inf_shotgun_n7crusader_incendiary",
+				"ssv_weap_inf_shotgun_plasma",
+				"ssv_weap_inf_smg_m4",
+				"ssv_weap_inf_smg_m4_disruptor",
+				"ssv_weap_inf_smg_m9",
+				"ssv_weap_inf_smg_m9_armor",
+				"ssv_weap_inf_smg_m9_disruptor",
+				"ssv_weap_inf_smg_m9_incendiary",
+				"ssv_weap_inf_smg_m12",
+				"ssv_weap_inf_smg_m12_shepard",
+				"ssv_weap_inf_smg_n7hurricane",
+				"ssv_weap_inf_smg_n7hurricane_disruptor",
+				"ssv_weap_inf_sniper_m92",
+				"ssv_weap_inf_sniper_m92_armor",
+				"ssv_weap_inf_sniper_m92_disruptor",
+				"ssv_weap_inf_sniper_m92_incendiary",
+				"ssv_weap_inf_sniper_m97",
+				"ssv_weap_inf_sniper_m97_armor",
+				"ssv_weap_inf_sniper_m97_disruptor",
+				"ssv_weap_inf_sniper_m98",
+				"ssv_weap_inf_sniper_m98b",
+				"ssv_weap_inf_sniper_m98b_armor",
+				"ssv_weap_inf_sniper_n7valiant",
+				"ssv_weap_tread_mako_cannon",
+				"ssv_weap_tread_mako_driver_cannon",
+				"ssv_weap_tread_mako_gun",
+				
+				"tur_weap_bldg_mturret_cannon",
+				"tur_weap_hoth_dishturret",
+				"tur_weap_hoth_lasermortar_laser",
+				"tur_weap_laser",
+}
+
+-- COL ballistic weapons.
+local ballisticWeapons_COL = {
+				"col_weap_inf_rifle_col",
+				"col_weap_inf_rifle_col_colgen",
+				"col_weap_inf_rifle_col_shredder",
+				"col_weap_inf_rifle_colcarbine",
+				"col_weap_inf_rifle_colcarbine_colgen",
+				"col_weap_inf_shotgun_pulse",
+				"col_weap_inf_shouldercannon",
+}
+
+-- EVG ballistic weapons.
+local ballisticWeapons_EVG = {
+				"gth_weap_bldg_assaultdrone",
+				"gth_weap_bldg_gethturret",
+				"gth_weap_inf_heavy_spitfire",
+				"gth_weap_inf_rifle_m76",
+				"gth_weap_inf_rifle_m76_boss",
+				"gth_weap_inf_rifle_pulse",
+				"gth_weap_inf_shotgun_m23",
+				"gth_weap_inf_shotgun_m27",
+				"gth_weap_inf_shotgun_plasma",
+				"gth_weap_inf_smg_pulse",
+				"gth_weap_inf_sniper_javelin",
+				"gth_weap_inf_sniper_m97",
+				"gth_weap_walk_colussus_gun",
+}
+
+-- GTH ballistic weapons.
+local ballisticWeapons_GTH = {
+				"gth_weap_bldg_assaultdrone",
+				"gth_weap_bldg_gethturret",
+				"gth_weap_inf_heavy_spitfire",
+				"gth_weap_inf_rifle_m76",
+				"gth_weap_inf_rifle_m76_boss",
+				"gth_weap_inf_rifle_pulse",
+				"gth_weap_inf_shotgun_m23",
+				"gth_weap_inf_shotgun_m27",
+				"gth_weap_inf_shotgun_plasma",
+				"gth_weap_inf_smg_pulse",
+				"gth_weap_inf_sniper_javelin",
+				"gth_weap_inf_sniper_m97",
+				"gth_weap_walk_colussus_gun",
+}
+
+-- INDOC ballistic weapons.
+local ballisticWeapons_INDOC = {
+				"indoc_weap_inf_armcannon",
+				"indoc_weap_inf_rifle_phaeston",
+}
+
+-- SSV ballistic weapons.
+local ballisticWeapons_SSV = {
+				"ssv_weap_fly_a61_gunship_gun",
+				"ssv_weap_inf_pistol_m3_incendiary",
+				"ssv_weap_inf_pistol_m5",
+				"ssv_weap_inf_pistol_m6",
+				"ssv_weap_inf_rifle_m8_disruptor",
+				"ssv_weap_inf_shotgun_m23_incendiary",
+				"ssv_weap_inf_shotgun_m27",
+				"ssv_weap_inf_smg_m4",
+				"ssv_weap_inf_smg_m9_disruptor",
+				"ssv_weap_inf_smg_m12",
+				"ssv_weap_inf_sniper_m92_armor",
+				"ssv_weap_tread_mako_cannon",
+				"ssv_weap_tread_mako_driver_cannon",
+				"ssv_weap_tread_mako_gun",
+}
+
+-- SSV hero ballistic weapons.
+local ballisticWeapons_SSV_hero = {}
+
+if string.find(SSVHeroClass, "shepard_soldier") then
+	ballisticWeapons_SSV_hero = {
+					"ssv_weap_inf_rifle_m76",
+					"ssv_weap_inf_sniper_n7valiant",
+	}
+	
+elseif string.find(SSVHeroClass, "shepard_infiltrator") then
+	ballisticWeapons_SSV_hero = {
+					"ssv_weap_inf_pistol_n7eagle_armor",
+					"ssv_weap_inf_smg_n7hurricane_disruptor",
+					"ssv_weap_inf_sniper_m98b_armor",
+	}
+	
+elseif string.find(SSVHeroClass, "shepard_engineer") then
+	ballisticWeapons_SSV_hero = {
+					"ssv_weap_inf_shotgun_plasma",
+					"ssv_weap_inf_smg_n7hurricane",
+	}
+	
+elseif string.find(SSVHeroClass, "shepard_adept") then
+	ballisticWeapons_SSV_hero = {
+					"ssv_weap_inf_pistol_n7eagle",
+					"ssv_weap_inf_smg_n7hurricane",
+	}
+	
+elseif string.find(SSVHeroClass, "shepard_sentinel") then
+	ballisticWeapons_SSV_hero = {
+					"ssv_weap_inf_pistol_m77",
+					"ssv_weap_inf_smg_n7hurricane",
+	}
+	
+elseif string.find(SSVHeroClass, "shepard_vanguard") then
+	ballisticWeapons_SSV_hero = {
+					"ssv_weap_inf_heavy_spitfire",
+					"ssv_weap_inf_pistol_n7eagle_incendiary",
+					"ssv_weap_inf_shotgun_n7crusader_incendiary",
+	}
+	
+elseif (string.find(SSVHeroClass, "cooper") or (loadCooper and loadCooper == true)) then
+	if IsCampaign() then
+		ballisticWeapons_SSV_hero = {
+						"ssv_weap_inf_pistol_m3_armor",
+						--"ssv_weap_inf_pistol_m3_incendiary",
+						--"ssv_weap_inf_pistol_m5",
+						--"ssv_weap_inf_pistol_m6",
+						"ssv_weap_inf_rifle_m8_disruptor",
+						--"ssv_weap_inf_shotgun_m23_incendiary",
+						"ssv_weap_inf_shotgun_m27_disruptor",
+						--"ssv_weap_inf_smg_m4",
+						"ssv_weap_inf_smg_m4_disruptor",
+						--"ssv_weap_inf_smg_m9_disruptor",
+						--"ssv_weap_inf_smg_m12",
+						--"ssv_weap_inf_sniper_m92_armor",
+						"ssv_weap_inf_sniper_m97_armor",
+		}
+	else
+		if string.find(SSVHeroClass, "soldier") then
+			ballisticWeapons_SSV_hero = {
+							"ssv_weap_inf_rifle_m8_disruptor",
+							"ssv_weap_inf_shotgun_m27_disruptor",
+							"ssv_weap_inf_sniper_m97_armor",
+			}
+			
+		elseif string.find(SSVHeroClass, "infiltrator") then
+			ballisticWeapons_SSV_hero = {
+							"ssv_weap_inf_pistol_m3_armor",
+							--"ssv_weap_inf_smg_m9_disruptor",
+							--"ssv_weap_inf_sniper_m92_armor",
+			}
+			
+		elseif string.find(SSVHeroClass, "engineer") then
+			ballisticWeapons_SSV_hero = {
+							"ssv_weap_inf_shotgun_m27_disruptor",
+							"ssv_weap_inf_smg_m4_disruptor",
+			}
+			
+		elseif string.find(SSVHeroClass, "adept") then
+			ballisticWeapons_SSV_hero = {
+							--"ssv_weap_inf_pistol_m5",
+							--"ssv_weap_inf_smg_m4",
+			}
+			
+		elseif string.find(SSVHeroClass, "sentinel") then
+			ballisticWeapons_SSV_hero = {
+							--"ssv_weap_inf_pistol_m6",
+							--"ssv_weap_inf_smg_m12",
+			}
+			
+		elseif string.find(SSVHeroClass, "vanguard") then
+			ballisticWeapons_SSV_hero = {
+							--"ssv_weap_inf_pistol_m3_incendiary",
+							--"ssv_weap_inf_shotgun_m23_incendiary",
+			}
+		end
+	end
+	
+elseif string.find(SSVHeroClass, "jack") then
+	ballisticWeapons_SSV_hero = {
+					"ssv_weap_inf_pistol_n7eagle",
+					"ssv_weap_inf_shotgun_plasma",
+	}
+	
+elseif string.find(SSVHeroClass, "legion") then
+	
+	
+elseif string.find(SSVHeroClass, "samara") then
+	
+	
+end
+
+-- Turret ballistic weapons.
+local ballisticWeapons_TUR = {
+				"tur_weap_bldg_mturret_cannon",
+				"tur_weap_hoth_dishturret",
+				"tur_weap_hoth_lasermortar_laser",
+				"tur_weap_laser",
+}
+
+
+--==========================
+-- MERGE TABLES
+--==========================
+
+-- Merge the SSV hero table with the SSV table
+if table.getn(ballisticWeapons_SSV_hero) > 0 then
+	for i in ipairs(ballisticWeapons_SSV_hero) do
+		table.insert(ballisticWeapons_SSV, ballisticWeapons_SSV_hero[i])
+	end
+end
+
+-- Merge the TUR table with each faction's table
+if table.getn(ballisticWeapons_TUR) > 0 then
+	for i in ipairs(ballisticWeapons_TUR) do
+		table.insert(ballisticWeapons_COL, ballisticWeapons_TUR[i])
+		table.insert(ballisticWeapons_EVG, ballisticWeapons_TUR[i])
+		table.insert(ballisticWeapons_GTH, ballisticWeapons_TUR[i])
+		table.insert(ballisticWeapons_SSV, ballisticWeapons_TUR[i])
+	end
+end
+
+
+--==========================
+-- FUNCTIONS
+--==========================
+
 ---
 -- Sets up the event responses for the player damage sounds.
 -- 
@@ -34,118 +343,6 @@ function Init_PlayerDamageFeedback()
 	local Iamhuman = nil					-- Pointer for human player.
 	local bIsDamagerCorrectClass = false	-- Is the damager the correct class?
 	local damagerFaction = "none"			-- Which faction is the damager from?
-	
-	-- COL ballistic weapons.
-	local ballisticWeapons_COL = {
-					"col_weap_inf_rifle_col",
-					"col_weap_inf_rifle_col_shredder",
-					"col_weap_inf_rifle_colcarbine",
-					"col_weap_inf_shotgun_pulse",
-					"col_weap_inf_shouldercannon",
-					
-					"tur_weap_bldg_mturret_cannon",
-					"tur_weap_hoth_dishturret",
-					"tur_weap_hoth_lasermortar_laser",
-					"tur_weap_laser" }
-	
-	-- GTH ballistic weapons.
-	local ballisticWeapons_GTH = {
-					"gth_weap_bldg_assaultdrone",
-					"gth_weap_bldg_gethturret",
-					"gth_weap_inf_heavy_spitfire",
-					"gth_weap_inf_rifle_m76",
-					"gth_weap_inf_rifle_m76_boss",
-					"gth_weap_inf_rifle_pulse",
-					"gth_weap_inf_shotgun_m23",
-					"gth_weap_inf_shotgun_m27",
-					"gth_weap_inf_shotgun_plasma",
-					"gth_weap_inf_smg_pulse",
-					"gth_weap_inf_sniper_javelin",
-					"gth_weap_inf_sniper_m97",
-					"gth_weap_walk_colussus_gun",
-					
-					"tur_weap_bldg_mturret_cannon",
-					"tur_weap_hoth_dishturret",
-					"tur_weap_hoth_lasermortar_laser",
-					"tur_weap_laser" }
-	
-	-- INDOC ballistic weapons.
-	local ballisticWeapons_INDOC = {
-					"indoc_weap_inf_armcannon",
-					"indoc_weap_inf_rifle_phaeston",
-					
-					"tur_weap_bldg_mturret_cannon",
-					"tur_weap_hoth_dishturret",
-					"tur_weap_hoth_lasermortar_laser",
-					"tur_weap_laser" }
-	
-	-- SSV ballistic weapons.
-	local ballisticWeapons_SSV = {
-					"ssv_weap_fly_a61_gunship_gun",
-					"ssv_weap_inf_heavy_spitfire",
-					"ssv_weap_inf_pistol_m3",
-					"ssv_weap_inf_pistol_m3_armor",
-					"ssv_weap_inf_pistol_m3_disruptor",
-					"ssv_weap_inf_pistol_m3_incendiary",
-					"ssv_weap_inf_pistol_m5",
-					"ssv_weap_inf_pistol_m5_incendiary",
-					"ssv_weap_inf_pistol_m6",
-					"ssv_weap_inf_pistol_m77",
-					"ssv_weap_inf_pistol_n7eagle",
-					"ssv_weap_inf_pistol_n7eagle_armor",
-					"ssv_weap_inf_pistol_n7eagle_incendiary",
-					"ssv_weap_inf_rifle_m8",
-					"ssv_weap_inf_rifle_m8_armor",
-					"ssv_weap_inf_rifle_m8_disruptor",
-					"ssv_weap_inf_rifle_m8_incendiary",
-					"ssv_weap_inf_rifle_m15",
-					"ssv_weap_inf_rifle_m76",
-					"ssv_weap_inf_rifle_m96",
-					"ssv_weap_inf_shotgun_m23",
-					"ssv_weap_inf_shotgun_m23_armor",
-					"ssv_weap_inf_shotgun_m23_disruptor",
-					"ssv_weap_inf_shotgun_m23_incendiary",
-					"ssv_weap_inf_shotgun_m27",
-					"ssv_weap_inf_shotgun_m27_disruptor",
-					"ssv_weap_inf_shotgun_n7crusader",
-					"ssv_weap_inf_shotgun_n7crusader_incendiary",
-					"ssv_weap_inf_shotgun_plasma",
-					"ssv_weap_inf_smg_m4",
-					"ssv_weap_inf_smg_m4_disruptor",
-					"ssv_weap_inf_smg_m9",
-					"ssv_weap_inf_smg_m9_armor",
-					"ssv_weap_inf_smg_m9_disruptor",
-					"ssv_weap_inf_smg_m9_incendiary",
-					"ssv_weap_inf_smg_m12",
-					"ssv_weap_inf_smg_m12_shepard",
-					"ssv_weap_inf_smg_n7hurricane",
-					"ssv_weap_inf_smg_n7hurricane_disruptor",
-					"ssv_weap_inf_sniper_m92",
-					"ssv_weap_inf_sniper_m92_armor",
-					"ssv_weap_inf_sniper_m92_disruptor",
-					"ssv_weap_inf_sniper_m92_incendiary",
-					"ssv_weap_inf_sniper_m97",
-					"ssv_weap_inf_sniper_m97_armor",
-					"ssv_weap_inf_sniper_m97_disruptor",
-					"ssv_weap_inf_sniper_m98",
-					"ssv_weap_inf_sniper_m98b",
-					"ssv_weap_inf_sniper_m98b_armor",
-					"ssv_weap_inf_sniper_n7valiant",
-					"ssv_weap_tread_mako_cannon",
-					"ssv_weap_tread_mako_driver_cannon",
-					"ssv_weap_tread_mako_gun",
-					
-					"tur_weap_bldg_mturret_cannon",
-					"tur_weap_hoth_dishturret",
-					"tur_weap_hoth_lasermortar_laser",
-					"tur_weap_laser" }
-	
-	-- Turret ballistic weapons.
-	local ballisticWeapons_TUR = {
-					"tur_weap_bldg_mturret_cannon",
-					"tur_weap_hoth_dishturret",
-					"tur_weap_hoth_lasermortar_laser",
-					"tur_weap_laser" }
 	
 	-- COL unit classes.
 	local colClasses = {
@@ -157,7 +354,8 @@ function Init_PlayerDamageFeedback()
 					"col_inf_guardian_online_shield",
 					"col_inf_scion",
 					
-					"col_hero_harbinger" }
+					"col_hero_harbinger",
+	}
 	
 	-- GTH unit classes.
 	local gthClasses = {
@@ -197,14 +395,16 @@ function Init_PlayerDamageFeedback()
 					"gth_ev_inf_juggernaut_online_shield",
 					
 					"gth_hero_prime_me2",
-					"gth_hero_prime_me3" }
+					"gth_hero_prime_me3",
+	}
 	
 	-- INDOC unit classes.
 	local indocClasses = {
 					"indoc_inf_abomination",
 					"indoc_inf_cannibal",
 					"indoc_inf_husk",
-					"indoc_inf_marauder" }
+					"indoc_inf_marauder",
+	}
 	
 	-- SSV unit classes.
 	local ssvClasses = {
@@ -237,9 +437,13 @@ function Init_PlayerDamageFeedback()
 					"ssv_hero_shepard_sentinel",
 					"ssv_hero_shepard_vanguard",
 					
-					"ssv_hero_jack" }
+					"ssv_hero_jack",
+	}
 	
 	
+	--==========================
+	-- LOCAL FUNCTIONS
+	--==========================
 	
 	local function PlayDamageSound()
 		--print("ME5_DamageFeedback.Init_PlayerDamageFeedback.PlayDamageSound(): Playing damage sound")
@@ -249,6 +453,9 @@ function Init_PlayerDamageFeedback()
 	end
 	
 	
+	--==========================
+	-- EVENT RESPONSES
+	--==========================
 	
 	-- When the player spawns
 	local playerspawn = OnCharacterSpawn(
@@ -263,162 +470,124 @@ function Init_PlayerDamageFeedback()
 	-- When the player loses health
 	local playerdamage = OnObjectDamage(
 		function(object, damager)
-			-- Abort if the damager is nil
+			-- Abort if the damager or object is nil
 			if not damager then return end
+			if not object then return end
 			if GetCharacterUnit(damager) == nil then return end
 			
 			-- Was the damaged object the player?
 			if Iamhuman == GetEntityPtr(object) then
-				if not GetCharacterUnit(damager) == nil then
+				if GetCharacterUnit(damager) then
 					-- The damager's pointer
-					local charPtr = GetEntityPtr(GetCharacterUnit(damager))
-					local charClass = GetEntityClass(charPtr)
+					--local charPtr = GetEntityPtr(GetCharacterUnit(damager))
+					--local charClass = GetEntityClass(charPtr)
+					local damagerTeam = GetCharacterTeam(damager)
 					local damagerWeapon = GetObjectLastHitWeaponClass(object)
 					
 					
-					-- Immediately abort if the weapon was incendiary
-					if not string.find(damagerWeapon, "incendiary") then
+					-- Determine the damager's faction
+					if ME5_SideVar == 1 or (ScriptCB_InMultiplayer() and gCurrentMapManager.onlineSideVar == "SSVxGTH") then
+						if damagerTeam == REP then
+							damagerFaction = "ssv"
+						elseif damagerTeam == CIS then
+							damagerFaction = "gth"
+						end
+						
+					elseif ME5_SideVar == 2 or (ScriptCB_InMultiplayer() and gCurrentMapManager.onlineSideVar == "SSVxCOL") then
+						if damagerTeam == REP then
+							damagerFaction = "ssv"
+						elseif damagerTeam == CIS then
+							damagerFaction = "col"
+						end
+						
+					elseif ME5_SideVar == 3 or (ScriptCB_InMultiplayer() and gCurrentMapManager.onlineSideVar == "EVGxGTH") then
+						if damagerTeam == REP then
+							damagerFaction = "evg"
+						elseif damagerTeam == CIS then
+							damagerFaction = "gth"
+						end
+						
+					elseif ME5_SideVar == 4 or (ScriptCB_InMultiplayer() and gCurrentMapManager.onlineSideVar == "EVGxCOL") then
+						if damagerTeam == REP then
+							damagerFaction = "evg"
+						elseif damagerTeam == CIS then
+							damagerFaction = "col"
+						end
+					end
 					
-						-- Only proceed if damager isn't correct class
-						if bIsDamagerCorrectClass == false then
-							--print("ME5_DamageFeedback.Init_PlayerDamageFeedback.playerdamage_COL(): Player isn't correct class, proceeding")
-							
-							-- For each COL class,
-							for i=1, table.getn(colClasses) do
-								-- Is the damager one of them?
-								if charClass == FindEntityClass( colClasses[i] ) then
-									bIsDamagerCorrectClass = true
-									damagerFaction = "col"
-								else
-									bIsDamagerCorrectClass = false
-								end
-								
-								-- Break out of the loop if correct class
-								if bIsDamagerCorrectClass == true then break end
+					
+					-- Which team is the damager from?
+					if damagerFaction == "col" then
+						--print("ME5_DamageFeedback.Init_PlayerDamageFeedback(): Damager is from team COL")
+						--ShowMessageText("level.common.debug.damager_col")
+						
+						-- For each weapon class
+						for i=1, table.getn(ballisticWeapons_COL) do
+							-- Was the weapon used a valid ballistic weapon?
+							if damagerWeapon == ballisticWeapons_COL[i] then
+								-- Play the player damage sound
+								PlayDamageSound()
+								break
 							end
 						end
 						
-						-- Only proceed if damager isn't correct class
-						if bIsDamagerCorrectClass == false then
-							--print("ME5_DamageFeedback.Init_PlayerDamageFeedback.playerdamage_GTH(): Player isn't correct class, proceeding")
-							
-							-- For each GTH class,
-							for j=1, table.getn(gthClasses) do
-								-- Is the damager one of them?
-								if charClass == FindEntityClass( gthClasses[j] ) then
-									bIsDamagerCorrectClass = true
-									damagerFaction = "gth"
-								else
-									bIsDamagerCorrectClass = false
-								end
-								
-								-- Break out of the loop if correct class
-								if bIsDamagerCorrectClass == true then break end
+					elseif damagerFaction == "evg" then
+						--print("ME5_DamageFeedback.Init_PlayerDamageFeedback(): Damager is from team EVG")
+						--ShowMessageText("level.common.debug.damager_evg")
+						
+						-- For each weapon class
+						for i=1, table.getn(ballisticWeapons_EVG) do
+							-- Was the weapon used a valid ballistic weapon?
+							if damagerWeapon == ballisticWeapons_EVG[i] then
+								-- Play the player damage sound
+								PlayDamageSound()
+								break
 							end
 						end
 						
-						-- Only proceed if damager isn't correct class
-						if bIsDamagerCorrectClass == false then
-							--print("ME5_DamageFeedback.Init_PlayerDamageFeedback.playerdamage_INDOC(): Player isn't correct class, proceeding")
-							
-							-- For each INDOC class,
-							for k=1, table.getn(indocClasses) do
-								-- Is the damager one of them?
-								if charClass == FindEntityClass( indocClasses[k] ) then
-									bIsDamagerCorrectClass = true
-									damagerFaction = "indoc"
-								else
-									bIsDamagerCorrectClass = false
-								end
-								
-								-- Break out of the loop if correct class
-								if bIsDamagerCorrectClass == true then break end
+					elseif damagerFaction == "gth" then
+						--print("ME5_DamageFeedback.Init_PlayerDamageFeedback(): Damager is from team GTH")
+						--ShowMessageText("level.common.debug.damager_gth")
+						
+						-- For each weapon class
+						for i=1, table.getn(ballisticWeapons_GTH) do
+							-- Was the weapon used a valid ballistic weapon?
+							if damagerWeapon == ballisticWeapons_GTH[i] then
+								-- Play the player damage sound
+								PlayDamageSound()
+								break
 							end
 						end
 						
-						-- Only proceed if damager isn't correct class
-						if bIsDamagerCorrectClass == false then
-							--print("ME5_DamageFeedback.Init_PlayerDamageFeedback.playerdamage_SSV(): Player isn't correct class, proceeding")
-							
-							-- For each SSV class,
-							for m=1, table.getn(ssvClasses) do
-								-- Is the damager one of them?
-								if charClass == FindEntityClass( ssvClasses[m] ) then
-									bIsDamagerCorrectClass = true
-									damagerFaction = "ssv"
-								else
-									bIsDamagerCorrectClass = false
-								end
-								
-								-- Break out of the loop if correct class
-								if bIsDamagerCorrectClass == true then break end
+					elseif damagerFaction == "indoc" then
+						--print("ME5_DamageFeedback.Init_PlayerDamageFeedback(): Damager is from team INDOC")
+						--ShowMessageText("level.common.debug.damager_indoc")
+						
+						-- For each weapon class
+						for i=1, table.getn(ballisticWeapons_INDOC) do
+							-- Was the weapon used a valid ballistic weapon?
+							if damagerWeapon == ballisticWeapons_INDOC[i] then
+								-- Play the player damage sound
+								PlayDamageSound()
+								break
 							end
 						end
 						
+					elseif damagerFaction == "ssv" then
+						--print("ME5_DamageFeedback.Init_PlayerDamageFeedback(): Damager is from team SSV")
+						--ShowMessageText("level.common.debug.damager_ssv")
 						
-						
-						-- Which team is the damager from?
-						if damagerFaction == "col" then
-							--print("ME5_DamageFeedback.Init_PlayerDamageFeedback(): Damager is from team COL")
-							--ShowMessageText("level.common.debug.damager_col")
-							
-							-- For each weapon class
-							for i=1, table.getn(ballisticWeapons_COL) do
-								-- Was the weapon used a valid ballistic weapon?
-								if damagerWeapon == ballisticWeapons_COL[i] then
-									-- Play the player damage sound
-									PlayDamageSound()
-									break
-								end
+						-- For each weapon class
+						for i=1, table.getn(ballisticWeapons_SSV) do
+							-- Was the weapon used a valid ballistic weapon?
+							if damagerWeapon == ballisticWeapons_SSV[i] then
+								-- Play the player damage sound if the damager weapon wasn't incendiary
+								PlayDamageSound()
+								break
 							end
-							
-						elseif damagerFaction == "gth" then
-							--print("ME5_DamageFeedback.Init_PlayerDamageFeedback(): Damager is from team GTH")
-							--ShowMessageText("level.common.debug.damager_gth")
-							
-							-- For each weapon class
-							for i=1, table.getn(ballisticWeapons_GTH) do
-								-- Was the weapon used a valid ballistic weapon?
-								if damagerWeapon == ballisticWeapons_GTH[i] then
-									-- Play the player damage sound
-									PlayDamageSound()
-									break
-								end
-							end
-							
-						elseif damagerFaction == "indoc" then
-							--print("ME5_DamageFeedback.Init_PlayerDamageFeedback(): Damager is from team INDOC")
-							--ShowMessageText("level.common.debug.damager_indoc")
-							
-							-- For each weapon class
-							for i=1, table.getn(ballisticWeapons_INDOC) do
-								-- Was the weapon used a valid ballistic weapon?
-								if damagerWeapon == ballisticWeapons_INDOC[i] then
-									-- Play the player damage sound
-									PlayDamageSound()
-									break
-								end
-							end
-							
-						elseif damagerFaction == "ssv" then
-							--print("ME5_DamageFeedback.Init_PlayerDamageFeedback(): Damager is from team SSV")
-							--ShowMessageText("level.common.debug.damager_ssv")
-							
-							-- For each weapon class
-							for i=1, table.getn(ballisticWeapons_SSV) do
-								-- Was the weapon used a valid ballistic weapon?
-								if damagerWeapon == ballisticWeapons_SSV[i] then
-									-- Play the player damage sound if the damager weapon wasn't incendiary
-									PlayDamageSound()
-									break
-								end
-							end
-							
 						end
 						
 					end
-				else
-					--print("ME5_DamageFeedback.Init_PlayerDamageFeedback(): GetCharacterUnit(damager) is nil")		-- uncomment me for test output!
 				end
 			end
 		end
@@ -438,206 +607,6 @@ function Init_HitMarkerSounds()
 	local weaponType = 1					-- The weapon type. (1 = "normal", 2 = "sniper", 3 = "shotgun", 4 = "gps")
 	local bIsIncendiary = false				-- Is the weapon incendiary?
 	
-	-- COL ballistic weapons.
-	local ballisticWeapons = {
-					"col_weap_inf_rifle_col",
-					"col_weap_inf_rifle_col_colgen",
-					"col_weap_inf_rifle_col_shredder",
-					"col_weap_inf_rifle_colcarbine",
-					"col_weap_inf_rifle_colcarbine_colgen",
-					"col_weap_inf_shotgun_pulse",
-					"col_weap_inf_shouldercannon",
-					
-					"gth_weap_bldg_assaultdrone",
-					"gth_weap_bldg_gethturret",
-					"gth_weap_inf_heavy_spitfire",
-					"gth_weap_inf_rifle_m76",
-					"gth_weap_inf_rifle_m76_boss",
-					"gth_weap_inf_rifle_pulse",
-					"gth_weap_inf_shotgun_m23",
-					"gth_weap_inf_shotgun_m27",
-					"gth_weap_inf_shotgun_plasma",
-					"gth_weap_inf_smg_pulse",
-					"gth_weap_inf_sniper_javelin",
-					"gth_weap_inf_sniper_m97",
-					"gth_weap_walk_colussus_gun",
-					
-					"indoc_weap_inf_armcannon",
-					"indoc_weap_inf_rifle_phaeston",
-					
-					"ssv_weap_fly_a61_gunship_gun",
-					"ssv_weap_inf_heavy_spitfire",
-					"ssv_weap_inf_pistol_m3",
-					"ssv_weap_inf_pistol_m3_armor",
-					"ssv_weap_inf_pistol_m3_disruptor",
-					"ssv_weap_inf_pistol_m3_incendiary",
-					"ssv_weap_inf_pistol_m5",
-					"ssv_weap_inf_pistol_m5_incendiary",
-					"ssv_weap_inf_pistol_m6",
-					"ssv_weap_inf_pistol_m77",
-					"ssv_weap_inf_pistol_n7eagle",
-					"ssv_weap_inf_pistol_n7eagle_armor",
-					"ssv_weap_inf_pistol_n7eagle_incendiary",
-					"ssv_weap_inf_rifle_m8",
-					"ssv_weap_inf_rifle_m8_armor",
-					"ssv_weap_inf_rifle_m8_disruptor",
-					"ssv_weap_inf_rifle_m8_incendiary",
-					"ssv_weap_inf_rifle_m15",
-					"ssv_weap_inf_rifle_m76",
-					"ssv_weap_inf_rifle_m96",
-					"ssv_weap_inf_shotgun_m23",
-					"ssv_weap_inf_shotgun_m23_armor",
-					"ssv_weap_inf_shotgun_m23_disruptor",
-					"ssv_weap_inf_shotgun_m23_incendiary",
-					"ssv_weap_inf_shotgun_m27",
-					"ssv_weap_inf_shotgun_m27_disruptor",
-					"ssv_weap_inf_shotgun_n7crusader",
-					"ssv_weap_inf_shotgun_n7crusader_incendiary",
-					"ssv_weap_inf_shotgun_plasma",
-					"ssv_weap_inf_smg_m4",
-					"ssv_weap_inf_smg_m4_disruptor",
-					"ssv_weap_inf_smg_m9",
-					"ssv_weap_inf_smg_m9_armor",
-					"ssv_weap_inf_smg_m9_disruptor",
-					"ssv_weap_inf_smg_m9_incendiary",
-					"ssv_weap_inf_smg_m12",
-					"ssv_weap_inf_smg_m12_shepard",
-					"ssv_weap_inf_smg_n7hurricane",
-					"ssv_weap_inf_smg_n7hurricane_disruptor",
-					"ssv_weap_inf_sniper_m92",
-					"ssv_weap_inf_sniper_m92_armor",
-					"ssv_weap_inf_sniper_m92_disruptor",
-					"ssv_weap_inf_sniper_m92_incendiary",
-					"ssv_weap_inf_sniper_m97",
-					"ssv_weap_inf_sniper_m97_armor",
-					"ssv_weap_inf_sniper_m97_disruptor",
-					"ssv_weap_inf_sniper_m98",
-					"ssv_weap_inf_sniper_m98b",
-					"ssv_weap_inf_sniper_m98b_armor",
-					"ssv_weap_inf_sniper_n7valiant",
-					"ssv_weap_tread_mako_cannon",
-					"ssv_weap_tread_mako_driver_cannon",
-					"ssv_weap_tread_mako_gun",
-					
-					"tur_weap_bldg_mturret_cannon",
-					"tur_weap_hoth_dishturret",
-					"tur_weap_hoth_lasermortar_laser",
-					"tur_weap_laser" }
-	
-	-- COL ballistic weapons.
-	local ballisticWeapons_COL = {
-					"col_weap_inf_rifle_col",
-					"col_weap_inf_rifle_col_colgen",
-					"col_weap_inf_rifle_col_shredder",
-					"col_weap_inf_rifle_colcarbine",
-					"col_weap_inf_rifle_colcarbine_colgen",
-					"col_weap_inf_shotgun_pulse",
-					"col_weap_inf_shouldercannon",
-					
-					"tur_weap_bldg_mturret_cannon",
-					"tur_weap_hoth_dishturret",
-					"tur_weap_hoth_lasermortar_laser",
-					"tur_weap_laser" }
-	
-	-- GTH ballistic weapons.
-	local ballisticWeapons_GTH = {
-					"gth_weap_bldg_assaultdrone",
-					"gth_weap_bldg_gethturret",
-					"gth_weap_inf_heavy_spitfire",
-					"gth_weap_inf_rifle_m76",
-					"gth_weap_inf_rifle_m76_boss",
-					"gth_weap_inf_rifle_pulse",
-					"gth_weap_inf_shotgun_m23",
-					"gth_weap_inf_shotgun_m27",
-					"gth_weap_inf_shotgun_plasma",
-					"gth_weap_inf_smg_pulse",
-					"gth_weap_inf_sniper_javelin",
-					"gth_weap_inf_sniper_m97",
-					"gth_weap_walk_colussus_gun",
-					
-					"tur_weap_bldg_mturret_cannon",
-					"tur_weap_hoth_dishturret",
-					"tur_weap_hoth_lasermortar_laser",
-					"tur_weap_laser" }
-	
-	-- INDOC ballistic weapons.
-	local ballisticWeapons_INDOC = {
-					"indoc_weap_inf_armcannon",
-					"indoc_weap_inf_rifle_phaeston",
-					
-					"tur_weap_bldg_mturret_cannon",
-					"tur_weap_hoth_dishturret",
-					"tur_weap_hoth_lasermortar_laser",
-					"tur_weap_laser" }
-	
-	-- SSV ballistic weapons.
-	local ballisticWeapons_SSV = {
-					"ssv_weap_fly_a61_gunship_gun",
-					"ssv_weap_inf_heavy_spitfire",
-					"ssv_weap_inf_pistol_m3",
-					"ssv_weap_inf_pistol_m3_armor",
-					"ssv_weap_inf_pistol_m3_disruptor",
-					"ssv_weap_inf_pistol_m3_incendiary",
-					"ssv_weap_inf_pistol_m5",
-					"ssv_weap_inf_pistol_m5_incendiary",
-					"ssv_weap_inf_pistol_m6",
-					"ssv_weap_inf_pistol_m77",
-					"ssv_weap_inf_pistol_n7eagle",
-					"ssv_weap_inf_pistol_n7eagle_armor",
-					"ssv_weap_inf_pistol_n7eagle_incendiary",
-					"ssv_weap_inf_rifle_m8",
-					"ssv_weap_inf_rifle_m8_armor",
-					"ssv_weap_inf_rifle_m8_disruptor",
-					"ssv_weap_inf_rifle_m8_incendiary",
-					"ssv_weap_inf_rifle_m15",
-					"ssv_weap_inf_rifle_m76",
-					"ssv_weap_inf_rifle_m96",
-					"ssv_weap_inf_shotgun_m23",
-					"ssv_weap_inf_shotgun_m23_armor",
-					"ssv_weap_inf_shotgun_m23_disruptor",
-					"ssv_weap_inf_shotgun_m23_incendiary",
-					"ssv_weap_inf_shotgun_m27",
-					"ssv_weap_inf_shotgun_m27_disruptor",
-					"ssv_weap_inf_shotgun_n7crusader",
-					"ssv_weap_inf_shotgun_n7crusader_incendiary",
-					"ssv_weap_inf_shotgun_plasma",
-					"ssv_weap_inf_smg_m4",
-					"ssv_weap_inf_smg_m4_disruptor",
-					"ssv_weap_inf_smg_m9",
-					"ssv_weap_inf_smg_m9_armor",
-					"ssv_weap_inf_smg_m9_disruptor",
-					"ssv_weap_inf_smg_m9_incendiary",
-					"ssv_weap_inf_smg_m12",
-					"ssv_weap_inf_smg_m12_shepard",
-					"ssv_weap_inf_smg_n7hurricane",
-					"ssv_weap_inf_smg_n7hurricane_disruptor",
-					"ssv_weap_inf_sniper_m92",
-					"ssv_weap_inf_sniper_m92_armor",
-					"ssv_weap_inf_sniper_m92_disruptor",
-					"ssv_weap_inf_sniper_m92_incendiary",
-					"ssv_weap_inf_sniper_m97",
-					"ssv_weap_inf_sniper_m97_armor",
-					"ssv_weap_inf_sniper_m97_disruptor",
-					"ssv_weap_inf_sniper_m98",
-					"ssv_weap_inf_sniper_m98b",
-					"ssv_weap_inf_sniper_m98b_armor",
-					"ssv_weap_inf_sniper_n7valiant",
-					"ssv_weap_tread_mako_cannon",
-					"ssv_weap_tread_mako_driver_cannon",
-					"ssv_weap_tread_mako_gun",
-					
-					"tur_weap_bldg_mturret_cannon",
-					"tur_weap_hoth_dishturret",
-					"tur_weap_hoth_lasermortar_laser",
-					"tur_weap_laser" }
-	
-	-- Turret ballistic weapons.
-	local ballisticWeapons_TUR = {
-					"tur_weap_bldg_mturret_cannon",
-					"tur_weap_hoth_dishturret",
-					"tur_weap_hoth_lasermortar_laser",
-					"tur_weap_laser" }
-	
 	-- COL unit classes.
 	local colClasses = {
 					"col_inf_assassin",
@@ -648,7 +617,8 @@ function Init_HitMarkerSounds()
 					"col_inf_guardian_online_shield",
 					"col_inf_scion",
 					
-					"col_hero_harbinger" }
+					"col_hero_harbinger",
+	}
 	
 	-- GTH unit classes.
 	local gthClasses = {
@@ -688,14 +658,16 @@ function Init_HitMarkerSounds()
 					"gth_ev_inf_juggernaut_online_shield",
 					
 					"gth_hero_prime_me2",
-					"gth_hero_prime_me3" }
+					"gth_hero_prime_me3",
+	}
 	
 	-- INDOC unit classes.
 	local indocClasses = {
 					"indoc_inf_abomination",
 					"indoc_inf_cannibal",
 					"indoc_inf_husk",
-					"indoc_inf_marauder" }
+					"indoc_inf_marauder",
+	}
 	
 	-- SSV unit classes.
 	local ssvClasses = {
@@ -728,7 +700,8 @@ function Init_HitMarkerSounds()
 					"ssv_hero_shepard_sentinel",
 					"ssv_hero_shepard_vanguard",
 					
-					"ssv_hero_jack" }
+					"ssv_hero_jack",
+	}
 	
 	-- Armored classes.
 	local armorClasses = {
@@ -765,9 +738,13 @@ function Init_HitMarkerSounds()
 					"gth_bldg_rocketdrone",
 					"gth_walk_colussus",
 					"ssv_fly_a61_gunship",
-					"ssv_tread_mako" }
+					"ssv_tread_mako",
+	}
 	
 	
+	--==========================
+	-- LOCAL FUNCTIONS
+	--==========================
 	
 	---
 	-- @param #string type	The type of impact sounds to play ("armor" or "normal").
@@ -775,7 +752,7 @@ function Init_HitMarkerSounds()
 	local function PlayDamageSound(type)
 		--print("ME5_DamageFeedback.Init_HitMarkerSounds.PlayDamageSound(): Playing damage sound")
 		
-		if bIsIncendiary == false then
+		--if bIsIncendiary == false then
 			local randSnd = math.random(0,10)
 			
 			-- What is the surface type?
@@ -808,10 +785,13 @@ function Init_HitMarkerSounds()
 					ScriptCB_SndPlaySound("enemy_damage_normal_layered_"..randSnd)
 				end
 			end
-		end
+		--end
 	end
 	
 	
+	--==========================
+	-- EVENT RESPONSES
+	--==========================
 	
 	-- When the player spawns
 	local playerspawn = OnCharacterSpawn(
@@ -840,7 +820,7 @@ function Init_HitMarkerSounds()
 				
 				--local playerPtr = GetEntityPtr(GetCharacterUnit(damager))	-- Damager's pointer.
 				--local playerClass = GetEntityClass(playerPtr)				-- Damager's class.
-				local playerTeam = GetCharacterTeam(damager)				-- Damager's team.
+				local damagerTeam = GetCharacterTeam(damager)				-- Damager's team.
 				local damagerWeapon = GetObjectLastHitWeaponClass(object)	-- Damager's weapon class.
 				
 				local objectPtr = GetEntityPtr(object)				-- Damaged object's pointer.
@@ -853,245 +833,160 @@ function Init_HitMarkerSounds()
 				end]]
 				
 				-- Exit immediately if any fields are wrong
-				if not playerTeam then return end
-				if playerTeam <= 0 then return end
+				if not damagerTeam then return end
+				if damagerTeam <= 0 then return end
 				if not damagerWeapon then return end
 				if not objectClass then return end
 				
 				
-				-- Is the damager weapon incendiary?
-				--[[if string.sub(damagerWeapon,-10,-1) == "incendiary" then
-					bIsIncendiary = true
+				-- Detect and set the damager weapon type
+				if string.sub(damagerWeapon,14,19) == "sniper" then
+					--print("Weapon is sniper rifle")
+					weaponType = 2
+				elseif string.sub(damagerWeapon,14,27) == "shotgun_plasma" then
+					--print("Weapon is GPS")
+					weaponType = 4
+				elseif string.sub(damagerWeapon,14,20) == "shotgun" then
+					--print("Weapon is shotgun")
+					weaponType = 3
 				else
-					bIsIncendiary = false
-				end]]
+					weaponType = 1
+				end
+				--print("Damager weapon: "..damagerWeapon)
 				
-				
-				-- Immediately abort if the weapon was incendiary
-				--if bIsIncendiary == false then
-				
-					-- Detect and set the damager weapon type
-					if string.sub(damagerWeapon,14,19) == "sniper" then
-						--print("Weapon is sniper rifle")
-						weaponType = 2
-					elseif string.sub(damagerWeapon,14,27) == "shotgun_plasma" then
-						--print("Weapon is GPS")
-						weaponType = 4
-					elseif string.sub(damagerWeapon,14,20) == "shotgun" then
-						--print("Weapon is shotgun")
-						weaponType = 3
+				-- Check if the object is an armored class
+				for i in ipairs(armorClasses) do
+					-- Is the object one of them?
+					if objectClass == FindEntityClass( armorClasses[i] ) then
+						bIsObjectArmorClass = true
+						break
 					else
-						weaponType = 1
+						bIsObjectArmorClass = false
 					end
-					
-					--print("Damager weapon: "..damagerWeapon)
-					
-					-- Check if the object is an armored class
-					for i in ipairs(armorClasses) do
-						-- Is the object one of them?
-						if objectClass == FindEntityClass( armorClasses[i] ) then
-							bIsObjectArmorClass = true
-							break
-						else
-							bIsObjectArmorClass = false
-						end
-					end
-					
-					-- Determine the damager's faction
-					if ME5_SideVar == 1 or (ScriptCB_InMultiplayer() and gCurrentMapManager.onlineSideVar == "SSVxGTH") then
-						if playerTeam == REP then
-							damagerFaction = "ssv"
-						elseif playerTeam == CIS then
-							damagerFaction = "gth"
-						end
-						
-					elseif ME5_SideVar == 2 or (ScriptCB_InMultiplayer() and gCurrentMapManager.onlineSideVar == "SSVxCOL") then
-						if playerTeam == REP then
-							damagerFaction = "ssv"
-						elseif playerTeam == CIS then
-							damagerFaction = "col"
-						end
-						
-					elseif ME5_SideVar == 3 or (ScriptCB_InMultiplayer() and gCurrentMapManager.onlineSideVar == "EVGxGTH") then
-						if playerTeam == REP then
-							damagerFaction = "evg"
-						elseif playerTeam == CIS then
-							damagerFaction = "gth"
-						end
-						
-					elseif ME5_SideVar == 4 or (ScriptCB_InMultiplayer() and gCurrentMapManager.onlineSideVar == "EVGxCOL") then
-						if playerTeam == REP then
-							damagerFaction = "evg"
-						elseif playerTeam == CIS then
-							damagerFaction = "col"
-						end
-					end
+				end
 				
-					-- Only proceed if damager isn't correct class
-					--[[if bIsDamagerCorrectClass == false then
-						--print("ME5_DamageFeedback.Init_HitMarkerSounds.enemydamage_COL(): Player isn't correct class, proceeding")
-						
-						-- For each COL class,
-						for i=1, table.getn(colClasses) do
-							-- Is the damager one of them?
-							if playerClass == FindEntityClass( colClasses[i] ) then
-								bIsDamagerCorrectClass = true
-								damagerFaction = "col"
+				-- Determine the damager's faction
+				if ME5_SideVar == 1 or (ScriptCB_InMultiplayer() and gCurrentMapManager.onlineSideVar == "SSVxGTH") then
+					if damagerTeam == REP then
+						damagerFaction = "ssv"
+					elseif damagerTeam == CIS then
+						damagerFaction = "gth"
+					end
+					
+				elseif ME5_SideVar == 2 or (ScriptCB_InMultiplayer() and gCurrentMapManager.onlineSideVar == "SSVxCOL") then
+					if damagerTeam == REP then
+						damagerFaction = "ssv"
+					elseif damagerTeam == CIS then
+						damagerFaction = "col"
+					end
+					
+				elseif ME5_SideVar == 3 or (ScriptCB_InMultiplayer() and gCurrentMapManager.onlineSideVar == "EVGxGTH") then
+					if damagerTeam == REP then
+						damagerFaction = "evg"
+					elseif damagerTeam == CIS then
+						damagerFaction = "gth"
+					end
+					
+				elseif ME5_SideVar == 4 or (ScriptCB_InMultiplayer() and gCurrentMapManager.onlineSideVar == "EVGxCOL") then
+					if damagerTeam == REP then
+						damagerFaction = "evg"
+					elseif damagerTeam == CIS then
+						damagerFaction = "col"
+					end
+				end
+				
+				
+				-- Which team is the damager from?
+				if damagerFaction == "col" then
+					--print("ME5_DamageFeedback.Init_HitMarkerSounds(): Damager is from team COL")
+					--ShowMessageText("level.common.debug.damager_col")
+					
+					-- For each weapon class
+					for i=1, table.getn(ballisticWeapons_COL) do
+						-- Was the weapon used a valid ballistic weapon?
+						if damagerWeapon == ballisticWeapons_COL[i] then
+							-- Play the player damage sound
+							if bIsObjectArmorClass == true then
+								PlayDamageSound("armor")
 							else
-								bIsDamagerCorrectClass = false
+								PlayDamageSound("normal")
 							end
-							
-							-- Break out of the loop if correct class
-							if bIsDamagerCorrectClass == true then
-								--print("ME5_DamageFeedback.Init_HitMarkerSounds.enemydamage_COL(): Player is correct class")
-								break 
-							end
+							break
 						end
 					end
 					
-					-- Only proceed if damager isn't correct class
-					if bIsDamagerCorrectClass == false then
-						--print("ME5_DamageFeedback.Init_HitMarkerSounds.enemydamage_GTH(): Player isn't correct class, proceeding")
-						
-						-- For each GTH class,
-						for j=1, table.getn(gthClasses) do
-							-- Is the damager one of them?
-							if playerClass == FindEntityClass( gthClasses[j] ) then
-								bIsDamagerCorrectClass = true
-								damagerFaction = "gth"
+				elseif damagerFaction == "evg" then
+					--print("ME5_DamageFeedback.Init_HitMarkerSounds(): Damager is from team EVG")
+					--ShowMessageText("level.common.debug.damager_evg")
+					
+					-- For each weapon class
+					for i=1, table.getn(ballisticWeapons_EVG) do
+						-- Was the weapon used a valid ballistic weapon?
+						if damagerWeapon == ballisticWeapons_EVG[i] then
+							-- Play the player damage sound
+							if bIsObjectArmorClass == true then
+								PlayDamageSound("armor")
 							else
-								bIsDamagerCorrectClass = false
+								PlayDamageSound("normal")
 							end
-							
-							-- Break out of the loop if correct class
-							if bIsDamagerCorrectClass == true then
-								--print("ME5_DamageFeedback.Init_HitMarkerSounds.enemydamage_GTH(): Player is correct class")
-								break 
-							end
+							break
 						end
 					end
 					
-					-- Only proceed if damager isn't correct class
-					if bIsDamagerCorrectClass == false then
-						--print("ME5_DamageFeedback.Init_HitMarkerSounds.enemydamage_INDOC(): Player isn't correct class, proceeding")
-						
-						-- For each INDOC class,
-						for k=1, table.getn(indocClasses) do
-							-- Is the damager one of them?
-							if playerClass == FindEntityClass( indocClasses[k] ) then
-								bIsDamagerCorrectClass = true
-								damagerFaction = "indoc"
+				elseif damagerFaction == "gth" then
+					--print("ME5_DamageFeedback.Init_HitMarkerSounds(): Damager is from team GTH")
+					--ShowMessageText("level.common.debug.damager_gth")
+					
+					-- For each weapon class
+					for i=1, table.getn(ballisticWeapons_GTH) do
+						-- Was the weapon used a valid ballistic weapon?
+						if damagerWeapon == ballisticWeapons_GTH[i] then
+							-- Play the player damage sound
+							if bIsObjectArmorClass == true then
+								PlayDamageSound("armor")
 							else
-								bIsDamagerCorrectClass = false
+								PlayDamageSound("normal")
 							end
-							
-							-- Break out of the loop if correct class
-							if bIsDamagerCorrectClass == true then
-								--print("ME5_DamageFeedback.Init_HitMarkerSounds.enemydamage_INDOC(): Player is correct class")
-								break 
-							end
+							break
 						end
 					end
 					
-					-- Only proceed if damager isn't correct class
-					if bIsDamagerCorrectClass == false then
-						--print("ME5_DamageFeedback.Init_HitMarkerSounds.enemydamage_SSV(): Player isn't correct class, proceeding")
-						
-						-- For each SSV class,
-						for m=1, table.getn(ssvClasses) do
-							-- Is the damager one of them?
-							if playerClass == FindEntityClass( ssvClasses[m] ) then
-								bIsDamagerCorrectClass = true
-								damagerFaction = "ssv"
+				elseif damagerFaction == "indoc" then
+					--print("ME5_DamageFeedback.Init_HitMarkerSounds(): Damager is from team INDOC")
+					--ShowMessageText("level.common.debug.damager_indoc")
+					
+					-- For each weapon class
+					for i=1, table.getn(ballisticWeapons_INDOC) do
+						-- Was the weapon used a valid ballistic weapon?
+						if damagerWeapon == ballisticWeapons_INDOC[i] then
+							-- Play the player damage sound
+							if bIsObjectArmorClass == true then
+								PlayDamageSound("armor")
 							else
-								bIsDamagerCorrectClass = false
+								PlayDamageSound("normal")
 							end
-							
-							-- Break out of the loop if correct class
-							if bIsDamagerCorrectClass == true then
-								--print("ME5_DamageFeedback.Init_HitMarkerSounds.enemydamage_SSV(): Player is correct class")
-								break 
-							end
-						end
-					end]]
-					
-					
-					
-					-- Which team is the damager from?
-					if damagerFaction == "col" then
-						--print("ME5_DamageFeedback.Init_HitMarkerSounds(): Damager is from team COL")
-						--ShowMessageText("level.common.debug.damager_col")
-						
-						-- For each weapon class
-						for i=1, table.getn(ballisticWeapons_COL) do
-							-- Was the weapon used a valid ballistic weapon?
-							if damagerWeapon == ballisticWeapons_COL[i] then
-								-- Play the player damage sound
-								if bIsObjectArmorClass == true then
-									PlayDamageSound("armor")
-								else
-									PlayDamageSound("normal")
-								end
-								break
-							end
-						end
-						
-					elseif damagerFaction == "gth" then
-						--print("ME5_DamageFeedback.Init_HitMarkerSounds(): Damager is from team GTH")
-						--ShowMessageText("level.common.debug.damager_gth")
-						
-						-- For each weapon class
-						for i=1, table.getn(ballisticWeapons_GTH) do
-							-- Was the weapon used a valid ballistic weapon?
-							if damagerWeapon == ballisticWeapons_GTH[i] then
-								-- Play the player damage sound
-								if bIsObjectArmorClass == true then
-									PlayDamageSound("armor")
-								else
-									PlayDamageSound("normal")
-								end
-								break
-							end
-						end
-						
-					elseif damagerFaction == "indoc" then
-						--print("ME5_DamageFeedback.Init_HitMarkerSounds(): Damager is from team INDOC")
-						--ShowMessageText("level.common.debug.damager_indoc")
-						
-						-- For each weapon class
-						for i=1, table.getn(ballisticWeapons_INDOC) do
-							-- Was the weapon used a valid ballistic weapon?
-							if damagerWeapon == ballisticWeapons_INDOC[i] then
-								-- Play the player damage sound
-								if bIsObjectArmorClass == true then
-									PlayDamageSound("armor")
-								else
-									PlayDamageSound("normal")
-								end
-								break
-							end
-						end
-						
-					elseif damagerFaction == "ssv" then
-						--print("ME5_DamageFeedback.Init_HitMarkerSounds(): Damager is from team SSV")
-						--ShowMessageText("level.common.debug.damager_ssv")
-						
-						-- For each weapon class
-						for i=1, table.getn(ballisticWeapons_SSV) do
-							-- Was the weapon used a valid ballistic weapon?
-							if damagerWeapon == ballisticWeapons_SSV[i] then
-								-- Play the player damage sound if the damager weapon wasn't incendiary
-								if bIsObjectArmorClass == true then
-									PlayDamageSound("armor")
-								else
-									PlayDamageSound("normal")
-								end
-								break
-							end
+							break
 						end
 					end
 					
-				--end
+				elseif damagerFaction == "ssv" then
+					--print("ME5_DamageFeedback.Init_HitMarkerSounds(): Damager is from team SSV")
+					--ShowMessageText("level.common.debug.damager_ssv")
+					
+					-- For each weapon class
+					for i=1, table.getn(ballisticWeapons_SSV) do
+						-- Was the weapon used a valid ballistic weapon?
+						if damagerWeapon == ballisticWeapons_SSV[i] then
+							-- Play the player damage sound if the damager weapon wasn't incendiary
+							if bIsObjectArmorClass == true then
+								PlayDamageSound("armor")
+							else
+								PlayDamageSound("normal")
+							end
+							break
+						end
+					end
+				end
 			end
 		end
 	)
