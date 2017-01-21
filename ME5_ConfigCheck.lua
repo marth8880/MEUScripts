@@ -5,7 +5,7 @@
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
 -- Oct 25, 2016
--- Copyright (c) 2016, Aaron Gilbert All rights reserved.
+-- Copyright (c) 2017, Aaron Gilbert All rights reserved.
 -- 
 -- About: 
 --  The purpose of this script is to load configuration parameters set by the Config Tool and set variables based on 
