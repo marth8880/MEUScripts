@@ -46,7 +46,7 @@ ObjectiveConquest = Objective:New
 	-- optional values
 	ticketsATT = nil,
 	ticketsDEF = nil,
-	bleedRateMultiplier = 1.5,
+	bleedRateMultiplier = 1.25,
 	
 	-- internal values
 	defaultBleedRate = 1.05,			--how many units will be lost per second	-- 0.7777777777
@@ -136,9 +136,9 @@ function ObjectiveConquest:Start()
 	
 	
 	local UpdateBleedRate = function(team)
-		local bleedPoints = nil			-- The total number of CPs the other team owns
-		local bleedSteps = nil			-- The number of levels of bleeding
-		local curBleedStep = nil		-- The current bleed level
+		local bleedPoints = nil			-- Total number of CPs the other team owns
+		local bleedSteps = nil			-- Number of levels of bleeding
+		local curBleedStep = nil		-- Current bleed level
 		
 		--count up the total bleedPoints (bleedPoints only count if they're on a CP owned by a different team)
 		bleedPoints = 0
@@ -166,7 +166,7 @@ function ObjectiveConquest:Start()
 			end
 		else
 			--start bleeding when the team's bleed points are greater than half the total points
-			if bleedPoints > (self.totalBleedValue[team] / 2.0) then
+			if bleedPoints > (self.totalBleedValue[team] / 2) then
 				--bleedRate = self.defaultBleedRate
 				
 				bleedSteps = (self.totalBleedValue[team] - math.floor(self.totalBleedValue[team] / 2))
@@ -176,11 +176,11 @@ function ObjectiveConquest:Start()
 			end
 		end
 		
---		print()
---		print("team:", team, "totalbleedpts:", self.totalBleedValue[team])									--uncomment me for test output!
---		print("team:", team, "bleedPoints:", bleedPoints, "bleedRate:", bleedRate)							--uncomment me for test output!
---		print("team:", team, "bleedSteps:", bleedSteps, "curBleedStep:", curBleedStep)						--uncomment me for test output!
---		print()
+		print()
+		print("team:", team, "totalbleedpts:", self.totalBleedValue[team])									--uncomment me for test output!
+		print("team:", team, "bleedPoints:", bleedPoints, "bleedRate:", bleedRate)							--uncomment me for test output!
+		print("team:", team, "bleedSteps:", bleedSteps, "curBleedStep:", curBleedStep)						--uncomment me for test output!
+		print()
 	
 		--setup the bleedrate display (i.e. how fast the score flashes in the HUD)
 		SetBleedRate(team, bleedRate)
@@ -555,8 +555,8 @@ function ObjectiveConquest:Start()
 		SetProperty(cp.name, "VO_Cis_CisLost",		snd_CIS_cpLost_ally)
 		SetProperty(cp.name, "VO_Cis_RepLost",		snd_CIS_cpLost_enemy)
 		
-		SetProperty(cp.name, "NeutralizeTime",	12.0)
-		SetProperty(cp.name, "CaptureTime",	3.0)	-- 8.0
+--		SetProperty(cp.name, "NeutralizeTime",	12.0)	-- 12.0
+--		SetProperty(cp.name, "CaptureTime",	3.0)	-- 8.0
     		
 		UpdatePostMapMarker(cp.name)
 	end
@@ -580,20 +580,20 @@ function ObjectiveConquest:Start()
 		self.ticketsATT = self.ticketsATT or 200
 		self.ticketsDEF = self.ticketsDEF or 200
 	elseif gCurrentMapManager.mapSize == "xs" then
-		self.ticketsATT = self.ticketsATT or 250
-		self.ticketsDEF = self.ticketsDEF or 250
-	elseif gCurrentMapManager.mapSize == "sm" then
 		self.ticketsATT = self.ticketsATT or 300
 		self.ticketsDEF = self.ticketsDEF or 300
-	elseif gCurrentMapManager.mapSize == "med" then
-		self.ticketsATT = self.ticketsATT or 350
-		self.ticketsDEF = self.ticketsDEF or 350
-	elseif gCurrentMapManager.mapSize == "lg" or gCurrentMapManager.mapSize == "xl" then
+	elseif gCurrentMapManager.mapSize == "sm" then
 		self.ticketsATT = self.ticketsATT or 400
 		self.ticketsDEF = self.ticketsDEF or 400
+	elseif gCurrentMapManager.mapSize == "med" then
+		self.ticketsATT = self.ticketsATT or 500
+		self.ticketsDEF = self.ticketsDEF or 500
+	elseif gCurrentMapManager.mapSize == "lg" or gCurrentMapManager.mapSize == "xl" then
+		self.ticketsATT = self.ticketsATT or 600
+		self.ticketsDEF = self.ticketsDEF or 600
 	else
-		self.ticketsATT = self.ticketsATT or 325
-		self.ticketsDEF = self.ticketsDEF or 325
+		self.ticketsATT = self.ticketsATT or 400
+		self.ticketsDEF = self.ticketsDEF or 400
 	end
 	
 	SetReinforcementCount(ATT, self.ticketsATT)
@@ -778,8 +778,8 @@ function ObjectiveConquest:Start()
 	2 -- Team number for the ticket bonus
 	)]]
 	
-	SetClassProperty("com_bldg_controlzone", "NeutralizeTime", 20)
-	SetClassProperty("com_bldg_controlzone", "CaptureTime", 20)
+	SetClassProperty("com_bldg_controlzone", "NeutralizeTime", 30)
+	SetClassProperty("com_bldg_controlzone", "CaptureTime", 30)
 end
 
 function ObjectiveConquest:Complete(winningTeam)
