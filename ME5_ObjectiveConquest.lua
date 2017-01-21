@@ -372,25 +372,25 @@ function ObjectiveConquest:Start()
 			ShowMessageText("level.common.events.con.post.captured_"..msgContext)
 			
 			-- Short delay before showing second message displaying which CP was captured
-			self.numMsgDelayTimers = self.numMsgDelayTimers + 1
+			--[[self.numMsgDelayTimers = self.numMsgDelayTimers + 1
 			local postCaptureMsgDelayTimer = CreateTimer("postCaptureMsgDelayTimer"..self.numMsgDelayTimers)
 			
 			SetTimerValue(postCaptureMsgDelayTimer, msgDelayValue)
 			StartTimer(postCaptureMsgDelayTimer)
 			local postCaptureMsgDelayTimerElapse = OnTimerElapse(
-				function(timer)
+				function(timer)]]
 					messageStr = "level."..GetWorldFilename().."."..postName
 					print("ShowCaptureMessage(): messageStr = ", messageStr)
 					
 					ShowMessageText(messageStr)
 					
-					DestroyTimer(timer)
+					--[[DestroyTimer(timer)
 					postCaptureMsgDelayTimer = nil
 					postCaptureMsgDelayTimerElapse = nil
 					ReleaseTimerElapse(postCaptureMsgDelayTimerElapse)
 				end,
 			postCaptureMsgDelayTimer
-			)
+			)]]
 		end
 	end
 	
