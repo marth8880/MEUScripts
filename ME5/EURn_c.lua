@@ -17,7 +17,7 @@ ScriptCB_DoFile("ME5_ObjectiveAssault")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 ScriptCB_DoFile("ME5_ObjectiveGoto")
 ScriptCB_DoFile("ME5_CinematicContainer")
-ScriptCB_DoFile("ME5_CameraFunctions")
+ScriptCB_DoFile("ME5_CameraManager")
 ScriptCB_DoFile("ME5_CombatManager")
 --ScriptCB_DoFile("ME5_CinematicOverlayIFS")
 ScriptCB_DoFile("Ambush")
@@ -1981,7 +1981,7 @@ function ScriptPostLoad()
     -- Play spawn menu music
     ScriptCB_PlayInGameMusic("eur_amb_01a_briefing")
 	        	
-	SetRespawnPointPlayer("ps_start_shuttle4")	-- DEBUG
+	--SetRespawnPointPlayer("ps_start_shuttle4")	-- DEBUG
 	
     onfirstspawn = OnCharacterSpawn(
 	    function(character)
@@ -1992,6 +1992,7 @@ function ScriptPostLoad()
 	            camShakeCharUnit = GetCharacterUnit(character)
 	        	
 	        	BeginOpeningCinematic()
+	        	--UnblockCombatZoneExits(0)	-- DEBUG
 	            
 	            ScriptCB_EnableCommandPostVO(0)
 	            
@@ -4227,7 +4228,7 @@ function BeginOpeningCinematic()
 	
 	openingCinematicSequence = CinematicContainer:New{pathName = "ps_start_shuttle"}
 	openingCinematicSequence:AddShot(ShotIntro1)
-	--[[openingCinematicSequence:AddShot(ShotTransition0)
+	openingCinematicSequence:AddShot(ShotTransition0)
 	openingCinematicSequence:AddShot(Shot1a)
 	openingCinematicSequence:AddShot(Shot1b)
 	openingCinematicSequence:AddShot(ShotTransition1)
@@ -4244,7 +4245,7 @@ function BeginOpeningCinematic()
 	openingCinematicSequence:AddShot(Shot4a)
 	openingCinematicSequence:AddShot(Shot4b)
 	openingCinematicSequence:AddShot(ShotTransition4)
-	openingCinematicSequence:AddShot(Shot4c)]]
+	openingCinematicSequence:AddShot(Shot4c)
 	openingCinematicSequence:AddShot(ShotTransition5a)
 	openingCinematicSequence:AddShot(ShotShuttles1a)
 	openingCinematicSequence:AddShot(ShotTransition5b)
@@ -4600,6 +4601,8 @@ function ScriptInit()
 	-- Sides setup end
 	--
 	
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl")
+	
 	
     --  Level Stats
     --  ClearWalkers()
@@ -4626,7 +4629,7 @@ function ScriptInit()
     SetMemoryPoolSize("Obstacle", 1024)
 	SetMemoryPoolSize("PathNode", 1024)
 	SetMemoryPoolSize("SoldierAnimation", 410)
-    SetMemoryPoolSize("SoundSpaceRegion", 100)
+    SetMemoryPoolSize("SoundSpaceRegion", 24)
     SetMemoryPoolSize("TreeGridStack", 1024)
 	SetMemoryPoolSize("UnitAgent", 128)
 	SetMemoryPoolSize("UnitController", 128)
@@ -4660,8 +4663,6 @@ function ScriptInit()
 	SetAttackingTeam(ATT)
 	
     SoundFX()
-	
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EUR_Streaming.lvl")
 	
 	
 	-- Opening satellite shots
