@@ -5,7 +5,7 @@
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
 -- Nov 29, 2016
--- Copyright (c) 2016, Aaron Gilbert All rights reserved.
+-- Copyright (c) 2017, Aaron Gilbert All rights reserved.
 -- 
 -- About: 
 --  The purpose of this script is to simplify the process of loading music and setting global sound parameters.
@@ -786,9 +786,9 @@ function SoundFX()
 	
 	-- Player damage sounds
 	if ME5_PlayerDmgSound == 2 then
-		ScaleSoundParameter("Ordnance_playerdmg",	"Gain", 1.0)
-	elseif ME5_PlayerDmgSound == 1 then
 		ScaleSoundParameter("Ordnance_playerdmg",	"Gain", 0.5)
+	elseif ME5_PlayerDmgSound == 1 then
+		ScaleSoundParameter("Ordnance_playerdmg",	"Gain", 0.25)
 	elseif ME5_PlayerDmgSound == 0 then
 		ScaleSoundParameter("Ordnance_playerdmg",	"Gain", 0.0)
 	end
