@@ -5,7 +5,7 @@
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
 -- Dec 6, 2016
--- Copyright (c) 2016, Aaron Gilbert All rights reserved.
+-- Copyright (c) 2017, Aaron Gilbert All rights reserved.
 -- 
 -- About: 
 --  This script contains functions regarding Lua weapons with incendiary ordnance.
@@ -38,50 +38,83 @@ function Init_IncendiaryOrd()
 		gIncendiaryOrdGate_Open = true
 		gIncendiaryOrdTurs = 0
 		
+		-- List of terms that incendiary weapons contain, these are used with string.sub(a,b,c) where a=[1], b=[2], c=[3]
+		local incendiaryWeapons = {
+						{"incendiary", -10, -1},
+						{"incinerate", -10, -1},
+						{"incinerationblast", -17, -1},
+						{"scorch", -6, -1},
+		}
+		
 		-- Whenever an object is damaged
 		local targetdamage = OnObjectDamage(
 			function(object, damager)
 				-- Exit immediately if any values are incorrect
 				if not object then return end
+				if not damager then return end
 				
-				-- Figure out the damager's weapon (and exit if it's nil)
-				local damagerWeapon = GetObjectLastHitWeaponClass(object)
-				if not damagerWeapon then return end
+				local objectTeam = GetObjectTeam(object)
+				local damagerTeam = GetCharacterTeam(damager)
+				if (not objectTeam) or (objectTeam <= 0) then return end
+				if (not damagerTeam) or (damagerTeam <= 0) then return end
 				
-				-- Is the damager weapon incendiary?
-				if string.sub(damagerWeapon,-10,-1) == "incendiary" or string.sub(damagerWeapon,-10,-1) == "incinerate" or string.sub(damagerWeapon,-17,-1) == "incinerationblast" or string.sub(damagerWeapon,-6,-1) == "scorch" then
-					if gIncendiaryOrdGate_Open == true then
-						gIncendiaryOrdGate_Open = false
-						gIncendiaryOrdTurs = gIncendiaryOrdTurs + 1
-						
-						-- Spawn the incendiary ordnance turret
-						CreateEntity("com_bldg_incendiaryord_turret", GetEntityMatrix(object), "incendiaryTurs"..gIncendiaryOrdTurs)
-						
-						-- Limit the spawn-rate of these turrets 
-						gIncendiaryOrdGateTimer = CreateTimer("gIncendiaryOrdGateTimer")
-						SetTimerValue(gIncendiaryOrdGateTimer, 0.1)
-						StartTimer(gIncendiaryOrdGateTimer)
-						gIncendiaryOrdGateTimerElapse = OnTimerElapse(
-							function(timer)
-								-- Reopen the logic gate
-								gIncendiaryOrdGate_Open = true
-								
-								-- Garbage collection
-								DestroyTimer(timer)
-								gIncendiaryOrdGateTimer = nil
-								ReleaseTimerElapse(gIncendiaryOrdGateTimerElapse)
-							end,
-						gIncendiaryOrdGateTimer
-						)
-						
-						--print("Weapon ("..damagerWeapon..") is incendiary")
+				-- Are the object and damager on different teams?
+				if objectTeam ~= damagerTeam then
+					-- Figure out the damager's weapon (and exit if it's nil)
+					local damagerWeapon = GetObjectLastHitWeaponClass(object)
+					if not damagerWeapon then return end
+					
+					-- Is the weapon incendiary?
+					local bIsIncendiary = false
+					
+					for i in ipairs(incendiaryWeapons) do
+						if string.sub(damagerWeapon, incendiaryWeapons[i][2], incendiaryWeapons[i][3]) == incendiaryWeapons[i][1] then
+							bIsIncendiary = true
+							break
+						end
 					end
-				else
-					return
+					
+					-- Exit if the weapon isn't incendiary, or continue if it is
+					if bIsIncendiary == false then
+						return
+					else
+						--if gIncendiaryOrdGate_Open == true then
+							-- Close the gate
+							--gIncendiaryOrdGate_Open = false
+							--gIncendiaryOrdTurs = gIncendiaryOrdTurs + 1
+							
+							-- Spawn the incendiary ordnance turret
+							gIncendiaryOrdTurretEntity = CreateEntity("com_bldg_incendiaryord_turret", GetEntityMatrix(object))
+							
+							-- Limit the spawn-rate of these turrets 
+							--[[gIncendiaryOrdGateTimer = CreateTimer("gIncendiaryOrdGateTimer")
+							SetTimerValue(gIncendiaryOrdGateTimer, 0.1)
+							StartTimer(gIncendiaryOrdGateTimer)
+							gIncendiaryOrdGateTimerElapse = OnTimerElapse(
+								function(timer)
+									-- Destroy the turret
+									DeleteEntity(gIncendiaryOrdTurretEntity)
+									gIncendiaryOrdTurretEntity = nil
+									
+									-- Reopen the logic gate
+									gIncendiaryOrdGate_Open = true
+									
+									-- Garbage collection
+									DestroyTimer(timer)
+									gIncendiaryOrdGateTimer = nil
+									ReleaseTimerElapse(gIncendiaryOrdGateTimerElapse)
+								end,
+							gIncendiaryOrdGateTimer
+							)]]
+							
+							--print("Weapon ("..damagerWeapon..") is incendiary")
+						--end
+					end
 				end
 			end
 		)
 	end
 end
+
 
 print("ME5_IncendiaryOrdnance: Exited")
