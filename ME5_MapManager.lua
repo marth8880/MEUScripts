@@ -5,7 +5,7 @@
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
 -- Dec 3, 2016
--- Copyright (c) 2016, Aaron Gilbert All rights reserved.
+-- Copyright (c) 2017, Aaron Gilbert All rights reserved.
 -- 
 -- About: 
 --  TODO: fill this in!
@@ -752,13 +752,20 @@ function MapManager:Proc_ScriptInit_MusicSetup()
 	local variation = nil
 	
 	-- What's the faction combination for this map?
-	if ME5_SideVar == 1 or self.onlineSideVar == "SSVxGTH" then
+	if ME5_SideVar == 1 or (ScriptCB_InMultiplayer() and self.onlineSideVar == "SSVxGTH") then
+		print("MapManager:Proc_ScriptInit_MusicSetup(): Variation is SSVxGTH")
 		variation = self.musicVariation_SSVxGTH
-	elseif ME5_SideVar == 2 or self.onlineSideVar == "SSVxCOL" then
+		
+	elseif ME5_SideVar == 2 or (ScriptCB_InMultiplayer() and self.onlineSideVar == "SSVxCOL") then
+		print("MapManager:Proc_ScriptInit_MusicSetup(): Variation is SSVxCOL")
 		variation = self.musicVariation_SSVxCOL
-	elseif ME5_SideVar == 3 or self.onlineSideVar == "EVGxGTH" then
+		
+	elseif ME5_SideVar == 3 or (ScriptCB_InMultiplayer() and self.onlineSideVar == "EVGxGTH") then
+		print("MapManager:Proc_ScriptInit_MusicSetup(): Variation is EVGxGTH")
 		variation = self.musicVariation_EVGxGTH
-	elseif ME5_SideVar == 4 or self.onlineSideVar == "EVGxCOL" then
+		
+	elseif ME5_SideVar == 4 or (ScriptCB_InMultiplayer() and self.onlineSideVar == "EVGxCOL") then
+		print("MapManager:Proc_ScriptInit_MusicSetup(): Variation is EVGxCOL")
 		variation = self.musicVariation_EVGxCOL
 	end
 	
@@ -786,14 +793,19 @@ function MapManager:Proc_ScriptInit_MusicSetup()
 	
 	variation = string.lower(variation)
 	
+	print("MapManager:Proc_ScriptInit_MusicSetup(): Value of variation is "..variation)
+	
 	-- Set the music to use based on the first character in the string
 	if string.sub(variation,1,1) == "1" then
+		print("MapManager:Proc_ScriptInit_MusicSetup(): Going with Music01")
 		Music01()
 		
 	elseif string.sub(variation,1,1) == "2" then
+		print("MapManager:Proc_ScriptInit_MusicSetup(): Going with Music02")
 		Music02()
 		
 	elseif string.sub(variation,1,1) == "3" then
+		print("MapManager:Proc_ScriptInit_MusicSetup(): Going with Music03")
 		if string.len(variation) > 1 then
 			-- Set up the specified music variation
 			Music03(string.sub(variation,3))
@@ -802,6 +814,7 @@ function MapManager:Proc_ScriptInit_MusicSetup()
 		end
 		
 	elseif string.sub(variation,1,1) == "4" then
+		print("MapManager:Proc_ScriptInit_MusicSetup(): Going with Music04")
 		if string.len(variation) > 1 then
 			-- Set up the specified music variation
 			Music04(string.sub(variation,3))
@@ -810,6 +823,7 @@ function MapManager:Proc_ScriptInit_MusicSetup()
 		end
 		
 	elseif string.sub(variation,1,1) == "5" then
+		print("MapManager:Proc_ScriptInit_MusicSetup(): Going with Music05")
 		if string.len(variation) > 1 then
 			-- Set up the specified music variation
 			Music05(string.sub(variation,3))
@@ -818,6 +832,7 @@ function MapManager:Proc_ScriptInit_MusicSetup()
 		end
 		
 	elseif string.sub(variation,1,1) == "6" then
+		print("MapManager:Proc_ScriptInit_MusicSetup(): Going with Music06")
 		if string.len(variation) > 1 then
 			-- Set up the specified music variation
 			Music06(string.sub(variation,3))
@@ -826,12 +841,15 @@ function MapManager:Proc_ScriptInit_MusicSetup()
 		end
 		
 	elseif string.sub(variation,1,1) == "7" then
+		print("MapManager:Proc_ScriptInit_MusicSetup(): Going with Music07")
 		Music07()
 		
 	elseif string.sub(variation,1,1) == "8" then
+		print("MapManager:Proc_ScriptInit_MusicSetup(): Going with Music08")
 		Music08()
 		
 	elseif string.sub(variation,1,1) == "9" then
+		print("MapManager:Proc_ScriptInit_MusicSetup(): Going with Music09")
 		Music09()
 	else
 		-- An invalid variation was selected, so default to variation 1
@@ -868,7 +886,9 @@ function MapManager:Proc_ScriptInit_End()
 	end
 	
 	Init_LowHealthFeedback()
-	Init_PlayerDamageFeedback()
+	if ME5_PlayerDmgSound > 0 then
+		Init_PlayerDamageFeedback()
+	end
 	if ME5_HitMarkerSound > 0 then
 		Init_HitMarkerSounds()
 	end
