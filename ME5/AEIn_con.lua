@@ -124,7 +124,7 @@ end
 ---------------------------------------------------------------------------
 function ScriptInit()
 	-- Load our loadscreen
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\example.lvl")
+	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\AEI.lvl")
 	
 	SetMemoryPoolSize("ParticleTransformer::ColorTrans", 2367)
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1380)
@@ -149,7 +149,7 @@ function ScriptInit()
 	manager:Proc_ScriptInit_SideSetup()
 	
 	-- Load our map-specific sound lvl
-	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EXAMPLE_Streaming.lvl")
+	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_AEI_Streaming.lvl")
 	
 	--  Level Stats
 	--  ClearWalkers()
@@ -181,14 +181,14 @@ function ScriptInit()
 	SetMemoryPoolSize("Weapon", weaponCnt)
 	
 	SetSpawnDelay(10.0, 0.25)
-    	ReadDataFile("dc:AEI\\AEI.lvl", "AEI_conquest")
+    ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\AEI.lvl", "AEI_conquest")
 	SetDenseEnvironment("false")
 	
 	
 	--  Sound Stats
 	
 	-- Open our map-specific ambient sound streams
-	--OpenAudioStream("..\\..\\addon\\EXAMPLE\\data\\_LVL_PC\\Sound\\SFL_EXAMPLE_Streaming.lvl",  "EXAMPLE_ambiance")
+	--OpenAudioStream("..\\..\\addon\\EXAMPLE\\data\\_LVL_PC\\Sound\\SFL_AEI_Streaming.lvl",  "AEI_ambiance")
 
 	-- Set up music
 	manager:Proc_ScriptInit_MusicSetup()
