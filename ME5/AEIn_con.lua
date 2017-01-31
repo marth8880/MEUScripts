@@ -33,7 +33,7 @@ manager = MapManager:New{
 				{"cp1", "cp1_spawn"},
 				{"cp2", "cp2_spawn"},
 				{"cp3", "cp3_spawn"},
-				--{"cp4", "cp4_spawn"},
+				{"cp4", "cp4_spawn"},
 				{"cp5", "cp5_spawn"},
 				{"cp6", "cp6_spawn"},
 	},
@@ -42,7 +42,7 @@ manager = MapManager:New{
 				{"cp1", "cp1_spawn"},
 				{"cp2", "cp2_spawn"},
 				{"cp3", "cp3_spawn"},
-				--{"cp4", "cp4_spawn"},
+				{"cp4", "cp4_spawn"},
 				{"cp5", "cp5_spawn"},
 				{"cp6", "cp6_spawn"},
 	},
@@ -82,7 +82,7 @@ function ScriptPostLoad()
 	cp1 = CommandPost:New{name = "cp1"}
 	cp2 = CommandPost:New{name = "cp2"}
 	cp3 = CommandPost:New{name = "cp3"}
-	--cp4 = CommandPost:New{name = "cp4"}
+	cp4 = CommandPost:New{name = "cp4"}
 	cp5 = CommandPost:New{name = "cp5"}
 	cp6 = CommandPost:New{name = "cp6"}
 	
@@ -97,7 +97,7 @@ function ScriptPostLoad()
 	conquest:AddCommandPost(cp1)
 	conquest:AddCommandPost(cp2)
 	conquest:AddCommandPost(cp3)
-	--conquest:AddCommandPost(cp4)
+	conquest:AddCommandPost(cp4)
 	conquest:AddCommandPost(cp5)
 	conquest:AddCommandPost(cp6)
 	
@@ -108,7 +108,8 @@ function ScriptPostLoad()
 	-- Perform various post-load operations
 	manager:Proc_ScriptPostLoad_End()
 
-    	BlockPlanningGraphArcs("ConnectionCave")
+    --BlockPlanningGraphArcs("ConnectionCave")
+    DisableBarriers("BarrierCave")
 	
 end
 
@@ -149,7 +150,7 @@ function ScriptInit()
 	manager:Proc_ScriptInit_SideSetup()
 	
 	-- Load our map-specific sound lvl
-	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_AEI_Streaming.lvl")
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Sound\\SFL_AEI_Streaming.lvl")
 	
 	--  Level Stats
 	--  ClearWalkers()
@@ -188,7 +189,8 @@ function ScriptInit()
 	--  Sound Stats
 	
 	-- Open our map-specific ambient sound streams
-	--OpenAudioStream("..\\..\\addon\\EXAMPLE\\data\\_LVL_PC\\Sound\\SFL_AEI_Streaming.lvl",  "AEI_ambiance")
+	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\Sound\\SFL_AEI_Streaming.lvl",  "AEI_ambiance")
+	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\Sound\\SFL_AEI_Streaming.lvl",  "AEI_ambiance")
 
 	-- Set up music
 	manager:Proc_ScriptInit_MusicSetup()
