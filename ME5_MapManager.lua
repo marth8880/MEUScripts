@@ -741,6 +741,24 @@ end
 
 
 ---
+-- Call this directly after the memory pools are set.
+-- 
+-- Sets "global" memory pools such as `FlagItem`, `EntityPortableTurret`, and `MountedTurret`.
+-- 
+function MapManager:Proc_ScriptInit_MemoryPoolInit()
+	print("MapManager:Proc_ScriptInit_MemoryPoolInit(): Entered")
+	
+	-- Need to account for (carried) flags
+	if self.gameMode == "1flag" or self.gameMode == "ctf" then
+		SetMemoryPoolSize("EntityCloth", 4)
+	end
+	SetMemoryPoolSize("FlagItem", MAX_FLAG_ITEM_COUNT)
+	SetMemoryPoolSize("EntityPortableTurret", MAX_PORTABLE_TURRET_COUNT)
+	SetMemoryPoolSize("MountedTurret", MAX_PORTABLE_TURRET_COUNT)
+end
+
+
+---
 -- Call this where the normal music setup stuff is called in ScriptInit.  
 -- 
 -- Calls the functions that load the music.

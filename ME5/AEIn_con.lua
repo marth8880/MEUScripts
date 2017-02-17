@@ -163,27 +163,35 @@ function ScriptInit()
 	SetMemoryPoolSize("AmmoCounter", weaponCnt)
 	SetMemoryPoolSize("BaseHint", 1024)
 	SetMemoryPoolSize("EnergyBar", weaponCnt)
-	SetMemoryPoolSize("EntityCloth", 32)
+	SetMemoryPoolSize("EntityCloth", 0)
 	SetMemoryPoolSize("EntityFlyer", 32)
 	SetMemoryPoolSize("EntityHover", 32)
 	SetMemoryPoolSize("EntityLight", 200)
 	SetMemoryPoolSize("EntitySoundStream", 4)
 	SetMemoryPoolSize("EntitySoundStatic", 32)
-	SetMemoryPoolSize("FlagItem", 512)				-- Need to account for shield pickups
-	SetMemoryPoolSize("MountedTurret", 32)
 	SetMemoryPoolSize("Navigator", 128)
 	SetMemoryPoolSize("Obstacle", 1024)
 	SetMemoryPoolSize("PathNode", 1024)
 	SetMemoryPoolSize("SoldierAnimation", 417)
-	SetMemoryPoolSize("SoundSpaceRegion", 64)
+	SetMemoryPoolSize("SoundSpaceRegion", 24)
 	SetMemoryPoolSize("TreeGridStack", 1024)
 	SetMemoryPoolSize("UnitAgent", 128)
 	SetMemoryPoolSize("UnitController", 128)
 	SetMemoryPoolSize("Weapon", weaponCnt)
+	manager:Proc_ScriptInit_MemoryPoolInit()
 	
 	SetSpawnDelay(10.0, 0.25)
     ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\AEI.lvl", "AEI_conquest")
-	SetDenseEnvironment("false")
+	SetDenseEnvironment("true")
+	
+	--  Birdies
+	SetNumBirdTypes(1)
+	SetBirdType(0, 0.7, "bird")
+	SetBirdFlockMinHeight(60)
+	
+	--  Fishies
+	SetNumFishTypes(1)
+	SetFishType(0, 0.88, "fish")
 	
 	
 	--  Sound Stats

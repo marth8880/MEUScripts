@@ -194,8 +194,6 @@ function ScriptInit()
     SetMemoryPoolSize("EnergyBar", weaponCnt)
     SetMemoryPoolSize("EntityCloth", 0)
     SetMemoryPoolSize("EntitySoundStatic", 43)
-	SetMemoryPoolSize("FlagItem", 512)
-    SetMemoryPoolSize("MountedTurret", 20)
     SetMemoryPoolSize("Music", 99)
     SetMemoryPoolSize("Navigator", 100)
     SetMemoryPoolSize("Obstacle", 667)
@@ -207,6 +205,7 @@ function ScriptInit()
     SetMemoryPoolSize("UnitAgent", 100)
     SetMemoryPoolSize("UnitController", 100)
     SetMemoryPoolSize("Weapon", weaponCnt)
+	manager:Proc_ScriptInit_MemoryPoolInit()
 	
 	if not ScriptCB_InMultiplayer() then
 		if ME5_SideVar >= 3 then

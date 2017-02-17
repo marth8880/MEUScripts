@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by Aaron Gilbert
--- Build 40201/06
+-- Build 40216/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Feb 01, 2017
+-- Feb 16, 2017
 -- Copyright (c) 2017, Aaron Gilbert All rights reserved.
 -- 
 -- About: 
@@ -23,7 +23,7 @@ print("ME5_Master: Entered")
 
 -- The build version. Valid settings are "production", "release"
 MEU_BuildVer		= "production"
-MEU_BuildNum		= "40201/06"
+MEU_BuildNum		= "40216/06"
 MEU_ReleaseNum		= 6
 MEU_VersionNum		= "1.3"
 
@@ -55,7 +55,7 @@ ME5_ShieldRegen			= nil
 ME5_SideVar				= nil
 ME5_SolMapMusic			= nil
 
-gCurrentMapManager	= nil
+gCurrentMapManager			= nil
 
 --mapSize				= nil
 MEU_GameMode		= MEU_GameMode or nil
@@ -194,6 +194,9 @@ MAX_COL_HERO_COUNT			= 1		-- Number of Collector heroes.
 MAX_EVG_HERO_COUNT			= 2		-- Number of Evolved Geth heroes.
 MAX_SHEP_CLASS_COUNT		= 6		-- Number of Shepard's unit classes.
 MAX_SHEP_GENDER_COUNT		= 1		-- Number of Shepard's genders.
+
+MAX_FLAG_ITEM_COUNT			= 512		-- Number of FlagItem entities.
+MAX_PORTABLE_TURRET_COUNT	= 100		-- Number of PortableTurret entities.
 
 
 -- Declare global enum variables

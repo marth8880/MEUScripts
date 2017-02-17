@@ -142,8 +142,6 @@ function ScriptInit()
 	SetMemoryPoolSize("EntityLight", 25)
 	SetMemoryPoolSize("EntitySoundStatic", 95)
 	SetMemoryPoolSize("EntitySoundStream", 4)
-	SetMemoryPoolSize("FlagItem", 512)
-	SetMemoryPoolSize("MountedTurret", 6)
 	SetMemoryPoolSize("Navigator", 39)
 	SetMemoryPoolSize("Obstacle", 937)
 	SetMemoryPoolSize("PathFollower", 39)
@@ -155,14 +153,8 @@ function ScriptInit()
 	SetMemoryPoolSize("UnitAgent", 39)
 	SetMemoryPoolSize("UnitController", 39)
 	SetMemoryPoolSize("Weapon", weaponCnt)
+	manager:Proc_ScriptInit_MemoryPoolInit()
 	
-	--	Attacker Stats
-	SetTeamAsFriend(ATT, 3)
-
-
-	--	Defender Stats
-	SetTeamAsEnemy(DEF, 3)
-
 	SetSpawnDelay(10.0, 0.25)
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\end1.lvl", "end1_1flag")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\minimap.lvl;end1")

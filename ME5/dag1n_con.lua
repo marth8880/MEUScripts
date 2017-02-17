@@ -138,8 +138,6 @@ function ScriptInit()
     SetMemoryPoolSize("EntityFlyer", 6) -- to account for rocket upgrade
     SetMemoryPoolSize("EntitySoundStream", 12)
     SetMemoryPoolSize("EntitySoundStatic", 1)
-	SetMemoryPoolSize("FlagItem", 512)
-    SetMemoryPoolSize("MountedTurret", 10)
     SetMemoryPoolSize("Navigator", 50)
     SetMemoryPoolSize("Obstacle", 219)
     SetMemoryPoolSize("PathFollower", 50)
@@ -150,6 +148,7 @@ function ScriptInit()
     SetMemoryPoolSize("UnitAgent", 50)
     SetMemoryPoolSize("UnitController", 50)
     SetMemoryPoolSize("Weapon", weaponCnt)
+	manager:Proc_ScriptInit_MemoryPoolInit()
 
     SetSpawnDelay(10.0, 0.25)
     ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\dag1.lvl", "dag1_conquest", "dag1_cw") -- *****
