@@ -29,12 +29,12 @@ print("ME5_LowHealthFeedback: Entered")
 -- Sets up the event responses for low health feedback.
 -- 
 function Init_LowHealthFeedback()	-- TODO: fix low health vignette
-		print("ME5_LowHealthFeedback.Init_LowHealthFeedback(): Entered")
+	print("ME5_LowHealthFeedback.Init_LowHealthFeedback(): Entered")
 	if not ScriptCB_InMultiplayer() then
 		if ME5_LowHealthSound == 0 then
-				print("ME5_LowHealthFeedback.Init_LowHealthFeedback(): Initializing low health sound setting for DISABLED...")
+			print("ME5_LowHealthFeedback.Init_LowHealthFeedback(): Initializing low health sound setting for DISABLED...")
 		elseif ME5_LowHealthSound == 1 then
-				print("ME5_LowHealthFeedback.Init_LowHealthFeedback(): Initializing low health sound setting for ENABLED...")
+			print("ME5_LowHealthFeedback.Init_LowHealthFeedback(): Initializing low health sound setting for ENABLED...")
 			
 			--===============================
 			-- Initialization logic
@@ -49,19 +49,21 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 			ScriptCB_SndBusFade("lowhealth", 0.0, 0.0)
 			
 			-- Play heartbeat sound stream
-			PlayAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl", 
-								"organic_lowhealth_streaming", "heartbeat_segment", 1.0, "lowhealth", lowHealthStream)
+			--[[PlayAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl", 
+								"organic_lowhealth_streaming", "heartbeat_segment", 1.0, "lowhealth", lowHealthStream)]]
 			
 			LH_bIsLowHealthSoundPlaying = false	-- Is the low health sound playing?
 			LH_playerHealthThreshold = 0.35		-- Under what health percentage should the low health sound be active?
-			local Iamhuman = nil				-- Pointer for human player.
+			local Iamhuman = nil				-- Pointer for human player
 			local bIsPlayerCorrectClass = false	-- Is the player the correct class?
+			local bIsPlayerSynthClass = false	-- Is the player a synthetic class?
 			local bIsSpawnScreenActive = false	-- Is the spawn screen active?
-			local timerCount	= 0				-- How many timers exist?
-			local busEndGain	= 0.15			-- What is the end gain for the audio bus?
-			local busFadeTime	= 1.0			-- What is the duration of the bus fade?
-			local playerMaxHealth = 0			-- What is the player's health when they spawn?
-			local ignoreClasses = {
+			local lowhealthStreamIndex = nil	-- Index of low health sound stream
+			local timerCount	= 0				-- Number of timers that exist
+			local busEndGain	= 0.15			-- End gain for audio bus
+			local busFadeTime	= 1.0			-- Duration of bus fade in seconds
+			local playerMaxHealth = 0			-- Player's health when they spawn
+			local synthClasses = {
 					"gth_inf_destroyer",
 					"gth_inf_hunter",
 					"gth_inf_juggernaut",
@@ -95,7 +97,8 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 					"gth_ev_inf_hunter_shield",
 					"gth_ev_inf_pyro_shield",
 					"gth_ev_inf_juggernaut_shield",
-					"gth_ev_inf_juggernaut_online_shield",
+					"gth_ev_inf_juggernaut_online_shield" }
+			local ignoreClasses = {
 					"gth_hero_prime_me2",
 					"gth_hero_prime_me3",
 					"ssv_hero_jack",					-- don't let hero units have the effect either
@@ -117,8 +120,9 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 			SetTimerValue(meu_lowhealth_scr_rspwn, 1)
 			meu_lowhealth_timer_elapse = OnTimerElapse(
 				function(timer)
-						print("Init_LowHealthFeedback: Timer 'meu_lowhealth_scr_rspwn' has elapsed")
-						print("Init_LowHealthFeedback: Stopping timer...")
+					print("Init_LowHealthFeedback: Timer 'meu_lowhealth_scr_rspwn' has elapsed")
+					print("Init_LowHealthFeedback: Stopping timer...")
+					
 					StopTimer(meu_lowhealth_scr_rspwn)
 					ifs_lowhealth_vignette.TimerType = false
 					ScriptCB_PushScreen("ifs_lowhealth_vignette")
@@ -128,13 +132,65 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 			
 			
 			--===============================
+			-- Local Functions
+			--===============================
+			
+			---
+			-- Call this to start playing the low health sound stream.
+			-- @param #string type		Type of being whose low health sound stream we're playing ("organic" or "synthetic")
+			-- 
+			local function StartLowHealthSound(type)
+				print("Init_LowHealthFeedback.StartLowHealthSound(): Entered")
+				
+				-- Type must be specified
+				if not type then return end
+				
+				local streamID = nil
+				local segmentID = nil
+				local gain = 1.0
+				
+				-- Which type of being is the player's character?
+				if type == "organic" then
+					streamID = "organic_lowhealth_streaming"
+					segmentID = "heartbeat_segment"
+					gain = 1.0
+					
+				elseif type == "synthetic" then
+					streamID = "synthetic_lowhealth_streaming"
+					segmentID = "synthetic_segment"
+					gain = 0.6
+				end
+				
+				if streamID == nil then return end
+				if segmentID == nil then return end
+				
+				-- Play low health sound stream
+				lowhealthStreamIndex = PlayAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl", 
+														streamID, segmentID, gain, "lowhealth", lowHealthStream)
+			end
+			
+			---
+			-- Call this to stop playing the low health sound stream.
+			-- 
+			local function StopLowHealthSound()
+				print("Init_LowHealthFeedback.StopLowHealthSound(): Entered")
+				
+				-- Only attempt to stop the stream if it's been started (prevents crashes, because Pandemic apparently didn't know how to include error-handling worth a damn)
+				if lowhealthStreamIndex ~= nil then
+					StopAudioStream(lowhealthStreamIndex, 0)
+					lowhealthStreamIndex = nil
+				end
+			end
+			
+			
+			--===============================
 			-- Event responses
 			--===============================
 			
 			--[[local testcheckhumanchangeclass = OnCharacterChangeClass(
 				function(player)
 					if IsCharacterHuman(player) then
-							print("Init_LowHealthFeedback: testcheckhumanchangeclass()")
+						print("Init_LowHealthFeedback: testcheckhumanchangeclass()")
 						if isSpawnScreenActive == false then
 							isSpawnScreenActive = true
 						elseif isSpawnScreenActive == true then
@@ -142,15 +198,16 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 						end
 						
 						if ifs_lowhealth_vignette.TimerMngr > 0 and isSpawnScreenActive == false then
-								print("Init_LowHealthFeedback: Starting timer 'meu_lowhealth_scr_rspwn'")
+							print("Init_LowHealthFeedback: Starting timer 'meu_lowhealth_scr_rspwn'")
 							
 							meu_lowhealth_scr_rspwn_..timerCount = CreateTimer("meu_lowhealth_scr_rspwn")
 							SetTimerValue(meu_lowhealth_scr_rspwn_..timerCount, 0.5)
 							StartTimer(meu_lowhealth_scr_rspwn_..timerCount)
 							OnTimerElapse(
 								function(timer)
-										print("Init_LowHealthFeedback: Timer 'meu_lowhealth_scr_rspwn_"..timerCount.."' has elapsed")
-										print("Init_LowHealthFeedback: Stopping timer...")
+									print("Init_LowHealthFeedback: Timer 'meu_lowhealth_scr_rspwn_"..timerCount.."' has elapsed")
+									print("Init_LowHealthFeedback: Stopping timer...")
+									
 									StopTimer(meu_lowhealth_scr_rspwn_..timerCount)
 									ifs_lowhealth_vignette.TimerType = false
 									ScriptCB_PushScreen("ifs_lowhealth_vignette")
@@ -191,9 +248,9 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 							end]]
 						--end
 						
-						-- For each synthetic class,
+						-- For each hero class,
 						for i=1, table.getn(ignoreClasses) do
-							-- Is the player a non-synthetic class?
+							-- Is the player a hero class?
 							if GetEntityClass(Iamhuman) == FindEntityClass( ignoreClasses[i] ) then
 								bIsPlayerCorrectClass = false
 							else
@@ -202,6 +259,28 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 							
 							-- Break out of the loop if wrong class
 							if bIsPlayerCorrectClass == false then break end
+						end
+						
+						-- For each synthetic class,
+						for i=1, table.getn(synthClasses) do
+							-- Is the player a synthetic class?
+							if GetEntityClass(Iamhuman) == FindEntityClass( synthClasses[i] ) then
+								bIsPlayerSynthClass = true
+							else
+								bIsPlayerSynthClass = false
+							end
+							
+							-- Break out of the loop if synth class
+							if bIsPlayerSynthClass == true then break end
+						end
+						
+						-- Play heartbeat sound stream
+						if bIsPlayerCorrectClass == true then
+							if bIsPlayerSynthClass == false then
+								StartLowHealthSound("organic")
+							else
+								StartLowHealthSound("synthetic")
+							end
 						end
 						
 						-- Is the low health sound playing?
@@ -268,7 +347,7 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 									
 									-- Is the player the correct class?
 									if bIsPlayerCorrectClass == true then
-											--print("Init_LowHealthFeedback: Player is correct class")
+										--print("Init_LowHealthFeedback: Player is correct class")
 										
 										-- Activate our ifs screen
 										--ScriptCB_PushScreen("ifs_lowhealth_vignette")
@@ -327,6 +406,9 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 						--if isSoundPlaying == true then
 							-- Deactivate the low health sound
 							LH_bIsLowHealthSoundPlaying = false
+							
+							-- Stop playing the sound stream
+							StopLowHealthSound()
 							
 							-- remove our ifs screen
 							--ifs_lowhealth_vignette.Timer = 10
