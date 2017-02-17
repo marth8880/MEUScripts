@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Damage Feedback Script by Aaron Gilbert
--- Build 31205/06
+-- Build 40216/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Dec 5, 2016
+-- Feb 16, 2017
 -- Copyright (c) 2017, Aaron Gilbert All rights reserved.
 -- 
 -- About:
@@ -30,7 +30,9 @@ print("ME5_DamageFeedback: Entered")
 -- INITIALIZE TABLES
 --==========================
 
--- COL ballistic weapons.
+-- TODO: make sure to update these tables when adding new weapons/units/vehicles!
+
+-- Ballistic weapons.
 local ballisticWeapons = {
 				"col_weap_inf_rifle_col",
 				"col_weap_inf_rifle_col_colgen",
@@ -58,6 +60,7 @@ local ballisticWeapons = {
 				"indoc_weap_inf_rifle_phaeston",
 				
 				"ssv_weap_fly_a61_gunship_gun",
+				"ssv_weap_fly_a61_gunship_missile_launcher",
 				"ssv_weap_inf_heavy_spitfire",
 				"ssv_weap_inf_pistol_m3",
 				"ssv_weap_inf_pistol_m3_armor",
@@ -132,6 +135,9 @@ local ballisticWeapons_COL = {
 local ballisticWeapons_EVG = {
 				"gth_weap_bldg_assaultdrone",
 				"gth_weap_bldg_gethturret",
+				"gth_weap_inf_heavy_ml77",
+				"gth_weap_inf_heavy_ml77b",
+				"gth_weap_inf_heavy_pulsecannon",
 				"gth_weap_inf_heavy_spitfire",
 				"gth_weap_inf_rifle_m76",
 				"gth_weap_inf_rifle_m76_boss",
@@ -149,6 +155,11 @@ local ballisticWeapons_EVG = {
 local ballisticWeapons_GTH = {
 				"gth_weap_bldg_assaultdrone",
 				"gth_weap_bldg_gethturret",
+				"gth_weap_inf_heavy_distortion",
+				"gth_weap_inf_heavy_ml77",
+				"gth_weap_inf_heavy_ml77b",
+				"gth_weap_inf_heavy_pulsecannon",
+				"gth_weap_inf_heavy_scram",
 				"gth_weap_inf_heavy_spitfire",
 				"gth_weap_inf_rifle_m76",
 				"gth_weap_inf_rifle_m76_boss",
@@ -170,7 +181,10 @@ local ballisticWeapons_INDOC = {
 
 -- SSV ballistic weapons.
 local ballisticWeapons_SSV = {
-				"ssv_weap_fly_a61_gunship_gun",
+				"ssv_weap_inf_heavy_m100",
+				"ssv_weap_inf_heavy_ml77",
+				"ssv_weap_inf_heavy_ml77b",
+				"ssv_weap_inf_heavy_spitfire",
 				"ssv_weap_inf_pistol_m3_incendiary",
 				"ssv_weap_inf_pistol_m5",
 				"ssv_weap_inf_pistol_m6",
@@ -181,9 +195,6 @@ local ballisticWeapons_SSV = {
 				"ssv_weap_inf_smg_m9_disruptor",
 				"ssv_weap_inf_smg_m12",
 				"ssv_weap_inf_sniper_m92_armor",
-				"ssv_weap_tread_mako_cannon",
-				"ssv_weap_tread_mako_driver_cannon",
-				"ssv_weap_tread_mako_gun",
 }
 
 -- SSV hero ballistic weapons.
@@ -307,6 +318,15 @@ local ballisticWeapons_TUR = {
 				"tur_weap_laser",
 }
 
+-- Vehicle ballistic weapons (for vehicles that any team can pilot).
+local ballisticWeapons_VEH = {
+				"ssv_weap_fly_a61_gunship_gun",
+				"ssv_weap_fly_a61_gunship_missile_launcher",
+				"ssv_weap_tread_mako_cannon",
+				"ssv_weap_tread_mako_driver_cannon",
+				"ssv_weap_tread_mako_gun",
+}
+
 
 --==========================
 -- MERGE TABLES
@@ -326,6 +346,16 @@ if table.getn(ballisticWeapons_TUR) > 0 then
 		table.insert(ballisticWeapons_EVG, ballisticWeapons_TUR[i])
 		table.insert(ballisticWeapons_GTH, ballisticWeapons_TUR[i])
 		table.insert(ballisticWeapons_SSV, ballisticWeapons_TUR[i])
+	end
+end
+
+-- Merge the VEH table with each faction's table
+if table.getn(ballisticWeapons_VEH) > 0 then
+	for i in ipairs(ballisticWeapons_VEH) do
+		table.insert(ballisticWeapons_COL, ballisticWeapons_VEH[i])
+		table.insert(ballisticWeapons_EVG, ballisticWeapons_VEH[i])
+		table.insert(ballisticWeapons_GTH, ballisticWeapons_VEH[i])
+		table.insert(ballisticWeapons_SSV, ballisticWeapons_VEH[i])
 	end
 end
 
