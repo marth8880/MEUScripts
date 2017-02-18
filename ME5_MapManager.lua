@@ -413,6 +413,9 @@ function MapManager:Proc_ScriptInit_Begin()
 		-- Purge the stock HUD textures
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_purge_bmp.lvl")
 		
+		-- Purge the stock objective markers
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_purge_obj_marker.lvl;stock")
+		
 		-- Load the new custom HUD and the objective screen text based on the game mode
 		-- What is the active game mode? (NOTE: This is set near the beginning of each game mode's objective script)
 		if self.gameMode == "1flag" then
@@ -470,7 +473,17 @@ function MapManager:Proc_ScriptInit_Begin()
 		
 		-- Load the new onscreen pointer textures
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamehud.lvl")
+	
+		-- Is the game mode conquest or siege?
+		if self.gameMode == "conquest" or "siege" then
+			-- Purge the stock objective markers
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_purge_obj_marker.lvl;stock")
+			
+			-- Load the Conquest objective markers
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_stock_conquest.lvl")
+		end
 	end
+	
 	
 	-- Calculate the aspect ratio
 	if aspectRatio <= 1.4 then
@@ -525,9 +538,11 @@ function MapManager:Proc_ScriptInit_Begin()
 	
 	-- Is this a non-conquest/non-siege match?
 	if self.gameMode ~= "conquest" and self.gameMode ~= "siege" then
-		-- Load the normal objective marker icons
+		-- Purge the Conquest objective marker icons
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_purge_obj_marker.lvl")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_obj_marker.lvl")
+		
+		-- Load the normal objective marker icons
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_obj_marker_stock.lvl")
 	end
 	
 	--==========================
