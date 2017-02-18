@@ -57,6 +57,8 @@ manager = MapManager:New{
 	},
 	terrainType = "dirt",
 }
+-- Initialize the MapManager
+manager:Init()
 
 if not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
