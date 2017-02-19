@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Combat Manager Script by Aaron Gilbert
--- Build 30502/06
+-- Build 40218/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- May 2, 2016
+-- Feb 18, 2017
 -- Copyright (c) 2017, Aaron Gilbert All rights reserved.
 -- 
 -- About:
@@ -223,8 +223,8 @@ function WaveSequence:Start(combatZoneID, musicID)
 				local charTeam = GetCharacterTeam(player)
 				
 				-- Was the killed object an enemy unit?
-		    	if killer and ((charTeam == GethPawns) or (charTeam == GethTacticals) or (charTeam == GethHeavys) or (charTeam == GethSpecials) or (charTeam == GethPrimes)) then
-		    	
+		    	if ((charTeam == GethPawns) or (charTeam == GethTacticals) or (charTeam == GethHeavys) or (charTeam == GethSpecials) or (charTeam == GethPrimes)) then
+		    		
 					-- Is debug messages enabled?
 					if self.bDebug == true then
 						ShowMessageText("level.EUR.debug.comzone_kill", REP)
@@ -607,7 +607,7 @@ function CombatWave:Start()
 				local charTeam = GetCharacterTeam(player)
 				
 				-- Was the killed object an enemy unit?
-		    	if killer and ((charTeam == GethPawns) or (charTeam == GethTacticals) or (charTeam == GethHeavys) or (charTeam == GethSpecials) or (charTeam == GethPrimes)) then
+		    	if ((charTeam == GethPawns) or (charTeam == GethTacticals) or (charTeam == GethHeavys) or (charTeam == GethSpecials) or (charTeam == GethPrimes)) then
 					
 					-- Decrement enemies remaining
 					self.enemiesRemaining = self.enemiesRemaining - 1
