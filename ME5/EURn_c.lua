@@ -1948,7 +1948,7 @@ function ScriptPostLoad()
 		end
 	)
 	
-	
+	-- Whenever the player dies
 	playerdeath = OnCharacterDeath(
 		function(character)
 			if IsCharacterHuman(character) then
@@ -1959,7 +1959,7 @@ function ScriptPostLoad()
 	)
 	
 	
-	-- Event response for when the player's lost their final life
+	-- When the player's lost their final life
 	playerdefeat = OnTicketCountChange(
 		function(team, count)
 			-- Is the player out of lives?
@@ -1981,7 +1981,7 @@ function ScriptPostLoad()
     -- Play spawn menu music
     ScriptCB_PlayInGameMusic("eur_amb_01a_briefing")
 	        	
-	--SetRespawnPointPlayer("ps_start_shuttle4")	-- DEBUG
+	--SetRespawnPointPlayer("ps_start_shuttle_ext")	-- DEBUG
 	
     onfirstspawn = OnCharacterSpawn(
 	    function(character)
@@ -3651,23 +3651,26 @@ function OpenShuttleDoor()
 end
 
 function BeginOpeningCinematic()
-	print("EURn_c.BeginCinematic: Entered")
+	print("EURn_c.BeginOpeningCinematic: Entered")
 	
-	local briefingVO = {"EUR_brief_1a", 
-						"EUR_brief_1b", 
-						"EUR_brief_2a", 
-						"EUR_brief_2b", 
-						"EUR_brief_2c", 
-						"EUR_brief_2d", 
-						"EUR_brief_3a", 
-						"EUR_brief_3b", 
-						"EUR_brief_3c", 
-						"EUR_brief_3d", 
-						"EUR_brief_4a", 
-						"EUR_brief_4b", 
-						"EUR_brief_4c"}
+	local briefingVO = {
+							"EUR_brief_1a", 
+							"EUR_brief_1b", 
+							"EUR_brief_2a", 
+							"EUR_brief_2b", 
+							"EUR_brief_2c", 
+							"EUR_brief_2d", 
+							"EUR_brief_3a", 
+							"EUR_brief_3b", 
+							"EUR_brief_3c", 
+							"EUR_brief_3d", 
+							"EUR_brief_4a", 
+							"EUR_brief_4b", 
+							"EUR_brief_4c", 
+						}
 	
-	local voDurations = {	9.5, 	-- 1a
+	local voDurations = {
+							9.5, 	-- 1a
 							10.5, 	-- 1b
 							12.0, 	-- 2a
 							7.5, 	-- 2b
@@ -3679,7 +3682,8 @@ function BeginOpeningCinematic()
 							6.0, 	-- 3d
 							5.5, 	-- 4a
 							7.0, 	-- 4b
-							3.0}	-- 4c
+							3.0,	-- 4c
+						}
 	
 	---
 	-- Call this to play the briefing VO based on index /id/ in the array /briefingVO/.
@@ -4206,6 +4210,7 @@ function BeginOpeningCinematic()
 		
 	end
 	
+	
 	--========================
 	-- TRANSITIONS START
 	--========================
@@ -4446,6 +4451,7 @@ function ScriptInit()
 	AISnipeSuitabilityDist(40)
 	SetAttackerSnipeRange(35)
 	SetDefenderSnipeRange(45)
+    
     
     --
     -- Sides setup begin
