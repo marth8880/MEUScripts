@@ -384,23 +384,31 @@ function MapManager:Proc_ScriptInit_Begin()
 		-- Load MEU's ingame.lvl
 		if not ScriptCB_InMultiplayer() then
 			if ME5_SideVar == 1 then
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_SSVxGTH")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxGTH.lvl")
 			elseif ME5_SideVar == 2 then
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_SSVxCOL")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxCOL.lvl")
 			elseif ME5_SideVar == 3 then
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxGTH")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_EVGxGTH.lvl")
 			elseif ME5_SideVar == 4 then
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxCOL")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_EVGxCOL.lvl")
 			end
 		else
 			if self.onlineSideVar == "SSVxGTH" or self.onlineSideVar == 1 then
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_SSVxGTH")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxGTH.lvl")
 			elseif self.onlineSideVar == "SSVxCOL" or self.onlineSideVar == 2 then
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_SSVxCOL")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxCOL.lvl")
 			elseif self.onlineSideVar == "EVGxGTH" or self.onlineSideVar == 3 then
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxGTH")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_EVGxGTH.lvl")
 			elseif self.onlineSideVar == "EVGxCOL" or self.onlineSideVar == 4 then
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxCOL")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_EVGxCOL.lvl")
 			end
 		end
     	
@@ -419,19 +427,26 @@ function MapManager:Proc_ScriptInit_Begin()
 		-- Load the new custom HUD and the objective screen text based on the game mode
 		-- What is the active game mode? (NOTE: This is set near the beginning of each game mode's objective script)
 		if self.gameMode == "1flag" then
-			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_1flag")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_mode_1flag.lvl")
 		elseif self.gameMode == "conquest" then
-			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_con")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_mode_con.lvl")
 		elseif self.gameMode == "ctf" then
-			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_ctf")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_mode_ctf.lvl")
 		elseif self.gameMode == "siege" then
-			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_siege")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_mode_siege.lvl")
 		elseif self.gameMode == "survival" then
-			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_surv")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_mode_surv.lvl")
 		elseif self.gameMode == "tdm" then
-			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_tdm")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_mode_tdm.lvl")
 		elseif self.gameMode == "campaign" then
-			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl;hud_mode_campaign")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_mode_campaign.lvl")
 		else
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud.lvl")
 		end
@@ -445,23 +460,31 @@ function MapManager:Proc_ScriptInit_Begin()
 		-- Load MEU's ingame.lvl
 		if not ScriptCB_InMultiplayer() then
 			if ME5_SideVar == 1 then
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_SSVxGTH")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxGTH.lvl")
 			elseif ME5_SideVar == 2 then
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_SSVxCOL")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxCOL.lvl")
 			elseif ME5_SideVar == 3 then
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxGTH")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_EVGxGTH.lvl")
 			elseif ME5_SideVar == 4 then
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxCOL")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_EVGxCOL.lvl")
 			end
 		else
 			if self.onlineSideVar == "SSVxGTH" or self.onlineSideVar == 1 then
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_SSVxGTH")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxGTH.lvl")
 			elseif self.onlineSideVar == "SSVxCOL" or self.onlineSideVar == 2 then
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_SSVxCOL")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxCOL.lvl")
 			elseif self.onlineSideVar == "EVGxGTH" or self.onlineSideVar == 3 then
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxGTH")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_EVGxGTH.lvl")
 			elseif self.onlineSideVar == "EVGxCOL" or self.onlineSideVar == 4 then
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl;ingame_EVGxCOL")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_EVGxCOL.lvl")
 			end
 		end
     	
