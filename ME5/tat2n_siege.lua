@@ -204,11 +204,10 @@ function ScriptInit()
 
 
     --  Sound Stats
-    
-    OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\Sound\\SFL_TAT2_Streaming.lvl",  "TAT_ambiance")	-- TODO: merge this with SFL_s_TAT_Streaming.lvl!
 
 	manager:Proc_ScriptInit_MusicSetup()
 	
+	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_TAT_Streaming.lvl",  "tat2")
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_TAT_Streaming.lvl",  "tat2")
 	
 	SoundFX()
