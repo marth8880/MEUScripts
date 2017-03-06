@@ -13,26 +13,37 @@ manager = MapManager:New{
 	-- Map-specific details
 	bIsModMap = true,
 	gameMode = "ctf",
-	mapSize = "xs",
-	environmentType = "urban",
+	mapSize = "med",
+	environmentType = "jungle",
 	
 	-- In-game music
-	musicVariation_SSVxGTH = "3_vrm",
-	musicVariation_SSVxCOL = "5",
-	musicVariation_EVGxGTH = "9",
-	musicVariation_EVGxCOL = "9",
+	musicVariation_SSVxGTH = "3_vrm",		-- Music variation to use for SSVxGTH matches.
+	musicVariation_SSVxCOL = "5",		-- Music variation to use for SSVxCOL matches.
+	musicVariation_EVGxGTH = "9",		-- Music variation to use for EVGxGTH matches.
+	musicVariation_EVGxCOL = "9",		-- Music variation to use for EVGxCOL matches.
 	
 	-- Online matches
-	onlineSideVar = "SSVxGTH",
-	onlineHeroSSV = "shep_vanguard",
-	onlineHeroGTH = "gethprime_me2",
-	onlineHeroCOL = "colgeneral",
-	onlineHeroEVG = "gethprime_me3",
+	onlineSideVar = "SSVxGTH",			-- Faction combination to use in online matches.
+	onlineHeroSSV = "shep_engineer",	-- SSV hero to use in online matches.
+	onlineHeroGTH = "gethprime_me2",	-- GTH hero to use in online matches.
+	onlineHeroCOL = "colgeneral",		-- COL hero to use in online matches.
+	onlineHeroEVG = "gethprime_me3",	-- EVG hero to use in online matches.
 	
-	-- AI hero spawns. CP name, CP spawn path name
+	-- AI hero spawns (required). CP name, CP spawn path name
 	heroSupportCPs = {},
-	-- Local ally spawns. CP name, CP spawn path name
+	-- Local ally spawns (required). CP name, CP spawn path name
 	allySpawnCPs = {},
+	
+	-- Artillery strike path nodes (required only if artillery strikes are desired). Path name, path node ID
+	artilleryNodes = {
+				{"cp1_spawn", 0},
+				{"cp2_spawn", 0},
+				{"cp3_spawn", 0},
+				--{"cp4_spawn", 0},
+				{"cp5_spawn", 0},
+				{"cp6_spawn", 0},
+	},
+	terrainType = "dirt",	-- Type of terrain in the map ("dirt, "sand", or "snow") (required if `artilleryNodes` is specified).
 }
 -- Initialize the MapManager
 manager:Init()
@@ -46,7 +57,7 @@ else
 	CIS = 2
 end
 
-HuskTeam = 3
+HuskTeam = 3	-- The husk team (required, name cannot be changed)
 
 ATT = 1
 DEF = 2
@@ -64,20 +75,17 @@ function ScriptPostLoad()
     SetClassProperty("com_item_flag", "DroppedColorize", 1)
 
     --This is all the actual ctf objective setup
-		print("start ctf objective")
-    ctf = ObjectiveCTF:New{teamATT = REP, teamDEF = CIS, captureLimit = 5, textATT = "game.modes.ctf", textDEF = "game.modes.ctf2", hideCPs = true, multiplayerRules = true}
-    ctf:AddFlag{name = "flag1", homeRegion = "ctf_team1_capture", captureRegion = "ctf_team2_capture",
-                capRegionMarker = "hud_objective_icon_circle", capRegionMarkerScale = 3.0, 
-                icon = "", mapIcon = "flag_icon", mapIconScale = 3.0}
-    ctf:AddFlag{name = "flag2", homeRegion = "ctf_team2_capture", captureRegion = "ctf_team1_capture",
-                capRegionMarker = "hud_objective_icon_circle", capRegionMarkerScale = 3.0, 
-                icon = "", mapIcon = "flag_icon", mapIconScale = 3.0}
-		print("end ctf objective")
-	ctf:Start()
+    ctf = ObjectiveCTF:New{teamATT = ATT, teamDEF = DEF, textATT = "game.modes.ctf", textDEF = "game.modes.ctf2", hideCPs = true, multiplayerRules = true}
+    ctf:AddFlag{name = "flag1", homeRegion = "team1_capture", captureRegion = "team2_capture"}
+    ctf:AddFlag{name = "flag2", homeRegion = "team2_capture", captureRegion = "team1_capture"}
+    ctf:Start()
 	
     EnableSPHeroRules()
 	
 	manager:Proc_ScriptPostLoad_End()
+
+    BlockPlanningGraphArcs("ConnectionCave")
+    --DisableBarriers("BarrierCave")
     
 end
 
@@ -92,37 +100,31 @@ end
 --              it is called from C to start the mission.
 ---------------------------------------------------------------------------
 function ScriptInit()
-    
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\pro.lvl")
+	-- Load our loadscreen
+	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\AEI.lvl")
 	
 	SetMemoryPoolSize("ParticleTransformer::ColorTrans", 2188)
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1293)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1409)
 	
 	manager:Proc_ScriptInit_Begin()
-   
-    SetMaxFlyHeight(16)
-    SetMaxPlayerFlyHeight(16)
-	AISnipeSuitabilityDist(55)
-	SetAttackerSnipeRange(75)
-	SetDefenderSnipeRange(100)
-    
-    SetMemoryPoolSize ("ClothData",20)
-    SetMemoryPoolSize ("Combo",50)              -- should be ~ 2x number of jedi classes
-    SetMemoryPoolSize ("Combo::State",650)      -- should be ~12x #Combo
-    SetMemoryPoolSize ("Combo::Transition",650) -- should be a bit bigger than #Combo::State
-    SetMemoryPoolSize ("Combo::Condition",650)  -- should be a bit bigger than #Combo::State
-    SetMemoryPoolSize ("Combo::Attack",550)     -- should be ~8-12x #Combo
-    SetMemoryPoolSize ("Combo::DamageSample",6000)  -- should be ~8-12x #Combo::Attack
-    SetMemoryPoolSize ("Combo::Deflect",100)     -- should be ~1x #combo  
-    
 	
+	SetMaxFlyHeight(45)
+	SetMaxPlayerFlyHeight(45)
+	
+	AISnipeSuitabilityDist(60)
+	SetAttackerSnipeRange(90)
+	SetDefenderSnipeRange(150)
+    
+    SetMemoryPoolSize("ClothData", 20)
+    
+    
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\me5tur.lvl",
 					"tur_bldg_mturret")
 					
 	manager:Proc_ScriptInit_SideSetup()
 	
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_PRO_Streaming.lvl")
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_AEI_Streaming.lvl")
 	
     --  Level Stats
     ClearWalkers()
@@ -142,8 +144,9 @@ function ScriptInit()
     SetMemoryPoolSize("EntitySoundStream", 16)
     SetMemoryPoolSize("EntitySoundStatic", 20)
 	SetMemoryPoolSize("Navigator", 49)
-    SetMemoryPoolSize("Obstacle", 760)
+    SetMemoryPoolSize("Obstacle", 969)
 	SetMemoryPoolSize("PathNode", 512)
+    SetMemoryPoolSize("SoldierAnimation", 433)
     SetMemoryPoolSize("SoundSpaceRegion", 46)
     SetMemoryPoolSize("TreeGridStack", 500)
 	SetMemoryPoolSize("UnitAgent", 49)
@@ -152,26 +155,25 @@ function ScriptInit()
 	manager:Proc_ScriptInit_MemoryPoolInit()
     
     SetSpawnDelay(10.0, 0.25)
-    ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\PRO.lvl", "PRO_ctf")
-    SetDenseEnvironment("false")
+    ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\AEI.lvl", "AEI_ctf")
+	SetDenseEnvironment("true")
 	
 	
     --  Sound
-    
+	
+	-- Open our map-specific ambient sound streams
+	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\Sound\\SFL_AEI_Streaming.lvl",  "AEI_ambiance")
+	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\Sound\\SFL_AEI_Streaming.lvl",  "AEI_ambiance")
+
+	-- Set up music
 	manager:Proc_ScriptInit_MusicSetup()
-	
-	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_PRO_Streaming.lvl",  "PRO_ambiance")
-	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_PRO_Streaming.lvl",  "PRO_ambiance")
 
+	-- Set up common sound stuff
     SoundFX()
-
-
--- Opening Satellite Shots
-	AddCameraShot(0.978525, -0.037464, 0.202548, 0.007755, 25.577356, 5.990258, -14.311792);
-	AddCameraShot(-0.227115, 0.008059, -0.973222, -0.034536, 26.382149, 5.990258, -122.364380);
-	AddCameraShot(0.013350, -0.001503, -0.993636, -0.111838, -7.550848, 2.605920, -82.578865);
-	AddCameraShot(0.447179, 0.042278, -0.889478, 0.084095, -5.463669, 4.427572, -117.635323);
-	AddCameraShot(0.005516, 0.001051, -0.982325, 0.187099, 10.208848, 0.576734, -125.363136);
 	
+	-- Camera Stats
+	AddCameraShot(0.838758, 0.075338, -0.537106, 0.048243, -353.748444, 9.739037, -109.525169);
+	
+	-- Perform various post-load operations
 	manager:Proc_ScriptInit_End()
 end
