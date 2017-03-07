@@ -162,7 +162,7 @@ function ScriptInit()
     -- Designers, these two lines *MUST* be first!
     StealArtistHeap(600*1024)
     SetPS2ModelMemory(4100000)
-	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\NOV.lvl")
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\NOV.lvl")
 	
 	SetMemoryPoolSize("ParticleTransformer::ColorTrans", 2520)
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1291)

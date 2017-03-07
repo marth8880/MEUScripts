@@ -125,7 +125,7 @@ end
 ---------------------------------------------------------------------------
 function ScriptInit()
 	-- Load our loadscreen
-	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\AEI.lvl")
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\AEI.lvl")
 	
 	SetMemoryPoolSize("ParticleTransformer::ColorTrans", 2367)
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1380)

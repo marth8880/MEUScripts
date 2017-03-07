@@ -126,7 +126,19 @@ end
 function ScriptInit()
     -- Designers, these two lines *MUST* be first!
     StealArtistHeap(256*1024)
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\edn.lvl")
+    
+	-- Stormy variant
+	if ME5_MapVarEDN == 1 then
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\edn_stormy.lvl")
+		
+	-- Cloudy variant
+	elseif ME5_MapVarEDN == 2 then
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\edn_cloudy.lvl")
+		
+	-- Night variant
+	elseif ME5_MapVarEDN == 3 then
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\edn_night.lvl")
+	end
 	
 	SetMemoryPoolSize("ParticleTransformer::ColorTrans", 2551)
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1532)
