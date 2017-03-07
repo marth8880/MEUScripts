@@ -498,7 +498,7 @@ function MapManager:Proc_ScriptInit_Begin()
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamehud.lvl")
 	
 		-- Is the game mode conquest or siege?
-		if self.gameMode == "conquest" or "siege" then
+		if self.gameMode == "conquest" or self.gameMode == "siege" then
 			-- Purge the stock objective markers
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_purge_obj_marker.lvl;stock")
 			
@@ -520,7 +520,7 @@ function MapManager:Proc_ScriptInit_Begin()
 	-- What is the aspect ratio of the player's display?
 	if aspectRatioStr == "4:3" then
 		print("MapManager:Proc_ScriptInit_Begin(): Aspect Ratio is 4:3, loading scopes as such")
-		if self.gameMode == "conquest" or "siege" then
+		if self.gameMode == "conquest" or self.gameMode == "siege" then
 			print("MapManager:Proc_ScriptInit_Begin(): Game mode is Conquest or Siege ("..self.gameMode.."), also loading CP objective markers")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar43\\ar.lvl;conquest")
 		else
@@ -530,7 +530,7 @@ function MapManager:Proc_ScriptInit_Begin()
 		
 	elseif aspectRatioStr == "16:10" then
 		print("MapManager:Proc_ScriptInit_Begin(): Aspect Ratio is 16:10, loading scopes as such")
-		if self.gameMode == "conquest" or "siege" then
+		if self.gameMode == "conquest" or self.gameMode == "siege" then
 			print("MapManager:Proc_ScriptInit_Begin(): Game mode is Conquest or Siege ("..self.gameMode.."), also loading CP objective markers")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar1610\\ar.lvl;conquest")
 		else
@@ -540,7 +540,7 @@ function MapManager:Proc_ScriptInit_Begin()
 		
 	elseif aspectRatioStr == "16:9" then
 		print("MapManager:Proc_ScriptInit_Begin(): Aspect Ratio is 16:9, loading scopes as such")
-		if self.gameMode == "conquest" or "siege" then
+		if self.gameMode == "conquest" or self.gameMode == "siege" then
 			print("MapManager:Proc_ScriptInit_Begin(): Game mode is Conquest or Siege ("..self.gameMode.."), also loading CP objective markers")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar169\\ar.lvl;conquest")
 		else
@@ -550,7 +550,7 @@ function MapManager:Proc_ScriptInit_Begin()
 		
 	else
 		print("MapManager:Proc_ScriptInit_Begin(): Error! Invalid aspect ratio ("..aspectRatio..")! Defaulting to workaround")
-		if self.gameMode == "conquest" or "siege" then
+		if self.gameMode == "conquest" or self.gameMode == "siege" then
 			print("MapManager:Proc_ScriptInit_Begin(): Game mode is Conquest or Siege ("..self.gameMode.."), also loading CP objective markers")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar.lvl;conquest")
 		else
