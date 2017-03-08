@@ -235,9 +235,7 @@ function ScriptInit()
 	
 	SoundFX()
 
-    --  Camera Stats
-    --Tat 1 - Dune Sea
-    --Crawler
+    -- Camera Stats
     AddCameraShot(0.461189, -0.077838, -0.871555, -0.147098, 85.974007, 30.694353, -66.900795);
     AddCameraShot(0.994946, -0.100380, -0.002298, -0.000232, 109.076401, 27.636383, -10.235785);
     AddCameraShot(0.760383, 0.046402, 0.646612, -0.039459, 111.261696, 27.636383, 46.468048);
@@ -261,6 +259,4 @@ function ScriptInit()
     AddCameraShot(-0.338119, 0.041636, -0.933134, -0.114906, 134.970169, 26.441256, -82.282082);
 	
 	manager:Proc_ScriptInit_End()
-
-
 end
