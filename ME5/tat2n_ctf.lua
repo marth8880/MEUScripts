@@ -62,10 +62,10 @@ function ScriptPostLoad()
 	ctf = ObjectiveCTF:New{teamATT = ATT, teamDEF = DEF, captureLimit = 5,	textATT = "game.modes.ctf", textDEF = "game.modes.ctf2", multiplayerRules = true, hideCPs = true}
 	ctf:AddFlag{name = "ctf_flag1", homeRegion = "flag1_home", captureRegion = "flag2_home",
 			capRegionMarker = "hud_objective_icon_circle", capRegionMarkerScale = 3.0, 
-			icon = "", mapIcon = "flag_icon", mapIconScale = 3.0}
+			icon = "", mapIcon = "flag_icon", mapIconScale = 3.0, regionDummyObject = "ctf_capture1"}
 	ctf:AddFlag{name = "ctf_flag2", homeRegion = "flag2_home", captureRegion = "flag1_home",
 			capRegionMarker = "hud_objective_icon_circle", capRegionMarkerScale = 3.0, 
-			icon = "", mapIcon = "flag_icon", mapIconScale = 3.0}
+			icon = "", mapIcon = "flag_icon", mapIconScale = 3.0, regionDummyObject = "ctf_capture2"}
 
 	SoundEvent_SetupTeams( CIS, 'cis', REP, 'rep' )
 

@@ -98,7 +98,8 @@ function ScriptPostLoad()
                            flagIconScale = 3.0, homeRegion = "HomeRegion",
                            captureRegionATT = "Team2Capture", captureRegionDEF = "Team1Capture",
                            capRegionMarkerATT = "hud_objective_icon_circle", capRegionMarkerDEF = "hud_objective_icon_circle",
-                           capRegionMarkerScaleATT = 3.0, capRegionMarkerScaleDEF = 3.0}             
+                           capRegionMarkerScaleATT = 3.0, capRegionMarkerScaleDEF = 3.0,
+                           capRegionDummyObjectATT = "com_bldg_ctfbase", capRegionDummyObjectDEF = "com_bldg_ctfbase1",}
                            
     ctf:Start()
 	

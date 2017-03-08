@@ -6,14 +6,14 @@ ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
 -- load the gametype script
 ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
-ScriptCB_DoFile("ME5_ObjectiveCTF")
+ScriptCB_DoFile("ME5_ObjectiveOneFlagCTF")
 
 -- Create a new MapManager object
 manager = MapManager:New{
 	-- Map-specific details
-	gameMode = "ctf",
-	mapSize = "sm",
-	environmentType = "urban",
+	gameMode = "1flag",
+	mapSize = "xl",
+	environmentType = "snow",
 	
 	-- In-game music
 	musicVariation_SSVxGTH = "3_nov",
@@ -63,32 +63,30 @@ DEF = 2
 --PostLoad, this is all done after all loading, etc.
 function ScriptPostLoad()
 
-        SoundEvent_SetupTeams( REP, 'rep', CIS, 'cis' )
-		SetProperty("com_item_vehicle_spawn", "SpawnCount", 1)
-		SetProperty("com_item_vehicle_spawn1", "SpawnCount", 0)
-		SetProperty("com_item_vehicle_spawn2", "SpawnCount", 0)
-
---Capture the Flag for stand-alone multiplayer
+	--Capture the Flag for stand-alone multiplayer
                 -- These set the flags geometry names.
                 --GeometryName sets the geometry when hte flag is on the ground
                 --CarriedGeometryName sets the geometry that appears over a player's head that is carrying the flag
-        SetProperty("flag1", "GeometryName", "com_icon_cis_flag")
+        --[[SetProperty("flag1", "GeometryName", "com_icon_cis_flag")
         SetProperty("flag1", "CarriedGeometryName", "com_icon_cis_flag_carried")
         SetProperty("flag2", "GeometryName", "com_icon_republic_flag")
-        SetProperty("flag2", "CarriedGeometryName", "com_icon_republic_flag_carried")
+        SetProperty("flag2", "CarriedGeometryName", "com_icon_republic_flag_carried")]]
 
-                --This makes sure the flag is colorized when it has been dropped on the ground
-        SetClassProperty("com_item_flag_carried", "DroppedColorize", 1)
-
-    --This is all the actual ctf objective setup
-
-    --This is all the actual ctf objective setup
-    ctf = ObjectiveCTF:New{teamATT = ATT, teamDEF = DEF, textATT = "game.modes.ctf", textDEF = "game.modes.ctf2", hideCPs = true, multiplayerRules = true}
-    ctf:AddFlag{name = "flag1", homeRegion = "Team1FlagCapture", captureRegion = "Team2FlagCapture"}
-    ctf:AddFlag{name = "flag2", homeRegion = "Team2FlagCapture", captureRegion = "Team1FlagCapture"}
-    ctf:Start()
+	--This makes sure the flag is colorized when it has been dropped on the ground
+	--SetClassProperty("com_item_flag_carried", "DroppedColorize", 1)
 	
-    EnableSPHeroRules()
+   EnableSPHeroRules()
+   SoundEvent_SetupTeams( REP, 'rep', CIS, 'cis' )
+        --This is the actual objective setup
+    ctf = ObjectiveOneFlagCTF:New{teamATT = 1, teamDEF = 2,
+                           textATT = "game.modes.1flag", textDEF = "game.modes.1flag2", 
+                           captureLimit = 5, flag = "flag", flagIcon = "flag_icon", 
+                           flagIconScale = 3.0, homeRegion = "flag_home",
+                           captureRegionATT = "lag_capture2", captureRegionDEF = "lag_capture1",
+                           capRegionMarkerATT = "hud_objective_icon_circle", capRegionMarkerDEF = "hud_objective_icon_circle",
+                           capRegionMarkerScaleATT = 3.0, capRegionMarkerScaleDEF = 3.0, hideCPs = true, multiplayerRules = true,
+                           capRegionDummyObjectATT = "lag_capture2", capRegionDummyObjectDEF = "lag_capture1",}
+    ctf:Start()
 	
 	manager:Proc_ScriptPostLoad_End()
 	
@@ -98,7 +96,7 @@ function ScriptInit()
      -- Designers, these two lines *MUST* be first!
     StealArtistHeap(550*1024)
 	SetPS2ModelMemory(4130000)
-	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\NOV.lvl")
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\NOV.lvl")
 	
 	SetMemoryPoolSize("ParticleTransformer::ColorTrans", 2183)
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1291)
@@ -109,15 +107,18 @@ function ScriptInit()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl;vehnormal")
 
     SetMapNorthAngle(0)
-    SetMaxFlyHeight(55)
-    SetMaxPlayerFlyHeight (55)
+    SetMaxFlyHeight(40)
+    SetMaxPlayerFlyHeight(40)
 	AISnipeSuitabilityDist(50)
 	SetAttackerSnipeRange(70)
 	SetDefenderSnipeRange(100)
+    
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\me5tur.lvl",
+					"tur_bldg_mturret")
 	
 	manager:Proc_ScriptInit_SideSetup()
 	
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_POL_Streaming.lvl;pol1n")
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_NOV_Streaming.lvl")
 	
 	--  Level Stats
 	ClearWalkers()
@@ -128,42 +129,44 @@ function ScriptInit()
 	local weaponCnt = 200
 	SetMemoryPoolSize("Aimer", 30)
 	SetMemoryPoolSize("AmmoCounter", weaponCnt)
-	SetMemoryPoolSize("BaseHint", 250)
+	SetMemoryPoolSize("BaseHint", 373)
 	SetMemoryPoolSize("EnergyBar", weaponCnt)
+    SetMemoryPoolSize("EntityCloth", 0)
 	SetMemoryPoolSize("EntityHover", 0)
 	SetMemoryPoolSize("EntityLight", 63)
-	SetMemoryPoolSize("EntitySoundStream", 25)
+	SetMemoryPoolSize("EntitySoundStream", 32)
 	SetMemoryPoolSize("EntitySoundStatic", 10)
 	SetMemoryPoolSize("Navigator", 50)
-	SetMemoryPoolSize("Obstacle", 400)
+	SetMemoryPoolSize("Obstacle", 467)
 	SetMemoryPoolSize("PathFollower", 50)
 	SetMemoryPoolSize("PathNode", 200)
+	SetMemoryPoolSize("SoldierAnimation", 403)
 	SetMemoryPoolSize("SoundSpaceRegion", 34)
 	SetMemoryPoolSize("TentacleSimulator", 0)
-	SetMemoryPoolSize("TreeGridStack", 180)
+	SetMemoryPoolSize("TreeGridStack", 243)
 	SetMemoryPoolSize("UnitAgent", 50)
 	SetMemoryPoolSize("UnitController", 50)
 	SetMemoryPoolSize("Weapon", weaponCnt)
-	SetMemoryPoolSize("EntityFlyer", 4)
+	--SetMemoryPoolSize("EntityFlyer", 4)
 	manager:Proc_ScriptInit_MemoryPoolInit()
 
     SetSpawnDelay(10.0, 0.25)
     ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\NOV.lvl", "NOV_ctf")
-    SetDenseEnvironment("True")   
-    AddDeathRegion("deathregion1")
+	SetDenseEnvironment("True")   
+	AddDeathRegion("chasm_death")
      --SetStayInTurrets(1)
 	
-	SetParticleLODBias(3000)
-	SetMaxCollisionDistance(1500)
+	--SetParticleLODBias(3000)
+	--SetMaxCollisionDistance(1500)
 
     --  Sound Stats
 	
 	manager:Proc_ScriptInit_MusicSetup()
 	
-	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_POL_Streaming.lvl",  "pol1")
+	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_NOV_Streaming.lvl",  "NOV_ambiance")
+	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_NOV_Streaming.lvl",  "NOV_ambiance")
 	
 	SoundFX()
-	
 	
     -- Camera Stats
     AddCameraShot(0.461189, -0.077838, -0.871555, -0.147098, 85.974007, 30.694353, -66.900795);

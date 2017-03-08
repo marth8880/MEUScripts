@@ -69,7 +69,8 @@ function ScriptPostLoad()
 							captureRegionATT = "1flag_capture1", captureRegionDEF = "1flag_capture2",
 							capRegionWorldATT = "1flag_effect2", capRegionWorldDEF = "1flag_effect1",
 							capRegionMarkerATT = "hud_objective_icon_circle", capRegionMarkerDEF = "hud_objective_icon_circle",
-							capRegionMarkerScaleATT = 3.0, capRegionMarkerScaleDEF = 3.0, multiplayerRules = true, hideCPs = true}
+							capRegionMarkerScaleATT = 3.0, capRegionMarkerScaleDEF = 3.0, multiplayerRules = true, hideCPs = true,
+                           capRegionDummyObjectATT = "1flag_effect2", capRegionDummyObjectDEF = "1flag_effect1",}
 	SoundEvent_SetupTeams( REP, 'rep', CIS, 'cis' )
 	ctf:Start()
 --	KillObject("carbonite")

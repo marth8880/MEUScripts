@@ -78,10 +78,10 @@ function ScriptPostLoad()
     ctf = ObjectiveCTF:New{teamATT = ATT, teamDEF = DEF, captureLimit = 5,  textATT = "game.modes.ctf", textDEF = "game.modes.ctf2",  multiplayerRules = true}
     ctf:AddFlag{name = "FLAG1", homeRegion = "FLAG1_HOME", captureRegion = "FLAG2_HOME",
                 capRegionMarker = "hud_objective_icon_circle", capRegionMarkerScale = 3.0, 
-                icon = "", mapIcon = "flag_icon", mapIconScale = 3.0}
+                icon = "", mapIcon = "flag_icon", mapIconScale = 3.0, regionDummyObject = "Home"}
     ctf:AddFlag{name = "FLAG2", homeRegion = "FLAG2_HOME", captureRegion = "FLAG1_HOME",
                 capRegionMarker = "hud_objective_icon_circle", capRegionMarkerScale = 3.0, 
-                icon = "", mapIcon = "flag_icon", mapIconScale = 3.0}
+                icon = "", mapIcon = "flag_icon", mapIconScale = 3.0, regionDummyObject = "home2"}
     ctf:Start()
     EnableSPHeroRules()
     

@@ -85,7 +85,8 @@ function ScriptPostLoad()
                            flagIconScale = 3.0, homeRegion = "HomeRegion",
                            captureRegionATT = "Team1Capture", captureRegionDEF = "Team2Capture",
                            capRegionMarkerATT = "hud_objective_icon_circle", capRegionMarkerDEF = "hud_objective_icon_circle",
-                           capRegionMarkerScaleATT = 3.0, capRegionMarkerScaleDEF = 3.0, multiplayerRules = true}
+                           capRegionMarkerScaleATT = 3.0, capRegionMarkerScaleDEF = 3.0, multiplayerRules = true,
+                           capRegionDummyObjectATT = "Team1Capture", capRegionDummyObjectDEF = "Team2Capture",}
 
     ctf:Start()
 	

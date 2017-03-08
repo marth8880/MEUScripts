@@ -68,10 +68,10 @@ function ScriptPostLoad()
     ctf = ObjectiveCTF:New{teamATT = REP, teamDEF = CIS, captureLimit = 5, textATT = "game.modes.ctf", textDEF = "game.modes.ctf2", hideCPs = true, multiplayerRules = true}
     ctf:AddFlag{name = "flag1", homeRegion = "ctf_team1_capture", captureRegion = "ctf_team2_capture",
                 capRegionMarker = "hud_objective_icon_circle", capRegionMarkerScale = 3.0, 
-                icon = "", mapIcon = "flag_icon", mapIconScale = 3.0}
+                icon = "", mapIcon = "flag_icon", mapIconScale = 3.0, regionDummyObject = "ctf_team1_capture"}
     ctf:AddFlag{name = "flag2", homeRegion = "ctf_team2_capture", captureRegion = "ctf_team1_capture",
                 capRegionMarker = "hud_objective_icon_circle", capRegionMarkerScale = 3.0, 
-                icon = "", mapIcon = "flag_icon", mapIconScale = 3.0}
+                icon = "", mapIcon = "flag_icon", mapIconScale = 3.0, regionDummyObject = "ctf_team2_capture"}
 		print("end ctf objective")
 	ctf:Start()
 	

@@ -50,6 +50,10 @@ ObjectiveCTF = Objective:New
     neutralFlagMessage = "game.flag.neutral.",
     enemyFlagMessage = "game.flag.enemy.",
     friendFlagMessage = "game.flag.friend.",
+	capRegionMarker = "hud_objective_icon_circle",
+	capRegionMarkerScale = 3.0,
+	capRegionDummyObjectATT = nil,		--need dummy objects so we can add an in-HUD marker (regions can't be marked in the HUD currently...it's a long story)
+	capRegionDummyObjectDEF = nil,
 }
 
 
@@ -72,6 +76,7 @@ function ObjectiveCTF:AddFlag(flagParams)
         --NOTE: it *is* valid to have a nil homeRegion
         assert(false, "WARNING: Home region for a flag does not exist in map!") end
     flagParams.name = string.lower(flagParams.name)
+    assert(flagParams.regionDummyObject, "WARNING: no dummy object specified for the flag! (this is used to mark the flag's capture region on the HUD)")
 	
 	-- add a new flag to the list of flags
     self.flags[flagParams.name] = CaptureFlag:New(flagParams)
@@ -186,8 +191,7 @@ function ObjectiveCTF:Start()
         if flagTeam ~= 0 then
             carrierTeam = GetOpposingTeam(flagTeam)
         end
-    
-		--TODO: update ObjectiveCTF to take advantage of self.capRegionDummyObjectATT and self.capRegionDummyObjectDEF
+		
 		print("updating markers for flag:", flag.name)
         if flag.carrier then
 			print("flag carrier")
@@ -195,11 +199,13 @@ function ObjectiveCTF:Start()
  			MapRemoveEntityMarker(flag.name)
             MapAddRegionMarker(GetRegion(flag.captureRegion), flag.capRegionMarker, 4.0,
                                 carrierTeam, "YELLOW", false, false, true)
+            MapAddEntityMarker(flag.regionDummyObject, self.capRegionMarker, self.capRegionMarkerScale, carrierTeam, "YELLOW", true, false, true)
         else
 			print("no carrier")
             --yes marker on the flag, no marker on the capture region
             MapAddEntityMarker(flag.name, flag.mapIcon, 4.0, carrierTeam, "YELLOW", true, false, true, true)     
             MapRemoveRegionMarker(GetRegion(flag.captureRegion))
+            MapRemoveEntityMarker(flag.regionDummyObject)
         end 
     end
     

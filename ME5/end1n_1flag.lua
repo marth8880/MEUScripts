@@ -64,7 +64,8 @@ function ScriptPostLoad()
 							capRegionWorldATT = "com_bldg_ctfbase", capRegionWorldDEF = "com_bldg_ctfbase1",
 							captureRegionATT = "team1_capture", captureRegionDEF = "team2_capture",
 							capRegionMarkerATT = "hud_objective_icon_circle", capRegionMarkerDEF = "hud_objective_icon_circle",
-							capRegionMarkerScaleATT = 3.0, capRegionMarkerScaleDEF = 3.0, multiplayerRules = true, hideCPs = true}
+							capRegionMarkerScaleATT = 3.0, capRegionMarkerScaleDEF = 3.0, multiplayerRules = true, hideCPs = true,
+                           capRegionDummyObjectATT = "com_bldg_ctfbase1", capRegionDummyObjectDEF = "com_bldg_ctfbase",}
 	
 	ctf:Start()
 	

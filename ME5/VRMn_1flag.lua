@@ -66,7 +66,8 @@ function ScriptPostLoad()
 							   flagIconScale = 3.0, homeRegion = "homeregion1",
 							   captureRegionATT = "team1_capture1", captureRegionDEF = "team2_capture1",
 							   capRegionMarkerATT = "hud_objective_icon_circle", capRegionMarkerDEF = "hud_objective_icon_circle",
-							   capRegionMarkerScaleATT = 3.0, capRegionMarkerScaleDEF = 3.0, multiplayerRules = true}
+							   capRegionMarkerScaleATT = 3.0, capRegionMarkerScaleDEF = 3.0, multiplayerRules = true,
+                           capRegionDummyObjectATT = "team1_capture1", capRegionDummyObjectDEF = "team2_capture1",}
 		ctf:Start()
 		print("end 1flag objective")
 		
@@ -91,7 +92,8 @@ function ScriptPostLoad()
 							   flagIconScale = 3.0, homeRegion = "homeregion2",
 							   captureRegionATT = "team1_capture2", captureRegionDEF = "team2_capture2",
 							   capRegionMarkerATT = "hud_objective_icon_circle", capRegionMarkerDEF = "hud_objective_icon_circle",
-							   capRegionMarkerScaleATT = 3.0, capRegionMarkerScaleDEF = 3.0, multiplayerRules = true}
+							   capRegionMarkerScaleATT = 3.0, capRegionMarkerScaleDEF = 3.0, multiplayerRules = true,
+                           capRegionDummyObjectATT = "team1_capture2", capRegionDummyObjectDEF = "team2_capture2",}
 		ctf:Start()
 		print("end 1flag objective")
 		

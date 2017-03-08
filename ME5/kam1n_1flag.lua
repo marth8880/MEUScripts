@@ -68,7 +68,7 @@ KillObject("cp1")
     SetProperty("cp22", "SpawnPath", "NEW")
     SetProperty("cp22", "captureregion", "death")
     SetProperty("cp11", "captureregion", "death")
-    SetProperty("CP4", "HUDIndexDisplay", 0)
+    --SetProperty("CP4", "HUDIndexDisplay", 0)
     KillObject("cp3")
     KillObject("CP4")
     KillObject("CP5")
@@ -163,7 +163,8 @@ KillObject("cp1")
                            flagIconScale = 3.0, homeRegion = "flag_home",
                            captureRegionATT = "lag_capture2", captureRegionDEF = "lag_capture1",
                            capRegionMarkerATT = "hud_objective_icon_circle", capRegionMarkerDEF = "hud_objective_icon_circle",
-                           capRegionMarkerScaleATT = 3.0, capRegionMarkerScaleDEF = 3.0, hideCPs = true, multiplayerRules = true}
+                           capRegionMarkerScaleATT = 3.0, capRegionMarkerScaleDEF = 3.0, hideCPs = true, multiplayerRules = true,
+                           capRegionDummyObjectATT = "cap1", capRegionDummyObjectDEF = "cap2",}
     ctf:Start()
 	
 	manager:Proc_ScriptPostLoad_End()

@@ -139,8 +139,8 @@ function ScriptPostLoad()
 
     --This is all the actual ctf objective setup
     ctf = ObjectiveCTF:New{teamATT = ATT, teamDEF = DEF, textATT = "game.modes.ctf", textDEF = "game.modes.ctf2", hideCPs = true, multiplayerRules = true}
-    ctf:AddFlag{name = "flag1", homeRegion = "Team1FlagCapture", captureRegion = "Team2FlagCapture"}
-    ctf:AddFlag{name = "flag2", homeRegion = "Team2FlagCapture", captureRegion = "Team1FlagCapture"}
+    ctf:AddFlag{name = "flag1", homeRegion = "Team1FlagCapture", captureRegion = "Team2FlagCapture", regionDummyObject = "com_bldg_ctfbase2"}
+    ctf:AddFlag{name = "flag2", homeRegion = "Team2FlagCapture", captureRegion = "Team1FlagCapture", regionDummyObject = "com_bldg_ctfbase3"}
     ctf:Start()
     
 	manager:Proc_ScriptPostLoad_End()

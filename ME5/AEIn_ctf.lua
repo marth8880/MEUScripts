@@ -76,8 +76,8 @@ function ScriptPostLoad()
 
     --This is all the actual ctf objective setup
     ctf = ObjectiveCTF:New{teamATT = ATT, teamDEF = DEF, textATT = "game.modes.ctf", textDEF = "game.modes.ctf2", hideCPs = true, multiplayerRules = true}
-    ctf:AddFlag{name = "flag1", homeRegion = "team1_capture", captureRegion = "team2_capture"}
-    ctf:AddFlag{name = "flag2", homeRegion = "team2_capture", captureRegion = "team1_capture"}
+    ctf:AddFlag{name = "flag1", homeRegion = "team1_capture", captureRegion = "team2_capture", regionDummyObject = "base1"}
+    ctf:AddFlag{name = "flag2", homeRegion = "team2_capture", captureRegion = "team1_capture", regionDummyObject = "base2"}
     ctf:Start()
 	
     EnableSPHeroRules()
