@@ -138,6 +138,7 @@ MapManager = {
 	artilleryNodes = nil,				-- Two-dimensional array listing nodes to strike at. Set to nil or leave blank to disable artillery strikes. 
 										--  First column is path names, second column is path node IDs.
 	artilleryStrikeInitDelay = 20.0,	-- The length of time in seconds to wait before the first strike occurs. Set to 0 to disable initial delay completely. Default value: 20.0
+	artilleryStrikeDelay = 35.0,		-- The length of time in seconds to wait before each strike occurs. Value must be >= 10.0. Default value: 35.0
 	terrainType = nil,					-- Type of terrain in the map. Used for determining which artillery debris textures to load.
 	
 	bDebug = false,						-- Whether or not to print/display debug messages.
@@ -1145,7 +1146,6 @@ end
 -- 
 function MapManager:Init_ArtilleryStrikes()
 	-- Init data fields
-	local strikeDelay = 20.0
 	local artilleryStrikeNodes = {}
 	local curNode = 0
 	
@@ -1153,6 +1153,11 @@ function MapManager:Init_ArtilleryStrikes()
 	local artilleryStrikeDelay_TimerElapse = nil
 	local artilleryStrikeInitDelay_Timer = nil
 	local artilleryStrikeInitDelay_TimerElapse = nil
+	
+	if self.artilleryStrikeDelay < 10.0 then
+		print("MapManager:Init_ArtilleryStrikes(): WARNING! Value of `artilleryStrikeDelay` ("..self.artilleryStrikeDelay..") must be >= 10.0! Resetting to default value of 20.0")
+		self.artilleryStrikeDelay = 35.0
+	end
 	
 	
 	ShuffleTable(self.artilleryNodes)
@@ -1195,7 +1200,7 @@ function MapManager:Init_ArtilleryStrikes()
 	artilleryStrikeDelay_Timer = FindTimer("artilleryStrikeDelay_Timer")
 	if not artilleryStrikeDelay_Timer then
 		artilleryStrikeDelay_Timer = CreateTimer("artilleryStrikeDelay_Timer")
-		SetTimerValue(artilleryStrikeDelay_Timer, strikeDelay)
+		SetTimerValue(artilleryStrikeDelay_Timer, self.artilleryStrikeDelay)
 		--ShowTimer(artilleryStrikeDelay_Timer)	-- Uncomment me for test output!
 	end
 	
@@ -1241,7 +1246,7 @@ function MapManager:Init_ArtilleryStrikes()
 			MoveToNextNode()
 			
 			-- Reset timer
-			SetTimerValue("artilleryStrikeDelay_Timer", strikeDelay)
+			SetTimerValue("artilleryStrikeDelay_Timer", self.artilleryStrikeDelay)
 			StartTimer("artilleryStrikeDelay_Timer")
 		end,
 	"artilleryStrikeDelay_Timer"
