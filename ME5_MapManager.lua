@@ -105,7 +105,8 @@ print("ME5_MapManager: Entered")
 -- @param #string artilleryTurObj			OPTIONAL: Name of the artillery turret object. Only specify this if you're using a custom artillery turret object.
 -- @param #table artilleryNodes				OPTIONAL: 2D table listing nodes to strike at. Set to nil or leave blank to disable artillery strikes. First column is path names, 
 -- 											 second column is path node IDs.
--- @param #float artilleryStrikeInitDelay	OPTIONAL: Length of time in seconds to wait before the first strike occurs. Set to 0 to disable initial delay completely. (default value : `20.0`)
+-- @param #float artilleryStrikeInitDelay	OPTIONAL: Length of time in seconds to wait before the first strike occurs. Set to 0 to disable initial delay completely. (default value : `60.0`)
+-- @param #float artilleryStrikeDelay		OPTIONAL: The length of time in seconds to wait before each strike occurs. Value must be >= 10.0. (default value : `35.0`)
 -- @param #string terrainType				OPTIONAL: Type of terrain in the map. Used for determining which artillery debris textures to load. Possible values:  
 -- 											 `"dirt"`  
 -- 											 `"snow"`  
@@ -137,7 +138,7 @@ MapManager = {
 	artilleryTurObj = nil,				-- The name of the artillery turret object. Only specify this if you're using a custom artillery turret object.
 	artilleryNodes = nil,				-- Two-dimensional array listing nodes to strike at. Set to nil or leave blank to disable artillery strikes. 
 										--  First column is path names, second column is path node IDs.
-	artilleryStrikeInitDelay = 20.0,	-- The length of time in seconds to wait before the first strike occurs. Set to 0 to disable initial delay completely. Default value: 20.0
+	artilleryStrikeInitDelay = 60.0,	-- The length of time in seconds to wait before the first strike occurs. Set to 0 to disable initial delay completely. Default value: 60.0
 	artilleryStrikeDelay = 35.0,		-- The length of time in seconds to wait before each strike occurs. Value must be >= 10.0. Default value: 35.0
 	terrainType = nil,					-- Type of terrain in the map. Used for determining which artillery debris textures to load.
 	
