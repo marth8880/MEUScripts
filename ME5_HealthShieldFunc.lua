@@ -193,7 +193,7 @@ function Init_DeferredShieldRegen()
 			
 			-- Shield regeneration parameters
 			local shieldRegenValueMult = 4.25				-- What is the player's base AddShield value multiplied by?
-			local shieldRegenSound = "none"					-- The sound property that plays when the player's shields start regenerating. Use "none" if no sound is desired.
+			local shieldRegenSound = "unit_shields_regen"	-- The sound property that plays when the player's shields start regenerating. Use "none" if no sound is desired.
 			local shieldRegenPfx = "com_sfx_shieldregen"	-- Name of the particle effect to spawn on the player when their shields start regenerating. Use "none" if no particle effect is desired.
 			
 			-- Table of unit classes with regenerating shields. /class/ is the class's name, /addShield/ is the class's AddShield value, /regenDelay/ is the class's 
@@ -358,12 +358,18 @@ function Init_DeferredShieldRegen()
 				
 				-- Are we supposed to play a sound?
 				if shieldRegenSound ~= "none" then
-					ScriptCB_SndPlaySound(shieldRegenSound)
+					-- Play our regen sound if the player's shields are gone
+					if GetObjectShield(unit) <= 0 then
+						ScriptCB_SndPlaySound(shieldRegenSound)
+					end
 				end
 				
 				-- Are we supposed to spawn a particle effect?
 				if shieldRegenPfx ~= "none" then
-					PlayParticleEffectOnUnit(shieldRegenPfx, unit)
+					-- Spawn our particle effect if the player's shields are gone
+					if GetObjectShield(unit) <= 0 then
+						PlayParticleEffectOnUnit(shieldRegenPfx, unit)
+					end
 				end
 				
 				-- Turn regeneration back on
