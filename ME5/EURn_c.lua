@@ -1981,7 +1981,7 @@ function ScriptPostLoad()
     -- Play spawn menu music
     ScriptCB_PlayInGameMusic("eur_amb_01a_briefing")
 	        	
-	--SetRespawnPointPlayer("ps_start_shuttle_ext")	-- DEBUG
+	--SetRespawnPointPlayer("ps_start_shuttle2")	-- DEBUG
 	
     onfirstspawn = OnCharacterSpawn(
 	    function(character)
@@ -2114,7 +2114,7 @@ function ScriptPostLoad()
 		ShowMessageText("game.objectives.complete", ATT)
 		
 		-- Switch back to exploration music
-		ScriptCB_PlayInGameMusic("eur_amb_01_explore")
+		ScriptCB_PlayInGameMusic("eur_amb_01b_explore")
 		
 		
 		local Obj3a_DelayTimer = CreateTimer("Obj3a_DelayTimer")
@@ -2181,7 +2181,7 @@ function ScriptPostLoad()
 	
 	Objective3a.OnComplete = function(self)
 		-- Switch back to exploration music
-		ScriptCB_PlayInGameMusic("eur_amb_01_explore")
+		ScriptCB_PlayInGameMusic("eur_amb_01b_explore")
 		
 		-- Allow the player to leave
 		UnblockCombatZoneExits(0)
@@ -2228,7 +2228,7 @@ function ScriptPostLoad()
 	
 	Objective3b.OnComplete = function(self)
 		-- Switch back to exploration music
-		ScriptCB_PlayInGameMusic("eur_amb_01_explore")
+		ScriptCB_PlayInGameMusic("eur_amb_01b_explore")
 		
 		DeactivateRegion("cz_s0_reception")
 		
@@ -2278,7 +2278,7 @@ function ScriptPostLoad()
 	
 	Objective3c.OnComplete = function(self)
 		-- Switch back to exploration music
-		ScriptCB_PlayInGameMusic("eur_amb_01_explore")
+		ScriptCB_PlayInGameMusic("eur_amb_01b_explore")
 		
 		DeactivateRegion("cz_s0_management")
 		
@@ -2328,7 +2328,7 @@ function ScriptPostLoad()
 	
 	Objective3d.OnComplete = function(self)
 		-- Switch back to exploration music
-		ScriptCB_PlayInGameMusic("eur_amb_01_explore")
+		ScriptCB_PlayInGameMusic("eur_amb_01b_explore")
 		
 		DeactivateRegion("cz_s0_power")
 		
@@ -2396,7 +2396,7 @@ function ScriptPostLoad()
 		DeactivateRegion("cz_s0_comms")
 		
 		-- Switch back to exploration music
-		ScriptCB_PlayInGameMusic("eur_amb_01_explore")
+		ScriptCB_PlayInGameMusic("eur_amb_01b_explore")
     
 	    -- Allow the player to leave
 		UnblockCombatZoneExits(0)
@@ -4292,7 +4292,7 @@ function BeginOpeningCinematic()
 		UnmuteAudioBus("weaponfoley", 0.7)
 		
 		-- Switch music tracks
-        ScriptCB_PlayInGameMusic("eur_amb_01_explore")
+        ScriptCB_PlayInGameMusic("eur_amb_01a_explore")
         
         -- Allow squad AI to spawn
 		AllowAISpawn(SQD, true)
