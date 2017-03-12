@@ -719,14 +719,36 @@ function EVGWorldVO()
 end
 
 ---
--- Perform various sound-related operations, such as loading common VO streams, setting common, sound parameters, etc.
+-- Call this to open the voice audio streams.
+function OpenVoiceStreams()
+	local world = string.lower(GetWorldFilename())
+	
+	gVoiceStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "vo_quick_streaming")
+	AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "vo_slow_streaming", gVoiceStream)
+	
+	if world == "eur" then
+		AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "eur_objective_vo_slow", gVoiceStream)
+	end
+	
+	AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "global_objective_vo_quick", gVoiceStream)
+	--AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "lowhealth_streaming", gVoiceStream)
+end
+
+---
+-- Call this to close the voice audio streams.
+-- 
+function CloseVoiceStreams()
+	if gVoiceStream ~= nil then
+		StopAudioStream(gVoiceStream, 1)
+		gVoiceStream = nil
+	end
+end
+
+---
+-- Perform various sound-related operations, such as loading common VO streams, setting common sound parameters, etc.
 -- 
 function SoundFX()
-    voiceQuick = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "vo_quick_streaming")
-    AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "vo_slow_streaming", voiceQuick)
-    AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "eur_objective_vo_slow", voiceQuick)
-    AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "global_objective_vo_quick", voiceQuick)
-    --AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "lowhealth_streaming", voiceQuick)
+    OpenVoiceStreams()
 	
 	if not ScriptCB_InMultiplayer() then
 		if ME5_SideVar == 1 then

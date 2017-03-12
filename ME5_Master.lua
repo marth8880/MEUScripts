@@ -56,6 +56,7 @@ ME5_SideVar				= nil
 ME5_SolMapMusic			= nil
 
 gCurrentMapManager			= nil
+gVoiceStream				= nil
 
 --mapSize				= nil
 MEU_GameMode		= MEU_GameMode or nil
