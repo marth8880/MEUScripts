@@ -720,27 +720,47 @@ end
 
 ---
 -- Call this to open the voice audio streams.
-function OpenVoiceStreams()
+function OpenVoiceStreams(bCalledFromLowHealth)
+	print("ME5_AudioFunctions.OpenVoiceStreams(): Entered")
+	
+	bCalledFromLowHealth = bCalledFromLowHealth or false
+	
+	-- If we were called from the low health script, only open streams if low health sound isn't playing
+	if bCalledFromLowHealth == true and LH_bIsLowHealthSoundPlaying == true then
+		print("ME5_AudioFunctions.OpenVoiceStreams(): ERROR! Can't open voice streams while low health sound is playing!")
+		return false
+	end
+	
+	-- Get the world ID in case we're a campaign map
 	local world = string.lower(GetWorldFilename())
 	
 	gVoiceStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "vo_quick_streaming")
 	AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "vo_slow_streaming", gVoiceStream)
 	
+	-- Append campaign VOs
 	if world == "eur" then
 		AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "eur_objective_vo_slow", gVoiceStream)
 	end
 	
 	AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "global_objective_vo_quick", gVoiceStream)
 	--AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "lowhealth_streaming", gVoiceStream)
+	
+	print("ME5_AudioFunctions.OpenVoiceStreams(): gVoiceStream index:", gVoiceStream)
+	
+	return true
 end
 
 ---
 -- Call this to close the voice audio streams.
 -- 
 function CloseVoiceStreams()
+	print("ME5_AudioFunctions.CloseVoiceStreams(): Entered")
+	
 	if gVoiceStream ~= nil then
 		StopAudioStream(gVoiceStream, 1)
 		gVoiceStream = nil
+	else
+		print("ME5_AudioFunctions.CloseVoiceStreams(): gVoiceStream is nil! Value:", gVoiceStream)
 	end
 end
 

@@ -42,7 +42,7 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 			--ScriptCB_SndPlaySound("organic_lowhealth_property")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl")
 			
-			lowHealthStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl", "lowhealth_streaming")
+			--lowHealthStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl", "lowhealth_streaming")
 			--PlayAudioStreamUsingProperties("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl", "organic_lowhealth_streaming", 1)
 			
 			-- Initial lowhealth bus fade
@@ -55,6 +55,7 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 			LH_bIsLowHealthSoundPlaying = false	-- Is the low health sound playing?
 			LH_playerHealthThreshold = 0.35		-- Under what health percentage should the low health sound be active?
 			local Iamhuman = nil				-- Pointer for human player
+			local bIsFreshSpawn = true			-- Is this a fresh spawn? (if the player simply changed their class at a CP, it is not)
 			local bIsPlayerCorrectClass = false	-- Is the player the correct class?
 			local bIsPlayerSynthClass = false	-- Is the player a synthetic class?
 			local bIsSpawnScreenActive = false	-- Is the spawn screen active?
@@ -62,7 +63,8 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 			local timerCount	= 0				-- Number of timers that exist
 			local busEndGain	= 0.15			-- End gain for audio bus
 			local busFadeTime	= 1.0			-- Duration of bus fade in seconds
-			local playerMaxHealth = 0			-- Player's health when they spawn
+			local playerCurHealth = 0			-- Player's current health value
+			local playerMaxHealth = 0			-- Player's maximum health value
 			local synthClasses = {
 					"gth_inf_destroyer",
 					"gth_inf_hunter",
@@ -109,6 +111,15 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 					"ssv_hero_shepard_sentinel",
 					"ssv_hero_shepard_vanguard",
 					"col_hero_harbinger" }
+			
+			local stopLowHealthSound_Timer = CreateTimer("stopLowHealthSound_Timer")
+			SetTimerValue(stopLowHealthSound_Timer, busFadeTime*2)
+			ShowTimer(stopLowHealthSound_Timer)
+			
+			local lowHealthChangeGate_Timer = CreateTimer("lowHealthChangeGate_Timer")
+			SetTimerValue(lowHealthChangeGate_Timer, 0.5)
+			--ShowTimer(lowHealthChangeGate_Timer)
+			
 			--local classCount = 0
 			
 			--local lowHealthSoundTimer = CreateTimer("lowHealthSoundTimer")
@@ -140,7 +151,14 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 			-- @param #string type		Type of being whose low health sound stream we're playing ("organic" or "synthetic")
 			-- 
 			local function StartLowHealthSound(type)
+				--print()
 				print("Init_LowHealthFeedback.StartLowHealthSound(): Entered")
+				
+				-- Exit if the sound's already playing
+				if LH_bIsLowHealthSoundPlaying == true then
+					print("Init_LowHealthFeedback.StopLowHealthSound(): ERROR! Low health sound is already playing! Exiting")
+					return false
+				end
 				
 				-- Type must be specified
 				if not type then return end
@@ -164,64 +182,119 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 				if streamID == nil then return end
 				if segmentID == nil then return end
 				
+				--ShowMessageText("level.common.debug.lowhealth_starting")	-- DEBUG
+				
+				-- If we've made it this far, flag the low health sound as playing
+				LH_bIsLowHealthSoundPlaying = true
+				
+				-- Make room for the low health stream
+				CloseVoiceStreams(true)
+				
+				--print("Init_LowHealthFeedback.StartLowHealthSound(): Starting low health sounds")
+				
 				-- Play low health sound stream
+				lowHealthStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl", "lowhealth_streaming")
+				print("Init_LowHealthFeedback.StartLowHealthSound(): lowHealthStream index:", lowHealthStream)
+				
 				lowhealthStreamIndex = PlayAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl", 
 														streamID, segmentID, gain, "lowhealth", lowHealthStream)
+				print("Init_LowHealthFeedback.StartLowHealthSound(): lowhealthStreamIndex index:", lowHealthStream)
+				
+				-- Fade all of the appropriate audio buses
+				ScriptCB_SndBusFade("main",				busFadeTime, busEndGain)
+				ScriptCB_SndBusFade("soundfx",			busFadeTime, busEndGain)
+				ScriptCB_SndBusFade("battlechatter",	busFadeTime, busEndGain)
+				ScriptCB_SndBusFade("music",			busFadeTime, 0.6)
+				ScriptCB_SndBusFade("ingamemusic",		busFadeTime, 0.6)
+				ScriptCB_SndBusFade("ambience",			busFadeTime, busEndGain)
+				ScriptCB_SndBusFade("voiceover",		busFadeTime, busEndGain)
+				ScriptCB_SndBusFade("lowhealth",		1.0, 1.0, 0.0)
 			end
 			
 			---
 			-- Call this to stop playing the low health sound stream.
 			-- 
 			local function StopLowHealthSound()
+				--print()
 				print("Init_LowHealthFeedback.StopLowHealthSound(): Entered")
 				
-				-- Only attempt to stop the stream if it's been started (prevents crashes, because Pandemic apparently didn't know how to include error-handling worth a damn)
-				if lowhealthStreamIndex ~= nil then
-					StopAudioStream(lowhealthStreamIndex, 0)
-					lowhealthStreamIndex = nil
+				-- Exit if the sound's not already playing
+				if LH_bIsLowHealthSoundPlaying == false then
+					print("Init_LowHealthFeedback.StopLowHealthSound(): ERROR! Low health sound isn't playing! Exiting")
+					return false
 				end
+				
+				--LH_bIsLowHealthSoundPlaying = false
+				
+				--ShowMessageText("level.common.debug.lowhealth_stopping")	-- DEBUG
+				
+				-- Unfade all of the audio buses
+				ScriptCB_SndBusFade("main",				busFadeTime, 1.0)
+				ScriptCB_SndBusFade("soundfx",			busFadeTime, 0.7)
+				ScriptCB_SndBusFade("battlechatter",	busFadeTime, 1.0)
+				ScriptCB_SndBusFade("music",			busFadeTime, 1.0)
+				ScriptCB_SndBusFade("ingamemusic",		busFadeTime, 0.7)
+				ScriptCB_SndBusFade("ambience",			busFadeTime, 0.7)
+				ScriptCB_SndBusFade("voiceover",		busFadeTime, 0.8)
+				ScriptCB_SndBusFade("lowhealth",		1.0, 0.0, 1.0)
+				
+				-- Stop and close the low health stream after the audio buses have finished fading
+				SetTimerValue(stopLowHealthSound_Timer, busFadeTime*2)
+				StartTimer(stopLowHealthSound_Timer)
 			end
 			
 			
 			--===============================
-			-- Event responses
+			-- Event Responses
 			--===============================
 			
-			--[[local testcheckhumanchangeclass = OnCharacterChangeClass(
-				function(player)
-					if IsCharacterHuman(player) then
-						print("Init_LowHealthFeedback: testcheckhumanchangeclass()")
-						if isSpawnScreenActive == false then
-							isSpawnScreenActive = true
-						elseif isSpawnScreenActive == true then
-							isSpawnScreenActive = false
-						end
-						
-						if ifs_lowhealth_vignette.TimerMngr > 0 and isSpawnScreenActive == false then
-							print("Init_LowHealthFeedback: Starting timer 'meu_lowhealth_scr_rspwn'")
-							
-							meu_lowhealth_scr_rspwn_..timerCount = CreateTimer("meu_lowhealth_scr_rspwn")
-							SetTimerValue(meu_lowhealth_scr_rspwn_..timerCount, 0.5)
-							StartTimer(meu_lowhealth_scr_rspwn_..timerCount)
-							OnTimerElapse(
-								function(timer)
-									print("Init_LowHealthFeedback: Timer 'meu_lowhealth_scr_rspwn_"..timerCount.."' has elapsed")
-									print("Init_LowHealthFeedback: Stopping timer...")
-									
-									StopTimer(meu_lowhealth_scr_rspwn_..timerCount)
-									ifs_lowhealth_vignette.TimerType = false
-									ScriptCB_PushScreen("ifs_lowhealth_vignette")
-									DestroyTimer(meu_lowhealth_scr_rspwn_..timerCount)
-								end,
-							meu_lowhealth_scr_rspwn_..timerCount
-							)
-							
-							SetTimerValue(meu_lowhealth_scr_rspwn, 0.5)
-							StartTimer(meu_lowhealth_scr_rspwn)
-						end
+			local stopLowHealthSound_TimerElapse = OnTimerElapse(
+				function(timer)
+					print("Init_LowHealthFeedback.stopLowHealthSound_TimerElapse(): Entered")
+					
+					--ShowMessageText("level.common.debug.lowhealth_stopped")	-- DEBUG
+					
+					-- Only attempt to stop the stream if it's been started (prevents crashes, because Pandemic apparently didn't know how to include error-handling worth a damn)
+					if lowhealthStreamIndex ~= nil then
+						StopAudioStream(lowhealthStreamIndex, 1)
+						lowhealthStreamIndex = nil
+					else
+						print("Init_LowHealthFeedback.stopLowHealthSound_TimerElapse(): WARNING! lowhealthStreamIndex is nil! Value:", lowhealthStreamIndex)
 					end
-				end
-			)]]
+					
+					-- If we've made it this far, flag the low health sound as not playing
+					LH_bIsLowHealthSoundPlaying = false
+					
+					-- Reopen the voice streams
+					OpenVoiceStreams(true)
+					
+					-- Make sure the timer doesn't try to restart itself or anything
+					StopTimer(stopLowHealthSound_Timer)
+					
+					-- Garbage collection
+					--DestroyTimer(timer)
+					--stopLowHealthSound_Timer = nil
+					
+					--ReleaseTimerElapse(stopLowHealthSound_TimerElapse)
+					--stopLowHealthSound_TimerElapse = nil
+				end,
+			"stopLowHealthSound_Timer"
+			)
+			
+			local lowHealthChangeGate_TimerElapse = OnTimerElapse(
+				function(timer)
+					print("Init_LowHealthFeedback.lowHealthChangeGate_TimerElapse(): Entered")
+					
+					--ShowMessageText("level.common.debug.lowhealth_elapsegate")	-- DEBUG
+					
+					--print("Init_LowHealthFeedback.lowHealthChangeGate_TimerElapse(): Stopping low health sound")
+					StopLowHealthSound()
+					
+					-- Make sure the timer doesn't try to restart itself or anything
+					StopTimer(lowHealthChangeGate_Timer)
+				end,
+			"lowHealthChangeGate_Timer"
+			)
 			
 			-- When the player spawns or changes their class
 			local playerspawn = OnCharacterSpawn(
@@ -230,12 +303,18 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 					if not player then return end
 					
 					if IsCharacterHuman(player) then
-						--print("Init_LowHealthFeedback: Player spawned")
+						--print()
+						--print("Init_LowHealthFeedback.playerspawn(): Player spawned")
 						
-						Iamhuman = GetEntityPtr(GetCharacterUnit(player))
-						playerMaxHealth = GetObjectHealth(Iamhuman)
+						--[[if bIsFreshSpawn == true then
+							bIsFreshSpawn = false]]
+							Iamhuman = GetEntityPtr(GetCharacterUnit(player))
+							playerCurHealth, playerMaxHealth = GetObjectHealth(Iamhuman)
+						--[[else
+							Iamhuman = GetEntityPtr(GetCharacterUnit(player))
+						end]]
 						
-						--print("ME5_LowHealthFeedback.Init_LowHealthFeedback.playerspawn(): playerMaxHealth:", playerMaxHealth)	-- Uncomment me for test output!
+						--print("Init_LowHealthFeedback.playerspawn(): playerMaxHealth:", playerMaxHealth)	-- Uncomment me for test output!
 						
 						--if not ifs_lowhealth_vignette.TimerMngr == nil then
 							--[[if gIsGreaterThan0 > 0 then
@@ -274,17 +353,8 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 							if bIsPlayerSynthClass == true then break end
 						end
 						
-						-- Play heartbeat sound stream
-						if bIsPlayerCorrectClass == true then
-							if bIsPlayerSynthClass == false then
-								StartLowHealthSound("organic")
-							else
-								StartLowHealthSound("synthetic")
-							end
-						end
-						
 						-- Is the low health sound playing?
-						if LH_bIsLowHealthSoundPlaying == true then
+						--[[if LH_bIsLowHealthSoundPlaying == true then
 							--print("ME5_LowHealthFeedback.Init_LowHealthFeedback(): isSoundPlaying is true, setting to false")
 							
 							LH_bIsLowHealthSoundPlaying = false
@@ -293,16 +363,8 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 							--ifs_lowhealth_vignette.Timer = 10
 							--ifs_lowhealth_vignette.TimerType = true
 							
-							-- Unfade all of the audio buses
-							ScriptCB_SndBusFade("main",				busFadeTime, 1.0)
-							ScriptCB_SndBusFade("soundfx",			busFadeTime, 0.7)
-							ScriptCB_SndBusFade("battlechatter",	busFadeTime, 1.0)
-							ScriptCB_SndBusFade("music",			busFadeTime, 1.0)
-							ScriptCB_SndBusFade("ingamemusic",		busFadeTime, 0.7)
-							ScriptCB_SndBusFade("ambience",			busFadeTime, 0.7)
-							ScriptCB_SndBusFade("voiceover",		busFadeTime, 0.8)
-							ScriptCB_SndBusFade("lowhealth",		1.0, 0.0, 1.0)
-						end
+							StopLowHealthSound()
+						end]]
 					end
 				end
 			)
@@ -319,11 +381,11 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 						-- Is the player alive? Make sure we don't fade in the low health 
 						--  sound if the player's corpse receives damage after having died
 						if IsObjectAlive(object) == true then
-							--print("Init_LowHealthFeedback: Player health changed")
+							--print("Init_LowHealthFeedback.playerhealthchange(): Player health changed")
 							--print("Init_LowHealthFeedback: Player health ratio is "..playerHealthPercent)
 								
 							-- What is the player's current health?
-							local playerCurHealth = GetObjectHealth(object)
+							playerCurHealth, playerMaxHealth = GetObjectHealth(object)
 							
 							if playerMaxHealth <= 0 then
 								playerMaxHealth = 300
@@ -332,17 +394,21 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 							-- What's the player's current health percentage?
 							local playerHealthPercent = playerCurHealth / playerMaxHealth
 							
-							--[[print("ME5_LowHealthFeedback.Init_LowHealthFeedback.playerhealthchange():    playerMaxHealth, playerCurHealth, playerHealthPercent:", 
-							playerMaxHealth, playerCurHealth, playerHealthPercent)]]	-- Uncomment me for test output!
+							--print("Init_LowHealthFeedback.playerhealthchange():    playerMaxHealth, playerCurHealth:", playerMaxHealth, playerCurHealth)	-- Uncomment me for test output!
+							--print("Init_LowHealthFeedback.playerhealthchange():    playerHealthPercent, LH_playerHealthThreshold:", playerHealthPercent, LH_playerHealthThreshold)
 							
 							-- Is the player's health low enough to activate the low health sound?
 							if playerHealthPercent < LH_playerHealthThreshold then
 								--print("Init_LowHealthFeedback: Player's health is "..playerCurHealth)
 								
+								--print("Init_LowHealthFeedback.playerhealthchange(): Stopping health change gate")
+								--ShowMessageText("level.common.debug.lowhealth_stopgate")	-- DEBUG
+								StopTimer(lowHealthChangeGate_Timer)
+								
 								if LH_bIsLowHealthSoundPlaying == false then
 									--print("Init_LowHealthFeedback: isSoundPlaying is false, setting to true")
 									
-									LH_bIsLowHealthSoundPlaying = true
+									--LH_bIsLowHealthSoundPlaying = true
 									--classCount = 0
 									
 									-- Is the player the correct class?
@@ -352,15 +418,15 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 										-- Activate our ifs screen
 										--ScriptCB_PushScreen("ifs_lowhealth_vignette")
 										
-										-- Fade all of the appropriate audio buses
-										ScriptCB_SndBusFade("main",				busFadeTime, busEndGain)
-										ScriptCB_SndBusFade("soundfx",			busFadeTime, busEndGain)
-										ScriptCB_SndBusFade("battlechatter",	busFadeTime, busEndGain)
-										ScriptCB_SndBusFade("music",			busFadeTime, 0.6)
-										ScriptCB_SndBusFade("ingamemusic",		busFadeTime, 0.6)
-										ScriptCB_SndBusFade("ambience",			busFadeTime, busEndGain)
-										ScriptCB_SndBusFade("voiceover",		busFadeTime, busEndGain)
-										ScriptCB_SndBusFade("lowhealth",		1.0, 1.0, 0.0)
+										-- Play heartbeat sound stream
+										if bIsPlayerCorrectClass == true then
+											--print("Init_LowHealthFeedback.playerhealthchange(): Starting low health sound")
+											if bIsPlayerSynthClass == false then
+												StartLowHealthSound("organic")
+											else
+												StartLowHealthSound("synthetic")
+											end
+										end
 									else
 										--print("Init_LowHealthFeedback: Player is wrong class")
 									end
@@ -371,21 +437,14 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 									--print("Init_LowHealthFeedback: isSoundPlaying is true, setting to false")
 									
 									-- If it's playing, deactivate it
-									LH_bIsLowHealthSoundPlaying = false
+									--LH_bIsLowHealthSoundPlaying = false
 									
 									-- Remove our ifs screen
 									--ifs_lowhealth_vignette.Timer = 10
 									--ifs_lowhealth_vignette.TimerType = true
 									
-									-- Fade all of the appropriate audio buses
-									ScriptCB_SndBusFade("main",				busFadeTime, 1.0)
-									ScriptCB_SndBusFade("soundfx",			busFadeTime, 0.7)
-									ScriptCB_SndBusFade("battlechatter",	busFadeTime, 1.0)
-									ScriptCB_SndBusFade("music",			busFadeTime, 1.0)
-									ScriptCB_SndBusFade("ingamemusic",		busFadeTime, 0.7)
-									ScriptCB_SndBusFade("ambience",			busFadeTime, 0.7)
-									ScriptCB_SndBusFade("voiceover",		busFadeTime, 0.8)
-									ScriptCB_SndBusFade("lowhealth",		1.0, 0.0, 1.0)
+									SetTimerValue(lowHealthChangeGate_Timer, 0.5)
+									StartTimer(lowHealthChangeGate_Timer)
 								end
 							end
 						end
@@ -403,26 +462,18 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 					if IsCharacterHuman(player) then
 						--print("Init_LowHealthFeedback: Player died, resetting buses and variables")
 						
-						--if isSoundPlaying == true then
+						--if LH_bIsLowHealthSoundPlaying == true then
 							-- Deactivate the low health sound
-							LH_bIsLowHealthSoundPlaying = false
-							
-							-- Stop playing the sound stream
-							StopLowHealthSound()
+							--LH_bIsLowHealthSoundPlaying = false
 							
 							-- remove our ifs screen
 							--ifs_lowhealth_vignette.Timer = 10
 							--ifs_lowhealth_vignette.TimerType = true
 							
-							-- Fade all of the appropriate audio buses
-							ScriptCB_SndBusFade("main",				busFadeTime, 1.0)
-							ScriptCB_SndBusFade("soundfx",			busFadeTime, 0.7)
-							ScriptCB_SndBusFade("battlechatter",	busFadeTime, 1.0)
-							ScriptCB_SndBusFade("music",			busFadeTime, 1.0)
-							ScriptCB_SndBusFade("ingamemusic",		busFadeTime, 0.7)
-							ScriptCB_SndBusFade("ambience",			busFadeTime, 0.7)
-							ScriptCB_SndBusFade("voiceover",		busFadeTime, 0.8)
-							ScriptCB_SndBusFade("lowhealth",		1.0, 0.0)
+							bIsFreshSpawn = true
+							
+							--print("Init_LowHealthFeedback.playerdeath(): Stopping low health sound")
+							StopLowHealthSound()
 						--end
 					end
 				end
