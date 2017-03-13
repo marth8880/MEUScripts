@@ -114,7 +114,7 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 			
 			local stopLowHealthSound_Timer = CreateTimer("stopLowHealthSound_Timer")
 			SetTimerValue(stopLowHealthSound_Timer, busFadeTime*2)
-			ShowTimer(stopLowHealthSound_Timer)
+			--ShowTimer(stopLowHealthSound_Timer)
 			
 			local lowHealthChangeGate_Timer = CreateTimer("lowHealthChangeGate_Timer")
 			SetTimerValue(lowHealthChangeGate_Timer, 0.5)
