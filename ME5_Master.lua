@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by Aaron Gilbert
--- Build 40312/06
+-- Build 40316/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Mar 12, 2017
+-- Mar 16, 2017
 -- Copyright (c) 2017, Aaron Gilbert All rights reserved.
 -- 
 -- About: 
@@ -22,8 +22,8 @@
 print("ME5_Master: Entered")
 
 -- The build version. Valid settings are "production", "release"
-MEU_BuildVer		= "production"
-MEU_BuildNum		= "40312/06"
+MEU_BuildVer		= "release"
+MEU_BuildNum		= "40316/06"
 MEU_ReleaseNum		= 6
 MEU_VersionNum		= "1.3"
 
