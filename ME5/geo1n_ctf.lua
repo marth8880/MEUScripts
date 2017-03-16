@@ -74,12 +74,12 @@ function ScriptPostLoad()
     ctf = ObjectiveCTF:New{teamATT = REP, teamDEF = CIS, captureLimit = 5, textATT = "game.modes.ctf", textDEF = "game.modes.ctf2", hideCPs = true, multiplayerRules = true}
     ctf:AddFlag{name = "flag1", homeRegion = "flag1_home", captureRegion = "flag2_home",
                 capRegionMarker = "hud_objective_icon_circle", capRegionMarkerScale = 3.0, 
-                icon = "", mapIcon = "flag_icon", mapIconScale = 3.0, regionDummyObject = "com_bldg_ctfbase"}
+                icon = "", mapIcon = "flag_icon", mapIconScale = 3.0, regionDummyObject = "com_bldg_ctfbase1"}
 	AddDeathRegion("deathregion2")
 	AddDeathRegion("deathregion3")
     ctf:AddFlag{name = "flag2", homeRegion = "flag2_home", captureRegion = "flag1_home",
                 capRegionMarker = "hud_objective_icon_circle", capRegionMarkerScale = 3.0, 
-                icon = "", mapIcon = "flag_icon", mapIconScale = 3.0, regionDummyObject = "com_bldg_ctfbase1"}
+                icon = "", mapIcon = "flag_icon", mapIconScale = 3.0, regionDummyObject = "com_bldg_ctfbase"}
 	
 	SoundEvent_SetupTeams( REP, 'rep', CIS, 'cis' )
     

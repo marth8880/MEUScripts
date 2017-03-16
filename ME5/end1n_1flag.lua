@@ -62,7 +62,7 @@ function ScriptPostLoad()
 							captureLimit = 5, flag = "flag", flagIcon = "flag_icon", 
 							flagIconScale = 3.0, homeRegion = "team1_capture",
 							capRegionWorldATT = "com_bldg_ctfbase", capRegionWorldDEF = "com_bldg_ctfbase1",
-							captureRegionATT = "team1_capture", captureRegionDEF = "team2_capture",
+							captureRegionATT = "team2_capture", captureRegionDEF = "team1_capture",
 							capRegionMarkerATT = "hud_objective_icon_circle", capRegionMarkerDEF = "hud_objective_icon_circle",
 							capRegionMarkerScaleATT = 3.0, capRegionMarkerScaleDEF = 3.0, multiplayerRules = true, hideCPs = true,
                            capRegionDummyObjectATT = "com_bldg_ctfbase1", capRegionDummyObjectDEF = "com_bldg_ctfbase",}
@@ -174,7 +174,7 @@ function ScriptInit()
 	
 	manager:Proc_ScriptInit_MusicSetup()
 	
-	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_YAV_Streaming.lvl",	"yav1")
+	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_END_Streaming.lvl",	"end1")
 	
 	SoundFX()
 	

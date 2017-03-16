@@ -82,8 +82,8 @@ function ScriptPostLoad()
 	
     --This is all the actual ctf objective setup
     ctf = ObjectiveCTF:New{teamATT = ATT, teamDEF = DEF, textATT = "game.modes.ctf", textDEF = "game.modes.ctf2", hideCPs = true, multiplayerRules = true}
-    ctf:AddFlag{name = "flag1", homeRegion = "Team1FlagCapture", captureRegion = "Team2FlagCapture", regionDummyObject = "com_bldg_ctfbase1"}
-    ctf:AddFlag{name = "flag2", homeRegion = "Team2FlagCapture", captureRegion = "Team1FlagCapture", regionDummyObject = "com_bldg_ctfbase"}
+    ctf:AddFlag{name = "flag1", homeRegion = "Team1FlagCapture", captureRegion = "Team2FlagCapture", regionDummyObject = "com_bldg_ctfbase"}
+    ctf:AddFlag{name = "flag2", homeRegion = "Team2FlagCapture", captureRegion = "Team1FlagCapture", regionDummyObject = "com_bldg_ctfbase1"}
     ctf:Start()
     
     EnableSPHeroRules()
@@ -169,19 +169,7 @@ SetMaxCollisionDistance(1500)
 
     --  Sound Stats
 	
-	if not ScriptCB_InMultiplayer() then
-		if ME5_SideVar == 1 then
-			Music04_CTF()
-		elseif ME5_SideVar == 2 then
-			Music02_CTF()
-		elseif ME5_SideVar == 3	then
-			Music06_CTF()
-		elseif ME5_SideVar == 4	then
-			Music09_CTF()
-		end
-	else
-		Music02_CTF()
-	end
+	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_POL_Streaming.lvl",  "pol1")
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_POL_Streaming.lvl",  "pol1")
@@ -218,5 +206,3 @@ SetMaxCollisionDistance(1500)
 
 
 end
-
-
