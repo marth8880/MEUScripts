@@ -83,6 +83,9 @@ function ScriptPostLoad()
    DisableBarriers("conquestbar")
    DisableBarriers("bombbar")
    
+   SetProperty("ctfcp1", "HUDIndexDisplay", 0)
+   SetProperty("ctfcp2", "HUDIndexDisplay", 0)
+   
   SetProperty("ship", "MaxHealth", 1e+37)
   SetProperty("ship", "CurHealth", 1e+37)
   SetProperty("ship2", "MaxHealth", 1e+37)
