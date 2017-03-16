@@ -99,7 +99,7 @@ function ScriptPostLoad()
            captureRegionATT = "Team2Cap", captureRegionDEF = "Team1Cap",
            capRegionMarkerATT = "hud_objective_icon_circle", capRegionMarkerDEF = "hud_objective_icon_circle",
            capRegionMarkerScaleATT = 3.0, capRegionMarkerScaleDEF = 3.0, multiplayerRules = true, hideCPs = true, AIGoalWeight = 15,
-                           capRegionDummyObjectATT = "com_bldg_ctfbase", capRegionDummyObjectDEF = "com_bldg_ctfbase1",}
+                           capRegionDummyObjectATT = "com_bldg_ctfbase1", capRegionDummyObjectDEF = "com_bldg_ctfbase",}
            
     ctf:Start()
     EnableSPHeroRules()
