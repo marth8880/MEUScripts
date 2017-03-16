@@ -127,53 +127,56 @@ end
 function Init_EvolvedJuggernautPowerDrain()
 	print("ME5_GethJuggernautFunc.Init_EvolvedJuggernautPowerDrain(): Entered")
 	
-	local enemydamage = OnObjectDamage(
-		function(object, damager)
-			-- Exit immediately if there are incorrect values
-			if not object then return end
-			if not damager then return end
-			
-			--local dmgrPtr = GetEntityPtr(GetCharacterUnit(damager))
-			--print(object)
-			--print(damager)
-			--print(dmgrPtr)
-			--if IsCharacterHuman(dmgrPtr) then
-				if GetObjectLastHitWeaponClass(object) == "weap_tech_powerdrain" then
-					local charPtr = GetCharacterUnit(damager)
-					
-					-- make it so shields can be extracted only from enemies
-					if GetObjectTeam(object) ~= GetObjectTeam(charPtr) then
-						print("ME5_GethJuggernautFunc.Init_EvolvedJuggernautPowerDrain(): Object team is CIS")
+	-- TODO: check to verify that this doesn't actually work in multiplayer
+	if not ScriptCB_InMultiplayer() then
+		local enemydamage = OnObjectDamage(
+			function(object, damager)
+				-- Exit immediately if there are incorrect values
+				if not object then return end
+				if not damager then return end
+				
+				--local dmgrPtr = GetEntityPtr(GetCharacterUnit(damager))
+				--print(object)
+				--print(damager)
+				--print(dmgrPtr)
+				--if IsCharacterHuman(dmgrPtr) then
+					if GetObjectLastHitWeaponClass(object) == "weap_tech_powerdrain" then
+						local charPtr = GetCharacterUnit(damager)
 						
-						-- Get the Juggernaut's current shields
-						local curShields = GetObjectShield(charPtr)
-						local addShields = 50	-- Amount of shields to add
-						local maxShields = 1140	-- Juggernaut's MaxShield value in its ODF
-						
-						print("ME5_GethJuggernautFunc.Init_EvolvedJuggernautPowerDrain(): Unit's current shields: "..curShields)
-						
-						-- Only regenerate if the current shields are less than the max shields
-						if curShields < maxShields then
-							-- Calculate the Juggernaut's final total shields value
-							local newShields = curShields + addShields
+						-- make it so shields can be extracted only from enemies
+						if GetObjectTeam(object) ~= GetObjectTeam(charPtr) then
+							print("ME5_GethJuggernautFunc.Init_EvolvedJuggernautPowerDrain(): Object team is CIS")
 							
-							-- Apply the shields change
-							SetProperty( charPtr, "CurShield", newShields )
-							print("ME5_GethJuggernautFunc.Init_EvolvedJuggernautPowerDrain(): Unit's new shields: "..newShields)
+							-- Get the Juggernaut's current shields
+							local curShields = GetObjectShield(charPtr)
+							local addShields = 50	-- Amount of shields to add
+							local maxShields = 1140	-- Juggernaut's MaxShield value in its ODF
 							
-							-- Are the Juggernaut's current shields over the limit?
-							if newShields > maxShields then
-								print("ME5_GethJuggernautFunc.Init_EvolvedJuggernautPowerDrain(): Unit's shields are over the MaxShield limit at "..newShields.."... Resetting to "..maxShields)
-								SetProperty( charPtr, "CurShield", maxShields )	-- reset the Juggernaut's shields to its maximum value
+							print("ME5_GethJuggernautFunc.Init_EvolvedJuggernautPowerDrain(): Unit's current shields: "..curShields)
+							
+							-- Only regenerate if the current shields are less than the max shields
+							if curShields < maxShields then
+								-- Calculate the Juggernaut's final total shields value
+								local newShields = curShields + addShields
+								
+								-- Apply the shields change
+								SetProperty( charPtr, "CurShield", newShields )
+								print("ME5_GethJuggernautFunc.Init_EvolvedJuggernautPowerDrain(): Unit's new shields: "..newShields)
+								
+								-- Are the Juggernaut's current shields over the limit?
+								if newShields > maxShields then
+									print("ME5_GethJuggernautFunc.Init_EvolvedJuggernautPowerDrain(): Unit's shields are over the MaxShield limit at "..newShields.."... Resetting to "..maxShields)
+									SetProperty( charPtr, "CurShield", maxShields )	-- reset the Juggernaut's shields to its maximum value
+								end
 							end
+						else
+							print("ME5_GethJuggernautFunc.Init_EvolvedJuggernautPowerDrain: Object team is not CIS")
 						end
-					else
-						print("ME5_GethJuggernautFunc.Init_EvolvedJuggernautPowerDrain: Object team is not CIS")
 					end
-				end
-			--end
-		end
-	)
+				--end
+			end
+		)
+	end
 end
 
 
