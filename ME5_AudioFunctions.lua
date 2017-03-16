@@ -26,56 +26,66 @@ print("ME5_AudioFunctions: Entered")
 -- @param #int variation	The numeric ID of the music variation we're loading.
 -- 
 function OpenMusicStreams(variation)
+	local fileName, streamName
+	
 	if variation == 1 then
 		print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 01")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_01_Streaming.lvl")
-		OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_01_Streaming.lvl", "ME5n_music_01")
+		fileName = "SFL_MUS_01_Streaming"
+		streamName = "ME5n_music_01"
 		
 	elseif variation == 2 then
 		print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 02")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_02_Streaming.lvl")
-		OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_02_Streaming.lvl", "ME5n_music_02")
+		fileName = "SFL_MUS_02_Streaming"
+		streamName = "ME5n_music_02"
 		
 	elseif variation == 3 then
 		print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 03")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_03_Streaming.lvl")
-		OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_03_Streaming.lvl", "ME5n_music_03")
+		fileName = "SFL_MUS_03_Streaming"
+		streamName = "ME5n_music_03"
 		
 	elseif variation == 4 then
 		print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 04")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_04_Streaming.lvl")
-		OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_04_Streaming.lvl", "ME5n_music_04")
+		fileName = "SFL_MUS_04_Streaming"
+		streamName = "ME5n_music_04"
 		
 	elseif variation == 5 then
 		print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 05")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_05_Streaming.lvl")
-		OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_05_Streaming.lvl", "ME5n_music_05")
+		fileName = "SFL_MUS_05_Streaming"
+		streamName = "ME5n_music_05"
 		
 	elseif variation == 6 then
 		print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 06")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_06_Streaming.lvl")
-		OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_06_Streaming.lvl", "ME5n_music_06")
+		fileName = "SFL_MUS_06_Streaming"
+		streamName = "ME5n_music_06"
 		
 	elseif variation == 7 then
 		print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 07")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_07_Streaming.lvl")
-		OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_07_Streaming.lvl", "ME5n_music_07")
+		fileName = "SFL_MUS_07_Streaming"
+		streamName = "ME5n_music_07"
 		
 	elseif variation == 8 then
 		print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 08")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_08_Streaming.lvl")
-		OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_08_Streaming.lvl", "ME5n_music_08")
+		fileName = "SFL_MUS_08_Streaming"
+		streamName = "ME5n_music_08"
 		
 	elseif variation == 9 then
 		print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 09")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_09_Streaming.lvl")
-		OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_09_Streaming.lvl", "ME5n_music_09")
+		fileName = "SFL_MUS_09_Streaming"
+		streamName = "ME5n_music_09"
 		
 	else
 		print("ME5_AudioFunctions.OpenMusicStreams(): Error! No Music Variation is decided!")
 	end
-	print("ME5_AudioFunctions.OpenMusicStreams(): Loading hero music")
-	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_h_Streaming.lvl", "ME5n_music_h")
+	
+	assert(fileName, "ME5_AudioFunctions.OpenMusicStreams(): Error! fileName was not specified!")
+	assert(streamName, "ME5_AudioFunctions.OpenMusicStreams(): Error! streamName was not specified!")
+	
+	if fileName ~= nil and streamName ~= nil then
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\"..fileName..".lvl")
+		gMusicStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\"..fileName..".lvl", streamName)
+		AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\"..fileName..".lvl", "ME5n_music_h", gMusicStream)
+		--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_h_Streaming.lvl", "ME5n_music_h")
+	end
 end
 
 ---
@@ -85,29 +95,37 @@ function Music01()
 	OpenMusicStreams(1)
 	
 	if gCurrentMapManager.gameMode ~= "1flag" and gCurrentMapManager.gameMode ~= "ctf" then
-		SetAmbientMusic(REP, 1.0, "ssv_amb_01_start",  0,1)
-		SetAmbientMusic(REP, 0.9, "ssv_amb_01_mid",    1,1)
-		SetAmbientMusic(REP, 0.3, "ssv_amb_01_end",    2,1)
-		SetAmbientMusic(CIS, 1.0, "ssv_amb_01_start",  0,1)
-		SetAmbientMusic(CIS, 0.9, "ssv_amb_01_mid",    1,1)
-		SetAmbientMusic(CIS, 0.3, "ssv_amb_01_end",    2,1)
+		function Init_AmbientMusic()
+			SetAmbientMusic(REP, 1.0, "ssv_amb_01_start",  0,1)
+			SetAmbientMusic(REP, 0.9, "ssv_amb_01_mid",    1,1)
+			SetAmbientMusic(REP, 0.3, "ssv_amb_01_end",    2,1)
+			SetAmbientMusic(CIS, 1.0, "ssv_amb_01_start",  0,1)
+			SetAmbientMusic(CIS, 0.9, "ssv_amb_01_mid",    1,1)
+			SetAmbientMusic(CIS, 0.3, "ssv_amb_01_end",    2,1)
+		end
 		
 		SetVictoryMusic(REP, "ssv_amb_01_victory")
 		SetDefeatMusic (REP, "ssv_amb_01_defeat")
 		SetVictoryMusic(CIS, "ssv_amb_01_victory")
 		SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 	else
-		SetAmbientMusic(REP, 1.0, "ssv_amb_01_ctf",  0,1)
-		SetAmbientMusic(REP, 0.6, "ssv_amb_01_ctf",    1,1)
-		SetAmbientMusic(REP, 0.3, "ssv_amb_01_ctf",    2,1)
-		SetAmbientMusic(CIS, 1.0, "ssv_amb_01_ctf",  0,1)
-		SetAmbientMusic(CIS, 0.6, "ssv_amb_01_ctf",    1,1)
-		SetAmbientMusic(CIS, 0.3, "ssv_amb_01_ctf",    2,1)
+		function Init_AmbientMusic()
+			SetAmbientMusic(REP, 1.0, "ssv_amb_01_ctf",  0,1)
+			SetAmbientMusic(REP, 0.6, "ssv_amb_01_ctf",    1,1)
+			SetAmbientMusic(REP, 0.3, "ssv_amb_01_ctf",    2,1)
+			SetAmbientMusic(CIS, 1.0, "ssv_amb_01_ctf",  0,1)
+			SetAmbientMusic(CIS, 0.6, "ssv_amb_01_ctf",    1,1)
+			SetAmbientMusic(CIS, 0.3, "ssv_amb_01_ctf",    2,1)
+		end
 		
 		SetVictoryMusic(REP, "ssv_amb_01_victory")
 		SetDefeatMusic (REP, "ssv_amb_01_defeat")
 		SetVictoryMusic(CIS, "ssv_amb_01_victory")
 		SetDefeatMusic (CIS, "ssv_amb_01_defeat")
+	end
+	
+	if Init_AmbientMusic then
+		Init_AmbientMusic()
 	end
 end
 
@@ -163,29 +181,37 @@ function Music02()
 			musicEnd = "ssv_amb_02_end"
 		end
 		
-		SetAmbientMusic(REP, 1.0, musicStart,  0,1)
-		SetAmbientMusic(REP, 0.9, musicMid,    1,1)
-		SetAmbientMusic(REP, 0.3, musicEnd,    2,1)
-		SetAmbientMusic(CIS, 1.0, musicStart,  0,1)
-		SetAmbientMusic(CIS, 0.9, musicMid,    1,1)
-		SetAmbientMusic(CIS, 0.3, musicEnd,    2,1)
+		function Init_AmbientMusic()
+			SetAmbientMusic(REP, 1.0, musicStart,  0,1)
+			SetAmbientMusic(REP, 0.9, musicMid,    1,1)
+			SetAmbientMusic(REP, 0.3, musicEnd,    2,1)
+			SetAmbientMusic(CIS, 1.0, musicStart,  0,1)
+			SetAmbientMusic(CIS, 0.9, musicMid,    1,1)
+			SetAmbientMusic(CIS, 0.3, musicEnd,    2,1)
+		end
 		
 		SetVictoryMusic(REP, "ssv_amb_01_victory")
 		SetDefeatMusic (REP, "ssv_amb_01_defeat")
 		SetVictoryMusic(CIS, "ssv_amb_01_victory")
 		SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 	else
-		SetAmbientMusic(REP, 1.0, "ssv_amb_02_ctf",  0,1)
-		SetAmbientMusic(REP, 0.6, "ssv_amb_02_ctf",    1,1)
-		SetAmbientMusic(REP, 0.3, "ssv_amb_02_ctf",    2,1)
-		SetAmbientMusic(CIS, 1.0, "ssv_amb_02_ctf",  0,1)
-		SetAmbientMusic(CIS, 0.6, "ssv_amb_02_ctf",    1,1)
-		SetAmbientMusic(CIS, 0.3, "ssv_amb_02_ctf",    2,1)
+		function Init_AmbientMusic()
+			SetAmbientMusic(REP, 1.0, "ssv_amb_02_ctf",  0,1)
+			SetAmbientMusic(REP, 0.6, "ssv_amb_02_ctf",    1,1)
+			SetAmbientMusic(REP, 0.3, "ssv_amb_02_ctf",    2,1)
+			SetAmbientMusic(CIS, 1.0, "ssv_amb_02_ctf",  0,1)
+			SetAmbientMusic(CIS, 0.6, "ssv_amb_02_ctf",    1,1)
+			SetAmbientMusic(CIS, 0.3, "ssv_amb_02_ctf",    2,1)
+		end
 		
 		SetVictoryMusic(REP, "ssv_amb_01_victory")
 		SetDefeatMusic (REP, "ssv_amb_01_defeat")
 		SetVictoryMusic(CIS, "ssv_amb_01_victory")
 		SetDefeatMusic (CIS, "ssv_amb_01_defeat")
+	end
+	
+	if Init_AmbientMusic then
+		Init_AmbientMusic()
 	end
 end
 
@@ -215,29 +241,37 @@ function Music03(variation)
 	end
 	
 	if gCurrentMapManager.gameMode ~= "1flag" and gCurrentMapManager.gameMode ~= "ctf" then
-		SetAmbientMusic(REP, 1.0, musicStart,  0,1)
-		SetAmbientMusic(REP, 0.9, musicMid,    1,1)
-		SetAmbientMusic(REP, 0.3, musicEnd,    2,1)
-		SetAmbientMusic(CIS, 1.0, musicStart,  0,1)
-		SetAmbientMusic(CIS, 0.9, musicMid,    1,1)
-		SetAmbientMusic(CIS, 0.3, musicEnd,    2,1)
+		function Init_AmbientMusic()
+			SetAmbientMusic(REP, 1.0, musicStart,  0,1)
+			SetAmbientMusic(REP, 0.9, musicMid,    1,1)
+			SetAmbientMusic(REP, 0.3, musicEnd,    2,1)
+			SetAmbientMusic(CIS, 1.0, musicStart,  0,1)
+			SetAmbientMusic(CIS, 0.9, musicMid,    1,1)
+			SetAmbientMusic(CIS, 0.3, musicEnd,    2,1)
+		end
 		
 		SetVictoryMusic(REP, "ssv_amb_01_victory")
 		SetDefeatMusic (REP, "ssv_amb_01_defeat")
 		SetVictoryMusic(CIS, "ssv_amb_01_victory")
 		SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 	else
-		SetAmbientMusic(REP, 1.0, musicCTF,  0,1)
-		SetAmbientMusic(REP, 0.6, musicCTF,    1,1)
-		SetAmbientMusic(REP, 0.3, musicCTF,    2,1)
-		SetAmbientMusic(CIS, 1.0, musicCTF,  0,1)
-		SetAmbientMusic(CIS, 0.6, musicCTF,    1,1)
-		SetAmbientMusic(CIS, 0.3, musicCTF,    2,1)
+		function Init_AmbientMusic()
+			SetAmbientMusic(REP, 1.0, musicCTF,  0,1)
+			SetAmbientMusic(REP, 0.6, musicCTF,    1,1)
+			SetAmbientMusic(REP, 0.3, musicCTF,    2,1)
+			SetAmbientMusic(CIS, 1.0, musicCTF,  0,1)
+			SetAmbientMusic(CIS, 0.6, musicCTF,    1,1)
+			SetAmbientMusic(CIS, 0.3, musicCTF,    2,1)
+		end
 		
 		SetVictoryMusic(REP, "ssv_amb_01_victory")
 		SetDefeatMusic (REP, "ssv_amb_01_defeat")
 		SetVictoryMusic(CIS, "ssv_amb_01_victory")
 		SetDefeatMusic (CIS, "ssv_amb_01_defeat")
+	end
+	
+	if Init_AmbientMusic then
+		Init_AmbientMusic()
 	end
 end
 
@@ -280,60 +314,74 @@ function Music04(variation)
 		
 		if decideVar == 1 then
 				print("ME5_AudioFunctions: Deciding Music04 variation... Choosing SAMARA")
-			SetAmbientMusic(REP, 1.0, "ssv_amb_04a_start",  0,1)
-			SetAmbientMusic(REP, 0.8, "ssv_amb_04a_mid",    1,1)
-			SetAmbientMusic(REP, 0.35, "ssv_amb_04a_end",    2,1)
-			SetAmbientMusic(CIS, 1.0, "ssv_amb_04a_start",  0,1)
-			SetAmbientMusic(CIS, 0.8, "ssv_amb_04a_mid",    1,1)
-			SetAmbientMusic(CIS, 0.35, "ssv_amb_04a_end",    2,1)
+			function Init_AmbientMusic()
+				SetAmbientMusic(REP, 1.0, "ssv_amb_04a_start",  0,1)
+				SetAmbientMusic(REP, 0.8, "ssv_amb_04a_mid",    1,1)
+				SetAmbientMusic(REP, 0.35, "ssv_amb_04a_end",    2,1)
+				SetAmbientMusic(CIS, 1.0, "ssv_amb_04a_start",  0,1)
+				SetAmbientMusic(CIS, 0.8, "ssv_amb_04a_mid",    1,1)
+				SetAmbientMusic(CIS, 0.35, "ssv_amb_04a_end",    2,1)
+			end
 		elseif decideVar == 2 then
 				print("ME5_AudioFunctions: Deciding Music04 variation... Choosing GRUNT")
-			SetAmbientMusic(REP, 1.0, "ssv_amb_04b_start",  0,1)
-			SetAmbientMusic(REP, 0.8, "ssv_amb_04b_mid",    1,1)
-			SetAmbientMusic(REP, 0.35, "ssv_amb_04b_end",    2,1)
-			SetAmbientMusic(CIS, 1.0, "ssv_amb_04b_start",  0,1)
-			SetAmbientMusic(CIS, 0.8, "ssv_amb_04b_mid",    1,1)
-			SetAmbientMusic(CIS, 0.35, "ssv_amb_04b_end",    2,1)
+			function Init_AmbientMusic()
+				SetAmbientMusic(REP, 1.0, "ssv_amb_04b_start",  0,1)
+				SetAmbientMusic(REP, 0.8, "ssv_amb_04b_mid",    1,1)
+				SetAmbientMusic(REP, 0.35, "ssv_amb_04b_end",    2,1)
+				SetAmbientMusic(CIS, 1.0, "ssv_amb_04b_start",  0,1)
+				SetAmbientMusic(CIS, 0.8, "ssv_amb_04b_mid",    1,1)
+				SetAmbientMusic(CIS, 0.35, "ssv_amb_04b_end",    2,1)
+			end
 		elseif decideVar == 3 then
 				print("ME5_AudioFunctions: Deciding Music04 variation... Choosing TALI")
-			SetAmbientMusic(REP, 1.0, "ssv_amb_04c_start",  0,1)
-			SetAmbientMusic(REP, 0.8, "ssv_amb_04c_mid",    1,1)
-			SetAmbientMusic(REP, 0.35, "ssv_amb_04c_end",    2,1)
-			SetAmbientMusic(CIS, 1.0, "ssv_amb_04c_start",  0,1)
-			SetAmbientMusic(CIS, 0.8, "ssv_amb_04c_mid",    1,1)
-			SetAmbientMusic(CIS, 0.35, "ssv_amb_04c_end",    2,1)
+			function Init_AmbientMusic()
+				SetAmbientMusic(REP, 1.0, "ssv_amb_04c_start",  0,1)
+				SetAmbientMusic(REP, 0.8, "ssv_amb_04c_mid",    1,1)
+				SetAmbientMusic(REP, 0.35, "ssv_amb_04c_end",    2,1)
+				SetAmbientMusic(CIS, 1.0, "ssv_amb_04c_start",  0,1)
+				SetAmbientMusic(CIS, 0.8, "ssv_amb_04c_mid",    1,1)
+				SetAmbientMusic(CIS, 0.35, "ssv_amb_04c_end",    2,1)
+			end
 		elseif decideVar == 4 then
 				print("ME5_AudioFunctions: Deciding Music04 variation... Choosing INFILTRATION")
-			SetAmbientMusic(REP, 1.0, "ssv_amb_04d_start",  0,1)
-			SetAmbientMusic(REP, 0.8, "ssv_amb_04d_mid",    1,1)
-			SetAmbientMusic(REP, 0.35, "ssv_amb_04d_end",    2,1)
-			SetAmbientMusic(CIS, 1.0, "ssv_amb_04d_start",  0,1)
-			SetAmbientMusic(CIS, 0.8, "ssv_amb_04d_mid",    1,1)
-			SetAmbientMusic(CIS, 0.35, "ssv_amb_04d_end",    2,1)
+			function Init_AmbientMusic()
+				SetAmbientMusic(REP, 1.0, "ssv_amb_04d_start",  0,1)
+				SetAmbientMusic(REP, 0.8, "ssv_amb_04d_mid",    1,1)
+				SetAmbientMusic(REP, 0.35, "ssv_amb_04d_end",    2,1)
+				SetAmbientMusic(CIS, 1.0, "ssv_amb_04d_start",  0,1)
+				SetAmbientMusic(CIS, 0.8, "ssv_amb_04d_mid",    1,1)
+				SetAmbientMusic(CIS, 0.35, "ssv_amb_04d_end",    2,1)
+			end
 		elseif decideVar == 5 then
 				print("ME5_AudioFunctions: Deciding Music04 variation... Choosing THANE")
-			SetAmbientMusic(REP, 1.0, "ssv_amb_04e_start",  0,1)
-			SetAmbientMusic(REP, 0.85, "ssv_amb_04e_mid",    1,1)
-			SetAmbientMusic(REP, 0.4, "ssv_amb_04e_end",    2,1)
-			SetAmbientMusic(CIS, 1.0, "ssv_amb_04e_start",  0,1)
-			SetAmbientMusic(CIS, 0.8, "ssv_amb_04e_mid",    1,1)
-			SetAmbientMusic(CIS, 0.35, "ssv_amb_04e_end",    2,1)
+			function Init_AmbientMusic()
+				SetAmbientMusic(REP, 1.0, "ssv_amb_04e_start",  0,1)
+				SetAmbientMusic(REP, 0.85, "ssv_amb_04e_mid",    1,1)
+				SetAmbientMusic(REP, 0.4, "ssv_amb_04e_end",    2,1)
+				SetAmbientMusic(CIS, 1.0, "ssv_amb_04e_start",  0,1)
+				SetAmbientMusic(CIS, 0.8, "ssv_amb_04e_mid",    1,1)
+				SetAmbientMusic(CIS, 0.35, "ssv_amb_04e_end",    2,1)
+			end
 		elseif decideVar == 6 then
 				print("ME5_AudioFunctions: Deciding Music04 variation... Choosing JACK")
-			SetAmbientMusic(REP, 1.0, "ssv_amb_04f_start",  0,1)
-			SetAmbientMusic(REP, 0.85, "ssv_amb_04f_mid",    1,1)
-			SetAmbientMusic(REP, 0.4, "ssv_amb_04f_end",    2,1)
-			SetAmbientMusic(CIS, 1.0, "ssv_amb_04f_start",  0,1)
-			SetAmbientMusic(CIS, 0.85, "ssv_amb_04f_mid",    1,1)
-			SetAmbientMusic(CIS, 0.4, "ssv_amb_04f_end",    2,1)
+			function Init_AmbientMusic()
+				SetAmbientMusic(REP, 1.0, "ssv_amb_04f_start",  0,1)
+				SetAmbientMusic(REP, 0.85, "ssv_amb_04f_mid",    1,1)
+				SetAmbientMusic(REP, 0.4, "ssv_amb_04f_end",    2,1)
+				SetAmbientMusic(CIS, 1.0, "ssv_amb_04f_start",  0,1)
+				SetAmbientMusic(CIS, 0.85, "ssv_amb_04f_mid",    1,1)
+				SetAmbientMusic(CIS, 0.4, "ssv_amb_04f_end",    2,1)
+			end
 		else
 				print("ME5_AudioFunctions: Uh oh! Incorrect Music04 variation is loaded! D: :runaway:")
-			SetAmbientMusic(REP, 1.0, "ssv_amb_04_start",  0,1)
-			SetAmbientMusic(REP, 0.8, "ssv_amb_04_mid",    1,1)
-			SetAmbientMusic(REP, 0.35, "ssv_amb_04_end",    2,1)
-			SetAmbientMusic(CIS, 1.0, "ssv_amb_04_start",  0,1)
-			SetAmbientMusic(CIS, 0.8, "ssv_amb_04_mid",    1,1)
-			SetAmbientMusic(CIS, 0.35, "ssv_amb_04_end",    2,1)
+			function Init_AmbientMusic()
+				SetAmbientMusic(REP, 1.0, "ssv_amb_04_start",  0,1)
+				SetAmbientMusic(REP, 0.8, "ssv_amb_04_mid",    1,1)
+				SetAmbientMusic(REP, 0.35, "ssv_amb_04_end",    2,1)
+				SetAmbientMusic(CIS, 1.0, "ssv_amb_04_start",  0,1)
+				SetAmbientMusic(CIS, 0.8, "ssv_amb_04_mid",    1,1)
+				SetAmbientMusic(CIS, 0.35, "ssv_amb_04_end",    2,1)
+			end
 		end
 		
 		SetVictoryMusic(REP, "ssv_amb_01_victory")
@@ -341,17 +389,23 @@ function Music04(variation)
 		SetVictoryMusic(CIS, "ssv_amb_01_victory")
 		SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 	else
-		SetAmbientMusic(REP, 1.0, "ssv_amb_04_ctf",  0,1)
-		SetAmbientMusic(REP, 0.6, "ssv_amb_04_ctf",    1,1)
-		SetAmbientMusic(REP, 0.3, "ssv_amb_04_ctf",    2,1)
-		SetAmbientMusic(CIS, 1.0, "ssv_amb_04_ctf",  0,1)
-		SetAmbientMusic(CIS, 0.6, "ssv_amb_04_ctf",    1,1)
-		SetAmbientMusic(CIS, 0.3, "ssv_amb_04_ctf",    2,1)
+		function Init_AmbientMusic()
+			SetAmbientMusic(REP, 1.0, "ssv_amb_04_ctf",  0,1)
+			SetAmbientMusic(REP, 0.6, "ssv_amb_04_ctf",    1,1)
+			SetAmbientMusic(REP, 0.3, "ssv_amb_04_ctf",    2,1)
+			SetAmbientMusic(CIS, 1.0, "ssv_amb_04_ctf",  0,1)
+			SetAmbientMusic(CIS, 0.6, "ssv_amb_04_ctf",    1,1)
+			SetAmbientMusic(CIS, 0.3, "ssv_amb_04_ctf",    2,1)
+		end
 		
 		SetVictoryMusic(REP, "ssv_amb_01_victory")
 		SetDefeatMusic (REP, "ssv_amb_01_defeat")
 		SetVictoryMusic(CIS, "ssv_amb_01_victory")
 		SetDefeatMusic (CIS, "ssv_amb_01_defeat")
+	end
+	
+	if Init_AmbientMusic then
+		Init_AmbientMusic()
 	end
 end
 
@@ -388,44 +442,54 @@ function Music05(variation)
 		
 		if decideVar == 1 then
 				print("ME5_AudioFunctions: Deciding Music05 variation... Choosing THE LONG WALK")
-			SetAmbientMusic(REP, 1.0, "ssv_amb_05a_start",  0,1)
-			SetAmbientMusic(REP, 0.65, "ssv_amb_05a_mid",    1,1)
-			SetAmbientMusic(REP, 0.4, "ssv_amb_05a_end",    2,1)
-			SetAmbientMusic(CIS, 1.0, "ssv_amb_05a_start",  0,1)
-			SetAmbientMusic(CIS, 0.65, "ssv_amb_05a_mid",    1,1)
-			SetAmbientMusic(CIS, 0.4, "ssv_amb_05a_end",    2,1)
+			function Init_AmbientMusic()
+				SetAmbientMusic(REP, 1.0, "ssv_amb_05a_start",  0,1)
+				SetAmbientMusic(REP, 0.65, "ssv_amb_05a_mid",    1,1)
+				SetAmbientMusic(REP, 0.4, "ssv_amb_05a_end",    2,1)
+				SetAmbientMusic(CIS, 1.0, "ssv_amb_05a_start",  0,1)
+				SetAmbientMusic(CIS, 0.65, "ssv_amb_05a_mid",    1,1)
+				SetAmbientMusic(CIS, 0.4, "ssv_amb_05a_end",    2,1)
+			end
 		elseif decideVar == 2 then
 				print("ME5_AudioFunctions: Deciding Music05 variation... Choosing HORIZON")
-			SetAmbientMusic(REP, 1.0, "ssv_amb_05b_start",  0,1)
-			SetAmbientMusic(REP, 0.9, "ssv_amb_05b_mid",    1,1)
-			SetAmbientMusic(REP, 0.4, "ssv_amb_05b_end",    2,1)
-			SetAmbientMusic(CIS, 1.0, "ssv_amb_05b_start",  0,1)
-			SetAmbientMusic(CIS, 0.9, "ssv_amb_05b_mid",    1,1)
-			SetAmbientMusic(CIS, 0.4, "ssv_amb_05b_end",    2,1)
+			function Init_AmbientMusic()
+				SetAmbientMusic(REP, 1.0, "ssv_amb_05b_start",  0,1)
+				SetAmbientMusic(REP, 0.9, "ssv_amb_05b_mid",    1,1)
+				SetAmbientMusic(REP, 0.4, "ssv_amb_05b_end",    2,1)
+				SetAmbientMusic(CIS, 1.0, "ssv_amb_05b_start",  0,1)
+				SetAmbientMusic(CIS, 0.9, "ssv_amb_05b_mid",    1,1)
+				SetAmbientMusic(CIS, 0.4, "ssv_amb_05b_end",    2,1)
+			end
 		elseif decideVar == 3 then
 				print("ME5_AudioFunctions: Deciding Music05 variation... Choosing PARAGON LOST")
-			SetAmbientMusic(REP, 1.0, "ssv_amb_05c_start",  0,1)
-			SetAmbientMusic(REP, 0.9, "ssv_amb_05c_mid",    1,1)
-			SetAmbientMusic(REP, 0.55, "ssv_amb_05c_end",    2,1)
-			SetAmbientMusic(CIS, 1.0, "ssv_amb_05c_start",  0,1)
-			SetAmbientMusic(CIS, 0.9, "ssv_amb_05c_mid",    1,1)
-			SetAmbientMusic(CIS, 0.55, "ssv_amb_05c_end",    2,1)
+			function Init_AmbientMusic()
+				SetAmbientMusic(REP, 1.0, "ssv_amb_05c_start",  0,1)
+				SetAmbientMusic(REP, 0.9, "ssv_amb_05c_mid",    1,1)
+				SetAmbientMusic(REP, 0.55, "ssv_amb_05c_end",    2,1)
+				SetAmbientMusic(CIS, 1.0, "ssv_amb_05c_start",  0,1)
+				SetAmbientMusic(CIS, 0.9, "ssv_amb_05c_mid",    1,1)
+				SetAmbientMusic(CIS, 0.55, "ssv_amb_05c_end",    2,1)
+			end
 		elseif decideVar == 4 then
 				print("ME5_AudioFunctions: Deciding Music05 variation... Choosing MAHAVID MINES SUITE")
-			SetAmbientMusic(REP, 1.0, "ssv_amb_05d_start",  0,1)
-			SetAmbientMusic(REP, 0.85, "ssv_amb_05d_mid",    1,1)
-			SetAmbientMusic(REP, 0.3, "ssv_amb_05d_end",    2,1)
-			SetAmbientMusic(CIS, 1.0, "ssv_amb_05d_start",  0,1)
-			SetAmbientMusic(CIS, 0.85, "ssv_amb_05d_mid",    1,1)
-			SetAmbientMusic(CIS, 0.3, "ssv_amb_05d_end",    2,1)
+			function Init_AmbientMusic()
+				SetAmbientMusic(REP, 1.0, "ssv_amb_05d_start",  0,1)
+				SetAmbientMusic(REP, 0.85, "ssv_amb_05d_mid",    1,1)
+				SetAmbientMusic(REP, 0.3, "ssv_amb_05d_end",    2,1)
+				SetAmbientMusic(CIS, 1.0, "ssv_amb_05d_start",  0,1)
+				SetAmbientMusic(CIS, 0.85, "ssv_amb_05d_mid",    1,1)
+				SetAmbientMusic(CIS, 0.3, "ssv_amb_05d_end",    2,1)
+			end
 		else
 				print("ME5_AudioFunctions: Uh oh! Incorrect Music05 variation is loaded! D: :runaway:")
-			SetAmbientMusic(REP, 1.0, "ssv_amb_05a_start",  0,1)
-			SetAmbientMusic(REP, 0.65, "ssv_amb_05a_mid",    1,1)
-			SetAmbientMusic(REP, 0.4, "ssv_amb_05a_end",    2,1)
-			SetAmbientMusic(CIS, 1.0, "ssv_amb_05a_start",  0,1)
-			SetAmbientMusic(CIS, 0.65, "ssv_amb_05a_mid",    1,1)
-			SetAmbientMusic(CIS, 0.4, "ssv_amb_05a_end",    2,1)
+			function Init_AmbientMusic()
+				SetAmbientMusic(REP, 1.0, "ssv_amb_05a_start",  0,1)
+				SetAmbientMusic(REP, 0.65, "ssv_amb_05a_mid",    1,1)
+				SetAmbientMusic(REP, 0.4, "ssv_amb_05a_end",    2,1)
+				SetAmbientMusic(CIS, 1.0, "ssv_amb_05a_start",  0,1)
+				SetAmbientMusic(CIS, 0.65, "ssv_amb_05a_mid",    1,1)
+				SetAmbientMusic(CIS, 0.4, "ssv_amb_05a_end",    2,1)
+			end
 		end
 		
 		SetVictoryMusic(REP, "ssv_amb_01_victory")
@@ -433,17 +497,23 @@ function Music05(variation)
 		SetVictoryMusic(CIS, "ssv_amb_01_victory")
 		SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 	else
-		SetAmbientMusic(REP, 1.0, "ssv_amb_05_ctf",  0,1)
-		SetAmbientMusic(REP, 0.6, "ssv_amb_05_ctf",    1,1)
-		SetAmbientMusic(REP, 0.3, "ssv_amb_05_ctf",    2,1)
-		SetAmbientMusic(CIS, 1.0, "ssv_amb_05_ctf",  0,1)
-		SetAmbientMusic(CIS, 0.6, "ssv_amb_05_ctf",    1,1)
-		SetAmbientMusic(CIS, 0.3, "ssv_amb_05_ctf",    2,1)
+		function Init_AmbientMusic()
+			SetAmbientMusic(REP, 1.0, "ssv_amb_05_ctf",  0,1)
+			SetAmbientMusic(REP, 0.6, "ssv_amb_05_ctf",    1,1)
+			SetAmbientMusic(REP, 0.3, "ssv_amb_05_ctf",    2,1)
+			SetAmbientMusic(CIS, 1.0, "ssv_amb_05_ctf",  0,1)
+			SetAmbientMusic(CIS, 0.6, "ssv_amb_05_ctf",    1,1)
+			SetAmbientMusic(CIS, 0.3, "ssv_amb_05_ctf",    2,1)
+		end
 		
 		SetVictoryMusic(REP, "ssv_amb_01_victory")
 		SetDefeatMusic (REP, "ssv_amb_01_defeat")
 		SetVictoryMusic(CIS, "ssv_amb_01_victory")
 		SetDefeatMusic (CIS, "ssv_amb_01_defeat")
+	end
+	
+	if Init_AmbientMusic then
+		Init_AmbientMusic()
 	end
 end
 
@@ -474,28 +544,34 @@ function Music06(variation)
 		
 		if decideVar == 1 then
 				print("ME5_AudioFunctions: Deciding Music06 variation... Choosing OVERLORD")
-			SetAmbientMusic(REP, 1.0, "ssv_amb_06a_start",  0,1)
-			SetAmbientMusic(REP, 0.75, "ssv_amb_06a_mid",    1,1)
-			SetAmbientMusic(REP, 0.5, "ssv_amb_06a_end",    2,1)
-			SetAmbientMusic(CIS, 1.0, "ssv_amb_06a_start",  0,1)
-			SetAmbientMusic(CIS, 0.75, "ssv_amb_06a_mid",    1,1)
-			SetAmbientMusic(CIS, 0.5, "ssv_amb_06a_end",    2,1)
+			function Init_AmbientMusic()
+				SetAmbientMusic(REP, 1.0, "ssv_amb_06a_start",  0,1)
+				SetAmbientMusic(REP, 0.75, "ssv_amb_06a_mid",    1,1)
+				SetAmbientMusic(REP, 0.5, "ssv_amb_06a_end",    2,1)
+				SetAmbientMusic(CIS, 1.0, "ssv_amb_06a_start",  0,1)
+				SetAmbientMusic(CIS, 0.75, "ssv_amb_06a_mid",    1,1)
+				SetAmbientMusic(CIS, 0.5, "ssv_amb_06a_end",    2,1)
+			end
 		elseif decideVar == 2 then
 				print("ME5_AudioFunctions: Deciding Music06 variation... Choosing SHADOW BROKER")
-			SetAmbientMusic(REP, 1.0, "ssv_amb_06b_start",  0,1)
-			SetAmbientMusic(REP, 0.9, "ssv_amb_06b_mid",    1,1)
-			SetAmbientMusic(REP, 0.5, "ssv_amb_06b_end",    2,1)
-			SetAmbientMusic(CIS, 1.0, "ssv_amb_06b_start",  0,1)
-			SetAmbientMusic(CIS, 0.9, "ssv_amb_06b_mid",    1,1)
-			SetAmbientMusic(CIS, 0.5, "ssv_amb_06b_end",    2,1)
+			function Init_AmbientMusic()
+				SetAmbientMusic(REP, 1.0, "ssv_amb_06b_start",  0,1)
+				SetAmbientMusic(REP, 0.9, "ssv_amb_06b_mid",    1,1)
+				SetAmbientMusic(REP, 0.5, "ssv_amb_06b_end",    2,1)
+				SetAmbientMusic(CIS, 1.0, "ssv_amb_06b_start",  0,1)
+				SetAmbientMusic(CIS, 0.9, "ssv_amb_06b_mid",    1,1)
+				SetAmbientMusic(CIS, 0.5, "ssv_amb_06b_end",    2,1)
+			end
 		else
 				print("ME5_AudioFunctions: Uh oh! Incorrect Music06 variation is loaded! D: :runaway:")
-			SetAmbientMusic(REP, 1.0, "ssv_amb_06_start",  0,1)
-			SetAmbientMusic(REP, 0.7, "ssv_amb_06_mid",    1,1)
-			SetAmbientMusic(REP, 0.5, "ssv_amb_06_end",    2,1)
-			SetAmbientMusic(CIS, 1.0, "ssv_amb_06_start",  0,1)
-			SetAmbientMusic(CIS, 0.7, "ssv_amb_06_mid",    1,1)
-			SetAmbientMusic(CIS, 0.5, "ssv_amb_06_end",    2,1)
+			function Init_AmbientMusic()
+				SetAmbientMusic(REP, 1.0, "ssv_amb_06_start",  0,1)
+				SetAmbientMusic(REP, 0.7, "ssv_amb_06_mid",    1,1)
+				SetAmbientMusic(REP, 0.5, "ssv_amb_06_end",    2,1)
+				SetAmbientMusic(CIS, 1.0, "ssv_amb_06_start",  0,1)
+				SetAmbientMusic(CIS, 0.7, "ssv_amb_06_mid",    1,1)
+				SetAmbientMusic(CIS, 0.5, "ssv_amb_06_end",    2,1)
+			end
 		end
 		
 		SetVictoryMusic(REP, "ssv_amb_01_victory")
@@ -503,17 +579,23 @@ function Music06(variation)
 		SetVictoryMusic(CIS, "ssv_amb_01_victory")
 		SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 	else
-		SetAmbientMusic(REP, 1.0, "ssv_amb_06_ctf",  0,1)
-		SetAmbientMusic(REP, 0.6, "ssv_amb_06_ctf",    1,1)
-		SetAmbientMusic(REP, 0.3, "ssv_amb_06_ctf",    2,1)
-		SetAmbientMusic(CIS, 1.0, "ssv_amb_06_ctf",  0,1)
-		SetAmbientMusic(CIS, 0.6, "ssv_amb_06_ctf",    1,1)
-		SetAmbientMusic(CIS, 0.3, "ssv_amb_06_ctf",    2,1)
+		function Init_AmbientMusic()
+			SetAmbientMusic(REP, 1.0, "ssv_amb_06_ctf",  0,1)
+			SetAmbientMusic(REP, 0.6, "ssv_amb_06_ctf",    1,1)
+			SetAmbientMusic(REP, 0.3, "ssv_amb_06_ctf",    2,1)
+			SetAmbientMusic(CIS, 1.0, "ssv_amb_06_ctf",  0,1)
+			SetAmbientMusic(CIS, 0.6, "ssv_amb_06_ctf",    1,1)
+			SetAmbientMusic(CIS, 0.3, "ssv_amb_06_ctf",    2,1)
+		end
 		
 		SetVictoryMusic(REP, "ssv_amb_01_victory")
 		SetDefeatMusic (REP, "ssv_amb_01_defeat")
 		SetVictoryMusic(CIS, "ssv_amb_01_victory")
 		SetDefeatMusic (CIS, "ssv_amb_01_defeat")
+	end
+	
+	if Init_AmbientMusic then
+		Init_AmbientMusic()
 	end
 end
 
@@ -524,29 +606,37 @@ function Music07()
 	OpenMusicStreams(7)
 	
 	if gCurrentMapManager.gameMode ~= "1flag" and gCurrentMapManager.gameMode ~= "ctf" then
-		SetAmbientMusic(REP, 1.0, "ssv_amb_07_start",  0,1)
-		SetAmbientMusic(REP, 0.75, "ssv_amb_07_mid",    1,1)
-		SetAmbientMusic(REP, 0.25, "ssv_amb_07_end",    2,1)
-		SetAmbientMusic(CIS, 1.0, "ssv_amb_07_start",  0,1)
-		SetAmbientMusic(CIS, 0.75, "ssv_amb_07_mid",    1,1)
-		SetAmbientMusic(CIS, 0.25, "ssv_amb_07_end",    2,1)
+		function Init_AmbientMusic()
+			SetAmbientMusic(REP, 1.0, "ssv_amb_07_start",  0,1)
+			SetAmbientMusic(REP, 0.75, "ssv_amb_07_mid",    1,1)
+			SetAmbientMusic(REP, 0.25, "ssv_amb_07_end",    2,1)
+			SetAmbientMusic(CIS, 1.0, "ssv_amb_07_start",  0,1)
+			SetAmbientMusic(CIS, 0.75, "ssv_amb_07_mid",    1,1)
+			SetAmbientMusic(CIS, 0.25, "ssv_amb_07_end",    2,1)
+		end
 		
 		SetVictoryMusic(REP, "ssv_amb_01_victory")
 		SetDefeatMusic (REP, "ssv_amb_01_defeat")
 		SetVictoryMusic(CIS, "ssv_amb_01_victory")
 		SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 	else
-		SetAmbientMusic(REP, 1.0, "ssv_amb_07_start",  0,1)
-		SetAmbientMusic(REP, 0.75, "ssv_amb_07_mid",    1,1)
-		SetAmbientMusic(REP, 0.25, "ssv_amb_07_end",    2,1)
-		SetAmbientMusic(CIS, 1.0, "ssv_amb_07_start",  0,1)
-		SetAmbientMusic(CIS, 0.75, "ssv_amb_07_mid",    1,1)
-		SetAmbientMusic(CIS, 0.25, "ssv_amb_07_end",    2,1)
+		function Init_AmbientMusic()
+			SetAmbientMusic(REP, 1.0, "ssv_amb_07_start",  0,1)
+			SetAmbientMusic(REP, 0.75, "ssv_amb_07_mid",    1,1)
+			SetAmbientMusic(REP, 0.25, "ssv_amb_07_end",    2,1)
+			SetAmbientMusic(CIS, 1.0, "ssv_amb_07_start",  0,1)
+			SetAmbientMusic(CIS, 0.75, "ssv_amb_07_mid",    1,1)
+			SetAmbientMusic(CIS, 0.25, "ssv_amb_07_end",    2,1)
+		end
 		
 		SetVictoryMusic(REP, "ssv_amb_01_victory")
 		SetDefeatMusic (REP, "ssv_amb_01_defeat")
 		SetVictoryMusic(CIS, "ssv_amb_01_victory")
 		SetDefeatMusic (CIS, "ssv_amb_01_defeat")
+	end
+	
+	if Init_AmbientMusic then
+		Init_AmbientMusic()
 	end
 end
 
@@ -557,29 +647,37 @@ function Music08()
 	OpenMusicStreams(8)
 	
 	if gCurrentMapManager.gameMode ~= "1flag" and gCurrentMapManager.gameMode ~= "ctf" then
-		SetAmbientMusic(REP, 1.0, "ssv_amb_08_start",  0,1)
-		SetAmbientMusic(REP, 0.7, "ssv_amb_08_mid",    1,1)
-		SetAmbientMusic(REP, 0.3, "ssv_amb_08_end",    2,1)
-		SetAmbientMusic(CIS, 1.0, "ssv_amb_08_start",  0,1)
-		SetAmbientMusic(CIS, 0.7, "ssv_amb_08_mid",    1,1)
-		SetAmbientMusic(CIS, 0.3, "ssv_amb_08_end",    2,1)
+		function Init_AmbientMusic()
+			SetAmbientMusic(REP, 1.0, "ssv_amb_08_start",  0,1)
+			SetAmbientMusic(REP, 0.7, "ssv_amb_08_mid",    1,1)
+			SetAmbientMusic(REP, 0.3, "ssv_amb_08_end",    2,1)
+			SetAmbientMusic(CIS, 1.0, "ssv_amb_08_start",  0,1)
+			SetAmbientMusic(CIS, 0.7, "ssv_amb_08_mid",    1,1)
+			SetAmbientMusic(CIS, 0.3, "ssv_amb_08_end",    2,1)
+		end
 		
 		SetVictoryMusic(REP, "ssv_amb_01_victory")
 		SetDefeatMusic (REP, "ssv_amb_01_defeat")
 		SetVictoryMusic(CIS, "ssv_amb_01_victory")
 		SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 	else
-		SetAmbientMusic(REP, 1.0, "ssv_amb_08_start",  0,1)
-		SetAmbientMusic(REP, 0.7, "ssv_amb_08_mid",    1,1)
-		SetAmbientMusic(REP, 0.3, "ssv_amb_08_end",    2,1)
-		SetAmbientMusic(CIS, 1.0, "ssv_amb_08_start",  0,1)
-		SetAmbientMusic(CIS, 0.7, "ssv_amb_08_mid",    1,1)
-		SetAmbientMusic(CIS, 0.3, "ssv_amb_08_end",    2,1)
+		function Init_AmbientMusic()
+			SetAmbientMusic(REP, 1.0, "ssv_amb_08_start",  0,1)
+			SetAmbientMusic(REP, 0.7, "ssv_amb_08_mid",    1,1)
+			SetAmbientMusic(REP, 0.3, "ssv_amb_08_end",    2,1)
+			SetAmbientMusic(CIS, 1.0, "ssv_amb_08_start",  0,1)
+			SetAmbientMusic(CIS, 0.7, "ssv_amb_08_mid",    1,1)
+			SetAmbientMusic(CIS, 0.3, "ssv_amb_08_end",    2,1)
+		end
 		
 		SetVictoryMusic(REP, "ssv_amb_01_victory")
 		SetDefeatMusic (REP, "ssv_amb_01_defeat")
 		SetVictoryMusic(CIS, "ssv_amb_01_victory")
 		SetDefeatMusic (CIS, "ssv_amb_01_defeat")
+	end
+	
+	if Init_AmbientMusic then
+		Init_AmbientMusic()
 	end
 end
 
@@ -638,29 +736,37 @@ function Music09()
 			musicEnd = "ssv_amb_09_end"
 		end
 		
-		SetAmbientMusic(REP, 1.00, musicStart,  0,1)
-		SetAmbientMusic(REP, 0.70, musicMid,    1,1)
-		SetAmbientMusic(REP, 0.35, musicEnd,    2,1)
-		SetAmbientMusic(CIS, 1.00, musicStart,  0,1)
-		SetAmbientMusic(CIS, 0.70, musicMid,    1,1)
-		SetAmbientMusic(CIS, 0.35, musicEnd,    2,1)
+		function Init_AmbientMusic()
+			SetAmbientMusic(REP, 1.00, musicStart,  0,1)
+			SetAmbientMusic(REP, 0.70, musicMid,    1,1)
+			SetAmbientMusic(REP, 0.35, musicEnd,    2,1)
+			SetAmbientMusic(CIS, 1.00, musicStart,  0,1)
+			SetAmbientMusic(CIS, 0.70, musicMid,    1,1)
+			SetAmbientMusic(CIS, 0.35, musicEnd,    2,1)
+		end
 		
 		SetVictoryMusic(REP, "ssv_amb_01_victory")
 		SetDefeatMusic (REP, "ssv_amb_01_defeat")
 		SetVictoryMusic(CIS, "ssv_amb_01_victory")
 		SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 	else
-		SetAmbientMusic(REP, 1.0, "ssv_amb_09_ctf",  0,1)
-		SetAmbientMusic(REP, 0.6, "ssv_amb_09_ctf",    1,1)
-		SetAmbientMusic(REP, 0.3, "ssv_amb_09_ctf",    2,1)
-		SetAmbientMusic(CIS, 1.0, "ssv_amb_09_ctf",  0,1)
-		SetAmbientMusic(CIS, 0.6, "ssv_amb_09_ctf",    1,1)
-		SetAmbientMusic(CIS, 0.3, "ssv_amb_09_ctf",    2,1)
+		function Init_AmbientMusic()
+			SetAmbientMusic(REP, 1.0, "ssv_amb_09_ctf",  0,1)
+			SetAmbientMusic(REP, 0.6, "ssv_amb_09_ctf",    1,1)
+			SetAmbientMusic(REP, 0.3, "ssv_amb_09_ctf",    2,1)
+			SetAmbientMusic(CIS, 1.0, "ssv_amb_09_ctf",  0,1)
+			SetAmbientMusic(CIS, 0.6, "ssv_amb_09_ctf",    1,1)
+			SetAmbientMusic(CIS, 0.3, "ssv_amb_09_ctf",    2,1)
+		end
 		
 		SetVictoryMusic(REP, "ssv_amb_01_victory")
 		SetDefeatMusic (REP, "ssv_amb_01_defeat")
 		SetVictoryMusic(CIS, "ssv_amb_01_victory")
 		SetDefeatMusic (CIS, "ssv_amb_01_defeat")
+	end
+	
+	if Init_AmbientMusic then
+		Init_AmbientMusic()
 	end
 end
 
@@ -936,6 +1042,89 @@ function UnmuteAudioBus(busID, originalGain)
 	return end
 	
 	ScriptCB_SndBusFade(busID, 0.0, originalGain)
+end
+
+
+function Init_HeroMusic()
+	if not ScriptCB_InMultiplayer() then
+		-- Whenever the player spawns as a hero unit
+		local playerspawn = OnCharacterSpawn(
+			function(player)
+				if not player then return end
+				charUnit = GetCharacterUnit(player)
+				charPtr = GetEntityPtr(charUnit)
+				
+				if IsCharacterHuman(player) then
+					local charPtr = GetEntityPtr(GetCharacterUnit(player))
+					local charClass = GetEntityClass(charPtr)
+					
+					if charClass == FindEntityClass(SSVHeroClass) then
+						print("player is hero")
+						if string.find(SSVHeroClass, "shepard") then
+							ScriptCB_PlayInGameMusic("hero_shepard_music")
+							
+						elseif string.find(SSVHeroClass, "cooper") then
+							ScriptCB_PlayInGameMusic("hero_shepard_music")
+							
+						elseif string.find(SSVHeroClass, "jack") then
+							ScriptCB_PlayInGameMusic("hero_jack_music")
+							
+						elseif string.find(SSVHeroClass, "legion") then
+							ScriptCB_PlayInGameMusic("hero_legion_music")
+							
+						elseif string.find(SSVHeroClass, "samara") then
+							ScriptCB_PlayInGameMusic("hero_samara_music")
+						end
+						
+					elseif charClass == FindEntityClass(GTHHeroClass) then
+						print("player is hero")
+						if string.find(GTHHeroClass, "prime") then
+							ScriptCB_PlayInGameMusic("hero_gethprime_music")
+						end
+						
+					elseif charClass == FindEntityClass(COLHeroClass) then
+						print("player is hero")
+						if string.find(COLHeroClass, "harbinger") then
+							ScriptCB_PlayInGameMusic("hero_harbinger_music")
+						end
+						
+					elseif charClass == FindEntityClass(EVGHeroClass) then
+						print("player is hero")
+		
+						if string.find(EVGHeroClass, "prime") then
+							ScriptCB_PlayInGameMusic("hero_gethprime_music")
+						end
+					else
+						print("player is not hero")
+					end
+				end
+			end
+		)
+		
+		-- Whenever the player dies
+		local playerdeath = OnCharacterDeath(
+			function(player, killer)
+				if not player then return end
+				
+				--charUnit = GetCharacterUnit(player)
+				--charPtr = GetEntityPtr(charUnit)
+				
+				if not IsCampaign() then
+					if IsCharacterHuman(player) then
+						--local charPtr = GetEntityPtr(GetCharacterUnit(player))
+						--local charClass = GetEntityClass(charPtr)
+						
+						--if charClass == FindEntityClass(SSVHeroClass) or charClass == FindEntityClass(GTHHeroClass) or charClass == FindEntityClass(COLHeroClass) or charClass == FindEntityClass(EVGHeroClass) then
+							ScriptCB_StopInGameMusic()
+							if Init_AmbientMusic then
+								Init_AmbientMusic()
+							end
+						--end
+					end
+				end
+			end
+		)
+	end
 end
 
 
