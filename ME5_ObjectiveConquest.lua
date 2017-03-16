@@ -50,6 +50,7 @@ ObjectiveConquest = Objective:New
 	
 	bCanShowCaptureMessage = true,
 	numMsgDelayTimers = 0,
+	bShowCPMarkers = true,
 }
 
 function ObjectiveConquest:GetOpposingTeam(team)
@@ -115,6 +116,11 @@ function ObjectiveConquest:GameOptionsTimeLimitUp()
 end
 
 function ObjectiveConquest:Start()
+	
+	if gCurrentMapManager.gameMode == "tdm" then
+		bShowCPMarkers = false
+	end
+	
 	--===============================
 	-- Local functions
 	--===============================
@@ -305,7 +311,7 @@ function ObjectiveConquest:Start()
 	
 	local UpdatePostMapMarker = function(postPtr)
     	if not ScriptCB_InMultiplayer() then
-			if not IsCampaign() then
+			if not IsCampaign() and bShowCPMarkers == true then
 				local playerTeam = GetCharacterTeam(0)
 				local otherTeam = (3 - playerTeam)
 				
@@ -546,8 +552,18 @@ function ObjectiveConquest:Start()
 	--set AI goals
 	self.AIGoals = {}
 	if self.AIGoalWeight > 0.0 then
-		table.insert(self.AIGoals, AddAIGoal(self.teamATT, "Conquest", 100*self.AIGoalWeight))
-		table.insert(self.AIGoals, AddAIGoal(self.teamDEF, "Conquest", 100*self.AIGoalWeight))
+		if gCurrentMapManager.gameMode == "conquest" then
+			table.insert(self.AIGoals, AddAIGoal(self.teamATT, "Conquest", 100*self.AIGoalWeight))
+			table.insert(self.AIGoals, AddAIGoal(self.teamDEF, "Conquest", 100*self.AIGoalWeight))
+		elseif gCurrentMapManager.gameMode == "tdm" then
+			table.insert(self.AIGoals, AddAIGoal(self.teamATT, "Deathmatch", 100*self.AIGoalWeight))
+			table.insert(self.AIGoals, AddAIGoal(self.teamDEF, "Deathmatch", 100*self.AIGoalWeight))
+		else
+			print("ME5_ObjectiveConquest: ERROR! MapManager was given invalid gameMode value! Value is `"..gCurrentMapManager.gameMode..
+				"`, should be `conquest` or `tdm`. Defaulting to Deathmatch goals")
+			table.insert(self.AIGoals, AddAIGoal(self.teamATT, "Deathmatch", 100*self.AIGoalWeight))
+			table.insert(self.AIGoals, AddAIGoal(self.teamDEF, "Deathmatch", 100*self.AIGoalWeight))
+		end
 	end
 	
 	-- Create timers for CP capture messages

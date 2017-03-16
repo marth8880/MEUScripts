@@ -34,8 +34,8 @@ manager = MapManager:New{
 	heroSupportCPs = {},
 	-- Local ally spawns. CP name, CP spawn path name
 	allySpawnCPs = {
-				{"cp1_tdm", "cp1_tdm_spawn"},
-				{"cp2_tdm", "cp2_tdm_spawn"},
+				{"cp1_tdm", "cp1_spawn"},
+				{"cp2_tdm", "cp2_spawn"},
 	},
 }
 -- Initialize the MapManager
@@ -68,8 +68,8 @@ function ScriptPostLoad()
                                      multiplayerRules = true}
     
     --This adds the CPs to the objective.  This needs to happen after the objective is set up
-    -- conquest:AddCommandPost(cp1)
-    -- conquest:AddCommandPost(cp2)
+    conquest:AddCommandPost(cp1)
+    conquest:AddCommandPost(cp2)
     
     conquest:Start()
 	
@@ -146,7 +146,7 @@ function ScriptInit()
 	SetMemoryPoolSize("Navigator", 128)
     SetMemoryPoolSize("Obstacle", 1024)
 	SetMemoryPoolSize("PathNode", 1024)
-	SetMemoryPoolSize("SoldierAnimation", 348)
+	SetMemoryPoolSize("SoldierAnimation", 474)
     SetMemoryPoolSize("SoundSpaceRegion", 64)
     SetMemoryPoolSize("TreeGridStack", 1024)
 	SetMemoryPoolSize("UnitAgent", 128)
