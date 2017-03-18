@@ -118,7 +118,11 @@ end
 function ObjectiveConquest:Start()
 	
 	if gCurrentMapManager.gameMode == "tdm" then
+		print("ME5_ObjectiveConquest: Game mode is TDM, hiding CP HUD markers")
 		bShowCPMarkers = false
+	else
+		print("ME5_ObjectiveConquest: Game mode is not TDM, showing CP HUD markers")
+		bShowCPMarkers = true
 	end
 	
 	--===============================
