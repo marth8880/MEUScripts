@@ -168,6 +168,7 @@ function ScriptInit()
 	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_UTA_Streaming.lvl",  "uta1")
+	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_UTA_Streaming.lvl",  "uta1")
 	
 	SoundFX()
 

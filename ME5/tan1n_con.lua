@@ -217,6 +217,8 @@ function ScriptPostLoad()
 	UnblockPlanningGraphArcs("Connection60")
 	UnblockPlanningGraphArcs("test3")
 	
+	local levolutionStream = nil
+	
 	   --Setup Levolution Timer - Pre-Destruction-- 
 	
 	timePreDestruction = CreateTimer("timePreDestruction")
@@ -246,6 +248,21 @@ function ScriptPostLoad()
 			DestroyTimer(timer)
 		end,
 	timePreDestruction
+	)
+	
+	   --Setup Levolution Timer - Hull Breach Seal Finished-- 
+	
+	timeCorridorSealFinished = CreateTimer("timeCorridorSealFinished")
+	SetTimerValue(timeCorridorSealFinished, 7)	-- hull_sealed.wav is 5 seconds long, give a little extra time because reasons
+	ShowTimer(timeCorridorSealFinished)
+	OnTimerElapse(
+		function(timer)
+			StopAudioStream(levolutionStream, 1)
+			OpenVoiceStreams()
+			
+			DestroyTimer(timer)
+		end,
+	timeCorridorSealFinished
 	)
 	
 	   --Setup Levolution Timer - Hull Breach Seal-- 
@@ -326,6 +343,8 @@ function ScriptPostLoad()
 			UnblockPlanningGraphArcs("group3")
 			UnblockPlanningGraphArcs("Connection60")
 			UnblockPlanningGraphArcs("test3")
+			
+			StartTimer(timeCorridorSealFinished)
 			DestroyTimer(timer)
 		end,
 	timeCorridorSeal
@@ -339,8 +358,16 @@ function ScriptPostLoad()
 	--ShowTimer(timeCorridorDestruct)
 	OnTimerElapse(
 		function(timer)
-				print("tan1n_con: Initiating Levolution corridor destruction")
+			print("tan1n_con: Initiating Levolution corridor destruction")
+			
+			if LH_bIsLowHealthSoundPlaying == true then
+				StopLowHealthSound(true)
+			end
+			
+			CloseVoiceStreams()
+			levolutionStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_TAN_Streaming.lvl",  "tan")	-- levolution streams
 			ScriptCB_SndPlaySound("tan_vo_hull_breached")
+			
 			ShowMessageText("level.tan1.events.hull_breached")
 			--ShowMessageText("level.tan1.events.doors_locked")
 			KillObject("lvlution_corridor_02_a")
@@ -526,7 +553,7 @@ function ScriptInit()
 	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_TAN_Streaming.lvl",  "tan1")	-- ambient streams
-	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_TAN_Streaming.lvl",  "tan")	-- levolution streams
+	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_TAN_Streaming.lvl",  "tan")	-- levolution streams
 	
 	SoundFX()
 

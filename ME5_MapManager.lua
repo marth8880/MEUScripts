@@ -248,7 +248,7 @@ function MapManager:Proc_ScriptInit_Begin()
 	-- Load our custom loadscreen elements such as progress bar LEDs, tip box elements, etc.
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\common.lvl")
 	
-	Init_HeroMusic()
+	--Init_HeroMusic()
 	
 	-- What is the difficulty set to in the Config Tool?
 	if not ScriptCB_InMultiplayer() then
@@ -581,14 +581,14 @@ function MapManager:Proc_ScriptInit_Begin()
 	-- START SOUND WORK
 	--==========================
 	
-	-- Load master sound LVL, includes sound property templates, etc.
+	-- Load master sound LVL, includes sound property templates, buses, etc.
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\ME5.lvl")
 	
 	-- [DEPRECATED 31-OCT-2013] Load music sound LVL, includes all music stuff
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_Streaming.lvl")
 	
 	-- Load hero music sound LVL, includes all hero music
-	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_h_Streaming.lvl")
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_h_Streaming.lvl")
 	
 	-- Load voice over sound LVL, includes all streamable voice overs, excludes pain/death chatter
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl")

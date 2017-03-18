@@ -83,8 +83,8 @@ function OpenMusicStreams(variation)
 	if fileName ~= nil and streamName ~= nil then
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\"..fileName..".lvl")
 		gMusicStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\"..fileName..".lvl", streamName)
-		AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\"..fileName..".lvl", "ME5n_music_h", gMusicStream)
-		--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_h_Streaming.lvl", "ME5n_music_h")
+		--AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\"..fileName..".lvl", "ME5n_music_h", gMusicStream)
+		OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_h_Streaming.lvl", "ME5n_music_h")
 	end
 end
 
@@ -826,13 +826,19 @@ end
 
 ---
 -- Call this to open the voice audio streams.
+-- 
 function OpenVoiceStreams(bCalledFromLowHealth)
 	print("ME5_AudioFunctions.OpenVoiceStreams(): Entered")
 	
+	if bVoiceStreamKeepClosed == true then
+		print("ME5_AudioFunctions.OpenVoiceStreams(): ERROR! Can't open voice streams while bVoiceStreamKeepClosed is true!")
+		return false
+	end
+	
 	bCalledFromLowHealth = bCalledFromLowHealth or false
 	
-	-- If we were called from the low health script, only open streams if low health sound isn't playing
-	if bCalledFromLowHealth == true and LH_bIsLowHealthSoundPlaying == true then
+	-- Only open streams if low health sound isn't playing
+	if LH_bIsLowHealthSoundPlaying == true then
 		print("ME5_AudioFunctions.OpenVoiceStreams(): ERROR! Can't open voice streams while low health sound is playing!")
 		return false
 	end
@@ -890,10 +896,10 @@ function SoundFX()
 			EVGWorldVO()
 			COLWorldVO()
 		else
-			print("ME5_AudioFunctions.SoundFX(): Error! ME5_SideVar setting is invalid! Attempting to load all VOs... (This can only go horribly)")
-			SSVWorldVO()
-			GTHWorldVO()
-			COLWorldVO()
+			print("ME5_AudioFunctions.SoundFX(): Error! ME5_SideVar setting is invalid! Not loading any...")
+			--SSVWorldVO()
+			--GTHWorldVO()
+			--COLWorldVO()
 		end
 	else
 		if gCurrentMapManager.onlineSideVar == "SSVxGTH" then
@@ -1047,19 +1053,21 @@ end
 
 function Init_HeroMusic()
 	if not ScriptCB_InMultiplayer() then
+		
+		local Iamhuman = nil
+		
 		-- Whenever the player spawns as a hero unit
 		local playerspawn = OnCharacterSpawn(
 			function(player)
 				if not player then return end
-				charUnit = GetCharacterUnit(player)
-				charPtr = GetEntityPtr(charUnit)
+				if player == nil then return end
 				
 				if IsCharacterHuman(player) then
-					local charPtr = GetEntityPtr(GetCharacterUnit(player))
-					local charClass = GetEntityClass(charPtr)
+					Iamhuman = GetEntityPtr(GetCharacterUnit(player))
+					local charClass = GetEntityClass(Iamhuman)
 					
 					if charClass == FindEntityClass(SSVHeroClass) then
-						print("player is hero")
+						print("Init_HeroMusic.playerspawn(): Player is hero")
 						if string.find(SSVHeroClass, "shepard") then
 							ScriptCB_PlayInGameMusic("hero_shepard_music")
 							
@@ -1077,25 +1085,25 @@ function Init_HeroMusic()
 						end
 						
 					elseif charClass == FindEntityClass(GTHHeroClass) then
-						print("player is hero")
+						print("Init_HeroMusic.playerspawn(): Player is hero")
 						if string.find(GTHHeroClass, "prime") then
 							ScriptCB_PlayInGameMusic("hero_gethprime_music")
 						end
 						
 					elseif charClass == FindEntityClass(COLHeroClass) then
-						print("player is hero")
+						print("Init_HeroMusic.playerspawn(): Player is hero")
 						if string.find(COLHeroClass, "harbinger") then
 							ScriptCB_PlayInGameMusic("hero_harbinger_music")
 						end
 						
 					elseif charClass == FindEntityClass(EVGHeroClass) then
-						print("player is hero")
+						print("Init_HeroMusic.playerspawn(): Player is hero")
 		
 						if string.find(EVGHeroClass, "prime") then
 							ScriptCB_PlayInGameMusic("hero_gethprime_music")
 						end
 					else
-						print("player is not hero")
+						print("Init_HeroMusic.playerspawn(): Player is not hero")
 					end
 				end
 			end
@@ -1105,21 +1113,23 @@ function Init_HeroMusic()
 		local playerdeath = OnCharacterDeath(
 			function(player, killer)
 				if not player then return end
-				
-				--charUnit = GetCharacterUnit(player)
-				--charPtr = GetEntityPtr(charUnit)
+				if player == nil then return end
 				
 				if not IsCampaign() then
 					if IsCharacterHuman(player) then
-						--local charPtr = GetEntityPtr(GetCharacterUnit(player))
-						--local charClass = GetEntityClass(charPtr)
+						if Iamhuman == nil then return end
+						local charClass = GetEntityClass(Iamhuman)
 						
-						--if charClass == FindEntityClass(SSVHeroClass) or charClass == FindEntityClass(GTHHeroClass) or charClass == FindEntityClass(COLHeroClass) or charClass == FindEntityClass(EVGHeroClass) then
-							ScriptCB_StopInGameMusic()
+						if charClass == FindEntityClass(SSVHeroClass) or charClass == FindEntityClass(GTHHeroClass) or charClass == FindEntityClass(COLHeroClass) or charClass == FindEntityClass(EVGHeroClass) then
+							print("Init_HeroMusic.playerdeath(): Player is hero")
+							
+							ScriptCB_StopInGameMusic("hero_shepard_music")
 							if Init_AmbientMusic then
 								Init_AmbientMusic()
 							end
-						--end
+						else
+							print("Init_HeroMusic.playerdeath(): Player is not hero")
+						end
 					end
 				end
 			end

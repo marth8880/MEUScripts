@@ -150,7 +150,7 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 			-- Call this to start playing the low health sound stream.
 			-- @param #string type		Type of being whose low health sound stream we're playing ("organic" or "synthetic")
 			-- 
-			local function StartLowHealthSound(type)
+			function StartLowHealthSound(type)
 				--print()
 				print("Init_LowHealthFeedback.StartLowHealthSound(): Entered")
 				
@@ -214,9 +214,11 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 			---
 			-- Call this to stop playing the low health sound stream.
 			-- 
-			local function StopLowHealthSound()
+			function StopLowHealthSound(bSkipTimer)
 				--print()
 				print("Init_LowHealthFeedback.StopLowHealthSound(): Entered")
+				
+				bSkipTimer = bSkipTimer or false
 				
 				-- Exit if the sound's not already playing
 				if LH_bIsLowHealthSoundPlaying == false then
@@ -238,9 +240,25 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 				ScriptCB_SndBusFade("voiceover",		busFadeTime, 0.8)
 				ScriptCB_SndBusFade("lowhealth",		1.0, 0.0, 1.0)
 				
-				-- Stop and close the low health stream after the audio buses have finished fading
-				SetTimerValue(stopLowHealthSound_Timer, busFadeTime*2)
-				StartTimer(stopLowHealthSound_Timer)
+				if bSkipTimer == false then
+					-- Stop and close the low health stream after the audio buses have finished fading
+					SetTimerValue(stopLowHealthSound_Timer, busFadeTime*2)
+					StartTimer(stopLowHealthSound_Timer)
+				else
+					-- Only attempt to stop the stream if it's been started (prevents crashes, because Pandemic apparently didn't know how to include error-handling worth a damn)
+					if lowhealthStreamIndex ~= nil then
+						StopAudioStream(lowhealthStreamIndex, 1)
+						lowhealthStreamIndex = nil
+					else
+						print("Init_LowHealthFeedback.stopLowHealthSound_TimerElapse(): WARNING! lowhealthStreamIndex is nil! Value:", lowhealthStreamIndex)
+					end
+					
+					-- If we've made it this far, flag the low health sound as not playing
+					LH_bIsLowHealthSoundPlaying = false
+					
+					-- Reopen the voice streams
+					OpenVoiceStreams(true)
+				end
 			end
 			
 			
@@ -374,6 +392,10 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 				function(object, health)
 					-- Exit immediately if there are incorrect values
 					if not object then return end
+					if bVoiceStreamKeepClosed == true then
+						print("Init_LowHealthFeedback.playerhealthchange(): bVoiceStreamKeepClosed is true, can't play low health sound")
+						return
+					end
 					
 					-- Was the damaged object a human player?
 					if Iamhuman == GetEntityPtr(object) then

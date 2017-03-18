@@ -165,7 +165,7 @@ function ScriptInit()
 	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_TAT_Streaming.lvl",	"tat3")
-	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_TAT_Streaming.lvl",	"tat3_emt")
+	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_TAT_Streaming.lvl",	"tat3_emt")	-- TODO: this currently can cause issues with too many open streams
 	
 	SoundFX()
 

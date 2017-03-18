@@ -198,7 +198,7 @@ function ScriptInit()
 	
 	-- Open our map-specific ambient sound streams
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\Sound\\SFL_AEI_Streaming.lvl",  "AEI_ambiance")
-	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\Sound\\SFL_AEI_Streaming.lvl",  "AEI_ambiance")
+	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\Sound\\SFL_AEI_Streaming.lvl",  "AEI_ambiance")
 
 	-- Set up music
 	manager:Proc_ScriptInit_MusicSetup()

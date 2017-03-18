@@ -244,7 +244,7 @@ function ScriptInit()
 	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_KAM_Streaming.lvl",  "kam1")
-	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_KAM_Streaming.lvl",  "kam1")
+	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_KAM_Streaming.lvl",  "kam1")
 	
 	SoundFX()
 	ScaleSoundParameter("ambientenv",	"Gain", 1.0)
