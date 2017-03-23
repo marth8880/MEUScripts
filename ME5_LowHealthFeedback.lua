@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Low Health Feedback Script by Aaron Gilbert
--- Build 31025/06
+-- Build 40318/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Oct 25, 2016
+-- Mar 18, 2017
 -- Copyright (c) 2017, Aaron Gilbert All rights reserved.
 -- 
 -- About: 
@@ -52,19 +52,20 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 			--[[PlayAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl", 
 								"organic_lowhealth_streaming", "heartbeat_segment", 1.0, "lowhealth", lowHealthStream)]]
 			
-			LH_bIsLowHealthSoundPlaying = false	-- Is the low health sound playing?
-			LH_playerHealthThreshold = 0.35		-- Under what health percentage should the low health sound be active?
-			local Iamhuman = nil				-- Pointer for human player
-			local bIsFreshSpawn = true			-- Is this a fresh spawn? (if the player simply changed their class at a CP, it is not)
-			local bIsPlayerCorrectClass = false	-- Is the player the correct class?
-			local bIsPlayerSynthClass = false	-- Is the player a synthetic class?
-			local bIsSpawnScreenActive = false	-- Is the spawn screen active?
-			local lowhealthStreamIndex = nil	-- Index of low health sound stream
-			local timerCount	= 0				-- Number of timers that exist
-			local busEndGain	= 0.15			-- End gain for audio bus
-			local busFadeTime	= 1.0			-- Duration of bus fade in seconds
-			local playerCurHealth = 0			-- Player's current health value
-			local playerMaxHealth = 0			-- Player's maximum health value
+			LH_bIsLowHealthSoundPlaying = false		-- Is the low health sound playing?
+			LH_bIsLowHealthSoundStopping = false	-- Is the low health sound stopping?
+			LH_playerHealthThreshold = 0.35			-- Under what health percentage should the low health sound be active?
+			local Iamhuman = nil					-- Pointer for human player
+			local bIsFreshSpawn = true				-- Is this a fresh spawn? (if the player simply changed their class at a CP, it is not)
+			local bIsPlayerCorrectClass = false		-- Is the player the correct class?
+			local bIsPlayerSynthClass = false		-- Is the player a synthetic class?
+			local bIsSpawnScreenActive = false		-- Is the spawn screen active?
+			local lowhealthStreamIndex = nil		-- Index of low health sound stream
+			local timerCount	= 0					-- Number of timers that exist
+			local busEndGain	= 0.15				-- End gain for audio bus
+			local busFadeTime	= 1.0				-- Duration of bus fade in seconds
+			local playerCurHealth = 0				-- Player's current health value
+			local playerMaxHealth = 0				-- Player's maximum health value
 			local synthClasses = {
 					"gth_inf_destroyer",
 					"gth_inf_hunter",
@@ -151,7 +152,7 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 			-- @param #string type		Type of being whose low health sound stream we're playing ("organic" or "synthetic")
 			-- 
 			function StartLowHealthSound(type)
-				--print()
+				print()
 				print("Init_LowHealthFeedback.StartLowHealthSound(): Entered")
 				
 				-- Exit if the sound's already playing
@@ -190,7 +191,7 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 				-- Make room for the low health stream
 				CloseVoiceStreams(true)
 				
-				--print("Init_LowHealthFeedback.StartLowHealthSound(): Starting low health sounds")
+				print("Init_LowHealthFeedback.StartLowHealthSound(): Starting low health sounds")
 				
 				-- Play low health sound stream
 				lowHealthStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl", "lowhealth_streaming")
@@ -215,7 +216,7 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 			-- Call this to stop playing the low health sound stream.
 			-- 
 			function StopLowHealthSound(bSkipTimer)
-				--print()
+				print()
 				print("Init_LowHealthFeedback.StopLowHealthSound(): Entered")
 				
 				bSkipTimer = bSkipTimer or false
@@ -253,8 +254,9 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 						print("Init_LowHealthFeedback.stopLowHealthSound_TimerElapse(): WARNING! lowhealthStreamIndex is nil! Value:", lowhealthStreamIndex)
 					end
 					
-					-- If we've made it this far, flag the low health sound as not playing
+					-- If we've made it this far, flag the low health sound as not playing and no longer stopping
 					LH_bIsLowHealthSoundPlaying = false
+					LH_bIsLowHealthSoundStopping = false
 					
 					-- Reopen the voice streams
 					OpenVoiceStreams(true)
@@ -280,8 +282,9 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 						print("Init_LowHealthFeedback.stopLowHealthSound_TimerElapse(): WARNING! lowhealthStreamIndex is nil! Value:", lowhealthStreamIndex)
 					end
 					
-					-- If we've made it this far, flag the low health sound as not playing
+					-- If we've made it this far, flag the low health sound as not playing and no longer stopping
 					LH_bIsLowHealthSoundPlaying = false
+					LH_bIsLowHealthSoundStopping = false
 					
 					-- Reopen the voice streams
 					OpenVoiceStreams(true)
@@ -305,7 +308,7 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 					
 					--ShowMessageText("level.common.debug.lowhealth_elapsegate")	-- DEBUG
 					
-					--print("Init_LowHealthFeedback.lowHealthChangeGate_TimerElapse(): Stopping low health sound")
+					print("Init_LowHealthFeedback.lowHealthChangeGate_TimerElapse(): Stopping low health sound")
 					StopLowHealthSound()
 					
 					-- Make sure the timer doesn't try to restart itself or anything
@@ -321,8 +324,8 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 					if not player then return end
 					
 					if IsCharacterHuman(player) then
-						--print()
-						--print("Init_LowHealthFeedback.playerspawn(): Player spawned")
+						print()
+						print("Init_LowHealthFeedback.playerspawn(): Player spawned")
 						
 						--[[if bIsFreshSpawn == true then
 							bIsFreshSpawn = false]]
@@ -404,7 +407,7 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 						--  sound if the player's corpse receives damage after having died
 						if IsObjectAlive(object) == true then
 							--print("Init_LowHealthFeedback.playerhealthchange(): Player health changed")
-							--print("Init_LowHealthFeedback: Player health ratio is "..playerHealthPercent)
+							--print("Init_LowHealthFeedback.playerhealthchange(): Player health ratio is "..playerHealthPercent)
 								
 							-- What is the player's current health?
 							playerCurHealth, playerMaxHealth = GetObjectHealth(object)
@@ -428,7 +431,7 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 								StopTimer(lowHealthChangeGate_Timer)
 								
 								if LH_bIsLowHealthSoundPlaying == false then
-									--print("Init_LowHealthFeedback: isSoundPlaying is false, setting to true")
+									print("Init_LowHealthFeedback.playerhealthchange(): isSoundPlaying is false, setting to true")
 									
 									--LH_bIsLowHealthSoundPlaying = true
 									--classCount = 0
@@ -442,7 +445,7 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 										
 										-- Play heartbeat sound stream
 										if bIsPlayerCorrectClass == true then
-											--print("Init_LowHealthFeedback.playerhealthchange(): Starting low health sound")
+											print("Init_LowHealthFeedback.playerhealthchange(): Starting low health sound")
 											if bIsPlayerSynthClass == false then
 												StartLowHealthSound("organic")
 											else
@@ -455,8 +458,10 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 								end
 							else
 								-- Is the low health sound playing?
-								if LH_bIsLowHealthSoundPlaying == true then
-									--print("Init_LowHealthFeedback: isSoundPlaying is true, setting to false")
+								if LH_bIsLowHealthSoundPlaying == true and LH_bIsLowHealthSoundStopping == false then
+									print("Init_LowHealthFeedback: isSoundPlaying is true, setting to false")
+									
+									LH_bIsLowHealthSoundStopping = true
 									
 									-- If it's playing, deactivate it
 									--LH_bIsLowHealthSoundPlaying = false
@@ -482,7 +487,7 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 					--if not killer then return end
 					
 					if IsCharacterHuman(player) then
-						--print("Init_LowHealthFeedback: Player died, resetting buses and variables")
+						--print("Init_LowHealthFeedback.playerdeath(): Player died, resetting buses and variables")
 						
 						--if LH_bIsLowHealthSoundPlaying == true then
 							-- Deactivate the low health sound
@@ -494,7 +499,7 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 							
 							bIsFreshSpawn = true
 							
-							--print("Init_LowHealthFeedback.playerdeath(): Stopping low health sound")
+							print("Init_LowHealthFeedback.playerdeath(): Stopping low health sound")
 							StopLowHealthSound()
 						--end
 					end
