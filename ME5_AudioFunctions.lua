@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Audio Functions Script by Aaron Gilbert
--- Build 31129/06
+-- Build 40318/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Nov 29, 2016
+-- Mar 18, 2017
 -- Copyright (c) 2017, Aaron Gilbert All rights reserved.
 -- 
 -- About: 

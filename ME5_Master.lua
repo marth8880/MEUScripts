@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by Aaron Gilbert
--- Build 40316/06
+-- Build 40323/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Mar 16, 2017
+-- Mar 23, 2017
 -- Copyright (c) 2017, Aaron Gilbert All rights reserved.
 -- 
 -- About: 
@@ -23,7 +23,7 @@ print("ME5_Master: Entered")
 
 -- The build version. Valid settings are "production", "release"
 MEU_BuildVer		= "release"
-MEU_BuildNum		= "40316/06"
+MEU_BuildNum		= "40323/06"
 MEU_ReleaseNum		= 6
 MEU_VersionNum		= "1.3"
 
@@ -199,6 +199,8 @@ MAX_SHEP_GENDER_COUNT		= 1		-- Number of Shepard's genders.
 
 MAX_FLAG_ITEM_COUNT			= 512		-- Number of FlagItem entities.
 MAX_PORTABLE_TURRET_COUNT	= 100		-- Number of PortableTurret entities.
+
+UNIT_HEALTH_REGEN_RATE		= 4.0	-- Regen rate for auto-regenerating health.
 
 
 -- Declare global enum variables

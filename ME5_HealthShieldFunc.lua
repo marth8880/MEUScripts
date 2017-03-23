@@ -34,7 +34,7 @@ function Init_HealthFunc()
 	if not ScriptCB_InMultiplayer() then
 		if ME5_HealthFunc == 1 then
 			print("ME5_HealthShieldFunc.Init_HealthFunc(): Configuring Health Functionality for AUTO-REGEN...")
-			SetClassProperty("com_inf_default", "AddHealth", 4.0)
+			SetClassProperty("com_inf_default", "AddHealth", UNIT_HEALTH_REGEN_RATE)
 			
 		elseif ME5_HealthFunc == 2 then
 			print("ME5_HealthShieldFunc.Init_HealthFunc(): Configuring Health Functionality for PICKUPS...")
@@ -48,7 +48,7 @@ function Init_HealthFunc()
 			
 		else
 			print("ME5_HealthShieldFunc.Init_HealthFunc(): Error! ME5_HealthFunc setting is invalid! Defaulting to Health Functionality for AUTO-REGEN")
-			SetClassProperty("com_inf_default", "AddHealth", 4.0)
+			SetClassProperty("com_inf_default", "AddHealth", UNIT_HEALTH_REGEN_RATE)
 		end
 	else
 		print("ME5_HealthShieldFunc.Init_HealthFunc(): Configuring Health Functionality for PICKUPS...")

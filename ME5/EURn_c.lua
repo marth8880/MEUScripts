@@ -1401,7 +1401,13 @@ function RestorePlayerHealth()
 					StopTimer(checkTimer)
 					
 					-- Stop restoring health
-					SetProperty(charUnit, "AddHealth", 0)
+					if ME5_HealthFunc == 1 then
+						SetProperty(charUnit, "AddHealth", UNIT_HEALTH_REGEN_RATE)
+					elseif ME5_HealthFunc == 2 then
+						SetProperty(charUnit, "AddHealth", 0)
+					else
+						SetProperty(charUnit, "AddHealth", UNIT_HEALTH_REGEN_RATE)
+					end
 					
 					DestroyTimer(checkTimer)
 				end
@@ -2489,7 +2495,7 @@ function ScriptPostLoad()
 						function(timer)
 							print("EURn_c: Loading hud_font_stock.lvl...")
 							-- hotfix that reloads the stock fonts in the stats screen
-							ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
+							--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
 							
 							MissionVictory(ATT)
 							
