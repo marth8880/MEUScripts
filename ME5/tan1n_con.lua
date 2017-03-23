@@ -254,7 +254,7 @@ function ScriptPostLoad()
 	
 	timeCorridorSealFinished = CreateTimer("timeCorridorSealFinished")
 	SetTimerValue(timeCorridorSealFinished, 7)	-- hull_sealed.wav is 5 seconds long, give a little extra time because reasons
-	ShowTimer(timeCorridorSealFinished)
+	--ShowTimer(timeCorridorSealFinished)
 	OnTimerElapse(
 		function(timer)
 			StopAudioStream(levolutionStream, 1)
