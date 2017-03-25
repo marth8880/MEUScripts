@@ -23,7 +23,7 @@ print("ME5_Master: Entered")
 
 -- The build version. Valid settings are "production", "release"
 MEU_BuildVer		= "release"
-MEU_BuildNum		= "40325/06"
+MEU_BuildNum		= "40331/06"
 MEU_ReleaseNum		= "6.5"
 MEU_VersionNum		= "1.31"
 

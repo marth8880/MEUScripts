@@ -192,6 +192,7 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 				CloseVoiceStreams(true)
 				
 				print("Init_LowHealthFeedback.StartLowHealthSound(): Starting low health sounds")
+				print("Init_LowHealthFeedback.StartLowHealthSound(): streamID, segmentID, gain:", streamID, segmentID, gain)
 				
 				-- Play low health sound stream
 				lowHealthStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl", "lowhealth_streaming")
