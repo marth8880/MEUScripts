@@ -32,7 +32,7 @@ manager = MapManager:New{
 				{"team2_permacp", "CP6_SpawnPath"},
 				{"cp2", "CP2_SpawnPath"},
 				{"cp3", "CP3_SpawnPath"},
-				{"cp7", "CP7SpawnPath"},
+				{"cp7", "CP9SpawnPath"},
 				{"cp8", "CP8SpawnPath"},
 				{"cp10", "cp10_spawn"},
 	},
@@ -42,7 +42,7 @@ manager = MapManager:New{
 				{"team2_permacp", "CP6_SpawnPath"},
 				{"cp2", "CP2_SpawnPath"},
 				{"cp3", "CP3_SpawnPath"},
-				{"cp7", "CP7SpawnPath"},
+				{"cp7", "CP9SpawnPath"},
 				{"cp8", "CP8SpawnPath"},
 				{"cp10", "cp10_spawn"},
 	},
@@ -86,6 +86,14 @@ function ScriptPostLoad()
 	
 	SetProperty("CP2", "CaptureRegion", "CP2_Capture_siege")
 	SetProperty("CP7", "CaptureRegion", "CP9Capture_siege")
+	
+	SetProperty("team1_permacp", "HUDIndex", "1")
+	SetProperty("team2_permacp", "HUDIndex", "7")
+	--SetProperty("cp2", "HUDIndex", "7")
+	SetProperty("cp3", "HUDIndex", "5")
+	SetProperty("cp7", "HUDIndex", "6")
+	--SetProperty("cp8", "HUDIndex", "7")
+	SetProperty("cp10", "HUDIndex", "4")
 	
 	EnableBarriers("CP10_crates1")
 	EnableBarriers("CP10_crates2")
@@ -166,7 +174,7 @@ function ScriptInit()
 	
 	manager:Proc_ScriptInit_SideSetup()
 	
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_TAT2_Streaming.lvl")
+	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_TAT2_Streaming.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_TAT_Streaming.lvl;tat2n")
 
     --  Level Stats
@@ -225,5 +233,3 @@ function ScriptInit()
 	
 	manager:Proc_ScriptInit_End()
 end
-
-

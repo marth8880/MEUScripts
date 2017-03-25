@@ -145,7 +145,7 @@ function ScriptInit()
 	
 	manager:Proc_ScriptInit_SideSetup()
 	
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_TAT2_Streaming.lvl")
+	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_TAT2_Streaming.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_TAT_Streaming.lvl;tat2n")
 	
     --  Level Stats
@@ -202,5 +202,3 @@ function ScriptInit()
 	
 	manager:Proc_ScriptInit_End()
 end
-
-

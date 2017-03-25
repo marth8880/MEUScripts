@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by Aaron Gilbert
--- Build 40323/06
+-- Build 40325/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Mar 23, 2017
+-- Mar 25, 2017
 -- Copyright (c) 2017, Aaron Gilbert All rights reserved.
 -- 
 -- About: 
@@ -23,9 +23,9 @@ print("ME5_Master: Entered")
 
 -- The build version. Valid settings are "production", "release"
 MEU_BuildVer		= "release"
-MEU_BuildNum		= "40323/06"
-MEU_ReleaseNum		= 6
-MEU_VersionNum		= "1.3"
+MEU_BuildNum		= "40325/06"
+MEU_ReleaseNum		= "6.5"
+MEU_VersionNum		= "1.31"
 
 print("ME5_Master: Mass Effect: Unification is currently running on Build "..MEU_BuildNum..", Release "..MEU_ReleaseNum..", Version "..MEU_VersionNum)
 
