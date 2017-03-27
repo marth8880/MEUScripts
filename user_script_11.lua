@@ -1,7 +1,7 @@
 print("user_script_meu: Entered")
 
 
--- Taking over MissionVictory, so can figure reload the stock fonts
+-- Taking over MissionVictory, so we can reload the stock fonts
 if MissionVictory then
 	-- Store the original function
 	print("user_script_meu: Listening on MissionVictory() calls")
@@ -42,7 +42,7 @@ else
 end
 
 
--- Taking over MissionDefeat, so can figure reload the stock fonts
+-- Taking over MissionDefeat, so we can reload the stock fonts
 if MissionDefeat then
 	-- Store the original function
 	print("user_script_meu: Listening on MissionDefeat() calls")
