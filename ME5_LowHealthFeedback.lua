@@ -121,6 +121,10 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 			SetTimerValue(lowHealthChangeGate_Timer, 0.5)
 			--ShowTimer(lowHealthChangeGate_Timer)
 			
+			--[[local loopLowHealthSound_Timer = CreateTimer("loopLowHealthSound_Timer")
+			local loopLowHealthSound_TimerElapse = nil
+			local loopTimerValue = nil]]
+			
 			--local classCount = 0
 			
 			--local lowHealthSoundTimer = CreateTimer("lowHealthSoundTimer")
@@ -173,11 +177,13 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 					streamID = "organic_lowhealth_streaming"
 					segmentID = "heartbeat_segment"
 					gain = 1.0
+					loopTimerValue = 1.876
 					
 				elseif type == "synthetic" then
 					streamID = "synthetic_lowhealth_streaming"
 					segmentID = "synthetic_segment"
 					gain = 0.6
+					loopTimerValue = 6.005
 				end
 				
 				if streamID == nil then return end
@@ -200,7 +206,27 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 				
 				lowhealthStreamIndex = PlayAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl", 
 														streamID, segmentID, gain, "lowhealth", lowHealthStream)
+				
+				--lowhealthStreamIndex = PlayAudioStreamUsingProperties("lowhealth_streaming", "organic_lowhealth_streaming", 1)
 				print("Init_LowHealthFeedback.StartLowHealthSound(): lowhealthStreamIndex index:", lowHealthStream)
+				
+				-- Start the loop timer to workaround the worldspace bug
+				--[[SetTimerValue(loopLowHealthSound_Timer, loopTimerValue * 3)
+				--StartTimer(loopLowHealthSound_Timer)
+				--ShowTimer(loopLowHealthSound_Timer)	-- DEBUG
+				
+				loopLowHealthSound_TimerElapse = OnTimerElapse(
+					function(timer)
+						print("Init_LowHealthFeedback.loopLowHealthSound_TimerElapse(): Entered")
+						StopAudioStream(lowhealthStreamIndex, 0)
+						lowhealthStreamIndex = PlayAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl", 
+																streamID, segmentID, gain, "lowhealth", lowHealthStream)
+						
+						SetTimerValue(loopLowHealthSound_Timer, loopTimerValue * 3)
+						StartTimer(loopLowHealthSound_Timer)
+					end,
+				"loopLowHealthSound_Timer"
+				)]]
 				
 				-- Fade all of the appropriate audio buses
 				ScriptCB_SndBusFade("main",				busFadeTime, busEndGain)
@@ -249,6 +275,8 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 				else
 					-- Only attempt to stop the stream if it's been started (prevents crashes, because Pandemic apparently didn't know how to include error-handling worth a damn)
 					if lowhealthStreamIndex ~= nil then
+						--StopTimer(loopLowHealthSound_Timer)
+						
 						StopAudioStream(lowhealthStreamIndex, 1)
 						lowhealthStreamIndex = nil
 					else
@@ -277,6 +305,8 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 					
 					-- Only attempt to stop the stream if it's been started (prevents crashes, because Pandemic apparently didn't know how to include error-handling worth a damn)
 					if lowhealthStreamIndex ~= nil then
+						--StopTimer(loopLowHealthSound_Timer)
+						
 						StopAudioStream(lowhealthStreamIndex, 1)
 						lowhealthStreamIndex = nil
 					else
