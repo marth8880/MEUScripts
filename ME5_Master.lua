@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by Aaron Gilbert
--- Build 40325/06
+-- Build 40326/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Mar 25, 2017
+-- Mar 26, 2017
 -- Copyright (c) 2017, Aaron Gilbert All rights reserved.
 -- 
 -- About: 
@@ -58,6 +58,9 @@ ME5_SolMapMusic			= nil
 gCurrentMapManager			= nil
 gVoiceStream				= nil
 bVoiceStreamKeepClosed		= false
+
+-- Set to false if not already set
+gLoadCooper = gLoadCooper or false
 
 --mapSize				= nil
 MEU_GameMode		= MEU_GameMode or nil

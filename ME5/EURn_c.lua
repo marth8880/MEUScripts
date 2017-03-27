@@ -1,6 +1,7 @@
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
 local bDebug = false
 local mapDebug = false
+gLoadCooper = true
 --
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
@@ -2493,14 +2494,14 @@ function ScriptPostLoad()
 					
 					local demoTimerElapse = OnTimerElapse(
 						function(timer)
-							print("EURn_c: Loading hud_font_stock.lvl...")
+							--print("EURn_c: Loading hud_font_stock.lvl...")
 							-- hotfix that reloads the stock fonts in the stats screen
 							--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
 							
-							MissionVictory(ATT)
-							
 							ReleaseTimerElapse(demoTimerElapse)
 							DestroyTimer(demoTimer)
+							
+							MissionVictory(ATT)
 						end,
 					"demoTimer"
 					)
@@ -4463,7 +4464,7 @@ function ScriptInit()
     -- Sides setup begin
     --
     
-	Load_SSV(true)
+	Load_SSV(gLoadCooper)
 	Load_GTH()
 	
 	

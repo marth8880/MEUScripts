@@ -609,7 +609,7 @@ function MapManager:Proc_ScriptInit_Begin()
 				print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Loading SHEPARD data files...")
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_Shepard_NonStreaming.lvl")
 				
-			elseif (string.find(SSVHeroClass, "cooper") or (loadCooper and loadCooper == true)) then
+			elseif (string.find(SSVHeroClass, "cooper") or (gLoadCooper and gLoadCooper == true)) then
 				print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Loading COOPER data files...")
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_Cooper_NonStreaming.lvl")
 				
@@ -647,7 +647,7 @@ function MapManager:Proc_ScriptInit_Begin()
 				print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Loading SHEPARD data files...")
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_Shepard_NonStreaming.lvl")
 				
-			elseif (string.find(SSVHeroClass, "cooper") or (loadCooper and loadCooper == true)) then
+			elseif (string.find(SSVHeroClass, "cooper") or (gLoadCooper and gLoadCooper == true)) then
 				print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Loading COOPER data files...")
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_Cooper_NonStreaming.lvl")
 				

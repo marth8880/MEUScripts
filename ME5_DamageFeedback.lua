@@ -238,7 +238,7 @@ elseif string.find(SSVHeroClass, "shepard_vanguard") then
 					"ssv_weap_inf_shotgun_n7crusader_incendiary",
 	}
 	
-elseif (string.find(SSVHeroClass, "cooper") or (loadCooper and loadCooper == true)) then
+elseif (string.find(SSVHeroClass, "cooper") or (gLoadCooper and gLoadCooper == true)) then
 	if IsCampaign() then
 		ballisticWeapons_SSV_hero = {
 						"ssv_weap_inf_pistol_m3_armor",
