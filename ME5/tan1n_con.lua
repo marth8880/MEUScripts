@@ -360,6 +360,7 @@ function ScriptPostLoad()
 		function(timer)
 			print("tan1n_con: Initiating Levolution corridor destruction")
 			
+			-- Stop the low health sound if it's playing
 			if LH_bIsLowHealthSoundPlaying == true then
 				StopLowHealthSound(true)
 			end
