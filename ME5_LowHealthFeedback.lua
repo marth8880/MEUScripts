@@ -70,8 +70,8 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 			-- External values
 			
 			LH_playerHealthThreshold = 0.35			-- Under what health percentage should the low health sound be active?
-			local effectDuration = 10.0				-- Duration of the low health sound in seconds
-			local effectWaitTime = 30.0				-- Duration of time that must elapse between each play of the sound
+			local soundDuration = 10.0				-- Duration of the low health sound in seconds
+			local soundRestartWaitTime = 30.0		-- Duration of time that must elapse between each play of the sound
 			local busEndGain	= 0.15				-- End gain for audio bus
 			local busFadeTime	= 1.0				-- Duration of bus fade in seconds
 			local synthClasses = {					-- Synthetic classes
@@ -132,10 +132,10 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 			--ShowTimer(lowHealthChangeGate_Timer)
 			
 			lowHealthDuration_Timer = CreateTimer("lowHealthDuration_Timer")
-			SetTimerValue(lowHealthDuration_Timer, effectDuration)
+			SetTimerValue(lowHealthDuration_Timer, soundDuration)
 			
 			lowHealthRestartGate_Timer = CreateTimer("lowHealthRestartGate_Timer")
-			SetTimerValue(lowHealthRestartGate_Timer, effectWaitTime)
+			SetTimerValue(lowHealthRestartGate_Timer, soundRestartWaitTime)
 			
 			
 			--[[local loopLowHealthSound_Timer = CreateTimer("loopLowHealthSound_Timer")
@@ -189,7 +189,7 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 				LH_bSoundCanBeRestarted = false
 				
 				-- Start the countdown to stop the low health sound
-				SetTimerValue(lowHealthDuration_Timer, effectDuration)
+				SetTimerValue(lowHealthDuration_Timer, soundDuration)
 				StartTimer(lowHealthDuration_Timer)
 				--ShowTimer(lowHealthDuration_Timer)	-- DEBUG
 				
@@ -283,7 +283,7 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 				end
 				
 				-- Start the restartgate timer
-				SetTimerValue(lowHealthRestartGate_Timer, effectWaitTime)
+				SetTimerValue(lowHealthRestartGate_Timer, soundRestartWaitTime)
 				StartTimer(lowHealthRestartGate_Timer)
 				--ShowTimer(lowHealthRestartGate_Timer)	-- DEBUG
 				
