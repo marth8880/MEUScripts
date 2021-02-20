@@ -732,6 +732,7 @@ function MapManager:Proc_ScriptInit_Begin()
 	Init_KillSounds()
 	--Init_LowHealthFeedback()
 	Init_EvolvedJuggernautPowerDrain()
+	Init_Weapon_Charge()
 	Init_IncendiaryOrd()
 	
 	

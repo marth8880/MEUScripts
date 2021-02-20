@@ -1,10 +1,10 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 -- MASS EFFECT: UNIFICATION Master Script by Aaron Gilbert
--- Build 40330/06
+-- Build 40404/06
 -- Screen Names: Marth8880, GT-Marth8880, [GT] Marth8880, [GT] Bran
 -- E-Mail: Marth8880@gmail.com
--- Mar 30, 2017
+-- Apr 4, 2017
 -- Copyright (c) 2017, Aaron Gilbert All rights reserved.
 -- 
 -- About: 
@@ -22,10 +22,10 @@
 print("ME5_Master: Entered")
 
 -- The build version. Valid settings are "production", "release"
-MEU_BuildVer		= "release"
-MEU_BuildNum		= "40404/06"
-MEU_ReleaseNum		= "6.5"
-MEU_VersionNum		= "1.31"
+MEU_BuildVer		= "production"
+MEU_BuildNum		= "80219/07"
+MEU_ReleaseNum		= "7"
+MEU_VersionNum		= "1.4"
 
 print("ME5_Master: Mass Effect: Unification is currently running on Build "..MEU_BuildNum..", Release "..MEU_ReleaseNum..", Version "..MEU_VersionNum)
 
@@ -282,6 +282,7 @@ ScriptCB_DoFile("ME5_DamageFeedback")
 ScriptCB_DoFile("ME5_KillSounds")
 ScriptCB_DoFile("ME5_LowHealthFeedback")
 ScriptCB_DoFile("ME5_GethJuggernautFunc")
+ScriptCB_DoFile("ME5_Weapons")
 ScriptCB_DoFile("ME5_IncendiaryOrdnance")
 ScriptCB_DoFile("ME5_MapManager")
 --ScriptCB_DoFile("ME5_MiscFunctions")
