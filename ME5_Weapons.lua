@@ -90,6 +90,11 @@ function Init_Weapon_Charge()
 					end
 					
 					SetProperty(charPtr, "CurShield", newShields)
+					
+					if IsCharacterHuman(damager) and not ScriptCB_InMultiplayer() then
+						ScriptCB_SndPlaySound("biotic_charge_exp_2D")
+						-- ShowMessageText("level.common.debug.damager_ssv")
+					end
 				else
 					PrintLog("Object team doesn't match")
 				end
