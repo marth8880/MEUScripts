@@ -175,7 +175,7 @@ local ballisticWeapons_GTH = {
 
 -- RPR ballistic weapons.
 local ballisticWeapons_RPR = {
-				"rpr_weap_inf_armcannon",
+				"rpr_weap_inf_rifle_armcannon",
 				"rpr_weap_inf_rifle_phaeston",
 }
 
@@ -345,6 +345,7 @@ if table.getn(ballisticWeapons_TUR) > 0 then
 		table.insert(ballisticWeapons_COL, ballisticWeapons_TUR[i])
 		table.insert(ballisticWeapons_EVG, ballisticWeapons_TUR[i])
 		table.insert(ballisticWeapons_GTH, ballisticWeapons_TUR[i])
+		table.insert(ballisticWeapons_RPR, ballisticWeapons_TUR[i])
 		table.insert(ballisticWeapons_SSV, ballisticWeapons_TUR[i])
 	end
 end
@@ -355,6 +356,7 @@ if table.getn(ballisticWeapons_VEH) > 0 then
 		table.insert(ballisticWeapons_COL, ballisticWeapons_VEH[i])
 		table.insert(ballisticWeapons_EVG, ballisticWeapons_VEH[i])
 		table.insert(ballisticWeapons_GTH, ballisticWeapons_VEH[i])
+		table.insert(ballisticWeapons_RPR, ballisticWeapons_VEH[i])
 		table.insert(ballisticWeapons_SSV, ballisticWeapons_VEH[i])
 	end
 end
