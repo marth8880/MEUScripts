@@ -205,6 +205,9 @@ function Objective:Start()
 		elseif ME5_SideVar == 4	then
 			rep_sndcue	= "evg_prm_"
 			cis_sndcue	= "col_gen_"
+		elseif ME5_SideVar == 5	then
+			rep_sndcue	= "ssv_adm_"
+			cis_sndcue	= "col_gen_"
 		end
 	else
 		if gCurrentMapManager.onlineSideVar == "SSVxGTH" then
@@ -218,6 +221,9 @@ function Objective:Start()
 			cis_sndcue	= "gth_ann_"
 		elseif gCurrentMapManager.onlineSideVar == "EVGxCOL" then
 			rep_sndcue	= "evg_prm_"
+			cis_sndcue	= "col_gen_"
+		elseif gCurrentMapManager.onlineSideVar == "SSVxRPR" then
+			rep_sndcue	= "ssv_adm_"
 			cis_sndcue	= "col_gen_"
 		end
 	end

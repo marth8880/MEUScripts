@@ -825,6 +825,21 @@ function EVGWorldVO()
 end
 
 ---
+-- Sets up common world VO for the Reapers.
+-- 
+function RPRWorldVO()
+	if not IsCampaign() then
+		SetBleedingVoiceOver(REP, REP, "rpr_adm_com_report_us_bleeding", 1)
+		SetBleedingVoiceOver(REP, CIS, "rpr_adm_com_report_enemy_bleeding", 1)
+		
+		SetLowReinforcementsVoiceOver(REP, REP, "rpr_adm_com_report_defeat_imm", 0.1, 1)
+		SetLowReinforcementsVoiceOver(REP, CIS, "rpr_adm_com_report_victory_imm", 0.1, 1)
+	end
+	
+	SetOutOfBoundsVoiceOver(REP, "rpr_adm_com_report_hiatus")
+end
+
+---
 -- Call this to open the voice audio streams.
 -- 
 function OpenVoiceStreams(bCalledFromLowHealth)
@@ -895,6 +910,9 @@ function SoundFX()
 		elseif ME5_SideVar == 4 then
 			EVGWorldVO()
 			COLWorldVO()
+		elseif ME5_SideVar == 5 then
+			SSVWorldVO()
+			RPRWorldVO()
 		else
 			print("ME5_AudioFunctions.SoundFX(): Error! ME5_SideVar setting is invalid! Not loading any...")
 			--SSVWorldVO()
@@ -914,6 +932,9 @@ function SoundFX()
 		elseif gCurrentMapManager.onlineSideVar == "EVGxCOL" then
 			EVGWorldVO()
 			COLWorldVO()
+		elseif gCurrentMapManager.onlineSideVar == "SSVxRPR" then
+			SSVWorldVO()
+			RPRWorldVO()
 		end
 	end
 	

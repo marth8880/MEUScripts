@@ -56,8 +56,8 @@ local ballisticWeapons = {
 				"gth_weap_inf_sniper_m97",
 				"gth_weap_walk_colussus_gun",
 				
-				"indoc_weap_inf_armcannon",
-				"indoc_weap_inf_rifle_phaeston",
+				"rpr_weap_inf_armcannon",
+				"rpr_weap_inf_rifle_phaeston",
 				
 				"ssv_weap_fly_a61_gunship_gun",
 				"ssv_weap_fly_a61_gunship_missile_launcher",
@@ -173,10 +173,10 @@ local ballisticWeapons_GTH = {
 				"gth_weap_walk_colussus_gun",
 }
 
--- INDOC ballistic weapons.
-local ballisticWeapons_INDOC = {
-				"indoc_weap_inf_armcannon",
-				"indoc_weap_inf_rifle_phaeston",
+-- RPR ballistic weapons.
+local ballisticWeapons_RPR = {
+				"rpr_weap_inf_armcannon",
+				"rpr_weap_inf_rifle_phaeston",
 }
 
 -- SSV ballistic weapons.
@@ -432,9 +432,14 @@ function Init_PlayerDamageFeedback()
 		-- INDOC unit classes.
 		local indocClasses = {
 						"indoc_inf_abomination",
-						"indoc_inf_cannibal",
 						"indoc_inf_husk",
-						"indoc_inf_marauder",
+		}
+		
+		-- RPR unit classes.
+		local rprClasses = {
+						"rpr_inf_cannibal",
+						"rpr_inf_marauder",
+						"rpr_inf_brute",
 		}
 		
 		-- SSV unit classes.
@@ -544,6 +549,13 @@ function Init_PlayerDamageFeedback()
 							elseif damagerTeam == CIS then
 								damagerFaction = "col"
 							end
+							
+						elseif ME5_SideVar == 5 or (ScriptCB_InMultiplayer() and gCurrentMapManager.onlineSideVar == "SSVxRPR") then
+							if damagerTeam == REP then
+								damagerFaction = "ssv"
+							elseif damagerTeam == CIS then
+								damagerFaction = "rpr"
+							end
 						end
 						
 						
@@ -590,14 +602,14 @@ function Init_PlayerDamageFeedback()
 								end
 							end
 							
-						elseif damagerFaction == "indoc" then
+						elseif damagerFaction == "rpr" then
 							--print("ME5_DamageFeedback.Init_PlayerDamageFeedback(): Damager is from team INDOC")
 							--ShowMessageText("level.common.debug.damager_indoc")
 							
 							-- For each weapon class
-							for i=1, table.getn(ballisticWeapons_INDOC) do
+							for i=1, table.getn(ballisticWeapons_RPR) do
 								-- Was the weapon used a valid ballistic weapon?
-								if damagerWeapon == ballisticWeapons_INDOC[i] then
+								if damagerWeapon == ballisticWeapons_RPR[i] then
 									-- Play the player damage sound
 									PlayDamageSound()
 									break
@@ -698,9 +710,14 @@ function Init_HitMarkerSounds()
 		-- INDOC unit classes.
 		local indocClasses = {
 						"indoc_inf_abomination",
-						"indoc_inf_cannibal",
 						"indoc_inf_husk",
-						"indoc_inf_marauder",
+		}
+		
+		-- RPR unit classes.
+		local rprClasses = {
+						"rpr_inf_cannibal",
+						"rpr_inf_marauder",
+						"rpr_inf_brute",
 		}
 		
 		-- SSV unit classes.
@@ -753,6 +770,7 @@ function Init_HitMarkerSounds()
 						"gth_ev_inf_juggernaut_online_shield",
 						"gth_hero_prime_me2",
 						"gth_hero_prime_me3",
+						"rpr_inf_brute",
 						
 						-- Buildings
 						"hoth_bldg_shieldgenerator",
@@ -927,6 +945,13 @@ function Init_HitMarkerSounds()
 						elseif damagerTeam == CIS then
 							damagerFaction = "col"
 						end
+						
+					elseif ME5_SideVar == 5 or (ScriptCB_InMultiplayer() and gCurrentMapManager.onlineSideVar == "SSVxRPR") then
+						if damagerTeam == REP then
+							damagerFaction = "ssv"
+						elseif damagerTeam == CIS then
+							damagerFaction = "rpr"
+						end
 					end
 					
 					
@@ -985,14 +1010,14 @@ function Init_HitMarkerSounds()
 							end
 						end
 						
-					elseif damagerFaction == "indoc" then
-						--print("ME5_DamageFeedback.Init_HitMarkerSounds(): Damager is from team INDOC")
+					elseif damagerFaction == "rpr" then
+						--print("ME5_DamageFeedback.Init_HitMarkerSounds(): Damager is from team RPR")
 						--ShowMessageText("level.common.debug.damager_indoc")
 						
 						-- For each weapon class
-						for i=1, table.getn(ballisticWeapons_INDOC) do
+						for i=1, table.getn(ballisticWeapons_RPR) do
 							-- Was the weapon used a valid ballistic weapon?
-							if damagerWeapon == ballisticWeapons_INDOC[i] then
+							if damagerWeapon == ballisticWeapons_RPR[i] then
 								-- Play the player damage sound
 								if bIsObjectArmorClass == true then
 									PlayDamageSound("armor")

@@ -32,6 +32,8 @@ function Init_SideSetup()
 			Setup_EVGxGTH()
 		elseif ME5_SideVar == 4 then
 			Setup_EVGxCOL()
+		elseif ME5_SideVar == 5 then
+			Setup_SSVxRPR()
 		end
 	else
 		if gCurrentMapManager.onlineSideVar == "SSVxGTH" or gCurrentMapManager.onlineSideVar == 1 then
@@ -42,6 +44,8 @@ function Init_SideSetup()
 			Setup_EVGxGTH()
 		elseif gCurrentMapManager.onlineSideVar == "EVGxCOL" or gCurrentMapManager.onlineSideVar == 4 then
 			Setup_EVGxCOL()
+		elseif gCurrentMapManager.onlineSideVar == "SSVxRPR" or gCurrentMapManager.onlineSideVar == 5 then
+			Setup_SSVxRPR()
 		end
 	end
 end
@@ -289,6 +293,73 @@ function Setup_EVGxCOL()
 			print("ME5_RandomSides.Setup_EVGxCOL(): Online COL hero is Harby")
 			SetHeroClass(CIS, "col_hero_harbinger")
 		end
+	end
+end
+
+function Setup_SSVxRPR()
+	Load_SSV()
+	Load_RPR()
+	
+	if gCurrentMapManager.mapSize == "xxs" or gCurrentMapManager.mapSize == 1 then
+		print("ME5_RandomSides.Setup_SSVxRPR(): Map size is xxs")
+		Setup_SSVxRPR_xxs()
+		
+	elseif gCurrentMapManager.mapSize == "xs" or gCurrentMapManager.mapSize == 2 then
+		print("ME5_RandomSides.Setup_SSVxRPR(): Map size is xs")
+		Setup_SSVxRPR_xs()
+		
+	elseif gCurrentMapManager.mapSize == "sm" or gCurrentMapManager.mapSize == 3 then
+		print("ME5_RandomSides.Setup_SSVxRPR(): Map size is sm")
+		Setup_SSVxRPR_sm()
+		
+	elseif gCurrentMapManager.mapSize == "med" or gCurrentMapManager.mapSize == 4 then
+		print("ME5_RandomSides.Setup_SSVxRPR(): Map size is med")
+		Setup_SSVxRPR_med()
+		
+	elseif gCurrentMapManager.mapSize == "lg" or gCurrentMapManager.mapSize == 5 then
+		print("ME5_RandomSides.Setup_SSVxRPR(): Map size is lg")
+		Setup_SSVxRPR_lg()
+		
+	elseif gCurrentMapManager.mapSize == "xl" or gCurrentMapManager.mapSize == 6 then
+		print("ME5_RandomSides.Setup_SSVxRPR(): Map size is xl")
+		Setup_SSVxRPR_xl()
+	else
+		print("ME5_RandomSides.Setup_SSVxRPR(): ALL YOUR MAP SIZE ARE BELONG TO US!!")
+	end
+	
+	
+	if ScriptCB_InMultiplayer() then
+		-- SYSTEMS ALLIANCE HERO
+		if gCurrentMapManager.onlineHeroSSV == "shep_soldier" or gCurrentMapManager.onlineHeroSSV == 1 then
+			print("ME5_RandomSides.Setup_SSVxRPR(): Online SSV hero is Shepard Soldier")
+			SetHeroClass(REP, "ssv_hero_shepard_soldier")
+			
+		elseif gCurrentMapManager.onlineHeroSSV == "shep_infiltrator" or gCurrentMapManager.onlineHeroSSV == 2 then
+			print("ME5_RandomSides.Setup_SSVxRPR(): Online SSV hero is Shepard Infiltrator")
+			SetHeroClass(REP, "ssv_hero_shepard_infiltrator")
+			
+		elseif gCurrentMapManager.onlineHeroSSV == "shep_engineer" or gCurrentMapManager.onlineHeroSSV == 3 then
+			print("ME5_RandomSides.Setup_SSVxRPR(): Online SSV hero is Shepard Engineer")
+			SetHeroClass(REP, "ssv_hero_shepard_engineer")
+			
+		elseif gCurrentMapManager.onlineHeroSSV == "shep_adept" or gCurrentMapManager.onlineHeroSSV == 4 then
+			print("ME5_RandomSides.Setup_SSVxRPR(): Online SSV hero is Shepard Adept")
+			SetHeroClass(REP, "ssv_hero_shepard_adept")
+			
+		elseif gCurrentMapManager.onlineHeroSSV == "shep_sentinel" or gCurrentMapManager.onlineHeroSSV == 5 then
+			print("ME5_RandomSides.Setup_SSVxRPR(): Online SSV hero is Shepard Sentinel")
+			SetHeroClass(REP, "ssv_hero_shepard_sentinel")
+			
+		elseif gCurrentMapManager.onlineHeroSSV == "shep_vanguard" or gCurrentMapManager.onlineHeroSSV == 6 then
+			print("ME5_RandomSides.Setup_SSVxRPR(): Online SSV hero is Shepard Vanguard")
+			SetHeroClass(REP, "ssv_hero_shepard_vanguard")
+		end
+		
+		-- REAPERS HERO
+		-- if gCurrentMapManager.onlineHeroRPR == "banshee" or gCurrentMapManager.onlineHeroRPR == 1 then
+		-- 	print("ME5_RandomSides.Setup_SSVxRPR(): Online RPR hero is Banshee")
+		-- 	SetHeroClass(CIS, "rpr_hero_banshee")
+		-- end
 	end
 end
 
@@ -849,25 +920,56 @@ function LoadECL()
 	print("ME5_RandomSides.LoadECL(): Exited")
 end
 
--- Loads the appropriate data files for the Reaper Forces faction.
-function LoadRPR()
-	print("ME5_RandomSides.LoadRPR(): Entered")
+-- Loads the appropriate data files for the Reapers faction.
+function Load_RPR()
+	print("ME5_RandomSides.Load_RPR(): Entered")
 	
 	--SetAIDifficulty(-3, 3)
 	
+	print("ME5_RandomSides.Load_RPR(): Loading sounds")
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_RPR_NonStreaming.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_INDOC_NonStreaming.lvl")
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\indoc.lvl",
-				"indoc_inf_husk",
-				"indoc_inf_abomination",
-				"indoc_inf_cannibal",
-				"indoc_inf_marauder")
 	
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\col.lvl",
-				"col_inf_scion")
-				
+	print("ME5_RandomSides.Load_RPR(): Loading meshes/textures")
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_RPR_Char.lvl")
+	-- ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_RPR_Misc.lvl")
+	
+	print("ME5_RandomSides.Load_RPR(): Loading unit/weapon classes")
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\CON_RPR.lvl")
+	
+	print("ME5_RandomSides.Load_RPR(): Loading Husk meshes/textures")
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_INDOC_Char.lvl")
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_INDOC_Misc.lvl")
+	
+	print("ME5_RandomSides.Load_RPR(): Loading Husk unit/weapon classes")
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\CON_INDOC.lvl")
+	
+	-- if not ScriptCB_InMultiplayer() then
+	-- 	if ME5_ShieldFunc == 1 then
+	-- 		print("ME5_RandomSides.Load_RPR(): Configuring COL Shield Functionality for AUTO-REGEN...")
+	-- 		col_inf_guardian		= "col_inf_guardian_shield"
+	-- 		col_inf_guardian_online	= "col_inf_guardian_online_shield"
+			
+	-- 	elseif ME5_ShieldFunc == 2 then
+	-- 		print("ME5_RandomSides.Load_RPR(): Configuring COL Shield Functionality for PICKUPS...")
+	-- 		col_inf_guardian		= "col_inf_guardian"
+	-- 		col_inf_guardian_online	= "col_inf_guardian_online"
+	-- 	else
+	-- 		print("ME5_RandomSides.Load_RPR(): Error! ME5_ShieldFunc setting is invalid! Defaulting to COL Shield Functionality for AUTO-REGEN")
+	-- 		col_inf_guardian		= "col_inf_guardian_shield"
+	-- 		col_inf_guardian_online	= "col_inf_guardian_online_shield"
+	-- 	end
+	-- else
+	-- 	print("ME5_RandomSides.Load_RPR(): Configuring RPR Shield Functionality for AUTO-REGEN...")
+	-- 	col_inf_guardian		= "col_inf_guardian_shield"
+	-- 	col_inf_guardian_online	= "col_inf_guardian_online_shield"
+	-- end
+	
+	print("ME5_RandomSides.Load_RPR(): Loading localization")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\corerpr.lvl")
+	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamecol.lvl")
 	
-	print("ME5_RandomSides.LoadRPR(): Exited")
+	print("ME5_RandomSides.Load_RPR(): Exited")
 end
 
 -- Loads the appropriate data files for the Cerberus faction.
@@ -2482,38 +2584,74 @@ function Setup_GTHxECL_med()
 end
 
 function Setup_SSVxRPR_med()
-	print("Load/setup SSV versus RPR - level mode:med")
+	print("ME5_RandomSides.Setup_SSVxRPR_med(): Entered")
+	--Setup_SSVxCOL_med = 1
+	ssvEngCnt = 8
 	
-	--SetTeamAggressiveness(REP, 0.99)
-	--SetTeamAggressiveness(CIS, 0.96)
+	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVCOL_NonStreaming.lvl")
+	-- if not ScriptCB_InMultiplayer() then
+		SetupTeams{
+			rep = {
+				team = REP,
+				units = 22,
+				reinforcements = 175,
+				soldier  = { ssv_inf_soldier,4, 8},
+				sniper  = { ssv_inf_infiltrator,3, 8},
+				adept = { ssv_inf_adept,4, 8},
+				engineer   = { ssv_inf_engineer,4, 8},
+				sentinel = { ssv_inf_sentinel,4, 8},
+				vanguard = { ssv_inf_vanguard,3, 8},	
+			},
+			
+			cis = {
+				team = CIS,
+				units = 22,
+				reinforcements = 175,
+				soldier  = { "rpr_inf_cannibal",9, 25},
+				assault  = { "rpr_inf_marauder",5, 7},
+				-- support  = { "rpr_inf_ravager",4, 14},
+				special = { "rpr_inf_brute",2, 4},
+			}
+		}
+	-- else
+	-- 	SetupTeams{
+	-- 	rep = {
+	-- 		team = REP,
+	-- 		units = 22,
+	-- 		reinforcements = 175,
+	-- 		soldier  = { ssv_inf_soldier,4, 8},
+	-- 		sniper  = { ssv_inf_infiltrator,3, 8},
+	-- 		adept = { ssv_inf_adept,4, 8},
+	-- 		engineer   = { ssv_inf_engineer,4, 8},
+	-- 		sentinel = { ssv_inf_sentinel,4, 8},
+	-- 		vanguard = { ssv_inf_vanguard,3, 8},	
+	-- 	},
+		
+	-- 	cis = {
+	-- 		team = CIS,
+	-- 		units = 19,
+	-- 		reinforcements = 175,
+	-- 		-- husk  = { "indoc_inf_husk",4, 8},
+	-- 		soldier  = { "col_inf_drone",9, 25},
+	-- 		assault  = { "col_inf_assassin",5, 7},
+	-- 		-- special = { "indoc_inf_abomination",4, 8},
+	-- 		support  = { col_inf_guardian_online,4, 14},
+	-- 		scion  = { "col_inf_scion",1, 2},
+	-- 	}
+	-- 	}
+	-- end
 	
-	SetupTeams{
-	rep = {
-		team = REP,
-		units = 25,
-		reinforcements = 175,
-		soldier  = { ssv_inf_soldier,3, 8},
-		sniper  = { ssv_inf_infiltrator,3, 8},
-		adept = { ssv_inf_adept,3, 8},
-		engineer   = { ssv_inf_engineer,3, 8},
-		sentinel = { ssv_inf_sentinel,3, 8},
-		vanguard = { ssv_inf_vanguard,3, 8},	
-	},
-	
-	imp = {
-		team = CIS,
-		units = 26,
-		reinforcements = 175,
-		husk  = { "indoc_inf_husk",7, 12},
-		soldier  = { "indoc_inf_cannibal",9, 16},
-		assault  = { "indoc_inf_marauder",6, 10},
-		support = { "indoc_inf_abomination",4, 8},
-		scion = { "col_inf_scion",2, 4},
-	}
-	}
-	
-	-- SetHeroClass(CIS, heroGTH)
-	-- SetHeroClass(REP, heroSSV)
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 4)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 4)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
 end
 
 function Setup_SSVxCER_med()

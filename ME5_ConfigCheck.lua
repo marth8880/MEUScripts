@@ -97,7 +97,7 @@ if CheckSetting("cfg_CustomHUD", 0) == 1 then
 elseif CheckSetting("cfg_CustomHUD", 1) == 1 then
 	print("ME5_ConfigCheck: Custom HUD is ENABLED")
 	ME5_CustomHUD = 1
-	
+	rema_noHUD = true
 else
 	print("ME5_ConfigCheck: Error! ME5_CustomHUD flag not found or invalid! Defaulting to ENABLED")
 	ME5_CustomHUD = 1
@@ -361,6 +361,10 @@ elseif CheckSetting("cfg_SideVar", 3) == 1 then
 elseif CheckSetting("cfg_SideVar", 4) == 1 then
 	print("ME5_ConfigCheck: Side Variation is EVGxCOL")
 	ME5_SideVar = 4
+	
+elseif CheckSetting("cfg_SideVar", 5) == 1 then
+	print("ME5_ConfigCheck: Side Variation is SSVxRPR")
+	ME5_SideVar = 5
 	
 else
 	print("ME5_ConfigCheck: Error! ME5_SideVar flag not found or invalid! Defaulting to RANDOM")

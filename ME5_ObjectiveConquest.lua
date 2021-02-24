@@ -451,6 +451,17 @@ function ObjectiveConquest:Start()
     			snd_CIS_cpLost_ally		= snd_COL_cpLost_ally
     			snd_CIS_cpLost_enemy	= snd_COL_cpLost_enemy
     			
+    		elseif ME5_SideVar == 5 then
+    			snd_REP_cpCapture_ally	= snd_SSV_cpCapture_ally
+    			snd_REP_cpCapture_enemy	= snd_SSV_cpCapture_enemy
+    			snd_REP_cpLost_ally		= snd_SSV_cpLost_ally
+    			snd_REP_cpLost_enemy	= snd_SSV_cpLost_enemy
+    			
+    			snd_CIS_cpCapture_ally	= snd_COL_cpCapture_ally
+    			snd_CIS_cpCapture_enemy	= snd_COL_cpCapture_enemy
+    			snd_CIS_cpLost_ally		= snd_COL_cpLost_ally
+    			snd_CIS_cpLost_enemy	= snd_COL_cpLost_enemy
+    			
     		end
     	else
     		if gCurrentMapManager.onlineSideVar == "SSVxGTH" or gCurrentMapManager.onlineSideVar == 1 then
@@ -491,6 +502,17 @@ function ObjectiveConquest:Start()
     			snd_REP_cpCapture_enemy	= snd_EVG_cpCapture_enemy
     			snd_REP_cpLost_ally		= snd_EVG_cpLost_ally
     			snd_REP_cpLost_enemy	= snd_EVG_cpLost_enemy
+    			
+    			snd_CIS_cpCapture_ally	= snd_COL_cpCapture_ally
+    			snd_CIS_cpCapture_enemy	= snd_COL_cpCapture_enemy
+    			snd_CIS_cpLost_ally		= snd_COL_cpLost_ally
+    			snd_CIS_cpLost_enemy	= snd_COL_cpLost_enemy
+    			
+    		elseif gCurrentMapManager.onlineSideVar == "SSVxRPR" or gCurrentMapManager.onlineSideVar == 5 then
+    			snd_REP_cpCapture_ally	= snd_SSV_cpCapture_ally
+    			snd_REP_cpCapture_enemy	= snd_SSV_cpCapture_enemy
+    			snd_REP_cpLost_ally		= snd_SSV_cpLost_ally
+    			snd_REP_cpLost_enemy	= snd_SSV_cpLost_enemy
     			
     			snd_CIS_cpCapture_ally	= snd_COL_cpCapture_ally
     			snd_CIS_cpCapture_enemy	= snd_COL_cpCapture_enemy

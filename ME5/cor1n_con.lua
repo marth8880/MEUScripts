@@ -20,6 +20,7 @@ manager = MapManager:New{
 	musicVariation_SSVxCOL = "2",
 	musicVariation_EVGxGTH = "9",
 	musicVariation_EVGxCOL = "9",
+	musicVariation_SSVxRPR = "8",
 	
 	-- Online matches
 	onlineSideVar = "SSVxGTH",
@@ -158,7 +159,7 @@ function ScriptPostLoad()
     conquest:AddCommandPost(cp3)
     conquest:AddCommandPost(cp4)
     conquest:AddCommandPost(cp5)
-    conquest:AddCommandPost(cp6)
+	conquest:AddCommandPost(cp6)
     
     conquest:Start()
     
