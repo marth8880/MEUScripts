@@ -944,26 +944,22 @@ function Load_RPR()
 	print("ME5_RandomSides.Load_RPR(): Loading Husk unit/weapon classes")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\CON_INDOC.lvl")
 	
-	-- if not ScriptCB_InMultiplayer() then
-	-- 	if ME5_ShieldFunc == 1 then
-	-- 		print("ME5_RandomSides.Load_RPR(): Configuring COL Shield Functionality for AUTO-REGEN...")
-	-- 		col_inf_guardian		= "col_inf_guardian_shield"
-	-- 		col_inf_guardian_online	= "col_inf_guardian_online_shield"
+	if not ScriptCB_InMultiplayer() then
+		if ME5_ShieldFunc == 1 then
+			print("ME5_RandomSides.Load_RPR(): Configuring RPR Shield Functionality for AUTO-REGEN...")
+			rpr_inf_marauder		= "rpr_inf_marauder_shield"
 			
-	-- 	elseif ME5_ShieldFunc == 2 then
-	-- 		print("ME5_RandomSides.Load_RPR(): Configuring COL Shield Functionality for PICKUPS...")
-	-- 		col_inf_guardian		= "col_inf_guardian"
-	-- 		col_inf_guardian_online	= "col_inf_guardian_online"
-	-- 	else
-	-- 		print("ME5_RandomSides.Load_RPR(): Error! ME5_ShieldFunc setting is invalid! Defaulting to COL Shield Functionality for AUTO-REGEN")
-	-- 		col_inf_guardian		= "col_inf_guardian_shield"
-	-- 		col_inf_guardian_online	= "col_inf_guardian_online_shield"
-	-- 	end
-	-- else
-	-- 	print("ME5_RandomSides.Load_RPR(): Configuring RPR Shield Functionality for AUTO-REGEN...")
-	-- 	col_inf_guardian		= "col_inf_guardian_shield"
-	-- 	col_inf_guardian_online	= "col_inf_guardian_online_shield"
-	-- end
+		elseif ME5_ShieldFunc == 2 then
+			print("ME5_RandomSides.Load_RPR(): Configuring RPR Shield Functionality for PICKUPS...")
+			rpr_inf_marauder		= "rpr_inf_marauder"
+		else
+			print("ME5_RandomSides.Load_RPR(): Error! ME5_ShieldFunc setting is invalid! Defaulting to RPR Shield Functionality for AUTO-REGEN")
+			rpr_inf_marauder		= "rpr_inf_marauder_shield"
+		end
+	else
+		print("ME5_RandomSides.Load_RPR(): Configuring RPR Shield Functionality for AUTO-REGEN...")
+		rpr_inf_marauder		= "rpr_inf_marauder_shield"
+	end
 	
 	print("ME5_RandomSides.Load_RPR(): Loading localization")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\corerpr.lvl")
@@ -2608,7 +2604,7 @@ function Setup_SSVxRPR_med()
 				units = 22,
 				reinforcements = 175,
 				soldier  = { "rpr_inf_cannibal",9, 25},
-				assault  = { "rpr_inf_marauder",5, 7},
+				assault  = { rpr_inf_marauder,5, 7},
 				-- support  = { "rpr_inf_ravager",4, 14},
 				special = { "rpr_inf_brute",2, 4},
 			}

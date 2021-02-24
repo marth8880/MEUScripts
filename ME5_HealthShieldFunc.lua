@@ -219,6 +219,7 @@ function Init_DeferredShieldRegen()
 						{ class = "gth_ev_inf_pyro_shield", 				addShield = 14.0,	regenDelay = 3.2 }, 
 						{ class = "gth_ev_inf_juggernaut_shield", 			addShield = 14.0,	regenDelay = 3.4 }, 
 						{ class = "gth_ev_inf_juggernaut_online_shield",	addShield = 14.0,	regenDelay = 3.4 }, 
+						{ class = "rpr_inf_marauder_shield",				addShield = 14.0,	regenDelay = 3.4 }, 
 						{ class = "ssv_inf_soldier_shield", 				addShield = 14.0,	regenDelay = 3.4 }, 
 						{ class = "ssv_inf_infiltrator_shield", 			addShield = 14.0,	regenDelay = 3.4 }, 
 						{ class = "ssv_inf_engineer_shield", 				addShield = 14.0,	regenDelay = 3.4 }, 
