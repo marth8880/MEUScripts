@@ -409,7 +409,7 @@ function MapManager:Proc_ScriptInit_Begin()
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_EVGxCOL.lvl")
 			elseif ME5_SideVar == 5 then
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxCOL.lvl")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxRPR.lvl")
 			end
 		else
 			if self.onlineSideVar == "SSVxGTH" or self.onlineSideVar == 1 then
@@ -426,7 +426,7 @@ function MapManager:Proc_ScriptInit_Begin()
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_EVGxCOL.lvl")
 			elseif self.onlineSideVar == "SSVxRPR" or self.onlineSideVar == 5 then
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxCOL.lvl")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxRPR.lvl")
 			end
 		end
     	
@@ -491,7 +491,7 @@ function MapManager:Proc_ScriptInit_Begin()
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_EVGxCOL.lvl")
 			elseif ME5_SideVar == 5 then
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxCOL.lvl")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxRPR.lvl")
 			end
 		else
 			if self.onlineSideVar == "SSVxGTH" or self.onlineSideVar == 1 then
@@ -508,7 +508,7 @@ function MapManager:Proc_ScriptInit_Begin()
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_EVGxCOL.lvl")
 			elseif self.onlineSideVar == "SSVxRPR" or self.onlineSideVar == 5 then
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
-				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxCOL.lvl")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxRPR.lvl")
 			end
 		end
     	
@@ -1059,7 +1059,7 @@ function MapManager:Init_SidesPostLoad_SSVxGTH()
 				herosupport:SetHeroClass(CIS, GTHHeroClass)
 				
 				for cp in ipairs(self.heroSupportCPs) do
-					print("ME5_MiscFunctions.Init_SidesPostLoad_SSVxGTH(): Setting hero spawn cp, path = ", self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
+					print("ME5_MapManager.Init_SidesPostLoad_SSVxGTH(): Setting hero spawn cp, path = ", self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
 					herosupport:AddSpawnCP(self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
 				end
 				
@@ -1088,7 +1088,7 @@ function MapManager:Init_SidesPostLoad_SSVxCOL()
 				herosupport:SetHeroClass(CIS, COLHeroClass)
 				
 				for cp in ipairs(self.heroSupportCPs) do
-					print("ME5_MiscFunctions.Init_SidesPostLoad_SSVxCOL(): Setting hero spawn cp, path = ", self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
+					print("ME5_MapManager.Init_SidesPostLoad_SSVxCOL(): Setting hero spawn cp, path = ", self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
 					herosupport:AddSpawnCP(self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
 				end
 				
@@ -1117,7 +1117,7 @@ function MapManager:Init_SidesPostLoad_EVGxGTH()
 				herosupport:SetHeroClass(CIS, GTHHeroClass)
 				
 				for cp in ipairs(self.heroSupportCPs) do
-					print("ME5_MiscFunctions.Init_SidesPostLoad_EVGxGTH(): Setting hero spawn cp, path = ", self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
+					print("ME5_MapManager.Init_SidesPostLoad_EVGxGTH(): Setting hero spawn cp, path = ", self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
 					herosupport:AddSpawnCP(self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
 				end
 				
@@ -1147,7 +1147,7 @@ function MapManager:Init_SidesPostLoad_EVGxCOL()
 					herosupport:SetHeroClass(CIS, COLHeroClass)
 					
 					for cp in ipairs(self.heroSupportCPs) do
-						print("ME5_MiscFunctions.Init_SidesPostLoad_EVGxCOL(): Setting hero spawn cp, path = ", self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
+						print("ME5_MapManager.Init_SidesPostLoad_EVGxCOL(): Setting hero spawn cp, path = ", self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
 						herosupport:AddSpawnCP(self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
 					end
 					
@@ -1177,7 +1177,7 @@ function MapManager:Init_SidesPostLoad_SSVxRPR()
 				-- herosupport:SetHeroClass(CIS, RPRHeroClass)
 				
 				for cp in ipairs(self.heroSupportCPs) do
-					print("ME5_MiscFunctions.Init_SidesPostLoad_SSVxRPR(): Setting hero spawn cp, path = ", self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
+					print("ME5_MapManager.Init_SidesPostLoad_SSVxRPR(): Setting hero spawn cp, path = ", self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
 					herosupport:AddSpawnCP(self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
 				end
 				
