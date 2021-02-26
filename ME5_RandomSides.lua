@@ -948,17 +948,21 @@ function Load_RPR()
 		if ME5_ShieldFunc == 1 then
 			print("ME5_RandomSides.Load_RPR(): Configuring RPR Shield Functionality for AUTO-REGEN...")
 			rpr_inf_marauder		= "rpr_inf_marauder_shield"
+			rpr_inf_banshee			= "rpr_inf_banshee_shield"
 			
 		elseif ME5_ShieldFunc == 2 then
 			print("ME5_RandomSides.Load_RPR(): Configuring RPR Shield Functionality for PICKUPS...")
 			rpr_inf_marauder		= "rpr_inf_marauder"
+			rpr_inf_banshee			= "rpr_inf_banshee"
 		else
 			print("ME5_RandomSides.Load_RPR(): Error! ME5_ShieldFunc setting is invalid! Defaulting to RPR Shield Functionality for AUTO-REGEN")
 			rpr_inf_marauder		= "rpr_inf_marauder_shield"
+			rpr_inf_banshee			= "rpr_inf_banshee_shield"
 		end
 	else
 		print("ME5_RandomSides.Load_RPR(): Configuring RPR Shield Functionality for AUTO-REGEN...")
 		rpr_inf_marauder		= "rpr_inf_marauder_shield"
+		rpr_inf_banshee			= "rpr_inf_banshee_shield"
 	end
 	
 	print("ME5_RandomSides.Load_RPR(): Loading localization")
@@ -2606,7 +2610,8 @@ function Setup_SSVxRPR_med()
 				soldier  = { "rpr_inf_cannibal",9, 25},
 				assault  = { rpr_inf_marauder,5, 7},
 				-- support  = { "rpr_inf_ravager",4, 14},
-				special = { "rpr_inf_brute",2, 4},
+				officer = { "rpr_inf_brute",2, 4},
+				special = { rpr_inf_banshee,1, 2},
 			}
 		}
 	-- else

@@ -773,6 +773,7 @@ function Init_HitMarkerSounds()
 						"gth_hero_prime_me2",
 						"gth_hero_prime_me3",
 						"rpr_inf_brute",
+						"rpr_inf_banshee",
 						
 						-- Buildings
 						"hoth_bldg_shieldgenerator",

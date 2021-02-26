@@ -38,7 +38,8 @@ function Init_Weapon_Charge()
 			if not object then return end
 			if not damager then return end
 			
-			if GetObjectLastHitWeaponClass(object) == "weap_bio_charge" then
+			if GetObjectLastHitWeaponClass(object) == "weap_bio_charge" 
+			or GetObjectLastHitWeaponClass(object) == "weap_bio_banshee_charge" then
 				local charPtr = GetCharacterUnit(damager)
 				local objectPtr = GetEntityPtr(object)
 				

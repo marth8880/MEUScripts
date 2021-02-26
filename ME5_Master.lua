@@ -139,6 +139,7 @@ gth_ev_inf_pyro			= nil
 gth_ev_inf_juggernaut	= nil
 
 rpr_inf_marauder		= nil
+rpr_inf_banshee			= nil
 
 snd_REP_cpCapture_ally	= nil
 snd_REP_cpCapture_enemy	= nil
