@@ -38,8 +38,19 @@ function Init_Weapon_Charge()
 			if not object then return end
 			if not damager then return end
 			
-			if GetObjectLastHitWeaponClass(object) == "weap_bio_charge" 
-			or GetObjectLastHitWeaponClass(object) == "weap_bio_banshee_charge" then
+			local hitByCorrectWeapon = false
+			local hitByBanshee = false
+			
+			if GetObjectLastHitWeaponClass(object) == "weap_bio_charge" then
+				hitByCorrectWeapon = true
+			end
+				
+			if GetObjectLastHitWeaponClass(object) == "weap_bio_banshee_charge" then
+				hitByCorrectWeapon = true
+				hitByBanshee = true
+			end
+			
+			if hitByCorrectWeapon == true then
 				local charPtr = GetCharacterUnit(damager)
 				local objectPtr = GetEntityPtr(object)
 				
@@ -81,27 +92,92 @@ function Init_Weapon_Charge()
 					
 					-- PrintLog("newMatrix", newMatrix)
 					
-					
-					local curShields, maxShields = GetObjectShield(charPtr)
-					local newShields = curShields + (maxShields / 2)
-					
-					-- Don't let the shields spill over
-					if newShields > maxShields then
-						newShields = maxShields
+					-- Don't recharge the user's shields if it's a Banshee
+					if hitByBanshee == false then
+						local curShields, maxShields = GetObjectShield(charPtr)
+						local newShields = curShields + (maxShields / 2)
+						
+						-- Don't let the shields spill over
+						if newShields > maxShields then
+							newShields = maxShields
+						end
+						
+						SetProperty(charPtr, "CurShield", newShields)
 					end
-					
-					SetProperty(charPtr, "CurShield", newShields)
 					
 					if IsCharacterHuman(damager) and not ScriptCB_InMultiplayer() then
 						ScriptCB_SndPlaySound("biotic_charge_exp_2D")
 						-- ShowMessageText("level.common.debug.damager_ssv")
 					end
 				else
-					PrintLog("Object team doesn't match")
+					-- PrintLog("Object team doesn't match")
 				end
 			end
 		end
 	)
+end
+
+---
+-- Sets up the event responses for ordnance that applies damage over time (DOT).  Specifically, whenever an object is damaged by a weapon that's 
+--  supposed to have DOT ammo or a power that's supposed to have DOT effects (like Incinerate), an invisible
+--  auto-turret that fires an EmitterOrdnance is spawned at the object's matrix and then immediately self-destructs.
+-- 
+function Init_Weapon_DOT()
+	PrintLog("Init_Weapon_DOT(): Entered")
+	
+	if not ScriptCB_InMultiplayer() then
+		-- List of terms that incendiary weapons contain, these are used with string.sub(a,b,c) where a=[1], b=[2], c=[3]
+		local dotWeapons = {
+						{"incendiary", "com_bldg_incendiaryord_turret", -10, -1},
+						{"incinerate", "com_bldg_incendiaryord_turret", -10, -1},
+						{"incinerationblast", "com_bldg_incendiaryord_turret", -17, -1},
+						{"scorch", "com_bldg_incendiaryord_turret", -6, -1},
+						{"reave", "com_bldg_reaveord_turret", -5, -1},
+		}
+		
+		-- Whenever an object is damaged
+		local targetdamage = OnObjectDamage(
+			function(object, damager)
+				-- Exit immediately if any values are incorrect
+				if not object then return end
+				if not damager then return end
+				
+				local objectTeam = GetObjectTeam(object)
+				local damagerTeam = GetCharacterTeam(damager)
+				if (not objectTeam) or (objectTeam <= 0) then return end
+				if (not damagerTeam) or (damagerTeam <= 0) then return end
+				
+				-- Are the object and damager on different teams?
+				if objectTeam ~= damagerTeam then
+					-- Figure out the damager's weapon (and exit if it's nil)
+					local damagerWeapon = GetObjectLastHitWeaponClass(object)
+					if not damagerWeapon then return end
+					
+					-- Is the weapon DOT?
+					local bIsDot = false
+					local weaponIdx
+					
+					for i in ipairs(dotWeapons) do
+						if string.sub(damagerWeapon, dotWeapons[i][3], dotWeapons[i][4]) == dotWeapons[i][1] then
+							bIsDot = true
+							weaponIdx = i
+							break
+						end
+					end
+					
+					-- Exit if the weapon isn't DOT, or continue if it is
+					if bIsDot == false then
+						return
+					else
+						-- Spawn the DOT ordnance turret
+						gDotOrdTurretEntity = CreateEntity(dotWeapons[weaponIdx][2], GetEntityMatrix(object))
+						
+						--print("Weapon ("..damagerWeapon..") is DOT")
+					end
+				end
+			end
+		)
+	end
 end
 
 PrintLog("Exited");

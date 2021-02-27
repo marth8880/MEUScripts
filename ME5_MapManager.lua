@@ -792,7 +792,7 @@ function MapManager:Proc_ScriptInit_Begin()
 	--Init_LowHealthFeedback()
 	Init_EvolvedJuggernautPowerDrain()
 	Init_Weapon_Charge()
-	Init_IncendiaryOrd()
+	Init_Weapon_DOT()
 	
 	
 	if self.bIsArtilleryEnabled == true then
