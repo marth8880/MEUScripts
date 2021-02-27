@@ -854,6 +854,8 @@ end
 function MapManager:Proc_ScriptInit_MemoryPoolInit()
 	print("MapManager:Proc_ScriptInit_MemoryPoolInit(): Entered")
 	
+	AddWalkerType(0, NUM_RAVAGERS)  -- number of ravagers
+	
 	-- Need to account for (carried) flags
 	if self.gameMode == "1flag" or self.gameMode == "ctf" then
 		SetMemoryPoolSize("EntityCloth", 4)

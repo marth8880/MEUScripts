@@ -177,6 +177,7 @@ local ballisticWeapons_GTH = {
 local ballisticWeapons_RPR = {
 				"rpr_weap_inf_rifle_armcannon",
 				"rpr_weap_inf_rifle_phaeston",
+				"rpr_weap_inf_ravager_cannons",
 }
 
 -- SSV ballistic weapons.
@@ -439,9 +440,11 @@ function Init_PlayerDamageFeedback()
 		
 		-- RPR unit classes.
 		local rprClasses = {
-						"rpr_inf_cannibal",
-						"rpr_inf_marauder",
-						"rpr_inf_brute",
+			"rpr_inf_cannibal",
+			"rpr_inf_marauder",
+			"rpr_inf_ravager",
+			"rpr_inf_brute",
+			"rpr_inf_banshee",
 		}
 		
 		-- SSV unit classes.
@@ -719,7 +722,9 @@ function Init_HitMarkerSounds()
 		local rprClasses = {
 						"rpr_inf_cannibal",
 						"rpr_inf_marauder",
+						"rpr_inf_ravager",
 						"rpr_inf_brute",
+						"rpr_inf_banshee",
 		}
 		
 		-- SSV unit classes.
@@ -772,6 +777,7 @@ function Init_HitMarkerSounds()
 						"gth_ev_inf_juggernaut_online_shield",
 						"gth_hero_prime_me2",
 						"gth_hero_prime_me3",
+						"rpr_inf_ravager",
 						"rpr_inf_brute",
 						"rpr_inf_banshee",
 						

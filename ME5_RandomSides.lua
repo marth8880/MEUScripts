@@ -2588,6 +2588,8 @@ function Setup_SSVxRPR_med()
 	--Setup_SSVxCOL_med = 1
 	ssvEngCnt = 8
 	
+	NUM_RAVAGERS = 6
+	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVCOL_NonStreaming.lvl")
 	-- if not ScriptCB_InMultiplayer() then
 		SetupTeams{
@@ -2609,7 +2611,7 @@ function Setup_SSVxRPR_med()
 				reinforcements = 175,
 				soldier  = { "rpr_inf_cannibal",9, 25},
 				assault  = { rpr_inf_marauder,5, 7},
-				-- support  = { "rpr_inf_ravager",4, 14},
+				rocketeer  = { "rpr_inf_ravager",3, NUM_RAVAGERS},
 				officer = { "rpr_inf_brute",2, 4},
 				special = { rpr_inf_banshee,1, 2},
 			}

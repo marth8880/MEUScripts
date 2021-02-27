@@ -205,6 +205,7 @@ MAX_SHEP_GENDER_COUNT		= 1		-- Number of Shepard's genders.
 
 MAX_FLAG_ITEM_COUNT			= 512		-- Number of FlagItem entities.
 MAX_PORTABLE_TURRET_COUNT	= 100		-- Number of PortableTurret entities.
+NUM_RAVAGERS				= 0			-- Number of Ravager units.
 
 UNIT_HEALTH_REGEN_RATE		= 4.0	-- Regen rate for auto-regenerating health.
 

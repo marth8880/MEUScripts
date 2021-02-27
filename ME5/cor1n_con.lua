@@ -195,7 +195,6 @@ function ScriptInit()
     
 	--  Level Stats
     ClearWalkers()
-    AddWalkerType(0, 0)  -- number of droidekas
     AddWalkerType(1, 0)
 
 	local weaponCnt = 256
