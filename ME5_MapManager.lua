@@ -410,6 +410,8 @@ function MapManager:Proc_ScriptInit_Begin()
 			elseif ME5_SideVar == 5 then
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxRPR.lvl")
+		
+				SetClassProperty("rpr_bldg_cannibalize_unbuilt", "Team", CIS)
 			end
 		else
 			if self.onlineSideVar == "SSVxGTH" or self.onlineSideVar == 1 then
@@ -427,6 +429,8 @@ function MapManager:Proc_ScriptInit_Begin()
 			elseif self.onlineSideVar == "SSVxRPR" or self.onlineSideVar == 5 then
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxRPR.lvl")
+		
+				SetClassProperty("rpr_bldg_cannibalize_unbuilt", "Team", CIS)
 			end
 		end
     	
@@ -830,6 +834,7 @@ function MapManager:Proc_ScriptInit_SideSetup()
 			Setup_EVGxCOL()
 		elseif ME5_SideVar == 5 then
 			Setup_SSVxRPR()
+			Init_Weapon_Cannibalize()	-- This needs to be called here because of the class initialization
 		end
 	else
 		if self.onlineSideVar == "SSVxGTH" or self.onlineSideVar == 1 then
@@ -842,6 +847,7 @@ function MapManager:Proc_ScriptInit_SideSetup()
 			Setup_EVGxCOL()
 		elseif self.onlineSideVar == "SSVxRPR" or self.onlineSideVar == 5 then
 			Setup_SSVxRPR()
+			Init_Weapon_Cannibalize()
 		end
 	end
 end

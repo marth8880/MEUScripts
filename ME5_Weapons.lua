@@ -180,4 +180,48 @@ function Init_Weapon_DOT()
 	end
 end
 
+
+function Init_Weapon_Cannibalize()
+	PrintLog("Init_Weapon_Cannibalize(): Entered")
+	
+	gNumCorpsesAlive = 0	-- harr harr :P
+	
+	local function OnReaperDeath(object, killer)
+		-- In order to prevent cases of corpses piling up out-of-bounds (for example), 
+		-- only spawn a corpse if the unit was killed by another unit 
+		if not killer then return end
+		
+		if gNumCorpsesAlive >= MAX_CANNIBALIZE_CORPSE_COUNT then
+		else
+			if ScriptCB_random() <= CANNIBALIZE_CORPSE_DROP_CHANCE then
+				local corpsePos = GetEntityMatrix(object)
+				CreateEntity("rpr_bldg_cannibalize_unbuilt", corpsePos, "sofuckingstupid")
+				gNumCorpsesAlive = gNumCorpsesAlive + 1
+			end
+		end
+	end
+	
+	local cannibalDeathHandler = OnObjectKillClass(OnReaperDeath, "rpr_inf_cannibal")
+	local marauderDeathHandler = OnObjectKillClass(OnReaperDeath, rpr_inf_marauder)
+	local ravagerDeathHandler = OnObjectKillClass(OnReaperDeath, "rpr_inf_ravager")
+	local bruteDeathHandler = OnObjectKillClass(OnReaperDeath, "rpr_inf_brute")
+	local bansheeDeathHandler = OnObjectKillClass(OnReaperDeath, rpr_inf_banshee)
+	
+	local onCannibalizeHandler = OnObjectKillClass(
+		function(object, killer)
+			-- There needs to be a killer
+			if not killer then return end
+			
+			gNumCorpsesAlive = gNumCorpsesAlive - 1
+			
+			if GetObjectLastHitWeaponClass(object) == "rpr_weap_inf_cannibalize" then
+				PrintLog("Cannibal consumed a corpse!")
+				SetProperty(GetCharacterUnit(killer), "CurHealth", CANNIBALIZE_HEALTH_MAX)
+				SetProperty(GetCharacterUnit(killer), "MaxHealth", CANNIBALIZE_HEALTH_MAX)
+			end
+		end,
+		"rpr_bldg_cannibalize_unbuilt"
+	)
+end
+
 PrintLog("Exited");

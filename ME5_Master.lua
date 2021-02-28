@@ -203,10 +203,13 @@ MAX_EVG_HERO_COUNT			= 2		-- Number of Evolved Geth heroes.
 MAX_SHEP_CLASS_COUNT		= 6		-- Number of Shepard's unit classes.
 MAX_SHEP_GENDER_COUNT		= 1		-- Number of Shepard's genders.
 
-MAX_FLAG_ITEM_COUNT			= 512		-- Number of FlagItem entities.
-MAX_PORTABLE_TURRET_COUNT	= 100		-- Number of PortableTurret entities.
-NUM_RAVAGERS				= 0			-- Number of Ravager units.
-BRUTE_KILL_HEALTH_REGEN		= 35		-- Amount of health to reheal a Brute by whenever it makes a kill.
+MAX_FLAG_ITEM_COUNT				= 512		-- Number of FlagItem entities.
+MAX_PORTABLE_TURRET_COUNT		= 100		-- Number of PortableTurret entities.
+NUM_RAVAGERS					= 0			-- Number of Ravager units. Note: This gets set later on.
+BRUTE_KILL_HEALTH_REGEN			= 35		-- Amount of health to reheal a Brute by whenever it makes a kill.
+CANNIBALIZE_HEALTH_MAX			= 800		-- Amount of health to reheal a Cannibal by whenever it Cannibalizes a corpse.
+MAX_CANNIBALIZE_CORPSE_COUNT	= 10		-- Maximum allowed number of Cannibalize corpses.
+CANNIBALIZE_CORPSE_DROP_CHANCE	= 0.2		-- Chances of a Cannibalize corpse being dropped.
 
 UNIT_HEALTH_REGEN_RATE		= 4.0	-- Regen rate for auto-regenerating health.
 
