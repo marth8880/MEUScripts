@@ -23,7 +23,16 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 
-print("ME5_HealthShieldFunc: Entered")
+local __SCRIPT_NAME = "ME5_HealthShieldFunc";
+local debug = true;
+
+local function PrintLog(...)
+	if debug == true then
+		print("["..__SCRIPT_NAME.."]", unpack(arg));
+	end
+end
+
+PrintLog("Entered");
 
 ---
 -- Sets up event responses for health functionality.
@@ -686,4 +695,35 @@ function Init_DeferredShieldRegen()
 end
 
 
-print("ME5_HealthShieldFunc: Exited")
+function Init_BruteHealthRegen()
+	PrintLog("Init_BruteHealthRegen(): Entered")
+	
+	local objectKillHandler = OnCharacterDeath(
+		function(player, killer)
+			-- Abort if the damager or object is nil
+			if not player then return end
+			if not killer then return end
+			
+			-- Only give health if the victim is an enemy
+			if GetCharacterTeam(player) ~= GetCharacterTeam(killer)
+			and GetCharacterTeam(player) ~= HuskTeam then
+				local killerEntityPtr = GetEntityPtr(GetCharacterUnit(killer))
+				local killerClass = GetEntityClass(killerEntityPtr)
+				
+				if killerClass == FindEntityClass("rpr_inf_brute") then
+					local curHealth, maxHealth = GetObjectHealth(GetCharacterUnit(killer))
+					local newHealth = curHealth + BRUTE_KILL_HEALTH_REGEN
+					
+					-- Don't let the shields spill over
+					if newHealth > maxHealth then
+						newHealth = maxHealth
+					end
+					
+					SetProperty(GetCharacterUnit(killer), "CurHealth", newHealth)
+				end
+			end
+		end
+	)
+end
+
+PrintLog("Exited");
