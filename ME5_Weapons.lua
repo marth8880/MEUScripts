@@ -224,4 +224,93 @@ function Init_Weapon_Cannibalize()
 	)
 end
 
+
+function Init_Weapon_DispenseSwarmers()
+	PrintLog("Init_Weapon_DispenseSwarmers(): Entered")
+	
+	gRavagersSpawned = {}
+	
+	local onRavagerSpawn = OnCharacterSpawnTeam(
+		function(player)
+			if GetCharacterClass(player) == 2 then
+				-- This Ravager is new, so it hasn't spawned any Swarmers yet
+				gRavagersSpawned[GetCharacterUnit(player)] = false
+			end
+		end,
+		CIS
+	)
+	
+	local onRavagerDie = OnObjectKill(
+		function(object, killer)
+			if not object then return end
+			
+			if GetEntityClass(GetEntityPtr(object)) == FindEntityClass("rpr_inf_ravager") then
+				-- Remove the Ravager from the registry
+				if gRavagersSpawned[object] ~= nil then
+					gRavagersSpawned[object] = nil
+				end
+			end
+		end
+	)
+	
+	local onDispenseSwarmersHandler = OnCharacterDispenseControllableTeam(
+		function(character, controlled)
+			if GetEntityClass(controlled) == GetEntityClassPtr("rpr_weap_inf_ravager_swarmers_ord") then
+				-- Has this Ravager spawned Swarmers yet? Can only do so once per lifetime
+				if gRavagersSpawned[GetCharacterUnit(character)] == false then
+					gRavagersSpawned[GetCharacterUnit(character)] = true
+					local numSpawned = 0
+					local teamSize = GetTeamSize(SwarmerTeam)
+					for i = 0, teamSize - 1 do
+						local characterIndex = GetTeamMember(SwarmerTeam, i)
+						local charUnit = GetCharacterUnit(characterIndex)
+						if not charUnit then
+							local destination = GetEntityMatrix(GetCharacterUnit(character))
+							SpawnCharacter(characterIndex, destination)
+							
+							numSpawned = numSpawned + 1
+							if numSpawned >= NUM_SWARMERS_PER_RAVAGER then
+								break
+							end
+						end
+					end
+				else
+					-- PrintLog("This Ravager has already spawned Swarmers!")
+				end
+			end
+		end,
+		CIS
+	)
+end
+
+
+function Init_Weapon_SwarmerSuicide()
+	PrintLog("Init_Weapon_SwarmerSuicide(): Entered")
+	
+		-- Whenever an object is damaged
+	local onSwarmerSuicideHit = OnObjectDamage(
+		function(object, damager)
+			-- Exit immediately if any values are incorrect
+			if not object then return end
+			if not damager then return end
+			
+			local objectTeam = GetObjectTeam(object)
+			local damagerTeam = GetCharacterTeam(damager)
+			if (not objectTeam) or (objectTeam <= 0) then return end
+			if (not damagerTeam) or (damagerTeam <= 0) then return end
+			
+			-- Are the object and damager on different teams?
+			if objectTeam ~= damagerTeam then
+				-- Figure out the damager's weapon (and exit if it's nil)
+				local damagerWeapon = GetObjectLastHitWeaponClass(object)
+				if not damagerWeapon then return end
+				
+				if damagerWeapon == "rpr_weap_inf_swarmer_suicide" then
+					KillObject(GetCharacterUnit(damager))
+				end
+			end
+		end
+	)
+end
+
 PrintLog("Exited");

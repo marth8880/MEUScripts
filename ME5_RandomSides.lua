@@ -2655,6 +2655,22 @@ function Setup_SSVxRPR_med()
 		SetTeamAsFriend(CIS,HuskTeam)
 		SetTeamAsFriend(HuskTeam,CIS)
 	end
+	
+	SwarmerTeam = 4
+	
+	SetTeamName(SwarmerTeam, CIS)
+	SetTeamIcon(SwarmerTeam, "cis_icon")
+	SetUnitCount(SwarmerTeam, NUM_RAVAGERS * NUM_SWARMERS_PER_RAVAGER)
+	AddUnitClass(SwarmerTeam, "rpr_inf_swarmer", NUM_RAVAGERS * NUM_SWARMERS_PER_RAVAGER)
+	
+	SetTeamAsEnemy(REP,SwarmerTeam)
+	SetTeamAsEnemy(SwarmerTeam,REP)
+	SetTeamAsNeutral(CIS,SwarmerTeam)
+	SetTeamAsNeutral(SwarmerTeam,CIS)
+	SetTeamAsNeutral(HuskTeam,SwarmerTeam)
+	SetTeamAsNeutral(SwarmerTeam,HuskTeam)
+	
+	-- AllowAISpawn(SwarmerTeam, false)
 end
 
 function Setup_SSVxCER_med()
