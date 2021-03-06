@@ -2585,64 +2585,34 @@ end
 
 function Setup_SSVxRPR_med()
 	print("ME5_RandomSides.Setup_SSVxRPR_med(): Entered")
-	--Setup_SSVxCOL_med = 1
-	ssvEngCnt = 8
 	
 	NUM_RAVAGERS = 6
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVCOL_NonStreaming.lvl")
-	-- if not ScriptCB_InMultiplayer() then
-		SetupTeams{
-			rep = {
-				team = REP,
-				units = 22,
-				reinforcements = 175,
-				soldier  = { ssv_inf_soldier,4, 8},
-				sniper  = { ssv_inf_infiltrator,3, 8},
-				adept = { ssv_inf_adept,4, 8},
-				engineer   = { ssv_inf_engineer,4, 8},
-				sentinel = { ssv_inf_sentinel,4, 8},
-				vanguard = { ssv_inf_vanguard,3, 8},	
-			},
-			
-			cis = {
-				team = CIS,
-				units = 22,
-				reinforcements = 175,
-				soldier  = { "rpr_inf_cannibal",9, 25},
-				assault  = { rpr_inf_marauder,5, 7},
-				rocketeer  = { "rpr_inf_ravager",3, NUM_RAVAGERS},
-				officer = { "rpr_inf_brute",2, 4},
-				special = { rpr_inf_banshee,1, 2},
-			}
-		}
-	-- else
-	-- 	SetupTeams{
-	-- 	rep = {
-	-- 		team = REP,
-	-- 		units = 22,
-	-- 		reinforcements = 175,
-	-- 		soldier  = { ssv_inf_soldier,4, 8},
-	-- 		sniper  = { ssv_inf_infiltrator,3, 8},
-	-- 		adept = { ssv_inf_adept,4, 8},
-	-- 		engineer   = { ssv_inf_engineer,4, 8},
-	-- 		sentinel = { ssv_inf_sentinel,4, 8},
-	-- 		vanguard = { ssv_inf_vanguard,3, 8},	
-	-- 	},
+	SetupTeams{
+		rep = {
+			team = REP,
+			units = 22,
+			reinforcements = 175,
+			soldier  = { ssv_inf_soldier,4, 8},
+			sniper  = { ssv_inf_infiltrator,3, 8},
+			adept = { ssv_inf_adept,4, 8},
+			engineer   = { ssv_inf_engineer,4, 8},
+			sentinel = { ssv_inf_sentinel,4, 8},
+			vanguard = { ssv_inf_vanguard,3, 8},	
+		},
 		
-	-- 	cis = {
-	-- 		team = CIS,
-	-- 		units = 19,
-	-- 		reinforcements = 175,
-	-- 		-- husk  = { "indoc_inf_husk",4, 8},
-	-- 		soldier  = { "col_inf_drone",9, 25},
-	-- 		assault  = { "col_inf_assassin",5, 7},
-	-- 		-- special = { "indoc_inf_abomination",4, 8},
-	-- 		support  = { col_inf_guardian_online,4, 14},
-	-- 		scion  = { "col_inf_scion",1, 2},
-	-- 	}
-	-- 	}
-	-- end
+		cis = {
+			team = CIS,
+			units = 22,
+			reinforcements = 175,
+			soldier  = { "rpr_inf_cannibal",9, 25},
+			assault  = { rpr_inf_marauder,5, 7},
+			rocketeer  = { "rpr_inf_ravager",3, NUM_RAVAGERS},
+			officer = { "rpr_inf_brute",2, 4},
+			special = { rpr_inf_banshee,1, 2},
+		}
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)
@@ -3093,38 +3063,63 @@ function Setup_GTHxECL_lg()
 end
 
 function Setup_SSVxRPR_lg()
-	print("Load/setup SSV versus RPR - level mode:lg")
+	print("ME5_RandomSides.Setup_SSVxRPR_lg(): Entered")
 	
-	--SetTeamAggressiveness(REP,(0.99))
-	--SetTeamAggressiveness(CIS,(0.96))
+	NUM_RAVAGERS = 8
 	
+	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVCOL_NonStreaming.lvl")
 	SetupTeams{
-	rep = {
-		team = REP,
-		units = 31,
-		reinforcements = 200,
-		soldier  = { ssv_inf_soldier,3, 8},
-		sniper  = { ssv_inf_infiltrator,3, 8},
-		adept = { ssv_inf_adept,3, 8},
-		engineer   = { ssv_inf_engineer,3, 8},
-		sentinel = { ssv_inf_sentinel,3, 8},
-		vanguard = { ssv_inf_vanguard,3, 8},	
-	},
-	
-	imp = {
-		team = CIS,
-		units = 32,
-		reinforcements = 200,
-		husk  = { "indoc_inf_husk",7, 12},
-		soldier  = { "indoc_inf_cannibal",9, 16},
-		assault  = { "indoc_inf_marauder",6, 10},
-		support = { "indoc_inf_abomination",4, 8},
-		scion = { "col_inf_scion",2, 4},
+		rep = {
+			team = REP,
+			units = 29,
+			reinforcements = 200,
+			soldier  = { ssv_inf_soldier,5, 8},
+			sniper  = { ssv_inf_infiltrator,5, 8},
+			adept = { ssv_inf_adept,5, 8},
+			engineer   = { ssv_inf_engineer,5, 8},
+			sentinel = { ssv_inf_sentinel,5, 8},
+			vanguard = { ssv_inf_vanguard,4, 8},	
+		},
+		
+		cis = {
+			team = CIS,
+			units = 29,
+			reinforcements = 200,
+			soldier  = { "rpr_inf_cannibal",12, 25},
+			assault  = { rpr_inf_marauder,7, 12},
+			rocketeer  = { "rpr_inf_ravager",4, NUM_RAVAGERS},
+			officer = { "rpr_inf_brute",3, 5},
+			special = { rpr_inf_banshee,2, 3},
+		}
 	}
-	}
 	
-	-- SetHeroClass(CIS, heroGTH)
-	-- SetHeroClass(REP, heroSSV)
+	if HuskTeam then
+		SetTeamName(HuskTeam, CIS)
+		SetTeamIcon(HuskTeam, "cis_icon")
+		SetUnitCount(HuskTeam, 6)
+		AddUnitClass(HuskTeam, "indoc_inf_husk", 6)
+		
+		SetTeamAsEnemy(REP,HuskTeam)
+		SetTeamAsEnemy(HuskTeam,REP)
+		SetTeamAsFriend(CIS,HuskTeam)
+		SetTeamAsFriend(HuskTeam,CIS)
+	end
+	
+	SwarmerTeam = 4
+	
+	SetTeamName(SwarmerTeam, CIS)
+	SetTeamIcon(SwarmerTeam, "cis_icon")
+	SetUnitCount(SwarmerTeam, NUM_RAVAGERS * NUM_SWARMERS_PER_RAVAGER)
+	AddUnitClass(SwarmerTeam, "rpr_inf_swarmer", NUM_RAVAGERS * NUM_SWARMERS_PER_RAVAGER)
+	
+	SetTeamAsEnemy(REP,SwarmerTeam)
+	SetTeamAsEnemy(SwarmerTeam,REP)
+	SetTeamAsNeutral(CIS,SwarmerTeam)
+	SetTeamAsNeutral(SwarmerTeam,CIS)
+	SetTeamAsNeutral(HuskTeam,SwarmerTeam)
+	SetTeamAsNeutral(SwarmerTeam,HuskTeam)
+	
+	-- AllowAISpawn(SwarmerTeam, false)
 end
 
 function Setup_SSVxCER_lg()
