@@ -56,7 +56,8 @@ function Init_Weapon_Charge()
 				local charPtr = GetCharacterUnit(damager)
 				local objectPtr = GetEntityPtr(object)
 				
-				if GetObjectTeam(object) ~= GetObjectTeam(charPtr) then
+				if GetObjectTeam(object) ~= GetObjectTeam(charPtr)
+				and GetObjectTeam(object) ~= 0 then
 					-- get start and end coordinates
 					local xStart, yStart, zStart = GetWorldPosition(charPtr)
 					local xEnd, yEnd, zEnd = GetWorldPosition(objectPtr)
@@ -97,7 +98,7 @@ function Init_Weapon_Charge()
 					-- Don't recharge the user's shields if it's a Banshee
 					if hitByBanshee == false then
 						local curShields, maxShields = GetObjectShield(charPtr)
-						local newShields = curShields + (maxShields / chargeShieldRegenFactor)
+						local newShields = curShields + (maxShields / chargeShieldRegenDivisor)
 						
 						-- Don't let the shields spill over
 						if newShields > maxShields then
