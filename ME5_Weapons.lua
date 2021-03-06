@@ -32,6 +32,8 @@ PrintLog("Entered");
 function Init_Weapon_Charge()
 	PrintLog("Init_Weapon_Charge: Entered")
 	
+	local chargeShieldRegenDivisor = 3	-- Divisor for percentage of max shields to regen
+	
 	local enemyDamageHandler = OnObjectDamage(
 		function(object, damager)
 			-- Exit immediately if there are incorrect values
@@ -95,7 +97,7 @@ function Init_Weapon_Charge()
 					-- Don't recharge the user's shields if it's a Banshee
 					if hitByBanshee == false then
 						local curShields, maxShields = GetObjectShield(charPtr)
-						local newShields = curShields + (maxShields / 2)
+						local newShields = curShields + (maxShields / chargeShieldRegenFactor)
 						
 						-- Don't let the shields spill over
 						if newShields > maxShields then
