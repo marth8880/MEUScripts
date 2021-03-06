@@ -279,6 +279,7 @@ snd_EVG_cpLost_enemy	= "evg_prm_com_report_enemyLost_commandpost"
 
 
 -- Load custom scripts, designer-specified globals & player stats points
+ScriptCB_DoFile("ME5_Common")
 if isLowG == 1 then
 	ScriptCB_DoFile("ME5_globals_lowg")
 else
