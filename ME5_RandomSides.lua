@@ -3083,11 +3083,11 @@ function Setup_SSVxRPR_lg()
 		
 		cis = {
 			team = CIS,
-			units = 29,
+			units = 25,
 			reinforcements = 200,
-			soldier  = { "rpr_inf_cannibal",12, 25},
-			assault  = { rpr_inf_marauder,7, 12},
-			rocketeer  = { "rpr_inf_ravager",4, NUM_RAVAGERS},
+			soldier  = { "rpr_inf_cannibal",10, 25},
+			assault  = { rpr_inf_marauder,6, 12},
+			rocketeer  = { "rpr_inf_ravager",3, NUM_RAVAGERS},
 			officer = { "rpr_inf_brute",3, 5},
 			special = { rpr_inf_banshee,2, 3},
 		}
