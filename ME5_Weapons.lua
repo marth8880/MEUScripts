@@ -39,6 +39,7 @@ function Init_Weapon_Charge()
 			-- Exit immediately if there are incorrect values
 			if not object then return end
 			if not damager then return end
+			if not GetObjectLastHitWeaponClass(object) then return end
 			
 			local hitByCorrectWeapon = false
 			local hitByBanshee = false
