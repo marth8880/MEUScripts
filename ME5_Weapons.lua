@@ -43,12 +43,11 @@ function Init_Weapon_Charge()
 			local hitByCorrectWeapon = false
 			local hitByBanshee = false
 			
-			if GetObjectLastHitWeaponClass(object) == "weap_bio_charge" then
+			if string.ends(GetObjectLastHitWeaponClass(object), "charge") then
 				hitByCorrectWeapon = true
 			end
-				
-			if GetObjectLastHitWeaponClass(object) == "weap_bio_banshee_charge" then
-				hitByCorrectWeapon = true
+			
+			if string.ends(GetObjectLastHitWeaponClass(object), "banshee_charge") then
 				hitByBanshee = true
 			end
 			
@@ -58,6 +57,9 @@ function Init_Weapon_Charge()
 				
 				if GetObjectTeam(object) ~= GetObjectTeam(charPtr)
 				and GetObjectTeam(object) ~= 0 then
+					local teleEffect = CreateEffect("com_sfx_biotic_charge_tele")
+					SetEffectMatrix(teleEffect, GetEntityMatrix(charPtr))
+					
 					-- get start and end coordinates
 					local xStart, yStart, zStart = GetWorldPosition(charPtr)
 					local xEnd, yEnd, zEnd = GetWorldPosition(objectPtr)
