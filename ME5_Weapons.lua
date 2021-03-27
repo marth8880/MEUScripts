@@ -201,7 +201,7 @@ function Init_Weapon_Cannibalize()
 		else
 			if ScriptCB_random() <= CANNIBALIZE_CORPSE_DROP_CHANCE then
 				local corpsePos = GetEntityMatrix(object)
-				CreateEntity("rpr_bldg_cannibalize_unbuilt", corpsePos, "sofuckingstupid")
+				CreateEntity("rpr_bldg_cannibalize_unbuilt", corpsePos, "cannibalize_sofuckingstupid")
 				gNumCorpsesAlive = gNumCorpsesAlive + 1
 			end
 		end
@@ -227,6 +227,37 @@ function Init_Weapon_Cannibalize()
 			end
 		end,
 		"rpr_bldg_cannibalize_unbuilt"
+	)
+end
+
+
+function Init_Weapon_AcidDrop()
+	PrintLog("Init_Weapon_AcidDrop(): Entered")
+	
+	gNumAcidTurretsAlive = 0
+	
+	local ravagerDeathHandler = OnObjectKillClass(
+		function(object, killer)
+			-- In order to prevent cases of corpses piling up out-of-bounds (for example), 
+			-- only spawn a corpse if the unit was killed by another unit 
+			if not killer then return end
+			
+			if gNumAcidTurretsAlive < MAX_RAVAGER_ACID_COUNT then
+				if ScriptCB_random() <= RAVAGER_ACID_DROP_CHANCE then
+					local turretPos = GetEntityMatrix(object)
+					CreateEntity("rpr_weap_inf_ravager_acid_bldg", turretPos, "acidturret_sofuckingstupid")
+					gNumAcidTurretsAlive = gNumAcidTurretsAlive + 1
+				end
+			end
+		end, 
+		"rpr_inf_ravager"
+	)
+	
+	local acidTurretDeathHandler = OnObjectKillClass(
+		function(object, killer)
+			gNumAcidTurretsAlive = gNumAcidTurretsAlive - 1
+		end,
+		"rpr_weap_inf_ravager_acid_bldg"
 	)
 end
 

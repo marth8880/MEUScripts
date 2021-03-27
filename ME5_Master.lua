@@ -210,6 +210,8 @@ BRUTE_KILL_HEALTH_REGEN			= 35		-- Amount of health to reheal a Brute by wheneve
 CANNIBALIZE_HEALTH_MAX			= 800		-- Amount of health to reheal a Cannibal by whenever it Cannibalizes a corpse.
 MAX_CANNIBALIZE_CORPSE_COUNT	= 10		-- Maximum allowed number of Cannibalize corpses.
 CANNIBALIZE_CORPSE_DROP_CHANCE	= 0.2		-- Chances of a Cannibalize corpse being dropped.
+MAX_RAVAGER_ACID_COUNT			= 10		-- Maximum allowed number of Ravager acid turrets.
+RAVAGER_ACID_DROP_CHANCE		= 1.0		-- Chances of a Ravager acid turret being dropped.
 NUM_SWARMERS_PER_RAVAGER		= 6			-- Number of Swarmers a Ravager can spawn.
 
 UNIT_HEALTH_REGEN_RATE		= 4.0	-- Regen rate for auto-regenerating health.

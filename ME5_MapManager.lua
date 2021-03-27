@@ -837,6 +837,7 @@ function MapManager:Proc_ScriptInit_SideSetup()
 		elseif ME5_SideVar == 5 then
 			Setup_SSVxRPR()
 			Init_Weapon_Cannibalize()	-- This needs to be called here because of the class initialization
+			Init_Weapon_AcidDrop()
 		end
 	else
 		if self.onlineSideVar == "SSVxGTH" or self.onlineSideVar == 1 then
@@ -850,6 +851,7 @@ function MapManager:Proc_ScriptInit_SideSetup()
 		elseif self.onlineSideVar == "SSVxRPR" or self.onlineSideVar == 5 then
 			Setup_SSVxRPR()
 			Init_Weapon_Cannibalize()
+			Init_Weapon_AcidDrop()
 		end
 	end
 end
