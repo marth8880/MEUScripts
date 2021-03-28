@@ -245,8 +245,10 @@ function Init_Weapon_AcidDrop()
 			if gNumAcidTurretsAlive < MAX_RAVAGER_ACID_COUNT then
 				if ScriptCB_random() <= RAVAGER_ACID_DROP_CHANCE then
 					local turretPos = GetEntityMatrix(object)
-					CreateEntity("rpr_weap_inf_ravager_acid_bldg", turretPos, "acidturret_sofuckingstupid")
+					local newTurret = CreateEntity("rpr_weap_inf_ravager_acid_bldg", turretPos, "acidturret_sofuckingstupid")
 					gNumAcidTurretsAlive = gNumAcidTurretsAlive + 1
+					SetObjectTeam(newTurret, CIS)
+					local newAvoidanceTurret = CreateEntity("rpr_weap_inf_ravager_acid_avoidance_bldg", turretPos, "avoidanceturret_sofuckingstupid")
 				end
 			end
 		end, 
