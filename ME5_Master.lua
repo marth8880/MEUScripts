@@ -213,6 +213,7 @@ CANNIBALIZE_CORPSE_DROP_CHANCE	= 0.2		-- Chances of a Cannibalize corpse being d
 MAX_RAVAGER_ACID_COUNT			= 10		-- Maximum allowed number of Ravager acid turrets.
 RAVAGER_ACID_DROP_CHANCE		= 1.0		-- Chances of a Ravager acid turret being dropped.
 NUM_SWARMERS_PER_RAVAGER		= 6			-- Number of Swarmers a Ravager can spawn.
+MIN_SHIELDS_DMG_FEEDBACK		= 25.0		-- Minimum amount of shields a target unit can have for the shield impact sfx to play.
 
 UNIT_HEALTH_REGEN_RATE		= 4.0	-- Regen rate for auto-regenerating health.
 

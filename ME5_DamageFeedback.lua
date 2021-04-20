@@ -822,7 +822,6 @@ function Init_HitMarkerSounds()
 					
 					-- What is the weapon type?
 					if weaponType == 2 then
-						print("Weapon is sniper")
 						ScriptCB_SndPlaySound("enemy_armor_sniper_impact")
 					elseif weaponType == 3 then
 						ScriptCB_SndPlaySound("enemy_armor_shotgun_impact")
@@ -836,7 +835,6 @@ function Init_HitMarkerSounds()
 					--print("Playing normal sound")
 					
 					if weaponType == 2 then
-						print("Weapon is sniper")
 						ScriptCB_SndPlaySound("enemy_normal_sniper_impact")
 					elseif weaponType == 3 then
 						ScriptCB_SndPlaySound("enemy_normal_shotgun_impact")
@@ -844,6 +842,19 @@ function Init_HitMarkerSounds()
 						ScriptCB_SndPlaySound("enemy_normal_gps_impact_layered")
 					else
 						ScriptCB_SndPlaySound("enemy_damage_normal_layered_"..randSnd)
+					end
+					
+				elseif type == "shield" then
+					--print("Playing shield sound")
+					
+					if weaponType == 2 then
+						ScriptCB_SndPlaySound("enemy_shield_sniper_impact")
+					elseif weaponType == 3 then
+						ScriptCB_SndPlaySound("enemy_shield_shotgun_impact")
+					elseif weaponType == 4 then
+						ScriptCB_SndPlaySound("enemy_shield_gps_impact_layered")
+					else
+						ScriptCB_SndPlaySound("enemy_damage_shield_layered_"..randSnd)
 					end
 				end
 			--end
@@ -973,11 +984,15 @@ function Init_HitMarkerSounds()
 						for i=1, table.getn(ballisticWeapons_COL) do
 							-- Was the weapon used a valid ballistic weapon?
 							if damagerWeapon == ballisticWeapons_COL[i] then
-								-- Play the player damage sound
-								if bIsObjectArmorClass == true then
-									PlayDamageSound("armor")
+								if GetObjectShield(object) < MIN_SHIELDS_DMG_FEEDBACK then
+									-- Play the player damage sound
+									if bIsObjectArmorClass == true then
+										PlayDamageSound("armor")
+									else
+										PlayDamageSound("normal")
+									end
 								else
-									PlayDamageSound("normal")
+									PlayDamageSound("shield")
 								end
 								break
 							end
@@ -991,11 +1006,15 @@ function Init_HitMarkerSounds()
 						for i=1, table.getn(ballisticWeapons_EVG) do
 							-- Was the weapon used a valid ballistic weapon?
 							if damagerWeapon == ballisticWeapons_EVG[i] then
-								-- Play the player damage sound
-								if bIsObjectArmorClass == true then
-									PlayDamageSound("armor")
+								if GetObjectShield(object) < MIN_SHIELDS_DMG_FEEDBACK then
+									-- Play the player damage sound
+									if bIsObjectArmorClass == true then
+										PlayDamageSound("armor")
+									else
+										PlayDamageSound("normal")
+									end
 								else
-									PlayDamageSound("normal")
+									PlayDamageSound("shield")
 								end
 								break
 							end
@@ -1009,11 +1028,15 @@ function Init_HitMarkerSounds()
 						for i=1, table.getn(ballisticWeapons_GTH) do
 							-- Was the weapon used a valid ballistic weapon?
 							if damagerWeapon == ballisticWeapons_GTH[i] then
-								-- Play the player damage sound
-								if bIsObjectArmorClass == true then
-									PlayDamageSound("armor")
+								if GetObjectShield(object) < MIN_SHIELDS_DMG_FEEDBACK then
+									-- Play the player damage sound
+									if bIsObjectArmorClass == true then
+										PlayDamageSound("armor")
+									else
+										PlayDamageSound("normal")
+									end
 								else
-									PlayDamageSound("normal")
+									PlayDamageSound("shield")
 								end
 								break
 							end
@@ -1027,11 +1050,15 @@ function Init_HitMarkerSounds()
 						for i=1, table.getn(ballisticWeapons_RPR) do
 							-- Was the weapon used a valid ballistic weapon?
 							if damagerWeapon == ballisticWeapons_RPR[i] then
-								-- Play the player damage sound
-								if bIsObjectArmorClass == true then
-									PlayDamageSound("armor")
+								if GetObjectShield(object) < MIN_SHIELDS_DMG_FEEDBACK then
+									-- Play the player damage sound
+									if bIsObjectArmorClass == true then
+										PlayDamageSound("armor")
+									else
+										PlayDamageSound("normal")
+									end
 								else
-									PlayDamageSound("normal")
+									PlayDamageSound("shield")
 								end
 								break
 							end
@@ -1045,11 +1072,15 @@ function Init_HitMarkerSounds()
 						for i=1, table.getn(ballisticWeapons_SSV) do
 							-- Was the weapon used a valid ballistic weapon?
 							if damagerWeapon == ballisticWeapons_SSV[i] then
-								-- Play the player damage sound if the damager weapon wasn't incendiary
-								if bIsObjectArmorClass == true then
-									PlayDamageSound("armor")
+								if GetObjectShield(object) < MIN_SHIELDS_DMG_FEEDBACK then
+									-- Play the player damage sound
+									if bIsObjectArmorClass == true then
+										PlayDamageSound("armor")
+									else
+										PlayDamageSound("normal")
+									end
 								else
-									PlayDamageSound("normal")
+									PlayDamageSound("shield")
 								end
 								break
 							end
