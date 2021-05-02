@@ -21,9 +21,7 @@
 
 print("ME5_Master: Entered")
 
--- The build version. Valid settings are "production", "release"
-MEU_BuildVer		= "production"
-MEU_BuildNum		= "80219/07"
+ScriptCB_DoFile("ME5_BuildInfo");
 MEU_ReleaseNum		= "7"
 MEU_VersionNum		= "1.4"
 
