@@ -583,7 +583,6 @@ function Load_GTH()
 			end
 			gth_inf_hunter			= "gth_inf_hunter_shield"
 			gth_inf_shock			= "gth_inf_shock_shield"
-			gth_inf_shock_online	= "gth_inf_shock_online_shield"
 			gth_inf_destroyer		= "gth_inf_destroyer_shield"
 			gth_inf_juggernaut		= "gth_inf_juggernaut_shield"
 			gth_inf_prime			= "gth_inf_prime_shield"
@@ -600,7 +599,6 @@ function Load_GTH()
 				gth_inf_hunter	= "gth_inf_hunter"
 			end
 			gth_inf_shock			= "gth_inf_shock"
-			gth_inf_shock_online	= "gth_inf_shock_online"
 			gth_inf_destroyer		= "gth_inf_destroyer"
 			gth_inf_juggernaut		= "gth_inf_juggernaut"
 			gth_inf_prime			= "gth_inf_prime"
@@ -617,7 +615,6 @@ function Load_GTH()
 				gth_inf_hunter	= "gth_inf_hunter_shield"
 			end
 			gth_inf_shock			= "gth_inf_shock_shield"
-			gth_inf_shock_online	= "gth_inf_shock_online_shield"
 			gth_inf_destroyer		= "gth_inf_destroyer_shield"
 			gth_inf_juggernaut		= "gth_inf_juggernaut_shield"
 			gth_inf_prime			= "gth_inf_prime_shield"
@@ -635,7 +632,6 @@ function Load_GTH()
 			gth_inf_hunter	= "gth_inf_hunter_shield"
 		end
 		gth_inf_shock			= "gth_inf_shock_shield"
-		gth_inf_shock_online	= "gth_inf_shock_online_shield"
 		gth_inf_destroyer		= "gth_inf_destroyer_shield"
 		gth_inf_juggernaut		= "gth_inf_juggernaut_shield"
 		gth_inf_prime			= "gth_inf_prime_shield"
@@ -675,21 +671,17 @@ function Load_COL()
 		if ME5_ShieldFunc == 1 then
 			print("ME5_RandomSides.Load_COL(): Configuring COL Shield Functionality for AUTO-REGEN...")
 			col_inf_guardian		= "col_inf_guardian_shield"
-			col_inf_guardian_online	= "col_inf_guardian_online_shield"
 			
 		elseif ME5_ShieldFunc == 2 then
 			print("ME5_RandomSides.Load_COL(): Configuring COL Shield Functionality for PICKUPS...")
 			col_inf_guardian		= "col_inf_guardian"
-			col_inf_guardian_online	= "col_inf_guardian_online"
 		else
 			print("ME5_RandomSides.Load_COL(): Error! ME5_ShieldFunc setting is invalid! Defaulting to COL Shield Functionality for AUTO-REGEN")
 			col_inf_guardian		= "col_inf_guardian_shield"
-			col_inf_guardian_online	= "col_inf_guardian_online_shield"
 		end
 	else
 		print("ME5_RandomSides.Load_COL(): Configuring COL Shield Functionality for AUTO-REGEN...")
 		col_inf_guardian		= "col_inf_guardian_shield"
-		col_inf_guardian_online	= "col_inf_guardian_online_shield"
 	end
 	
 	print("ME5_RandomSides.Load_COL(): Loading Collector Ship meshes/textures")
@@ -741,7 +733,6 @@ function Load_EVGxGTH()
 			gth_inf_machinist		= "gth_inf_machinist_shield"
 			gth_inf_hunter			= "gth_inf_hunter_shield"
 			gth_inf_shock			= "gth_inf_shock_shield"
-			gth_inf_shock_online	= "gth_inf_shock_online_shield"
 			gth_inf_destroyer		= "gth_inf_destroyer_shield"
 			gth_inf_juggernaut		= "gth_inf_juggernaut_shield"
 			gth_inf_prime			= "gth_inf_prime_shield"
@@ -753,7 +744,6 @@ function Load_EVGxGTH()
 			gth_ev_inf_hunter				= "gth_ev_inf_hunter_shield"
 			gth_ev_inf_pyro					= "gth_ev_inf_pyro_shield"
 			gth_ev_inf_juggernaut			= "gth_ev_inf_juggernaut_shield"
-			gth_ev_inf_juggernaut_online	= "gth_ev_inf_juggernaut_online_shield"
 		elseif ME5_ShieldFunc == 2 then
 			print("ME5_RandomSides.Load_EVGxGTH(): Configuring GTHxEVG Shield Functionality for PICKUPS...")
 			gth_inf_trooper			= "gth_inf_trooper"
@@ -762,7 +752,6 @@ function Load_EVGxGTH()
 			gth_inf_machinist		= "gth_inf_machinist"
 			gth_inf_hunter			= "gth_inf_hunter"
 			gth_inf_shock			= "gth_inf_shock"
-			gth_inf_shock_online	= "gth_inf_shock_online"
 			gth_inf_destroyer		= "gth_inf_destroyer"
 			gth_inf_juggernaut		= "gth_inf_juggernaut"
 			gth_inf_prime			= "gth_inf_prime"
@@ -774,7 +763,6 @@ function Load_EVGxGTH()
 			gth_ev_inf_hunter				= "gth_ev_inf_hunter"
 			gth_ev_inf_pyro					= "gth_ev_inf_pyro"
 			gth_ev_inf_juggernaut			= "gth_ev_inf_juggernaut"
-			gth_ev_inf_juggernaut_online	= "gth_ev_inf_juggernaut_online"
 		else
 			print("ME5_RandomSides.Load_EVGxGTH(): Error! ME5_ShieldFunc setting is invalid! Defaulting to GTHxEVG Shield Functionality for AUTO-REGEN")
 			gth_inf_trooper			= "gth_inf_trooper_shield"
@@ -783,7 +771,6 @@ function Load_EVGxGTH()
 			gth_inf_machinist		= "gth_inf_machinist_shield"
 			gth_inf_hunter			= "gth_inf_hunter_shield"
 			gth_inf_shock			= "gth_inf_shock_shield"
-			gth_inf_shock_online	= "gth_inf_shock_online_shield"
 			gth_inf_destroyer		= "gth_inf_destroyer_shield"
 			gth_inf_juggernaut		= "gth_inf_juggernaut_shield"
 			gth_inf_prime			= "gth_inf_prime_shield"
@@ -795,7 +782,6 @@ function Load_EVGxGTH()
 			gth_ev_inf_hunter				= "gth_ev_inf_hunter_shield"
 			gth_ev_inf_pyro					= "gth_ev_inf_pyro_shield"
 			gth_ev_inf_juggernaut			= "gth_ev_inf_juggernaut_shield"
-			gth_ev_inf_juggernaut_online	= "gth_ev_inf_juggernaut_online_shield"
 		end
 	else
 		print("ME5_RandomSides.Load_EVGxGTH(): Configuring GTH Shield Functionality for AUTO-REGEN...")
@@ -805,7 +791,6 @@ function Load_EVGxGTH()
 		gth_inf_machinist		= "gth_inf_machinist_shield"
 		gth_inf_hunter			= "gth_inf_hunter_shield"
 		gth_inf_shock			= "gth_inf_shock_shield"
-		gth_inf_shock_online	= "gth_inf_shock_online_shield"
 		gth_inf_destroyer		= "gth_inf_destroyer_shield"
 		gth_inf_juggernaut		= "gth_inf_juggernaut_shield"
 		gth_inf_prime			= "gth_inf_prime_shield"
@@ -817,7 +802,6 @@ function Load_EVGxGTH()
 		gth_ev_inf_hunter				= "gth_ev_inf_hunter_shield"
 		gth_ev_inf_pyro					= "gth_ev_inf_pyro_shield"
 		gth_ev_inf_juggernaut			= "gth_ev_inf_juggernaut_shield"
-		gth_ev_inf_juggernaut_online	= "gth_ev_inf_juggernaut_online_shield"
 	end
 	
 	print("ME5_RandomSides.Load_EVGxGTH(): Loading localization")
@@ -857,7 +841,6 @@ function Load_EVG()
 			gth_ev_inf_hunter				= "gth_ev_inf_hunter_shield"
 			gth_ev_inf_pyro					= "gth_ev_inf_pyro_shield"
 			gth_ev_inf_juggernaut			= "gth_ev_inf_juggernaut_shield"
-			gth_ev_inf_juggernaut_online	= "gth_ev_inf_juggernaut_online_shield"
 		elseif ME5_ShieldFunc == 2 then
 			print("ME5_RandomSides.Load_EVG(): Configuring EVG Shield Functionality for PICKUPS...")
 			gth_ev_inf_trooper				= "gth_ev_inf_trooper"
@@ -867,7 +850,6 @@ function Load_EVG()
 			gth_ev_inf_hunter				= "gth_ev_inf_hunter"
 			gth_ev_inf_pyro					= "gth_ev_inf_pyro"
 			gth_ev_inf_juggernaut			= "gth_ev_inf_juggernaut"
-			gth_ev_inf_juggernaut_online	= "gth_ev_inf_juggernaut_online"
 		else
 			print("ME5_RandomSides.Load_EVG(): Error! ME5_ShieldFunc setting is invalid! Defaulting to EVG Shield Functionality for AUTO-REGEN")
 			gth_ev_inf_trooper				= "gth_ev_inf_trooper_shield"
@@ -877,7 +859,6 @@ function Load_EVG()
 			gth_ev_inf_hunter				= "gth_ev_inf_hunter_shield"
 			gth_ev_inf_pyro					= "gth_ev_inf_pyro_shield"
 			gth_ev_inf_juggernaut			= "gth_ev_inf_juggernaut_shield"
-			gth_ev_inf_juggernaut_online	= "gth_ev_inf_juggernaut_online_shield"
 		end
 	else
 		print("ME5_RandomSides.Load_EVG(): Configuring EVG Shield Functionality for AUTO-REGEN...")
@@ -888,7 +869,6 @@ function Load_EVG()
 		gth_ev_inf_hunter				= "gth_ev_inf_hunter_shield"
 		gth_ev_inf_pyro					= "gth_ev_inf_pyro_shield"
 		gth_ev_inf_juggernaut			= "gth_ev_inf_juggernaut_shield"
-		gth_ev_inf_juggernaut_online	= "gth_ev_inf_juggernaut_online_shield"
 	end
 	
 	print("ME5_RandomSides.Load_EVG(): Loading localization")
@@ -1007,8 +987,7 @@ function Setup_SSVxGTH_xxs()
 	--Setup_SSVxGTH_xxs = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
-	if not ScriptCB_InMultiplayer() then
-		SetupTeams{
+	SetupTeams{
 		rep = {
 			team = REP,
 			units = 7,
@@ -1034,36 +1013,7 @@ function Setup_SSVxGTH_xxs()
 			destroyer = { gth_inf_destroyer,1, 2},
 			juggernaut = { gth_inf_juggernaut,1, 2},
 		}
-		}
-	else
-		SetupTeams{
-		rep = {
-			team = REP,
-			units = 7,
-			reinforcements = 150,
-			soldier  = { ssv_inf_soldier,2, 3},
-			sniper  = { ssv_inf_infiltrator,1, 3},
-			adept = { ssv_inf_adept,1, 3},
-			engineer   = { ssv_inf_engineer,1, 3},
-			sentinel = { ssv_inf_sentinel,1, 3},
-			vanguard = { ssv_inf_vanguard,1, 3},	
-		},
-		
-		cis = {
-			team = CIS,
-			units = 6,
-			reinforcements = 150,
-			soldier  = { gth_inf_trooper,1, 6},
-			assault  = { gth_inf_rocketeer,1, 4},
-			sniper = { gth_inf_sniper,1, 4},
-			engineer = { gth_inf_machinist,1, 4},
-			hunter   = { gth_inf_hunter,1, 3},
-			shock  = { gth_inf_shock_online,1, 3},
-			destroyer = { gth_inf_destroyer,1, 2},
-			juggernaut = { gth_inf_juggernaut,1, 2},
-		}
-		}
-	end
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)
@@ -1083,9 +1033,8 @@ function Setup_SSVxCOL_xxs()
 	--Setup_SSVxCOL_xxs = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVCOL_NonStreaming.lvl")
-	if not ScriptCB_InMultiplayer() then
-		SetupTeams{
-			rep = {
+	SetupTeams{
+		rep = {
 			team = REP,
 			units = 6,
 			reinforcements = 150,
@@ -1108,34 +1057,7 @@ function Setup_SSVxCOL_xxs()
 			support  = { col_inf_guardian,1, 14},
 			scion  = { "col_inf_scion",1, 2},
 		}
-		}
-	else
-		SetupTeams{
-			rep = {
-			team = REP,
-			units = 6,
-			reinforcements = 150,
-			soldier  = { ssv_inf_soldier,1, 8},
-			sniper  = { ssv_inf_infiltrator,1, 8},
-			adept = { ssv_inf_adept,1, 8},
-			engineer   = { ssv_inf_engineer,1, 8},
-			sentinel = { ssv_inf_sentinel,1, 8},
-			vanguard = { ssv_inf_vanguard,1, 8},	
-		},
-		
-		cis = {
-			team = CIS,
-			units = 5,
-			reinforcements = 150,
-			-- husk  = { "indoc_inf_husk",2, 8},
-			soldier  = { "col_inf_drone",2, 25},
-			assault  = { "col_inf_assassin",1, 7},
-			-- special = { "indoc_inf_abomination",2, 8},
-			support  = { col_inf_guardian_online,1, 14},
-			scion  = { "col_inf_scion",1, 2},
-		}
-		}
-	end
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)
@@ -1156,8 +1078,7 @@ function Setup_EVGxGTH_xxs()
 	--Setup_SSVxGTH_xxs = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
-	if not ScriptCB_InMultiplayer() then
-		SetupTeams{
+	SetupTeams{
 		rep = {
 			team = REP,
 			units = 7,
@@ -1184,37 +1105,7 @@ function Setup_EVGxGTH_xxs()
 			destroyer = { gth_inf_destroyer,1, 2},
 			juggernaut = { gth_inf_juggernaut,1, 2},
 		}
-		}
-	else
-		SetupTeams{
-		rep = {
-			team = REP,
-			units = 7,
-			reinforcements = 150,
-			soldier  = { gth_ev_inf_trooper,1, 6},
-			sniper = { gth_ev_inf_infiltrator,1, 4},
-			assault  = { gth_ev_inf_rocketeer,1, 4},
-			engineer = { gth_ev_inf_engineer,1, 4},
-			hunter   = { gth_ev_inf_hunter,1, 3},
-			destroyer = { gth_ev_inf_pyro,1, 2},
-			juggernaut = { gth_ev_inf_juggernaut_online,1, 2},
-		},
-		
-		cis = {
-			team = CIS,
-			units = 6,
-			reinforcements = 150,
-			soldier  = { gth_inf_trooper,1, 6},
-			assault  = { gth_inf_rocketeer,1, 4},
-			sniper = { gth_inf_sniper,1, 4},
-			engineer = { gth_inf_machinist,1, 4},
-			hunter   = { gth_inf_hunter,1, 3},
-			shock  = { gth_inf_shock_online,1, 3},
-			destroyer = { gth_inf_destroyer,1, 2},
-			juggernaut = { gth_inf_juggernaut,1, 2},
-		}
-		}
-	end
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)
@@ -1234,8 +1125,7 @@ function Setup_EVGxCOL_xxs()
 	--Setup_SSVxGTH_xxs = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
-	if not ScriptCB_InMultiplayer() then
-		SetupTeams{
+	SetupTeams{
 		rep = {
 			team = REP,
 			units = 7,
@@ -1260,35 +1150,7 @@ function Setup_EVGxCOL_xxs()
 			support  = { col_inf_guardian,2, 14},
 			scion  = { "col_inf_scion",1, 2},
 		}
-		}
-	else
-		SetupTeams{
-		rep = {
-			team = REP,
-			units = 7,
-			reinforcements = 150,
-			soldier  = { gth_ev_inf_trooper,1, 6},
-			sniper = { gth_ev_inf_infiltrator,1, 4},
-			assault  = { gth_ev_inf_rocketeer,1, 4},
-			engineer = { gth_ev_inf_engineer,1, 4},
-			hunter   = { gth_ev_inf_hunter,1, 3},
-			destroyer = { gth_ev_inf_pyro,1, 2},
-			juggernaut = { gth_ev_inf_juggernaut_online,1, 2},
-		},
-		
-		cis = {
-			team = CIS,
-			units = 8,
-			reinforcements = 150,
-			-- husk  = { "indoc_inf_husk",2, 8},
-			soldier  = { "col_inf_drone",3, 25},
-			assault  = { "col_inf_assassin",2, 7},
-			-- special = { "indoc_inf_abomination",2, 8},
-			support  = { col_inf_guardian_online,2, 14},
-			scion  = { "col_inf_scion",1, 2},
-		}
-		}
-	end
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)
@@ -1309,8 +1171,7 @@ function Setup_SSVxGTH_xs()
 	--Setup_SSVxGTH_xs = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
-	if not ScriptCB_InMultiplayer() then
-		SetupTeams{
+	SetupTeams{
 		rep = {
 			team = REP,
 			units = 13,
@@ -1336,36 +1197,7 @@ function Setup_SSVxGTH_xs()
 			destroyer = { gth_inf_destroyer,1, 4},
 			juggernaut = { gth_inf_juggernaut,1, 4},
 		}
-		}
-	else
-		SetupTeams{
-		rep = {
-			team = REP,
-			units = 13,
-			reinforcements = 150,
-			soldier  = { ssv_inf_soldier,2, 8},
-			sniper  = { ssv_inf_infiltrator,2, 8},
-			adept = { ssv_inf_adept,2, 8},
-			engineer   = { ssv_inf_engineer,2, 8},
-			sentinel = { ssv_inf_sentinel,2, 8},
-			vanguard = { ssv_inf_vanguard,2, 8},
-		},
-		
-		cis = {
-			team = CIS,
-			units = 11,
-			reinforcements = 150,
-			soldier  = { gth_inf_trooper,2, 20},
-			assault  = { gth_inf_rocketeer,2, 8},
-			sniper = { gth_inf_sniper,1, 8},
-			engineer = { gth_inf_machinist,1, 8},
-			hunter   = { gth_inf_hunter,2, 6},
-			shock  = { gth_inf_shock_online,1, 6},
-			destroyer = { gth_inf_destroyer,1, 4},
-			juggernaut = { gth_inf_juggernaut,1, 4},
-		}
-		}
-	end
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)
@@ -1385,8 +1217,7 @@ function Setup_SSVxCOL_xs()
 	--Setup_SSVxCOL_xs = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVCOL_NonStreaming.lvl")
-	if not ScriptCB_InMultiplayer() then
-		SetupTeams{
+	SetupTeams{
 		rep = {
 			team = REP,
 			units = 13,
@@ -1410,34 +1241,7 @@ function Setup_SSVxCOL_xs()
 			support  = { col_inf_guardian,2, 14},
 			scion  = { "col_inf_scion",2, 3},
 		}
-		}
-	else
-		SetupTeams{
-		rep = {
-			team = REP,
-			units = 13,
-			reinforcements = 150,
-			soldier  = { ssv_inf_soldier,2, 8},
-			sniper  = { ssv_inf_infiltrator,2, 8},
-			adept = { ssv_inf_adept,2, 8},
-			engineer   = { ssv_inf_engineer,2, 8},
-			sentinel = { ssv_inf_sentinel,2, 8},
-			vanguard = { ssv_inf_vanguard,2, 8},
-		},
-		
-		cis = {
-			team = CIS,
-			units = 11,
-			reinforcements = 150,
-			-- husk  = { "indoc_inf_husk",2, 8},
-			soldier  = { "col_inf_drone",4, 25},
-			assault  = { "col_inf_assassin",3, 7},
-			-- special = { "indoc_inf_abomination",2, 8},
-			support  = { col_inf_guardian_online,2, 14},
-			scion  = { "col_inf_scion",2, 3},
-		}
-		}
-	end
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)
@@ -1458,8 +1262,7 @@ function Setup_EVGxGTH_xs()
 	--Setup_SSVxGTH_xs = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
-	if not ScriptCB_InMultiplayer() then
-		SetupTeams{
+	SetupTeams{
 		rep = {
 			team = REP,
 			units = 13,
@@ -1486,37 +1289,7 @@ function Setup_EVGxGTH_xs()
 			destroyer = { gth_inf_destroyer,1, 4},
 			juggernaut = { gth_inf_juggernaut,1, 4},
 		}
-		}
-	else
-		SetupTeams{
-		rep = {
-			team = REP,
-			units = 13,
-			reinforcements = 150,
-			soldier  = { gth_ev_inf_trooper,3, 20},
-			sniper = { gth_ev_inf_infiltrator,3, 8},
-			rocketeer  = { gth_ev_inf_rocketeer,2, 8},
-			engineer = { gth_ev_inf_engineer,1, 8},
-			hunter   = { gth_ev_inf_hunter,2, 6},
-			destroyer = { gth_ev_inf_pyro,1, 4},
-			juggernaut = { gth_ev_inf_juggernaut_online,1, 4},
-		},
-		
-		cis = {
-			team = CIS,
-			units = 10,
-			reinforcements = 150,
-			soldier  = { gth_inf_trooper,2, 20},
-			assault  = { gth_inf_rocketeer,2, 8},
-			sniper = { gth_inf_sniper,1, 8},
-			engineer = { gth_inf_machinist,1, 8},
-			hunter   = { gth_inf_hunter,1, 6},
-			shock  = { gth_inf_shock_online,1, 6},
-			destroyer = { gth_inf_destroyer,1, 4},
-			juggernaut = { gth_inf_juggernaut,1, 4},
-		}
-		}
-	end
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)
@@ -1536,8 +1309,7 @@ function Setup_EVGxCOL_xs()
 	--Setup_SSVxGTH_xs = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
-	if not ScriptCB_InMultiplayer() then
-		SetupTeams{
+	SetupTeams{
 		rep = {
 			team = REP,
 			units = 13,
@@ -1562,35 +1334,7 @@ function Setup_EVGxCOL_xs()
 			support  = { col_inf_guardian,3, 14},
 			scion  = { "col_inf_scion",2, 3},
 		}
-		}
-	else
-		SetupTeams{
-		rep = {
-			team = REP,
-			units = 13,
-			reinforcements = 150,
-			soldier  = { gth_ev_inf_trooper,3, 20},
-			sniper = { gth_ev_inf_infiltrator,3, 8},
-			rocketeer  = { gth_ev_inf_rocketeer,2, 8},
-			engineer = { gth_ev_inf_engineer,1, 8},
-			hunter   = { gth_ev_inf_hunter,2, 6},
-			destroyer = { gth_ev_inf_pyro,1, 4},
-			juggernaut = { gth_ev_inf_juggernaut_online,1, 4},
-		},
-		
-		cis = {
-			team = CIS,
-			units = 12,
-			reinforcements = 150,
-			-- husk  = { "indoc_inf_husk",2, 8},
-			soldier  = { "col_inf_drone",4, 25},
-			assault  = { "col_inf_assassin",3, 7},
-			-- special = { "indoc_inf_abomination",2, 8},
-			support  = { col_inf_guardian_online,3, 14},
-			scion  = { "col_inf_scion",2, 3},
-		}
-		}
-	end
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)
@@ -1754,8 +1498,7 @@ function Setup_SSVxGTH_sm()
 	--Setup_SSVxGTH_sm = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
-	if not ScriptCB_InMultiplayer() then
-		SetupTeams{
+	SetupTeams{
 		rep = {
 			team = REP,
 			units = 15,
@@ -1781,36 +1524,7 @@ function Setup_SSVxGTH_sm()
 			destroyer = { gth_inf_destroyer,1, 4},
 			juggernaut = { gth_inf_juggernaut,1, 4},
 		}
-		}
-	else
-		SetupTeams{
-		rep = {
-			team = REP,
-			units = 15,
-			reinforcements = 150,
-			soldier  = { ssv_inf_soldier,3, 8},
-			sniper  = { ssv_inf_infiltrator,2, 8},
-			adept = { ssv_inf_adept,3, 8},
-			engineer   = { ssv_inf_engineer,3, 8},
-			sentinel = { ssv_inf_sentinel,2, 8},
-			vanguard = { ssv_inf_vanguard,2, 8},	
-		},
-		
-		cis = {
-			team = CIS,
-			units = 15,
-			reinforcements = 150,
-			soldier  = { gth_inf_trooper,4, 20},
-			assault  = { gth_inf_rocketeer,2, 8},
-			sniper = { gth_inf_sniper,2, 8},
-			engineer = { gth_inf_machinist,1, 9},
-			hunter   = { gth_inf_hunter,2, 7},
-			shock  = { gth_inf_shock_online,2, 7},
-			destroyer = { gth_inf_destroyer,1, 4},
-			juggernaut = { gth_inf_juggernaut,1, 4},
-		}
-		}
-	end
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)
@@ -1830,9 +1544,8 @@ function Setup_SSVxCOL_sm()
 	--Setup_SSVxCOL_sm = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVCOL_NonStreaming.lvl")
-	if not ScriptCB_InMultiplayer() then
-		SetupTeams{
-			rep = {
+	SetupTeams{
+		rep = {
 			team = REP,
 			units = 15,
 			reinforcements = 150,
@@ -1855,34 +1568,7 @@ function Setup_SSVxCOL_sm()
 			support  = { col_inf_guardian,3, 14},
 			scion  = { "col_inf_scion",1, 2},
 		}
-		}
-	else
-		SetupTeams{
-			rep = {
-			team = REP,
-			units = 15,
-			reinforcements = 150,
-			soldier  = { ssv_inf_soldier,3, 8},
-			sniper  = { ssv_inf_infiltrator,2, 8},
-			adept = { ssv_inf_adept,3, 8},
-			engineer   = { ssv_inf_engineer,3, 8},
-			sentinel = { ssv_inf_sentinel,2, 8},
-			vanguard = { ssv_inf_vanguard,2, 8},	
-		},
-		
-		cis = {
-			team = CIS,
-			units = 13,
-			reinforcements = 150,
-			-- husk  = { "indoc_inf_husk",3, 8},
-			soldier  = { "col_inf_drone",5, 25},
-			assault  = { "col_inf_assassin",3, 7},
-			-- special = { "indoc_inf_abomination",3, 8},
-			support  = { col_inf_guardian_online,3, 14},
-			scion  = { "col_inf_scion",1, 2},
-		}
-		}
-	end
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)
@@ -1903,8 +1589,7 @@ function Setup_EVGxGTH_sm()
 	--Setup_SSVxGTH_sm = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
-	if not ScriptCB_InMultiplayer() then
-		SetupTeams{
+	SetupTeams{
 		rep = {
 			team = REP,
 			units = 17,
@@ -1931,37 +1616,7 @@ function Setup_EVGxGTH_sm()
 			destroyer = { gth_inf_destroyer,1, 4},
 			juggernaut = { gth_inf_juggernaut,1, 4},
 		}
-		}
-	else
-		SetupTeams{
-		rep = {
-			team = REP,
-			units = 17,
-			reinforcements = 150,
-			soldier  = { gth_ev_inf_trooper,5, 20},
-			sniper = { gth_ev_inf_infiltrator,3, 8},
-			rocketeer  = { gth_ev_inf_rocketeer,2, 8},
-			engineer = { gth_ev_inf_engineer,2, 9},
-			hunter   = { gth_ev_inf_hunter,3, 7},
-			destroyer = { gth_ev_inf_pyro,1, 4},
-			juggernaut = { gth_ev_inf_juggernaut_online,1, 4},
-		},
-		
-		cis = {
-			team = CIS,
-			units = 13,
-			reinforcements = 150,
-			soldier  = { gth_inf_trooper,3, 20},
-			assault  = { gth_inf_rocketeer,2, 8},
-			sniper = { gth_inf_sniper,2, 8},
-			engineer = { gth_inf_machinist,1, 9},
-			hunter   = { gth_inf_hunter,1, 7},
-			shock  = { gth_inf_shock_online,2, 7},
-			destroyer = { gth_inf_destroyer,1, 4},
-			juggernaut = { gth_inf_juggernaut,1, 4},
-		}
-		}
-	end
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)
@@ -1981,8 +1636,7 @@ function Setup_EVGxCOL_sm()
 	--Setup_SSVxGTH_sm = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
-	if not ScriptCB_InMultiplayer() then
-		SetupTeams{
+	SetupTeams{
 		rep = {
 			team = REP,
 			units = 17,
@@ -2007,35 +1661,7 @@ function Setup_EVGxCOL_sm()
 			support  = { col_inf_guardian,3, 14},
 			scion  = { "col_inf_scion",2, 4},
 		}
-		}
-	else
-		SetupTeams{
-		rep = {
-			team = REP,
-			units = 17,
-			reinforcements = 150,
-			soldier  = { gth_ev_inf_trooper,5, 20},
-			sniper = { gth_ev_inf_infiltrator,3, 8},
-			rocketeer  = { gth_ev_inf_rocketeer,2, 8},
-			engineer = { gth_ev_inf_engineer,2, 9},
-			hunter   = { gth_ev_inf_hunter,3, 7},
-			destroyer = { gth_ev_inf_pyro,1, 4},
-			juggernaut = { gth_ev_inf_juggernaut_online,1, 4},
-		},
-		
-		cis = {
-			team = CIS,
-			units = 16,
-			reinforcements = 150,
-			-- husk  = { "indoc_inf_husk",3, 8},
-			soldier  = { "col_inf_drone",6, 25},
-			assault  = { "col_inf_assassin",4, 7},
-			-- special = { "indoc_inf_abomination",3, 8},
-			support  = { col_inf_guardian_online,3, 14},
-			scion  = { "col_inf_scion",2, 4},
-		}
-		}
-	end
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)
@@ -2205,8 +1831,7 @@ function Setup_SSVxGTH_med()
 	ssvEngCnt = 8
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
-	if not ScriptCB_InMultiplayer() then
-		SetupTeams{
+	SetupTeams{
 		rep = {
 			team = REP,
 			units = 22,
@@ -2232,36 +1857,7 @@ function Setup_SSVxGTH_med()
 			destroyer = { gth_inf_destroyer,2, 4},
 			juggernaut = { gth_inf_juggernaut,1, 4},
 		}
-		}
-	else
-		SetupTeams{
-		rep = {
-			team = REP,
-			units = 22,
-			reinforcements = 175,
-			soldier  = { ssv_inf_soldier,4, 8},
-			sniper  = { ssv_inf_infiltrator,3, 8},
-			adept = { ssv_inf_adept,4, 8},
-			engineer   = { ssv_inf_engineer,4, 8},
-			sentinel = { ssv_inf_sentinel,4, 8},
-			vanguard = { ssv_inf_vanguard,3, 8},	
-		},
-		
-		cis = {
-			team = CIS,
-			units = 23,
-			reinforcements = 175,
-			soldier  = { gth_inf_trooper,6, 20},
-			assault  = { gth_inf_rocketeer,3, 8},
-			sniper = { gth_inf_sniper,2, 8},
-			engineer = { gth_inf_machinist,3, 10},
-			hunter   = { gth_inf_hunter,3, 8},
-			shock  = { gth_inf_shock_online,3, 8},
-			destroyer = { gth_inf_destroyer,2, 4},
-			juggernaut = { gth_inf_juggernaut,1, 4},
-		}
-		}
-	end
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)
@@ -2282,8 +1878,7 @@ function Setup_SSVxCOL_med()
 	ssvEngCnt = 8
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVCOL_NonStreaming.lvl")
-	if not ScriptCB_InMultiplayer() then
-		SetupTeams{
+	SetupTeams{
 		rep = {
 			team = REP,
 			units = 22,
@@ -2307,34 +1902,7 @@ function Setup_SSVxCOL_med()
 			support  = { col_inf_guardian,4, 14},
 			scion  = { "col_inf_scion",1, 2},
 		}
-		}
-	else
-		SetupTeams{
-		rep = {
-			team = REP,
-			units = 22,
-			reinforcements = 175,
-			soldier  = { ssv_inf_soldier,4, 8},
-			sniper  = { ssv_inf_infiltrator,3, 8},
-			adept = { ssv_inf_adept,4, 8},
-			engineer   = { ssv_inf_engineer,4, 8},
-			sentinel = { ssv_inf_sentinel,4, 8},
-			vanguard = { ssv_inf_vanguard,3, 8},	
-		},
-		
-		cis = {
-			team = CIS,
-			units = 19,
-			reinforcements = 175,
-			-- husk  = { "indoc_inf_husk",4, 8},
-			soldier  = { "col_inf_drone",9, 25},
-			assault  = { "col_inf_assassin",5, 7},
-			-- special = { "indoc_inf_abomination",4, 8},
-			support  = { col_inf_guardian_online,4, 14},
-			scion  = { "col_inf_scion",1, 2},
-		}
-		}
-	end
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)
@@ -2356,8 +1924,7 @@ function Setup_EVGxGTH_med()
 	ssvEngCnt = 8
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
-	if not ScriptCB_InMultiplayer() then
-		SetupTeams{
+	SetupTeams{
 		rep = {
 			team = REP,
 			units = 26,
@@ -2384,37 +1951,7 @@ function Setup_EVGxGTH_med()
 			destroyer = { gth_inf_destroyer,2, 4},
 			juggernaut = { gth_inf_juggernaut,1, 4},
 		}
-		}
-	else
-		SetupTeams{
-		rep = {
-			team = REP,
-			units = 26,
-			reinforcements = 175,
-			soldier  = { gth_ev_inf_trooper,7, 20},
-			sniper = { gth_ev_inf_infiltrator,5, 8},
-			rocketeer  = { gth_ev_inf_rocketeer,4, 8},
-			engineer = { gth_ev_inf_engineer,3, 10},
-			hunter   = { gth_ev_inf_hunter,4, 8},
-			destroyer = { gth_ev_inf_pyro,2, 4},
-			juggernaut = { gth_ev_inf_juggernaut_online,1, 4},
-		},
-		
-		cis = {
-			team = CIS,
-			units = 22,
-			reinforcements = 175,
-			soldier  = { gth_inf_trooper,5, 20},
-			assault  = { gth_inf_rocketeer,3, 8},
-			sniper = { gth_inf_sniper,2, 8},
-			engineer = { gth_inf_machinist,3, 10},
-			hunter   = { gth_inf_hunter,3, 8},
-			shock  = { gth_inf_shock_online,3, 8},
-			destroyer = { gth_inf_destroyer,2, 4},
-			juggernaut = { gth_inf_juggernaut,1, 4},
-		}
-		}
-	end
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)
@@ -2435,8 +1972,7 @@ function Setup_EVGxCOL_med()
 	ssvEngCnt = 8
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
-	if not ScriptCB_InMultiplayer() then
-		SetupTeams{
+	SetupTeams{
 		rep = {
 			team = REP,
 			units = 26,
@@ -2461,35 +1997,7 @@ function Setup_EVGxCOL_med()
 			support  = { col_inf_guardian,5, 14},
 			scion  = { "col_inf_scion",2, 4},
 		}
-		}
-	else
-		SetupTeams{
-		rep = {
-			team = REP,
-			units = 26,
-			reinforcements = 175,
-			soldier  = { gth_ev_inf_trooper,7, 20},
-			sniper = { gth_ev_inf_infiltrator,5, 8},
-			rocketeer  = { gth_ev_inf_rocketeer,4, 8},
-			engineer = { gth_ev_inf_engineer,3, 10},
-			hunter   = { gth_ev_inf_hunter,4, 8},
-			destroyer = { gth_ev_inf_pyro,2, 4},
-			juggernaut = { gth_ev_inf_juggernaut_online,1, 4},
-		},
-		
-		cis = {
-			team = CIS,
-			units = 22,
-			reinforcements = 175,
-			-- husk  = { "indoc_inf_husk",4, 8},
-			soldier  = { "col_inf_drone",8, 25},
-			assault  = { "col_inf_assassin",6, 7},
-			-- special = { "indoc_inf_abomination",4, 8},
-			support  = { col_inf_guardian_online,5, 14},
-			scion  = { "col_inf_scion",2, 4},
-		}
-		}
-	end
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)
@@ -2684,8 +2192,7 @@ function Setup_SSVxGTH_lg()
 	ssvEngCnt = 8
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
-	if not ScriptCB_InMultiplayer() then
-		SetupTeams{
+	SetupTeams{
 		rep = {
 			team = REP,
 			units = 29,
@@ -2711,36 +2218,7 @@ function Setup_SSVxGTH_lg()
 			destroyer = { gth_inf_destroyer,2, 4},
 			juggernaut = { gth_inf_juggernaut,1, 4},
 		}
-		}
-	else
-		SetupTeams{
-		rep = {
-			team = REP,
-			units = 29,
-			reinforcements = 200,
-			soldier  = { ssv_inf_soldier,5, 8},
-			sniper  = { ssv_inf_infiltrator,5, 8},
-			adept = { ssv_inf_adept,5, 8},
-			engineer   = { ssv_inf_engineer,5, 8},
-			sentinel = { ssv_inf_sentinel,5, 8},
-			vanguard = { ssv_inf_vanguard,4, 8},	
-		},
-		
-		cis = {
-			team = CIS,
-			units = 26,
-			reinforcements = 200,
-			soldier  = { gth_inf_trooper,7, 20},
-			assault  = { gth_inf_rocketeer,3, 8},
-			sniper = { gth_inf_sniper,3, 8},
-			engineer = { gth_inf_machinist,3, 12},
-			hunter   = { gth_inf_hunter,4, 10},
-			shock  = { gth_inf_shock_online,3, 10},
-			destroyer = { gth_inf_destroyer,2, 4},
-			juggernaut = { gth_inf_juggernaut,1, 4},
-		}
-		}
-	end
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)
@@ -2761,8 +2239,7 @@ function Setup_SSVxCOL_lg()
 	ssvEngCnt = 8
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVCOL_NonStreaming.lvl")
-	if not ScriptCB_InMultiplayer() then
-		SetupTeams{
+	SetupTeams{
 		rep = {
 			team = REP,
 			units = 27,
@@ -2786,34 +2263,7 @@ function Setup_SSVxCOL_lg()
 			support  = { col_inf_guardian,4, 14},
 			scion  = { "col_inf_scion",2, 4},
 		}
-		}
-	else
-		SetupTeams{
-		rep = {
-			team = REP,
-			units = 27,
-			reinforcements = 200,
-			soldier  = { ssv_inf_soldier,5, 8},
-			sniper  = { ssv_inf_infiltrator,4, 8},
-			adept = { ssv_inf_adept,5, 8},
-			engineer   = { ssv_inf_engineer,5, 8},
-			sentinel = { ssv_inf_sentinel,4, 8},
-			vanguard = { ssv_inf_vanguard,4, 8},	
-		},
-		
-		cis = {
-			team = CIS,
-			units = 22,
-			reinforcements = 200,
-			-- husk  = { "indoc_inf_husk",5, 8},
-			soldier  = { "col_inf_drone",9, 25},
-			assault  = { "col_inf_assassin",7, 10},
-			-- special = { "indoc_inf_abomination",5, 8},
-			support  = { col_inf_guardian_online,4, 14},
-			scion  = { "col_inf_scion",2, 4},
-		}
-		}
-	end
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)
@@ -2835,8 +2285,7 @@ function Setup_EVGxGTH_lg()
 	ssvEngCnt = 8
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
-	if not ScriptCB_InMultiplayer() then
-		SetupTeams{
+	SetupTeams{
 		rep = {
 			team = REP,
 			units = 30,
@@ -2863,37 +2312,7 @@ function Setup_EVGxGTH_lg()
 			destroyer = { gth_inf_destroyer,2, 4},
 			juggernaut = { gth_inf_juggernaut,1, 4},
 		}
-		}
-	else
-		SetupTeams{
-		rep = {
-			team = REP,
-			units = 30,
-			reinforcements = 200,
-			soldier  = { gth_ev_inf_trooper,9, 20},
-			sniper = { gth_ev_inf_infiltrator,5, 8},
-			rocketeer  = { gth_ev_inf_rocketeer,4, 8},
-			engineer = { gth_ev_inf_engineer,3, 12},
-			hunter   = { gth_ev_inf_hunter,5, 10},
-			destroyer = { gth_ev_inf_pyro,3, 4},
-			juggernaut = { gth_ev_inf_juggernaut_online,1, 4},	
-		},
-		
-		cis = {
-			team = CIS,
-			units = 24,
-			reinforcements = 200,
-			soldier  = { gth_inf_trooper,6, 20},
-			assault  = { gth_inf_rocketeer,3, 8},
-			sniper = { gth_inf_sniper,3, 8},
-			engineer = { gth_inf_machinist,3, 12},
-			hunter   = { gth_inf_hunter,3, 10},
-			shock  = { gth_inf_shock_online,3, 10},
-			destroyer = { gth_inf_destroyer,2, 4},
-			juggernaut = { gth_inf_juggernaut,1, 4},
-		}
-		}
-	end
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)
@@ -2914,8 +2333,7 @@ function Setup_EVGxCOL_lg()
 	ssvEngCnt = 8
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
-	if not ScriptCB_InMultiplayer() then
-		SetupTeams{
+	SetupTeams{
 		rep = {
 			team = REP,
 			units = 30,
@@ -2940,35 +2358,7 @@ function Setup_EVGxCOL_lg()
 			support  = { col_inf_guardian,5, 14},
 			scion  = { "col_inf_scion",3, 6},
 		}
-		}
-	else
-		SetupTeams{
-		rep = {
-			team = REP,
-			units = 30,
-			reinforcements = 200,
-			soldier  = { gth_ev_inf_trooper,9, 20},
-			sniper = { gth_ev_inf_infiltrator,5, 8},
-			rocketeer  = { gth_ev_inf_rocketeer,4, 8},
-			engineer = { gth_ev_inf_engineer,3, 12},
-			hunter   = { gth_ev_inf_hunter,5, 10},
-			destroyer = { gth_ev_inf_pyro,3, 4},
-			juggernaut = { gth_ev_inf_juggernaut_online,1, 4},	
-		},
-		
-		cis = {
-			team = CIS,
-			units = 24,
-			reinforcements = 200,
-			-- husk  = { "indoc_inf_husk",5, 8},
-			soldier  = { "col_inf_drone",9, 25},
-			assault  = { "col_inf_assassin",7, 10},
-			-- special = { "indoc_inf_abomination",5, 8},
-			support  = { col_inf_guardian_online,5, 14},
-			scion  = { "col_inf_scion",3, 6},
-		}
-		}
-	end
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)
@@ -3163,8 +2553,7 @@ function Setup_SSVxGTH_xl()
 	ssvEngCnt = 8
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
-	if not ScriptCB_InMultiplayer() then
-		SetupTeams{
+	SetupTeams{
 		rep = {
 			team = REP,
 			units = 36,
@@ -3190,36 +2579,7 @@ function Setup_SSVxGTH_xl()
 			destroyer = { gth_inf_destroyer,3, 6},
 			juggernaut = { gth_inf_juggernaut,2, 4},
 		}
-		}
-	else
-		SetupTeams{
-		rep = {
-			team = REP,
-			units = 36,
-			reinforcements = 200,
-			soldier  = { ssv_inf_soldier,6, 15},
-			sniper  = { ssv_inf_infiltrator,6, 15},
-			adept = { ssv_inf_adept,6, 15},
-			engineer   = { ssv_inf_engineer,6, 15},
-			sentinel = { ssv_inf_sentinel,6, 15},
-			vanguard = { ssv_inf_vanguard,6, 15},
-		},
-		
-		cis = {
-			team = CIS,
-			units = 33,
-			reinforcements = 200,
-			soldier  = { gth_inf_trooper,8, 20},
-			assault  = { gth_inf_rocketeer,4, 8},
-			sniper = { gth_inf_sniper,4, 8},
-			engineer = { gth_inf_machinist,4, 12},
-			hunter   = { gth_inf_hunter,4, 10},
-			shock  = { gth_inf_shock_online,4, 10},
-			destroyer = { gth_inf_destroyer,3, 6},
-			juggernaut = { gth_inf_juggernaut,2, 4},
-		}
-		}
-	end
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)
@@ -3240,8 +2600,7 @@ function Setup_SSVxCOL_xl()
 	ssvEngCnt = 8
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVCOL_NonStreaming.lvl")
-	if not ScriptCB_InMultiplayer() then
-		SetupTeams{
+	SetupTeams{
 		rep = {
 			team = REP,
 			units = 34,
@@ -3265,34 +2624,7 @@ function Setup_SSVxCOL_xl()
 			support  = { col_inf_guardian,6, 14},
 			scion  = { "col_inf_scion",3, 6},
 		}
-		}
-	else
-		SetupTeams{
-		rep = {
-			team = REP,
-			units = 34,
-			reinforcements = 200,
-			soldier  = { ssv_inf_soldier,5, 8},
-			sniper  = { ssv_inf_infiltrator,4, 8},
-			adept = { ssv_inf_adept,5, 8},
-			engineer   = { ssv_inf_engineer,5, 8},
-			sentinel = { ssv_inf_sentinel,4, 8},
-			vanguard = { ssv_inf_vanguard,4, 8},	
-		},
-		
-		cis = {
-			team = CIS,
-			units = 29,
-			reinforcements = 200,
-			-- husk  = { "indoc_inf_husk",5, 8},
-			soldier  = { "col_inf_drone",11, 25},
-			assault  = { "col_inf_assassin",9, 14},
-			-- special = { "indoc_inf_abomination",5, 8},
-			support  = { col_inf_guardian_online,6, 14},
-			scion  = { "col_inf_scion",3, 6},
-		}
-		}
-	end
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)
@@ -3314,8 +2646,7 @@ function Setup_EVGxGTH_xl()
 	ssvEngCnt = 8
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
-	if not ScriptCB_InMultiplayer() then
-		SetupTeams{
+	SetupTeams{
 		rep = {
 			team = REP,
 			units = 37,
@@ -3342,37 +2673,7 @@ function Setup_EVGxGTH_xl()
 			destroyer = { gth_inf_destroyer,3, 6},
 			juggernaut = { gth_inf_juggernaut,2, 4},
 		}
-		}
-	else
-		SetupTeams{
-		rep = {
-			team = REP,
-			units = 37,
-			reinforcements = 200,
-			soldier  = { gth_ev_inf_trooper,10, 20},
-			sniper = { gth_ev_inf_infiltrator,6, 10},
-			rocketeer  = { gth_ev_inf_rocketeer,5, 10},
-			engineer = { gth_ev_inf_engineer,5, 12},
-			hunter   = { gth_ev_inf_hunter,6, 10},
-			destroyer = { gth_ev_inf_pyro,3, 6},
-			juggernaut = { gth_ev_inf_juggernaut_online,2, 4},
-		},
-		
-		cis = {
-			team = CIS,
-			units = 31,
-			reinforcements = 200,
-			soldier  = { gth_inf_trooper,7, 20},
-			assault  = { gth_inf_rocketeer,4, 8},
-			sniper = { gth_inf_sniper,4, 8},
-			engineer = { gth_inf_machinist,4, 12},
-			hunter   = { gth_inf_hunter,4, 10},
-			shock  = { gth_inf_shock_online,3, 10},
-			destroyer = { gth_inf_destroyer,3, 6},
-			juggernaut = { gth_inf_juggernaut,2, 4},
-		}
-		}
-	end
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)
@@ -3393,8 +2694,7 @@ function Setup_EVGxCOL_xl()
 	ssvEngCnt = 8
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
-	if not ScriptCB_InMultiplayer() then
-		SetupTeams{
+	SetupTeams{
 		rep = {
 			team = REP,
 			units = 37,
@@ -3419,35 +2719,7 @@ function Setup_EVGxCOL_xl()
 			support  = { col_inf_guardian,7, 14},
 			scion  = { "col_inf_scion",3, 6},
 		}
-		}
-	else
-		SetupTeams{
-		rep = {
-			team = REP,
-			units = 37,
-			reinforcements = 200,
-			soldier  = { gth_ev_inf_trooper,10, 20},
-			sniper = { gth_ev_inf_infiltrator,6, 10},
-			rocketeer  = { gth_ev_inf_rocketeer,5, 10},
-			engineer = { gth_ev_inf_engineer,5, 12},
-			hunter   = { gth_ev_inf_hunter,6, 10},
-			destroyer = { gth_ev_inf_pyro,3, 6},
-			juggernaut = { gth_ev_inf_juggernaut_online,2, 4},
-		},
-		
-		cis = {
-			team = CIS,
-			units = 31,
-			reinforcements = 200,
-			-- husk  = { "indoc_inf_husk",5, 8},
-			soldier  = { "col_inf_drone",12, 25},
-			assault  = { "col_inf_assassin",9, 14},
-			-- special = { "indoc_inf_abomination",5, 8},
-			support  = { col_inf_guardian_online,7, 14},
-			scion  = { "col_inf_scion",3, 6},
-		}
-		}
-	end
+	}
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, CIS)

@@ -319,7 +319,6 @@ function ScriptInit()
 				"gth_inf_machinist",
 				"gth_inf_hunter",
 				"gth_inf_shock",
-				"gth_inf_shock_online",
 				"gth_inf_destroyer",
 				"gth_inf_juggernaut")
 				

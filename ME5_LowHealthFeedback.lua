@@ -81,7 +81,6 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 					"gth_inf_machinist",
 					"gth_inf_rocketeer",
 					"gth_inf_shock",
-					"gth_inf_shock_online",
 					"gth_inf_sniper",
 					"gth_inf_trooper",
 					"gth_inf_destroyer_shield",
@@ -90,7 +89,6 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 					"gth_inf_machinist_shield",
 					"gth_inf_rocketeer_shield",
 					"gth_inf_shock_shield",
-					"gth_inf_shock_online_shield",
 					"gth_inf_sniper_shield",
 					"gth_inf_trooper_shield",
 					"gth_ev_inf_trooper",
@@ -100,15 +98,13 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 					"gth_ev_inf_hunter",
 					"gth_ev_inf_pyro",
 					"gth_ev_inf_juggernaut",
-					"gth_ev_inf_juggernaut_online",
 					"gth_ev_inf_trooper_shield",
 					"gth_ev_inf_infiltrator_shield",
 					"gth_ev_inf_engineer_shield",
 					"gth_ev_inf_rocketeer_shield",
 					"gth_ev_inf_hunter_shield",
 					"gth_ev_inf_pyro_shield",
-					"gth_ev_inf_juggernaut_shield",
-					"gth_ev_inf_juggernaut_online_shield" }
+					"gth_ev_inf_juggernaut_shield" }
 			local ignoreClasses = {					-- Unit classes to ignore (mostly just heroes)
 					"gth_hero_prime_me2",
 					"gth_hero_prime_me3",

@@ -209,14 +209,12 @@ function Init_DeferredShieldRegen()
 			--  shield regeneration delay. (this would be so much easier if Battlefront had a GetProperty() function :u)
 			local shieldClasses = {
 						{ class = "col_inf_guardian_shield", 				addShield = 14.0,	regenDelay = 3.4 }, 
-						{ class = "col_inf_guardian_online_shield", 		addShield = 14.0,	regenDelay = 3.4 }, 
 						{ class = "gth_inf_trooper_shield", 				addShield = 14.0,	regenDelay = 3.0 }, 
 						{ class = "gth_inf_rocketeer_shield", 				addShield = 14.0,	regenDelay = 3.0 }, 
 						{ class = "gth_inf_sniper_shield", 					addShield = 14.0,	regenDelay = 3.0 }, 
 						{ class = "gth_inf_machinist_shield", 				addShield = 14.0,	regenDelay = 3.0 }, 
 						{ class = "gth_inf_hunter_shield", 					addShield = 14.0,	regenDelay = 3.0 }, 
 						{ class = "gth_inf_shock_shield", 					addShield = 14.0,	regenDelay = 3.0 }, 
-						{ class = "gth_inf_shock_online_shield", 			addShield = 14.0,	regenDelay = 3.0 }, 
 						{ class = "gth_inf_destroyer_shield", 				addShield = 14.0,	regenDelay = 3.2 }, 
 						{ class = "gth_inf_juggernaut_shield", 				addShield = 14.0,	regenDelay = 3.4 }, 
 						{ class = "gth_inf_prime_shield", 					addShield = 22.0,	regenDelay = 3.4 }, 
@@ -227,7 +225,6 @@ function Init_DeferredShieldRegen()
 						{ class = "gth_ev_inf_hunter_shield", 				addShield = 14.0,	regenDelay = 3.0 }, 
 						{ class = "gth_ev_inf_pyro_shield", 				addShield = 14.0,	regenDelay = 3.2 }, 
 						{ class = "gth_ev_inf_juggernaut_shield", 			addShield = 14.0,	regenDelay = 3.4 }, 
-						{ class = "gth_ev_inf_juggernaut_online_shield",	addShield = 14.0,	regenDelay = 3.4 }, 
 						{ class = "rpr_inf_marauder_shield",				addShield = 14.0,	regenDelay = 3.4 }, 
 						{ class = "rpr_inf_banshee_shield",					addShield = 22.0,	regenDelay = 3.4 }, 
 						{ class = "ssv_inf_soldier_shield", 				addShield = 14.0,	regenDelay = 3.4 }, 
