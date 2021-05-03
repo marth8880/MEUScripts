@@ -21,7 +21,7 @@ manager = MapManager:New{
 	musicVariation_SSVxRPR = "8",
 	
 	-- Online matches
-	onlineSideVar = "SSVxCOL",
+	onlineSideVar = "SSVxRPR",
 	onlineHeroSSV = "shep_adept",
 	onlineHeroGTH = "gethprime_me2",
 	onlineHeroCOL = "colgeneral",

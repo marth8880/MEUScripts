@@ -22,7 +22,7 @@ manager = MapManager:New{
 	musicVariation_EVGxCOL = "9",
 	
 	-- Online matches
-	onlineSideVar = "SSVxGTH",
+	onlineSideVar = "SSVxRPR",
 	onlineHeroSSV = "shep_engineer",
 	onlineHeroGTH = "gethprime_me2",
 	onlineHeroCOL = "colgeneral",
