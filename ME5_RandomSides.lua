@@ -1187,10 +1187,10 @@ function Setup_SSVxRPR_xxs()
 		
 		cis = {
 			team = CIS,
-			units = 5,
+			units = 7,
 			reinforcements = 150,
-			soldier  = { "rpr_inf_cannibal",1, 25},
-			assault  = { rpr_inf_marauder,1, 12},
+			soldier  = { "rpr_inf_cannibal",2, 25},
+			assault  = { rpr_inf_marauder,2, 12},
 			rocketeer  = { "rpr_inf_ravager",1, NUM_RAVAGERS},
 			officer = { "rpr_inf_brute",1, 2},
 			special = { rpr_inf_banshee,1, 2},
@@ -1504,10 +1504,10 @@ function Setup_SSVxRPR_xs()
 		
 		cis = {
 			team = CIS,
-			units = 10,
+			units = 12,
 			reinforcements = 150,
-			soldier  = { "rpr_inf_cannibal",5, 25},
-			assault  = { rpr_inf_marauder,2, 12},
+			soldier  = { "rpr_inf_cannibal",6, 25},
+			assault  = { rpr_inf_marauder,3, 12},
 			rocketeer  = { "rpr_inf_ravager",1, NUM_RAVAGERS},
 			officer = { "rpr_inf_brute",1, 2},
 			special = { rpr_inf_banshee,1, 2},
@@ -1843,7 +1843,7 @@ end
 function Setup_SSVxRPR_sm()
 	print("ME5_RandomSides.Setup_SSVxRPR_sm(): Entered")
 	
-	NUM_RAVAGERS = 2
+	NUM_RAVAGERS = 3
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVCOL_NonStreaming.lvl")
 	SetupTeams{
@@ -1861,11 +1861,11 @@ function Setup_SSVxRPR_sm()
 		
 		cis = {
 			team = CIS,
-			units = 12,
+			units = 14,
 			reinforcements = 150,
-			soldier  = { "rpr_inf_cannibal",6, 25},
+			soldier  = { "rpr_inf_cannibal",7, 25},
 			assault  = { rpr_inf_marauder,3, 12},
-			rocketeer  = { "rpr_inf_ravager",1, NUM_RAVAGERS},
+			rocketeer  = { "rpr_inf_ravager",2, NUM_RAVAGERS},
 			officer = { "rpr_inf_brute",1, 2},
 			special = { rpr_inf_banshee,1, 2},
 		}
@@ -2866,10 +2866,10 @@ function Setup_SSVxRPR_xl()
 		
 		cis = {
 			team = CIS,
-			units = 32,
+			units = 33,
 			reinforcements = 200,
 			soldier  = { "rpr_inf_cannibal",12, 25},
-			assault  = { rpr_inf_marauder,8, 12},
+			assault  = { rpr_inf_marauder,9, 12},
 			rocketeer  = { "rpr_inf_ravager",4, NUM_RAVAGERS},
 			officer = { "rpr_inf_brute",4, 6},
 			special = { rpr_inf_banshee,3, 5},

@@ -59,7 +59,7 @@ manager = MapManager:New{
 	-- Map-specific details
 	bIsModMap = true,
 	gameMode = "conquest",
-	mapSize = "xxs",
+	mapSize = "xs",
 	environmentType = "jungle",
 	
 	-- In-game music

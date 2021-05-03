@@ -535,6 +535,16 @@ function ObjectiveConquest:Start()
     		
     		UpdatePostMapMarker(cp.name)
     	end
+	
+		if gCurrentMapManager.mapSize == "sm" or 
+		   gCurrentMapManager.mapSize == "xs" or 
+		   gCurrentMapManager.mapSize == "xxs" then
+			SetClassProperty("com_bldg_controlzone", "NeutralizeTime", 20)
+			SetClassProperty("com_bldg_controlzone", "CaptureTime", 15)
+		else
+			SetClassProperty("com_bldg_controlzone", "NeutralizeTime", 15)
+			SetClassProperty("com_bldg_controlzone", "CaptureTime", 10)
+		end
 	end
 	
 	--==========
