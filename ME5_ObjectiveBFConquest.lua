@@ -4,12 +4,27 @@
 
 ScriptCB_DoFile("ME5_Objective")
 
+local __SCRIPT_NAME = "ME5_ObjectiveBFConquest";
+local debug = false
+
+local function PrintLog(...)
+	if debug == true then
+		print("["..__SCRIPT_NAME.."]", unpack(arg));
+	end
+end
+
 if bStockFontLoaded == nil then
 	-- Has the stock font been loaded?
 	bStockFontLoaded = false
 end
 
 MEU_GameMode = "meu_siege"
+
+CommandPostCaptureState = {
+	Idle = 0,
+	Neutralizing = 1,
+	Capturing = 2,
+}
 
 --=============================
 -- CommandPost
@@ -68,12 +83,16 @@ end
 function ObjectiveConquest:AddCommandPost(cp)
 	--make sure we have a table to add the cp to
 	self.commandPosts = self.commandPosts or {}
+	self.commandPostStates = self.commandPostStates or {}
+	self.commandPostAbortedNeutralize = self.commandPostAbortedNeutralize or {}
 	
 	--do all the error checking we can on the cp
 	assert(cp.name, "WARNING: no name supplied for the command post")
 	cp.name = string.lower(cp.name)
 			
 	self.commandPosts[cp.name] = cp
+	self.commandPostStates[cp.name] = CommandPostCaptureState.Idle
+	self.commandPostAbortedNeutralize[cp.name] = 0
 	
 	--keep a running tally of the bleedValue relative to each team
 	if not self.totalBleedValue then
@@ -361,6 +380,16 @@ function ObjectiveConquest:Start()
 				local playerTeam = GetCharacterTeam(0)
 				local otherTeam = (3 - playerTeam)
 				
+				local pulseSize = false
+				
+				if self.commandPostStates[GetEntityName(postPtr)] == CommandPostCaptureState.Idle then
+					pulseSize = false
+				elseif self.commandPostStates[GetEntityName(postPtr)] == CommandPostCaptureState.Neutralizing then
+					pulseSize = true
+				elseif self.commandPostStates[GetEntityName(postPtr)] == CommandPostCaptureState.Capturing then
+					pulseSize = true
+				end
+				
 				-- Only attach marker to non-permacps
 				if GetEntityClass(postPtr) == FindEntityClass("com_bldg_controlzone") then
 					-- If playerTeam owns the post, add a blue marker for playerTeam and a red marker for otherTeam
@@ -368,8 +397,8 @@ function ObjectiveConquest:Start()
 						MapRemoveEntityMarker(postPtr, playerTeam)
 						MapRemoveEntityMarker(postPtr, otherTeam)
 						
-						MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, playerTeam, "BLUE", true, false, false, true)
-						MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, otherTeam, "RED", true, false, false, true)
+						MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, playerTeam, "BLUE", true, false, pulseSize)
+						MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, otherTeam, "RED", true, false, pulseSize)
 						
 						
 					-- If otherTeam owns the post, add a blue marker for otherTeam and a red marker for playerTeam
@@ -377,8 +406,8 @@ function ObjectiveConquest:Start()
 						MapRemoveEntityMarker(postPtr, playerTeam)
 						MapRemoveEntityMarker(postPtr, otherTeam)
 						
-						MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, playerTeam, "RED", true, false, false, true)
-						MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, otherTeam, "BLUE", true, false, false, true)
+						MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, playerTeam, "RED", true, false, pulseSize)
+						MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, otherTeam, "BLUE", true, false, pulseSize)
 						
 						
 					-- If neither team owns the post, add a white marker for both teams
@@ -386,8 +415,8 @@ function ObjectiveConquest:Start()
 						MapRemoveEntityMarker(postPtr, playerTeam)
 						MapRemoveEntityMarker(postPtr, otherTeam)
 						
-						MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, playerTeam, "WHITE", true, false, false, true)
-						MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, otherTeam, "WHITE", true, false, false, true)
+						MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, playerTeam, "WHITE", true, false, pulseSize)
+						MapAddEntityMarker(postPtr, "hud_objective_icon", 0.75, otherTeam, "WHITE", true, false, pulseSize)
 					end
 				end
 			end
@@ -672,28 +701,92 @@ function ObjectiveConquest:Start()
 	self.postCaptureMsgBufferTimer
 	)
 	
+	OnBeginNeutralize(
+		function (postPtr)
+			if self.isComplete then	return end
+			if not self.commandPosts[GetEntityName(postPtr)] then return end
+			
+			PrintLog("OnBeginNeutralize:", GetEntityName(postPtr))
+			
+			self.commandPostAbortedNeutralize[GetEntityName(postPtr)] = 0
+			self.commandPostStates[GetEntityName(postPtr)] = CommandPostCaptureState.Neutralizing
+			
+			UpdatePostMapMarker(postPtr)
+		end
+	)
+	
+	OnAbortNeutralize(
+		function(postPtr)
+			if self.isComplete then	return end
+			if not self.commandPosts[GetEntityName(postPtr)] then return end
+			-- OnAbortNeutralize gets spammed when initially called, so need to make sure that doesn't happen
+			if self.commandPostAbortedNeutralize[GetEntityName(postPtr)] == 1 then return end
+			
+			PrintLog("OnAbortNeutralize:", GetEntityName(postPtr))
+			
+			self.commandPostAbortedNeutralize[GetEntityName(postPtr)] = 1
+			self.commandPostStates[GetEntityName(postPtr)] = CommandPostCaptureState.Idle
+			
+			UpdatePostMapMarker(postPtr)
+		end
+	)
+	
+	-- command post neutralize
+	OnFinishNeutralize(
+		function (postPtr)
+			if self.isComplete then	return end
+			if not self.commandPosts[GetEntityName(postPtr)] then return end
+			
+			PrintLog("OnFinishNeutralize:", GetEntityName(postPtr))
+			
+			self.commandPostStates[GetEntityName(postPtr)] = CommandPostCaptureState.Idle
+			
+			UpdatePostMapMarker(postPtr)
+			UpdateState()
+		end
+	)
+	
+	OnBeginCapture(
+		function (postPtr)
+			if self.isComplete then	return end
+			if not self.commandPosts[GetEntityName(postPtr)] then return end
+			
+			PrintLog("OnBeginCapture:", GetEntityName(postPtr))
+			
+			self.commandPostStates[GetEntityName(postPtr)] = CommandPostCaptureState.Capturing
+			
+			UpdatePostMapMarker(postPtr)
+		end
+	)
+	
+	OnAbortCapture(
+		function(postPtr)
+			if self.isComplete then	return end
+			if not self.commandPosts[GetEntityName(postPtr)] then return end
+			
+			PrintLog("OnAbortCapture:", GetEntityName(postPtr))
+			
+			self.commandPostStates[GetEntityName(postPtr)] = CommandPostCaptureState.Idle
+			
+			UpdatePostMapMarker(postPtr)
+		end
+	)
+	
 	-- command post captures
 	OnFinishCapture(
 		function (postPtr)
 			if self.isComplete then	return end
 			if not self.commandPosts[GetEntityName(postPtr)] then return end
 			
+			PrintLog("OnFinishCapture:", GetEntityName(postPtr))
+			
+			self.commandPostStates[GetEntityName(postPtr)] = CommandPostCaptureState.Idle
+			
 			ShowCaptureMessage(postPtr)
 			UpdatePostMapMarker(postPtr)
 			UpdateState()
 		end
-		)
-		
-	-- command post neutralize
-	OnFinishNeutralize(
-		function (postPtr)				
-			if self.isComplete then	return end
-			if not self.commandPosts[GetEntityName(postPtr)] then return end
-			
-			UpdatePostMapMarker(postPtr)
-			UpdateState()
-		end
-		)
+	)
 		
 	-- command post spawn
 	OnCommandPostRespawn(
