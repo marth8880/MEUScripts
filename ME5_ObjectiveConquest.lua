@@ -651,13 +651,18 @@ function ObjectiveConquest:Start()
 	)
 	
 	OnBeginNeutralize(
-		function (postPtr)
+		function(postPtr, holding)
 			if self.isComplete then	return end
 			if not self.commandPosts[GetEntityName(postPtr)] then return end
 			
-			PrintLog("OnBeginNeutralize:", GetEntityName(postPtr))
+			PrintLog("OnBeginNeutralize:", GetEntityName(postPtr), table.getn(holding))
+			
+			if debug == true and table.getn(holding) > 0 then
+				tprint(holding)
+			end
 			
 			self.commandPostAbortedNeutralize[GetEntityName(postPtr)] = 0
+			
 			self.commandPostStates[GetEntityName(postPtr)] = CommandPostCaptureState.Neutralizing
 			
 			UpdatePostMapMarker(postPtr)
@@ -665,16 +670,22 @@ function ObjectiveConquest:Start()
 	)
 	
 	OnAbortNeutralize(
-		function(postPtr)
+		function(postPtr, holding)
 			if self.isComplete then	return end
 			if not self.commandPosts[GetEntityName(postPtr)] then return end
 			-- OnAbortNeutralize gets spammed when initially called, so need to make sure that doesn't happen
 			if self.commandPostAbortedNeutralize[GetEntityName(postPtr)] == 1 then return end
 			
-			PrintLog("OnAbortNeutralize:", GetEntityName(postPtr))
+			PrintLog("OnAbortNeutralize:", GetEntityName(postPtr), table.getn(holding))
+			
+			if debug == true and table.getn(holding) > 0 then
+				tprint(holding)
+			end
 			
 			self.commandPostAbortedNeutralize[GetEntityName(postPtr)] = 1
-			self.commandPostStates[GetEntityName(postPtr)] = CommandPostCaptureState.Idle
+			if table.getn(holding) == 0 then
+				self.commandPostStates[GetEntityName(postPtr)] = CommandPostCaptureState.Idle
+			end
 			
 			UpdatePostMapMarker(postPtr)
 		end
@@ -682,7 +693,7 @@ function ObjectiveConquest:Start()
 	
 	-- command post neutralize
 	OnFinishNeutralize(
-		function (postPtr)
+		function(postPtr)
 			if self.isComplete then	return end
 			if not self.commandPosts[GetEntityName(postPtr)] then return end
 			
@@ -696,11 +707,15 @@ function ObjectiveConquest:Start()
 	)
 	
 	OnBeginCapture(
-		function (postPtr)
+		function(postPtr, holding)
 			if self.isComplete then	return end
 			if not self.commandPosts[GetEntityName(postPtr)] then return end
 			
-			PrintLog("OnBeginCapture:", GetEntityName(postPtr))
+			PrintLog("OnBeginCapture:", GetEntityName(postPtr), table.getn(holding))
+			
+			if debug == true and table.getn(holding) > 0 then
+				tprint(holding)
+			end
 			
 			self.commandPostStates[GetEntityName(postPtr)] = CommandPostCaptureState.Capturing
 			
@@ -709,13 +724,19 @@ function ObjectiveConquest:Start()
 	)
 	
 	OnAbortCapture(
-		function(postPtr)
+		function(postPtr, holding)
 			if self.isComplete then	return end
 			if not self.commandPosts[GetEntityName(postPtr)] then return end
 			
-			PrintLog("OnAbortCapture:", GetEntityName(postPtr))
+			PrintLog("OnAbortCapture:", GetEntityName(postPtr), table.getn(holding))
 			
-			self.commandPostStates[GetEntityName(postPtr)] = CommandPostCaptureState.Idle
+			if debug == true and table.getn(holding) > 0 then
+				tprint(holding)
+			end
+			
+			if table.getn(holding) == 0 then
+				self.commandPostStates[GetEntityName(postPtr)] = CommandPostCaptureState.Idle
+			end
 			
 			UpdatePostMapMarker(postPtr)
 		end
@@ -723,7 +744,7 @@ function ObjectiveConquest:Start()
 	
 	-- command post captures
 	OnFinishCapture(
-		function (postPtr)
+		function(postPtr)
 			if self.isComplete then	return end
 			if not self.commandPosts[GetEntityName(postPtr)] then return end
 			
