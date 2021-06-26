@@ -908,7 +908,7 @@ function Load_RPR()
 	
 	print("ME5_RandomSides.Load_RPR(): Loading sounds")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_RPR_NonStreaming.lvl")
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_INDOC_NonStreaming.lvl")
+	-- ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_INDOC_NonStreaming.lvl")
 	
 	print("ME5_RandomSides.Load_RPR(): Loading meshes/textures")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_RPR_Char.lvl")
