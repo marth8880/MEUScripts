@@ -8,6 +8,15 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
+local __SCRIPT_NAME = "tan1n_con";
+local debug = true;
+
+local function PrintLog(...)
+	if debug == true then
+		print("["..__SCRIPT_NAME.."]", unpack(arg));
+	end
+end
+
 -- Create a new MapManager object
 manager = MapManager:New{
 	-- Map-specific details
@@ -106,16 +115,14 @@ function ScriptPostLoad()
    --Setup Timer-- 
 
     timeConsole = CreateTimer("timeConsole")
-
     SetTimerValue(timeConsole, 0.3)
-
     StartTimer(timeConsole)
     OnTimerElapse(
         function(timer)
             SetProperty("turbineconsole", "CurHealth", GetObjectHealth("turbineconsole") + 1)
             DestroyTimer(timer)
         end,
-    timeConsole
+    	timeConsole
     )
 	
 	SetProperty("CP4CON", "NeutralizeTime", 35)
@@ -127,60 +134,12 @@ function ScriptPostLoad()
 	SetProperty("CP7CON", "NeutralizeTime", 35)
 	SetProperty("CP7CON", "CaptureTime", 30)
 	
-	
-	--[[oxygen1Ptr = GetEntityPtr("lvlution_oxygen_fx1")
-	oxygen2Ptr = GetEntityPtr("lvlution_oxygen_fx2")
-	oxygen3Ptr = GetEntityPtr("lvlution_oxygen_fx3")
-	oxygen4Ptr = GetEntityPtr("lvlution_oxygen_fx4")
-	oxygen5Ptr = GetEntityPtr("lvlution_oxygen_fx5")
-	
-	--print("oxygen1Ptr: "..oxygen1Ptr)
-	
-	Oxygen1Node = GetPathPoint("oxygen_path", 3) -- gets the path point
-	Oxygen2Node = GetPathPoint("oxygen_path", 0)
-	Oxygen3Node = GetPathPoint("oxygen_path", 4)
-	Oxygen4Node = GetPathPoint("oxygen_path", 2)
-	Oxygen5Node = GetPathPoint("oxygen_path", 1)
-	OxygenDummyNode = GetPathPoint("oxygen_path", 5)
-	
-	SetEntityMatrix( oxygen1Ptr, OxygenDummyNode ) -- hide Levolution oxygen vacuum pfx
-	SetEntityMatrix( oxygen2Ptr, OxygenDummyNode )
-	SetEntityMatrix( oxygen3Ptr, OxygenDummyNode )
-	SetEntityMatrix( oxygen4Ptr, OxygenDummyNode )
-	SetEntityMatrix( oxygen5Ptr, OxygenDummyNode )]]
-	
-	--SetClassProperty("lvlution_prop_oxygen", "MaxParticles", "0")
-	--SetClassProperty("lvlution_prop_oxygen1", "MaxParticles", "0")
-	--SetClassProperty("lvlution_prop_oxygen2", "MaxParticles", "0")
-	
-	--[[KillObject(oxygen1Ptr)
-	KillObject(oxygen2Ptr)
-	KillObject(oxygen3Ptr)
-	KillObject(oxygen4Ptr)
-	KillObject(oxygen5Ptr)
-	DeleteEntity("lvlution_oxygen1")
-	DeleteEntity("lvlution_oxygen2")
-	DeleteEntity("lvlution_oxygen3")
-	DeleteEntity("lvlution_oxygen4")
-	DeleteEntity("lvlution_oxygen5")]]
-	
-	--[[oxygenPfx = CreateEffect("lvlution_oxygen_vacuum")
-	oxygen1Pos = GetEntityMatrix(oxygen1Ptr)
-	oxygen2Pos = GetEntityMatrix(oxygen2Ptr)
-	oxygen3Pos = GetEntityMatrix(oxygen3Ptr)
-	oxygen4Pos = GetEntityMatrix(oxygen4Ptr)
-	oxygen5Pos = GetEntityMatrix(oxygen5Ptr)
-	AttachEffectToMatrix(oxygenPfx, Oxygen1Node)
-	AttachEffectToMatrix(oxygenPfx, Oxygen2Node)
-	AttachEffectToMatrix(oxygenPfx, Oxygen3Node)
-	AttachEffectToMatrix(oxygenPfx, Oxygen4Node)
-	AttachEffectToMatrix(oxygenPfx, Oxygen5Node)]]
+	stageDelayMultiplier = 1.0
 	
 	if not ScriptCB_InMultiplayer() then
-		mathTimeDestruct = math.random(60,360)
-	else
-		mathTimeDestruct = 200
+		stageDelayMultiplier = math.random(8, 12) / 10
 	end
+	PrintLog("stageDelayMultiplier = ", stageDelayMultiplier)
 	
 	KillObject("lvlution_corridor_02_a_masseffectfield")
 	KillObject("lvlution_oxygen_fx1")
@@ -217,17 +176,25 @@ function ScriptPostLoad()
 	UnblockPlanningGraphArcs("Connection60")
 	UnblockPlanningGraphArcs("test3")
 	
-	local levolutionStream = nil
+	levolutionStream = nil
+	lvlutionStartDelay = 60 * stageDelayMultiplier
+	lvlutionStages = {
+		[1] = { vo = "tan_vo_engines_disabled", msg = "level.tan1.events.engines_disabled", timeTilNext = 40.0 * stageDelayMultiplier },
+		[2] = { vo = "tan_vo_enemy_approaching", msg = "level.tan1.events.enemy_approaching", timeTilNext = 35.0 * stageDelayMultiplier },
+		[3] = { vo = "tan_vo_enemy_charging", msg = "level.tan1.events.enemy_charging", timeTilNext = 30.0 * stageDelayMultiplier },
+		[4] = { vo = "tan_vo_hull_breached", msg = "level.tan1.events.hull_breached", timeTilNext = 10.0 },
+		[5] = { vo = "tan_vo_hull_sealed", msg = "level.tan1.events.hull_sealed", timeTilNext = 0.0 },
+	}
+	lvlutionCurStage = 0
 	
-	   --Setup Levolution Timer - Pre-Destruction-- 
+	--Setup Levolution Timer - Pre-Destruction-- 
 	
 	timePreDestruction = CreateTimer("timePreDestruction")
 	SetTimerValue(timePreDestruction, 0.2)
 	StartTimer(timePreDestruction)
-	--ShowTimer(timePreDestruction)
 	OnTimerElapse(
 		function(timer)
-				print("tan1n_con: Initiating Levolution pre-setup")
+			print("tan1n_con: Initiating Levolution pre-setup")
 			--RemoveRegion("lvlution_death1")
 			--RemoveRegion("lvlution_death2")
 			--RemoveRegion("lvlution_death3")
@@ -247,222 +214,204 @@ function ScriptPostLoad()
 			
 			DestroyTimer(timer)
 		end,
-	timePreDestruction
+		timePreDestruction
 	)
 	
-	   --Setup Levolution Timer - Hull Breach Seal Finished-- 
+	timerLvlutionStartDelay = CreateTimer("timerLvlutionStartDelay")
+	timerLvlutionNextStage = CreateTimer("timerLvlutionNextStage")
+	timerLvlutionNextStageElapse = nil
 	
-	timeCorridorSealFinished = CreateTimer("timeCorridorSealFinished")
-	SetTimerValue(timeCorridorSealFinished, 7)	-- hull_sealed.wav is 5 seconds long, give a little extra time because reasons
-	--ShowTimer(timeCorridorSealFinished)
-	OnTimerElapse(
+	SetTimerValue(timerLvlutionStartDelay, lvlutionStartDelay)
+	StartTimer(timerLvlutionStartDelay)
+	ShowTimer(timerLvlutionStartDelay)
+	timerLvlutionStartDelayElapse = OnTimerElapse(
 		function(timer)
-			StopAudioStream(levolutionStream, 1)
-			OpenVoiceStreams()
+			-- Start the first stage
+			StartNextStage()
 			
-			DestroyTimer(timer)
+			DestroyTimer(timerLvlutionStartDelay)
+			ReleaseTimerElapse(timerLvlutionStartDelayElapse)
+			timerLvlutionStartDelayElapse = nil
 		end,
-	timeCorridorSealFinished
+		timerLvlutionStartDelay
 	)
-	
-	   --Setup Levolution Timer - Hull Breach Seal-- 
-
-	timeCorridorSeal = CreateTimer("timeCorridorSeal")
-	SetTimerValue(timeCorridorSeal, 10)
-	--ShowTimer(timeCorridorSeal)
-	OnTimerElapse(
-		function(timer)
-				print("tan1n_con: Initiating Levolution corridor hull breach seal")
-			ScriptCB_SndPlaySound("tan_vo_hull_sealed")
-			ShowMessageText("level.tan1.events.hull_sealed")
-			--ShowMessageText("level.tan1.events.doors_unlocked")
-			RespawnObject("lvlution_corridor_02_a_masseffectfield")
-			--KillObject("lvlution_bldg_spacevacuum")
-			KillObject("lvlution_bldg_spacevacuum1")
-			KillObject("lvlution_bldg_spacevacuum2")
-			KillObject("lvlution_bldg_spacevacuum3")
-			KillObject("lvlution_bldg_spacevacuum4")
-			--KillObject("lvlution_bldg_spacevacuum5")
-			KillObject("lvlution_bldg_spacevacuum6")
-			KillObject("lvlution_bldg_spacevacuum7")
-			KillObject("lvlution_bldg_spacevacuum8")
-			KillObject("lvlution_bldg_spacevacuum9")
-			KillObject("lvlution_bldg_spacevacuum10")
-			KillObject("lvlution_bldg_spacevacuum11")
-			KillObject("lvlution_bldg_spacevacuum12")
-			KillObject("lvlution_oxygen_fx1")
-			KillObject("lvlution_oxygen_fx2")
-			KillObject("lvlution_oxygen_fx3")
-			KillObject("lvlution_oxygen_fx4")
-			KillObject("lvlution_oxygen_fx5")
-			--[[SetEntityMatrix( "lvlution_oxygen1", OxygenDummyNode )
-			SetEntityMatrix( "lvlution_oxygen2", OxygenDummyNode )
-			SetEntityMatrix( "lvlution_oxygen3", OxygenDummyNode )
-			SetEntityMatrix( "lvlution_oxygen4", OxygenDummyNode )
-			SetEntityMatrix( "lvlution_oxygen5", OxygenDummyNode )]]
-			SetProperty("blastbar1", "IsLocked", "0")
-			SetProperty("blasteng2", "IsLocked", "0")
-			SetProperty("blasteng1", "IsLocked", "0")
-			SetProperty("lpodroom1", "IsLocked", "0")
-			SetProperty("engine01", "IsLocked", "0")
-			SetProperty("lpodroom2", "IsLocked", "0")
-			SetProperty("techroom1", "IsLocked", "0")
-			SetProperty("tan4_prop_door5", "IsLocked", "0")
-			SetProperty("tan4_prop_door1", "IsLocked", "0")
-			SetProperty("tan4_prop_door4", "IsLocked", "0")
-			SetProperty("tan4_prop_door_minus_darkside", "IsLocked", "0")
-			SetProperty("lpodroom3", "IsLocked", "0")
-			SetProperty("techroom2", "IsLocked", "0")
-			SetProperty("rpodroom2", "IsLocked", "0")
-			SetProperty("rpodroom1", "IsLocked", "0")
-			SetProperty("rpodroom1f", "IsLocked", "0")
-			DisableBarriers("door1")
-			DisableBarriers("door2")
-			DisableBarriers("door3")
-			DisableBarriers("door4")
-			DisableBarriers("door5")
-			DisableBarriers("door6")
-			DisableBarriers("door7")
-			DisableBarriers("door8")
-			DisableBarriers("door9")
-			DisableBarriers("door10")
-			DisableBarriers("door11")
-			DisableBarriers("door12")
-			DisableBarriers("door13")
-			UnblockPlanningGraphArcs("Connection134")
-			UnblockPlanningGraphArcs("group2")
-			UnblockPlanningGraphArcs("Connection89")
-			UnblockPlanningGraphArcs("Connection52")
-			UnblockPlanningGraphArcs("Connection82")
-			UnblockPlanningGraphArcs("Connection104")
-			UnblockPlanningGraphArcs("test2")
-			UnblockPlanningGraphArcs("Connection49")
-			UnblockPlanningGraphArcs("test1")
-			UnblockPlanningGraphArcs("group1")
-			UnblockPlanningGraphArcs("Connection11")
-			UnblockPlanningGraphArcs("group3")
-			UnblockPlanningGraphArcs("Connection60")
-			UnblockPlanningGraphArcs("test3")
-			
-			StartTimer(timeCorridorSealFinished)
-			DestroyTimer(timer)
-		end,
-	timeCorridorSeal
-	)
-	
-	   --Setup Levolution Timer - Destruction-- 
-
-	timeCorridorDestruct = CreateTimer("timeCorridorDestruct")
-	SetTimerValue(timeCorridorDestruct, mathTimeDestruct)	-- 20
-	StartTimer(timeCorridorDestruct)
-	--ShowTimer(timeCorridorDestruct)
-	OnTimerElapse(
-		function(timer)
-			print("tan1n_con: Initiating Levolution corridor destruction")
-			
-			-- Stop the low health sound if it's playing
-			if LH_bIsLowHealthSoundPlaying == true then
-				StopLowHealthSound(true)
-			end
-			
-			CloseVoiceStreams()
-			levolutionStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_TAN_Streaming.lvl",  "tan")	-- levolution streams
-			ScriptCB_SndPlaySound("tan_vo_hull_breached")
-			
-			ShowMessageText("level.tan1.events.hull_breached")
-			--ShowMessageText("level.tan1.events.doors_locked")
-			KillObject("lvlution_corridor_02_a")
-			KillObject("lvlution_oxygen_rumble")
-			SetProperty("lvlution_weaponrecharge5", "AddHealth", 0)
-			SetProperty("blastbar1", "IsLocked", "1")
-			SetProperty("blasteng2", "IsLocked", "1")
-			SetProperty("blasteng1", "IsLocked", "1")
-			SetProperty("lpodroom1", "IsLocked", "1")
-			SetProperty("engine01", "IsLocked", "1")
-			SetProperty("lpodroom2", "IsLocked", "1")
-			SetProperty("techroom1", "IsLocked", "1")
-			SetProperty("tan4_prop_door5", "IsLocked", "1")
-			SetProperty("tan4_prop_door1", "IsLocked", "1")
-			SetProperty("tan4_prop_door4", "IsLocked", "1")
-			SetProperty("tan4_prop_door_minus_darkside", "IsLocked", "1")
-			SetProperty("lpodroom3", "IsLocked", "1")
-			SetProperty("techroom2", "IsLocked", "1")
-			SetProperty("rpodroom2", "IsLocked", "1")
-			SetProperty("rpodroom1", "IsLocked", "1")
-			SetProperty("rpodroom1f", "IsLocked", "1")
-			KillObject("lvlution_weaponrecharge5")
-			AddDeathRegion("lvlution_death1")
-			AddDeathRegion("lvlution_death2")
-			AddDeathRegion("lvlution_death3")
-			--RespawnObject("lvlution_bldg_spacevacuum")
-			RespawnObject("lvlution_bldg_spacevacuum1")
-			RespawnObject("lvlution_bldg_spacevacuum2")
-			RespawnObject("lvlution_bldg_spacevacuum3")
-			RespawnObject("lvlution_bldg_spacevacuum4")
-			--RespawnObject("lvlution_bldg_spacevacuum5")
-			RespawnObject("lvlution_bldg_spacevacuum6")
-			RespawnObject("lvlution_bldg_spacevacuum7")
-			RespawnObject("lvlution_bldg_spacevacuum8")
-			RespawnObject("lvlution_bldg_spacevacuum9")
-			RespawnObject("lvlution_bldg_spacevacuum10")
-			RespawnObject("lvlution_bldg_spacevacuum11")
-			RespawnObject("lvlution_bldg_spacevacuum12")
-			RespawnObject("lvlution_oxygen_fx1")
-			RespawnObject("lvlution_oxygen_fx2")
-			RespawnObject("lvlution_oxygen_fx3")
-			RespawnObject("lvlution_oxygen_fx4")
-			RespawnObject("lvlution_oxygen_fx5")
-			EnableBarriers("door1")
-			EnableBarriers("door2")
-			EnableBarriers("door3")
-			EnableBarriers("door4")
-			EnableBarriers("door5")
-			EnableBarriers("door6")
-			EnableBarriers("door7")
-			EnableBarriers("door8")
-			EnableBarriers("door9")
-			EnableBarriers("door10")
-			EnableBarriers("door11")
-			EnableBarriers("door12")
-			EnableBarriers("door13")
-			BlockPlanningGraphArcs("Connection134")
-			BlockPlanningGraphArcs("group2")
-			BlockPlanningGraphArcs("Connection89")
-			BlockPlanningGraphArcs("Connection52")
-			BlockPlanningGraphArcs("Connection82")
-			BlockPlanningGraphArcs("Connection104")
-			BlockPlanningGraphArcs("test2")
-			BlockPlanningGraphArcs("Connection49")
-			BlockPlanningGraphArcs("test1")
-			BlockPlanningGraphArcs("group1")
-			BlockPlanningGraphArcs("Connection11")
-			BlockPlanningGraphArcs("group3")
-			BlockPlanningGraphArcs("Connection60")
-			BlockPlanningGraphArcs("test3")
-			--[[SetProperty("lvlution_oxygen_fx1", "AttachEffect", "lvlution_oxygen_vacuum")
-			SetProperty("lvlution_oxygen_fx1", "AttachToHardPoint", "hp_attach")
-			SetProperty("lvlution_oxygen_fx2", "AttachEffect", "lvlution_oxygen_vacuum")
-			SetProperty("lvlution_oxygen_fx2", "AttachToHardPoint", "hp_attach")
-			SetProperty("lvlution_oxygen_fx3", "AttachEffect", "lvlution_oxygen_vacuum")
-			SetProperty("lvlution_oxygen_fx3", "AttachToHardPoint", "hp_attach")
-			SetProperty("lvlution_oxygen_fx4", "AttachEffect", "lvlution_oxygen_vacuum")
-			SetProperty("lvlution_oxygen_fx4", "AttachToHardPoint", "hp_attach")
-			SetProperty("lvlution_oxygen_fx5", "AttachEffect", "lvlution_oxygen_vacuum")
-			SetProperty("lvlution_oxygen_fx5", "AttachToHardPoint", "hp_attach")
-			SetEntityMatrix( "lvlution_oxygen1", Oxygen1Node )
-			SetEntityMatrix( "lvlution_oxygen2", Oxygen2Node )
-			SetEntityMatrix( "lvlution_oxygen3", Oxygen3Node )
-			SetEntityMatrix( "lvlution_oxygen4", Oxygen4Node )
-			SetEntityMatrix( "lvlution_oxygen5", Oxygen5Node )]]
-			
-			StartTimer(timeCorridorSeal)
-			--ShowTimer(timeCorridorSeal)
-			DestroyTimer(timer)
-		end,
-	timeCorridorDestruct
-	)
-	
     
+end
+
+function StartNextStage()
+	lvlutionCurStage = lvlutionCurStage + 1
+	
+	if lvlutionCurStage <= table.getn(lvlutionStages) then
+		PrintLog("Starting lvlution stage " .. lvlutionCurStage)
+		if debug then
+			tprint(lvlutionStages[lvlutionCurStage])
+		end
+		
+		-- Stop the low health sound if it's playing
+		if LH_bIsLowHealthSoundPlaying == true then
+			StopLowHealthSound(true)
+		end
+		
+		ScriptCB_SndPlaySound(lvlutionStages[lvlutionCurStage].vo)
+		ShowMessageText(lvlutionStages[lvlutionCurStage].msg)
+	
+		if lvlutionCurStage == 4 then
+			CorridorDestruct()
+		elseif lvlutionCurStage == 5 then
+			CorridorSeal()
+		end
+		
+		if lvlutionCurStage < table.getn(lvlutionStages) then
+			SetTimerValue(timerLvlutionNextStage, lvlutionStages[lvlutionCurStage].timeTilNext)
+			StartTimer(timerLvlutionNextStage)
+			ShowTimer(timerLvlutionNextStage)
+			timerLvlutionNextStageElapse = OnTimerElapse(
+				function(timer)
+					StartNextStage()
+					
+					ReleaseTimerElapse(timerLvlutionNextStageElapse)
+				end,
+				timerLvlutionNextStage
+			)
+		end
+		
+	end
+end
+
+function CorridorDestruct()
+	KillObject("lvlution_corridor_02_a")
+	KillObject("lvlution_oxygen_rumble")
+	SetProperty("lvlution_weaponrecharge5", "AddHealth", 0)
+	SetProperty("blastbar1", "IsLocked", "1")
+	SetProperty("blasteng2", "IsLocked", "1")
+	SetProperty("blasteng1", "IsLocked", "1")
+	SetProperty("lpodroom1", "IsLocked", "1")
+	SetProperty("engine01", "IsLocked", "1")
+	SetProperty("lpodroom2", "IsLocked", "1")
+	SetProperty("techroom1", "IsLocked", "1")
+	SetProperty("tan4_prop_door5", "IsLocked", "1")
+	SetProperty("tan4_prop_door1", "IsLocked", "1")
+	SetProperty("tan4_prop_door4", "IsLocked", "1")
+	SetProperty("tan4_prop_door_minus_darkside", "IsLocked", "1")
+	SetProperty("lpodroom3", "IsLocked", "1")
+	SetProperty("techroom2", "IsLocked", "1")
+	SetProperty("rpodroom2", "IsLocked", "1")
+	SetProperty("rpodroom1", "IsLocked", "1")
+	SetProperty("rpodroom1f", "IsLocked", "1")
+	KillObject("lvlution_weaponrecharge5")
+	AddDeathRegion("lvlution_death1")
+	AddDeathRegion("lvlution_death2")
+	AddDeathRegion("lvlution_death3")
+	--RespawnObject("lvlution_bldg_spacevacuum")
+	RespawnObject("lvlution_bldg_spacevacuum1")
+	RespawnObject("lvlution_bldg_spacevacuum2")
+	RespawnObject("lvlution_bldg_spacevacuum3")
+	RespawnObject("lvlution_bldg_spacevacuum4")
+	--RespawnObject("lvlution_bldg_spacevacuum5")
+	RespawnObject("lvlution_bldg_spacevacuum6")
+	RespawnObject("lvlution_bldg_spacevacuum7")
+	RespawnObject("lvlution_bldg_spacevacuum8")
+	RespawnObject("lvlution_bldg_spacevacuum9")
+	RespawnObject("lvlution_bldg_spacevacuum10")
+	RespawnObject("lvlution_bldg_spacevacuum11")
+	RespawnObject("lvlution_bldg_spacevacuum12")
+	RespawnObject("lvlution_oxygen_fx1")
+	RespawnObject("lvlution_oxygen_fx2")
+	RespawnObject("lvlution_oxygen_fx3")
+	RespawnObject("lvlution_oxygen_fx4")
+	RespawnObject("lvlution_oxygen_fx5")
+	EnableBarriers("door1")
+	EnableBarriers("door2")
+	EnableBarriers("door3")
+	EnableBarriers("door4")
+	EnableBarriers("door5")
+	EnableBarriers("door6")
+	EnableBarriers("door7")
+	EnableBarriers("door8")
+	EnableBarriers("door9")
+	EnableBarriers("door10")
+	EnableBarriers("door11")
+	EnableBarriers("door12")
+	EnableBarriers("door13")
+	BlockPlanningGraphArcs("Connection134")
+	BlockPlanningGraphArcs("group2")
+	BlockPlanningGraphArcs("Connection89")
+	BlockPlanningGraphArcs("Connection52")
+	BlockPlanningGraphArcs("Connection82")
+	BlockPlanningGraphArcs("Connection104")
+	BlockPlanningGraphArcs("test2")
+	BlockPlanningGraphArcs("Connection49")
+	BlockPlanningGraphArcs("test1")
+	BlockPlanningGraphArcs("group1")
+	BlockPlanningGraphArcs("Connection11")
+	BlockPlanningGraphArcs("group3")
+	BlockPlanningGraphArcs("Connection60")
+	BlockPlanningGraphArcs("test3")
+end
+
+function CorridorSeal()
+	RespawnObject("lvlution_corridor_02_a_masseffectfield")
+	--KillObject("lvlution_bldg_spacevacuum")
+	KillObject("lvlution_bldg_spacevacuum1")
+	KillObject("lvlution_bldg_spacevacuum2")
+	KillObject("lvlution_bldg_spacevacuum3")
+	KillObject("lvlution_bldg_spacevacuum4")
+	--KillObject("lvlution_bldg_spacevacuum5")
+	KillObject("lvlution_bldg_spacevacuum6")
+	KillObject("lvlution_bldg_spacevacuum7")
+	KillObject("lvlution_bldg_spacevacuum8")
+	KillObject("lvlution_bldg_spacevacuum9")
+	KillObject("lvlution_bldg_spacevacuum10")
+	KillObject("lvlution_bldg_spacevacuum11")
+	KillObject("lvlution_bldg_spacevacuum12")
+	KillObject("lvlution_oxygen_fx1")
+	KillObject("lvlution_oxygen_fx2")
+	KillObject("lvlution_oxygen_fx3")
+	KillObject("lvlution_oxygen_fx4")
+	KillObject("lvlution_oxygen_fx5")
+	SetProperty("blastbar1", "IsLocked", "0")
+	SetProperty("blasteng2", "IsLocked", "0")
+	SetProperty("blasteng1", "IsLocked", "0")
+	SetProperty("lpodroom1", "IsLocked", "0")
+	SetProperty("engine01", "IsLocked", "0")
+	SetProperty("lpodroom2", "IsLocked", "0")
+	SetProperty("techroom1", "IsLocked", "0")
+	SetProperty("tan4_prop_door5", "IsLocked", "0")
+	SetProperty("tan4_prop_door1", "IsLocked", "0")
+	SetProperty("tan4_prop_door4", "IsLocked", "0")
+	SetProperty("tan4_prop_door_minus_darkside", "IsLocked", "0")
+	SetProperty("lpodroom3", "IsLocked", "0")
+	SetProperty("techroom2", "IsLocked", "0")
+	SetProperty("rpodroom2", "IsLocked", "0")
+	SetProperty("rpodroom1", "IsLocked", "0")
+	SetProperty("rpodroom1f", "IsLocked", "0")
+	DisableBarriers("door1")
+	DisableBarriers("door2")
+	DisableBarriers("door3")
+	DisableBarriers("door4")
+	DisableBarriers("door5")
+	DisableBarriers("door6")
+	DisableBarriers("door7")
+	DisableBarriers("door8")
+	DisableBarriers("door9")
+	DisableBarriers("door10")
+	DisableBarriers("door11")
+	DisableBarriers("door12")
+	DisableBarriers("door13")
+	UnblockPlanningGraphArcs("Connection134")
+	UnblockPlanningGraphArcs("group2")
+	UnblockPlanningGraphArcs("Connection89")
+	UnblockPlanningGraphArcs("Connection52")
+	UnblockPlanningGraphArcs("Connection82")
+	UnblockPlanningGraphArcs("Connection104")
+	UnblockPlanningGraphArcs("test2")
+	UnblockPlanningGraphArcs("Connection49")
+	UnblockPlanningGraphArcs("test1")
+	UnblockPlanningGraphArcs("group1")
+	UnblockPlanningGraphArcs("Connection11")
+	UnblockPlanningGraphArcs("group3")
+	UnblockPlanningGraphArcs("Connection60")
+	UnblockPlanningGraphArcs("test3")
 end
 
 function destturbine()
@@ -554,7 +503,6 @@ function ScriptInit()
 	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_TAN_Streaming.lvl",  "tan1")	-- ambient streams
-	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_TAN_Streaming.lvl",  "tan")	-- levolution streams
 	
 	SoundFX()
 

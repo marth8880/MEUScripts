@@ -867,6 +867,8 @@ function OpenVoiceStreams(bCalledFromLowHealth)
 	-- Append campaign VOs
 	if world == "eur" then
 		AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "eur_objective_vo_slow", gVoiceStream)
+	elseif world == "tan1" then
+		AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "tan_objective_vo_slow", gVoiceStream)
 	end
 	
 	AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "global_objective_vo_quick", gVoiceStream)
@@ -884,6 +886,7 @@ function CloseVoiceStreams()
 	print("ME5_AudioFunctions.CloseVoiceStreams(): Entered")
 	
 	if gVoiceStream ~= nil then
+		print("ME5_AudioFunctions.CloseVoiceStreams(): gVoiceStream index:", gVoiceStream)
 		StopAudioStream(gVoiceStream, 1)
 		gVoiceStream = nil
 	else
