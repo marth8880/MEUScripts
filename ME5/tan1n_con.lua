@@ -223,7 +223,7 @@ function ScriptPostLoad()
 	
 	SetTimerValue(timerLvlutionStartDelay, lvlutionStartDelay)
 	StartTimer(timerLvlutionStartDelay)
-	ShowTimer(timerLvlutionStartDelay)
+	-- ShowTimer(timerLvlutionStartDelay)
 	timerLvlutionStartDelayElapse = OnTimerElapse(
 		function(timer)
 			-- Start the first stage
@@ -264,7 +264,7 @@ function StartNextStage()
 		if lvlutionCurStage < table.getn(lvlutionStages) then
 			SetTimerValue(timerLvlutionNextStage, lvlutionStages[lvlutionCurStage].timeTilNext)
 			StartTimer(timerLvlutionNextStage)
-			ShowTimer(timerLvlutionNextStage)
+			-- ShowTimer(timerLvlutionNextStage)
 			timerLvlutionNextStageElapse = OnTimerElapse(
 				function(timer)
 					StartNextStage()
