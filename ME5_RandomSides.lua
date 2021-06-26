@@ -1016,7 +1016,7 @@ function Setup_SSVxGTH_xxs()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 1)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 1)
@@ -1060,7 +1060,7 @@ function Setup_SSVxCOL_xxs()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 2)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 1)
@@ -1108,7 +1108,7 @@ function Setup_EVGxGTH_xxs()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 1)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 1)
@@ -1153,7 +1153,7 @@ function Setup_EVGxCOL_xxs()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 2)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 1)
@@ -1198,7 +1198,7 @@ function Setup_SSVxRPR_xxs()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 1)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 1)
@@ -1211,7 +1211,7 @@ function Setup_SSVxRPR_xxs()
 	
 	SwarmerTeam = 4
 	
-	SetTeamName(SwarmerTeam, CIS)
+	SetTeamName(SwarmerTeam, "cis")
 	SetTeamIcon(SwarmerTeam, "cis_icon")
 	SetUnitCount(SwarmerTeam, NUM_RAVAGERS * NUM_SWARMERS_PER_RAVAGER)
 	AddUnitClass(SwarmerTeam, "rpr_inf_swarmer", NUM_RAVAGERS * NUM_SWARMERS_PER_RAVAGER)
@@ -1260,7 +1260,7 @@ function Setup_SSVxGTH_xs()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 2)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 2)
@@ -1304,7 +1304,7 @@ function Setup_SSVxCOL_xs()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 2)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 1)
@@ -1352,7 +1352,7 @@ function Setup_EVGxGTH_xs()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 1)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 1)
@@ -1397,7 +1397,7 @@ function Setup_EVGxCOL_xs()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 2)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 1)
@@ -1515,7 +1515,7 @@ function Setup_SSVxRPR_xs()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 2)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 2)
@@ -1528,7 +1528,7 @@ function Setup_SSVxRPR_xs()
 	
 	SwarmerTeam = 4
 	
-	SetTeamName(SwarmerTeam, CIS)
+	SetTeamName(SwarmerTeam, "cis")
 	SetTeamIcon(SwarmerTeam, "cis_icon")
 	SetUnitCount(SwarmerTeam, NUM_RAVAGERS * NUM_SWARMERS_PER_RAVAGER)
 	AddUnitClass(SwarmerTeam, "rpr_inf_swarmer", NUM_RAVAGERS * NUM_SWARMERS_PER_RAVAGER)
@@ -1612,7 +1612,7 @@ function Setup_SSVxGTH_sm()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 3)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 3)
@@ -1656,7 +1656,7 @@ function Setup_SSVxCOL_sm()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 3)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 2)
@@ -1704,7 +1704,7 @@ function Setup_EVGxGTH_sm()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 2)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 2)
@@ -1749,7 +1749,7 @@ function Setup_EVGxCOL_sm()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 3)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 2)
@@ -1872,7 +1872,7 @@ function Setup_SSVxRPR_sm()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 3)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 3)
@@ -1885,7 +1885,7 @@ function Setup_SSVxRPR_sm()
 	
 	SwarmerTeam = 4
 	
-	SetTeamName(SwarmerTeam, CIS)
+	SetTeamName(SwarmerTeam, "cis")
 	SetTeamIcon(SwarmerTeam, "cis_icon")
 	SetUnitCount(SwarmerTeam, NUM_RAVAGERS * NUM_SWARMERS_PER_RAVAGER)
 	AddUnitClass(SwarmerTeam, "rpr_inf_swarmer", NUM_RAVAGERS * NUM_SWARMERS_PER_RAVAGER)
@@ -1970,7 +1970,7 @@ function Setup_SSVxGTH_med()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 4)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 4)
@@ -2015,7 +2015,7 @@ function Setup_SSVxCOL_med()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 4)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 3)
@@ -2064,7 +2064,7 @@ function Setup_EVGxGTH_med()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 3)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 3)
@@ -2110,7 +2110,7 @@ function Setup_EVGxCOL_med()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 4)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 3)
@@ -2233,7 +2233,7 @@ function Setup_SSVxRPR_med()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 4)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 4)
@@ -2246,7 +2246,7 @@ function Setup_SSVxRPR_med()
 	
 	SwarmerTeam = 4
 	
-	SetTeamName(SwarmerTeam, CIS)
+	SetTeamName(SwarmerTeam, "cis")
 	SetTeamIcon(SwarmerTeam, "cis_icon")
 	SetUnitCount(SwarmerTeam, NUM_RAVAGERS * NUM_SWARMERS_PER_RAVAGER)
 	AddUnitClass(SwarmerTeam, "rpr_inf_swarmer", NUM_RAVAGERS * NUM_SWARMERS_PER_RAVAGER)
@@ -2331,7 +2331,7 @@ function Setup_SSVxGTH_lg()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 6)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 6)
@@ -2376,7 +2376,7 @@ function Setup_SSVxCOL_lg()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 6)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 4)
@@ -2425,7 +2425,7 @@ function Setup_EVGxGTH_lg()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 4)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 4)
@@ -2471,7 +2471,7 @@ function Setup_EVGxCOL_lg()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 6)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 4)
@@ -2594,7 +2594,7 @@ function Setup_SSVxRPR_lg()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 5)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 5)
@@ -2607,7 +2607,7 @@ function Setup_SSVxRPR_lg()
 	
 	SwarmerTeam = 4
 	
-	SetTeamName(SwarmerTeam, CIS)
+	SetTeamName(SwarmerTeam, "cis")
 	SetTeamIcon(SwarmerTeam, "cis_icon")
 	SetUnitCount(SwarmerTeam, NUM_RAVAGERS * NUM_SWARMERS_PER_RAVAGER)
 	AddUnitClass(SwarmerTeam, "rpr_inf_swarmer", NUM_RAVAGERS * NUM_SWARMERS_PER_RAVAGER)
@@ -2692,7 +2692,7 @@ function Setup_SSVxGTH_xl()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 7)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 7)
@@ -2737,7 +2737,7 @@ function Setup_SSVxCOL_xl()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 8)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 5)
@@ -2786,7 +2786,7 @@ function Setup_EVGxGTH_xl()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 5)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 5)
@@ -2832,7 +2832,7 @@ function Setup_EVGxCOL_xl()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 8)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 5)
@@ -2877,7 +2877,7 @@ function Setup_SSVxRPR_xl()
 	}
 	
 	if HuskTeam then
-		SetTeamName(HuskTeam, CIS)
+		SetTeamName(HuskTeam, "cis")
 		SetTeamIcon(HuskTeam, "cis_icon")
 		SetUnitCount(HuskTeam, 6)
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 6)
@@ -2890,7 +2890,7 @@ function Setup_SSVxRPR_xl()
 	
 	SwarmerTeam = 4
 	
-	SetTeamName(SwarmerTeam, CIS)
+	SetTeamName(SwarmerTeam, "cis")
 	SetTeamIcon(SwarmerTeam, "cis_icon")
 	SetUnitCount(SwarmerTeam, NUM_RAVAGERS * NUM_SWARMERS_PER_RAVAGER)
 	AddUnitClass(SwarmerTeam, "rpr_inf_swarmer", NUM_RAVAGERS * NUM_SWARMERS_PER_RAVAGER)
