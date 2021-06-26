@@ -39,10 +39,13 @@ function ObjectiveTDM:GameOptionsTimeLimitUp()
 	local team1pts = GetTeamPoints(1)
 	local team2pts = GetTeamPoints(2)
 	if ( team1pts > team2pts ) then
+		ScriptCB_SndBusFade("music", 0.0, 1.0)
 		MissionVictory(1)
 	elseif ( team1pts < team2pts ) then
+		ScriptCB_SndBusFade("music", 0.0, 1.0)
 		MissionVictory(2)
 	else	
+		ScriptCB_SndBusFade("music", 0.0, 1.0)
 		--tied, so victory for both
 		MissionVictory({1,2})
 	end

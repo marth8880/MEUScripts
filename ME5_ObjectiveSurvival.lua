@@ -331,8 +331,10 @@ function ObjectiveSurvival:Start()
 			function(timer)
 				local team1pts = GetReinforcementCount(1)
 				if team1pts > 0 then
+					ScriptCB_SndBusFade("music", 0.0, 1.0)
 					MissionVictory(1)
 				else
+					ScriptCB_SndBusFade("music", 0.0, 1.0)
 					MissionVictory(2)
 				end
 				

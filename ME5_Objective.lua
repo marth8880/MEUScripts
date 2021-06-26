@@ -412,6 +412,7 @@ function Objective:Complete(winningTeam)
 					StartTimer("missionEndingNarrationTimer")
 					OnTimerElapse(
 						function(timer)
+							ScriptCB_SndBusFade("music", 0.0, 1.0)
 							-- FINISH HIM.
 							MissionVictory(winningTeam)
 							DestroyTimer("missionEndingNarrationTimer")
@@ -419,6 +420,7 @@ function Objective:Complete(winningTeam)
 					"missionEndingNarrationTimer"
 					)
 				else
+					ScriptCB_SndBusFade("music", 0.0, 1.0)
 					MissionVictory(winningTeam)
 				end
 			end

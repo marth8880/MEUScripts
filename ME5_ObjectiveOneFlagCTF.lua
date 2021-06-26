@@ -57,6 +57,7 @@ function ObjectiveOneFlagCTF:GameOptionsTimeLimitUp()
 	elseif ( teamATTpts < teamDEFpts ) then
 		self:Complete(teamDEF)
 	else	
+		ScriptCB_SndBusFade("music", 0.0, 1.0)
 		--tied, so victory for both
 		MissionVictory({1,2})
 	end

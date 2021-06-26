@@ -295,6 +295,7 @@ function MultiObjectiveContainer:StartVictoryTimer(winningTeam)
 						end
 					end
 					
+					ScriptCB_SndBusFade("music", 0.0, 1.0)
 					MissionVictory(self.winningTeam)
 					StopTimer(self.victoryTimer)
 					ReleaseTimerElapse(self.victoryDelayTimerResponse)					
@@ -307,6 +308,7 @@ function MultiObjectiveContainer:StartVictoryTimer(winningTeam)
 			self.victoryTimer
 			)
 	else
+		ScriptCB_SndBusFade("music", 0.0, 1.0)
 		MissionVictory(self.winningTeam)
 	end
 end

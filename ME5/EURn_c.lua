@@ -2501,6 +2501,7 @@ function ScriptPostLoad()
 							ReleaseTimerElapse(demoTimerElapse)
 							DestroyTimer(demoTimer)
 							
+							ScriptCB_SndBusFade("music", 0.0, 1.0)
 							MissionVictory(ATT)
 						end,
 					"demoTimer"
