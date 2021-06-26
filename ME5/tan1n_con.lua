@@ -86,7 +86,7 @@ function ScriptPostLoad()
     KillObject("blastdoor")
     DisableBarriers("barracks")
     DisableBarriers("liea")
-    SetMapNorthAngle(180)
+    -- SetMapNorthAngle(180)
     
 -- Turbine Stuff -- 
     BlockPlanningGraphArcs("turbine")
