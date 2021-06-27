@@ -98,7 +98,7 @@ end
 -- ScriptInit
 ---------------------------------------------------------------------------
 function ScriptInit()
-	StealArtistHeap(1150*1024)
+	StealArtistHeap(4096*1024)
 	
 	-- Designers, these two lines *MUST* be first.
 	SetPS2ModelMemory(2460000)
@@ -129,21 +129,6 @@ function ScriptInit()
 	manager:Proc_ScriptInit_SideSetup()
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_s_END_Streaming.lvl;end1n")
-	
-	--[[	Ewoks
-	ReadDataFile("SIDE\\ewk.lvl",
-				"ewk_inf_basic")
-	
-	SetTeamName(3, "locals")
-	AddUnitClass(3, "ewk_inf_trooper", 3)
-	AddUnitClass(3, "ewk_inf_repair", 3)
-	SetUnitCount(3, 6)
-	
-	SetTeamAsFriend(3,ATT)
-	SetTeamAsEnemy(3,DEF)
-	SetTeamAsFriend(ATT, 3)
-	SetTeamAsEnemy(DEF, 3)
-	--]]
 
 	--	Level Stats
 	ClearWalkers()
