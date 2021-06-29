@@ -55,14 +55,9 @@ manager = MapManager:New{
 -- Initialize the MapManager
 manager:Init()
 
--- Randomize which team is ATT/DEF
-if not ScriptCB_InMultiplayer() then
-	CIS = math.random(1,2)
-	REP = (3 - CIS)
-else
-	REP = 2
-	CIS = 1
-end
+-- No randomizing on this map!
+REP = 1
+CIS = 2
 
 HuskTeam = 3
 
@@ -136,9 +131,9 @@ function ScriptPostLoad()
 	
 	stageDelayMultiplier = 1.0
 	
-	if not ScriptCB_InMultiplayer() then
-		stageDelayMultiplier = math.random(8, 12) / 10
-	end
+	-- if not ScriptCB_InMultiplayer() then
+	-- 	stageDelayMultiplier = math.random(8, 12) / 10
+	-- end
 	PrintLog("stageDelayMultiplier = ", stageDelayMultiplier)
 	
 	KillObject("lvlution_corridor_02_a_masseffectfield")
@@ -177,11 +172,11 @@ function ScriptPostLoad()
 	UnblockPlanningGraphArcs("test3")
 	
 	levolutionStream = nil
-	lvlutionStartDelay = 60 * stageDelayMultiplier
+	lvlutionStartDelay = 1 * stageDelayMultiplier
 	lvlutionStages = {
-		[1] = { vo = "tan_vo_engines_disabled", msg = "level.tan1.events.engines_disabled", timeTilNext = 40.0 * stageDelayMultiplier },
-		[2] = { vo = "tan_vo_enemy_approaching", msg = "level.tan1.events.enemy_approaching", timeTilNext = 35.0 * stageDelayMultiplier },
-		[3] = { vo = "tan_vo_enemy_charging", msg = "level.tan1.events.enemy_charging", timeTilNext = 30.0 * stageDelayMultiplier },
+		[1] = { vo = "tan_vo_engines_disabled", msg = "level.tan1.events.engines_disabled", timeTilNext = 10.0 * stageDelayMultiplier },
+		[2] = { vo = "tan_vo_enemy_approaching", msg = "level.tan1.events.enemy_approaching", timeTilNext = 55.0 * stageDelayMultiplier },
+		[3] = { vo = "tan_vo_enemy_charging", msg = "level.tan1.events.enemy_charging", timeTilNext = 15.0 * stageDelayMultiplier },
 		[4] = { vo = "tan_vo_hull_breached", msg = "level.tan1.events.hull_breached", timeTilNext = 10.0 },
 		[5] = { vo = "tan_vo_hull_sealed", msg = "level.tan1.events.hull_sealed", timeTilNext = 0.0 },
 	}
@@ -255,7 +250,9 @@ function StartNextStage()
 		ScriptCB_SndPlaySound(lvlutionStages[lvlutionCurStage].vo)
 		ShowMessageText(lvlutionStages[lvlutionCurStage].msg)
 	
-		if lvlutionCurStage == 4 then
+		if lvlutionCurStage == 2 then
+			PlayAnimation("shiparrive")
+		elseif lvlutionCurStage == 4 then
 			CorridorDestruct()
 		elseif lvlutionCurStage == 5 then
 			CorridorSeal()
