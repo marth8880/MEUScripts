@@ -176,7 +176,7 @@ function ScriptPostLoad()
 	lvlutionStages = {
 		[1] = { vo = "tan_vo_engines_disabled", msg = "level.tan1.events.engines_disabled", timeTilNext = 10.0 * stageDelayMultiplier },
 		[2] = { vo = "tan_vo_enemy_approaching", msg = "level.tan1.events.enemy_approaching", timeTilNext = 55.0 * stageDelayMultiplier },
-		[3] = { vo = "tan_vo_enemy_charging", msg = "level.tan1.events.enemy_charging", timeTilNext = 15.0 * stageDelayMultiplier },
+		[3] = { vo = "tan_vo_enemy_charging", msg = "level.tan1.events.enemy_charging", timeTilNext = 12.0 * stageDelayMultiplier },
 		[4] = { vo = "tan_vo_hull_breached", msg = "level.tan1.events.hull_breached", timeTilNext = 10.0 },
 		[5] = { vo = "tan_vo_hull_sealed", msg = "level.tan1.events.hull_sealed", timeTilNext = 0.0 },
 	}
@@ -211,6 +211,8 @@ function ScriptPostLoad()
 		end,
 		timePreDestruction
 	)
+	
+	KillObject("ship")
 	
 	timerLvlutionStartDelay = CreateTimer("timerLvlutionStartDelay")
 	timerLvlutionNextStage = CreateTimer("timerLvlutionNextStage")
@@ -252,6 +254,38 @@ function StartNextStage()
 	
 		if lvlutionCurStage == 2 then
 			PlayAnimation("shiparrive")
+		elseif lvlutionCurStage == 3 then
+			local fireDelay = 0.75
+			local fireAnimLength = 1.45
+			
+			lvlutionShipFireBeamTimer = CreateTimer("lvlutionShipFireBeamTimer")
+			SetTimerValue(lvlutionShipFireBeamTimer, lvlutionStages[3].timeTilNext - fireDelay)
+			
+			lvlutionShipFireBeamEndTimer = CreateTimer("lvlutionShipFireBeamEndTimer")
+			SetTimerValue(lvlutionShipFireBeamEndTimer, lvlutionStages[3].timeTilNext - fireDelay + fireAnimLength)
+			
+			StartTimer(lvlutionShipFireBeamTimer)
+			StartTimer(lvlutionShipFireBeamEndTimer)
+			lvlutionShipFireBeamTimerElapse = OnTimerElapse(
+				function(timer)
+					PrintLog("lvlutionShipFireBeamTimerElapse")
+					RespawnObject("ship")
+					
+					DestroyTimer(timer)
+					ReleaseTimerElapse(lvlutionShipFireBeamTimerElapse)
+				end,
+				lvlutionShipFireBeamTimer
+			)
+			lvlutionShipFireBeamEndTimerElapse = OnTimerElapse(
+				function(timer)
+					PrintLog("lvlutionShipFireBeamEndTimerElapse")
+					KillObject("ship")
+					
+					DestroyTimer(timer)
+					ReleaseTimerElapse(lvlutionShipFireBeamEndTimerElapse)
+				end,
+				lvlutionShipFireBeamEndTimer
+			)
 		elseif lvlutionCurStage == 4 then
 			CorridorDestruct()
 		elseif lvlutionCurStage == 5 then
