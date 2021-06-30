@@ -695,6 +695,8 @@ end
 function Init_BruteHealthRegen()
 	PrintLog("Init_BruteHealthRegen(): Entered")
 	
+	if ME5_SideVar ~= 5 then return end
+	
 	local objectKillHandler = OnCharacterDeath(
 		function(player, killer)
 			-- Abort if the damager or object is nil
@@ -704,6 +706,7 @@ function Init_BruteHealthRegen()
 			-- Only give health if the victim is an enemy
 			if GetCharacterTeam(player) ~= GetCharacterTeam(killer)
 			and GetCharacterTeam(player) ~= HuskTeam then
+				if not GetCharacterUnit(killer) then return end
 				local killerEntityPtr = GetEntityPtr(GetCharacterUnit(killer))
 				local killerClass = GetEntityClass(killerEntityPtr)
 				
