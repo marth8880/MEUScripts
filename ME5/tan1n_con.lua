@@ -213,6 +213,8 @@ function ScriptPostLoad()
 	)
 	
 	KillObject("ship")
+	-- lvlutionShipChargeupEffect = CreateEffect("collector_beam_charge")
+	-- AttachEffectToObject(lvlutionShipChargeupEffect, "ship")
 	
 	timerLvlutionStartDelay = CreateTimer("timerLvlutionStartDelay")
 	timerLvlutionNextStage = CreateTimer("timerLvlutionNextStage")
@@ -255,8 +257,8 @@ function StartNextStage()
 		if lvlutionCurStage == 2 then
 			PlayAnimation("shiparrive")
 		elseif lvlutionCurStage == 3 then
-			-- lvlutionShipChargeupEffect = CreateEffect("collector_beam_charge")
-			-- AttachEffectToObject(lvlutionShipChargeupEffect, "ship")
+			lvlutionShipChargeupEffect = CreateEffect("collector_beam_charge")
+			AttachEffectToObject(lvlutionShipChargeupEffect, "ship")
 			
 			local fireDelay = 0.75
 			local fireAnimLength = 1.45
