@@ -129,13 +129,6 @@ function ScriptPostLoad()
 	SetProperty("CP7CON", "NeutralizeTime", 35)
 	SetProperty("CP7CON", "CaptureTime", 30)
 	
-	stageDelayMultiplier = 1.0
-	
-	-- if not ScriptCB_InMultiplayer() then
-	-- 	stageDelayMultiplier = math.random(8, 12) / 10
-	-- end
-	PrintLog("stageDelayMultiplier = ", stageDelayMultiplier)
-	
 	KillObject("lvlution_corridor_02_a_masseffectfield")
 	KillObject("lvlution_oxygen_fx1")
 	KillObject("lvlution_oxygen_fx2")
@@ -171,16 +164,24 @@ function ScriptPostLoad()
 	UnblockPlanningGraphArcs("Connection60")
 	UnblockPlanningGraphArcs("test3")
 	
+	stageEnginesDisabled = 1
+	stageEnemyApproaching = 2
+	stageEnemyCharging = 3
+	stageHullBreached = 4
+	stageHullSealed = 5
+	
 	levolutionStream = nil
-	lvlutionStartDelay = 1 * stageDelayMultiplier
+	lvlutionStartDelay = 20.0
 	lvlutionStages = {
-		[1] = { vo = "tan_vo_engines_disabled", msg = "level.tan1.events.engines_disabled", timeTilNext = 10.0 * stageDelayMultiplier },
-		[2] = { vo = "tan_vo_enemy_approaching", msg = "level.tan1.events.enemy_approaching", timeTilNext = 55.0 * stageDelayMultiplier },
-		[3] = { vo = "tan_vo_enemy_charging", msg = "level.tan1.events.enemy_charging", timeTilNext = 12.0 * stageDelayMultiplier },
-		[4] = { vo = "tan_vo_hull_breached", msg = "level.tan1.events.hull_breached", timeTilNext = 10.0 },
-		[5] = { vo = "tan_vo_hull_sealed", msg = "level.tan1.events.hull_sealed", timeTilNext = 0.0 },
+		[stageEnginesDisabled] =	{ vo = "tan_vo_engines_disabled", msg = "level.tan1.events.engines_disabled", timeTilNext = 10.0 },
+		[stageEnemyApproaching] =	{ vo = "tan_vo_enemy_approaching", msg = "level.tan1.events.enemy_approaching", timeTilNext = 55.0 - lvlutionStartDelay },
+		[stageEnemyCharging] =		{ vo = "tan_vo_enemy_charging", msg = "level.tan1.events.enemy_charging", timeTilNext = 12.0 },
+		[stageHullBreached] =		{ vo = "tan_vo_hull_breached", msg = "level.tan1.events.hull_breached", timeTilNext = 10.0 },
+		[stageHullSealed] =			{ vo = "tan_vo_hull_sealed", msg = "level.tan1.events.hull_sealed", timeTilNext = 20.0 },
 	}
 	lvlutionCurStage = 0
+	
+	lvlutionStages[stageEnemyApproaching].timeTilNext = lvlutionStages[stageEnemyApproaching].timeTilNext - lvlutionStages[stageEnginesDisabled].timeTilNext
 	
 	--Setup Levolution Timer - Pre-Destruction-- 
 	
@@ -206,6 +207,8 @@ function ScriptPostLoad()
 			KillObject("lvlution_bldg_spacevacuum10")
 			KillObject("lvlution_bldg_spacevacuum11")
 			KillObject("lvlution_bldg_spacevacuum12")
+	
+			PlayAnimation("shiparrive")
 			
 			DestroyTimer(timer)
 		end,
@@ -253,10 +256,16 @@ function StartNextStage()
 		
 		ScriptCB_SndPlaySound(lvlutionStages[lvlutionCurStage].vo)
 		ShowMessageText(lvlutionStages[lvlutionCurStage].msg)
-	
-		if lvlutionCurStage == 2 then
-			PlayAnimation("shiparrive")
-		elseif lvlutionCurStage == 3 then
+		
+		if lvlutionCurStage == stageEnginesDisabled then
+			KillObject("tan4_bldg_engine_b")
+			KillObject("tan4_bldg_engine_c")
+			KillObject("tan4_bldg_engine")
+			KillObject("turbineconsole")
+			SetProperty("tan4_bldg_engineroom_damage", "CurHealth", 10000)
+		elseif lvlutionCurStage == stageEnemyApproaching then
+			
+		elseif lvlutionCurStage == stageEnemyCharging then
 			lvlutionShipChargeupEffect = CreateEffect("collector_beam_charge")
 			AttachEffectToObject(lvlutionShipChargeupEffect, "ship")
 			
@@ -264,10 +273,10 @@ function StartNextStage()
 			local fireAnimLength = 1.45
 			
 			lvlutionShipFireBeamTimer = CreateTimer("lvlutionShipFireBeamTimer")
-			SetTimerValue(lvlutionShipFireBeamTimer, lvlutionStages[3].timeTilNext - fireDelay)
+			SetTimerValue(lvlutionShipFireBeamTimer, lvlutionStages[stageEnemyCharging].timeTilNext - fireDelay)
 			
 			lvlutionShipFireBeamEndTimer = CreateTimer("lvlutionShipFireBeamEndTimer")
-			SetTimerValue(lvlutionShipFireBeamEndTimer, lvlutionStages[3].timeTilNext - fireDelay + fireAnimLength)
+			SetTimerValue(lvlutionShipFireBeamEndTimer, lvlutionStages[stageEnemyCharging].timeTilNext - fireDelay + fireAnimLength)
 			
 			StartTimer(lvlutionShipFireBeamTimer)
 			StartTimer(lvlutionShipFireBeamEndTimer)
@@ -291,9 +300,9 @@ function StartNextStage()
 				end,
 				lvlutionShipFireBeamEndTimer
 			)
-		elseif lvlutionCurStage == 4 then
+		elseif lvlutionCurStage == stageHullBreached then
 			CorridorDestruct()
-		elseif lvlutionCurStage == 5 then
+		elseif lvlutionCurStage == stageHullSealed then
 			CorridorSeal()
 		end
 		
@@ -498,19 +507,20 @@ function ScriptInit()
     ClearWalkers()
     AddWalkerType(0, 0)  -- number of droidekas
 
-	local weaponCnt = 177
-	local guyCnt = 50
+	local weaponCnt = 256
+	local guyCnt = 64
 	SetMemoryPoolSize("Aimer", 32)
 	SetMemoryPoolSize("AmmoCounter", weaponCnt)
 	SetMemoryPoolSize("BaseHint", 250)
 	SetMemoryPoolSize("EnergyBar", weaponCnt)
-    SetMemoryPoolSize("EntityLight", 200)
+    SetMemoryPoolSize("EntityLight", 337)
 	SetMemoryPoolSize("EntitySoundStream", 14)
 	SetMemoryPoolSize("EntitySoundStatic", 45)
 	SetMemoryPoolSize("Navigator", guyCnt)
 	SetMemoryPoolSize("Obstacle", 250)
 	SetMemoryPoolSize("PathFollower", guyCnt)
 	SetMemoryPoolSize("PathNode", 384)
+	SetMemoryPoolSize("RedOmniLight", 383)
 	SetMemoryPoolSize("SoldierAnimation", 370)
 	SetMemoryPoolSize("SoundSpaceRegion", 15)
 	SetMemoryPoolSize("TentacleSimulator", 0)
