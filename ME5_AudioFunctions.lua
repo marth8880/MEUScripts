@@ -875,7 +875,7 @@ function OpenVoiceStreams(bCalledFromLowHealth)
 	--AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "lowhealth_streaming", gVoiceStream)
 	
 	print("ME5_AudioFunctions.OpenVoiceStreams(): gVoiceStream index:", gVoiceStream)
-	
+	print(debug.traceback())
 	return true
 end
 
