@@ -255,6 +255,9 @@ function StartNextStage()
 		if lvlutionCurStage == 2 then
 			PlayAnimation("shiparrive")
 		elseif lvlutionCurStage == 3 then
+			-- lvlutionShipChargeupEffect = CreateEffect("collector_beam_charge")
+			-- AttachEffectToObject(lvlutionShipChargeupEffect, "ship")
+			
 			local fireDelay = 0.75
 			local fireAnimLength = 1.45
 			
@@ -472,7 +475,7 @@ function ScriptInit()
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1821)
 	
 	manager:Proc_ScriptInit_Begin()
-    SetWorldExtents(1064.5)
+    SetWorldExtents(2500)
 	
 	
 	SetMemoryPoolSize("Combo",4)              -- should be ~ 2x number of jedi classes
@@ -528,6 +531,8 @@ function ScriptInit()
 	SetDefenderSnipeRange(70)
     -- SetMaxFlyHeight(90)
     -- SetMaxPlayerFlyHeight(90)
+	
+	SetParticleLODBias(3000)
 
     --  Sound Stats
 
