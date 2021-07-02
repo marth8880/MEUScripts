@@ -39,6 +39,7 @@ local ballisticWeapons = {
 				"col_weap_inf_rifle_col_shredder",
 				"col_weap_inf_rifle_colcarbine",
 				"col_weap_inf_rifle_colcarbine_colgen",
+				"col_weap_inf_smg_col",
 				"col_weap_inf_shotgun_pulse",
 				"col_weap_inf_shouldercannon",
 				
@@ -127,6 +128,7 @@ local ballisticWeapons_COL = {
 				"col_weap_inf_rifle_col_shredder",
 				"col_weap_inf_rifle_colcarbine",
 				"col_weap_inf_rifle_colcarbine_colgen",
+				"col_weap_inf_smg_col",
 				"col_weap_inf_shotgun_pulse",
 				"col_weap_inf_shouldercannon",
 }
@@ -381,6 +383,8 @@ function Init_PlayerDamageFeedback()
 		-- COL unit classes.
 		local colClasses = {
 						"col_inf_assassin",
+						"col_inf_captain",
+						"col_inf_captain_shield",
 						"col_inf_drone",
 						"col_inf_guardian",
 						"col_inf_guardian_shield",
@@ -655,6 +659,8 @@ function Init_HitMarkerSounds()
 		-- COL unit classes.
 		local colClasses = {
 						"col_inf_assassin",
+						"col_inf_captain",
+						"col_inf_captain_shield",
 						"col_inf_drone",
 						"col_inf_guardian",
 						"col_inf_guardian_shield",
