@@ -670,17 +670,21 @@ function Load_COL()
 	if not ScriptCB_InMultiplayer() then
 		if ME5_ShieldFunc == 1 then
 			print("ME5_RandomSides.Load_COL(): Configuring COL Shield Functionality for AUTO-REGEN...")
+			col_inf_captain			= "col_inf_captain_shield"
 			col_inf_guardian		= "col_inf_guardian_shield"
 			
 		elseif ME5_ShieldFunc == 2 then
 			print("ME5_RandomSides.Load_COL(): Configuring COL Shield Functionality for PICKUPS...")
+			col_inf_captain			= "col_inf_captain"
 			col_inf_guardian		= "col_inf_guardian"
 		else
 			print("ME5_RandomSides.Load_COL(): Error! ME5_ShieldFunc setting is invalid! Defaulting to COL Shield Functionality for AUTO-REGEN")
+			col_inf_captain			= "col_inf_captain_shield"
 			col_inf_guardian		= "col_inf_guardian_shield"
 		end
 	else
 		print("ME5_RandomSides.Load_COL(): Configuring COL Shield Functionality for AUTO-REGEN...")
+		col_inf_captain			= "col_inf_captain_shield"
 		col_inf_guardian		= "col_inf_guardian_shield"
 	end
 	
@@ -1032,6 +1036,8 @@ function Setup_SSVxCOL_xxs()
 	print("ME5_RandomSides.Setup_SSVxCOL_xxs(): Entered")
 	--Setup_SSVxCOL_xxs = 1
 	
+	NUM_COLCAPTAINS = 10
+	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVCOL_NonStreaming.lvl")
 	SetupTeams{
 		rep = {
@@ -1053,7 +1059,7 @@ function Setup_SSVxCOL_xxs()
 			-- husk  = { "indoc_inf_husk",2, 8},
 			soldier  = { "col_inf_drone",2, 25},
 			assault  = { "col_inf_assassin",1, 7},
-			-- special = { "indoc_inf_abomination",2, 8},
+			special = { col_inf_captain, 1, NUM_COLCAPTAINS},
 			support  = { col_inf_guardian,1, 14},
 			scion  = { "col_inf_scion",1, 2},
 		}
@@ -1124,6 +1130,8 @@ function Setup_EVGxCOL_xxs()
 	print("ME5_RandomSides.Setup_EVGxCOL_xxs(): Entered")
 	--Setup_SSVxGTH_xxs = 1
 	
+	NUM_COLCAPTAINS = 10
+	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
 	SetupTeams{
 		rep = {
@@ -1146,8 +1154,8 @@ function Setup_EVGxCOL_xxs()
 			-- husk  = { "indoc_inf_husk",2, 8},
 			soldier  = { "col_inf_drone",3, 25},
 			assault  = { "col_inf_assassin",2, 7},
-			-- special = { "indoc_inf_abomination",2, 8},
-			support  = { col_inf_guardian,2, 14},
+			special = { col_inf_captain, 1, NUM_COLCAPTAINS},
+			support  = { col_inf_guardian,1, 14},
 			scion  = { "col_inf_scion",1, 2},
 		}
 	}
@@ -1276,6 +1284,8 @@ function Setup_SSVxCOL_xs()
 	print("ME5_RandomSides.Setup_SSVxCOL_xs(): Entered")
 	--Setup_SSVxCOL_xs = 1
 	
+	NUM_COLCAPTAINS = 10
+	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVCOL_NonStreaming.lvl")
 	SetupTeams{
 		rep = {
@@ -1297,8 +1307,8 @@ function Setup_SSVxCOL_xs()
 			-- husk  = { "indoc_inf_husk",2, 8},
 			soldier  = { "col_inf_drone",4, 25},
 			assault  = { "col_inf_assassin",3, 7},
-			-- special = { "indoc_inf_abomination",2, 8},
-			support  = { col_inf_guardian,2, 14},
+			special = { col_inf_captain, 1, NUM_COLCAPTAINS},
+			support  = { col_inf_guardian,1, 14},
 			scion  = { "col_inf_scion",2, 3},
 		}
 	}
@@ -1368,6 +1378,8 @@ function Setup_EVGxCOL_xs()
 	print("ME5_RandomSides.Setup_EVGxCOL_xs(): Entered")
 	--Setup_SSVxGTH_xs = 1
 	
+	NUM_COLCAPTAINS = 10
+	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
 	SetupTeams{
 		rep = {
@@ -1390,8 +1402,8 @@ function Setup_EVGxCOL_xs()
 			-- husk  = { "indoc_inf_husk",2, 8},
 			soldier  = { "col_inf_drone",4, 25},
 			assault  = { "col_inf_assassin",3, 7},
-			-- special = { "indoc_inf_abomination",2, 8},
-			support  = { col_inf_guardian,3, 14},
+			special = { col_inf_captain, 2, NUM_COLCAPTAINS},
+			support  = { col_inf_guardian,1, 14},
 			scion  = { "col_inf_scion",2, 3},
 		}
 	}
@@ -1628,6 +1640,8 @@ function Setup_SSVxCOL_sm()
 	print("ME5_RandomSides.Setup_SSVxCOL_sm(): Entered")
 	--Setup_SSVxCOL_sm = 1
 	
+	NUM_COLCAPTAINS = 10
+	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVCOL_NonStreaming.lvl")
 	SetupTeams{
 		rep = {
@@ -1649,8 +1663,8 @@ function Setup_SSVxCOL_sm()
 			-- husk  = { "indoc_inf_husk",3, 8},
 			soldier  = { "col_inf_drone",5, 25},
 			assault  = { "col_inf_assassin",3, 7},
-			-- special = { "indoc_inf_abomination",3, 8},
-			support  = { col_inf_guardian,3, 14},
+			special = { col_inf_captain, 2, NUM_COLCAPTAINS},
+			support  = { col_inf_guardian,1, 14},
 			scion  = { "col_inf_scion",1, 2},
 		}
 	}
@@ -1720,6 +1734,8 @@ function Setup_EVGxCOL_sm()
 	print("ME5_RandomSides.Setup_EVGxCOL_sm(): Entered")
 	--Setup_SSVxGTH_sm = 1
 	
+	NUM_COLCAPTAINS = 10
+	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
 	SetupTeams{
 		rep = {
@@ -1742,8 +1758,8 @@ function Setup_EVGxCOL_sm()
 			-- husk  = { "indoc_inf_husk",3, 8},
 			soldier  = { "col_inf_drone",6, 25},
 			assault  = { "col_inf_assassin",4, 7},
-			-- special = { "indoc_inf_abomination",3, 8},
-			support  = { col_inf_guardian,3, 14},
+			special = { col_inf_captain, 2, NUM_COLCAPTAINS},
+			support  = { col_inf_guardian,1, 14},
 			scion  = { "col_inf_scion",2, 4},
 		}
 	}
@@ -1987,6 +2003,8 @@ function Setup_SSVxCOL_med()
 	--Setup_SSVxCOL_med = 1
 	ssvEngCnt = 8
 	
+	NUM_COLCAPTAINS = 10
+	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVCOL_NonStreaming.lvl")
 	SetupTeams{
 		rep = {
@@ -2008,8 +2026,8 @@ function Setup_SSVxCOL_med()
 			-- husk  = { "indoc_inf_husk",4, 8},
 			soldier  = { "col_inf_drone",9, 25},
 			assault  = { "col_inf_assassin",5, 7},
-			-- special = { "indoc_inf_abomination",4, 8},
-			support  = { col_inf_guardian,4, 14},
+			special = { col_inf_captain, 2, NUM_COLCAPTAINS},
+			support  = { col_inf_guardian,2, 14},
 			scion  = { "col_inf_scion",1, 2},
 		}
 	}
@@ -2026,6 +2044,22 @@ function Setup_SSVxCOL_med()
 		SetTeamAsFriend(CIS,HuskTeam)
 		SetTeamAsFriend(HuskTeam,CIS)
 	end
+	
+	SeekerTeam = 4
+	
+	SetTeamName(SeekerTeam, "cis")
+	SetTeamIcon(SeekerTeam, "cis_icon")
+	SetUnitCount(SeekerTeam, NUM_COLCAPTAINS * NUM_SEEKERS_PER_CAPTAIN)
+	AddUnitClass(SeekerTeam, "col_inf_seekers", NUM_COLCAPTAINS * NUM_SEEKERS_PER_CAPTAIN)
+	
+	SetTeamAsEnemy(REP,SeekerTeam)
+	SetTeamAsEnemy(SeekerTeam,REP)
+	SetTeamAsNeutral(CIS,SeekerTeam)
+	SetTeamAsNeutral(SeekerTeam,CIS)
+	SetTeamAsNeutral(HuskTeam,SeekerTeam)
+	SetTeamAsNeutral(SeekerTeam,HuskTeam)
+	
+	-- AllowAISpawn(SeekerTeam, false)
 end
 
 function Setup_EVGxGTH_med()
@@ -2081,6 +2115,8 @@ function Setup_EVGxCOL_med()
 	--Setup_SSVxGTH_med = 1
 	ssvEngCnt = 8
 	
+	NUM_COLCAPTAINS = 10
+	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
 	SetupTeams{
 		rep = {
@@ -2103,8 +2139,8 @@ function Setup_EVGxCOL_med()
 			-- husk  = { "indoc_inf_husk",4, 8},
 			soldier  = { "col_inf_drone",8, 25},
 			assault  = { "col_inf_assassin",6, 7},
-			-- special = { "indoc_inf_abomination",4, 8},
-			support  = { col_inf_guardian,5, 14},
+			special = { col_inf_captain, 3, NUM_COLCAPTAINS},
+			support  = { col_inf_guardian,2, 14},
 			scion  = { "col_inf_scion",2, 4},
 		}
 	}
@@ -2348,6 +2384,8 @@ function Setup_SSVxCOL_lg()
 	--Setup_SSVxCOL_lg = 1
 	ssvEngCnt = 8
 	
+	NUM_COLCAPTAINS = 12
+	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVCOL_NonStreaming.lvl")
 	SetupTeams{
 		rep = {
@@ -2369,8 +2407,8 @@ function Setup_SSVxCOL_lg()
 			-- husk  = { "indoc_inf_husk",5, 8},
 			soldier  = { "col_inf_drone",9, 25},
 			assault  = { "col_inf_assassin",7, 10},
-			-- special = { "indoc_inf_abomination",5, 8},
-			support  = { col_inf_guardian,4, 14},
+			special = { col_inf_captain, 2, NUM_COLCAPTAINS},
+			support  = { col_inf_guardian,2, 14},
 			scion  = { "col_inf_scion",2, 4},
 		}
 	}
@@ -2442,6 +2480,8 @@ function Setup_EVGxCOL_lg()
 	--Setup_SSVxGTH_lg = 1
 	ssvEngCnt = 8
 	
+	NUM_COLCAPTAINS = 12
+	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
 	SetupTeams{
 		rep = {
@@ -2464,8 +2504,8 @@ function Setup_EVGxCOL_lg()
 			-- husk  = { "indoc_inf_husk",5, 8},
 			soldier  = { "col_inf_drone",9, 25},
 			assault  = { "col_inf_assassin",7, 10},
-			-- special = { "indoc_inf_abomination",5, 8},
-			support  = { col_inf_guardian,5, 14},
+			special = { col_inf_captain, 3, NUM_COLCAPTAINS},
+			support  = { col_inf_guardian,2, 14},
 			scion  = { "col_inf_scion",3, 6},
 		}
 	}
@@ -2709,6 +2749,8 @@ function Setup_SSVxCOL_xl()
 	--Setup_SSVxCOL_lg = 1
 	ssvEngCnt = 8
 	
+	NUM_COLCAPTAINS = 14
+	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVCOL_NonStreaming.lvl")
 	SetupTeams{
 		rep = {
@@ -2730,8 +2772,8 @@ function Setup_SSVxCOL_xl()
 			-- husk  = { "indoc_inf_husk",5, 8},
 			soldier  = { "col_inf_drone",11, 25},
 			assault  = { "col_inf_assassin",9, 14},
-			-- special = { "indoc_inf_abomination",5, 8},
-			support  = { col_inf_guardian,6, 14},
+			special = { col_inf_captain, 3, NUM_COLCAPTAINS},
+			support  = { col_inf_guardian,3, 14},
 			scion  = { "col_inf_scion",3, 6},
 		}
 	}
@@ -2803,6 +2845,8 @@ function Setup_EVGxCOL_xl()
 	--Setup_SSVxGTH_lg = 1
 	ssvEngCnt = 8
 	
+	NUM_COLCAPTAINS = 14
+	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
 	SetupTeams{
 		rep = {
@@ -2825,8 +2869,8 @@ function Setup_EVGxCOL_xl()
 			-- husk  = { "indoc_inf_husk",5, 8},
 			soldier  = { "col_inf_drone",12, 25},
 			assault  = { "col_inf_assassin",9, 14},
-			-- special = { "indoc_inf_abomination",5, 8},
-			support  = { col_inf_guardian,7, 14},
+			special = { col_inf_captain, 4, NUM_COLCAPTAINS},
+			support  = { col_inf_guardian,3, 14},
 			scion  = { "col_inf_scion",3, 6},
 		}
 	}

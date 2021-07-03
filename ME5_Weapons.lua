@@ -264,8 +264,105 @@ function Init_Weapon_AcidDrop()
 end
 
 
+function Init_Weapon_DispenseSeekers()
+	PrintLog("Init_Weapon_DispenseSeekers(): Entered")
+	
+	if ME5_SideVar ~= 2 and ME5_SideVar ~= 4 then return end
+	
+	gColCaptainsSpawned = {}
+	
+	local onColCaptainSpawn = OnCharacterSpawnTeam(
+		function(player)
+			if GetCharacterClass(player) == 2 then
+				-- This Captain is new, so it hasn't spawned any Seekers yet
+				gColCaptainsSpawned[GetCharacterUnit(player)] = false
+			end
+		end,
+		CIS
+	)
+	
+	local onColCaptainDie = OnObjectKill(
+		function(object, killer)
+			if not object then return end
+			
+			if GetEntityClass(GetEntityPtr(object)) == FindEntityClass("col_inf_captain") or
+			GetEntityClass(GetEntityPtr(object)) == FindEntityClass("col_inf_captain_shield") then
+				-- Remove the Captain from the registry
+				if gColCaptainsSpawned[object] ~= nil then
+					gColCaptainsSpawned[object] = nil
+				end
+			end
+		end
+	)
+	
+	local onDispenseSeekersHandler = OnCharacterDispenseControllableTeam(
+		function(character, controlled)
+			if GetEntityClass(controlled) == GetEntityClassPtr("col_weap_inf_captain_seekers_ord") then
+				-- Has this Captain spawned Seekers yet? Can only do so once per lifetime
+				if gColCaptainsSpawned[GetCharacterUnit(character)] == false then
+					gColCaptainsSpawned[GetCharacterUnit(character)] = true
+					local numSpawned = 0
+					local teamSize = GetTeamSize(SeekerTeam)
+					for i = 0, teamSize - 1 do
+						local characterIndex = GetTeamMember(SeekerTeam, i)
+						local charUnit = GetCharacterUnit(characterIndex)
+						
+						if not charUnit then
+							local destination = GetEntityMatrix(GetCharacterUnit(character))
+							SpawnCharacter(characterIndex, destination)
+							
+							numSpawned = numSpawned + 1
+							if numSpawned >= NUM_SEEKERS_PER_CAPTAIN then
+								break
+							end
+						end
+					end
+				else
+					-- PrintLog("This Captain has already spawned Seekers!")
+				end
+			end
+		end,
+		CIS
+	)
+end
+
+
+function Init_Weapon_SeekerSuicide()
+	PrintLog("Init_Weapon_SeekerSuicide(): Entered")
+	
+	if ME5_SideVar ~= 2 and ME5_SideVar ~= 4 then return end
+	
+	-- Whenever an object is damaged
+	local onSeekerSuicideHit = OnObjectDamage(
+		function(object, damager)
+			-- Exit immediately if any values are incorrect
+			if not object then return end
+			if not damager then return end
+			
+			local objectTeam = GetObjectTeam(object)
+			local damagerTeam = GetCharacterTeam(damager)
+			if (not objectTeam) or (objectTeam <= 0) then return end
+			if (not damagerTeam) or (damagerTeam <= 0) then return end
+			
+			-- Are the object and damager on different teams?
+			if objectTeam ~= damagerTeam then
+				-- Figure out the damager's weapon (and exit if it's nil)
+				local damagerWeapon = GetObjectLastHitWeaponClass(object)
+				if not damagerWeapon then return end
+				
+				if damagerWeapon == "col_weap_inf_seekers_suicide" then
+					KillObject(GetCharacterUnit(damager))
+				end
+			end
+		end
+	)
+end
+
+
 function Init_Weapon_DispenseSwarmers()
 	PrintLog("Init_Weapon_DispenseSwarmers(): Entered")
+	
+	if ME5_SideVar ~= 5 then return end
 	
 	gRavagersSpawned = {}
 	
@@ -303,6 +400,7 @@ function Init_Weapon_DispenseSwarmers()
 					for i = 0, teamSize - 1 do
 						local characterIndex = GetTeamMember(SwarmerTeam, i)
 						local charUnit = GetCharacterUnit(characterIndex)
+						
 						if not charUnit then
 							local destination = GetEntityMatrix(GetCharacterUnit(character))
 							SpawnCharacter(characterIndex, destination)
@@ -326,7 +424,9 @@ end
 function Init_Weapon_SwarmerSuicide()
 	PrintLog("Init_Weapon_SwarmerSuicide(): Entered")
 	
-		-- Whenever an object is damaged
+	if ME5_SideVar ~= 5 then return end
+	
+	-- Whenever an object is damaged
 	local onSwarmerSuicideHit = OnObjectDamage(
 		function(object, damager)
 			-- Exit immediately if any values are incorrect

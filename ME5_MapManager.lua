@@ -798,6 +798,8 @@ function MapManager:Proc_ScriptInit_Begin()
 	Init_EvolvedJuggernautPowerDrain()
 	Init_Weapon_Charge()
 	Init_Weapon_DOT()
+	Init_Weapon_DispenseSeekers()
+	Init_Weapon_SeekerSuicide()
 	Init_Weapon_DispenseSwarmers()
 	Init_Weapon_SwarmerSuicide()
 	
@@ -1084,7 +1086,6 @@ function MapManager:Init_SidesPostLoad_SSVxGTH()
 	
 	if self.bAreLocalAlliesEnabled == true then
 		if HuskTeam then
-			-- Add a new goal for the HuskTeam
 			AddAIGoal(HuskTeam, "Deathmatch", 100)
 		end
 	end
@@ -1113,9 +1114,11 @@ function MapManager:Init_SidesPostLoad_SSVxCOL()
 	
 	if self.bAreLocalAlliesEnabled == true then
 		if HuskTeam then
-			-- Add a new goal for the HuskTeam
 			AddAIGoal(HuskTeam, "Deathmatch", 100)
 		end
+	end
+	if SeekerTeam then
+		AddAIGoal(SeekerTeam, "Deathmatch", 100)
 	end
 end
 
@@ -1142,7 +1145,6 @@ function MapManager:Init_SidesPostLoad_EVGxGTH()
 	
 	if self.bAreLocalAlliesEnabled == true then
 		if HuskTeam then
-			-- Add a new goal for the HuskTeam
 			AddAIGoal(HuskTeam, "Deathmatch", 100)
 		end
 	end
@@ -1173,9 +1175,11 @@ function MapManager:Init_SidesPostLoad_EVGxCOL()
 	
 	if self.bAreLocalAlliesEnabled == true then
 		if HuskTeam then
-			-- Add a new goal for the HuskTeam
 			AddAIGoal(HuskTeam, "Deathmatch", 100)
 		end
+	end
+	if SeekerTeam then
+		AddAIGoal(SeekerTeam, "Deathmatch", 100)
 	end
 end
 
@@ -1202,12 +1206,10 @@ function MapManager:Init_SidesPostLoad_SSVxRPR()
 	
 	if self.bAreLocalAlliesEnabled == true then
 		if HuskTeam then
-			-- Add a new goal for the HuskTeam
 			AddAIGoal(HuskTeam, "Deathmatch", 100)
 		end
 	end
 	if SwarmerTeam then
-		-- Add a new goal for the HuskTeam
 		AddAIGoal(SwarmerTeam, "Deathmatch", 100)
 	end
 end
