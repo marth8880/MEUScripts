@@ -324,6 +324,19 @@ function Init_Weapon_DispenseSeekers()
 		end,
 		CIS
 	)
+	
+	local onSeekerDie = OnObjectKill(
+		function(object, killer)
+			if not object then return end
+			
+			-- Guarantee an "explosion" every time a Seeker dies
+			if GetEntityClass(GetEntityPtr(object)) == FindEntityClass("col_inf_seekers") then
+				local seekerExpPfx = CreateEffect("com_sfx_seekers_exp")
+				SetEffectMatrix(seekerExpPfx, GetEntityMatrix(object))
+				SetEntityMatrix(object, CreateMatrix(0, 0, 0, 0, 0, -1000, 0, GetEntityMatrix(object)))
+			end
+		end
+	)
 end
 
 
@@ -338,6 +351,7 @@ function Init_Weapon_SeekerSuicide()
 			-- Exit immediately if any values are incorrect
 			if not object then return end
 			if not damager then return end
+			if GetCharacterUnit(damager) == nil then return end
 			
 			local objectTeam = GetObjectTeam(object)
 			local damagerTeam = GetCharacterTeam(damager)
@@ -351,6 +365,7 @@ function Init_Weapon_SeekerSuicide()
 				if not damagerWeapon then return end
 				
 				if damagerWeapon == "col_weap_inf_seekers_suicide" then
+					PrintLog("Init_Weapon_SeekerSuicide: Trying to kill user")
 					KillObject(GetCharacterUnit(damager))
 				end
 			end

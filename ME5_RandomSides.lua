@@ -1077,6 +1077,20 @@ function Setup_SSVxCOL_xxs()
 		SetTeamAsFriend(CIS,HuskTeam)
 		SetTeamAsFriend(HuskTeam,CIS)
 	end
+	
+	SeekerTeam = 4
+	
+	SetTeamName(SeekerTeam, "cis")
+	SetTeamIcon(SeekerTeam, "cis_icon")
+	SetUnitCount(SeekerTeam, NUM_COLCAPTAINS * NUM_SEEKERS_PER_CAPTAIN)
+	AddUnitClass(SeekerTeam, "col_inf_seekers", NUM_COLCAPTAINS * NUM_SEEKERS_PER_CAPTAIN)
+	
+	SetTeamAsEnemy(REP,SeekerTeam)
+	SetTeamAsEnemy(SeekerTeam,REP)
+	SetTeamAsNeutral(CIS,SeekerTeam)
+	SetTeamAsNeutral(SeekerTeam,CIS)
+	SetTeamAsNeutral(HuskTeam,SeekerTeam)
+	SetTeamAsNeutral(SeekerTeam,HuskTeam)
 end
 
 function Setup_EVGxGTH_xxs()
@@ -1172,6 +1186,20 @@ function Setup_EVGxCOL_xxs()
 		SetTeamAsFriend(CIS,HuskTeam)
 		SetTeamAsFriend(HuskTeam,CIS)
 	end
+	
+	SeekerTeam = 4
+	
+	SetTeamName(SeekerTeam, "cis")
+	SetTeamIcon(SeekerTeam, "cis_icon")
+	SetUnitCount(SeekerTeam, NUM_COLCAPTAINS * NUM_SEEKERS_PER_CAPTAIN)
+	AddUnitClass(SeekerTeam, "col_inf_seekers", NUM_COLCAPTAINS * NUM_SEEKERS_PER_CAPTAIN)
+	
+	SetTeamAsEnemy(REP,SeekerTeam)
+	SetTeamAsEnemy(SeekerTeam,REP)
+	SetTeamAsNeutral(CIS,SeekerTeam)
+	SetTeamAsNeutral(SeekerTeam,CIS)
+	SetTeamAsNeutral(HuskTeam,SeekerTeam)
+	SetTeamAsNeutral(SeekerTeam,HuskTeam)
 end
 
 function Setup_SSVxRPR_xxs()
@@ -1325,6 +1353,20 @@ function Setup_SSVxCOL_xs()
 		SetTeamAsFriend(CIS,HuskTeam)
 		SetTeamAsFriend(HuskTeam,CIS)
 	end
+	
+	SeekerTeam = 4
+	
+	SetTeamName(SeekerTeam, "cis")
+	SetTeamIcon(SeekerTeam, "cis_icon")
+	SetUnitCount(SeekerTeam, NUM_COLCAPTAINS * NUM_SEEKERS_PER_CAPTAIN)
+	AddUnitClass(SeekerTeam, "col_inf_seekers", NUM_COLCAPTAINS * NUM_SEEKERS_PER_CAPTAIN)
+	
+	SetTeamAsEnemy(REP,SeekerTeam)
+	SetTeamAsEnemy(SeekerTeam,REP)
+	SetTeamAsNeutral(CIS,SeekerTeam)
+	SetTeamAsNeutral(SeekerTeam,CIS)
+	SetTeamAsNeutral(HuskTeam,SeekerTeam)
+	SetTeamAsNeutral(SeekerTeam,HuskTeam)
 end
 
 function Setup_EVGxGTH_xs()
@@ -1415,6 +1457,20 @@ function Setup_EVGxCOL_xs()
 		AddUnitClass(HuskTeam, "indoc_inf_husk", 1)
 		AddUnitClass(HuskTeam, "indoc_inf_abomination", 1)
 	end
+	
+	SeekerTeam = 4
+	
+	SetTeamName(SeekerTeam, "cis")
+	SetTeamIcon(SeekerTeam, "cis_icon")
+	SetUnitCount(SeekerTeam, NUM_COLCAPTAINS * NUM_SEEKERS_PER_CAPTAIN)
+	AddUnitClass(SeekerTeam, "col_inf_seekers", NUM_COLCAPTAINS * NUM_SEEKERS_PER_CAPTAIN)
+	
+	SetTeamAsEnemy(REP,SeekerTeam)
+	SetTeamAsEnemy(SeekerTeam,REP)
+	SetTeamAsNeutral(CIS,SeekerTeam)
+	SetTeamAsNeutral(SeekerTeam,CIS)
+	SetTeamAsNeutral(HuskTeam,SeekerTeam)
+	SetTeamAsNeutral(SeekerTeam,HuskTeam)
 end
 
 function Setup_SSVxECL_xs()
@@ -1681,6 +1737,20 @@ function Setup_SSVxCOL_sm()
 		SetTeamAsFriend(CIS,HuskTeam)
 		SetTeamAsFriend(HuskTeam,CIS)
 	end
+	
+	SeekerTeam = 4
+	
+	SetTeamName(SeekerTeam, "cis")
+	SetTeamIcon(SeekerTeam, "cis_icon")
+	SetUnitCount(SeekerTeam, NUM_COLCAPTAINS * NUM_SEEKERS_PER_CAPTAIN)
+	AddUnitClass(SeekerTeam, "col_inf_seekers", NUM_COLCAPTAINS * NUM_SEEKERS_PER_CAPTAIN)
+	
+	SetTeamAsEnemy(REP,SeekerTeam)
+	SetTeamAsEnemy(SeekerTeam,REP)
+	SetTeamAsNeutral(CIS,SeekerTeam)
+	SetTeamAsNeutral(SeekerTeam,CIS)
+	SetTeamAsNeutral(HuskTeam,SeekerTeam)
+	SetTeamAsNeutral(SeekerTeam,HuskTeam)
 end
 
 function Setup_EVGxGTH_sm()
@@ -1776,6 +1846,20 @@ function Setup_EVGxCOL_sm()
 		SetTeamAsFriend(CIS,HuskTeam)
 		SetTeamAsFriend(HuskTeam,CIS)
 	end
+	
+	SeekerTeam = 4
+	
+	SetTeamName(SeekerTeam, "cis")
+	SetTeamIcon(SeekerTeam, "cis_icon")
+	SetUnitCount(SeekerTeam, NUM_COLCAPTAINS * NUM_SEEKERS_PER_CAPTAIN)
+	AddUnitClass(SeekerTeam, "col_inf_seekers", NUM_COLCAPTAINS * NUM_SEEKERS_PER_CAPTAIN)
+	
+	SetTeamAsEnemy(REP,SeekerTeam)
+	SetTeamAsEnemy(SeekerTeam,REP)
+	SetTeamAsNeutral(CIS,SeekerTeam)
+	SetTeamAsNeutral(SeekerTeam,CIS)
+	SetTeamAsNeutral(HuskTeam,SeekerTeam)
+	SetTeamAsNeutral(SeekerTeam,HuskTeam)
 end
 
 function Setup_SSVxECL_sm()
@@ -2031,6 +2115,7 @@ function Setup_SSVxCOL_med()
 			scion  = { "col_inf_scion",1, 2},
 		}
 	}
+	-- AddUnitClass(CIS, "col_inf_seekers", 1, 4)
 	
 	if HuskTeam then
 		SetTeamName(HuskTeam, "cis")
@@ -2157,6 +2242,20 @@ function Setup_EVGxCOL_med()
 		SetTeamAsFriend(CIS,HuskTeam)
 		SetTeamAsFriend(HuskTeam,CIS)
 	end
+	
+	SeekerTeam = 4
+	
+	SetTeamName(SeekerTeam, "cis")
+	SetTeamIcon(SeekerTeam, "cis_icon")
+	SetUnitCount(SeekerTeam, NUM_COLCAPTAINS * NUM_SEEKERS_PER_CAPTAIN)
+	AddUnitClass(SeekerTeam, "col_inf_seekers", NUM_COLCAPTAINS * NUM_SEEKERS_PER_CAPTAIN)
+	
+	SetTeamAsEnemy(REP,SeekerTeam)
+	SetTeamAsEnemy(SeekerTeam,REP)
+	SetTeamAsNeutral(CIS,SeekerTeam)
+	SetTeamAsNeutral(SeekerTeam,CIS)
+	SetTeamAsNeutral(HuskTeam,SeekerTeam)
+	SetTeamAsNeutral(SeekerTeam,HuskTeam)
 end
 
 function Setup_SSVxECL_med()
@@ -2425,6 +2524,20 @@ function Setup_SSVxCOL_lg()
 		SetTeamAsFriend(CIS,HuskTeam)
 		SetTeamAsFriend(HuskTeam,CIS)
 	end
+	
+	SeekerTeam = 4
+	
+	SetTeamName(SeekerTeam, "cis")
+	SetTeamIcon(SeekerTeam, "cis_icon")
+	SetUnitCount(SeekerTeam, NUM_COLCAPTAINS * NUM_SEEKERS_PER_CAPTAIN)
+	AddUnitClass(SeekerTeam, "col_inf_seekers", NUM_COLCAPTAINS * NUM_SEEKERS_PER_CAPTAIN)
+	
+	SetTeamAsEnemy(REP,SeekerTeam)
+	SetTeamAsEnemy(SeekerTeam,REP)
+	SetTeamAsNeutral(CIS,SeekerTeam)
+	SetTeamAsNeutral(SeekerTeam,CIS)
+	SetTeamAsNeutral(HuskTeam,SeekerTeam)
+	SetTeamAsNeutral(SeekerTeam,HuskTeam)
 end
 
 function Setup_EVGxGTH_lg()
@@ -2522,6 +2635,20 @@ function Setup_EVGxCOL_lg()
 		SetTeamAsFriend(CIS,HuskTeam)
 		SetTeamAsFriend(HuskTeam,CIS)
 	end
+	
+	SeekerTeam = 4
+	
+	SetTeamName(SeekerTeam, "cis")
+	SetTeamIcon(SeekerTeam, "cis_icon")
+	SetUnitCount(SeekerTeam, NUM_COLCAPTAINS * NUM_SEEKERS_PER_CAPTAIN)
+	AddUnitClass(SeekerTeam, "col_inf_seekers", NUM_COLCAPTAINS * NUM_SEEKERS_PER_CAPTAIN)
+	
+	SetTeamAsEnemy(REP,SeekerTeam)
+	SetTeamAsEnemy(SeekerTeam,REP)
+	SetTeamAsNeutral(CIS,SeekerTeam)
+	SetTeamAsNeutral(SeekerTeam,CIS)
+	SetTeamAsNeutral(HuskTeam,SeekerTeam)
+	SetTeamAsNeutral(SeekerTeam,HuskTeam)
 end
 
 function Setup_SSVxECL_lg()
@@ -2790,6 +2917,20 @@ function Setup_SSVxCOL_xl()
 		SetTeamAsFriend(CIS,HuskTeam)
 		SetTeamAsFriend(HuskTeam,CIS)
 	end
+	
+	SeekerTeam = 4
+	
+	SetTeamName(SeekerTeam, "cis")
+	SetTeamIcon(SeekerTeam, "cis_icon")
+	SetUnitCount(SeekerTeam, NUM_COLCAPTAINS * NUM_SEEKERS_PER_CAPTAIN)
+	AddUnitClass(SeekerTeam, "col_inf_seekers", NUM_COLCAPTAINS * NUM_SEEKERS_PER_CAPTAIN)
+	
+	SetTeamAsEnemy(REP,SeekerTeam)
+	SetTeamAsEnemy(SeekerTeam,REP)
+	SetTeamAsNeutral(CIS,SeekerTeam)
+	SetTeamAsNeutral(SeekerTeam,CIS)
+	SetTeamAsNeutral(HuskTeam,SeekerTeam)
+	SetTeamAsNeutral(SeekerTeam,HuskTeam)
 end
 
 function Setup_EVGxGTH_xl()
@@ -2887,6 +3028,20 @@ function Setup_EVGxCOL_xl()
 		SetTeamAsFriend(CIS,HuskTeam)
 		SetTeamAsFriend(HuskTeam,CIS)
 	end
+	
+	SeekerTeam = 4
+	
+	SetTeamName(SeekerTeam, "cis")
+	SetTeamIcon(SeekerTeam, "cis_icon")
+	SetUnitCount(SeekerTeam, NUM_COLCAPTAINS * NUM_SEEKERS_PER_CAPTAIN)
+	AddUnitClass(SeekerTeam, "col_inf_seekers", NUM_COLCAPTAINS * NUM_SEEKERS_PER_CAPTAIN)
+	
+	SetTeamAsEnemy(REP,SeekerTeam)
+	SetTeamAsEnemy(SeekerTeam,REP)
+	SetTeamAsNeutral(CIS,SeekerTeam)
+	SetTeamAsNeutral(SeekerTeam,CIS)
+	SetTeamAsNeutral(HuskTeam,SeekerTeam)
+	SetTeamAsNeutral(SeekerTeam,HuskTeam)
 end
 
 function Setup_SSVxRPR_xl()
