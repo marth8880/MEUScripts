@@ -433,6 +433,19 @@ function Init_Weapon_DispenseSwarmers()
 		end,
 		CIS
 	)
+	
+	local onSwarmerDie = OnObjectKill(
+		function(object, killer)
+			if not object then return end
+			
+			-- Guarantee an "explosion" every time a Swarmer dies
+			if GetEntityClass(GetEntityPtr(object)) == FindEntityClass("rpr_inf_swarmer") then
+				local seekerExpPfx = CreateEffect("com_sfx_swarmer_exp")
+				SetEffectMatrix(seekerExpPfx, GetEntityMatrix(object))
+				SetEntityMatrix(object, CreateMatrix(0, 0, 0, 0, 0, -1000, 0, GetEntityMatrix(object)))
+			end
+		end
+	)
 end
 
 
