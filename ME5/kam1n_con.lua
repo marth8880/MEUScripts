@@ -188,6 +188,8 @@ function ScriptInit()
     manager:Proc_ScriptInit_Begin()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl;vehcommon")
 	
+    SetMemoryPoolSize("Music", 88)
+	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\me5tur.lvl",
 					"tur_bldg_laser",
 					"tur_bldg_mturret")
@@ -211,7 +213,6 @@ function ScriptInit()
     SetMemoryPoolSize("EntityLight", 70)
     SetMemoryPoolSize("EntitySoundStream", 12)
     SetMemoryPoolSize("EntitySoundStatic", 84)
-    SetMemoryPoolSize("Music", 88)
     SetMemoryPoolSize("Navigator", 50)
     SetMemoryPoolSize("Obstacle", 931)
     SetMemoryPoolSize("PathFollower", 50)
