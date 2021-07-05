@@ -76,9 +76,6 @@ DEF = 2
  ---------------------------------------------------------------------------
 
 function ScriptPostLoad()
-		
-	-- TODO: disable the stock minimap to make room for ours
-	--DisableSmallMapMiniMap()
 	
 	    AddDeathRegion("death")
 	    AddDeathRegion("death1")
