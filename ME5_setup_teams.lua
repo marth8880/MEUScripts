@@ -31,6 +31,7 @@ function SetupTeams(sides)
 				"prime", 
 				"support", 
 				"scion", 
+				"praetorian", 
 				"pilot" }
 
     -- items for each team code

@@ -126,6 +126,7 @@ gth_inf_juggernaut		= nil
 
 col_inf_captain			= nil
 col_inf_guardian		= nil
+col_inf_praetorian		= nil
 
 gth_ev_inf_trooper		= nil
 gth_ev_inf_infiltrator	= nil

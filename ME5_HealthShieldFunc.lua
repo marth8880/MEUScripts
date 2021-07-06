@@ -210,6 +210,7 @@ function Init_DeferredShieldRegen()
 			local shieldClasses = {
 						{ class = "col_inf_captain_shield", 				addShield = 14.0,	regenDelay = 3.4 }, 
 						{ class = "col_inf_guardian_shield", 				addShield = 14.0,	regenDelay = 3.4 }, 
+						{ class = "col_inf_praetorian_shield", 				addShield = 22.0,	regenDelay = 3.4 }, 
 						{ class = "gth_inf_trooper_shield", 				addShield = 14.0,	regenDelay = 3.0 }, 
 						{ class = "gth_inf_rocketeer_shield", 				addShield = 14.0,	regenDelay = 3.0 }, 
 						{ class = "gth_inf_sniper_shield", 					addShield = 14.0,	regenDelay = 3.0 }, 

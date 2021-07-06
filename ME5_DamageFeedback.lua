@@ -759,6 +759,8 @@ function Init_HitMarkerSounds()
 		local armorClasses = {
 						-- Units
 						"col_inf_scion",
+						"col_inf_praetorian",
+						"col_inf_praetorian_shield",
 						"gth_inf_destroyer",
 						"gth_inf_juggernaut",
 						"gth_inf_destroyer_shield",

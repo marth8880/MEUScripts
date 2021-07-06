@@ -672,20 +672,24 @@ function Load_COL()
 			print("ME5_RandomSides.Load_COL(): Configuring COL Shield Functionality for AUTO-REGEN...")
 			col_inf_captain			= "col_inf_captain_shield"
 			col_inf_guardian		= "col_inf_guardian_shield"
+			col_inf_praetorian		= "col_inf_praetorian_shield"
 			
 		elseif ME5_ShieldFunc == 2 then
 			print("ME5_RandomSides.Load_COL(): Configuring COL Shield Functionality for PICKUPS...")
 			col_inf_captain			= "col_inf_captain"
 			col_inf_guardian		= "col_inf_guardian"
+			col_inf_praetorian		= "col_inf_praetorian"
 		else
 			print("ME5_RandomSides.Load_COL(): Error! ME5_ShieldFunc setting is invalid! Defaulting to COL Shield Functionality for AUTO-REGEN")
 			col_inf_captain			= "col_inf_captain_shield"
 			col_inf_guardian		= "col_inf_guardian_shield"
+			col_inf_praetorian		= "col_inf_praetorian_shield"
 		end
 	else
 		print("ME5_RandomSides.Load_COL(): Configuring COL Shield Functionality for AUTO-REGEN...")
 		col_inf_captain			= "col_inf_captain_shield"
 		col_inf_guardian		= "col_inf_guardian_shield"
+		col_inf_praetorian		= "col_inf_praetorian_shield"
 	end
 	
 	print("ME5_RandomSides.Load_COL(): Loading Collector Ship meshes/textures")
@@ -2113,6 +2117,7 @@ function Setup_SSVxCOL_med()
 			special = { col_inf_captain, 2, NUM_COLCAPTAINS},
 			support  = { col_inf_guardian,2, 14},
 			scion  = { "col_inf_scion",1, 2},
+			praetorian  = { col_inf_praetorian,1, 2},
 		}
 	}
 	-- AddUnitClass(CIS, "col_inf_seekers", 1, 4)
@@ -2496,7 +2501,7 @@ function Setup_SSVxCOL_lg()
 			adept = { ssv_inf_adept,5, 8},
 			engineer   = { ssv_inf_engineer,5, 8},
 			sentinel = { ssv_inf_sentinel,4, 8},
-			vanguard = { ssv_inf_vanguard,4, 8},	
+			vanguard = { ssv_inf_vanguard,4, 8},
 		},
 		
 		cis = {
