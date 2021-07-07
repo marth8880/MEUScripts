@@ -2514,6 +2514,7 @@ function Setup_SSVxCOL_lg()
 			special = { col_inf_captain, 2, NUM_COLCAPTAINS},
 			support  = { col_inf_guardian,2, 14},
 			scion  = { "col_inf_scion",2, 4},
+			praetorian  = { col_inf_praetorian,1, 2},
 		}
 	}
 	
