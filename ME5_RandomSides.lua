@@ -1058,7 +1058,7 @@ function Setup_SSVxCOL_xxs()
 		
 		cis = {
 			team = CIS,
-			units = 5,
+			units = 6,
 			reinforcements = 150,
 			-- husk  = { "indoc_inf_husk",2, 8},
 			soldier  = { "col_inf_drone",2, 25},
@@ -1066,6 +1066,7 @@ function Setup_SSVxCOL_xxs()
 			special = { col_inf_captain, 1, NUM_COLCAPTAINS},
 			support  = { col_inf_guardian,1, 14},
 			scion  = { "col_inf_scion",1, 2},
+			praetorian  = { col_inf_praetorian,1, 2},
 		}
 	}
 	
@@ -1175,6 +1176,7 @@ function Setup_EVGxCOL_xxs()
 			special = { col_inf_captain, 1, NUM_COLCAPTAINS},
 			support  = { col_inf_guardian,1, 14},
 			scion  = { "col_inf_scion",1, 2},
+			praetorian  = { col_inf_praetorian,1, 2},
 		}
 	}
 	
@@ -1342,6 +1344,7 @@ function Setup_SSVxCOL_xs()
 			special = { col_inf_captain, 1, NUM_COLCAPTAINS},
 			support  = { col_inf_guardian,1, 14},
 			scion  = { "col_inf_scion",2, 3},
+			praetorian  = { col_inf_praetorian,1, 2},
 		}
 	}
 	
@@ -1451,6 +1454,7 @@ function Setup_EVGxCOL_xs()
 			special = { col_inf_captain, 2, NUM_COLCAPTAINS},
 			support  = { col_inf_guardian,1, 14},
 			scion  = { "col_inf_scion",2, 3},
+			praetorian  = { col_inf_praetorian,1, 2},
 		}
 	}
 	
@@ -1726,6 +1730,7 @@ function Setup_SSVxCOL_sm()
 			special = { col_inf_captain, 2, NUM_COLCAPTAINS},
 			support  = { col_inf_guardian,1, 14},
 			scion  = { "col_inf_scion",1, 2},
+			praetorian  = { col_inf_praetorian,1, 2},
 		}
 	}
 	
@@ -1835,6 +1840,7 @@ function Setup_EVGxCOL_sm()
 			special = { col_inf_captain, 2, NUM_COLCAPTAINS},
 			support  = { col_inf_guardian,1, 14},
 			scion  = { "col_inf_scion",2, 4},
+			praetorian  = { col_inf_praetorian,1, 2},
 		}
 	}
 	
@@ -2232,6 +2238,7 @@ function Setup_EVGxCOL_med()
 			special = { col_inf_captain, 3, NUM_COLCAPTAINS},
 			support  = { col_inf_guardian,2, 14},
 			scion  = { "col_inf_scion",2, 4},
+			praetorian  = { col_inf_praetorian,1, 2},
 		}
 	}
 	
@@ -2514,7 +2521,7 @@ function Setup_SSVxCOL_lg()
 			special = { col_inf_captain, 2, NUM_COLCAPTAINS},
 			support  = { col_inf_guardian,2, 14},
 			scion  = { "col_inf_scion",2, 4},
-			praetorian  = { col_inf_praetorian,1, 2},
+			praetorian  = { col_inf_praetorian,2, 3},
 		}
 	}
 	
@@ -2626,6 +2633,7 @@ function Setup_EVGxCOL_lg()
 			special = { col_inf_captain, 3, NUM_COLCAPTAINS},
 			support  = { col_inf_guardian,2, 14},
 			scion  = { "col_inf_scion",3, 6},
+			praetorian  = { col_inf_praetorian,2, 3},
 		}
 	}
 	
@@ -2908,6 +2916,7 @@ function Setup_SSVxCOL_xl()
 			special = { col_inf_captain, 3, NUM_COLCAPTAINS},
 			support  = { col_inf_guardian,3, 14},
 			scion  = { "col_inf_scion",3, 6},
+			praetorian  = { col_inf_praetorian,2, 5},
 		}
 	}
 	
@@ -3019,6 +3028,7 @@ function Setup_EVGxCOL_xl()
 			special = { col_inf_captain, 4, NUM_COLCAPTAINS},
 			support  = { col_inf_guardian,3, 14},
 			scion  = { "col_inf_scion",3, 6},
+			praetorian  = { col_inf_praetorian,2, 5},
 		}
 	}
 	
