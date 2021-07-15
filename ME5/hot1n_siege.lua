@@ -15,6 +15,7 @@ manager = MapManager:New{
 	gameMode = "siege",
 	mapSize = "lg",
 	environmentType = "snow",
+	terrainFoleyGroup = "snow",
 	
 	-- In-game music
 	musicVariation_SSVxGTH = "3_nov",

@@ -119,6 +119,7 @@ MapManager = {
 	gameMode = nil,						-- This mission's game mode.
 	mapSize = nil,						-- Size of the map. Used for determining unit counts.
 	environmentType = nil,				-- Map's biome (essentially). Used for determining which camo textures to load.
+	terrainFoleyGroup = nil,			-- Foley group to use for terrain on this map.
 	
 	musicVariation_SSVxGTH = nil,		-- Music variation to use for SSVxGTH matches.
 	musicVariation_SSVxCOL = nil,		-- Music variation to use for SSVxCOL matches.
@@ -178,6 +179,10 @@ function MapManager:Init()
 	if self.environmentType == nil then
 		print("MapManager:Init(): WARNING: environmentType wasn't specified! Defaulting to Urban")
 		self.environmentType = "urban"
+	end
+	if self.terrainFoleyGroup == nil then
+		print("MapManager:Init(): WARNING: terrainFoleyGroup wasn't specified! Defaulting to Dirt")
+		self.terrainFoleyGroup = "dirt"
 	end
 	
 	-- Online multiplayer matches
@@ -657,6 +662,8 @@ function MapManager:Proc_ScriptInit_Begin()
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_SSV_NonStreaming.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_NonStreaming.lvl")
 			
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Foley_NonStreaming.lvl", "terrain_"..self.terrainFoleyGroup)
+			
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_GTH_NonStreaming.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_NonStreaming.lvl")
 			
@@ -695,6 +702,8 @@ function MapManager:Proc_ScriptInit_Begin()
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_SSV_NonStreaming.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_NonStreaming.lvl")
 			
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Foley_NonStreaming.lvl", "terrain_"..self.terrainFoleyGroup)
+			
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_COL_NonStreaming.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_NonStreaming.lvl")
 			
@@ -707,6 +716,8 @@ function MapManager:Proc_ScriptInit_Begin()
 			
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_GTH_NonStreaming.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_NonStreaming.lvl")
+			
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Foley_NonStreaming.lvl", "terrain_"..self.terrainFoleyGroup)
 			
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_GTH_NonStreaming.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_NonStreaming.lvl")
@@ -721,6 +732,8 @@ function MapManager:Proc_ScriptInit_Begin()
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_COL_NonStreaming.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_GTH_NonStreaming.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_NonStreaming.lvl")
+			
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Foley_NonStreaming.lvl", "terrain_"..self.terrainFoleyGroup)
 			
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_COL_NonStreaming.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_GTH_NonStreaming.lvl")
@@ -762,6 +775,8 @@ function MapManager:Proc_ScriptInit_Begin()
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_RPR_NonStreaming.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_NonStreaming.lvl")
 			
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Foley_NonStreaming.lvl", "terrain_"..self.terrainFoleyGroup)
+			
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_RPR_NonStreaming.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_NonStreaming.lvl")
 			
@@ -771,6 +786,8 @@ function MapManager:Proc_ScriptInit_Begin()
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_COL_NonStreaming.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_GTH_NonStreaming.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_NonStreaming.lvl")
+			
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Foley_NonStreaming.lvl", "terrain_"..self.terrainFoleyGroup)
 			
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_COL_NonStreaming.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_GTH_NonStreaming.lvl")

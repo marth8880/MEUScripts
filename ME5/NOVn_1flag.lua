@@ -14,6 +14,7 @@ manager = MapManager:New{
 	gameMode = "1flag",
 	mapSize = "xl",
 	environmentType = "snow",
+	terrainFoleyGroup = "snow",
 	
 	-- In-game music
 	musicVariation_SSVxGTH = "3_nov",
