@@ -123,6 +123,7 @@ local ballisticWeapons = {
 
 -- COL ballistic weapons.
 local ballisticWeapons_COL = {
+				"col_weap_inf_prae_missiles",
 				"col_weap_inf_rifle_col",
 				"col_weap_inf_rifle_col_colgen",
 				"col_weap_inf_rifle_col_shredder",
