@@ -12,7 +12,7 @@ manager = MapManager:New{
 	-- Map-specific details
 	bIsModMap = true,
 	gameMode = "conquest",
-	mapSize = "sm",
+	mapSize = "xs",
 	environmentType = "urban",
 	
 	-- In-game music
@@ -155,14 +155,14 @@ function ScriptInit()
 	manager:Proc_ScriptInit_MusicSetup()
 	
 	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_PRO_Streaming.lvl",  "PRO_ambiance")
-	--OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_PRO_Streaming.lvl",  "PRO_ambiance")
+	OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_PRO_Streaming.lvl",  "PRO_ambiance")
 
 	SoundFX()
 	
 	-- Opening Satellite Shots
 	AddCameraShot(0.978525, -0.037464, 0.202548, 0.007755, 25.577356, 5.990258, -14.311792);		-- south corner
 	AddCameraShot(-0.227115, 0.008059, -0.973222, -0.034536, 26.382149, 5.990258, -122.364380);		-- north corner
-	AddCameraShot(0.013350, -0.001503, -0.993636, -0.111838, -7.550848, 2.605920, -82.578865);		-- bunker
+	-- AddCameraShot(0.013350, -0.001503, -0.993636, -0.111838, -7.550848, 2.605920, -82.578865);		-- bunker
 	AddCameraShot(0.459203, 0.042688, -0.883496, 0.082130, -19.666098, 7.762414, -125.828354);		-- towers wide
 	AddCameraShot(-0.428738, -0.031436, -0.900465, 0.066023, 20.310499, 2.323809, -157.813171);		-- skyway tower interior
 
