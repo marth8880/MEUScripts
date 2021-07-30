@@ -55,6 +55,8 @@ function Init_Weapon_Charge()
 			if hitByCorrectWeapon == true then
 				local charPtr = GetCharacterUnit(damager)
 				local objectPtr = GetEntityPtr(object)
+				if not charPtr then return end
+				if not objectPtr then return end
 				
 				if GetObjectTeam(object) ~= GetObjectTeam(charPtr)
 				and GetObjectTeam(object) ~= 0 then
