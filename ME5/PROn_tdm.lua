@@ -34,8 +34,8 @@ manager = MapManager:New{
 	heroSupportCPs = {},
 	-- Local ally spawns. CP name, CP spawn path name
 	allySpawnCPs = {
-				{"cp1_tdm", "cp1_spawn"},
-				{"cp2_tdm", "cp2_spawn"},
+				{"cp1_tdm", "cp1tdm_spawn"},
+				{"cp2_tdm", "cp2tdm_spawn"},
 	},
 }
 -- Initialize the MapManager
