@@ -66,6 +66,8 @@ ObjectiveConquest = Objective:New
 	bCanShowCaptureMessage = true,
 	numMsgDelayTimers = 0,
 	bShowCPMarkers = true,
+
+	postCaptureRegionEventHandlers = {},
 }
 
 function ObjectiveConquest:GetOpposingTeam(team)
@@ -650,25 +652,25 @@ function ObjectiveConquest:Start()
 		end,
 		self.postCaptureMsgBufferTimer
 	)
-	
-	OnBeginNeutralize(
-		function(postPtr, holding)
-			if self.isComplete then	return end
-			if not self.commandPosts[GetEntityName(postPtr)] then return end
-			
-			PrintLog("OnBeginNeutralize:", GetEntityName(postPtr), table.getn(holding))
-			
-			if debug == true and table.getn(holding) > 0 then
-				tprint(holding)
-			end
-			
-			self.commandPostAbortedNeutralize[GetEntityName(postPtr)] = 0
-			
-			self.commandPostStates[GetEntityName(postPtr)] = CommandPostCaptureState.Neutralizing
-			
-			UpdatePostMapMarker(postPtr)
+
+	local function OnBeginNeutralizeConquest(postPtr, holding)
+		if self.isComplete then	return end
+		if not self.commandPosts[GetEntityName(postPtr)] then return end
+		
+		PrintLog("OnBeginNeutralize:", GetEntityName(postPtr), table.getn(holding))
+		
+		if debug == true and table.getn(holding) > 0 then
+			tprint(holding)
 		end
-	)
+		
+		self.commandPostAbortedNeutralize[GetEntityName(postPtr)] = 0
+		
+		self.commandPostStates[GetEntityName(postPtr)] = CommandPostCaptureState.Neutralizing
+		
+		UpdatePostMapMarker(postPtr)
+	end
+	
+	OnBeginNeutralize(OnBeginNeutralizeConquest)
 	
 	OnAbortNeutralize(
 		function(postPtr, holding)
@@ -687,12 +689,27 @@ function ObjectiveConquest:Start()
 			if table.getn(holding) == 0 then
 				self.commandPostStates[GetEntityName(postPtr)] = CommandPostCaptureState.Idle
 			end
+
+			-- OnBeginNeutralize only triggers on first neutralize so we need to do it manually after aborts
+			local capRegionName = GetCommandPostCaptureRegion(postPtr)
+			ActivateRegion(capRegionName)
+			self.postCaptureRegionEventHandlers[capRegionName] = OnEnterRegion(
+				function(region, character)
+					PrintLog("Entered region", capRegionName)
+
+					OnBeginNeutralizeConquest(postPtr, holding)
+
+					DeactivateRegion(capRegionName)
+					ReleaseEnterRegion(self.postCaptureRegionEventHandlers[capRegionName])
+					self.postCaptureRegionEventHandlers[capRegionName] = nil
+				end,
+				capRegionName
+			)
 			
 			UpdatePostMapMarker(postPtr)
 		end
 	)
 	
-	-- command post neutralize
 	OnFinishNeutralize(
 		function(postPtr)
 			if self.isComplete then	return end
@@ -700,7 +717,8 @@ function ObjectiveConquest:Start()
 			
 			PrintLog("OnFinishNeutralize:", GetEntityName(postPtr))
 			
-			self.commandPostStates[GetEntityName(postPtr)] = CommandPostCaptureState.Idle
+			-- OnBeginCapture doesn't trigger when flowing straight through from neutralizing
+			self.commandPostStates[GetEntityName(postPtr)] = CommandPostCaptureState.Capturing
 			
 			UpdatePostMapMarker(postPtr)
 			UpdateState()
@@ -743,7 +761,6 @@ function ObjectiveConquest:Start()
 		end
 	)
 	
-	-- command post captures
 	OnFinishCapture(
 		function(postPtr)
 			if self.isComplete then	return end
@@ -759,7 +776,6 @@ function ObjectiveConquest:Start()
 		end
 	)
 	
-	-- command post spawn
 	OnCommandPostRespawn(
 		function (postPtr)
 			if self.isComplete then	return end
@@ -770,7 +786,6 @@ function ObjectiveConquest:Start()
 		end
 	)
 	
-	-- command post kill
 	OnCommandPostKill(
 		function (postPtr)
 			if self.isComplete then	return end
