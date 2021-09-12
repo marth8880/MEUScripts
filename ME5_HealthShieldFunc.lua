@@ -38,15 +38,15 @@ PrintLog("Entered");
 -- Sets up event responses for health functionality.
 -- 
 function Init_HealthFunc()
-	print("ME5_HealthShieldFunc.Init_HealthFunc(): Entered")
+	PrintLog("Init_HealthFunc(): Entered")
 	
 	if not ScriptCB_InMultiplayer() then
 		if ME5_HealthFunc == 1 then
-			print("ME5_HealthShieldFunc.Init_HealthFunc(): Configuring Health Functionality for AUTO-REGEN...")
+			PrintLog("Init_HealthFunc(): Configuring Health Functionality for AUTO-REGEN...")
 			SetClassProperty("com_inf_default", "AddHealth", UNIT_HEALTH_REGEN_RATE)
 			
 		elseif ME5_HealthFunc == 2 then
-			print("ME5_HealthShieldFunc.Init_HealthFunc(): Configuring Health Functionality for PICKUPS...")
+			PrintLog("Init_HealthFunc(): Configuring Health Functionality for PICKUPS...")
 			SetClassProperty("com_inf_default", "NextDropItem", "-")
 			SetClassProperty("com_inf_default", "DropItemClass", "com_item_powerup_health")
 			SetClassProperty("com_inf_default", "DropItemProbability", 0.2)
@@ -56,11 +56,11 @@ function Init_HealthFunc()
 			SetClassProperty("com_hero_default", "DropItemProbability", 0.2)
 			
 		else
-			print("ME5_HealthShieldFunc.Init_HealthFunc(): Error! ME5_HealthFunc setting is invalid! Defaulting to Health Functionality for AUTO-REGEN")
+			PrintLog("Init_HealthFunc(): Error! ME5_HealthFunc setting is invalid! Defaulting to Health Functionality for AUTO-REGEN")
 			SetClassProperty("com_inf_default", "AddHealth", UNIT_HEALTH_REGEN_RATE)
 		end
 	else
-		print("ME5_HealthShieldFunc.Init_HealthFunc(): Configuring Health Functionality for PICKUPS...")
+		PrintLog("Init_HealthFunc(): Configuring Health Functionality for PICKUPS...")
 		SetClassProperty("com_inf_default", "NextDropItem", "-")
 		SetClassProperty("com_inf_default", "DropItemClass", "com_item_powerup_health")
 		SetClassProperty("com_inf_default", "DropItemProbability", 0.2)
@@ -76,11 +76,11 @@ end
 -- Sets up event responses for shield functionality.
 -- 
 function Init_ShieldFunc()
-	print("ME5_HealthShieldFunc.Init_ShieldFunc(): Entered")
+	PrintLog("Init_ShieldFunc(): Entered")
 	
 	if not ScriptCB_InMultiplayer() then
 		if ME5_ShieldFunc == 1 then
-			print("ME5_HealthShieldFunc.Init_ShieldFunc(): Configuring Shield Functionality for AUTO-REGEN...")
+			PrintLog("Init_ShieldFunc(): Configuring Shield Functionality for AUTO-REGEN...")
 			--[[SetClassProperty("ssv_inf_default", "AddShield", 9.0)
 			SetClassProperty("ssv_inf_default_sentinel", "AddShield", 18.0)
 			
@@ -92,7 +92,7 @@ function Init_ShieldFunc()
 			--SetClassProperty("com_inf_default", "AddShield", 14.0)
 			
 		elseif ME5_ShieldFunc == 2 then
-			print("ME5_HealthShieldFunc.Init_ShieldFunc(): Configuring Shield Functionality for PICKUPS...")
+			PrintLog("Init_ShieldFunc(): Configuring Shield Functionality for PICKUPS...")
 			------------------------------------------------
 			-- DON'T FORGET TO UPDATE MULTIPLAYER VERSION --
 			------------------------------------------------
@@ -108,7 +108,7 @@ function Init_ShieldFunc()
 		
 			local itempickup = OnFlagPickUp(
 				function(flag, character)
-					print("ME5_HealthShieldFunc.Init_ShieldFunc(): Unit picked up flag")
+					PrintLog("Init_ShieldFunc(): Unit picked up flag")
 					-- Exit immediately if there are incorrect values
 					if not flag then return end
 					if not character then return end
@@ -122,7 +122,7 @@ function Init_ShieldFunc()
 						KillObject(flag)
 						
 						local curShields = GetObjectShield(charPtr)
-							print("ShieldRegen: Unit's current shields: "..curShields)
+							PrintLog("ShieldRegen: Unit's current shields: "..curShields)
 						local newShields = curShields + 150
 						
 						local isHeroMsg = "ShieldRegen: Unit is hero class; no shields added"
@@ -156,10 +156,10 @@ function Init_ShieldFunc()
 							print(isHeroMsg)
 						else
 							SetProperty(charPtr, "CurShield", newShields)
-							print("ShieldRegen: Unit's new shields: "..newShields)
+							PrintLog("ShieldRegen: Unit's new shields: "..newShields)
 						
 							shieldDropCnt = shieldDropCnt + 1
-							print("ShieldRegen: Shield drop count: "..shieldDropCnt)
+							PrintLog("ShieldRegen: Shield drop count: "..shieldDropCnt)
 						end
 						
 						local shieldPfx = CreateEffect("com_sfx_pickup_shield")
@@ -170,7 +170,7 @@ function Init_ShieldFunc()
 			)
 		end
 	else
-		print("ME5_HealthShieldFunc.Init_ShieldFunc(): Configuring Shield Functionality for AUTO-REGEN...")
+		PrintLog("Init_ShieldFunc(): Configuring Shield Functionality for AUTO-REGEN...")
 		--[[SetClassProperty("ssv_inf_default", "AddShield", 9.0)
 		SetClassProperty("ssv_inf_default_sentinel", "AddShield", 18.0)
 		
@@ -188,13 +188,13 @@ end
 -- Sets up the event responses and logic for deferred shield regeneration.
 -- 
 function Init_DeferredShieldRegen()
-	print("ME5_HealthShieldFunc.Init_DeferredShieldRegen(): Entered")
+	PrintLog("Init_DeferredShieldRegen(): Entered")
 	
 	if not ScriptCB_InMultiplayer() then
 		if ME5_ShieldRegen == 0 then
-			print("ME5_HealthShieldFunc.Init_DeferredShieldRegen(): Configuring Shield Regeneration for AUTOMATIC...")
+			PrintLog("Init_DeferredShieldRegen(): Configuring Shield Regeneration for AUTOMATIC...")
 		elseif ME5_ShieldRegen == 1 then
-			print("ME5_HealthShieldFunc.Init_DeferredShieldRegen(): Configuring Shield Regeneration for DEFERRED...")
+			PrintLog("Init_DeferredShieldRegen(): Configuring Shield Regeneration for DEFERRED...")
 			
 			--=================================
 			-- Data Fields
@@ -361,7 +361,7 @@ function Init_DeferredShieldRegen()
 				
 				
 				if bDebugMessagesEnabled == true then
-					print("ME5_HealthShieldFunc.Init_DeferredShieldRegen.StartRegeneration(): Starting shield regeneration")
+					PrintLog("Init_DeferredShieldRegen.StartRegeneration(): Starting shield regeneration")
 					ShowMessageText("level.common.debug.shields_starting", ATT)
 					ShowMessageText("level.common.debug.shields_starting", DEF)
 				end
@@ -405,7 +405,7 @@ function Init_DeferredShieldRegen()
 				
 				
 				if bDebugMessagesEnabled == true then
-					print("ME5_HealthShieldFunc.Init_DeferredShieldRegen.StopRegeneration(): Stopping shield regeneration")
+					PrintLog("Init_DeferredShieldRegen.StopRegeneration(): Stopping shield regeneration")
 					ShowMessageText("level.common.debug.shields_stopping", ATT)
 					ShowMessageText("level.common.debug.shields_stopping", DEF)
 				end
@@ -492,7 +492,7 @@ function Init_DeferredShieldRegen()
 			-- @param #object unit		The character unit whose shields we're breaking.
 			-- 
 			local function BreakShields(unit)
-				print("ME5_HealthShieldFunc.Init_DeferredShieldRegen.BreakShields(): Entered")
+				PrintLog("Init_DeferredShieldRegen.BreakShields(): Entered")
 				
 				-- Exit immediately if `unit` isn't specified
 				if not unit then return end
@@ -553,12 +553,12 @@ function Init_DeferredShieldRegen()
 						)
 					else
 						if bDebugMessagesEnabled == true then
-							print("ME5_HealthShieldFunc.Init_DeferredShieldRegen.playershieldschange(): playerHealthPercent, LH_playerHealthThreshold:", playerHealthPercent, LH_playerHealthThreshold)
-							print("ME5_HealthShieldFunc.Init_DeferredShieldRegen.playershieldschange(): Low health sound activating, skipping bus ducking")
+							PrintLog("Init_DeferredShieldRegen.playershieldschange(): playerHealthPercent, LH_playerHealthThreshold:", playerHealthPercent, LH_playerHealthThreshold)
+							PrintLog("Init_DeferredShieldRegen.playershieldschange(): Low health sound activating, skipping bus ducking")
 						end
 					end
 				else
-					print("Shields can't be broken yet")
+					PrintLog("Shields can't be broken yet")
 				end
 			end
 			
@@ -590,7 +590,7 @@ function Init_DeferredShieldRegen()
 			        	charClass = GetEntityClass(charPtr)			-- Get the character's class
 						playerMaxHealth = GetObjectHealth(charPtr)	-- Get the character's max health
 						
-						--print("ME5_HealthShieldFunc.Init_DeferredShieldRegen.playerspawn(): playerMaxHealth:", playerMaxHealth)	-- Uncomment me for test output!
+						--PrintLog("Init_DeferredShieldRegen.playerspawn(): playerMaxHealth:", playerMaxHealth)	-- Uncomment me for test output!
 			        	
 						-- Check if the player's class is one of the shield classes
 						for i in pairs(shieldClasses) do
@@ -655,14 +655,14 @@ function Init_DeferredShieldRegen()
 								BreakShields(object)
 							end
 						else
-							--print("Shields aren't depleted")
+							--PrintLog("Shields aren't depleted")
 						end
 					else
-						--print("Player is not the affected object")
+						--PrintLog("Player is not the affected object")
 						if bIsPlayerCorrectClass == false then
-							--print("and the player is not the correct class")
+							--PrintLog("and the player is not the correct class")
 						else
-							--print("but the player is the correct class")
+							--PrintLog("but the player is the correct class")
 						end
 					end
 				end
@@ -687,10 +687,10 @@ function Init_DeferredShieldRegen()
 			)
 		end
 	else
-		print("ME5_HealthShieldFunc.Init_DeferredShieldRegen(): Configuring Shield Regeneration for AUTOMATIC...")
+		PrintLog("Init_DeferredShieldRegen(): Configuring Shield Regeneration for AUTOMATIC...")
 	end
 	
-	print("ME5_HealthShieldFunc.Init_DeferredShieldRegen(): Exited")
+	PrintLog("Init_DeferredShieldRegen(): Exited")
 end
 
 

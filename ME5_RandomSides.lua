@@ -19,7 +19,16 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 
-print("ME5_RandomSides: Entered")
+local __SCRIPT_NAME = "ME5_RandomSides";
+local debug = true
+
+local function PrintLog(...)
+	if debug == true then
+		print("["..__SCRIPT_NAME.."]", unpack(arg));
+	end
+end
+
+PrintLog("Entered")
 
 -- Calls the functions necessary for the chosen faction combination (based on int var, ME5_SideVar). No params required.
 function Init_SideSetup()
@@ -55,71 +64,71 @@ function Setup_SSVxGTH()
 	Load_GTH()
 	
 	if gCurrentMapManager.mapSize == "xxs" or gCurrentMapManager.mapSize == 1 then
-		print("ME5_RandomSides.Setup_SSVxGTH(): Map size is xxs")
+		PrintLog("Setup_SSVxGTH(): Map size is xxs")
 		Setup_SSVxGTH_xxs()
 		
 	elseif gCurrentMapManager.mapSize == "xs" or gCurrentMapManager.mapSize == 2 then
-		print("ME5_RandomSides.Setup_SSVxGTH(): Map size is xs")
+		PrintLog("Setup_SSVxGTH(): Map size is xs")
 		Setup_SSVxGTH_xs()
 		
 	elseif gCurrentMapManager.mapSize == "sm" or gCurrentMapManager.mapSize == 3 then
-		print("ME5_RandomSides.Setup_SSVxGTH(): Map size is sm")
+		PrintLog("Setup_SSVxGTH(): Map size is sm")
 		Setup_SSVxGTH_sm()
 		
 	elseif gCurrentMapManager.mapSize == "med" or gCurrentMapManager.mapSize == 4 then
-		print("ME5_RandomSides.Setup_SSVxGTH(): Map size is med")
+		PrintLog("Setup_SSVxGTH(): Map size is med")
 		Setup_SSVxGTH_med()
 		
 	elseif gCurrentMapManager.mapSize == "lg" or gCurrentMapManager.mapSize == 5 then
-		print("ME5_RandomSides.Setup_SSVxGTH(): Map size is lg")
+		PrintLog("Setup_SSVxGTH(): Map size is lg")
 		Setup_SSVxGTH_lg()
 		
 	elseif gCurrentMapManager.mapSize == "xl" or gCurrentMapManager.mapSize == 6 then
-		print("ME5_RandomSides.Setup_SSVxGTH(): Map size is xl")
+		PrintLog("Setup_SSVxGTH(): Map size is xl")
 		Setup_SSVxGTH_xl()
 	else
-		print("ME5_RandomSides.Setup_SSVxGTH(): ALL YOUR MAP SIZE ARE BELONG TO US!!")
+		PrintLog("Setup_SSVxGTH(): ALL YOUR MAP SIZE ARE BELONG TO US!!")
 	end
 	
 	
 	if ScriptCB_InMultiplayer() then
 		-- SYSTEMS ALLIANCE HERO
 		if gCurrentMapManager.onlineHeroSSV == "shep_soldier" or gCurrentMapManager.onlineHeroSSV == 1 then
-			print("ME5_RandomSides.Setup_SSVxGTH(): Online SSV hero is Shepard Soldier")
+			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Soldier")
 			SetHeroClass(REP, "ssv_hero_shepard_soldier")
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_infiltrator" or gCurrentMapManager.onlineHeroSSV == 2 then
-			print("ME5_RandomSides.Setup_SSVxGTH(): Online SSV hero is Shepard Infiltrator")
+			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Infiltrator")
 			SetHeroClass(REP, "ssv_hero_shepard_infiltrator")
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_engineer" or gCurrentMapManager.onlineHeroSSV == 3 then
-			print("ME5_RandomSides.Setup_SSVxGTH(): Online SSV hero is Shepard Engineer")
+			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Engineer")
 			SetHeroClass(REP, "ssv_hero_shepard_engineer")
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_adept" or gCurrentMapManager.onlineHeroSSV == 4 then
-			print("ME5_RandomSides.Setup_SSVxGTH(): Online SSV hero is Shepard Adept")
+			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Adept")
 			SetHeroClass(REP, "ssv_hero_shepard_adept")
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_sentinel" or gCurrentMapManager.onlineHeroSSV == 5 then
-			print("ME5_RandomSides.Setup_SSVxGTH(): Online SSV hero is Shepard Sentinel")
+			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Sentinel")
 			SetHeroClass(REP, "ssv_hero_shepard_sentinel")
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_vanguard" or gCurrentMapManager.onlineHeroSSV == 6 then
-			print("ME5_RandomSides.Setup_SSVxGTH(): Online SSV hero is Shepard Vanguard")
+			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Vanguard")
 			SetHeroClass(REP, "ssv_hero_shepard_vanguard")
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "jack" or gCurrentMapManager.onlineHeroSSV == 7 then
-			print("ME5_RandomSides.Setup_SSVxGTH(): Online SSV hero is Jack")
+			PrintLog("Setup_SSVxGTH(): Online SSV hero is Jack")
 			SetHeroClass(REP, "ssv_hero_jack")
 		end
 		
 		-- HERETIC GETH HERO
 		if gCurrentMapManager.onlineHeroGTH == "gethprime_me2" or gCurrentMapManager.onlineHeroGTH == 1 then
-			print("ME5_RandomSides.Setup_SSVxGTH(): Online GTH hero is ME2 Geth Prime")
+			PrintLog("Setup_SSVxGTH(): Online GTH hero is ME2 Geth Prime")
 			SetHeroClass(CIS, "gth_hero_prime_me2")
 			
 		elseif gCurrentMapManager.onlineHeroGTH == "gethprime_me3" or gCurrentMapManager.onlineHeroGTH == 2 then
-			print("ME5_RandomSides.Setup_SSVxGTH(): Online GTH hero is ME3 Geth Prime")
+			PrintLog("Setup_SSVxGTH(): Online GTH hero is ME3 Geth Prime")
 			SetHeroClass(CIS, "gth_hero_prime_me3")
 		end
 	end
@@ -130,63 +139,63 @@ function Setup_SSVxCOL()
 	Load_COL()
 	
 	if gCurrentMapManager.mapSize == "xxs" or gCurrentMapManager.mapSize == 1 then
-		print("ME5_RandomSides.Setup_SSVxCOL(): Map size is xxs")
+		PrintLog("Setup_SSVxCOL(): Map size is xxs")
 		Setup_SSVxCOL_xxs()
 		
 	elseif gCurrentMapManager.mapSize == "xs" or gCurrentMapManager.mapSize == 2 then
-		print("ME5_RandomSides.Setup_SSVxCOL(): Map size is xs")
+		PrintLog("Setup_SSVxCOL(): Map size is xs")
 		Setup_SSVxCOL_xs()
 		
 	elseif gCurrentMapManager.mapSize == "sm" or gCurrentMapManager.mapSize == 3 then
-		print("ME5_RandomSides.Setup_SSVxCOL(): Map size is sm")
+		PrintLog("Setup_SSVxCOL(): Map size is sm")
 		Setup_SSVxCOL_sm()
 		
 	elseif gCurrentMapManager.mapSize == "med" or gCurrentMapManager.mapSize == 4 then
-		print("ME5_RandomSides.Setup_SSVxCOL(): Map size is med")
+		PrintLog("Setup_SSVxCOL(): Map size is med")
 		Setup_SSVxCOL_med()
 		
 	elseif gCurrentMapManager.mapSize == "lg" or gCurrentMapManager.mapSize == 5 then
-		print("ME5_RandomSides.Setup_SSVxCOL(): Map size is lg")
+		PrintLog("Setup_SSVxCOL(): Map size is lg")
 		Setup_SSVxCOL_lg()
 		
 	elseif gCurrentMapManager.mapSize == "xl" or gCurrentMapManager.mapSize == 6 then
-		print("ME5_RandomSides.Setup_SSVxCOL(): Map size is xl")
+		PrintLog("Setup_SSVxCOL(): Map size is xl")
 		Setup_SSVxCOL_xl()
 	else
-		print("ME5_RandomSides.Setup_SSVxCOL(): ALL YOUR MAP SIZE ARE BELONG TO US!!")
+		PrintLog("Setup_SSVxCOL(): ALL YOUR MAP SIZE ARE BELONG TO US!!")
 	end
 	
 	
 	if ScriptCB_InMultiplayer() then
 		-- SYSTEMS ALLIANCE HERO
 		if gCurrentMapManager.onlineHeroSSV == "shep_soldier" or gCurrentMapManager.onlineHeroSSV == 1 then
-			print("ME5_RandomSides.Setup_SSVxCOL(): Online SSV hero is Shepard Soldier")
+			PrintLog("Setup_SSVxCOL(): Online SSV hero is Shepard Soldier")
 			SetHeroClass(REP, "ssv_hero_shepard_soldier")
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_infiltrator" or gCurrentMapManager.onlineHeroSSV == 2 then
-			print("ME5_RandomSides.Setup_SSVxCOL(): Online SSV hero is Shepard Infiltrator")
+			PrintLog("Setup_SSVxCOL(): Online SSV hero is Shepard Infiltrator")
 			SetHeroClass(REP, "ssv_hero_shepard_infiltrator")
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_engineer" or gCurrentMapManager.onlineHeroSSV == 3 then
-			print("ME5_RandomSides.Setup_SSVxCOL(): Online SSV hero is Shepard Engineer")
+			PrintLog("Setup_SSVxCOL(): Online SSV hero is Shepard Engineer")
 			SetHeroClass(REP, "ssv_hero_shepard_engineer")
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_adept" or gCurrentMapManager.onlineHeroSSV == 4 then
-			print("ME5_RandomSides.Setup_SSVxCOL(): Online SSV hero is Shepard Adept")
+			PrintLog("Setup_SSVxCOL(): Online SSV hero is Shepard Adept")
 			SetHeroClass(REP, "ssv_hero_shepard_adept")
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_sentinel" or gCurrentMapManager.onlineHeroSSV == 5 then
-			print("ME5_RandomSides.Setup_SSVxCOL(): Online SSV hero is Shepard Sentinel")
+			PrintLog("Setup_SSVxCOL(): Online SSV hero is Shepard Sentinel")
 			SetHeroClass(REP, "ssv_hero_shepard_sentinel")
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_vanguard" or gCurrentMapManager.onlineHeroSSV == 6 then
-			print("ME5_RandomSides.Setup_SSVxCOL(): Online SSV hero is Shepard Vanguard")
+			PrintLog("Setup_SSVxCOL(): Online SSV hero is Shepard Vanguard")
 			SetHeroClass(REP, "ssv_hero_shepard_vanguard")
 		end
 		
 		-- COLLECTORS HERO
 		if gCurrentMapManager.onlineHeroCOL == "colgeneral" or gCurrentMapManager.onlineHeroCOL == 1 then
-			print("ME5_RandomSides.Setup_SSVxCOL(): Online COL hero is Harby")
+			PrintLog("Setup_SSVxCOL(): Online COL hero is Harby")
 			SetHeroClass(CIS, "col_hero_harbinger")
 		end
 	end
@@ -196,51 +205,51 @@ function Setup_EVGxGTH()
 	Load_EVGxGTH()
 	
 	if gCurrentMapManager.mapSize == "xxs" or gCurrentMapManager.mapSize == 1 then
-		print("ME5_RandomSides.Setup_EVGxGTH(): Map size is xxs")
+		PrintLog("Setup_EVGxGTH(): Map size is xxs")
 		Setup_EVGxGTH_xxs()
 		
 	elseif gCurrentMapManager.mapSize == "xs" or gCurrentMapManager.mapSize == 2 then
-		print("ME5_RandomSides.Setup_EVGxGTH(): Map size is xs")
+		PrintLog("Setup_EVGxGTH(): Map size is xs")
 		Setup_EVGxGTH_xs()
 		
 	elseif gCurrentMapManager.mapSize == "sm" or gCurrentMapManager.mapSize == 3 then
-		print("ME5_RandomSides.Setup_EVGxGTH(): Map size is sm")
+		PrintLog("Setup_EVGxGTH(): Map size is sm")
 		Setup_EVGxGTH_sm()
 		
 	elseif gCurrentMapManager.mapSize == "med" or gCurrentMapManager.mapSize == 4 then
-		print("ME5_RandomSides.Setup_EVGxGTH(): Map size is med")
+		PrintLog("Setup_EVGxGTH(): Map size is med")
 		Setup_EVGxGTH_med()
 		
 	elseif gCurrentMapManager.mapSize == "lg" or gCurrentMapManager.mapSize == 5 then
-		print("ME5_RandomSides.Setup_EVGxGTH(): Map size is lg")
+		PrintLog("Setup_EVGxGTH(): Map size is lg")
 		Setup_EVGxGTH_lg()
 		
 	elseif gCurrentMapManager.mapSize == "xl" or gCurrentMapManager.mapSize == 6 then
-		print("ME5_RandomSides.Setup_EVGxGTH(): Map size is xl")
+		PrintLog("Setup_EVGxGTH(): Map size is xl")
 		Setup_EVGxGTH_xl()
 	else
-		print("ME5_RandomSides.Setup_EVGxGTH(): ALL YOUR MAP SIZE ARE BELONG TO US!!")
+		PrintLog("Setup_EVGxGTH(): ALL YOUR MAP SIZE ARE BELONG TO US!!")
 	end
 	
 	
 	if ScriptCB_InMultiplayer() then
 		-- EVOLVED GETH HERO
 		if gCurrentMapManager.onlineHeroEVG == "gethprime_me2" or gCurrentMapManager.onlineHeroEVG == 1 then
-			print("ME5_RandomSides.Setup_EVGxGTH(): Online EVG hero is ME2 Geth Prime")
+			PrintLog("Setup_EVGxGTH(): Online EVG hero is ME2 Geth Prime")
 			SetHeroClass(REP, "gth_hero_prime_me2")
 			
 		elseif gCurrentMapManager.onlineHeroEVG == "gethprime_me3" or gCurrentMapManager.onlineHeroEVG == 2 then
-			print("ME5_RandomSides.Setup_EVGxGTH(): Online EVG hero is ME3 Geth Prime")
+			PrintLog("Setup_EVGxGTH(): Online EVG hero is ME3 Geth Prime")
 			SetHeroClass(REP, "gth_hero_prime_me3")
 		end
 		
 		-- HERETIC GETH HERO
 		if gCurrentMapManager.onlineHeroGTH == "gethprime_me2" or gCurrentMapManager.onlineHeroGTH == 1 then
-			print("ME5_RandomSides.Setup_EVGxGTH(): Online GTH hero is ME2 Geth Prime")
+			PrintLog("Setup_EVGxGTH(): Online GTH hero is ME2 Geth Prime")
 			SetHeroClass(CIS, "gth_hero_prime_me2")
 			
 		elseif gCurrentMapManager.onlineHeroGTH == "gethprime_me3" or gCurrentMapManager.onlineHeroGTH == 2 then
-			print("ME5_RandomSides.Setup_EVGxGTH(): Online GTH hero is ME3 Geth Prime")
+			PrintLog("Setup_EVGxGTH(): Online GTH hero is ME3 Geth Prime")
 			SetHeroClass(CIS, "gth_hero_prime_me3")
 		end
 	end
@@ -251,46 +260,46 @@ function Setup_EVGxCOL()
 	Load_COL()
 	
 	if gCurrentMapManager.mapSize == "xxs" or gCurrentMapManager.mapSize == 1 then
-		print("ME5_RandomSides.Setup_EVGxCOL(): Map size is xxs")
+		PrintLog("Setup_EVGxCOL(): Map size is xxs")
 		Setup_EVGxCOL_xxs()
 		
 	elseif gCurrentMapManager.mapSize == "xs" or gCurrentMapManager.mapSize == 2 then
-		print("ME5_RandomSides.Setup_EVGxCOL(): Map size is xs")
+		PrintLog("Setup_EVGxCOL(): Map size is xs")
 		Setup_EVGxCOL_xs()
 		
 	elseif gCurrentMapManager.mapSize == "sm" or gCurrentMapManager.mapSize == 3 then
-		print("ME5_RandomSides.Setup_EVGxCOL(): Map size is sm")
+		PrintLog("Setup_EVGxCOL(): Map size is sm")
 		Setup_EVGxCOL_sm()
 		
 	elseif gCurrentMapManager.mapSize == "med" or gCurrentMapManager.mapSize == 4 then
-		print("ME5_RandomSides.Setup_EVGxCOL(): Map size is med")
+		PrintLog("Setup_EVGxCOL(): Map size is med")
 		Setup_EVGxCOL_med()
 		
 	elseif gCurrentMapManager.mapSize == "lg" or gCurrentMapManager.mapSize == 5 then
-		print("ME5_RandomSides.Setup_EVGxCOL(): Map size is lg")
+		PrintLog("Setup_EVGxCOL(): Map size is lg")
 		Setup_EVGxCOL_lg()
 		
 	elseif gCurrentMapManager.mapSize == "xl" or gCurrentMapManager.mapSize == 6 then
-		print("ME5_RandomSides.Setup_EVGxCOL(): Map size is xl")
+		PrintLog("Setup_EVGxCOL(): Map size is xl")
 		Setup_EVGxCOL_xl()
 	else
-		print("ME5_RandomSides.Setup_EVGxCOL(): ALL YOUR MAP SIZE ARE BELONG TO US!!")
+		PrintLog("Setup_EVGxCOL(): ALL YOUR MAP SIZE ARE BELONG TO US!!")
 	end
 	
 	
 	if ScriptCB_InMultiplayer() then
 		-- EVOLVED GETH HERO
 		if gCurrentMapManager.onlineHeroEVG == "gethprime_me2" or gCurrentMapManager.onlineHeroEVG == 1 then
-			print("ME5_RandomSides.Setup_EVGxCOL(): Online EVG hero is ME2 Geth Prime")
+			PrintLog("Setup_EVGxCOL(): Online EVG hero is ME2 Geth Prime")
 			SetHeroClass(REP, "gth_hero_prime_me2")
 		elseif gCurrentMapManager.onlineHeroEVG == "gethprime_me3" or gCurrentMapManager.onlineHeroEVG == 2 then
-			print("ME5_RandomSides.Setup_EVGxCOL(): Online EVG hero is ME3 Geth Prime")
+			PrintLog("Setup_EVGxCOL(): Online EVG hero is ME3 Geth Prime")
 			SetHeroClass(REP, "gth_hero_prime_me3")
 		end
 		
 		-- COLLECTORS HERO
 		if gCurrentMapManager.onlineHeroCOL == "colgeneral" or gCurrentMapManager.onlineHeroCOL == 1 then
-			print("ME5_RandomSides.Setup_EVGxCOL(): Online COL hero is Harby")
+			PrintLog("Setup_EVGxCOL(): Online COL hero is Harby")
 			SetHeroClass(CIS, "col_hero_harbinger")
 		end
 	end
@@ -301,63 +310,63 @@ function Setup_SSVxRPR()
 	Load_RPR()
 	
 	if gCurrentMapManager.mapSize == "xxs" or gCurrentMapManager.mapSize == 1 then
-		print("ME5_RandomSides.Setup_SSVxRPR(): Map size is xxs")
+		PrintLog("Setup_SSVxRPR(): Map size is xxs")
 		Setup_SSVxRPR_xxs()
 		
 	elseif gCurrentMapManager.mapSize == "xs" or gCurrentMapManager.mapSize == 2 then
-		print("ME5_RandomSides.Setup_SSVxRPR(): Map size is xs")
+		PrintLog("Setup_SSVxRPR(): Map size is xs")
 		Setup_SSVxRPR_xs()
 		
 	elseif gCurrentMapManager.mapSize == "sm" or gCurrentMapManager.mapSize == 3 then
-		print("ME5_RandomSides.Setup_SSVxRPR(): Map size is sm")
+		PrintLog("Setup_SSVxRPR(): Map size is sm")
 		Setup_SSVxRPR_sm()
 		
 	elseif gCurrentMapManager.mapSize == "med" or gCurrentMapManager.mapSize == 4 then
-		print("ME5_RandomSides.Setup_SSVxRPR(): Map size is med")
+		PrintLog("Setup_SSVxRPR(): Map size is med")
 		Setup_SSVxRPR_med()
 		
 	elseif gCurrentMapManager.mapSize == "lg" or gCurrentMapManager.mapSize == 5 then
-		print("ME5_RandomSides.Setup_SSVxRPR(): Map size is lg")
+		PrintLog("Setup_SSVxRPR(): Map size is lg")
 		Setup_SSVxRPR_lg()
 		
 	elseif gCurrentMapManager.mapSize == "xl" or gCurrentMapManager.mapSize == 6 then
-		print("ME5_RandomSides.Setup_SSVxRPR(): Map size is xl")
+		PrintLog("Setup_SSVxRPR(): Map size is xl")
 		Setup_SSVxRPR_xl()
 	else
-		print("ME5_RandomSides.Setup_SSVxRPR(): ALL YOUR MAP SIZE ARE BELONG TO US!!")
+		PrintLog("Setup_SSVxRPR(): ALL YOUR MAP SIZE ARE BELONG TO US!!")
 	end
 	
 	
 	if ScriptCB_InMultiplayer() then
 		-- SYSTEMS ALLIANCE HERO
 		if gCurrentMapManager.onlineHeroSSV == "shep_soldier" or gCurrentMapManager.onlineHeroSSV == 1 then
-			print("ME5_RandomSides.Setup_SSVxRPR(): Online SSV hero is Shepard Soldier")
+			PrintLog("Setup_SSVxRPR(): Online SSV hero is Shepard Soldier")
 			SetHeroClass(REP, "ssv_hero_shepard_soldier")
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_infiltrator" or gCurrentMapManager.onlineHeroSSV == 2 then
-			print("ME5_RandomSides.Setup_SSVxRPR(): Online SSV hero is Shepard Infiltrator")
+			PrintLog("Setup_SSVxRPR(): Online SSV hero is Shepard Infiltrator")
 			SetHeroClass(REP, "ssv_hero_shepard_infiltrator")
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_engineer" or gCurrentMapManager.onlineHeroSSV == 3 then
-			print("ME5_RandomSides.Setup_SSVxRPR(): Online SSV hero is Shepard Engineer")
+			PrintLog("Setup_SSVxRPR(): Online SSV hero is Shepard Engineer")
 			SetHeroClass(REP, "ssv_hero_shepard_engineer")
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_adept" or gCurrentMapManager.onlineHeroSSV == 4 then
-			print("ME5_RandomSides.Setup_SSVxRPR(): Online SSV hero is Shepard Adept")
+			PrintLog("Setup_SSVxRPR(): Online SSV hero is Shepard Adept")
 			SetHeroClass(REP, "ssv_hero_shepard_adept")
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_sentinel" or gCurrentMapManager.onlineHeroSSV == 5 then
-			print("ME5_RandomSides.Setup_SSVxRPR(): Online SSV hero is Shepard Sentinel")
+			PrintLog("Setup_SSVxRPR(): Online SSV hero is Shepard Sentinel")
 			SetHeroClass(REP, "ssv_hero_shepard_sentinel")
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_vanguard" or gCurrentMapManager.onlineHeroSSV == 6 then
-			print("ME5_RandomSides.Setup_SSVxRPR(): Online SSV hero is Shepard Vanguard")
+			PrintLog("Setup_SSVxRPR(): Online SSV hero is Shepard Vanguard")
 			SetHeroClass(REP, "ssv_hero_shepard_vanguard")
 		end
 		
 		-- REAPERS HERO
 		-- if gCurrentMapManager.onlineHeroRPR == "banshee" or gCurrentMapManager.onlineHeroRPR == 1 then
-		-- 	print("ME5_RandomSides.Setup_SSVxRPR(): Online RPR hero is Banshee")
+		-- 	PrintLog("Setup_SSVxRPR(): Online RPR hero is Banshee")
 		-- 	SetHeroClass(CIS, "rpr_hero_banshee")
 		-- end
 	end
@@ -365,118 +374,118 @@ end
 
 -- Loads the appropriate data files for the Systems Alliance faction.
 function Load_SSV(loadCooper)
-	print("ME5_RandomSides.Load_SSV(): Entered")
+	PrintLog("Load_SSV(): Entered")
 	
 	if not loadCooper then
 		loadCooper = false
 	end
 	
 	if (string.find(SSVHeroClass, "shepard") and (loadCooper == false)) then
-		print("ME5_RandomSides.Load_SSV(): Loading SHEPARD data files...")
+		PrintLog("Load_SSV(): Loading SHEPARD data files...")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSV_Shepard_NonStreaming.lvl")
 		
-		print("ME5_RandomSides.Load_SSV(): Loading sounds")
+		PrintLog("Load_SSV(): Loading sounds")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSV_NonStreaming.lvl")
 		
-		print("ME5_RandomSides.Load_SSV(): Loading meshes/textures")
+		PrintLog("Load_SSV(): Loading meshes/textures")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_SSV_Char.lvl", "units", "shepard")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_SSV_Misc.lvl")
 		
-		print("ME5_RandomSides.Load_SSV(): Loading unit/weapon classes")
+		PrintLog("Load_SSV(): Loading unit/weapon classes")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\CON_SSV.lvl", "units", "shepard")
 		
 		
 	elseif (string.find(SSVHeroClass, "cooper") or (loadCooper == true)) then
-		print("ME5_RandomSides.Load_SSV(): Loading COOPER data files...")
+		PrintLog("Load_SSV(): Loading COOPER data files...")
 		--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSV_Cooper_NonStreaming.lvl")
 		
-		print("ME5_RandomSides.Load_SSV(): Loading sounds")
+		PrintLog("Load_SSV(): Loading sounds")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSV_NonStreaming.lvl")
 		
-		print("ME5_RandomSides.Load_SSV(): Loading meshes/textures")
+		PrintLog("Load_SSV(): Loading meshes/textures")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_SSV_Char.lvl", "units", "cooper")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_SSV_Misc.lvl")
 		
-		print("ME5_RandomSides.Load_SSV(): Loading unit/weapon classes")
+		PrintLog("Load_SSV(): Loading unit/weapon classes")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\CON_SSV.lvl", "units", "cooper")
 		
 		
 	elseif (string.find(SSVHeroClass, "jack") and (loadCooper == false)) then
-		print("ME5_RandomSides.Load_SSV(): Loading JACK data files...")
+		PrintLog("Load_SSV(): Loading JACK data files...")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSV_Jack_NonStreaming.lvl")
 		
-		print("ME5_RandomSides.Load_SSV(): Loading sounds")
+		PrintLog("Load_SSV(): Loading sounds")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSV_NonStreaming.lvl")
 		
-		print("ME5_RandomSides.Load_SSV(): Loading meshes/textures")
+		PrintLog("Load_SSV(): Loading meshes/textures")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_SSV_Char.lvl", "units", "jack")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_SSV_Misc.lvl")
 		
-		print("ME5_RandomSides.Load_SSV(): Loading unit/weapon classes")
+		PrintLog("Load_SSV(): Loading unit/weapon classes")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\CON_SSV.lvl", "units", "jack")
 		
 		
 	elseif (string.find(SSVHeroClass, "legion") and (loadCooper == false)) then
-		print("ME5_RandomSides.Load_SSV(): Loading LEGION data files...")
+		PrintLog("Load_SSV(): Loading LEGION data files...")
 		--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSV_Legion_NonStreaming.lvl")
 		
-		print("ME5_RandomSides.Load_SSV(): Loading sounds")
+		PrintLog("Load_SSV(): Loading sounds")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSV_NonStreaming.lvl")
 		
-		print("ME5_RandomSides.Load_SSV(): Loading meshes/textures")
+		PrintLog("Load_SSV(): Loading meshes/textures")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_SSV_Char.lvl", "units", "legion")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_SSV_Misc.lvl")
 		
-		print("ME5_RandomSides.Load_SSV(): Loading unit/weapon classes")
+		PrintLog("Load_SSV(): Loading unit/weapon classes")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\CON_SSV.lvl", "units", "legion")
 		
 		
 	elseif (string.find(SSVHeroClass, "samara") and (loadCooper == false)) then
-		print("ME5_RandomSides.Load_SSV(): Loading SAMARA data files...")
+		PrintLog("Load_SSV(): Loading SAMARA data files...")
 		--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSV_Samara_NonStreaming.lvl")
 		
-		print("ME5_RandomSides.Load_SSV(): Loading sounds")
+		PrintLog("Load_SSV(): Loading sounds")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSV_NonStreaming.lvl")
 		
-		print("ME5_RandomSides.Load_SSV(): Loading meshes/textures")
+		PrintLog("Load_SSV(): Loading meshes/textures")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_SSV_Char.lvl", "units", "samara")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_SSV_Misc.lvl")
 		
-		print("ME5_RandomSides.Load_SSV(): Loading unit/weapon classes")
+		PrintLog("Load_SSV(): Loading unit/weapon classes")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\CON_SSV.lvl", "units", "samara")
 	else
-		print("ME5_RandomSides.Load_SSV(): Loading normal data files...")
-		print("ME5_RandomSides.Load_SSV(): Loading meshes/textures")
+		PrintLog("Load_SSV(): Loading normal data files...")
+		PrintLog("Load_SSV(): Loading meshes/textures")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_SSV_Char.lvl", "units")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_SSV_Misc.lvl")
 		
-		print("ME5_RandomSides.Load_SSV(): Loading unit/weapon classes")
+		PrintLog("Load_SSV(): Loading unit/weapon classes")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\CON_SSV.lvl", "units")
 	end
 	
 	if gCurrentMapManager.environmentType == "desert" or gCurrentMapManager.environmentType == 1 then
-		print("ME5_RandomSides.Load_SSV(): Loading SSV environment type Desert")
+		PrintLog("Load_SSV(): Loading SSV environment type Desert")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\ssv_desert.lvl")
 		
 	elseif gCurrentMapManager.environmentType == "jungle" or gCurrentMapManager.environmentType == 2 then
-		print("ME5_RandomSides.Load_SSV(): Loading SSV environment type Jungle")
+		PrintLog("Load_SSV(): Loading SSV environment type Jungle")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\ssv_jungle.lvl")
 		
 	elseif gCurrentMapManager.environmentType == "snow" or gCurrentMapManager.environmentType == 3 then
-		print("ME5_RandomSides.Load_SSV(): Loading SSV environment type Snow")
+		PrintLog("Load_SSV(): Loading SSV environment type Snow")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\ssv_snow.lvl")
 		
 	elseif gCurrentMapManager.environmentType == "urban" or gCurrentMapManager.environmentType == 4 then
-		print("ME5_RandomSides.Load_SSV(): Loading SSV environment type Urban")
+		PrintLog("Load_SSV(): Loading SSV environment type Urban")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\ssv_urban.lvl")
 	else
-		print("ME5_RandomSides.Load_SSV(): No environment type specified... Defaulting to SSV Urban instead")
+		PrintLog("Load_SSV(): No environment type specified... Defaulting to SSV Urban instead")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\ssv_urban.lvl")
 	end
 	
 	if not ScriptCB_InMultiplayer() then
 		if ME5_ShieldFunc == 1 then
-			print("ME5_RandomSides.Load_SSV(): Configuring SSV Shield Functionality for AUTO-REGEN...")
+			PrintLog("Load_SSV(): Configuring SSV Shield Functionality for AUTO-REGEN...")
 			
 			ssv_inf_soldier		= "ssv_inf_soldier_shield"
 			if IsCampaign() then
@@ -489,7 +498,7 @@ function Load_SSV(loadCooper)
 			ssv_inf_sentinel	= "ssv_inf_sentinel_shield"
 			ssv_inf_vanguard	= "ssv_inf_vanguard_shield"
 		elseif ME5_ShieldFunc == 2 then
-			print("ME5_RandomSides.Load_SSV(): Configuring SSV Shield Functionality for PICKUPS...")
+			PrintLog("Load_SSV(): Configuring SSV Shield Functionality for PICKUPS...")
 			
 			ssv_inf_soldier		= "ssv_inf_soldier"
 			if IsCampaign() then
@@ -502,7 +511,7 @@ function Load_SSV(loadCooper)
 			ssv_inf_sentinel	= "ssv_inf_sentinel"
 			ssv_inf_vanguard	= "ssv_inf_vanguard"
 		else
-			print("ME5_RandomSides.Load_SSV(): Error! ME5_ShieldFunc setting is invalid! Defaulting to SSV Shield Functionality for AUTO-REGEN")
+			PrintLog("Load_SSV(): Error! ME5_ShieldFunc setting is invalid! Defaulting to SSV Shield Functionality for AUTO-REGEN")
 			
 			ssv_inf_soldier		= "ssv_inf_soldier_shield"
 			if IsCampaign() then
@@ -516,7 +525,7 @@ function Load_SSV(loadCooper)
 			ssv_inf_vanguard	= "ssv_inf_vanguard_shield"
 		end
 	else
-		print("ME5_RandomSides.Load_SSV(): Configuring SSV Shield Functionality for AUTO-REGEN...")
+		PrintLog("Load_SSV(): Configuring SSV Shield Functionality for AUTO-REGEN...")
 		
 		ssv_inf_soldier		= "ssv_inf_soldier_shield"
 		ssv_inf_infiltrator	= "ssv_inf_infiltrator_shield"
@@ -526,10 +535,10 @@ function Load_SSV(loadCooper)
 		ssv_inf_vanguard	= "ssv_inf_vanguard_shield"
 	end
 	
-	print("ME5_RandomSides.Load_SSV(): Loading localization")
+	PrintLog("Load_SSV(): Loading localization")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\coressv.lvl")
 	
-	print("ME5_RandomSides.Load_SSV(): Exited")
+	PrintLog("Load_SSV(): Exited")
 end
 
 function Load_SSVspa()
@@ -544,34 +553,34 @@ end
 
 -- Loads the appropriate data files for the Heretic Geth faction.
 function Load_GTH()
-	print("ME5_RandomSides.Load_GTH(): Entered")
+	PrintLog("Load_GTH(): Entered")
 	
 	--SetAIDifficulty(-3, 3)
 	
-	print("ME5_RandomSides.Load_GTH(): Loading sounds")
+	PrintLog("Load_GTH(): Loading sounds")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_GTH_NonStreaming.lvl")
 	
-	print("ME5_RandomSides.Load_GTH(): Loading meshes/textures")
+	PrintLog("Load_GTH(): Loading meshes/textures")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_GTH_Char.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_GTH_Misc.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_GTH_Prime.lvl")
 	
-	--print("ME5_RandomSides.Load_GTH(): Loading particle effects")
+	--PrintLog("Load_GTH(): Loading particle effects")
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_GTH_Misc.lvl")
 	
-	print("ME5_RandomSides.Load_GTH(): Loading unit/weapon classes")
+	PrintLog("Load_GTH(): Loading unit/weapon classes")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\CON_GTH.lvl;CON_GTH_her")
 	
-	print("ME5_RandomSides.Load_GTH(): Loading Husk meshes/textures")
+	PrintLog("Load_GTH(): Loading Husk meshes/textures")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_INDOC_Char.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_INDOC_Misc.lvl")
 	
-	print("ME5_RandomSides.Load_GTH(): Loading Husk unit/weapon classes")
+	PrintLog("Load_GTH(): Loading Husk unit/weapon classes")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\CON_INDOC.lvl")
 	
 	if not ScriptCB_InMultiplayer() then
 		if ME5_ShieldFunc == 1 then
-			print("ME5_RandomSides.Load_GTH(): Configuring GTH Shield Functionality for AUTO-REGEN...")
+			PrintLog("Load_GTH(): Configuring GTH Shield Functionality for AUTO-REGEN...")
 			gth_inf_trooper			= "gth_inf_trooper_shield"
 			gth_inf_rocketeer		= "gth_inf_rocketeer_shield"
 			gth_inf_sniper			= "gth_inf_sniper_shield"
@@ -588,7 +597,7 @@ function Load_GTH()
 			gth_inf_prime			= "gth_inf_prime_shield"
 			
 		elseif ME5_ShieldFunc == 2 then
-			print("ME5_RandomSides.Load_GTH(): Configuring GTH Shield Functionality for PICKUPS...")
+			PrintLog("Load_GTH(): Configuring GTH Shield Functionality for PICKUPS...")
 			gth_inf_trooper			= "gth_inf_trooper"
 			gth_inf_rocketeer		= "gth_inf_rocketeer"
 			gth_inf_sniper			= "gth_inf_sniper"
@@ -604,7 +613,7 @@ function Load_GTH()
 			gth_inf_prime			= "gth_inf_prime"
 			
 		else
-			print("ME5_RandomSides.Load_GTH(): Error! ME5_ShieldFunc setting is invalid! Defaulting to GTH Shield Functionality for AUTO-REGEN")
+			PrintLog("Load_GTH(): Error! ME5_ShieldFunc setting is invalid! Defaulting to GTH Shield Functionality for AUTO-REGEN")
 			gth_inf_trooper			= "gth_inf_trooper_shield"
 			gth_inf_rocketeer		= "gth_inf_rocketeer_shield"
 			gth_inf_sniper			= "gth_inf_sniper_shield"
@@ -621,7 +630,7 @@ function Load_GTH()
 			
 		end
 	else
-		print("ME5_RandomSides.Load_GTH(): Configuring GTH Shield Functionality for AUTO-REGEN...")
+		PrintLog("Load_GTH(): Configuring GTH Shield Functionality for AUTO-REGEN...")
 		gth_inf_trooper			= "gth_inf_trooper_shield"
 		gth_inf_rocketeer		= "gth_inf_rocketeer_shield"
 		gth_inf_sniper			= "gth_inf_sniper_shield"
@@ -637,104 +646,104 @@ function Load_GTH()
 		gth_inf_prime			= "gth_inf_prime_shield"
 	end
 	
-	print("ME5_RandomSides.Load_GTH(): Loading localization")
+	PrintLog("Load_GTH(): Loading localization")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\coregth.lvl")
 	
-	print("ME5_RandomSides.Load_GTH(): Exited")
+	PrintLog("Load_GTH(): Exited")
 end
 
 -- Loads the appropriate data files for the Collectors faction.
 function Load_COL()
-	print("ME5_RandomSides.Load_COL(): Entered")
+	PrintLog("Load_COL(): Entered")
 	
 	--SetAIDifficulty(-3, 3)
 	
-	print("ME5_RandomSides.Load_COL(): Loading sounds")
+	PrintLog("Load_COL(): Loading sounds")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_COL_NonStreaming.lvl")
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_INDOC_NonStreaming.lvl")
 	
-	print("ME5_RandomSides.Load_COL(): Loading meshes/textures")
+	PrintLog("Load_COL(): Loading meshes/textures")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_COL_Char.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_COL_Misc.lvl")
 	
-	print("ME5_RandomSides.Load_COL(): Loading unit/weapon classes")
+	PrintLog("Load_COL(): Loading unit/weapon classes")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\CON_COL.lvl")
 	
-	print("ME5_RandomSides.Load_COL(): Loading Husk meshes/textures")
+	PrintLog("Load_COL(): Loading Husk meshes/textures")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_INDOC_Char.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_INDOC_Misc.lvl")
 	
-	print("ME5_RandomSides.Load_COL(): Loading Husk unit/weapon classes")
+	PrintLog("Load_COL(): Loading Husk unit/weapon classes")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\CON_INDOC.lvl")
 	
 	if not ScriptCB_InMultiplayer() then
 		if ME5_ShieldFunc == 1 then
-			print("ME5_RandomSides.Load_COL(): Configuring COL Shield Functionality for AUTO-REGEN...")
+			PrintLog("Load_COL(): Configuring COL Shield Functionality for AUTO-REGEN...")
 			col_inf_captain			= "col_inf_captain_shield"
 			col_inf_guardian		= "col_inf_guardian_shield"
 			col_inf_praetorian		= "col_inf_praetorian_shield"
 			
 		elseif ME5_ShieldFunc == 2 then
-			print("ME5_RandomSides.Load_COL(): Configuring COL Shield Functionality for PICKUPS...")
+			PrintLog("Load_COL(): Configuring COL Shield Functionality for PICKUPS...")
 			col_inf_captain			= "col_inf_captain"
 			col_inf_guardian		= "col_inf_guardian"
 			col_inf_praetorian		= "col_inf_praetorian"
 		else
-			print("ME5_RandomSides.Load_COL(): Error! ME5_ShieldFunc setting is invalid! Defaulting to COL Shield Functionality for AUTO-REGEN")
+			PrintLog("Load_COL(): Error! ME5_ShieldFunc setting is invalid! Defaulting to COL Shield Functionality for AUTO-REGEN")
 			col_inf_captain			= "col_inf_captain_shield"
 			col_inf_guardian		= "col_inf_guardian_shield"
 			col_inf_praetorian		= "col_inf_praetorian_shield"
 		end
 	else
-		print("ME5_RandomSides.Load_COL(): Configuring COL Shield Functionality for AUTO-REGEN...")
+		PrintLog("Load_COL(): Configuring COL Shield Functionality for AUTO-REGEN...")
 		col_inf_captain			= "col_inf_captain_shield"
 		col_inf_guardian		= "col_inf_guardian_shield"
 		col_inf_praetorian		= "col_inf_praetorian_shield"
 	end
 	
-	print("ME5_RandomSides.Load_COL(): Loading Collector Ship meshes/textures")
+	PrintLog("Load_COL(): Loading Collector Ship meshes/textures")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\colship.lvl")
 	
-	print("ME5_RandomSides.Load_COL(): Loading localization")
+	PrintLog("Load_COL(): Loading localization")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\corecol.lvl")
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamecol.lvl")
 	
-	print("ME5_RandomSides.Load_COL(): Exited")
+	PrintLog("Load_COL(): Exited")
 end
 
 -- Loads the appropriate data files for the Heretic Geth and Evolved Geth factions.
 function Load_EVGxGTH()
-	print("ME5_RandomSides.Load_EVGxGTH(): Entered")
+	PrintLog("Load_EVGxGTH(): Entered")
 	
 	--SetAIDifficulty(-3, 3)
 	
-	print("ME5_RandomSides.Load_EVGxGTH(): Loading sounds")
+	PrintLog("Load_EVGxGTH(): Loading sounds")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_GTH_NonStreaming.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EVG_NonStreaming.lvl")
 	
-	print("ME5_RandomSides.Load_EVGxGTH(): Loading meshes/textures")
+	PrintLog("Load_EVGxGTH(): Loading meshes/textures")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_GTH_Char.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_GTH_Misc.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_GTH_Prime.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_EVG_Char.lvl")
 	
-	--print("ME5_RandomSides.Load_EVGxGTH(): Loading particle effects")
+	--PrintLog("Load_EVGxGTH(): Loading particle effects")
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_GTH_Misc.lvl")
 	
-	print("ME5_RandomSides.Load_EVGxGTH(): Loading unit/weapon classes")
+	PrintLog("Load_EVGxGTH(): Loading unit/weapon classes")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\CON_GTH.lvl;CON_GTH_her")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\CON_GTH.lvl;CON_GTH_evo")
 	
-	print("ME5_RandomSides.Load_EVGxGTH(): Loading Husk meshes/textures")
+	PrintLog("Load_EVGxGTH(): Loading Husk meshes/textures")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_INDOC_Char.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_INDOC_Misc.lvl")
 	
-	print("ME5_RandomSides.Load_EVGxGTH(): Loading Husk unit/weapon classes")
+	PrintLog("Load_EVGxGTH(): Loading Husk unit/weapon classes")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\CON_INDOC.lvl")
 	
 	if not ScriptCB_InMultiplayer() then
 		if ME5_ShieldFunc == 1 then
-			print("ME5_RandomSides.Load_EVGxGTH(): Configuring GTHxEVG Shield Functionality for AUTO-REGEN...")
+			PrintLog("Load_EVGxGTH(): Configuring GTHxEVG Shield Functionality for AUTO-REGEN...")
 			gth_inf_trooper			= "gth_inf_trooper_shield"
 			gth_inf_rocketeer		= "gth_inf_rocketeer_shield"
 			gth_inf_sniper			= "gth_inf_sniper_shield"
@@ -753,7 +762,7 @@ function Load_EVGxGTH()
 			gth_ev_inf_pyro					= "gth_ev_inf_pyro_shield"
 			gth_ev_inf_juggernaut			= "gth_ev_inf_juggernaut_shield"
 		elseif ME5_ShieldFunc == 2 then
-			print("ME5_RandomSides.Load_EVGxGTH(): Configuring GTHxEVG Shield Functionality for PICKUPS...")
+			PrintLog("Load_EVGxGTH(): Configuring GTHxEVG Shield Functionality for PICKUPS...")
 			gth_inf_trooper			= "gth_inf_trooper"
 			gth_inf_rocketeer		= "gth_inf_rocketeer"
 			gth_inf_sniper			= "gth_inf_sniper"
@@ -772,7 +781,7 @@ function Load_EVGxGTH()
 			gth_ev_inf_pyro					= "gth_ev_inf_pyro"
 			gth_ev_inf_juggernaut			= "gth_ev_inf_juggernaut"
 		else
-			print("ME5_RandomSides.Load_EVGxGTH(): Error! ME5_ShieldFunc setting is invalid! Defaulting to GTHxEVG Shield Functionality for AUTO-REGEN")
+			PrintLog("Load_EVGxGTH(): Error! ME5_ShieldFunc setting is invalid! Defaulting to GTHxEVG Shield Functionality for AUTO-REGEN")
 			gth_inf_trooper			= "gth_inf_trooper_shield"
 			gth_inf_rocketeer		= "gth_inf_rocketeer_shield"
 			gth_inf_sniper			= "gth_inf_sniper_shield"
@@ -792,7 +801,7 @@ function Load_EVGxGTH()
 			gth_ev_inf_juggernaut			= "gth_ev_inf_juggernaut_shield"
 		end
 	else
-		print("ME5_RandomSides.Load_EVGxGTH(): Configuring GTH Shield Functionality for AUTO-REGEN...")
+		PrintLog("Load_EVGxGTH(): Configuring GTH Shield Functionality for AUTO-REGEN...")
 		gth_inf_trooper			= "gth_inf_trooper_shield"
 		gth_inf_rocketeer		= "gth_inf_rocketeer_shield"
 		gth_inf_sniper			= "gth_inf_sniper_shield"
@@ -812,36 +821,36 @@ function Load_EVGxGTH()
 		gth_ev_inf_juggernaut			= "gth_ev_inf_juggernaut_shield"
 	end
 	
-	print("ME5_RandomSides.Load_EVGxGTH(): Loading localization")
+	PrintLog("Load_EVGxGTH(): Loading localization")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\coreevg.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\coregth.lvl")
 	
-	print("ME5_RandomSides.Load_EVGxGTH(): Exited")
+	PrintLog("Load_EVGxGTH(): Exited")
 end
 
 -- Loads the appropriate data files for the Evolved Geth faction.
 function Load_EVG()
-	print("ME5_RandomSides.Load_EVG(): Entered")
+	PrintLog("Load_EVG(): Entered")
 	
 	--SetAIDifficulty(-3, 3)
 	
-	print("ME5_RandomSides.Load_EVG(): Loading sounds")
+	PrintLog("Load_EVG(): Loading sounds")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_EVG_NonStreaming.lvl")
 	
-	print("ME5_RandomSides.Load_EVG(): Loading meshes/textures")
+	PrintLog("Load_EVG(): Loading meshes/textures")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_EVG_Char.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_GTH_Misc.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_GTH_Prime.lvl")
 	
-	--print("ME5_RandomSides.Load_EVG(): Loading particle effects")
+	--PrintLog("Load_EVG(): Loading particle effects")
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_GTH_Misc.lvl")
 	
-	print("ME5_RandomSides.Load_EVG(): Loading unit/weapon classes")
+	PrintLog("Load_EVG(): Loading unit/weapon classes")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\CON_GTH.lvl;CON_GTH_evo")
 	
 	if not ScriptCB_InMultiplayer() then
 		if ME5_ShieldFunc == 1 then
-			print("ME5_RandomSides.Load_EVG(): Configuring EVG Shield Functionality for AUTO-REGEN...")
+			PrintLog("Load_EVG(): Configuring EVG Shield Functionality for AUTO-REGEN...")
 			gth_ev_inf_trooper				= "gth_ev_inf_trooper_shield"
 			gth_ev_inf_infiltrator			= "gth_ev_inf_infiltrator_shield"
 			gth_ev_inf_engineer				= "gth_ev_inf_engineer_shield"
@@ -850,7 +859,7 @@ function Load_EVG()
 			gth_ev_inf_pyro					= "gth_ev_inf_pyro_shield"
 			gth_ev_inf_juggernaut			= "gth_ev_inf_juggernaut_shield"
 		elseif ME5_ShieldFunc == 2 then
-			print("ME5_RandomSides.Load_EVG(): Configuring EVG Shield Functionality for PICKUPS...")
+			PrintLog("Load_EVG(): Configuring EVG Shield Functionality for PICKUPS...")
 			gth_ev_inf_trooper				= "gth_ev_inf_trooper"
 			gth_ev_inf_infiltrator			= "gth_ev_inf_infiltrator"
 			gth_ev_inf_engineer				= "gth_ev_inf_engineer"
@@ -859,7 +868,7 @@ function Load_EVG()
 			gth_ev_inf_pyro					= "gth_ev_inf_pyro"
 			gth_ev_inf_juggernaut			= "gth_ev_inf_juggernaut"
 		else
-			print("ME5_RandomSides.Load_EVG(): Error! ME5_ShieldFunc setting is invalid! Defaulting to EVG Shield Functionality for AUTO-REGEN")
+			PrintLog("Load_EVG(): Error! ME5_ShieldFunc setting is invalid! Defaulting to EVG Shield Functionality for AUTO-REGEN")
 			gth_ev_inf_trooper				= "gth_ev_inf_trooper_shield"
 			gth_ev_inf_infiltrator			= "gth_ev_inf_infiltrator_shield"
 			gth_ev_inf_engineer				= "gth_ev_inf_engineer_shield"
@@ -869,7 +878,7 @@ function Load_EVG()
 			gth_ev_inf_juggernaut			= "gth_ev_inf_juggernaut_shield"
 		end
 	else
-		print("ME5_RandomSides.Load_EVG(): Configuring EVG Shield Functionality for AUTO-REGEN...")
+		PrintLog("Load_EVG(): Configuring EVG Shield Functionality for AUTO-REGEN...")
 		gth_ev_inf_trooper				= "gth_ev_inf_trooper_shield"
 		gth_ev_inf_infiltrator			= "gth_ev_inf_infiltrator_shield"
 		gth_ev_inf_engineer				= "gth_ev_inf_engineer_shield"
@@ -879,15 +888,15 @@ function Load_EVG()
 		gth_ev_inf_juggernaut			= "gth_ev_inf_juggernaut_shield"
 	end
 	
-	print("ME5_RandomSides.Load_EVG(): Loading localization")
+	PrintLog("Load_EVG(): Loading localization")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\coreevg.lvl")
 	
-	print("ME5_RandomSides.Load_EVG(): Exited")
+	PrintLog("Load_EVG(): Exited")
 end
 
 -- Loads the appropriate data files for the Eclipse faction.
 function LoadECL()
-	print("ME5_RandomSides.LoadECL(): Entered")
+	PrintLog("LoadECL(): Entered")
 	
 	--SetAIDifficulty(-3, 3)
 	
@@ -905,64 +914,64 @@ function LoadECL()
 				
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\coreecl.lvl")
 	
-	print("ME5_RandomSides.LoadECL(): Exited")
+	PrintLog("LoadECL(): Exited")
 end
 
 -- Loads the appropriate data files for the Reapers faction.
 function Load_RPR()
-	print("ME5_RandomSides.Load_RPR(): Entered")
+	PrintLog("Load_RPR(): Entered")
 	
 	--SetAIDifficulty(-3, 3)
 	
-	print("ME5_RandomSides.Load_RPR(): Loading sounds")
+	PrintLog("Load_RPR(): Loading sounds")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_RPR_NonStreaming.lvl")
 	-- ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_INDOC_NonStreaming.lvl")
 	
-	print("ME5_RandomSides.Load_RPR(): Loading meshes/textures")
+	PrintLog("Load_RPR(): Loading meshes/textures")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_RPR_Char.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_RPR_Misc.lvl")
 	
-	print("ME5_RandomSides.Load_RPR(): Loading unit/weapon classes")
+	PrintLog("Load_RPR(): Loading unit/weapon classes")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\CON_RPR.lvl")
 	
-	print("ME5_RandomSides.Load_RPR(): Loading Husk meshes/textures")
+	PrintLog("Load_RPR(): Loading Husk meshes/textures")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_INDOC_Char.lvl")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_INDOC_Misc.lvl")
 	
-	print("ME5_RandomSides.Load_RPR(): Loading Husk unit/weapon classes")
+	PrintLog("Load_RPR(): Loading Husk unit/weapon classes")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\CON_INDOC.lvl")
 	
 	if not ScriptCB_InMultiplayer() then
 		if ME5_ShieldFunc == 1 then
-			print("ME5_RandomSides.Load_RPR(): Configuring RPR Shield Functionality for AUTO-REGEN...")
+			PrintLog("Load_RPR(): Configuring RPR Shield Functionality for AUTO-REGEN...")
 			rpr_inf_marauder		= "rpr_inf_marauder_shield"
 			rpr_inf_banshee			= "rpr_inf_banshee_shield"
 			
 		elseif ME5_ShieldFunc == 2 then
-			print("ME5_RandomSides.Load_RPR(): Configuring RPR Shield Functionality for PICKUPS...")
+			PrintLog("Load_RPR(): Configuring RPR Shield Functionality for PICKUPS...")
 			rpr_inf_marauder		= "rpr_inf_marauder"
 			rpr_inf_banshee			= "rpr_inf_banshee"
 		else
-			print("ME5_RandomSides.Load_RPR(): Error! ME5_ShieldFunc setting is invalid! Defaulting to RPR Shield Functionality for AUTO-REGEN")
+			PrintLog("Load_RPR(): Error! ME5_ShieldFunc setting is invalid! Defaulting to RPR Shield Functionality for AUTO-REGEN")
 			rpr_inf_marauder		= "rpr_inf_marauder_shield"
 			rpr_inf_banshee			= "rpr_inf_banshee_shield"
 		end
 	else
-		print("ME5_RandomSides.Load_RPR(): Configuring RPR Shield Functionality for AUTO-REGEN...")
+		PrintLog("Load_RPR(): Configuring RPR Shield Functionality for AUTO-REGEN...")
 		rpr_inf_marauder		= "rpr_inf_marauder_shield"
 		rpr_inf_banshee			= "rpr_inf_banshee_shield"
 	end
 	
-	print("ME5_RandomSides.Load_RPR(): Loading localization")
+	PrintLog("Load_RPR(): Loading localization")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\corerpr.lvl")
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamecol.lvl")
 	
-	print("ME5_RandomSides.Load_RPR(): Exited")
+	PrintLog("Load_RPR(): Exited")
 end
 
 -- Loads the appropriate data files for the Cerberus faction.
 function LoadCER()
-	print("ME5_RandomSides.LoadCER(): Entered")
+	PrintLog("LoadCER(): Entered")
 	
 	--SetAIDifficulty(-3, 3)
 	
@@ -975,23 +984,23 @@ function LoadCER()
 				
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\corecer.lvl")
 	
-	print("ME5_RandomSides.LoadCER(): Exited")
+	PrintLog("LoadCER(): Exited")
 end
 
 --[[function ObjectiveSurvival_125tick()
-		print("ME5_RandomSides: ObjectiveSurvival_125tick()")
+		PrintLog("ObjectiveSurvival_125tick()")
 		local ObjectiveSurvivalDebugStr = "ME5_RandomSides: Changing ticket counts to 100 for Survival..."
 	if ObjectiveSurvivalHasRan == 1 then
 		SetReinforcementCount(1, 125)
 		SetReinforcementCount(2, 125)
 			print(ObjectiveSurvivalDebugStr)
 	else 
-		print("ME5_RandomSides: BY THE GODDESS, WHAT ON THESSIA IS HAPPENING")
+		PrintLog("BY THE GODDESS, WHAT ON THESSIA IS HAPPENING")
 	end
 end]]
 
 function Setup_SSVxGTH_xxs()
-	print("ME5_RandomSides.Setup_SSVxGTH_xxs(): Entered")
+	PrintLog("Setup_SSVxGTH_xxs(): Entered")
 	--Setup_SSVxGTH_xxs = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
@@ -1037,7 +1046,7 @@ function Setup_SSVxGTH_xxs()
 end
 
 function Setup_SSVxCOL_xxs()
-	print("ME5_RandomSides.Setup_SSVxCOL_xxs(): Entered")
+	PrintLog("Setup_SSVxCOL_xxs(): Entered")
 	--Setup_SSVxCOL_xxs = 1
 	
 	NUM_COLCAPTAINS = 10
@@ -1099,7 +1108,7 @@ function Setup_SSVxCOL_xxs()
 end
 
 function Setup_EVGxGTH_xxs()
-	print("ME5_RandomSides.Setup_EVGxGTH_xxs(): Entered")
+	PrintLog("Setup_EVGxGTH_xxs(): Entered")
 	--Setup_SSVxGTH_xxs = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
@@ -1146,7 +1155,7 @@ function Setup_EVGxGTH_xxs()
 end
 
 function Setup_EVGxCOL_xxs()
-	print("ME5_RandomSides.Setup_EVGxCOL_xxs(): Entered")
+	PrintLog("Setup_EVGxCOL_xxs(): Entered")
 	--Setup_SSVxGTH_xxs = 1
 	
 	NUM_COLCAPTAINS = 10
@@ -1209,7 +1218,7 @@ function Setup_EVGxCOL_xxs()
 end
 
 function Setup_SSVxRPR_xxs()
-	print("ME5_RandomSides.Setup_SSVxRPR_xxs(): Entered")
+	PrintLog("Setup_SSVxRPR_xxs(): Entered")
 	
 	NUM_RAVAGERS = 2
 	
@@ -1269,7 +1278,7 @@ function Setup_SSVxRPR_xxs()
 end
 
 function Setup_SSVxGTH_xs()
-	print("ME5_RandomSides.Setup_SSVxGTH_xs(): Entered")
+	PrintLog("Setup_SSVxGTH_xs(): Entered")
 	--Setup_SSVxGTH_xs = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
@@ -1315,7 +1324,7 @@ function Setup_SSVxGTH_xs()
 end
 
 function Setup_SSVxCOL_xs()
-	print("ME5_RandomSides.Setup_SSVxCOL_xs(): Entered")
+	PrintLog("Setup_SSVxCOL_xs(): Entered")
 	--Setup_SSVxCOL_xs = 1
 	
 	NUM_COLCAPTAINS = 10
@@ -1377,7 +1386,7 @@ function Setup_SSVxCOL_xs()
 end
 
 function Setup_EVGxGTH_xs()
-	print("ME5_RandomSides.Setup_EVGxGTH_xs(): Entered")
+	PrintLog("Setup_EVGxGTH_xs(): Entered")
 	--Setup_SSVxGTH_xs = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
@@ -1424,7 +1433,7 @@ function Setup_EVGxGTH_xs()
 end
 
 function Setup_EVGxCOL_xs()
-	print("ME5_RandomSides.Setup_EVGxCOL_xs(): Entered")
+	PrintLog("Setup_EVGxCOL_xs(): Entered")
 	--Setup_SSVxGTH_xs = 1
 	
 	NUM_COLCAPTAINS = 10
@@ -1482,7 +1491,7 @@ function Setup_EVGxCOL_xs()
 end
 
 function Setup_SSVxECL_xs()
-	print("Load/setup SSV versus ECL - level mode:xs")
+	PrintLog("Load/setup SSV versus ECL - level mode:xs")
 	
 	--SetTeamAggressiveness(CIS,(0.96))
 	--SetTeamAggressiveness(REP,(0.99))
@@ -1520,7 +1529,7 @@ function Setup_SSVxECL_xs()
 end
 
 function Setup_GTHxECL_xs()
-	print("Load/setup GTH versus ECL - level mode:xs")
+	PrintLog("Load/setup GTH versus ECL - level mode:xs")
 	
 	--SetTeamAggressiveness(REP,(0.96))
 	--SetTeamAggressiveness(CIS,(0.99))
@@ -1560,7 +1569,7 @@ function Setup_GTHxECL_xs()
 end
 
 function Setup_SSVxRPR_xs()
-	print("ME5_RandomSides.Setup_SSVxRPR_xs(): Entered")
+	PrintLog("Setup_SSVxRPR_xs(): Entered")
 	
 	NUM_RAVAGERS = 2
 	
@@ -1620,7 +1629,7 @@ function Setup_SSVxRPR_xs()
 end
 
 function Setup_SSVxCER_xs()
-	print("Load/setup SSV versus CER - level mode:xs")
+	PrintLog("Load/setup SSV versus CER - level mode:xs")
 	
 	--SetTeamAggressiveness(REP,(0.99))
 	--SetTeamAggressiveness(CIS,(0.99))
@@ -1655,7 +1664,7 @@ function Setup_SSVxCER_xs()
 end
 
 function Setup_SSVxGTH_sm()
-	print("ME5_RandomSides.Setup_SSVxGTH_sm(): Entered")
+	PrintLog("Setup_SSVxGTH_sm(): Entered")
 	--Setup_SSVxGTH_sm = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
@@ -1701,7 +1710,7 @@ function Setup_SSVxGTH_sm()
 end
 
 function Setup_SSVxCOL_sm()
-	print("ME5_RandomSides.Setup_SSVxCOL_sm(): Entered")
+	PrintLog("Setup_SSVxCOL_sm(): Entered")
 	--Setup_SSVxCOL_sm = 1
 	
 	NUM_COLCAPTAINS = 10
@@ -1763,7 +1772,7 @@ function Setup_SSVxCOL_sm()
 end
 
 function Setup_EVGxGTH_sm()
-	print("ME5_RandomSides.Setup_EVGxGTH_sm(): Entered")
+	PrintLog("Setup_EVGxGTH_sm(): Entered")
 	--Setup_SSVxGTH_sm = 1
 	
 	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSVGTH_NonStreaming.lvl")
@@ -1810,7 +1819,7 @@ function Setup_EVGxGTH_sm()
 end
 
 function Setup_EVGxCOL_sm()
-	print("ME5_RandomSides.Setup_EVGxCOL_sm(): Entered")
+	PrintLog("Setup_EVGxCOL_sm(): Entered")
 	--Setup_SSVxGTH_sm = 1
 	
 	NUM_COLCAPTAINS = 10
@@ -1873,7 +1882,7 @@ function Setup_EVGxCOL_sm()
 end
 
 function Setup_SSVxECL_sm()
-	print("Load/setup SSV versus ECL - level mode:sm")
+	PrintLog("Load/setup SSV versus ECL - level mode:sm")
 	
 	--SetTeamAggressiveness(CIS,(0.96))
 	--SetTeamAggressiveness(REP,(0.99))
@@ -1911,7 +1920,7 @@ function Setup_SSVxECL_sm()
 end
 
 function Setup_GTHxECL_sm()
-	print("Load/setup GTH versus ECL - level mode:sm")
+	PrintLog("Load/setup GTH versus ECL - level mode:sm")
 	
 	--SetTeamAggressiveness(REP,(0.96))
 	--SetTeamAggressiveness(CIS,(0.99))
@@ -1951,7 +1960,7 @@ function Setup_GTHxECL_sm()
 end
 
 function Setup_SSVxRPR_sm()
-	print("ME5_RandomSides.Setup_SSVxRPR_sm(): Entered")
+	PrintLog("Setup_SSVxRPR_sm(): Entered")
 	
 	NUM_RAVAGERS = 3
 	
@@ -2011,7 +2020,7 @@ function Setup_SSVxRPR_sm()
 end
 
 function Setup_SSVxCER_sm()
-	print("Load/setup SSV versus CER - level mode:sm")
+	PrintLog("Load/setup SSV versus CER - level mode:sm")
 	
 	--SetTeamAggressiveness(REP,(0.99))
 	--SetTeamAggressiveness(CIS,(0.99))
@@ -2046,7 +2055,7 @@ function Setup_SSVxCER_sm()
 end
 
 function Setup_SSVxGTH_med()
-	print("ME5_RandomSides.Setup_SSVxGTH_med(): Entered")
+	PrintLog("Setup_SSVxGTH_med(): Entered")
 	--Setup_SSVxGTH_med = 1
 	ssvEngCnt = 8
 	
@@ -2093,7 +2102,7 @@ function Setup_SSVxGTH_med()
 end
 
 function Setup_SSVxCOL_med()
-	print("ME5_RandomSides.Setup_SSVxCOL_med(): Entered")
+	PrintLog("Setup_SSVxCOL_med(): Entered")
 	--Setup_SSVxCOL_med = 1
 	ssvEngCnt = 8
 	
@@ -2159,7 +2168,7 @@ function Setup_SSVxCOL_med()
 end
 
 function Setup_EVGxGTH_med()
-	print("ME5_RandomSides.Setup_EVGxGTH_med(): Entered")
+	PrintLog("Setup_EVGxGTH_med(): Entered")
 	--Setup_SSVxGTH_med = 1
 	ssvEngCnt = 8
 	
@@ -2207,7 +2216,7 @@ function Setup_EVGxGTH_med()
 end
 
 function Setup_EVGxCOL_med()
-	print("ME5_RandomSides.Setup_EVGxCOL_med(): Entered")
+	PrintLog("Setup_EVGxCOL_med(): Entered")
 	--Setup_SSVxGTH_med = 1
 	ssvEngCnt = 8
 	
@@ -2271,7 +2280,7 @@ function Setup_EVGxCOL_med()
 end
 
 function Setup_SSVxECL_med()
-	print("Load/setup SSV versus ECL - level mode:med")
+	PrintLog("Load/setup SSV versus ECL - level mode:med")
 	
 	--SetTeamAggressiveness(CIS, 0.96)
 	--SetTeamAggressiveness(REP, 0.99)
@@ -2309,7 +2318,7 @@ function Setup_SSVxECL_med()
 end
 
 function Setup_GTHxECL_med()
-	print("Load/setup GTH versus ECL - level mode:med")
+	PrintLog("Load/setup GTH versus ECL - level mode:med")
 	
 	--SetTeamAggressiveness(REP, 0.96)
 	--SetTeamAggressiveness(CIS, 0.99)
@@ -2349,7 +2358,7 @@ function Setup_GTHxECL_med()
 end
 
 function Setup_SSVxRPR_med()
-	print("ME5_RandomSides.Setup_SSVxRPR_med(): Entered")
+	PrintLog("Setup_SSVxRPR_med(): Entered")
 	
 	NUM_RAVAGERS = 4
 	
@@ -2409,7 +2418,7 @@ function Setup_SSVxRPR_med()
 end
 
 function Setup_SSVxCER_med()
-	print("Load/setup SSV versus CER - level mode:med")
+	PrintLog("Load/setup SSV versus CER - level mode:med")
 	
 	--SetTeamAggressiveness(REP, 0.99)
 	--SetTeamAggressiveness(CIS, 0.99)
@@ -2444,7 +2453,7 @@ function Setup_SSVxCER_med()
 end
 
 function Setup_SSVxGTH_lg()
-	print("ME5_RandomSides.Setup_SSVxGTH_lg(): Entered")
+	PrintLog("Setup_SSVxGTH_lg(): Entered")
 	--Setup_SSVxGTH_lg = 1
 	ssvEngCnt = 8
 	
@@ -2491,7 +2500,7 @@ function Setup_SSVxGTH_lg()
 end
 
 function Setup_SSVxCOL_lg()
-	print("ME5_RandomSides.Setup_SSVxCOL_lg(): Entered")
+	PrintLog("Setup_SSVxCOL_lg(): Entered")
 	--Setup_SSVxCOL_lg = 1
 	ssvEngCnt = 8
 	
@@ -2554,7 +2563,7 @@ function Setup_SSVxCOL_lg()
 end
 
 function Setup_EVGxGTH_lg()
-	print("ME5_RandomSides.Setup_EVGxGTH_lg(): Entered")
+	PrintLog("Setup_EVGxGTH_lg(): Entered")
 	--Setup_SSVxGTH_lg = 1
 	ssvEngCnt = 8
 	
@@ -2602,7 +2611,7 @@ function Setup_EVGxGTH_lg()
 end
 
 function Setup_EVGxCOL_lg()
-	print("ME5_RandomSides.Setup_EVGxCOL_lg(): Entered")
+	PrintLog("Setup_EVGxCOL_lg(): Entered")
 	--Setup_SSVxGTH_lg = 1
 	ssvEngCnt = 8
 	
@@ -2666,7 +2675,7 @@ function Setup_EVGxCOL_lg()
 end
 
 function Setup_SSVxECL_lg()
-	print("Load/setup SSV versus ECL - level mode:lg")
+	PrintLog("Load/setup SSV versus ECL - level mode:lg")
 	
 	--SetTeamAggressiveness(CIS,(0.96))
 	--SetTeamAggressiveness(REP,(0.99))
@@ -2704,7 +2713,7 @@ function Setup_SSVxECL_lg()
 end
 
 function Setup_GTHxECL_lg()
-	print("Load/setup GTH versus ECL - level mode:lg")
+	PrintLog("Load/setup GTH versus ECL - level mode:lg")
 	
 	--SetTeamAggressiveness(REP,(0.96))
 	--SetTeamAggressiveness(CIS,(0.99))
@@ -2744,7 +2753,7 @@ function Setup_GTHxECL_lg()
 end
 
 function Setup_SSVxRPR_lg()
-	print("ME5_RandomSides.Setup_SSVxRPR_lg(): Entered")
+	PrintLog("Setup_SSVxRPR_lg(): Entered")
 	
 	NUM_RAVAGERS = 5
 	
@@ -2804,7 +2813,7 @@ function Setup_SSVxRPR_lg()
 end
 
 function Setup_SSVxCER_lg()
-	print("Load/setup SSV versus CER - level mode:lg")
+	PrintLog("Load/setup SSV versus CER - level mode:lg")
 	
 	--SetTeamAggressiveness(REP,(0.99))
 	--SetTeamAggressiveness(CIS,(0.99))
@@ -2839,7 +2848,7 @@ function Setup_SSVxCER_lg()
 end
 
 function Setup_SSVxGTH_xl()
-	print("ME5_RandomSides.Setup_SSVxGTH_xl(): Entered")
+	PrintLog("Setup_SSVxGTH_xl(): Entered")
 	--Setup_SSVxGTH_lg = 1
 	ssvEngCnt = 8
 	
@@ -2886,7 +2895,7 @@ function Setup_SSVxGTH_xl()
 end
 
 function Setup_SSVxCOL_xl()
-	print("ME5_RandomSides.Setup_SSVxCOL_xl(): Entered")
+	PrintLog("Setup_SSVxCOL_xl(): Entered")
 	--Setup_SSVxCOL_lg = 1
 	ssvEngCnt = 8
 	
@@ -2949,7 +2958,7 @@ function Setup_SSVxCOL_xl()
 end
 
 function Setup_EVGxGTH_xl()
-	print("ME5_RandomSides.Setup_EVGxGTH_xl(): Entered")
+	PrintLog("Setup_EVGxGTH_xl(): Entered")
 	--Setup_SSVxGTH_lg = 1
 	ssvEngCnt = 8
 	
@@ -2997,7 +3006,7 @@ function Setup_EVGxGTH_xl()
 end
 
 function Setup_EVGxCOL_xl()
-	print("ME5_RandomSides.Setup_EVGxCOL_xl(): Entered")
+	PrintLog("Setup_EVGxCOL_xl(): Entered")
 	--Setup_SSVxGTH_lg = 1
 	ssvEngCnt = 8
 	
@@ -3061,7 +3070,7 @@ function Setup_EVGxCOL_xl()
 end
 
 function Setup_SSVxRPR_xl()
-	print("ME5_RandomSides.Setup_SSVxRPR_xl(): Entered")
+	PrintLog("Setup_SSVxRPR_xl(): Entered")
 	
 	NUM_RAVAGERS = 6
 	
@@ -3191,10 +3200,10 @@ function Drones_SSV()
 	OnCharacterDispenseControllableTeam(
 		function(character, controlled)
 			if GetEntityClass(controlled) == GetEntityClassPtr(TroopSpawnerWeapon) then
-					print("Drones_SSV(): Current spawner team size = "..GetTeamSize(REP))
+					PrintLog("Drones_SSV(): Current spawner team size = "..GetTeamSize(REP))
 				
 				droneID = droneID + 1
-					print("Drones_SSV(): Current droneID = "..droneID)
+					PrintLog("Drones_SSV(): Current droneID = "..droneID)
 				
 				local droneIndex = GetTeamMember(SupportSSV, droneID)
 				local droneUnit = GetCharacterUnit(droneIndex) -- currently unused
@@ -3203,7 +3212,7 @@ function Drones_SSV()
 				
 				if droneID >= GetTeamSize(REP) then
 					droneID = 0
-						print("Drones_SSV(): droneID limit of "..GetTeamSize(REP).." was reached; resetting counter")
+						PrintLog("Drones_SSV(): droneID limit of "..GetTeamSize(REP).." was reached; resetting counter")
 				end
 			end
 		end,
@@ -3244,4 +3253,4 @@ function Drones_SSVxGTH()
 end
 
 
-print("ME5_RandomSides: Exited")
+PrintLog("Exited")

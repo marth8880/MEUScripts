@@ -19,15 +19,24 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 
-print("ME5_Master: Entered")
+local __SCRIPT_NAME = "ME5_Master";
+local debug = true
+
+local function PrintLog(...)
+	if debug == true then
+		print("["..__SCRIPT_NAME.."]", unpack(arg));
+	end
+end
+
+PrintLog("Entered")
 
 ScriptCB_DoFile("ME5_BuildInfo");
 MEU_ReleaseNum		= "7"
 MEU_VersionNum		= "1.4"
 
-print("ME5_Master: Mass Effect: Unification is currently running on Build "..MEU_BuildNum..", Release "..MEU_ReleaseNum..", Version "..MEU_VersionNum)
+PrintLog("Mass Effect: Unification is currently running on Build "..MEU_BuildNum..", Release "..MEU_ReleaseNum..", Version "..MEU_VersionNum)
 
-print("ME5_Master: Performing garbage collection...")
+PrintLog("Performing garbage collection...")
 
 ME5_AIHeroes			= nil
 ME5_CarnageMode			= nil
@@ -313,4 +322,4 @@ else
 end
 
 
-print("ME5_Master: Exited")
+PrintLog("Exited")

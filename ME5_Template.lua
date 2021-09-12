@@ -26,8 +26,17 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 
-print("ME5_Template: Entered")
+local __SCRIPT_NAME = "ME5_Template";
+local debug = true
+
+local function PrintLog(...)
+	if debug == true then
+		print("["..__SCRIPT_NAME.."]", unpack(arg));
+	end
+end
+
+PrintLog("Entered")
 
 -- insert code here
 
-print("ME5_Template: Exited")
+PrintLog("Exited")

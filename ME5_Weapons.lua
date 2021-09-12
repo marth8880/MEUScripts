@@ -180,7 +180,7 @@ function Init_Weapon_DOT()
 						-- Spawn the DOT ordnance turret
 						gDotOrdTurretEntity = CreateEntity(dotWeapons[weaponIdx][2], GetEntityMatrix(object))
 						
-						--print("Weapon ("..damagerWeapon..") is DOT")
+						--PrintLog("Weapon ("..damagerWeapon..") is DOT")
 					end
 				end
 			end

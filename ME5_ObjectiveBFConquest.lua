@@ -166,7 +166,7 @@ function ObjectiveConquest:Start()
 			local cpTeam = GetObjectTeam(cp.name)
 			if cpTeam == self:GetOpposingTeam(team) then
 				if not string.find(cp.name, "permacp") then
---					print("cp.name:", cp.name, "bleedPoints:", GetCommandPostBleedValue(cp.name, cpTeam))			--uncomment me for test output!
+--					PrintLog("cp.name:", cp.name, "bleedPoints:", GetCommandPostBleedValue(cp.name, cpTeam))			--uncomment me for test output!
 				end
 				bleedPoints = bleedPoints + GetCommandPostBleedValue(cp.name, cpTeam)
 			end
@@ -197,9 +197,9 @@ function ObjectiveConquest:Start()
 		end
 		
 		print()
-		print("team:", team, "totalbleedpts:", self.totalBleedValue[team])									--uncomment me for test output!
-		print("team:", team, "bleedPoints:", bleedPoints, "bleedRate:", bleedRate)							--uncomment me for test output!
-		print("team:", team, "bleedSteps:", bleedSteps, "curBleedStep:", curBleedStep)						--uncomment me for test output!
+		PrintLog("team:", team, "totalbleedpts:", self.totalBleedValue[team])									--uncomment me for test output!
+		PrintLog("team:", team, "bleedPoints:", bleedPoints, "bleedRate:", bleedRate)							--uncomment me for test output!
+		PrintLog("team:", team, "bleedSteps:", bleedSteps, "curBleedStep:", curBleedStep)						--uncomment me for test output!
 		print()
 	
 		--setup the bleedrate display (i.e. how fast the score flashes in the HUD)
@@ -426,7 +426,7 @@ function ObjectiveConquest:Start()
 	
 	
 	local function ShowCaptureMessage(postPtr)
-		print("ShowCaptureMessage(): Entered")
+		PrintLog("ShowCaptureMessage(): Entered")
 		if self.bCanShowCaptureMessage == false then return end
 		
 		if self.bCanShowCaptureMessage == true then
@@ -465,7 +465,7 @@ function ObjectiveConquest:Start()
 			local postCaptureMsgDelayTimerElapse = OnTimerElapse(
 				function(timer)
 					messageStr = "level."..GetWorldFilename().."."..postName
-					print("ShowCaptureMessage(): messageStr = ", messageStr)
+					PrintLog("ShowCaptureMessage(): messageStr = ", messageStr)
 					
 					ShowMessageText(messageStr)
 					
@@ -944,7 +944,7 @@ function ObjectiveConquest:Complete(winningTeam)
 		if ME5_CustomHUD == 1 then
 			if bStockFontLoaded == false then
 				bStockFontLoaded = true
-					print("ME5_ObjectiveBFConquest: Loading hud_font_stock.lvl...")
+					PrintLog("Loading hud_font_stock.lvl...")
 				-- hotfix that reloads the stock fonts in the stats screen
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
 			end
@@ -954,3 +954,5 @@ function ObjectiveConquest:Complete(winningTeam)
 	--then call the default objective complete method
 	Objective.Complete(self, winningTeam)
 end
+
+PrintLog("Exited")

@@ -2,6 +2,17 @@
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
 
+local __SCRIPT_NAME = "ME5_ObjectiveOneFlagCTF";
+local debug = true
+
+local function PrintLog(...)
+	if debug == true then
+		print("["..__SCRIPT_NAME.."]", unpack(arg));
+	end
+end
+
+PrintLog("Entered")
+
 ScriptCB_DoFile("ME5_Objective")
 ScriptCB_DoFile("ME5_SoundEvent_ctf")
 
@@ -568,3 +579,5 @@ elseif CTF_SoundEvents_Var == 4 then
 		},
 	}
 end
+
+PrintLog("Exited")

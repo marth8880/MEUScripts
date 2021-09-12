@@ -23,19 +23,28 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 
-print("ME5_KillSounds: Entered")
+local __SCRIPT_NAME = "ME5_KillSounds";
+local debug = true
+
+local function PrintLog(...)
+	if debug == true then
+		print("["..__SCRIPT_NAME.."]", unpack(arg));
+	end
+end
+
+PrintLog("Entered")
 
 ---
 -- Sets up the event responses for kill sounds.
 -- 
 function Init_KillSounds()
-	print("ME5_KillSounds.Init_KillSounds(): Entered")
+	PrintLog("Init_KillSounds(): Entered")
 	
 	if not ScriptCB_InMultiplayer() then
 		if ME5_KillSound == 0 then
-			print("ME5_KillSounds.Init_KillSounds(): Initializing kill sound setting for DISABLED...")
+			PrintLog("Init_KillSounds(): Initializing kill sound setting for DISABLED...")
 		else
-			print("ME5_KillSounds.Init_KillSounds(): Initializing kill sound setting for ENABLED...")
+			PrintLog("Init_KillSounds(): Initializing kill sound setting for ENABLED...")
 			
 			local enemydeath = OnCharacterDeath(
 				function(player, killer)
@@ -69,9 +78,9 @@ function Init_KillSounds()
 			)
 		end
 	else
-		print("ME5_KillSounds.Init_KillSounds(): Initializing kill sound setting for DISABLED...")
+		PrintLog("Init_KillSounds(): Initializing kill sound setting for DISABLED...")
 	end
 end
 
 
-print("ME5_KillSounds: Exited")
+PrintLog("Exited")

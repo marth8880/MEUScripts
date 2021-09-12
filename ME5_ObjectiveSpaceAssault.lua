@@ -2,6 +2,17 @@
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
 
+local __SCRIPT_NAME = "ME5_ObjectiveSpaceAssault";
+local debug = true
+
+local function PrintLog(...)
+	if debug == true then
+		print("["..__SCRIPT_NAME.."]", unpack(arg));
+	end
+end
+
+PrintLog("Entered")
+
 ScriptCB_DoFile("ME5_Objective")
 
 --NOTE: ObjectiveSpaceAssault is a special case objective that is designed for multiplayer only
@@ -20,7 +31,7 @@ ObjectiveSpaceAssault = Objective:New
 
 function ObjectiveSpaceAssault:OnCriticalSystemDestroyed(name, pointValue)
 	--designers, override me as necessary!
-	print("TEST - critical system destroyd:", name, "pointValue:", pointValue)		--TODO: remove this line
+	PrintLog("TEST - critical system destroyd:", name, "pointValue:", pointValue)		--TODO: remove this line
 end
 
 -- name: the name of the object in the level (duh)
@@ -405,3 +416,5 @@ gSpaceAssaultSystems_template = {
 		}
 	},		
 }
+
+PrintLog("Exited")

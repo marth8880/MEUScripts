@@ -2,6 +2,17 @@
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
 
+local __SCRIPT_NAME = "ME5_ObjectiveCTF";
+local debug = true
+
+local function PrintLog(...)
+	if debug == true then
+		print("["..__SCRIPT_NAME.."]", unpack(arg));
+	end
+end
+
+PrintLog("Entered")
+
 ScriptCB_DoFile("ME5_Objective")
 ScriptCB_DoFile("ME5_SoundEvent_ctf")
 
@@ -193,16 +204,16 @@ function ObjectiveCTF:Start()
             carrierTeam = GetOpposingTeam(flagTeam)
         end
 		
-		print("updating markers for flag:", flag.name)
+		PrintLog("updating markers for flag:", flag.name)
         if flag.carrier then
-			print("flag carrier")
+			PrintLog("flag carrier")
             --no marker on the flag, yes marker on the capture region
  			MapRemoveEntityMarker(flag.name)
             MapAddRegionMarker(GetRegion(flag.captureRegion), flag.capRegionMarker, 4.0,
                                 carrierTeam, "YELLOW", false, false, true)
             MapAddEntityMarker(flag.regionDummyObject, self.capRegionMarker, self.capRegionMarkerScale, carrierTeam, "YELLOW", true, false, true)
         else
-			print("no carrier")
+			PrintLog("no carrier")
             --yes marker on the flag, no marker on the capture region
             MapAddEntityMarker(flag.name, flag.mapIcon, 4.0, carrierTeam, "YELLOW", true, false, true, true)     
             MapRemoveRegionMarker(GetRegion(flag.captureRegion))
@@ -390,8 +401,8 @@ function ObjectiveCTF:Start()
 				
                 --if the flag is in its capture region, cap the flag
                 if IsCharacterInRegion(carrierObj, flag.captureRegion) and CanCharacterInteractWithFlag(carrierObj) then
-					--print("carrierObj:", carrierObj)
-					--print("inside OnFlagPickUp()")
+					--PrintLog("carrierObj:", carrierObj)
+					--PrintLog("inside OnFlagPickUp()")
 					--if carriedFlagsNum < 2 then
 						CaptureFlag(flag, carrierTeam)
 					--[[else
@@ -506,7 +517,7 @@ function ObjectiveCTF:Start()
                         local carrierTeam = GetCharacterTeam(carrier)
                         
                         if flagTeam ~= carrierTeam then
-							--print("in OnEnterRegion()")
+							--PrintLog("in OnEnterRegion()")
 							
 							--if carriedFlagsNum < 2 then
 								CaptureFlag(f, carrierTeam)
@@ -781,3 +792,5 @@ elseif CTF_SoundEvents_Var == 4 then
 		},
 	}
 end
+
+PrintLog("Exited")

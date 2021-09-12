@@ -140,10 +140,10 @@ end
 function ObjectiveConquest:Start()
 	
 	if gCurrentMapManager.gameMode == "tdm" then
-		print("ME5_ObjectiveConquest: Game mode is TDM, hiding CP HUD markers")
+		PrintLog("Game mode is TDM, hiding CP HUD markers")
 		bShowCPMarkers = false
 	else
-		print("ME5_ObjectiveConquest: Game mode is not TDM, showing CP HUD markers")
+		PrintLog("Game mode is not TDM, showing CP HUD markers")
 		bShowCPMarkers = true
 	end
 	
@@ -158,7 +158,7 @@ function ObjectiveConquest:Start()
 		for i, cp in pairs(self.commandPosts) do
 			local cpTeam = GetObjectTeam(cp.name)
 			if cpTeam == self:GetOpposingTeam(team) then
-				--print("cp.name:", cp.name, "bleedPoints:", GetCommandPostBleedValue(cp.name, cpTeam))			--uncomment me for test output!
+				--PrintLog("cp.name:", cp.name, "bleedPoints:", GetCommandPostBleedValue(cp.name, cpTeam))			--uncomment me for test output!
 				bleedPoints = bleedPoints + GetCommandPostBleedValue(cp.name, cpTeam)
 			end
 		end
@@ -183,8 +183,8 @@ function ObjectiveConquest:Start()
 			end
 		end
 		
-		--print("totalbleedpts:", self.totalBleedValue[team])													--uncomment me for test output!
-		--print("team:", team, "bleedPoints:", bleedPoints, "bleedRate:", bleedRate)							--uncomment me for test output!
+		--PrintLog("totalbleedpts:", self.totalBleedValue[team])													--uncomment me for test output!
+		--PrintLog("team:", team, "bleedPoints:", bleedPoints, "bleedRate:", bleedRate)							--uncomment me for test output!
 	
 		--setup the bleedrate display (i.e. how fast the score flashes in the HUD)
 		SetBleedRate(team, bleedRate)
@@ -383,7 +383,7 @@ function ObjectiveConquest:Start()
 	
 	
 	local function ShowCaptureMessage(postPtr)
-		--print("ShowCaptureMessage(): Entered")
+		--PrintLog("ShowCaptureMessage(): Entered")
 		if self.bCanShowCaptureMessage == false then return end
 		
 		if self.bCanShowCaptureMessage == true then
@@ -422,7 +422,7 @@ function ObjectiveConquest:Start()
 			local postCaptureMsgDelayTimerElapse = OnTimerElapse(
 				function(timer)]]
 					messageStr = "level."..GetWorldFilename().."."..postName
-					print("ShowCaptureMessage(): messageStr = ", messageStr)
+					PrintLog("ShowCaptureMessage(): messageStr = ", messageStr)
 					
 					ShowMessageText(messageStr)
 					
@@ -627,7 +627,7 @@ function ObjectiveConquest:Start()
 			table.insert(self.AIGoals, AddAIGoal(self.teamATT, "Deathmatch", 100*self.AIGoalWeight))
 			table.insert(self.AIGoals, AddAIGoal(self.teamDEF, "Deathmatch", 100*self.AIGoalWeight))
 		else
-			print("ME5_ObjectiveConquest: ERROR! MapManager was given invalid gameMode value! Value is `"..gCurrentMapManager.gameMode..
+			PrintLog("ERROR! MapManager was given invalid gameMode value! Value is `"..gCurrentMapManager.gameMode..
 				"`, should be `conquest` or `tdm`. Defaulting to Deathmatch goals")
 			table.insert(self.AIGoals, AddAIGoal(self.teamATT, "Deathmatch", 100*self.AIGoalWeight))
 			table.insert(self.AIGoals, AddAIGoal(self.teamDEF, "Deathmatch", 100*self.AIGoalWeight))
@@ -803,7 +803,7 @@ function ObjectiveConquest:Start()
 	OnTicketCountChange(
 		function (team, count)
 			if team == CIS and count <= 20 then
-					print("ME5_ObjectiveConquest: Blocking HuskTeam spawn")
+					PrintLog("Blocking HuskTeam spawn")
 				AllowAISpawn(3, false)
 			end
 		end
@@ -824,7 +824,7 @@ function ObjectiveConquest:Start()
 end
 
 function ObjectiveConquest:Complete(winningTeam)
-	print("ObjectiveConquest:Complete(): Entered")
+	PrintLog("Complete(): Entered")
 	
 	if not self.multiplayerRules then
 		--remove all the cp markers
@@ -836,3 +836,5 @@ function ObjectiveConquest:Complete(winningTeam)
 	--then call the default objective complete method
 	Objective.Complete(self, winningTeam)
 end
+
+PrintLog("Exited")

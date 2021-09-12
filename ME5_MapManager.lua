@@ -23,7 +23,16 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 
-print("ME5_MapManager: Entered")
+local __SCRIPT_NAME = "ME5_MapManager";
+local debug = true
+
+local function PrintLog(...)
+	if debug == true then
+		print("["..__SCRIPT_NAME.."]", unpack(arg));
+	end
+end
+
+PrintLog("Entered")
 
 --=================================
 -- MapManager
@@ -171,49 +180,49 @@ end
 function MapManager:Init()
 	-- Map-specific aesthetics
 	if self.gameMode == nil then
-		print("MapManager:Init(): WARNING: gameMode must be specified! Exiting function")
+		PrintLog("Init(): WARNING: gameMode must be specified! Exiting function")
 	return end
 	if self.mapSize == nil then
-		print("MapManager:Init(): WARNING: mapSize must be specified! Exiting function")
+		PrintLog("Init(): WARNING: mapSize must be specified! Exiting function")
 	return end
 	if self.environmentType == nil then
-		print("MapManager:Init(): WARNING: environmentType wasn't specified! Defaulting to Urban")
+		PrintLog("Init(): WARNING: environmentType wasn't specified! Defaulting to Urban")
 		self.environmentType = "urban"
 	end
 	if self.terrainFoleyGroup == nil then
-		print("MapManager:Init(): WARNING: terrainFoleyGroup wasn't specified! Defaulting to Dirt")
+		PrintLog("Init(): WARNING: terrainFoleyGroup wasn't specified! Defaulting to Dirt")
 		self.terrainFoleyGroup = "dirt"
 	end
 	
 	-- Online multiplayer matches
 	if self.onlineSideVar == nil then
-		print("MapManager:Init(): WARNING: onlineSideVar wasn't specified! Defaulting to SSVxGTH")
+		PrintLog("Init(): WARNING: onlineSideVar wasn't specified! Defaulting to SSVxGTH")
 		self.onlineSideVar = "SSVxGTH"
 	end
 	if self.onlineHeroSSV == nil then
-		print("MapManager:Init(): WARNING: onlineHeroSSV wasn't specified! Defaulting to shep_soldier")
+		PrintLog("Init(): WARNING: onlineHeroSSV wasn't specified! Defaulting to shep_soldier")
 		self.onlineHeroSSV = "shep_soldier"
 	end
 	if self.onlineHeroGTH == nil then
-		print("MapManager:Init(): WARNING: onlineHeroGTH wasn't specified! Defaulting to gethprime_me2")
+		PrintLog("Init(): WARNING: onlineHeroGTH wasn't specified! Defaulting to gethprime_me2")
 		self.onlineHeroGTH = "gethprime_me2"
 	end
 	if self.onlineHeroCOL == nil then
-		print("MapManager:Init(): WARNING: onlineHeroCOL wasn't specified! Defaulting to colgeneral")
+		PrintLog("Init(): WARNING: onlineHeroCOL wasn't specified! Defaulting to colgeneral")
 		self.onlineHeroCOL = "colgeneral"
 	end
 	if self.onlineHeroEVG == nil then
-		print("MapManager:Init(): WARNING: onlineHeroEVG wasn't specified! Defaulting to gethprime_me3")
+		PrintLog("Init(): WARNING: onlineHeroEVG wasn't specified! Defaulting to gethprime_me3")
 		self.onlineHeroEVG = "gethprime_me3"
 	end
 	
 	-- AI heroes and local allies
 	if self.heroSupportCPs == {} or self.heroSupportCPs == nil then
-		print("MapManager:Init(): WARNING: heroSupportCPs wasn't specified! Heroes will be disabled")
+		PrintLog("Init(): WARNING: heroSupportCPs wasn't specified! Heroes will be disabled")
 		self.bAreHeroesEnabled = false
 	end
 	if self.allySpawnCPs == {} or self.allySpawnCPs == nil then
-		print("MapManager:Init(): WARNING: allySpawnCPs wasn't specified! Local allies will be disabled")
+		PrintLog("Init(): WARNING: allySpawnCPs wasn't specified! Local allies will be disabled")
 		self.bAreLocalAlliesEnabled = false
 	end
 	
@@ -250,7 +259,7 @@ end
 -- kill sounds, Evolved Juggernaut's Power Drain, and shield pickups.
 -- 
 function MapManager:Proc_ScriptInit_Begin()
-	print("MapManager:Proc_ScriptInit_Begin(): Entered")
+	PrintLog("Proc_ScriptInit_Begin(): Entered")
 	
 	-- Load our custom loadscreen elements such as progress bar LEDs, tip box elements, etc.
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\common.lvl")
@@ -260,43 +269,43 @@ function MapManager:Proc_ScriptInit_Begin()
 	-- What is the difficulty set to in the Config Tool?
 	if not ScriptCB_InMultiplayer() then
 		if ME5_Difficulty == 1 then
-			print("MapManager:Proc_ScriptInit_Begin(): Initializing difficulty parameters for CASUAL...")
+			PrintLog("Proc_ScriptInit_Begin(): Initializing difficulty parameters for CASUAL...")
 			SetAIDifficulty(1, -1)
 			SetTeamAggressiveness(CIS,(0.63))
 			SetTeamAggressiveness(REP,(0.63))
 			
 		elseif ME5_Difficulty == 2 then
-			print("MapManager:Proc_ScriptInit_Begin(): Initializing difficulty parameters for NORMAL...")
+			PrintLog("Proc_ScriptInit_Begin(): Initializing difficulty parameters for NORMAL...")
 			SetAIDifficulty(0, 0)
 			SetTeamAggressiveness(CIS,(0.73))
 			SetTeamAggressiveness(REP,(0.73))
 			
 		elseif ME5_Difficulty == 3 then
-			print("MapManager:Proc_ScriptInit_Begin(): Initializing difficulty parameters for VETERAN...")
+			PrintLog("Proc_ScriptInit_Begin(): Initializing difficulty parameters for VETERAN...")
 			SetAIDifficulty(-1, 1)
 			SetTeamAggressiveness(CIS,(0.83))
 			SetTeamAggressiveness(REP,(0.83))
 			
 		elseif ME5_Difficulty == 4 then
-			print("MapManager:Proc_ScriptInit_Begin(): Initializing difficulty parameters for HARDCORE...")
+			PrintLog("Proc_ScriptInit_Begin(): Initializing difficulty parameters for HARDCORE...")
 			SetAIDifficulty(-2, 2)
 			SetTeamAggressiveness(CIS,(0.93))
 			SetTeamAggressiveness(REP,(0.93))
 			
 		elseif ME5_Difficulty == 5 then
-			print("MapManager:Proc_ScriptInit_Begin(): Initializing difficulty parameters for INSANITY...")
+			PrintLog("Proc_ScriptInit_Begin(): Initializing difficulty parameters for INSANITY...")
 			SetAIDifficulty(-3, 3)
 			SetTeamAggressiveness(CIS,(1.0))
 			SetTeamAggressiveness(REP,(1.0))
 			
 		else
-			print("MapManager:Proc_ScriptInit_Begin(): Error! ME5_Difficulty setting is invalid! Defaulting to difficulty parameters for HARDCORE")
+			PrintLog("Proc_ScriptInit_Begin(): Error! ME5_Difficulty setting is invalid! Defaulting to difficulty parameters for HARDCORE")
 			SetAIDifficulty(-2, 2)
 			SetTeamAggressiveness(CIS,(0.93))
 			SetTeamAggressiveness(REP,(0.93))
 		end
 	else
-		print("MapManager:Proc_ScriptInit_Begin(): Initializing difficulty parameters for MULTIPLAYER...")
+		PrintLog("Proc_ScriptInit_Begin(): Initializing difficulty parameters for MULTIPLAYER...")
 		-- NOTE: Apply a difficulty setting located between Hardcore and Insanity
 		SetAIDifficulty(-2, 2)
 		SetTeamAggressiveness(CIS,(0.95))
@@ -306,16 +315,16 @@ function MapManager:Proc_ScriptInit_Begin()
 	-- What is Carnage Mode set to in the Config Tool?
 	if not ScriptCB_InMultiplayer() then
 		if ME5_CarnageMode == 0 then
-			print("MapManager:Proc_ScriptInit_Begin(): Carnage Mode is DISABLED, deactivating weapon modifiers...")
+			PrintLog("Proc_ScriptInit_Begin(): Carnage Mode is DISABLED, deactivating weapon modifiers...")
 		elseif ME5_CarnageMode == 1 then
-			print("MapManager:Proc_ScriptInit_Begin(): Carnage Mode is ENABLED, activating weapon modifiers...")
+			PrintLog("Proc_ScriptInit_Begin(): Carnage Mode is ENABLED, activating weapon modifiers...")
 			ActivateBonus(REP, "team_bonus_advanced_blasters")
 			ActivateBonus(CIS, "team_bonus_advanced_blasters")
 		else
-			print("MapManager:Proc_ScriptInit_Begin(): Error! ME5_CarnageMode setting is invalid! Defaulting Carnage Mode setting to DISABLED")
+			PrintLog("Proc_ScriptInit_Begin(): Error! ME5_CarnageMode setting is invalid! Defaulting Carnage Mode setting to DISABLED")
 		end
 	else
-		print("MapManager:Proc_ScriptInit_Begin(): Carnage Mode is ENABLED (MULTIPLAYER), activating weapon modifiers...")
+		PrintLog("Proc_ScriptInit_Begin(): Carnage Mode is ENABLED (MULTIPLAYER), activating weapon modifiers...")
 		ActivateBonus(REP, "team_bonus_advanced_blasters")
 		ActivateBonus(CIS, "team_bonus_advanced_blasters")
 	end
@@ -376,7 +385,7 @@ function MapManager:Proc_ScriptInit_Begin()
 	-- Get the player's aspect ratio so we can load the proper sniperscope sizes
 	local screenWidth, screenHeight = ScriptCB_GetScreenInfo()
 	local aspectRatio = screenWidth / screenHeight
-	print("MapManager:Proc_ScriptInit_Begin():", "Width: "..screenWidth, "Height: "..screenHeight..", Aspect Ratio: "..aspectRatio)
+	PrintLog("Proc_ScriptInit_Begin():", "Width: "..screenWidth, "Height: "..screenHeight..", Aspect Ratio: "..aspectRatio)
 	
 	
 	--==========================
@@ -385,7 +394,7 @@ function MapManager:Proc_ScriptInit_Begin()
 	
 	-- Is the custom HUD enabled in the Config Tool?
 	if ME5_CustomHUD == 1 then
-		print("MapManager:Proc_ScriptInit_Begin(): Loading custom HUD")
+		PrintLog("Proc_ScriptInit_Begin(): Loading custom HUD")
 		
 		-- Load the Myriad Pro fonts
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font.lvl")
@@ -552,42 +561,42 @@ function MapManager:Proc_ScriptInit_Begin()
 	
 	-- What is the aspect ratio of the player's display?
 	if aspectRatioStr == "4:3" then
-		print("MapManager:Proc_ScriptInit_Begin(): Aspect Ratio is 4:3, loading scopes as such")
+		PrintLog("Proc_ScriptInit_Begin(): Aspect Ratio is 4:3, loading scopes as such")
 		if self.gameMode == "conquest" or self.gameMode == "siege" then
-			print("MapManager:Proc_ScriptInit_Begin(): Game mode is Conquest or Siege ("..self.gameMode.."), also loading CP objective markers")
+			PrintLog("Proc_ScriptInit_Begin(): Game mode is Conquest or Siege ("..self.gameMode.."), also loading CP objective markers")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar43\\ar.lvl;conquest")
 		else
-			print("MapManager:Proc_ScriptInit_Begin(): Game mode is not Conquest or Siege")
+			PrintLog("Proc_ScriptInit_Begin(): Game mode is not Conquest or Siege")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar43\\ar.lvl")
 		end
 		
 	elseif aspectRatioStr == "16:10" then
-		print("MapManager:Proc_ScriptInit_Begin(): Aspect Ratio is 16:10, loading scopes as such")
+		PrintLog("Proc_ScriptInit_Begin(): Aspect Ratio is 16:10, loading scopes as such")
 		if self.gameMode == "conquest" or self.gameMode == "siege" then
-			print("MapManager:Proc_ScriptInit_Begin(): Game mode is Conquest or Siege ("..self.gameMode.."), also loading CP objective markers")
+			PrintLog("Proc_ScriptInit_Begin(): Game mode is Conquest or Siege ("..self.gameMode.."), also loading CP objective markers")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar1610\\ar.lvl;conquest")
 		else
-			print("MapManager:Proc_ScriptInit_Begin(): Game mode is not Conquest or Siege")
+			PrintLog("Proc_ScriptInit_Begin(): Game mode is not Conquest or Siege")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar1610\\ar.lvl")
 		end
 		
 	elseif aspectRatioStr == "16:9" then
-		print("MapManager:Proc_ScriptInit_Begin(): Aspect Ratio is 16:9, loading scopes as such")
+		PrintLog("Proc_ScriptInit_Begin(): Aspect Ratio is 16:9, loading scopes as such")
 		if self.gameMode == "conquest" or self.gameMode == "siege" then
-			print("MapManager:Proc_ScriptInit_Begin(): Game mode is Conquest or Siege ("..self.gameMode.."), also loading CP objective markers")
+			PrintLog("Proc_ScriptInit_Begin(): Game mode is Conquest or Siege ("..self.gameMode.."), also loading CP objective markers")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar169\\ar.lvl;conquest")
 		else
-			print("MapManager:Proc_ScriptInit_Begin(): Game mode is not Conquest or Siege")
+			PrintLog("Proc_ScriptInit_Begin(): Game mode is not Conquest or Siege")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar169\\ar.lvl")
 		end
 		
 	else
-		print("MapManager:Proc_ScriptInit_Begin(): Error! Invalid aspect ratio ("..aspectRatio..")! Defaulting to workaround")
+		PrintLog("Proc_ScriptInit_Begin(): Error! Invalid aspect ratio ("..aspectRatio..")! Defaulting to workaround")
 		if self.gameMode == "conquest" or self.gameMode == "siege" then
-			print("MapManager:Proc_ScriptInit_Begin(): Game mode is Conquest or Siege ("..self.gameMode.."), also loading CP objective markers")
+			PrintLog("Proc_ScriptInit_Begin(): Game mode is Conquest or Siege ("..self.gameMode.."), also loading CP objective markers")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar.lvl;conquest")
 		else
-			print("MapManager:Proc_ScriptInit_Begin(): Game mode is not Conquest or Siege")
+			PrintLog("Proc_ScriptInit_Begin(): Game mode is not Conquest or Siege")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ar\\ar.lvl")
 		end
 	end
@@ -632,29 +641,29 @@ function MapManager:Proc_ScriptInit_Begin()
 		-- ALLIANCE VS. HERETIC GETH
 		-- ===============================
 		if factionVariation == 1 or factionVariation == "SSVxGTH" then
-			print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Faction combination is SSVxGTH, loading associated common/wpn sound files")
+			PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Faction combination is SSVxGTH, loading associated common/wpn sound files")
 			
 			if string.find(SSVHeroClass, "shepard") then
-				print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Loading SHEPARD data files...")
+				PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Loading SHEPARD data files...")
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_Shepard_NonStreaming.lvl")
 				
 			elseif (string.find(SSVHeroClass, "cooper") or (gLoadCooper and gLoadCooper == true)) then
-				print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Loading COOPER data files...")
+				PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Loading COOPER data files...")
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_Cooper_NonStreaming.lvl")
 				
 			elseif string.find(SSVHeroClass, "jack") then
-				print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Loading JACK data files...")
+				PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Loading JACK data files...")
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_Jack_NonStreaming.lvl")
 				
 			elseif string.find(SSVHeroClass, "legion") then
-				print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Loading LEGION data files...")
+				PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Loading LEGION data files...")
 				
 				
 			elseif string.find(SSVHeroClass, "samara") then
-				print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Loading SAMARA data files...")
+				PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Loading SAMARA data files...")
 				
 			else
-				print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Loading normal data files...")
+				PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Loading normal data files...")
 				
 			end
 			
@@ -672,29 +681,29 @@ function MapManager:Proc_ScriptInit_Begin()
 		-- ALLIANCE VS. COLLECTORS
 		-- ===============================
 		elseif factionVariation == 2 or factionVariation == "SSVxCOL" then
-			print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Faction combination is SSVxCOL, loading associated common/wpn sound files")
+			PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Faction combination is SSVxCOL, loading associated common/wpn sound files")
 			
 			if string.find(SSVHeroClass, "shepard") then
-				print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Loading SHEPARD data files...")
+				PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Loading SHEPARD data files...")
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_Shepard_NonStreaming.lvl")
 				
 			elseif (string.find(SSVHeroClass, "cooper") or (gLoadCooper and gLoadCooper == true)) then
-				print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Loading COOPER data files...")
+				PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Loading COOPER data files...")
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_Cooper_NonStreaming.lvl")
 				
 			elseif string.find(SSVHeroClass, "jack") then
-				print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Loading JACK data files...")
+				PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Loading JACK data files...")
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_Jack_NonStreaming.lvl")
 				
 			elseif string.find(SSVHeroClass, "legion") then
-				print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Loading LEGION data files...")
+				PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Loading LEGION data files...")
 				
 				
 			elseif string.find(SSVHeroClass, "samara") then
-				print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Loading SAMARA data files...")
+				PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Loading SAMARA data files...")
 				
 			else
-				print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Loading normal data files...")
+				PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Loading normal data files...")
 				
 			end
 			
@@ -712,7 +721,7 @@ function MapManager:Proc_ScriptInit_Begin()
 		-- EVOLVED GETH VS. HERETIC GETH
 		-- ===============================
 		elseif factionVariation == 3 or factionVariation == "EVGxGTH" then
-			print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Faction combination is EVGxGTH, loading associated common/wpn sound files")
+			PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Faction combination is EVGxGTH, loading associated common/wpn sound files")
 			
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_GTH_NonStreaming.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_NonStreaming.lvl")
@@ -727,7 +736,7 @@ function MapManager:Proc_ScriptInit_Begin()
 		-- EVOLVED GETH VS. COLLECTORS
 		-- ===============================
 		elseif factionVariation == 4 or factionVariation == "EVGxCOL" then
-			print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Faction combination is EVGxCOL, loading associated common/wpn sound files")
+			PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Faction combination is EVGxCOL, loading associated common/wpn sound files")
 			
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_COL_NonStreaming.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_GTH_NonStreaming.lvl")
@@ -744,29 +753,29 @@ function MapManager:Proc_ScriptInit_Begin()
 		-- ALLIANCE VS. REAPERS
 		-- ===============================
 		elseif factionVariation == 5 or factionVariation == "SSVxRPR" then
-			print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Faction combination is SSVxRPR, loading associated common/wpn sound files")
+			PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Faction combination is SSVxRPR, loading associated common/wpn sound files")
 			
 			if string.find(SSVHeroClass, "shepard") then
-				print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Loading SHEPARD data files...")
+				PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Loading SHEPARD data files...")
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_Shepard_NonStreaming.lvl")
 				
 			elseif (string.find(SSVHeroClass, "cooper") or (gLoadCooper and gLoadCooper == true)) then
-				print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Loading COOPER data files...")
+				PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Loading COOPER data files...")
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_Cooper_NonStreaming.lvl")
 				
 			elseif string.find(SSVHeroClass, "jack") then
-				print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Loading JACK data files...")
+				PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Loading JACK data files...")
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_Jack_NonStreaming.lvl")
 				
 			elseif string.find(SSVHeroClass, "legion") then
-				print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Loading LEGION data files...")
+				PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Loading LEGION data files...")
 				
 				
 			elseif string.find(SSVHeroClass, "samara") then
-				print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Loading SAMARA data files...")
+				PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Loading SAMARA data files...")
 				
 			else
-				print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Loading normal data files...")
+				PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Loading normal data files...")
 				
 			end
 			
@@ -781,7 +790,7 @@ function MapManager:Proc_ScriptInit_Begin()
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_NonStreaming.lvl")
 			
 		else
-			print("MapManager:Proc_ScriptInit_Begin.LoadFactionSounds(): Faction combination is invalid, loading common/wpn sound files for EVGxCOL as workaround")
+			PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Faction combination is invalid, loading common/wpn sound files for EVGxCOL as workaround")
 			
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_COL_NonStreaming.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_GTH_NonStreaming.lvl")
@@ -823,15 +832,15 @@ function MapManager:Proc_ScriptInit_Begin()
 	
 	if self.bIsArtilleryEnabled == true then
 		if self.terrainType == "dirt" then
-			print("MapManager:Proc_ScriptInit_Begin(): Loading artillery textures for dirt")
+			PrintLog("Proc_ScriptInit_Begin(): Loading artillery textures for dirt")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\artillery_dirt.lvl")
 			
 		elseif self.terrainType == "snow" then
-			print("MapManager:Proc_ScriptInit_Begin(): Loading artillery textures for snow")
+			PrintLog("Proc_ScriptInit_Begin(): Loading artillery textures for snow")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\artillery_snow.lvl")
 			
 		elseif self.terrainType == "sand" then	-- it gets everywhere
-			print("MapManager:Proc_ScriptInit_Begin(): Loading artillery textures for sand")
+			PrintLog("Proc_ScriptInit_Begin(): Loading artillery textures for sand")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\artillery_sand.lvl")
 		end
 	end 
@@ -882,7 +891,7 @@ end
 -- Sets "global" memory pools such as `FlagItem`, `EntityPortableTurret`, and `MountedTurret`.
 -- 
 function MapManager:Proc_ScriptInit_MemoryPoolInit()
-	print("MapManager:Proc_ScriptInit_MemoryPoolInit(): Entered")
+	PrintLog("Proc_ScriptInit_MemoryPoolInit(): Entered")
 	
 	AddWalkerType(0, NUM_RAVAGERS)  -- number of ravagers
 	
@@ -902,48 +911,48 @@ end
 -- Calls the functions that load the music.
 -- 
 function MapManager:Proc_ScriptInit_MusicSetup()
-	print("MapManager:Proc_ScriptInit_MusicSetup(): Entered")
+	PrintLog("Proc_ScriptInit_MusicSetup(): Entered")
 	
 	-- The music variation to set up
 	local variation = nil
 	
 	-- What's the faction combination for this map?
 	if ME5_SideVar == 1 or (ScriptCB_InMultiplayer() and self.onlineSideVar == "SSVxGTH") then
-		print("MapManager:Proc_ScriptInit_MusicSetup(): Variation is SSVxGTH")
+		PrintLog("Proc_ScriptInit_MusicSetup(): Variation is SSVxGTH")
 		variation = self.musicVariation_SSVxGTH
 		
 	elseif ME5_SideVar == 2 or (ScriptCB_InMultiplayer() and self.onlineSideVar == "SSVxCOL") then
-		print("MapManager:Proc_ScriptInit_MusicSetup(): Variation is SSVxCOL")
+		PrintLog("Proc_ScriptInit_MusicSetup(): Variation is SSVxCOL")
 		variation = self.musicVariation_SSVxCOL
 		
 	elseif ME5_SideVar == 3 or (ScriptCB_InMultiplayer() and self.onlineSideVar == "EVGxGTH") then
-		print("MapManager:Proc_ScriptInit_MusicSetup(): Variation is EVGxGTH")
+		PrintLog("Proc_ScriptInit_MusicSetup(): Variation is EVGxGTH")
 		variation = self.musicVariation_EVGxGTH
 		
 	elseif ME5_SideVar == 4 or (ScriptCB_InMultiplayer() and self.onlineSideVar == "EVGxCOL") then
-		print("MapManager:Proc_ScriptInit_MusicSetup(): Variation is EVGxCOL")
+		PrintLog("Proc_ScriptInit_MusicSetup(): Variation is EVGxCOL")
 		variation = self.musicVariation_EVGxCOL
 		
 	elseif ME5_SideVar == 5 or (ScriptCB_InMultiplayer() and self.onlineSideVar == "SSVxRPR") then
-		print("MapManager:Proc_ScriptInit_MusicSetup(): Variation is SSVxRPR")
+		PrintLog("Proc_ScriptInit_MusicSetup(): Variation is SSVxRPR")
 		variation = self.musicVariation_SSVxRPR
 	end
 	
 	-- If the specified variation is a table, randomly pick one of the cells to use
 	if type(variation) == "table" then
 		if not ScriptCB_InMultiplayer() then
-			print("MapManager:Proc_ScriptInit_MusicSetup(): Music variation detected as table! Randomly picking one of the cells...")
+			PrintLog("Proc_ScriptInit_MusicSetup(): Music variation detected as table! Randomly picking one of the cells...")
 			
 			-- Quit if the table is empty
 			if table.getn(variation) <= 0 then
-				print("MapManager:Proc_ScriptInit_MusicSetup(): WARNING: Table cannot be empty! Exiting function")
+				PrintLog("Proc_ScriptInit_MusicSetup(): WARNING: Table cannot be empty! Exiting function")
 			return end
 			
 			-- Otherwise, randomly pick one of the cells
 			local decide = math.random(1,table.getn(variation))
 			
 			-- Set the variation to the chosen one, which was supposed to destroy the sith, not join them
-			print("MapManager:Proc_ScriptInit_MusicSetup(): Going with variation "..decide)
+			PrintLog("Proc_ScriptInit_MusicSetup(): Going with variation "..decide)
 			variation = variation[decide]
 		else
 			-- Go with the first cell if we're in a multiplayer match
@@ -953,19 +962,19 @@ function MapManager:Proc_ScriptInit_MusicSetup()
 	
 	variation = string.lower(variation)
 	
-	print("MapManager:Proc_ScriptInit_MusicSetup(): Value of variation is "..variation)
+	PrintLog("Proc_ScriptInit_MusicSetup(): Value of variation is "..variation)
 	
 	-- Set the music to use based on the first character in the string
 	if string.sub(variation,1,1) == "1" then
-		print("MapManager:Proc_ScriptInit_MusicSetup(): Going with Music01")
+		PrintLog("Proc_ScriptInit_MusicSetup(): Going with Music01")
 		Music01()
 		
 	elseif string.sub(variation,1,1) == "2" then
-		print("MapManager:Proc_ScriptInit_MusicSetup(): Going with Music02")
+		PrintLog("Proc_ScriptInit_MusicSetup(): Going with Music02")
 		Music02()
 		
 	elseif string.sub(variation,1,1) == "3" then
-		print("MapManager:Proc_ScriptInit_MusicSetup(): Going with Music03")
+		PrintLog("Proc_ScriptInit_MusicSetup(): Going with Music03")
 		if string.len(variation) > 1 then
 			-- Set up the specified music variation
 			Music03(string.sub(variation,3))
@@ -974,7 +983,7 @@ function MapManager:Proc_ScriptInit_MusicSetup()
 		end
 		
 	elseif string.sub(variation,1,1) == "4" then
-		print("MapManager:Proc_ScriptInit_MusicSetup(): Going with Music04")
+		PrintLog("Proc_ScriptInit_MusicSetup(): Going with Music04")
 		if string.len(variation) > 1 then
 			-- Set up the specified music variation
 			Music04(string.sub(variation,3))
@@ -983,7 +992,7 @@ function MapManager:Proc_ScriptInit_MusicSetup()
 		end
 		
 	elseif string.sub(variation,1,1) == "5" then
-		print("MapManager:Proc_ScriptInit_MusicSetup(): Going with Music05")
+		PrintLog("Proc_ScriptInit_MusicSetup(): Going with Music05")
 		if string.len(variation) > 1 then
 			-- Set up the specified music variation
 			Music05(string.sub(variation,3))
@@ -992,7 +1001,7 @@ function MapManager:Proc_ScriptInit_MusicSetup()
 		end
 		
 	elseif string.sub(variation,1,1) == "6" then
-		print("MapManager:Proc_ScriptInit_MusicSetup(): Going with Music06")
+		PrintLog("Proc_ScriptInit_MusicSetup(): Going with Music06")
 		if string.len(variation) > 1 then
 			-- Set up the specified music variation
 			Music06(string.sub(variation,3))
@@ -1001,15 +1010,15 @@ function MapManager:Proc_ScriptInit_MusicSetup()
 		end
 		
 	elseif string.sub(variation,1,1) == "7" then
-		print("MapManager:Proc_ScriptInit_MusicSetup(): Going with Music07")
+		PrintLog("Proc_ScriptInit_MusicSetup(): Going with Music07")
 		Music07()
 		
 	elseif string.sub(variation,1,1) == "8" then
-		print("MapManager:Proc_ScriptInit_MusicSetup(): Going with Music08")
+		PrintLog("Proc_ScriptInit_MusicSetup(): Going with Music08")
 		Music08()
 		
 	elseif string.sub(variation,1,1) == "9" then
-		print("MapManager:Proc_ScriptInit_MusicSetup(): Going with Music09")
+		PrintLog("Proc_ScriptInit_MusicSetup(): Going with Music09")
 		Music09()
 	else
 		-- An invalid variation was selected, so default to variation 1
@@ -1024,7 +1033,7 @@ end
 -- Runs the Juggernaut Squad functions (based on the faction combination) and low health functions. Also purges stock fonts if custom HUD is enabled.
 -- 
 function MapManager:Proc_ScriptInit_End()
-	print("MapManager:Proc_ScriptInit_End(): Entered")
+	PrintLog("Proc_ScriptInit_End(): Entered")
 	
 	if self.bIsArtilleryEnabled == true and self.bIsArtilleryTurObjCustom == false then
 		-- Load the artillery turret
@@ -1057,7 +1066,7 @@ function MapManager:Proc_ScriptInit_End()
     ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\camshake.lvl")
 	
 	if ME5_CustomHUD == 1 then
-		print("MapManager:Proc_ScriptInit_End(): Overwriting stock fonts with blank font")
+		PrintLog("Proc_ScriptInit_End(): Overwriting stock fonts with blank font")
 		-- Hotfix that overrides the stock fonts with a "blank font"
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_purge_text.lvl")
 	end
@@ -1092,7 +1101,7 @@ function MapManager:Init_SidesPostLoad_SSVxGTH()
 				herosupport:SetHeroClass(CIS, GTHHeroClass)
 				
 				for cp in ipairs(self.heroSupportCPs) do
-					print("ME5_MapManager.Init_SidesPostLoad_SSVxGTH(): Setting hero spawn cp, path = ", self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
+					PrintLog("Init_SidesPostLoad_SSVxGTH(): Setting hero spawn cp, path = ", self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
 					herosupport:AddSpawnCP(self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
 				end
 				
@@ -1120,7 +1129,7 @@ function MapManager:Init_SidesPostLoad_SSVxCOL()
 				herosupport:SetHeroClass(CIS, COLHeroClass)
 				
 				for cp in ipairs(self.heroSupportCPs) do
-					print("ME5_MapManager.Init_SidesPostLoad_SSVxCOL(): Setting hero spawn cp, path = ", self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
+					PrintLog("Init_SidesPostLoad_SSVxCOL(): Setting hero spawn cp, path = ", self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
 					herosupport:AddSpawnCP(self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
 				end
 				
@@ -1151,7 +1160,7 @@ function MapManager:Init_SidesPostLoad_EVGxGTH()
 				herosupport:SetHeroClass(CIS, GTHHeroClass)
 				
 				for cp in ipairs(self.heroSupportCPs) do
-					print("ME5_MapManager.Init_SidesPostLoad_EVGxGTH(): Setting hero spawn cp, path = ", self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
+					PrintLog("Init_SidesPostLoad_EVGxGTH(): Setting hero spawn cp, path = ", self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
 					herosupport:AddSpawnCP(self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
 				end
 				
@@ -1180,7 +1189,7 @@ function MapManager:Init_SidesPostLoad_EVGxCOL()
 					herosupport:SetHeroClass(CIS, COLHeroClass)
 					
 					for cp in ipairs(self.heroSupportCPs) do
-						print("ME5_MapManager.Init_SidesPostLoad_EVGxCOL(): Setting hero spawn cp, path = ", self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
+						PrintLog("Init_SidesPostLoad_EVGxCOL(): Setting hero spawn cp, path = ", self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
 						herosupport:AddSpawnCP(self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
 					end
 					
@@ -1212,7 +1221,7 @@ function MapManager:Init_SidesPostLoad_SSVxRPR()
 				-- herosupport:SetHeroClass(CIS, RPRHeroClass)
 				
 				for cp in ipairs(self.heroSupportCPs) do
-					print("ME5_MapManager.Init_SidesPostLoad_SSVxRPR(): Setting hero spawn cp, path = ", self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
+					PrintLog("Init_SidesPostLoad_SSVxRPR(): Setting hero spawn cp, path = ", self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
 					herosupport:AddSpawnCP(self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
 				end
 				
@@ -1274,9 +1283,9 @@ end
 -- Initializes the local ally spawns.
 -- 
 function MapManager:Init_AllySpawns()
-	print("MapManager.Init_AllySpawns(): Entered")
+	PrintLog("Init_AllySpawns(): Entered")
 	for cp in ipairs(self.allySpawnCPs) do
-		print("MapManager:Init_AllySpawns(): Setting ally spawn cp, path = ", self.allySpawnCPs[cp][1], self.allySpawnCPs[cp][2])
+		PrintLog("Init_AllySpawns(): Setting ally spawn cp, path = ", self.allySpawnCPs[cp][1], self.allySpawnCPs[cp][2])
 		SetProperty(self.allySpawnCPs[cp][1], "AllyPath", self.allySpawnCPs[cp][2])
 	end
 end
@@ -1296,7 +1305,7 @@ function MapManager:Init_ArtilleryStrikes()
 	local artilleryStrikeInitDelay_TimerElapse = nil
 	
 	if self.artilleryStrikeDelay < 10.0 then
-		print("MapManager:Init_ArtilleryStrikes(): WARNING! Value of `artilleryStrikeDelay` ("..self.artilleryStrikeDelay..") must be >= 10.0! Resetting to default value of 20.0")
+		PrintLog("Init_ArtilleryStrikes(): WARNING! Value of `artilleryStrikeDelay` ("..self.artilleryStrikeDelay..") must be >= 10.0! Resetting to default value of 20.0")
 		self.artilleryStrikeDelay = 35.0
 	end
 	
@@ -1312,7 +1321,7 @@ function MapManager:Init_ArtilleryStrikes()
 	
 	-- Extract path points from artilleryStrikeNodes
 	for i in ipairs(self.artilleryNodes) do
-		print("artilleryNodes:", self.artilleryNodes[i][1], self.artilleryNodes[i][2])
+		PrintLog("artilleryNodes:", self.artilleryNodes[i][1], self.artilleryNodes[i][2])
 		artilleryStrikeNodes[i] = GetPathPoint(self.artilleryNodes[i][1], self.artilleryNodes[i][2])
 	end
 	
@@ -1323,7 +1332,7 @@ function MapManager:Init_ArtilleryStrikes()
 		if curNode == (table.getn(artilleryStrikeNodes) + 1) then
 			curNode = 1
 		end
-		print("MapManager:Init_ArtilleryStrikes(): Artillery transitioning to node: "..curNode.." ("..self.artilleryNodes[curNode][1]..")")
+		PrintLog("Init_ArtilleryStrikes(): Artillery transitioning to node: "..curNode.." ("..self.artilleryNodes[curNode][1]..")")
 		
 		-- Move turret to next node
 		SetEntityMatrix(self.artilleryTurObj, artilleryStrikeNodes[curNode])
@@ -1394,4 +1403,4 @@ function MapManager:Init_ArtilleryStrikes()
 	)
 end
 
-print("ME5_MapManager: Exited")
+PrintLog("Exited")

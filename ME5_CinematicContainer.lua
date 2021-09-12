@@ -51,7 +51,16 @@
 --  THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
 -----------------------------------------------------------------
 -----------------------------------------------------------------
-print("ME5_CinematicContainer: Entered")
+local __SCRIPT_NAME = "ME5_CinematicContainer";
+local debug = true
+
+local function PrintLog(...)
+	if debug == true then
+		print("["..__SCRIPT_NAME.."]", unpack(arg));
+	end
+end
+
+PrintLog("Entered")
 
 ---
 -- This is a constructor for a CinematicContainer object.
@@ -112,7 +121,7 @@ end
 --
 function CinematicContainer:Start()
 	if self.pathName == nil then
-		print("CinematicContainer:Start(): WARNING: pathName must be specified!")
+		PrintLog("Start(): WARNING: pathName must be specified!")
 		return
 	end
 	
@@ -121,7 +130,7 @@ function CinematicContainer:Start()
 	
 	local numShots = table.getn(self.shotSets)
 	if(numShots == 0) then
-		print("CinematicContainer:Start(): WARNING: No shots were added to the CinematicContainer")
+		PrintLog("Start(): WARNING: No shots were added to the CinematicContainer")
 		return
 	end
 
@@ -187,4 +196,4 @@ function CinematicContainer:Complete()
 	self:OnComplete()
 end
 
-print("ME5_CinematicContainer: Exited")
+PrintLog("Exited")

@@ -2,6 +2,17 @@
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
 
+local __SCRIPT_NAME = "ME5_ObjectiveTDM";
+local debug = true
+
+local function PrintLog(...)
+	if debug == true then
+		print("["..__SCRIPT_NAME.."]", unpack(arg));
+	end
+end
+
+PrintLog("Entered")
+
 ScriptCB_DoFile("ME5_Objective")
 
 if bStockFontLoaded == nil then
@@ -137,7 +148,7 @@ function ObjectiveTDM:Start()
 							--[[if ME5_CustomHUD == 1 then
 								if bStockFontLoaded == false then
 									bStockFontLoaded = true
-										print("ME5_ObjectiveTDM: Loading hud_font_stock.lvl...")
+										PrintLog("Loading hud_font_stock.lvl...")
 									-- hotfix that reloads the stock fonts in the stats screen
 									ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
 								end
@@ -151,3 +162,5 @@ function ObjectiveTDM:Start()
 	end
 	
 end
+
+PrintLog("Exited")

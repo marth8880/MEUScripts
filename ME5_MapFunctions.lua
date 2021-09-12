@@ -22,7 +22,16 @@
 --  THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
 -----------------------------------------------------------------
 -----------------------------------------------------------------
-	print("ME5_MapFunctions: Entered")
+local __SCRIPT_NAME = "ME5_MapFunctions";
+local debug = true
+
+local function PrintLog(...)
+	if debug == true then
+		print("["..__SCRIPT_NAME.."]", unpack(arg));
+	end
+end
+
+PrintLog("Entered")
 
 
 
@@ -374,4 +383,5 @@ function VRM_DisableBarriers2()
 	DisableBarriers("c1Barrier527")
 	DisableBarriers("c1Barrier528")
 end
-	print("ME5_MapFunctions: Exited")
+
+PrintLog("Exited")

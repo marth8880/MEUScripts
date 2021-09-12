@@ -66,7 +66,16 @@
 --  THIS SCRIPT IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY LUCASARTS, A DIVISION OF LUCASFILM ENTERTAINMENT COMPANY LTD.
 -----------------------------------------------------------------
 -----------------------------------------------------------------
-print("ME5_CameraManager: Entered")
+local __SCRIPT_NAME = "ME5_CameraManager";
+local debug = true
+
+local function PrintLog(...)
+	if debug == true then
+		print("["..__SCRIPT_NAME.."]", unpack(arg));
+	end
+end
+
+PrintLog("Entered")
 
 ---
 -- This is a constructor for a CameraShot object.
@@ -134,13 +143,13 @@ end
 function CameraShot:Start()
 	-- Is the camera's class name set? If not, print an error message and exit the function
 	if self.cameraClassName == nil then
-		print("CameraShot:Start(): WARNING: cameraClassName must be specified! Exiting function")
+		PrintLog("CameraShot:Start(): WARNING: cameraClassName must be specified! Exiting function")
 		return
 	end
 	
 	-- Is the camera's object name set? If not, print an error message and exit the function
 	if self.cameraObj == nil then
-		print("CameraShot:Start(): WARNING: cameraObj must be specified! Exiting function")
+		PrintLog("CameraShot:Start(): WARNING: cameraObj must be specified! Exiting function")
 		return
 	end
 	
@@ -148,7 +157,7 @@ function CameraShot:Start()
 	if not self.container then
 		-- Is the path name set? If not, print an error message and exit the function
 		if self.pathName == nil then
-			print("CameraShot:Start(): WARNING: pathName must be specified if not using a container! Exiting function")
+			PrintLog("CameraShot:Start(): WARNING: pathName must be specified if not using a container! Exiting function")
 			return
 		end
 	end
@@ -360,4 +369,4 @@ function CameraShot:Complete()
 	self:OnComplete()
 end
 
-print("ME5_CameraManager: Exited")
+PrintLog("Exited")

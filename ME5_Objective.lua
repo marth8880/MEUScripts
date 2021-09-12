@@ -2,6 +2,17 @@
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
 
+local __SCRIPT_NAME = "ME5_Objective";
+local debug = true
+
+local function PrintLog(...)
+	if debug == true then
+		print("["..__SCRIPT_NAME.."]", unpack(arg));
+	end
+end
+
+PrintLog("Entered")
+
 if not __OBJECTIVE_LUA__ then
 __OBJECTIVE_LUA__ = 1
 
@@ -75,7 +86,7 @@ end
 -- Call this to notify the C++ code that the objective exists, and wants to be added to the list of selectable objectives
 --
 function Objective:AddToDisplayableList()
-	print("Objective:AddToDisplayableList(): Entered")
+	PrintLog("AddToDisplayableList(): Entered")
     if self.text then
 		--Kind of kludgy, but for campaign the designers will use self.text
 		--to uniquely ID the objective. So all this does is set up an objective for
@@ -93,7 +104,7 @@ function Objective:AddToDisplayableList()
 end
 
 function Objective:AddHint(hintText)
-	print("Objective:AddHint(): Entered")
+	PrintLog("AddHint(): Entered")
 	self.hints = self.hints or {}	
 	table.insert(self.hints, hintText)
 end
@@ -110,7 +121,7 @@ end
 -- Call this to activate the objective after you have created an instance of the objective (using Objective:New)
 --
 function Objective:Start()
-	print("Objective:Start(): Entered")
+	PrintLog("Start(): Entered")
     --initialize values for data fields (even if they don't exist)
     self.teamATT = self.teamATT or 1
     self.teamDEF = self.teamDEF or 2
@@ -267,7 +278,7 @@ function Objective:Start()
 					--[[if ME5_CustomHUD == 1 then
 						if bStockFontLoaded == false then
 							bStockFontLoaded = true
-								print("ME5_Objective: Loading hud_font_stock.lvl...")
+								PrintLog("Loading hud_font_stock.lvl...")
 							-- hotfix that reloads the stock fonts in the stats screen
 							ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
 						end
@@ -278,7 +289,7 @@ function Objective:Start()
 					--[[if ME5_CustomHUD == 1 then
 						if bStockFontLoaded == false then
 							bStockFontLoaded = true
-								print("ME5_Objective: Loading hud_font_stock.lvl...")
+								PrintLog("Loading hud_font_stock.lvl...")
 							-- hotfix that reloads the stock fonts in the stats screen
 							ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
 						end
@@ -300,7 +311,7 @@ end
 --  See: MultiObjectiveContainer.lua for details
 --
 function Objective:SetContainer(container)
-	print("Objective:SetContainer(): Entered")
+	PrintLog("SetContainer(): Entered")
     self.container = container
 end
 
@@ -310,7 +321,7 @@ end
 --  handle the logic, otherwise will set the MissionVictory on its own
 --
 function Objective:Complete(winningTeam)
-	print("Objective:Complete(): Entered")
+	PrintLog("Complete(): Entered")
     if self.isComplete then return end
                     
     --unhide the CPs
@@ -429,7 +440,7 @@ function Objective:Complete(winningTeam)
 			
 			StopTimer(self.dittyTimer)
 
-			print("release self.dittyTimerResponse")
+			PrintLog("release self.dittyTimerResponse")
 			ReleaseTimerElapse(self.dittyTimerResponse)
 			self.dittyTimerResponse = nil
 		end,
@@ -440,3 +451,5 @@ end
 
 
 end --if not __OBJECTIVE_LUA__
+
+PrintLog("Exited")

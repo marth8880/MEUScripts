@@ -1718,7 +1718,6 @@ function SetSquadCanKillEnemies(canKill)	-- TODO: fix function tbh
 	for curTeam in ipairs(enemyTeams) do
 		local teamSize = GetTeamSize(curTeam)
 		if teamSize > 0 then
-			print()
 			print("SetSquadCanKillEnemies(): curTeam:", enemyTeams[curTeam])
 			
 			if canKill == false then

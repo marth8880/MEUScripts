@@ -23,7 +23,16 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 
-print("ME5_DamageFeedback: Entered")
+local __SCRIPT_NAME = "ME5_DamageFeedback";
+local debug = true
+
+local function PrintLog(...)
+	if debug == true then
+		print("["..__SCRIPT_NAME.."]", unpack(arg));
+	end
+end
+
+PrintLog("Entered")
 
 
 --==========================
@@ -374,7 +383,7 @@ end
 -- Sets up the event responses for the player damage sounds.
 -- 
 function Init_PlayerDamageFeedback()
-	print("ME5_DamageFeedback.Init_PlayerDamageFeedback(): Entered")
+	PrintLog("Init_PlayerDamageFeedback(): Entered")
 	
 	if not ScriptCB_InMultiplayer() then
 		local Iamhuman = nil					-- Pointer for human player.
@@ -486,7 +495,7 @@ function Init_PlayerDamageFeedback()
 		--==========================
 		
 		local function PlayDamageSound()
-			--print("ME5_DamageFeedback.Init_PlayerDamageFeedback.PlayDamageSound(): Playing damage sound")
+			--PrintLog("Init_PlayerDamageFeedback.PlayDamageSound(): Playing damage sound")
 			
 			local randSnd = math.random(0,10)
 			ScriptCB_SndPlaySound("player_damage_layered_"..randSnd)
@@ -501,7 +510,7 @@ function Init_PlayerDamageFeedback()
 		local playerspawn = OnCharacterSpawn(
 			function(player)
 				if IsCharacterHuman(player) then
-					--print("ME5_DamageFeedback.Init_PlayerDamageFeedback(): Player spawned")
+					--PrintLog("Init_PlayerDamageFeedback(): Player spawned")
 					Iamhuman = GetEntityPtr(GetCharacterUnit(player))
 				end
 			end
@@ -565,7 +574,7 @@ function Init_PlayerDamageFeedback()
 						
 						-- Which team is the damager from?
 						if damagerFaction == "col" then
-							--print("ME5_DamageFeedback.Init_PlayerDamageFeedback(): Damager is from team COL")
+							--PrintLog("Init_PlayerDamageFeedback(): Damager is from team COL")
 							--ShowMessageText("level.common.debug.damager_col")
 							
 							-- For each weapon class
@@ -579,7 +588,7 @@ function Init_PlayerDamageFeedback()
 							end
 							
 						elseif damagerFaction == "evg" then
-							--print("ME5_DamageFeedback.Init_PlayerDamageFeedback(): Damager is from team EVG")
+							--PrintLog("Init_PlayerDamageFeedback(): Damager is from team EVG")
 							--ShowMessageText("level.common.debug.damager_evg")
 							
 							-- For each weapon class
@@ -593,7 +602,7 @@ function Init_PlayerDamageFeedback()
 							end
 							
 						elseif damagerFaction == "gth" then
-							--print("ME5_DamageFeedback.Init_PlayerDamageFeedback(): Damager is from team GTH")
+							--PrintLog("Init_PlayerDamageFeedback(): Damager is from team GTH")
 							--ShowMessageText("level.common.debug.damager_gth")
 							
 							-- For each weapon class
@@ -607,7 +616,7 @@ function Init_PlayerDamageFeedback()
 							end
 							
 						elseif damagerFaction == "rpr" then
-							--print("ME5_DamageFeedback.Init_PlayerDamageFeedback(): Damager is from team INDOC")
+							--PrintLog("Init_PlayerDamageFeedback(): Damager is from team INDOC")
 							--ShowMessageText("level.common.debug.damager_indoc")
 							
 							-- For each weapon class
@@ -621,7 +630,7 @@ function Init_PlayerDamageFeedback()
 							end
 							
 						elseif damagerFaction == "ssv" then
-							--print("ME5_DamageFeedback.Init_PlayerDamageFeedback(): Damager is from team SSV")
+							--PrintLog("Init_PlayerDamageFeedback(): Damager is from team SSV")
 							--ShowMessageText("level.common.debug.damager_ssv")
 							
 							-- For each weapon class
@@ -648,7 +657,7 @@ end
 -- Sets up the event responses for the hit marker sounds.
 -- 
 function Init_HitMarkerSounds()
-	print("ME5_DamageFeedback.Init_HitMarkerSounds(): Entered")
+	PrintLog("Init_HitMarkerSounds(): Entered")
 	
 	if not ScriptCB_InMultiplayer() then
 		local Iamhuman = nil					-- Pointer for human player.
@@ -806,14 +815,14 @@ function Init_HitMarkerSounds()
 		-- @param #string type	The type of impact sounds to play ("armor" or "normal").
 		-- 
 		local function PlayDamageSound(type)
-			--print("ME5_DamageFeedback.Init_HitMarkerSounds.PlayDamageSound(): Playing damage sound")
+			--PrintLog("Init_HitMarkerSounds.PlayDamageSound(): Playing damage sound")
 			
 			--if bIsIncendiary == false then
 				local randSnd = math.random(0,10)
 				
 				-- What is the surface type?
 				if type == "armor" then
-					--print("Playing armor sound")
+					--PrintLog("Playing armor sound")
 					
 					-- What is the weapon type?
 					if weaponType == 2 then
@@ -827,7 +836,7 @@ function Init_HitMarkerSounds()
 					end
 					
 				elseif type == "normal" then
-					--print("Playing normal sound")
+					--PrintLog("Playing normal sound")
 					
 					if weaponType == 2 then
 						ScriptCB_SndPlaySound("enemy_normal_sniper_impact")
@@ -840,7 +849,7 @@ function Init_HitMarkerSounds()
 					end
 					
 				elseif type == "shield" then
-					--print("Playing shield sound")
+					--PrintLog("Playing shield sound")
 					
 					if weaponType == 2 then
 						ScriptCB_SndPlaySound("enemy_shield_sniper_impact")
@@ -864,7 +873,7 @@ function Init_HitMarkerSounds()
 		local playerspawn = OnCharacterSpawn(
 			function(player)
 				if IsCharacterHuman(player) then
-					--print("ME5_DamageFeedback.Init_HitMarkerSounds(): Player spawned")
+					--PrintLog("Init_HitMarkerSounds(): Player spawned")
 					Iamhuman = GetEntityPtr(GetCharacterUnit(player))
 					
 					-- Reset class
@@ -883,7 +892,7 @@ function Init_HitMarkerSounds()
 				
 				-- Was the damager the player?
 				if IsCharacterHuman(damager) then
-					--print("ME5_DamageFeedback.Init_HitMarkerSounds.enemydamage(): Damager is the player")
+					--PrintLog("Init_HitMarkerSounds.enemydamage(): Damager is the player")
 					
 					--local playerPtr = GetEntityPtr(GetCharacterUnit(damager))	-- Damager's pointer.
 					--local playerClass = GetEntityClass(playerPtr)				-- Damager's class.
@@ -896,7 +905,7 @@ function Init_HitMarkerSounds()
 					
 					
 					--[[if objectClass == FindEntityClass("ssv_tread_mako") then
-						print("Damaged object is the Mako")
+						PrintLog("Damaged object is the Mako")
 					end]]
 					
 					-- Exit immediately if any fields are wrong
@@ -908,18 +917,18 @@ function Init_HitMarkerSounds()
 					
 					-- Detect and set the damager weapon type
 					if string.sub(damagerWeapon,14,19) == "sniper" then
-						--print("Weapon is sniper rifle")
+						--PrintLog("Weapon is sniper rifle")
 						weaponType = 2
 					elseif string.sub(damagerWeapon,14,27) == "shotgun_plasma" then
-						--print("Weapon is GPS")
+						--PrintLog("Weapon is GPS")
 						weaponType = 4
 					elseif string.sub(damagerWeapon,14,20) == "shotgun" then
-						--print("Weapon is shotgun")
+						--PrintLog("Weapon is shotgun")
 						weaponType = 3
 					else
 						weaponType = 1
 					end
-					--print("Damager weapon: "..damagerWeapon)
+					--PrintLog("Damager weapon: "..damagerWeapon)
 					
 					-- Check if the object is an armored class
 					for i in ipairs(armorClasses) do
@@ -972,7 +981,7 @@ function Init_HitMarkerSounds()
 					
 					-- Which team is the damager from?
 					if damagerFaction == "col" then
-						--print("ME5_DamageFeedback.Init_HitMarkerSounds(): Damager is from team COL")
+						--PrintLog("Init_HitMarkerSounds(): Damager is from team COL")
 						--ShowMessageText("level.common.debug.damager_col")
 						
 						-- For each weapon class
@@ -994,7 +1003,7 @@ function Init_HitMarkerSounds()
 						end
 						
 					elseif damagerFaction == "evg" then
-						--print("ME5_DamageFeedback.Init_HitMarkerSounds(): Damager is from team EVG")
+						--PrintLog("Init_HitMarkerSounds(): Damager is from team EVG")
 						--ShowMessageText("level.common.debug.damager_evg")
 						
 						-- For each weapon class
@@ -1016,7 +1025,7 @@ function Init_HitMarkerSounds()
 						end
 						
 					elseif damagerFaction == "gth" then
-						--print("ME5_DamageFeedback.Init_HitMarkerSounds(): Damager is from team GTH")
+						--PrintLog("Init_HitMarkerSounds(): Damager is from team GTH")
 						--ShowMessageText("level.common.debug.damager_gth")
 						
 						-- For each weapon class
@@ -1038,7 +1047,7 @@ function Init_HitMarkerSounds()
 						end
 						
 					elseif damagerFaction == "rpr" then
-						--print("ME5_DamageFeedback.Init_HitMarkerSounds(): Damager is from team RPR")
+						--PrintLog("Init_HitMarkerSounds(): Damager is from team RPR")
 						--ShowMessageText("level.common.debug.damager_indoc")
 						
 						-- For each weapon class
@@ -1060,7 +1069,7 @@ function Init_HitMarkerSounds()
 						end
 						
 					elseif damagerFaction == "ssv" then
-						--print("ME5_DamageFeedback.Init_HitMarkerSounds(): Damager is from team SSV")
+						--PrintLog("Init_HitMarkerSounds(): Damager is from team SSV")
 						--ShowMessageText("level.common.debug.damager_ssv")
 						
 						-- For each weapon class
@@ -1089,4 +1098,4 @@ function Init_HitMarkerSounds()
 end
 
 
-print("ME5_DamageFeedback: Exited")
+PrintLog("Exited")

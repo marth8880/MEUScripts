@@ -15,6 +15,17 @@
 --	end (with defeat for team 1). This is how it's intended to work for the single player
 --	campaign mode, but may cause surprises if the MultiObjectivecontainer is used for multiplayer.
 
+local __SCRIPT_NAME = "ME5_MultiObjectiveContainer";
+local debug = true
+
+local function PrintLog(...)
+	if debug == true then
+		print("["..__SCRIPT_NAME.."]", unpack(arg));
+	end
+end
+
+PrintLog("Entered")
+
 
 if bStockFontLoaded == nil then
 	-- Has the stock font been loaded?
@@ -46,7 +57,7 @@ end
 -- Insert a new objectiveLayer and add the list of objectives to it
 --
 function MultiObjectiveContainer:AddObjectiveSet(...)
-	print("MultiObjectiveContainer:AddObjectiveSet(): Entered")
+	PrintLog("AddObjectiveSet(): Entered")
 	self.objectiveSets = self.objectiveSets or {}
 	
 	for i, obj in ipairs(arg) do
@@ -76,10 +87,10 @@ end
 -- Activates all the objectives in the first set
 --
 function MultiObjectiveContainer:Start()
-	print("MultiObjectiveContainer:Start(): Entered")
+	PrintLog("Start(): Entered")
 	local numSets = table.getn(self.objectiveSets)
 	if(numSets == 0) then
-		print("WARNING: No objectives were added to the MultiObjectiveContainer")
+		PrintLog("WARNING: No objectives were added to the MultiObjectiveContainer")
 		return
 	end
 	
@@ -269,7 +280,7 @@ end
 -- by self.missionVictoryTime
 --
 function MultiObjectiveContainer:StartVictoryTimer(winningTeam)
-	print("MultiObjectiveContainer:StartVictoryTimer(): Entered")
+	PrintLog("StartVictoryTimer(): Entered")
 	self.victoryTimerCount = 0		--count up how many times the timer has been activated (so it doesn't go on forever...just in case a VO doesn't close)
 	self.winningTeam = winningTeam
 	
@@ -288,7 +299,7 @@ function MultiObjectiveContainer:StartVictoryTimer(winningTeam)
 						if ME5_CustomHUD == 1 then
 							if bStockFontLoaded == false then
 								bStockFontLoaded = true
-									print("ME5_Objective: Loading hud_font_stock.lvl...")
+									PrintLog("ME5_Objective: Loading hud_font_stock.lvl...")
 								-- hotfix that reloads the stock fonts in the stats screen
 								ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\hud_font_stock.lvl")
 							end
@@ -317,7 +328,7 @@ end
 -- Use this to tell the container when one of the active objectives has finished
 --
 function MultiObjectiveContainer:NotifyObjectiveComplete(objective)
-	print("MultiObjectiveContainer:NotifyObjectiveComplete(): Entered")
+	PrintLog("NotifyObjectiveComplete(): Entered")
 	--If the primary team fails any of its objectives, then end the map immediately (or after a slight delay)
 	if objective.winningTeam ~= self.primaryTeam then
 		self:StartVictoryTimer(objective.winningTeam)
@@ -356,7 +367,7 @@ end
 -- Updates the current objective set number, and activates all the objectives within that set
 --
 function MultiObjectiveContainer:ActivateObjectiveSet(whichSet)
-	print("MultiObjectiveContainer:ActivateObjectiveSet(): Entered")
+	PrintLog("ActivateObjectiveSet(): Entered")
 	--don't advance to the next set if this is the last one
 	-- (this handles the case when the last two objective sets
 	-- are completed in a very short period of time, and the
@@ -372,3 +383,4 @@ function MultiObjectiveContainer:ActivateObjectiveSet(whichSet)
 	end
 end
 
+PrintLog("Exited")

@@ -74,7 +74,16 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 
-print("ME5_CombatManager: Entered")
+local __SCRIPT_NAME = "ME5_CombatManager";
+local debug = true
+
+local function PrintLog(...)
+	if debug == true then
+		print("["..__SCRIPT_NAME.."]", unpack(arg));
+	end
+end
+
+PrintLog("Entered")
 
 
 --=================================
@@ -142,7 +151,7 @@ function WaveSequence:AddWave(...)
 		-- Update totalEnemies with the number of enemies that are spawned in the wave
 		self.totalEnemies = self.totalEnemies + wave.numDudes
 		
-		print("WaveSequence:AddWave(): totalEnemies:", self.totalEnemies)
+		PrintLog("WaveSequence:AddWave(): totalEnemies:", self.totalEnemies)
 	end
 	
 	table.insert(self.waveSets, arg)
@@ -162,7 +171,7 @@ end
 -- Call this to activate the first wave and initialize event logic.
 --
 function WaveSequence:Start(combatZoneID, musicID)
-	print("WaveSequence:Start(): Starting combat zone")
+	PrintLog("WaveSequence:Start(): Starting combat zone")
 	
 	-- Initialize values for data fields (even if they don't exist)
 	--self.pathNode = self.pathNode or 0
@@ -171,7 +180,7 @@ function WaveSequence:Start(combatZoneID, musicID)
 	-- Store the number of waves in this sequence
 	self.totalWaves = table.getn(self.waveSets)
 	if(self.totalWaves == 0) then
-		print("WaveSequence:Start(): WARNING: No waves were added to the WaveSequence")
+		PrintLog("WaveSequence:Start(): WARNING: No waves were added to the WaveSequence")
 		return
 	end
 	
@@ -232,7 +241,7 @@ function WaveSequence:Start(combatZoneID, musicID)
 					
 		    		-- Increment the kill count
 					self.killCount = self.killCount + 1
-		    		print("WaveSequence:Start(): killCount:", self.killCount)
+		    		PrintLog("WaveSequence:Start(): killCount:", self.killCount)
 					
 					
 					-- Have all the enemies been killed?
@@ -282,7 +291,7 @@ end
 -- Updates the current wave set number, and activates all the waves within that set.
 --
 function WaveSequence:ActivateWaveSet(whichSet)
-	print("WaveSequence:ActivateWaveSet(): Spawning wave "..whichSet)
+	PrintLog("WaveSequence:ActivateWaveSet(): Spawning wave "..whichSet)
 	
 	-- Is debug messages enabled?
 	if self.bDebug == true then
@@ -290,7 +299,7 @@ function WaveSequence:ActivateWaveSet(whichSet)
 	end
 	
 	if whichSet == table.getn(self.waveSets) then
-		print("EURn_c.SpawnNextWave(): NOTICE: Final wave")
+		PrintLog("EURn_c.SpawnNextWave(): NOTICE: Final wave")
 		
 		-- Is debug messages enabled?
 		if self.bDebug == true then
@@ -322,7 +331,7 @@ end
 -- Call this to complete the wave sequence.
 --
 function WaveSequence:Complete()
-	print("WaveSequence:Complete(): Combat zone cleared")
+	PrintLog("WaveSequence:Complete(): Combat zone cleared")
 	
 	-- Is debug messages enabled?
 	if bDebug == true then
@@ -390,23 +399,23 @@ function SmartSpawn:Start()
 
 	-- Initialize data fields
 	if self.regionName == nil then
-		print("SmartSpawn:Start(): WARNING: regionName must be specified! Exiting function")
+		PrintLog("SmartSpawn:Start(): WARNING: regionName must be specified! Exiting function")
 		return
 	end
 	if self.allySpawnIn == nil then
-		print("SmartSpawn:Start(): WARNING: allySpawnIn must be specified! Exiting function")
+		PrintLog("SmartSpawn:Start(): WARNING: allySpawnIn must be specified! Exiting function")
 		return
 	end
 	if self.allySpawnOut == nil then
-		print("SmartSpawn:Start(): WARNING: allySpawnOut must be specified! Exiting function")
+		PrintLog("SmartSpawn:Start(): WARNING: allySpawnOut must be specified! Exiting function")
 		return
 	end
 	if self.enemySpawnIn == nil then
-		print("SmartSpawn:Start(): WARNING: enemySpawnIn must be specified! Exiting function")
+		PrintLog("SmartSpawn:Start(): WARNING: enemySpawnIn must be specified! Exiting function")
 		return
 	end
 	if self.enemySpawnOut == nil then
-		print("SmartSpawn:Start(): WARNING: enemySpawnOut must be specified! Exiting function")
+		PrintLog("SmartSpawn:Start(): WARNING: enemySpawnOut must be specified! Exiting function")
 		return
 	end
 	
@@ -455,7 +464,7 @@ function SmartSpawn:Start()
 				self.playerIs = "in"
 				
 				if self.bDebug == true then
-					print("SmartSpawn:Start(): Player entered region")
+					PrintLog("SmartSpawn:Start(): Player entered region")
 					ShowMessageText("level.common.debug.smartspawn_entered")
 				end
 				
@@ -471,7 +480,7 @@ function SmartSpawn:Start()
 				self.playerIs = "out"
 				
 				if self.bDebug == true then
-					print("SmartSpawn:Start(): Player exited region")
+					PrintLog("SmartSpawn:Start(): Player exited region")
 					ShowMessageText("level.common.debug.smartspawn_exited")
 				end
 				
@@ -567,13 +576,13 @@ end
 function CombatWave:Start()
 	-- Is the team set? If not, print an error message and exit the function
 	if self.team == nil then
-		print("CombatWave:Start(): WARNING: team must be specified! Exiting function")
+		PrintLog("CombatWave:Start(): WARNING: team must be specified! Exiting function")
 		return
 	end
 	
 	-- Is the spawnPath set? If not, print an error message and exit the function
 	--[[if self.spawnPath == nil then
-		print("CombatWave:Start(): WARNING: spawnPath must be specified! Exiting function")
+		PrintLog("CombatWave:Start(): WARNING: spawnPath must be specified! Exiting function")
 		return
 	end]]
 	
@@ -588,10 +597,10 @@ function CombatWave:Start()
     
     -- Spawn the enemies
     print()
-    print("CombatWave:Start(): Spawning "..self.numDudes.." enemies from team "..self.team.." at "..self.container.spawnPath)
+    PrintLog("CombatWave:Start(): Spawning "..self.numDudes.." enemies from team "..self.team.." at "..self.container.spawnPath)
     Ambush(self.container.spawnPath, self.numDudes, self.team)
     
-    print("CombatWave:Start(): Total enemiesRemaining:", self.enemiesRemaining)
+    PrintLog("CombatWave:Start(): Total enemiesRemaining:", self.enemiesRemaining)
     
     
     
@@ -611,7 +620,7 @@ function CombatWave:Start()
 					
 					-- Decrement enemies remaining
 					self.enemiesRemaining = self.enemiesRemaining - 1
-		    		print("CombatWave:Start(): enemiesRemaining:", self.enemiesRemaining)
+		    		PrintLog("CombatWave:Start(): enemiesRemaining:", self.enemiesRemaining)
 					
 					
 					-- Has spawnValue been met?
@@ -648,7 +657,7 @@ end
 --  NOTE: The definition of a "finished wave" is when the spawnValue is met, i.e., the next wave is triggered.
 --
 function CombatWave:Complete()
-	print("ME5_CombatManager.CombatWave.Complete(): Exited")
+	PrintLog("CombatWave.Complete(): Exited")
 	
     if self.isComplete then return end
     
@@ -661,4 +670,4 @@ function CombatWave:Complete()
 	self:OnComplete()
 end
 
-print("ME5_CombatManager: Exited")
+PrintLog("Exited")

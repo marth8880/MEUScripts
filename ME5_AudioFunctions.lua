@@ -19,7 +19,16 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 
-print("ME5_AudioFunctions: Entered")
+local __SCRIPT_NAME = "ME5_AudioFunctions";
+local debug = true
+
+local function PrintLog(...)
+	if debug == true then
+		print("["..__SCRIPT_NAME.."]", unpack(arg));
+	end
+end
+
+PrintLog("Entered")
 
 ---
 -- Opens music streams based on `variation`.
@@ -29,52 +38,52 @@ function OpenMusicStreams(variation)
 	local fileName, streamName
 	
 	if variation == 1 then
-		print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 01")
+		PrintLog("OpenMusicStreams(): Loading Music Variation 01")
 		fileName = "SFL_MUS_01_Streaming"
 		streamName = "ME5n_music_01"
 		
 	elseif variation == 2 then
-		print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 02")
+		PrintLog("OpenMusicStreams(): Loading Music Variation 02")
 		fileName = "SFL_MUS_02_Streaming"
 		streamName = "ME5n_music_02"
 		
 	elseif variation == 3 then
-		print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 03")
+		PrintLog("OpenMusicStreams(): Loading Music Variation 03")
 		fileName = "SFL_MUS_03_Streaming"
 		streamName = "ME5n_music_03"
 		
 	elseif variation == 4 then
-		print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 04")
+		PrintLog("OpenMusicStreams(): Loading Music Variation 04")
 		fileName = "SFL_MUS_04_Streaming"
 		streamName = "ME5n_music_04"
 		
 	elseif variation == 5 then
-		print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 05")
+		PrintLog("OpenMusicStreams(): Loading Music Variation 05")
 		fileName = "SFL_MUS_05_Streaming"
 		streamName = "ME5n_music_05"
 		
 	elseif variation == 6 then
-		print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 06")
+		PrintLog("OpenMusicStreams(): Loading Music Variation 06")
 		fileName = "SFL_MUS_06_Streaming"
 		streamName = "ME5n_music_06"
 		
 	elseif variation == 7 then
-		print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 07")
+		PrintLog("OpenMusicStreams(): Loading Music Variation 07")
 		fileName = "SFL_MUS_07_Streaming"
 		streamName = "ME5n_music_07"
 		
 	elseif variation == 8 then
-		print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 08")
+		PrintLog("OpenMusicStreams(): Loading Music Variation 08")
 		fileName = "SFL_MUS_08_Streaming"
 		streamName = "ME5n_music_08"
 		
 	elseif variation == 9 then
-		print("ME5_AudioFunctions.OpenMusicStreams(): Loading Music Variation 09")
+		PrintLog("OpenMusicStreams(): Loading Music Variation 09")
 		fileName = "SFL_MUS_09_Streaming"
 		streamName = "ME5n_music_09"
 		
 	else
-		print("ME5_AudioFunctions.OpenMusicStreams(): Error! No Music Variation is decided!")
+		PrintLog("OpenMusicStreams(): Error! No Music Variation is decided!")
 	end
 	
 	assert(fileName, "ME5_AudioFunctions.OpenMusicStreams(): Error! fileName was not specified!")
@@ -143,41 +152,41 @@ function Music02()
 		local musicStart, musicMid, musicEnd
 		
 		if decideStart == 1 then
-				print("ME5_AudioFunctions: Deciding Music02Start variation... Choosing THE ATTACK")
+				PrintLog("Deciding Music02Start variation... Choosing THE ATTACK")
 			musicStart = "ssv_amb_02a_start"
 		elseif decideStart == 2 then
-				print("ME5_AudioFunctions: Deciding Music02Start variation... Choosing THE NORMANDY ATTACKED")
+				PrintLog("Deciding Music02Start variation... Choosing THE NORMANDY ATTACKED")
 			musicStart = "ssv_amb_02b_start"
 		elseif decideStart == 3 then
-				print("ME5_AudioFunctions: Deciding Music02Start variation... Choosing CRASH LANDING")
+				PrintLog("Deciding Music02Start variation... Choosing CRASH LANDING")
 			musicStart = "ssv_amb_02c_start"
 		else
-				print("ME5_AudioFunctions: Uh oh! Incorrect Music02Start variation is loaded! D: :runaway:")
+				PrintLog("Uh oh! Incorrect Music02Start variation is loaded! D: :runaway:")
 			musicStart = "ssv_amb_02_start"
 		end
 		
 		if decideMid == 1 then
-				print("ME5_AudioFunctions: Deciding Music02Mid variation... Choosing THE ATTACK")
+				PrintLog("Deciding Music02Mid variation... Choosing THE ATTACK")
 			musicMid = "ssv_amb_02a_mid"
 		elseif decideMid == 2 then
-				print("ME5_AudioFunctions: Deciding Music02Mid variation... Choosing THE NORMANDY ATTACKED")
+				PrintLog("Deciding Music02Mid variation... Choosing THE NORMANDY ATTACKED")
 			musicMid = "ssv_amb_02b_mid"
 		elseif decideMid == 3 then
-				print("ME5_AudioFunctions: Deciding Music02Mid variation... Choosing CRASH LANDING")
+				PrintLog("Deciding Music02Mid variation... Choosing CRASH LANDING")
 			musicMid = "ssv_amb_02c_mid"
 		else
-				print("ME5_AudioFunctions: Uh oh! Incorrect Music02Mid variation is loaded! D: :runaway:")
+				PrintLog("Uh oh! Incorrect Music02Mid variation is loaded! D: :runaway:")
 			musicMid = "ssv_amb_02_mid"
 		end
 		
 		if decideEnd == 1 then
-				print("ME5_AudioFunctions: Deciding Music02End variation... Choosing THE ATTACK")
+				PrintLog("Deciding Music02End variation... Choosing THE ATTACK")
 			musicEnd = "ssv_amb_02a_end"
 		elseif decideEnd == 2 then
-				print("ME5_AudioFunctions: Deciding Music02End variation... Choosing JUMP DRIVE")
+				PrintLog("Deciding Music02End variation... Choosing JUMP DRIVE")
 			musicEnd = "ssv_amb_02b_end"
 		else
-				print("ME5_AudioFunctions: Uh oh! Incorrect Music02End variation is loaded! D: :runaway:")
+				PrintLog("Uh oh! Incorrect Music02End variation is loaded! D: :runaway:")
 			musicEnd = "ssv_amb_02_end"
 		end
 		
@@ -230,7 +239,7 @@ function Music03(variation)
 	
 	-- Append the specific variation to use if specified
 	if variation then
-		print("ME5_AudioFunctions: Deciding Music03 variation... Choosing "..string.upper(variation))
+		PrintLog("Deciding Music03 variation... Choosing "..string.upper(variation))
 		
 		variation = string.lower(variation)
 		
@@ -293,7 +302,7 @@ function Music04(variation)
 		if not variation then
 			decideVar = math.random(1,6)
 		else
-			print("ME5_AudioFunctions: "..string.upper(variation).." was specified")
+			PrintLog(string.upper(variation).." was specified")
 			
 			variation = string.lower(variation)
 			
@@ -313,7 +322,7 @@ function Music04(variation)
 		end
 		
 		if decideVar == 1 then
-				print("ME5_AudioFunctions: Deciding Music04 variation... Choosing SAMARA")
+				PrintLog("Deciding Music04 variation... Choosing SAMARA")
 			function Init_AmbientMusic()
 				SetAmbientMusic(REP, 1.0, "ssv_amb_04a_start",  0,1)
 				SetAmbientMusic(REP, 0.8, "ssv_amb_04a_mid",    1,1)
@@ -323,7 +332,7 @@ function Music04(variation)
 				SetAmbientMusic(CIS, 0.35, "ssv_amb_04a_end",    2,1)
 			end
 		elseif decideVar == 2 then
-				print("ME5_AudioFunctions: Deciding Music04 variation... Choosing GRUNT")
+				PrintLog("Deciding Music04 variation... Choosing GRUNT")
 			function Init_AmbientMusic()
 				SetAmbientMusic(REP, 1.0, "ssv_amb_04b_start",  0,1)
 				SetAmbientMusic(REP, 0.8, "ssv_amb_04b_mid",    1,1)
@@ -333,7 +342,7 @@ function Music04(variation)
 				SetAmbientMusic(CIS, 0.35, "ssv_amb_04b_end",    2,1)
 			end
 		elseif decideVar == 3 then
-				print("ME5_AudioFunctions: Deciding Music04 variation... Choosing TALI")
+				PrintLog("Deciding Music04 variation... Choosing TALI")
 			function Init_AmbientMusic()
 				SetAmbientMusic(REP, 1.0, "ssv_amb_04c_start",  0,1)
 				SetAmbientMusic(REP, 0.8, "ssv_amb_04c_mid",    1,1)
@@ -343,7 +352,7 @@ function Music04(variation)
 				SetAmbientMusic(CIS, 0.35, "ssv_amb_04c_end",    2,1)
 			end
 		elseif decideVar == 4 then
-				print("ME5_AudioFunctions: Deciding Music04 variation... Choosing INFILTRATION")
+				PrintLog("Deciding Music04 variation... Choosing INFILTRATION")
 			function Init_AmbientMusic()
 				SetAmbientMusic(REP, 1.0, "ssv_amb_04d_start",  0,1)
 				SetAmbientMusic(REP, 0.8, "ssv_amb_04d_mid",    1,1)
@@ -353,7 +362,7 @@ function Music04(variation)
 				SetAmbientMusic(CIS, 0.35, "ssv_amb_04d_end",    2,1)
 			end
 		elseif decideVar == 5 then
-				print("ME5_AudioFunctions: Deciding Music04 variation... Choosing THANE")
+				PrintLog("Deciding Music04 variation... Choosing THANE")
 			function Init_AmbientMusic()
 				SetAmbientMusic(REP, 1.0, "ssv_amb_04e_start",  0,1)
 				SetAmbientMusic(REP, 0.85, "ssv_amb_04e_mid",    1,1)
@@ -363,7 +372,7 @@ function Music04(variation)
 				SetAmbientMusic(CIS, 0.35, "ssv_amb_04e_end",    2,1)
 			end
 		elseif decideVar == 6 then
-				print("ME5_AudioFunctions: Deciding Music04 variation... Choosing JACK")
+				PrintLog("Deciding Music04 variation... Choosing JACK")
 			function Init_AmbientMusic()
 				SetAmbientMusic(REP, 1.0, "ssv_amb_04f_start",  0,1)
 				SetAmbientMusic(REP, 0.85, "ssv_amb_04f_mid",    1,1)
@@ -373,7 +382,7 @@ function Music04(variation)
 				SetAmbientMusic(CIS, 0.4, "ssv_amb_04f_end",    2,1)
 			end
 		else
-				print("ME5_AudioFunctions: Uh oh! Incorrect Music04 variation is loaded! D: :runaway:")
+				PrintLog("Uh oh! Incorrect Music04 variation is loaded! D: :runaway:")
 			function Init_AmbientMusic()
 				SetAmbientMusic(REP, 1.0, "ssv_amb_04_start",  0,1)
 				SetAmbientMusic(REP, 0.8, "ssv_amb_04_mid",    1,1)
@@ -425,7 +434,7 @@ function Music05(variation)
 		if not variation then
 			decideVar = math.random(1,4)
 		else
-			print("ME5_AudioFunctions: "..string.upper(variation).." was specified")
+			PrintLog(string.upper(variation).." was specified")
 			
 			variation = string.lower(variation)
 			
@@ -441,7 +450,7 @@ function Music05(variation)
 		end
 		
 		if decideVar == 1 then
-				print("ME5_AudioFunctions: Deciding Music05 variation... Choosing THE LONG WALK")
+				PrintLog("Deciding Music05 variation... Choosing THE LONG WALK")
 			function Init_AmbientMusic()
 				SetAmbientMusic(REP, 1.0, "ssv_amb_05a_start",  0,1)
 				SetAmbientMusic(REP, 0.65, "ssv_amb_05a_mid",    1,1)
@@ -451,7 +460,7 @@ function Music05(variation)
 				SetAmbientMusic(CIS, 0.4, "ssv_amb_05a_end",    2,1)
 			end
 		elseif decideVar == 2 then
-				print("ME5_AudioFunctions: Deciding Music05 variation... Choosing HORIZON")
+				PrintLog("Deciding Music05 variation... Choosing HORIZON")
 			function Init_AmbientMusic()
 				SetAmbientMusic(REP, 1.0, "ssv_amb_05b_start",  0,1)
 				SetAmbientMusic(REP, 0.9, "ssv_amb_05b_mid",    1,1)
@@ -461,7 +470,7 @@ function Music05(variation)
 				SetAmbientMusic(CIS, 0.4, "ssv_amb_05b_end",    2,1)
 			end
 		elseif decideVar == 3 then
-				print("ME5_AudioFunctions: Deciding Music05 variation... Choosing PARAGON LOST")
+				PrintLog("Deciding Music05 variation... Choosing PARAGON LOST")
 			function Init_AmbientMusic()
 				SetAmbientMusic(REP, 1.0, "ssv_amb_05c_start",  0,1)
 				SetAmbientMusic(REP, 0.9, "ssv_amb_05c_mid",    1,1)
@@ -471,7 +480,7 @@ function Music05(variation)
 				SetAmbientMusic(CIS, 0.55, "ssv_amb_05c_end",    2,1)
 			end
 		elseif decideVar == 4 then
-				print("ME5_AudioFunctions: Deciding Music05 variation... Choosing MAHAVID MINES SUITE")
+				PrintLog("Deciding Music05 variation... Choosing MAHAVID MINES SUITE")
 			function Init_AmbientMusic()
 				SetAmbientMusic(REP, 1.0, "ssv_amb_05d_start",  0,1)
 				SetAmbientMusic(REP, 0.85, "ssv_amb_05d_mid",    1,1)
@@ -481,7 +490,7 @@ function Music05(variation)
 				SetAmbientMusic(CIS, 0.3, "ssv_amb_05d_end",    2,1)
 			end
 		else
-				print("ME5_AudioFunctions: Uh oh! Incorrect Music05 variation is loaded! D: :runaway:")
+				PrintLog("Uh oh! Incorrect Music05 variation is loaded! D: :runaway:")
 			function Init_AmbientMusic()
 				SetAmbientMusic(REP, 1.0, "ssv_amb_05a_start",  0,1)
 				SetAmbientMusic(REP, 0.65, "ssv_amb_05a_mid",    1,1)
@@ -531,7 +540,7 @@ function Music06(variation)
 		if not variation then
 			decideVar = math.random(1,2)
 		else
-			print("ME5_AudioFunctions: "..string.upper(variation).." was specified")
+			PrintLog(string.upper(variation).." was specified")
 			
 			variation = string.lower(variation)
 			
@@ -543,7 +552,7 @@ function Music06(variation)
 		end
 		
 		if decideVar == 1 then
-				print("ME5_AudioFunctions: Deciding Music06 variation... Choosing OVERLORD")
+				PrintLog("Deciding Music06 variation... Choosing OVERLORD")
 			function Init_AmbientMusic()
 				SetAmbientMusic(REP, 1.0, "ssv_amb_06a_start",  0,1)
 				SetAmbientMusic(REP, 0.75, "ssv_amb_06a_mid",    1,1)
@@ -553,7 +562,7 @@ function Music06(variation)
 				SetAmbientMusic(CIS, 0.5, "ssv_amb_06a_end",    2,1)
 			end
 		elseif decideVar == 2 then
-				print("ME5_AudioFunctions: Deciding Music06 variation... Choosing SHADOW BROKER")
+				PrintLog("Deciding Music06 variation... Choosing SHADOW BROKER")
 			function Init_AmbientMusic()
 				SetAmbientMusic(REP, 1.0, "ssv_amb_06b_start",  0,1)
 				SetAmbientMusic(REP, 0.9, "ssv_amb_06b_mid",    1,1)
@@ -563,7 +572,7 @@ function Music06(variation)
 				SetAmbientMusic(CIS, 0.5, "ssv_amb_06b_end",    2,1)
 			end
 		else
-				print("ME5_AudioFunctions: Uh oh! Incorrect Music06 variation is loaded! D: :runaway:")
+				PrintLog("Uh oh! Incorrect Music06 variation is loaded! D: :runaway:")
 			function Init_AmbientMusic()
 				SetAmbientMusic(REP, 1.0, "ssv_amb_06_start",  0,1)
 				SetAmbientMusic(REP, 0.7, "ssv_amb_06_mid",    1,1)
@@ -695,44 +704,44 @@ function Music09()
 		local musicStart, musicMid, musicEnd
 		
 		if decideStart == 1 then
-				print("ME5_AudioFunctions: Deciding Music09Start variation... Choosing FAR CRY 3 VARIATION A")
+				PrintLog("Deciding Music09Start variation... Choosing FAR CRY 3 VARIATION A")
 			musicStart = "ssv_amb_09_start_a"
 		elseif decideStart == 2 then
-				print("ME5_AudioFunctions: Deciding Music09Start variation... Choosing FAR CRY 3 VARIATION B")
+				PrintLog("Deciding Music09Start variation... Choosing FAR CRY 3 VARIATION B")
 			musicStart = "ssv_amb_09_start_b"
 		elseif decideStart == 3 then
-				print("ME5_AudioFunctions: Deciding Music09Start variation... Choosing FAR CRY 3 VARIATION C")
+				PrintLog("Deciding Music09Start variation... Choosing FAR CRY 3 VARIATION C")
 			musicStart = "ssv_amb_09_start_c"
 		elseif decideStart == 4 then
-				print("ME5_AudioFunctions: Deciding Music09Start variation... Choosing FAR CRY 3 VARIATION D")
+				PrintLog("Deciding Music09Start variation... Choosing FAR CRY 3 VARIATION D")
 			musicStart = "ssv_amb_09_start_d"
 		else
-				print("ME5_AudioFunctions: Uh oh! Incorrect Music09Start variation is loaded! D: :runaway:")
+				PrintLog("Uh oh! Incorrect Music09Start variation is loaded! D: :runaway:")
 			musicStart = "ssv_amb_09_start"
 		end
 		
 		if decideMid == 1 then
-				print("ME5_AudioFunctions: Deciding Music09Mid variation... Choosing FAR CRY 3 VARIATION A")
+				PrintLog("Deciding Music09Mid variation... Choosing FAR CRY 3 VARIATION A")
 			musicMid = "ssv_amb_09_mid_a"
 		elseif decideMid == 2 then
-				print("ME5_AudioFunctions: Deciding Music09Mid variation... Choosing FAR CRY 3 VARIATION B")
+				PrintLog("Deciding Music09Mid variation... Choosing FAR CRY 3 VARIATION B")
 			musicMid = "ssv_amb_09_mid_b"
 		elseif decideMid == 3 then
-				print("ME5_AudioFunctions: Deciding Music09Mid variation... Choosing FAR CRY 3 VARIATION C")
+				PrintLog("Deciding Music09Mid variation... Choosing FAR CRY 3 VARIATION C")
 			musicMid = "ssv_amb_09_mid_c"
 		else
-				print("ME5_AudioFunctions: Uh oh! Incorrect Music09Mid variation is loaded! D: :runaway:")
+				PrintLog("Uh oh! Incorrect Music09Mid variation is loaded! D: :runaway:")
 			musicMid = "ssv_amb_09_mid"
 		end
 		
 		if decideEnd == 1 then
-				print("ME5_AudioFunctions: Deciding Music09End variation... Choosing FAR CRY 3 VARIATION A")
+				PrintLog("Deciding Music09End variation... Choosing FAR CRY 3 VARIATION A")
 			musicEnd = "ssv_amb_09_end_a"
 		elseif decideEnd == 2 then
-				print("ME5_AudioFunctions: Deciding Music09End variation... Choosing FAR CRY 3 VARIATION B")
+				PrintLog("Deciding Music09End variation... Choosing FAR CRY 3 VARIATION B")
 			musicEnd = "ssv_amb_09_end_b"
 		else
-				print("ME5_AudioFunctions: Uh oh! Incorrect Music09End variation is loaded! D: :runaway:")
+				PrintLog("Uh oh! Incorrect Music09End variation is loaded! D: :runaway:")
 			musicEnd = "ssv_amb_09_end"
 		end
 		
@@ -843,10 +852,10 @@ end
 -- Call this to open the voice audio streams.
 -- 
 function OpenVoiceStreams(bCalledFromLowHealth)
-	print("ME5_AudioFunctions.OpenVoiceStreams(): Entered")
+	PrintLog("OpenVoiceStreams(): Entered")
 	
 	if bVoiceStreamKeepClosed == true then
-		print("ME5_AudioFunctions.OpenVoiceStreams(): ERROR! Can't open voice streams while bVoiceStreamKeepClosed is true!")
+		PrintLog("OpenVoiceStreams(): ERROR! Can't open voice streams while bVoiceStreamKeepClosed is true!")
 		return false
 	end
 	
@@ -854,7 +863,7 @@ function OpenVoiceStreams(bCalledFromLowHealth)
 	
 	-- Only open streams if low health sound isn't playing
 	if LH_bIsLowHealthSoundPlaying == true then
-		print("ME5_AudioFunctions.OpenVoiceStreams(): ERROR! Can't open voice streams while low health sound is playing!")
+		PrintLog("OpenVoiceStreams(): ERROR! Can't open voice streams while low health sound is playing!")
 		return false
 	end
 	
@@ -874,7 +883,7 @@ function OpenVoiceStreams(bCalledFromLowHealth)
 	AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "global_objective_vo_quick", gVoiceStream)
 	--AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "lowhealth_streaming", gVoiceStream)
 	
-	print("ME5_AudioFunctions.OpenVoiceStreams(): gVoiceStream index:", gVoiceStream)
+	PrintLog("OpenVoiceStreams(): gVoiceStream index:", gVoiceStream)
 	print(debug.traceback())
 	return true
 end
@@ -883,14 +892,14 @@ end
 -- Call this to close the voice audio streams.
 -- 
 function CloseVoiceStreams()
-	print("ME5_AudioFunctions.CloseVoiceStreams(): Entered")
+	PrintLog("CloseVoiceStreams(): Entered")
 	
 	if gVoiceStream ~= nil then
-		print("ME5_AudioFunctions.CloseVoiceStreams(): gVoiceStream index:", gVoiceStream)
+		PrintLog("CloseVoiceStreams(): gVoiceStream index:", gVoiceStream)
 		StopAudioStream(gVoiceStream, 1)
 		gVoiceStream = nil
 	else
-		print("ME5_AudioFunctions.CloseVoiceStreams(): gVoiceStream is nil! Value:", gVoiceStream)
+		PrintLog("CloseVoiceStreams(): gVoiceStream is nil! Value:", gVoiceStream)
 	end
 end
 
@@ -917,7 +926,7 @@ function SoundFX()
 			SSVWorldVO()
 			RPRWorldVO()
 		else
-			print("ME5_AudioFunctions.SoundFX(): Error! ME5_SideVar setting is invalid! Not loading any...")
+			PrintLog("SoundFX(): Error! ME5_SideVar setting is invalid! Not loading any...")
 			--SSVWorldVO()
 			--GTHWorldVO()
 			--COLWorldVO()
@@ -1051,7 +1060,7 @@ end
 -- 
 function MuteAudioBus(busID)
 	if busID == nil then
-		print("ME5_AudioFunctions.MuteAudioBus(): Error! busID must be specified!")
+		PrintLog("MuteAudioBus(): Error! busID must be specified!")
 	return end
 	
 	ScriptCB_SndBusFade(busID, 0.0, 0.0)
@@ -1064,11 +1073,11 @@ end
 -- 
 function UnmuteAudioBus(busID, originalGain)
 	if busID == nil then
-		print("ME5_AudioFunctions.UnmuteAudioBus(): Error! busID must be specified!")
+		PrintLog("UnmuteAudioBus(): Error! busID must be specified!")
 	return end
 	
 	if originalGain == nil then
-		print("ME5_AudioFunctions.UnmuteAudioBus(): Error! originalGain must be specified!")
+		PrintLog("UnmuteAudioBus(): Error! originalGain must be specified!")
 	return end
 	
 	ScriptCB_SndBusFade(busID, 0.0, originalGain)
@@ -1162,4 +1171,4 @@ function Init_HeroMusic()
 end
 
 
-print("ME5_AudioFunctions: Exited")
+PrintLog("Exited")

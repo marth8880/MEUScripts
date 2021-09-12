@@ -20,7 +20,16 @@
 -----------------------------------------------------------------
 -----------------------------------------------------------------
 
-print("ME5_UtilityFunctions: Entered")
+local __SCRIPT_NAME = "ME5_UtilityFunctions";
+local debug = true
+
+local function PrintLog(...)
+	if debug == true then
+		print("["..__SCRIPT_NAME.."]", unpack(arg));
+	end
+end
+
+PrintLog("Entered")
 
 ---
 -- Returns the number of units alive in a table of teams /teams/.
@@ -45,11 +54,11 @@ end
 -- @param #int teamID	The numeric ID of the team to perform the function on.
 -- 
 function KillAllTeamMembers(teamID)
-		print("ME5_UtilityFunctions.KillAllTeamMembers(): Entered")
+		PrintLog("KillAllTeamMembers(): Entered")
 		
 	local numDudes = GetTeamSize(teamID)
 	
-	print("ME5_UtilityFunctions.KillAllTeamMembers(): numDudes = "..numDudes)
+	PrintLog("KillAllTeamMembers(): numDudes = "..numDudes)
 	
 	for i=0,numDudes do
 		-- Round up each team member and murder them lmao
@@ -137,13 +146,13 @@ end
 -- @param #int nodeIn		The numeric path node to move the entity to.
 -- 
 function MoveEntityToNode(entIn, pathIn, nodeIn)
-	print("MoveEntityToNode(): Entered")
+	PrintLog("MoveEntityToNode(): Entered")
 
 	if not entIn then
-		print("MoveEntityToNode(): Warning! Entity not specified for move")
+		PrintLog("MoveEntityToNode(): Warning! Entity not specified for move")
 		return false
 	elseif not pathIn then
-		print("MoveEntityToNode(): Warning! Path not specified for entity "..entIn.." move")
+		PrintLog("MoveEntityToNode(): Warning! Path not specified for entity "..entIn.." move")
 		return false
 	end
 	
@@ -174,7 +183,7 @@ end
 -- @param #string pathName	The name of the path to move the units to.
 -- 
 function ResetTeamMemberLocations(team, pathName)
-	print("ResetTeamMemberLocations(): Entered")
+	PrintLog("ResetTeamMemberLocations(): Entered")
 	
 	--get the team's size
 	local size = GetTeamSize( team )
@@ -187,7 +196,7 @@ function ResetTeamMemberLocations(team, pathName)
 		local player = GetTeamMember(team, m)
 		
 		local unit = GetCharacterUnit(player)
-		print("ResetTeamMemberLocations(): Team, Unit:", team, m)
+		PrintLog("ResetTeamMemberLocations(): Team, Unit:", team, m)
 		
 		local pathPtr = GetPathPoint(pathName, 0)
 		
@@ -217,4 +226,4 @@ function ShuffleTable( t )
 end
 
 
-print("ME5_UtilityFunctions: Exited")
+PrintLog("Exited")
