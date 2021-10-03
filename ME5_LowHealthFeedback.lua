@@ -430,6 +430,10 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 						--[[if bIsFreshSpawn == true then
 							bIsFreshSpawn = false]]
 							Iamhuman = GetEntityPtr(GetCharacterUnit(player))
+							if Iamhuman == nil then
+								PrintLog("playerspawn: Iamhuman was nil, exiting function")
+								return
+							end
 							playerCurHealth, playerMaxHealth = GetObjectHealth(Iamhuman)
 						--[[else
 							Iamhuman = GetEntityPtr(GetCharacterUnit(player))
