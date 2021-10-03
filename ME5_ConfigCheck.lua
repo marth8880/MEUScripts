@@ -397,7 +397,7 @@ if not ScriptCB_InMultiplayer() then
 		ME5_MapVarEDN = 2
 		
 	elseif CheckSetting("cfg_MapVarEDN") == 3 then
-		PrintLog("Eden Prime Weather is NIGHT")
+		PrintLog("Eden Prime Weather is DUSK")
 		ME5_MapVarEDN = 3
 		
 	else

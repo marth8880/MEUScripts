@@ -136,7 +136,7 @@ function ScriptInit()
 	elseif ME5_MapVarEDN == 2 then
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\edn_cloudy.lvl")
 		
-	-- Night variant
+	-- Dusk variant
 	elseif ME5_MapVarEDN == 3 then
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\edn_night.lvl")
 	end
@@ -249,7 +249,7 @@ function ScriptInit()
 		SetDenseEnvironment("false")
 		SetAIViewMultiplier(0.9)
 		
-	-- Night variant
+	-- Dusk variant
 	elseif ME5_MapVarEDN == 3 then
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\SKY\\spa_sky.lvl", "night")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\EDN.lvl", "EDN_conquest_night")
