@@ -34,7 +34,7 @@ PrintLog("Entered")
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ConfigUtility\\meumodconfig.script")
 ScriptCB_DoFile("meumodconfig")
 
-local settings = gMEUModConfig
+meuConfigSettings = gMEUModConfig
 
 ---
 -- Checks the given setting and its value based on /setting/ and /value/.
@@ -50,7 +50,7 @@ local function CheckSetting(key)
 		return 0
 	end
 	
-	return settings[key]
+	return meuConfigSettings[key]
 end
 
 
