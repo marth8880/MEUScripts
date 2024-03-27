@@ -219,6 +219,9 @@ function Objective:Start()
 		elseif ME5_SideVar == 5	then
 			rep_sndcue	= "ssv_adm_"
 			cis_sndcue	= "col_gen_"
+		elseif ME5_SideVar == 6	then
+			rep_sndcue	= "ssv_adm_"
+			cis_sndcue	= "cer_ann_"
 		end
 	else
 		if gCurrentMapManager.onlineSideVar == "SSVxGTH" then
@@ -236,6 +239,9 @@ function Objective:Start()
 		elseif gCurrentMapManager.onlineSideVar == "SSVxRPR" then
 			rep_sndcue	= "ssv_adm_"
 			cis_sndcue	= "col_gen_"
+		elseif gCurrentMapManager.onlineSideVar == "SSVxCER" then
+			rep_sndcue	= "ssv_adm_"
+			cis_sndcue	= "cer_ann_"
 		end
 	end
     
@@ -375,6 +381,7 @@ function Objective:Complete(winningTeam)
 				self.container:NotifyObjectiveComplete(self)
 			else
 				-- Play a short VO narration if we're not a campaign mission 
+				-- TODO: need to add VOs for SSVxRPR and SSVxCER
 				if gCurrentMapManager.gameMode ~= "campaign" then
 					-- Set the VO to use for each team
 					if not ScriptCB_InMultiplayer() then

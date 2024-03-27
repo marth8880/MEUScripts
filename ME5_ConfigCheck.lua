@@ -374,6 +374,10 @@ elseif CheckSetting("cfg_SideVar") == 5 then
 	PrintLog("Side Variation is SSVxRPR")
 	ME5_SideVar = 5
 	
+elseif CheckSetting("cfg_SideVar") == 6 then
+	PrintLog("Side Variation is SSVxCER")
+	ME5_SideVar = 6
+	
 else
 	PrintLog("Error! ME5_SideVar flag not found or invalid! Defaulting to RANDOM")
 	ME5_SideVar = math.random(1, MAX_FACTION_COUNT)

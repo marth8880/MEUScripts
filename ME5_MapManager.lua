@@ -82,7 +82,10 @@ PrintLog("Entered")
 -- 											 `"6"` : Overlord and Shadow Broker suites from the associated ME2 DLC  
 -- 											 `"6_1"` or `"6_longwalk"` : Overlord suite from ME2 Overlord DLC  
 -- 											 `"6_2"` or `"6_horizon"` : Shadow Broker suite from ME2 Lair of the Shadow Broker DLC  
--- 											 `"7"` : Cerberus music from ME3  
+-- 											 `"7"` : Randomly-selected Cerberus music from ME3  
+-- 											 `"7_1"` or `"7_mars"` : Mars music from ME3  
+-- 											 `"7_2"` or `"7_surkesh"` : Sur'Kesh music from ME3  
+-- 											 `"7_3"` or `"7_grissom"` : Grissom Academy music from ME3  
 -- 											 `"8"` : Reaper music from ME3  
 -- 											 `"9"` : Evolved Geth music, taken from Far Cry 3's OST  
 -- @param #string musicVariation_SSVxCOL	Music variation to use for SSVxCOL matches. Possible values are the same as `musicVariation_SSVxGTH`.  
@@ -135,6 +138,7 @@ MapManager = {
 	musicVariation_EVGxGTH = nil,		-- Music variation to use for EVGxGTH matches.
 	musicVariation_EVGxCOL = nil,		-- Music variation to use for EVGxCOL matches.
 	musicVariation_SSVxRPR = nil,		-- Music variation to use for SSVxRPR matches.
+	musicVariation_SSVxCER = nil,		-- Music variation to use for SSVxCER matches.
 	
 	onlineSideVar = nil,				-- Side variation to use in online matches.
 	onlineHeroSSV = nil,				-- SSV hero to use in online matches.
@@ -232,6 +236,7 @@ function MapManager:Init()
 	self.musicVariation_EVGxGTH = self.musicVariation_EVGxGTH or "9"
 	self.musicVariation_EVGxCOL = self.musicVariation_EVGxCOL or "9"
 	self.musicVariation_SSVxRPR = self.musicVariation_SSVxRPR or "8"
+	self.musicVariation_SSVxCER = self.musicVariation_SSVxCER or "7"
 	self.artilleryTurObj = self.artilleryTurObj or "artillery1"
 	
 	-- Artillery strikes
@@ -347,6 +352,10 @@ function MapManager:Proc_ScriptInit_Begin()
 		elseif ME5_SideVar == 5	then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamessv.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamecol.lvl")
+		elseif ME5_SideVar == 6	then
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamessv.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamegth.lvl")
+			-- ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamecer.lvl")
 		end
 	else
 		if self.onlineSideVar == "SSVxGTH" or self.onlineSideVar == 1 then
@@ -364,6 +373,10 @@ function MapManager:Proc_ScriptInit_Begin()
 		elseif self.onlineSideVar == "SSVxRPR" or self.onlineSideVar == 5 then
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamessv.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamecol.lvl")
+		elseif self.onlineSideVar == "SSVxCER" or self.onlineSideVar == 6 then
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamessv.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamegth.lvl")
+			-- ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamecer.lvl")
 		end
 	end
 	
@@ -426,6 +439,9 @@ function MapManager:Proc_ScriptInit_Begin()
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxRPR.lvl")
 		
 				SetClassProperty("rpr_bldg_cannibalize_unbuilt", "Team", CIS)
+			elseif ME5_SideVar == 6 then
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxCER.lvl")
 			end
 		else
 			if self.onlineSideVar == "SSVxGTH" or self.onlineSideVar == 1 then
@@ -445,6 +461,9 @@ function MapManager:Proc_ScriptInit_Begin()
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxRPR.lvl")
 		
 				SetClassProperty("rpr_bldg_cannibalize_unbuilt", "Team", CIS)
+			elseif self.onlineSideVar == "SSVxCER" or self.onlineSideVar == 6 then
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxCER.lvl")
 			end
 		end
     	
@@ -510,6 +529,9 @@ function MapManager:Proc_ScriptInit_Begin()
 			elseif ME5_SideVar == 5 then
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxRPR.lvl")
+			elseif ME5_SideVar == 6 then
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxCER.lvl")
 			end
 		else
 			if self.onlineSideVar == "SSVxGTH" or self.onlineSideVar == 1 then
@@ -527,6 +549,9 @@ function MapManager:Proc_ScriptInit_Begin()
 			elseif self.onlineSideVar == "SSVxRPR" or self.onlineSideVar == 5 then
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
 				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxRPR.lvl")
+			elseif self.onlineSideVar == "SSVxCER" or self.onlineSideVar == 6 then
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame.lvl")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingame_SSVxCER.lvl")
 			end
 		end
     	
@@ -789,6 +814,47 @@ function MapManager:Proc_ScriptInit_Begin()
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_RPR_NonStreaming.lvl")
 			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_NonStreaming.lvl")
 			
+			
+		-- ===============================
+		-- ALLIANCE VS. CERBERUS
+		-- ===============================
+		elseif factionVariation == 6 or factionVariation == "SSVxCER" then
+			PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Faction combination is SSVxCER, loading associated common/wpn sound files")
+			
+			if string.find(SSVHeroClass, "shepard") then
+				PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Loading SHEPARD data files...")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_Shepard_NonStreaming.lvl")
+				
+			elseif (string.find(SSVHeroClass, "cooper") or (gLoadCooper and gLoadCooper == true)) then
+				PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Loading COOPER data files...")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_Cooper_NonStreaming.lvl")
+				
+			elseif string.find(SSVHeroClass, "jack") then
+				PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Loading JACK data files...")
+				ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_Jack_NonStreaming.lvl")
+				
+			elseif string.find(SSVHeroClass, "legion") then
+				PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Loading LEGION data files...")
+				
+				
+			elseif string.find(SSVHeroClass, "samara") then
+				PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Loading SAMARA data files...")
+				
+			else
+				PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Loading normal data files...")
+				
+			end
+			
+			-- ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_CER_NonStreaming.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_SSV_SSV_NonStreaming.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_CER_NonStreaming.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Common_NonStreaming.lvl")
+			
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_Foley_NonStreaming.lvl", "terrain_"..self.terrainFoleyGroup)
+			
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_CER_NonStreaming.lvl")
+			ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_WPN_NonStreaming.lvl")
+			
 		else
 			PrintLog("Proc_ScriptInit_Begin.LoadFactionSounds(): Faction combination is invalid, loading common/wpn sound files for EVGxCOL as workaround")
 			
@@ -866,6 +932,8 @@ function MapManager:Proc_ScriptInit_SideSetup()
 			Setup_SSVxRPR()
 			Init_Weapon_Cannibalize()	-- This needs to be called here because of the class initialization
 			Init_Weapon_AcidDrop()
+		elseif ME5_SideVar == 6 then
+			Setup_SSVxCER()
 		end
 	else
 		if self.onlineSideVar == "SSVxGTH" or self.onlineSideVar == 1 then
@@ -880,6 +948,8 @@ function MapManager:Proc_ScriptInit_SideSetup()
 			Setup_SSVxRPR()
 			Init_Weapon_Cannibalize()
 			Init_Weapon_AcidDrop()
+		elseif self.onlineSideVar == "SSVxCER" or self.onlineSideVar == 6 then
+			Setup_SSVxCER()
 		end
 	end
 end
@@ -936,6 +1006,10 @@ function MapManager:Proc_ScriptInit_MusicSetup()
 	elseif ME5_SideVar == 5 or (ScriptCB_InMultiplayer() and self.onlineSideVar == "SSVxRPR") then
 		PrintLog("Proc_ScriptInit_MusicSetup(): Variation is SSVxRPR")
 		variation = self.musicVariation_SSVxRPR
+		
+	elseif ME5_SideVar == 6 or (ScriptCB_InMultiplayer() and self.onlineSideVar == "SSVxCER") then
+		PrintLog("Proc_ScriptInit_MusicSetup(): Variation is SSVxCER")
+		variation = self.musicVariation_SSVxCER
 	end
 	
 	-- If the specified variation is a table, randomly pick one of the cells to use
@@ -1240,6 +1314,28 @@ function MapManager:Init_SidesPostLoad_SSVxRPR()
 	end
 end
 
+function MapManager:Init_SidesPostLoad_SSVxCER()
+	if self.bAreHeroesEnabled == true then
+		if not ScriptCB_InMultiplayer() then
+			if ME5_AIHeroes == 0 then
+				SetHeroClass(REP, SSVHeroClass)
+				-- SetHeroClass(CIS, CERHeroClass)
+			elseif ME5_AIHeroes == 1 then
+				herosupport = AIHeroSupport:New{AIATTHeroHealth = 3000, AIDEFHeroHealth = 3000, gameMode = "NonConquest",}
+				herosupport:SetHeroClass(REP, SSVHeroClass)
+				-- herosupport:SetHeroClass(CIS, CERHeroClass)
+				
+				for cp in ipairs(self.heroSupportCPs) do
+					PrintLog("Init_SidesPostLoad_SSVxCER(): Setting hero spawn cp, path = ", self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
+					herosupport:AddSpawnCP(self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])
+				end
+				
+				herosupport:Start()
+			end
+		end
+	end
+end
+
 
 ---
 -- Performs various postload operations relating to the sides, such as setting up AI hero support based on the game mode.
@@ -1261,6 +1357,8 @@ function MapManager:Init_SidesPostLoad()
 				self:Init_SidesPostLoad_EVGxCOL()
 			elseif ME5_SideVar == 5 then
 				self:Init_SidesPostLoad_SSVxRPR()
+			elseif ME5_SideVar == 6 then
+				self:Init_SidesPostLoad_SSVxCER()
 			end
 		else
 			if self.onlineSideVar == "SSVxGTH" then
@@ -1273,6 +1371,8 @@ function MapManager:Init_SidesPostLoad()
 				self:Init_SidesPostLoad_EVGxCOL()
 			elseif self.onlineSideVar == "SSVxRPR" then
 				self:Init_SidesPostLoad_SSVxRPR()
+			elseif self.onlineSideVar == "SSVxCER" then
+				self:Init_SidesPostLoad_SSVxCER()
 			end
 		end
 	end

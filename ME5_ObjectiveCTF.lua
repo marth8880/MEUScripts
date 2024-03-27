@@ -580,7 +580,8 @@ function ObjectiveCTF:Start()
 		)
 	
 end
-	
+
+-- TODO: need to add lines for SSVxRPR and SSVxCER
 if not ScriptCB_InMultiplayer() then
 	if ME5_SideVar == 1 then
 		CTF_SoundEvents_Var = 1

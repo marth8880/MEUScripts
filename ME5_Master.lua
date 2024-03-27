@@ -202,7 +202,7 @@ DecideMus06Var			= nil
 
 
 -- Declare constants
-MAX_FACTION_COUNT			= 5		-- Number of factions.
+MAX_FACTION_COUNT			= 6		-- Number of factions.
 MAX_SSV_HERO_COUNT			= 2		-- Number of Systems Alliance heroes.
 MAX_GTH_HERO_COUNT			= 2		-- Number of Heretic Geth heroes.
 MAX_COL_HERO_COUNT			= 1		-- Number of Collector heroes.

@@ -43,6 +43,8 @@ function Init_SideSetup()
 			Setup_EVGxCOL()
 		elseif ME5_SideVar == 5 then
 			Setup_SSVxRPR()
+		elseif ME5_SideVar == 6 then
+			Setup_SSVxCER()
 		end
 	else
 		if gCurrentMapManager.onlineSideVar == "SSVxGTH" or gCurrentMapManager.onlineSideVar == 1 then
@@ -55,6 +57,8 @@ function Init_SideSetup()
 			Setup_EVGxCOL()
 		elseif gCurrentMapManager.onlineSideVar == "SSVxRPR" or gCurrentMapManager.onlineSideVar == 5 then
 			Setup_SSVxRPR()
+		elseif gCurrentMapManager.onlineSideVar == "SSVxCER" or gCurrentMapManager.onlineSideVar == 6 then
+			Setup_SSVxCER()
 		end
 	end
 end
@@ -368,6 +372,81 @@ function Setup_SSVxRPR()
 		-- if gCurrentMapManager.onlineHeroRPR == "banshee" or gCurrentMapManager.onlineHeroRPR == 1 then
 		-- 	PrintLog("Setup_SSVxRPR(): Online RPR hero is Banshee")
 		-- 	SetHeroClass(CIS, "rpr_hero_banshee")
+		-- end
+	end
+end
+
+function Setup_SSVxCER()
+	Load_SSV()
+	Load_CER()
+	
+	if gCurrentMapManager.mapSize == "xxs" or gCurrentMapManager.mapSize == 1 then
+		PrintLog("Setup_SSVxCER(): Map size is xxs")
+		Setup_SSVxCER_xxs()
+		
+	elseif gCurrentMapManager.mapSize == "xs" or gCurrentMapManager.mapSize == 2 then
+		PrintLog("Setup_SSVxCER(): Map size is xs")
+		Setup_SSVxCER_xs()
+		
+	elseif gCurrentMapManager.mapSize == "sm" or gCurrentMapManager.mapSize == 3 then
+		PrintLog("Setup_SSVxCER(): Map size is sm")
+		Setup_SSVxCER_sm()
+		
+	elseif gCurrentMapManager.mapSize == "med" or gCurrentMapManager.mapSize == 4 then
+		PrintLog("Setup_SSVxCER(): Map size is med")
+		Setup_SSVxCER_med()
+		
+	elseif gCurrentMapManager.mapSize == "lg" or gCurrentMapManager.mapSize == 5 then
+		PrintLog("Setup_SSVxCER(): Map size is lg")
+		Setup_SSVxCER_lg()
+		
+	elseif gCurrentMapManager.mapSize == "xl" or gCurrentMapManager.mapSize == 6 then
+		PrintLog("Setup_SSVxCER(): Map size is xl")
+		Setup_SSVxCER_xl()
+	else
+		PrintLog("Setup_SSVxCER(): ALL YOUR MAP SIZE ARE BELONG TO US!!")
+	end
+	
+	
+	if ScriptCB_InMultiplayer() then
+		-- SYSTEMS ALLIANCE HERO
+		if gCurrentMapManager.onlineHeroSSV == "shep_soldier" or gCurrentMapManager.onlineHeroSSV == 1 then
+			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Soldier")
+			SetHeroClass(REP, "ssv_hero_shepard_soldier")
+			
+		elseif gCurrentMapManager.onlineHeroSSV == "shep_infiltrator" or gCurrentMapManager.onlineHeroSSV == 2 then
+			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Infiltrator")
+			SetHeroClass(REP, "ssv_hero_shepard_infiltrator")
+			
+		elseif gCurrentMapManager.onlineHeroSSV == "shep_engineer" or gCurrentMapManager.onlineHeroSSV == 3 then
+			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Engineer")
+			SetHeroClass(REP, "ssv_hero_shepard_engineer")
+			
+		elseif gCurrentMapManager.onlineHeroSSV == "shep_adept" or gCurrentMapManager.onlineHeroSSV == 4 then
+			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Adept")
+			SetHeroClass(REP, "ssv_hero_shepard_adept")
+			
+		elseif gCurrentMapManager.onlineHeroSSV == "shep_sentinel" or gCurrentMapManager.onlineHeroSSV == 5 then
+			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Sentinel")
+			SetHeroClass(REP, "ssv_hero_shepard_sentinel")
+			
+		elseif gCurrentMapManager.onlineHeroSSV == "shep_vanguard" or gCurrentMapManager.onlineHeroSSV == 6 then
+			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Vanguard")
+			SetHeroClass(REP, "ssv_hero_shepard_vanguard")
+			
+		elseif gCurrentMapManager.onlineHeroSSV == "jack" or gCurrentMapManager.onlineHeroSSV == 7 then
+			PrintLog("Setup_SSVxGTH(): Online SSV hero is Jack")
+			SetHeroClass(REP, "ssv_hero_jack")
+		end
+		
+		-- CERBERUS HERO
+		-- if gCurrentMapManager.onlineHeroGTH == "gethprime_me2" or gCurrentMapManager.onlineHeroGTH == 1 then
+		-- 	PrintLog("Setup_SSVxGTH(): Online GTH hero is ME2 Geth Prime")
+		-- 	SetHeroClass(CIS, "gth_hero_prime_me2")
+			
+		-- elseif gCurrentMapManager.onlineHeroGTH == "gethprime_me3" or gCurrentMapManager.onlineHeroGTH == 2 then
+		-- 	PrintLog("Setup_SSVxGTH(): Online GTH hero is ME3 Geth Prime")
+		-- 	SetHeroClass(CIS, "gth_hero_prime_me3")
 		-- end
 	end
 end
@@ -969,35 +1048,49 @@ function Load_RPR()
 	PrintLog("Load_RPR(): Exited")
 end
 
--- Loads the appropriate data files for the Cerberus faction.
-function LoadCER()
-	PrintLog("LoadCER(): Entered")
+-- Loads the appropriate data files for the Reapers faction.
+function Load_CER()
+	PrintLog("Load_CER(): Entered")
 	
 	--SetAIDifficulty(-3, 3)
 	
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\cer.lvl",
-				"cer_inf_trooper",
-				"cer_inf_nemesis",
-				"cer_inf_engineer",
-				"cer_inf_centurion",
-				"cer_inf_phantom")
-				
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\corecer.lvl")
+	PrintLog("Load_CER(): Loading sounds")
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_CER_NonStreaming.lvl")
 	
-	PrintLog("LoadCER(): Exited")
+	PrintLog("Load_CER(): Loading meshes/textures")
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_CER_Char.lvl")
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_GTH_Misc.lvl")	-- TODO: replace with GFX_CER when it's ready
+	
+	PrintLog("Load_CER(): Loading unit/weapon classes")
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\CON_CER.lvl")
+	
+	-- if not ScriptCB_InMultiplayer() then
+	-- 	if ME5_ShieldFunc == 1 then
+	-- 		PrintLog("Load_CER(): Configuring RPR Shield Functionality for AUTO-REGEN...")
+	-- 		rpr_inf_marauder		= "rpr_inf_marauder_shield"
+	-- 		rpr_inf_banshee			= "rpr_inf_banshee_shield"
+			
+	-- 	elseif ME5_ShieldFunc == 2 then
+	-- 		PrintLog("Load_CER(): Configuring RPR Shield Functionality for PICKUPS...")
+	-- 		rpr_inf_marauder		= "rpr_inf_marauder"
+	-- 		rpr_inf_banshee			= "rpr_inf_banshee"
+	-- 	else
+	-- 		PrintLog("Load_CER(): Error! ME5_ShieldFunc setting is invalid! Defaulting to RPR Shield Functionality for AUTO-REGEN")
+	-- 		rpr_inf_marauder		= "rpr_inf_marauder_shield"
+	-- 		rpr_inf_banshee			= "rpr_inf_banshee_shield"
+	-- 	end
+	-- else
+	-- 	PrintLog("Load_CER(): Configuring RPR Shield Functionality for AUTO-REGEN...")
+	-- 	rpr_inf_marauder		= "rpr_inf_marauder_shield"
+	-- 	rpr_inf_banshee			= "rpr_inf_banshee_shield"
+	-- end
+	
+	PrintLog("Load_CER(): Loading localization")
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\corecer.lvl")
+	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ingamecol.lvl")
+	
+	PrintLog("Load_CER(): Exited")
 end
-
---[[function ObjectiveSurvival_125tick()
-		PrintLog("ObjectiveSurvival_125tick()")
-		local ObjectiveSurvivalDebugStr = "ME5_RandomSides: Changing ticket counts to 100 for Survival..."
-	if ObjectiveSurvivalHasRan == 1 then
-		SetReinforcementCount(1, 125)
-		SetReinforcementCount(2, 125)
-			print(ObjectiveSurvivalDebugStr)
-	else 
-		PrintLog("BY THE GODDESS, WHAT ON THESSIA IS HAPPENING")
-	end
-end]]
 
 function Setup_SSVxGTH_xxs()
 	PrintLog("Setup_SSVxGTH_xxs(): Entered")
@@ -2424,28 +2517,28 @@ function Setup_SSVxCER_med()
 	--SetTeamAggressiveness(CIS, 0.99)
 	
 	SetupTeams{
-	rep = {
-		team = REP,
-		units = 25,
-		reinforcements = 175,
-		soldier  = { ssv_inf_soldier,3, 8},
-		sniper  = { ssv_inf_infiltrator,3, 8},
-		adept = { ssv_inf_adept,3, 8},
-		engineer   = { ssv_inf_engineer,3, 8},
-		sentinel = { ssv_inf_sentinel,3, 8},
-		vanguard = { ssv_inf_vanguard,3, 8},	
-	},
-	
-	imp = {
-		team = CIS,
-		units = 25,
-		reinforcements = 175,
-		soldier  = { "cer_inf_trooper",8, 12},
-		sniper  = { "cer_inf_nemesis",6, 9},
-		engineer = { "cer_inf_engineer",6, 9},
-		officer   = { "cer_inf_centurion",5, 8},
-		special   = { "cer_inf_phantom",4, 7},
-	}
+		rep = {
+			team = REP,
+			units = 22,
+			reinforcements = 175,
+			soldier  = { ssv_inf_soldier,4, 8},
+			sniper  = { ssv_inf_infiltrator,3, 8},
+			adept = { ssv_inf_adept,4, 8},
+			engineer   = { ssv_inf_engineer,4, 8},
+			sentinel = { ssv_inf_sentinel,4, 8},
+			vanguard = { ssv_inf_vanguard,3, 8},
+		},
+		
+		cis = {
+			team = CIS,
+			units = 22,
+			reinforcements = 175,
+			soldier  = { "cer_inf_trooper",6, 12},
+			sniper  = { "cer_inf_nemesis",4, 9},
+			engineer = { "cer_inf_engineer",5, 9},
+			officer   = { "cer_inf_centurion",4, 8},
+			special   = { "cer_inf_phantom",3, 7},
+		}
 	}
 	
 	-- SetHeroClass(CIS, heroGTH)

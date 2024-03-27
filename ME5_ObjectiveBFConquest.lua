@@ -214,6 +214,7 @@ function ObjectiveConquest:Start()
 			
 			
 			
+			-- TODO: need to add lines for SSVxRPR and SSVxCER
 			if not ScriptCB_InMultiplayer() then
 				if ME5_SideVar == 1 then
 					if team == REP then
@@ -480,6 +481,7 @@ function ObjectiveConquest:Start()
 	end
 	
 	
+	-- TODO: need to add lines for SSVxRPR and SSVxCER
 	if not ScriptCB_InMultiplayer() then
 		if ME5_SideVar == 1 then
 			snd_REP_cpCapture_ally	= snd_SSV_cpCapture_ally
@@ -535,6 +537,17 @@ function ObjectiveConquest:Start()
 			snd_CIS_cpCapture_enemy	= snd_COL_cpCapture_enemy
 			snd_CIS_cpLost_ally		= snd_COL_cpLost_ally
 			snd_CIS_cpLost_enemy	= snd_COL_cpLost_enemy
+    			
+		elseif ME5_SideVar == 6 then
+			snd_REP_cpCapture_ally	= snd_SSV_cpCapture_ally
+			snd_REP_cpCapture_enemy	= snd_SSV_cpCapture_enemy
+			snd_REP_cpLost_ally		= snd_SSV_cpLost_ally
+			snd_REP_cpLost_enemy	= snd_SSV_cpLost_enemy
+			
+			snd_CIS_cpCapture_ally	= snd_GTH_cpCapture_ally
+			snd_CIS_cpCapture_enemy	= snd_GTH_cpCapture_enemy
+			snd_CIS_cpLost_ally		= snd_GTH_cpLost_ally
+			snd_CIS_cpLost_enemy	= snd_GTH_cpLost_enemy
 			
 		end
 	else

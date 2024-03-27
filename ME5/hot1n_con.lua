@@ -59,13 +59,16 @@ manager = MapManager:New{
 manager:Init()
 
 -- Randomize which team is ATT/DEF
-if not ScriptCB_InMultiplayer() then
-	CIS = math.random(1,2)
-	REP = (3 - CIS)
-else
-	REP = 2
-	CIS = 1
-end
+-- if not ScriptCB_InMultiplayer() then
+-- 	CIS = math.random(1,2)
+-- 	REP = (3 - CIS)
+-- else
+-- 	REP = 2
+-- 	CIS = 1
+-- end
+
+REP = 2
+CIS = 1
 
 HuskTeam = 3
 

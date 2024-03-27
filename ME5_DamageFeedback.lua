@@ -43,6 +43,14 @@ PrintLog("Entered")
 
 -- Ballistic weapons.
 local ballisticWeapons = {
+				"cer_weap_inf_pistol_m5",
+				"cer_weap_inf_pistol_m6",
+				"cer_weap_inf_rifle_m96",
+				"cer_weap_inf_smg_m4",
+				"cer_weap_inf_smg_m25",
+				"cer_weap_inf_sniper_m92",
+				"cer_weap_inf_sniper_m98",
+
 				"col_weap_inf_rifle_col",
 				"col_weap_inf_rifle_col_colgen",
 				"col_weap_inf_rifle_col_shredder",
@@ -128,6 +136,17 @@ local ballisticWeapons = {
 				"tur_weap_hoth_dishturret",
 				"tur_weap_hoth_lasermortar_laser",
 				"tur_weap_laser",
+}
+
+-- CER ballistic weapons.
+local ballisticWeapons_CER = {
+				"cer_weap_inf_pistol_m5",
+				"cer_weap_inf_pistol_m6",
+				"cer_weap_inf_rifle_m96",
+				"cer_weap_inf_smg_m4",
+				"cer_weap_inf_smg_m25",
+				"cer_weap_inf_sniper_m92",
+				"cer_weap_inf_sniper_m98",
 }
 
 -- COL ballistic weapons.
@@ -355,6 +374,7 @@ end
 -- Merge the TUR table with each faction's table
 if table.getn(ballisticWeapons_TUR) > 0 then
 	for i in ipairs(ballisticWeapons_TUR) do
+		table.insert(ballisticWeapons_CER, ballisticWeapons_TUR[i])
 		table.insert(ballisticWeapons_COL, ballisticWeapons_TUR[i])
 		table.insert(ballisticWeapons_EVG, ballisticWeapons_TUR[i])
 		table.insert(ballisticWeapons_GTH, ballisticWeapons_TUR[i])
@@ -366,6 +386,7 @@ end
 -- Merge the VEH table with each faction's table
 if table.getn(ballisticWeapons_VEH) > 0 then
 	for i in ipairs(ballisticWeapons_VEH) do
+		table.insert(ballisticWeapons_CER, ballisticWeapons_VEH[i])
 		table.insert(ballisticWeapons_COL, ballisticWeapons_VEH[i])
 		table.insert(ballisticWeapons_EVG, ballisticWeapons_VEH[i])
 		table.insert(ballisticWeapons_GTH, ballisticWeapons_VEH[i])
@@ -569,11 +590,32 @@ function Init_PlayerDamageFeedback()
 							elseif damagerTeam == CIS then
 								damagerFaction = "rpr"
 							end
+							
+						elseif ME5_SideVar == 6 or (ScriptCB_InMultiplayer() and gCurrentMapManager.onlineSideVar == "SSVxCER") then
+							if damagerTeam == REP then
+								damagerFaction = "ssv"
+							elseif damagerTeam == CIS then
+								damagerFaction = "cer"
+							end
 						end
 						
 						
 						-- Which team is the damager from?
-						if damagerFaction == "col" then
+						if damagerFaction == "cer" then
+							--PrintLog("Init_PlayerDamageFeedback(): Damager is from team CER")
+							--ShowMessageText("level.common.debug.damager_cer")
+							
+							-- For each weapon class
+							for i=1, table.getn(ballisticWeapons_CER) do
+								-- Was the weapon used a valid ballistic weapon?
+								if damagerWeapon == ballisticWeapons_CER[i] then
+									-- Play the player damage sound
+									PlayDamageSound()
+									break
+								end
+							end
+							
+						elseif damagerFaction == "col" then
 							--PrintLog("Init_PlayerDamageFeedback(): Damager is from team COL")
 							--ShowMessageText("level.common.debug.damager_col")
 							
@@ -976,11 +1018,40 @@ function Init_HitMarkerSounds()
 						elseif damagerTeam == CIS then
 							damagerFaction = "rpr"
 						end
+						
+					elseif ME5_SideVar == 6 or (ScriptCB_InMultiplayer() and gCurrentMapManager.onlineSideVar == "SSVxCER") then
+						if damagerTeam == REP then
+							damagerFaction = "ssv"
+						elseif damagerTeam == CIS then
+							damagerFaction = "cer"
+						end
 					end
 					
 					
 					-- Which team is the damager from?
-					if damagerFaction == "col" then
+					if damagerFaction == "cer" then
+						--PrintLog("Init_HitMarkerSounds(): Damager is from team CER")
+						--ShowMessageText("level.common.debug.damager_cer")
+						
+						-- For each weapon class
+						for i=1, table.getn(ballisticWeapons_CER) do
+							-- Was the weapon used a valid ballistic weapon?
+							if damagerWeapon == ballisticWeapons_CER[i] then
+								if GetObjectShield(object) < MIN_SHIELDS_DMG_FEEDBACK then
+									-- Play the player damage sound
+									if bIsObjectArmorClass == true then
+										PlayDamageSound("armor")
+									else
+										PlayDamageSound("normal")
+									end
+								else
+									PlayDamageSound("shield")
+								end
+								break
+							end
+						end
+						
+					elseif damagerFaction == "col" then
 						--PrintLog("Init_HitMarkerSounds(): Damager is from team COL")
 						--ShowMessageText("level.common.debug.damager_col")
 						

@@ -615,13 +615,64 @@ function Music07()
 	OpenMusicStreams(7)
 	
 	if gCurrentMapManager.gameMode ~= "1flag" and gCurrentMapManager.gameMode ~= "ctf" then
-		function Init_AmbientMusic()
-			SetAmbientMusic(REP, 1.0, "ssv_amb_07_start",  0,1)
-			SetAmbientMusic(REP, 0.75, "ssv_amb_07_mid",    1,1)
-			SetAmbientMusic(REP, 0.25, "ssv_amb_07_end",    2,1)
-			SetAmbientMusic(CIS, 1.0, "ssv_amb_07_start",  0,1)
-			SetAmbientMusic(CIS, 0.75, "ssv_amb_07_mid",    1,1)
-			SetAmbientMusic(CIS, 0.25, "ssv_amb_07_end",    2,1)
+		local decideVar
+		
+		if not variation then
+			decideVar = math.random(1,3)
+		else
+			PrintLog(string.upper(variation).." was specified")
+			
+			variation = string.lower(variation)
+			
+			if variation == "1" or variation == "mars" then
+				decideVar = 1
+			elseif variation == "2" or variation == "surkesh" then
+				decideVar = 2
+			elseif variation == "3" or variation == "grissom" then
+				decideVar = 3
+			end
+		end
+
+		if decideVar == 0 then
+				PrintLog("Deciding Music07 variation... Choosing RANDOM")
+			function Init_AmbientMusic()
+				SetAmbientMusic(REP, 1.0, "ssv_amb_07_start",  0,1)
+				SetAmbientMusic(REP, 0.75, "ssv_amb_07_mid",    1,1)
+				SetAmbientMusic(REP, 0.25, "ssv_amb_07_end",    2,1)
+				SetAmbientMusic(CIS, 1.0, "ssv_amb_07_start",  0,1)
+				SetAmbientMusic(CIS, 0.75, "ssv_amb_07_mid",    1,1)
+				SetAmbientMusic(CIS, 0.25, "ssv_amb_07_end",    2,1)
+			end
+		elseif decideVar == 1 then
+				PrintLog("Deciding Music07 variation... Choosing MARS")
+			function Init_AmbientMusic()
+				SetAmbientMusic(REP, 1.0, "ssv_amb_07a_start",  0,1)
+				SetAmbientMusic(REP, 0.75, "ssv_amb_07a_mid",    1,1)
+				SetAmbientMusic(REP, 0.15, "ssv_amb_07a_end",    2,1)
+				SetAmbientMusic(CIS, 1.0, "ssv_amb_07a_start",  0,1)
+				SetAmbientMusic(CIS, 0.75, "ssv_amb_07a_mid",    1,1)
+				SetAmbientMusic(CIS, 0.15, "ssv_amb_07a_end",    2,1)
+			end
+		elseif decideVar == 2 then
+				PrintLog("Deciding Music07 variation... Choosing SUR'KESH")
+			function Init_AmbientMusic()
+				SetAmbientMusic(REP, 1.0, "ssv_amb_07b_start",  0,1)
+				SetAmbientMusic(REP, 0.85, "ssv_amb_07b_mid",    1,1)
+				SetAmbientMusic(REP, 0.15, "ssv_amb_07b_end",    2,1)
+				SetAmbientMusic(CIS, 1.0, "ssv_amb_07b_start",  0,1)
+				SetAmbientMusic(CIS, 0.85, "ssv_amb_07b_mid",    1,1)
+				SetAmbientMusic(CIS, 0.15, "ssv_amb_07b_end",    2,1)
+			end
+		elseif decideVar == 3 then
+				PrintLog("Deciding Music07 variation... Choosing GRISSOM ACADEMY")
+			function Init_AmbientMusic()
+				SetAmbientMusic(REP, 1.0, "ssv_amb_07c_start",  0,1)
+				SetAmbientMusic(REP, 0.85, "ssv_amb_07c_mid",    1,1)
+				SetAmbientMusic(REP, 0.1, "ssv_amb_07c_end",    2,1)
+				SetAmbientMusic(CIS, 1.0, "ssv_amb_07c_start",  0,1)
+				SetAmbientMusic(CIS, 0.85, "ssv_amb_07c_mid",    1,1)
+				SetAmbientMusic(CIS, 0.1, "ssv_amb_07c_end",    2,1)
+			end
 		end
 		
 		SetVictoryMusic(REP, "ssv_amb_01_victory")
@@ -849,6 +900,21 @@ function RPRWorldVO()
 end
 
 ---
+-- Sets up common world VO for the Cerberus.
+-- 
+function CERWorldVO()
+	-- if not IsCampaign() then
+	-- 	SetBleedingVoiceOver(REP, REP, "rpr_adm_com_report_us_bleeding", 1)
+	-- 	SetBleedingVoiceOver(REP, CIS, "rpr_adm_com_report_enemy_bleeding", 1)
+		
+	-- 	SetLowReinforcementsVoiceOver(REP, REP, "rpr_adm_com_report_defeat_imm", 0.1, 1)
+	-- 	SetLowReinforcementsVoiceOver(REP, CIS, "rpr_adm_com_report_victory_imm", 0.1, 1)
+	-- end
+	
+	-- SetOutOfBoundsVoiceOver(REP, "rpr_adm_com_report_hiatus")
+end
+
+---
 -- Call this to open the voice audio streams.
 -- 
 function OpenVoiceStreams(bCalledFromLowHealth)
@@ -924,6 +990,9 @@ function SoundFX()
 		elseif ME5_SideVar == 5 then
 			SSVWorldVO()
 			RPRWorldVO()
+		elseif ME5_SideVar == 6 then
+			SSVWorldVO()
+			-- GTHWorldVO()
 		else
 			PrintLog("SoundFX(): Error! ME5_SideVar setting is invalid! Not loading any...")
 			--SSVWorldVO()
