@@ -1064,26 +1064,34 @@ function Load_CER()
 	PrintLog("Load_CER(): Loading unit/weapon classes")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\CON_CER.lvl")
 	
-	-- if not ScriptCB_InMultiplayer() then
-	-- 	if ME5_ShieldFunc == 1 then
-	-- 		PrintLog("Load_CER(): Configuring RPR Shield Functionality for AUTO-REGEN...")
-	-- 		rpr_inf_marauder		= "rpr_inf_marauder_shield"
-	-- 		rpr_inf_banshee			= "rpr_inf_banshee_shield"
+	if not ScriptCB_InMultiplayer() then
+		if ME5_ShieldFunc == 1 then
+			PrintLog("Load_CER(): Configuring CER Shield Functionality for AUTO-REGEN...")
+			cer_inf_centurion		= "cer_inf_centurion_shield"
+			cer_inf_engineer		= "cer_inf_engineer_shield"
+			cer_inf_nemesis		= "cer_inf_nemesis_shield"
+			cer_inf_phantom		= "cer_inf_phantom_shield"
 			
-	-- 	elseif ME5_ShieldFunc == 2 then
-	-- 		PrintLog("Load_CER(): Configuring RPR Shield Functionality for PICKUPS...")
-	-- 		rpr_inf_marauder		= "rpr_inf_marauder"
-	-- 		rpr_inf_banshee			= "rpr_inf_banshee"
-	-- 	else
-	-- 		PrintLog("Load_CER(): Error! ME5_ShieldFunc setting is invalid! Defaulting to RPR Shield Functionality for AUTO-REGEN")
-	-- 		rpr_inf_marauder		= "rpr_inf_marauder_shield"
-	-- 		rpr_inf_banshee			= "rpr_inf_banshee_shield"
-	-- 	end
-	-- else
-	-- 	PrintLog("Load_CER(): Configuring RPR Shield Functionality for AUTO-REGEN...")
-	-- 	rpr_inf_marauder		= "rpr_inf_marauder_shield"
-	-- 	rpr_inf_banshee			= "rpr_inf_banshee_shield"
-	-- end
+		elseif ME5_ShieldFunc == 2 then
+			PrintLog("Load_CER(): Configuring CER Shield Functionality for PICKUPS...")
+			cer_inf_centurion		= "cer_inf_centurion"
+			cer_inf_engineer		= "cer_inf_engineer"
+			cer_inf_nemesis		= "cer_inf_nemesis"
+			cer_inf_phantom		= "cer_inf_phantom"
+		else
+			PrintLog("Load_CER(): Error! ME5_ShieldFunc setting is invalid! Defaulting to CER Shield Functionality for AUTO-REGEN")
+			cer_inf_centurion		= "cer_inf_centurion_shield"
+			cer_inf_engineer		= "cer_inf_engineer_shield"
+			cer_inf_nemesis		= "cer_inf_nemesis_shield"
+			cer_inf_phantom		= "cer_inf_phantom_shield"
+		end
+	else
+		PrintLog("Load_CER(): Configuring CER Shield Functionality for AUTO-REGEN...")
+		cer_inf_centurion		= "cer_inf_centurion_shield"
+		cer_inf_engineer		= "cer_inf_engineer_shield"
+		cer_inf_nemesis		= "cer_inf_nemesis_shield"
+		cer_inf_phantom		= "cer_inf_phantom_shield"
+	end
 	
 	PrintLog("Load_CER(): Loading localization")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\corecer.lvl")
@@ -2534,10 +2542,10 @@ function Setup_SSVxCER_med()
 			units = 22,
 			reinforcements = 175,
 			soldier  = { "cer_inf_trooper",6, 12},
-			sniper  = { "cer_inf_nemesis",4, 9},
-			engineer = { "cer_inf_engineer",5, 9},
-			officer   = { "cer_inf_centurion",4, 8},
-			special   = { "cer_inf_phantom",3, 7},
+			sniper  = { cer_inf_nemesis,4, 9},
+			engineer = { cer_inf_engineer,5, 9},
+			officer   = { cer_inf_centurion,4, 8},
+			special   = { cer_inf_phantom,3, 7},
 		}
 	}
 	

@@ -48,6 +48,7 @@ local ballisticWeapons = {
 				"cer_weap_inf_rifle_m96",
 				"cer_weap_inf_smg_m4",
 				"cer_weap_inf_smg_m25",
+				"cer_weap_inf_sniper_m13",
 				"cer_weap_inf_sniper_m92",
 				"cer_weap_inf_sniper_m98",
 
@@ -145,6 +146,7 @@ local ballisticWeapons_CER = {
 				"cer_weap_inf_rifle_m96",
 				"cer_weap_inf_smg_m4",
 				"cer_weap_inf_smg_m25",
+				"cer_weap_inf_sniper_m13",
 				"cer_weap_inf_sniper_m92",
 				"cer_weap_inf_sniper_m98",
 }

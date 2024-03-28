@@ -98,17 +98,23 @@ end
 -- ======================
 --  CUSTOM HUD
 -- ======================
-if CheckSetting("cfg_CustomHUD") == 0 then
-	PrintLog("Custom HUD is DISABLED")
-	ME5_CustomHUD = 0
-	
-elseif CheckSetting("cfg_CustomHUD") == 1 then
-	PrintLog("Custom HUD is ENABLED")
-	ME5_CustomHUD = 1
-	rema_noHUD = true
+if not ScriptCB_InMultiplayer() then
+	if CheckSetting("cfg_CustomHUD") == 0 then
+		PrintLog("Custom HUD is DISABLED")
+		ME5_CustomHUD = 0
+		
+	elseif CheckSetting("cfg_CustomHUD") == 1 then
+		PrintLog("Custom HUD is ENABLED")
+		ME5_CustomHUD = 1
+		rema_noHUD = true
+	else
+		PrintLog("Error! ME5_CustomHUD flag not found or invalid! Defaulting to ENABLED")
+		ME5_CustomHUD = 1
+	end
 else
-	PrintLog("Error! ME5_CustomHUD flag not found or invalid! Defaulting to ENABLED")
-	ME5_CustomHUD = 1
+	-- rema_noHUD causes a crash in multiplayer, so we can't use it
+	PrintLog("We are in multiplayer so Custom HUD is DISABLED")
+	ME5_CustomHUD = 0
 end
 
 

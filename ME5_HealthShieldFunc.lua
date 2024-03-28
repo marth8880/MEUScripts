@@ -208,6 +208,10 @@ function Init_DeferredShieldRegen()
 			-- Table of unit classes with regenerating shields. /class/ is the class's name, /addShield/ is the class's AddShield value, /regenDelay/ is the class's 
 			--  shield regeneration delay. (this would be so much easier if Battlefront had a GetProperty() function :u)
 			local shieldClasses = {
+						{ class = "cer_inf_centurion_shield", 				addShield = 14.0,	regenDelay = 3.4 }, 
+						{ class = "cer_inf_engineer_shield", 				addShield = 14.0,	regenDelay = 3.0 }, 
+						{ class = "cer_inf_nemesis_shield", 				addShield = 14.0,	regenDelay = 3.4 }, 
+						{ class = "cer_inf_phantom_shield", 				addShield = 22.0,	regenDelay = 3.0 }, 
 						{ class = "col_inf_captain_shield", 				addShield = 14.0,	regenDelay = 3.4 }, 
 						{ class = "col_inf_guardian_shield", 				addShield = 14.0,	regenDelay = 3.4 }, 
 						{ class = "col_inf_praetorian_shield", 				addShield = 22.0,	regenDelay = 3.4 }, 
