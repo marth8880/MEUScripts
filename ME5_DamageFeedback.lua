@@ -43,14 +43,12 @@ PrintLog("Entered")
 
 -- Ballistic weapons.
 local ballisticWeapons = {
+				"cer_weap_inf_heavy_phase_disruptor",
 				"cer_weap_inf_pistol_m5",
 				"cer_weap_inf_pistol_m6",
 				"cer_weap_inf_rifle_m96",
-				"cer_weap_inf_smg_m4",
 				"cer_weap_inf_smg_m25",
 				"cer_weap_inf_sniper_m13",
-				"cer_weap_inf_sniper_m92",
-				"cer_weap_inf_sniper_m98",
 
 				"col_weap_inf_rifle_col",
 				"col_weap_inf_rifle_col_colgen",
@@ -141,14 +139,12 @@ local ballisticWeapons = {
 
 -- CER ballistic weapons.
 local ballisticWeapons_CER = {
+				"cer_weap_inf_heavy_phase_disruptor",
 				"cer_weap_inf_pistol_m5",
 				"cer_weap_inf_pistol_m6",
 				"cer_weap_inf_rifle_m96",
-				"cer_weap_inf_smg_m4",
 				"cer_weap_inf_smg_m25",
 				"cer_weap_inf_sniper_m13",
-				"cer_weap_inf_sniper_m92",
-				"cer_weap_inf_sniper_m98",
 }
 
 -- COL ballistic weapons.
