@@ -47,6 +47,7 @@ local ballisticWeapons = {
 				"cer_weap_inf_pistol_m5",
 				"cer_weap_inf_pistol_m6",
 				"cer_weap_inf_rifle_m96",
+				"cer_weap_inf_smg_m4",
 				"cer_weap_inf_smg_m25",
 				"cer_weap_inf_sniper_m13",
 
@@ -143,6 +144,7 @@ local ballisticWeapons_CER = {
 				"cer_weap_inf_pistol_m5",
 				"cer_weap_inf_pistol_m6",
 				"cer_weap_inf_rifle_m96",
+				"cer_weap_inf_smg_m4",
 				"cer_weap_inf_smg_m25",
 				"cer_weap_inf_sniper_m13",
 }
@@ -409,6 +411,19 @@ function Init_PlayerDamageFeedback()
 		local bIsDamagerCorrectClass = false	-- Is the damager the correct class?
 		local damagerFaction = "none"			-- Which faction is the damager from?
 		
+		-- CER unit classes.
+		local cerClasses = {
+						"cer_inf_trooper",
+						"cer_inf_nemesis",
+						"cer_inf_nemesis_shield",
+						"cer_inf_engineer",
+						"cer_inf_engineer_shield",
+						"cer_inf_centurion",
+						"cer_inf_centurion_shield",
+						"cer_inf_phantom",
+						"cer_inf_phantom_shield",
+		}
+		
 		-- COL unit classes.
 		local colClasses = {
 						"col_inf_assassin",
@@ -469,9 +484,11 @@ function Init_PlayerDamageFeedback()
 		local rprClasses = {
 			"rpr_inf_cannibal",
 			"rpr_inf_marauder",
+			"rpr_inf_marauder_shield",
 			"rpr_inf_ravager",
 			"rpr_inf_brute",
 			"rpr_inf_banshee",
+			"rpr_inf_banshee_shield",
 		}
 		
 		-- SSV unit classes.
@@ -706,6 +723,19 @@ function Init_HitMarkerSounds()
 		local weaponType = 1					-- The weapon type. (1 = "normal", 2 = "sniper", 3 = "shotgun", 4 = "gps")
 		local bIsIncendiary = false				-- Is the weapon incendiary?
 		
+		-- CER unit classes.
+		local cerClasses = {
+						"cer_inf_trooper",
+						"cer_inf_nemesis",
+						"cer_inf_nemesis_shield",
+						"cer_inf_engineer",
+						"cer_inf_engineer_shield",
+						"cer_inf_centurion",
+						"cer_inf_centurion_shield",
+						"cer_inf_phantom",
+						"cer_inf_phantom_shield",
+		}
+		
 		-- COL unit classes.
 		local colClasses = {
 						"col_inf_assassin",
@@ -838,6 +868,7 @@ function Init_HitMarkerSounds()
 						"tur_bldg_tower",
 						
 						-- Vehicles & Deployable Turrets
+						"cer_bldg_engturret",
 						"gth_bldg_assaultdrone",
 						"gth_bldg_gethturret",
 						"gth_bldg_rocketdrone",
