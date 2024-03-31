@@ -1059,7 +1059,7 @@ function Load_CER()
 	
 	PrintLog("Load_CER(): Loading meshes/textures")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_CER_Char.lvl")
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_GTH_Misc.lvl")	-- TODO: replace with GFX_CER when it's ready
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_CER_Misc.lvl")
 	
 	PrintLog("Load_CER(): Loading unit/weapon classes")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\CON_CER.lvl")
