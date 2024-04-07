@@ -482,4 +482,33 @@ function Init_Weapon_SwarmerSuicide()
 	)
 end
 
+
+function Init_Weapon_ShieldPylon()
+	PrintLog("Init_Weapon_ShieldPylon(): Entered")
+	
+	if ME5_SideVar ~= 6 then return end
+	
+	-- Whenever an object is damaged
+	local onShieldPylonRegenHit = OnObjectDamage(
+		function(object, damager)
+			-- Exit immediately if any values are incorrect
+			if not object then return end
+			
+			-- Figure out the damager's weapon (and exit if it's nil)
+			local damagerWeapon = GetObjectLastHitWeaponClass(object)
+			if not damagerWeapon then return end
+			
+			if damagerWeapon == "cer_weap_bldg_shieldpylon_regen" then
+				local shieldRestoreAmount = 100
+				local objShieldCur, objShieldMax = GetObjectShield(object)
+				local newShield = math.clamp(objShieldCur + shieldRestoreAmount, 0, objShieldMax)
+				SetProperty(object, "CurShield", newShield)
+
+				local regenPfx = CreateEffect("com_sfx_shieldpylon_regen")
+				AttachEffectToMatrix(regenPfx, GetEntityMatrix(object))
+			end
+		end
+	)
+end
+
 PrintLog("Exited");

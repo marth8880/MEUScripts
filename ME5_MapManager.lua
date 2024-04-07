@@ -894,6 +894,7 @@ function MapManager:Proc_ScriptInit_Begin()
 	Init_Weapon_SeekerSuicide()
 	Init_Weapon_DispenseSwarmers()
 	Init_Weapon_SwarmerSuicide()
+	Init_Weapon_ShieldPylon()
 	
 	
 	if self.bIsArtilleryEnabled == true then

@@ -869,6 +869,7 @@ function Init_HitMarkerSounds()
 						
 						-- Vehicles & Deployable Turrets
 						"cer_bldg_engturret",
+						"cer_bldg_shieldpylon",
 						"gth_bldg_assaultdrone",
 						"gth_bldg_gethturret",
 						"gth_bldg_rocketdrone",

@@ -631,6 +631,9 @@ function Init_DeferredShieldRegen()
 				function(object, damager)
 					-- Exit immediately if there are incorrect values
 					if not object then return end
+					
+					-- Don't stop regen if we were hit by a regenerating weapon
+					if GetObjectLastHitWeaponClass(object) == "cer_weap_bldg_shieldpylon_regen" then return end
 				
 					-- Is the player the affected object?
 					if charUnit == GetEntityPtr(object) and bIsPlayerCorrectClass == true then
