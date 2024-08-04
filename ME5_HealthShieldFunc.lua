@@ -125,36 +125,34 @@ function Init_ShieldFunc()
 							PrintLog("ShieldRegen: Unit's current shields: "..curShields)
 						local newShields = curShields + 150
 						
+						local heroClasses = {
+							"col_hero_harbinger",
+							"gth_hero_prime_me2",
+							"gth_hero_prime_me3",
+							"ssv_hero_ashley",
+							"ssv_hero_jack",
+							"ssv_hero_kaidan",
+							"ssv_hero_legion",
+							"ssv_hero_samara",
+							"ssv_hero_shepard_adept",
+							"ssv_hero_shepard_engineer",
+							"ssv_hero_shepard_infiltrator",
+							"ssv_hero_shepard_sentinel",
+							"ssv_hero_shepard_soldier",
+							"ssv_hero_shepard_vanguard"
+						}
+
 						local isHeroMsg = "ShieldRegen: Unit is hero class; no shields added"
-						if GetEntityClass(charPtr) == FindEntityClass("col_hero_harbinger") then
-							print(isHeroMsg)
-						elseif GetEntityClass(charPtr) == FindEntityClass("gth_hero_prime_me2") then
-							print(isHeroMsg)
-						elseif GetEntityClass(charPtr) == FindEntityClass("gth_hero_prime_me3") then
-							print(isHeroMsg)
-						elseif GetEntityClass(charPtr) == FindEntityClass("ssv_hero_ashley") then
-							print(isHeroMsg)
-						elseif GetEntityClass(charPtr) == FindEntityClass("ssv_hero_jack") then
-							print(isHeroMsg)
-						elseif GetEntityClass(charPtr) == FindEntityClass("ssv_hero_kaidan") then
-							print(isHeroMsg)
-						elseif GetEntityClass(charPtr) == FindEntityClass("ssv_hero_legion") then
-							print(isHeroMsg)
-						elseif GetEntityClass(charPtr) == FindEntityClass("ssv_hero_samara") then
-							print(isHeroMsg)
-						elseif GetEntityClass(charPtr) == FindEntityClass("ssv_hero_shepard_adept") then
-							print(isHeroMsg)
-						elseif GetEntityClass(charPtr) == FindEntityClass("ssv_hero_shepard_engineer") then
-							print(isHeroMsg)
-						elseif GetEntityClass(charPtr) == FindEntityClass("ssv_hero_shepard_infiltrator") then
-							print(isHeroMsg)
-						elseif GetEntityClass(charPtr) == FindEntityClass("ssv_hero_shepard_sentinel") then
-							print(isHeroMsg)
-						elseif GetEntityClass(charPtr) == FindEntityClass("ssv_hero_shepard_soldier") then
-							print(isHeroMsg)
-						elseif GetEntityClass(charPtr) == FindEntityClass("ssv_hero_shepard_vanguard") then
-							print(isHeroMsg)
-						else
+						local isHero = false
+
+						for i in pairs(heroClasses) do
+							if GetEntityClass(charPtr) == FindEntityClass(heroClasses[i]) then
+								isHero = true
+								print(isHeroMsg)
+							end
+						end
+						
+						if isHero == false then
 							SetProperty(charPtr, "CurShield", newShields)
 							PrintLog("ShieldRegen: Unit's new shields: "..newShields)
 						
