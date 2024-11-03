@@ -79,7 +79,7 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 			-- External values
 			
 			LH_playerHealthThreshold = 0.35			-- Under what health percentage should the low health sound be active?
-			local soundDuration = 10.0				-- Duration of the low health sound in seconds
+			local soundDuration = 7.0				-- Duration of the low health sound in seconds
 			local soundRestartWaitTime = 30.0		-- Duration of time that must elapse between each play of the sound
 			local busEndGain	= 0.15				-- End gain for audio bus
 			local busFadeTime	= 1.0				-- Duration of bus fade in seconds
