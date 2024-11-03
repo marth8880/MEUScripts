@@ -501,6 +501,10 @@ function Init_Weapon_ShieldPylon()
 			if damagerWeapon == "cer_weap_bldg_shieldpylon_regen" then
 				local shieldRestoreAmount = 100
 				local objShieldCur, objShieldMax = GetObjectShield(object)
+
+				-- don't play the effect on units with full shields
+				if objShieldCur >= objShieldMax - 1 then return end
+
 				local newShield = math.clamp(objShieldCur + shieldRestoreAmount, 0, objShieldMax)
 				SetProperty(object, "CurShield", newShield)
 
