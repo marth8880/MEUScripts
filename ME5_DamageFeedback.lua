@@ -209,6 +209,7 @@ local ballisticWeapons_RPR = {
 				"rpr_weap_inf_rifle_armcannon",
 				"rpr_weap_inf_rifle_phaeston",
 				"rpr_weap_inf_ravager_cannons",
+				"rpr_weap_inf_sniper_krysae",
 }
 
 -- SSV ballistic weapons.
