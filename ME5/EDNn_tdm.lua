@@ -176,7 +176,7 @@ function ScriptInit()
 	
 	-- Stormy variant
 	if ME5_MapVarEDN == 1 then
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\SKY\\spa_sky.lvl", "red")
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\edn_sky.lvl", "red")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\EDN.lvl", "EDN_tdm_red")
 		
 		SetDenseEnvironment("false")
@@ -184,7 +184,7 @@ function ScriptInit()
 		
 	-- Cloudy variant
 	elseif ME5_MapVarEDN == 2 then
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\SKY\\spa_sky.lvl", "blue")
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\edn_sky.lvl", "blue")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\EDN.lvl", "EDN_tdm_day")
 		
 		SetNumBirdTypes(1)
@@ -196,7 +196,7 @@ function ScriptInit()
 		
 	-- Dusk variant
 	elseif ME5_MapVarEDN == 3 then
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\SKY\\spa_sky.lvl", "night")
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\edn_sky.lvl", "night")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\EDN.lvl", "EDN_tdm_night")
 		
 		SetDenseEnvironment("false")
