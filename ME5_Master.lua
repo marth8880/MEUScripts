@@ -208,7 +208,7 @@ MAX_GTH_HERO_COUNT			= 2		-- Number of Heretic Geth heroes.
 MAX_COL_HERO_COUNT			= 1		-- Number of Collector heroes.
 MAX_EVG_HERO_COUNT			= 2		-- Number of Evolved Geth heroes.
 MAX_SHEP_CLASS_COUNT		= 6		-- Number of Shepard's unit classes.
-MAX_SHEP_GENDER_COUNT		= 1		-- Number of Shepard's genders.
+MAX_SHEP_GENDER_COUNT		= 2		-- Number of Shepard's genders.
 
 MAX_FLAG_ITEM_COUNT				= 512		-- Number of FlagItem entities.
 MAX_PORTABLE_TURRET_COUNT		= 150		-- Number of PortableTurret entities.

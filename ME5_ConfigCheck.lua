@@ -352,6 +352,13 @@ else
 	ME5_ShepardGender = math.random(1, MAX_SHEP_GENDER_COUNT)
 end
 
+shepardGenderSuffix = ""
+femShepEnabled = false
+if ME5_ShepardGender == 2 then
+	shepardGenderSuffix = "_fem"
+	femShepEnabled = true
+end
+
 
 -- ======================
 --  SIDE VARIATION
@@ -574,31 +581,31 @@ end
 -- Determines Shepard's class.
 function DecideShepClass()
 	if ME5_ShepardClass == 1 then
-		PrintLog("DecideShepClass(): Deciding BroShep class... SOLDIER")
-		SSVHeroClass = "ssv_hero_shepard_soldier"
+		PrintLog("DecideShepClass(): Deciding Shepard class... SOLDIER")
+		SSVHeroClass = "ssv_hero_shepard_soldier"..shepardGenderSuffix
 		
 	elseif ME5_ShepardClass == 2 then
-		PrintLog("DecideShepClass(): Deciding BroShep class... INFILTRATOR")
-		SSVHeroClass = "ssv_hero_shepard_infiltrator"
+		PrintLog("DecideShepClass(): Deciding Shepard class... INFILTRATOR")
+		SSVHeroClass = "ssv_hero_shepard_infiltrator"..shepardGenderSuffix
 		
 	elseif ME5_ShepardClass == 3 then
-		PrintLog("DecideShepClass(): Deciding BroShep class... ENGINEER")
-		SSVHeroClass = "ssv_hero_shepard_engineer"
+		PrintLog("DecideShepClass(): Deciding Shepard class... ENGINEER")
+		SSVHeroClass = "ssv_hero_shepard_engineer"..shepardGenderSuffix
 		
 	elseif ME5_ShepardClass == 4 then
-		PrintLog("DecideShepClass(): Deciding BroShep class... ADEPT")
-		SSVHeroClass = "ssv_hero_shepard_adept"
+		PrintLog("DecideShepClass(): Deciding Shepard class... ADEPT")
+		SSVHeroClass = "ssv_hero_shepard_adept"..shepardGenderSuffix
 		
 	elseif ME5_ShepardClass == 5 then
-		PrintLog("DecideShepClass(): Deciding BroShep class... SENTINEL")
-		SSVHeroClass = "ssv_hero_shepard_sentinel"
+		PrintLog("DecideShepClass(): Deciding Shepard class... SENTINEL")
+		SSVHeroClass = "ssv_hero_shepard_sentinel"..shepardGenderSuffix
 		
 	elseif ME5_ShepardClass == 6 then
-		PrintLog("DecideShepClass(): Deciding BroShep class... VANGUARD")
-		SSVHeroClass = "ssv_hero_shepard_vanguard"
+		PrintLog("DecideShepClass(): Deciding Shepard class... VANGUARD")
+		SSVHeroClass = "ssv_hero_shepard_vanguard"..shepardGenderSuffix
 	else
 		PrintLog("DecideShepClass(): Error! ME5_ShepardClass is invalid! Defaulting to SOLDIER")
-		SSVHeroClass = "ssv_hero_shepard_soldier"
+		SSVHeroClass = "ssv_hero_shepard_soldier"..shepardGenderSuffix
 	end
 end
 

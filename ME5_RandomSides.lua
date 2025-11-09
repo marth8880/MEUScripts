@@ -99,27 +99,27 @@ function Setup_SSVxGTH()
 		-- SYSTEMS ALLIANCE HERO
 		if gCurrentMapManager.onlineHeroSSV == "shep_soldier" or gCurrentMapManager.onlineHeroSSV == 1 then
 			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Soldier")
-			SetHeroClass(REP, "ssv_hero_shepard_soldier")
+			SetHeroClass(REP, "ssv_hero_shepard_soldier"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_infiltrator" or gCurrentMapManager.onlineHeroSSV == 2 then
 			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Infiltrator")
-			SetHeroClass(REP, "ssv_hero_shepard_infiltrator")
+			SetHeroClass(REP, "ssv_hero_shepard_infiltrator"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_engineer" or gCurrentMapManager.onlineHeroSSV == 3 then
 			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Engineer")
-			SetHeroClass(REP, "ssv_hero_shepard_engineer")
+			SetHeroClass(REP, "ssv_hero_shepard_engineer"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_adept" or gCurrentMapManager.onlineHeroSSV == 4 then
 			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Adept")
-			SetHeroClass(REP, "ssv_hero_shepard_adept")
+			SetHeroClass(REP, "ssv_hero_shepard_adept"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_sentinel" or gCurrentMapManager.onlineHeroSSV == 5 then
 			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Sentinel")
-			SetHeroClass(REP, "ssv_hero_shepard_sentinel")
+			SetHeroClass(REP, "ssv_hero_shepard_sentinel"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_vanguard" or gCurrentMapManager.onlineHeroSSV == 6 then
 			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Vanguard")
-			SetHeroClass(REP, "ssv_hero_shepard_vanguard")
+			SetHeroClass(REP, "ssv_hero_shepard_vanguard"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "jack" or gCurrentMapManager.onlineHeroSSV == 7 then
 			PrintLog("Setup_SSVxGTH(): Online SSV hero is Jack")
@@ -174,27 +174,31 @@ function Setup_SSVxCOL()
 		-- SYSTEMS ALLIANCE HERO
 		if gCurrentMapManager.onlineHeroSSV == "shep_soldier" or gCurrentMapManager.onlineHeroSSV == 1 then
 			PrintLog("Setup_SSVxCOL(): Online SSV hero is Shepard Soldier")
-			SetHeroClass(REP, "ssv_hero_shepard_soldier")
+			SetHeroClass(REP, "ssv_hero_shepard_soldier"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_infiltrator" or gCurrentMapManager.onlineHeroSSV == 2 then
 			PrintLog("Setup_SSVxCOL(): Online SSV hero is Shepard Infiltrator")
-			SetHeroClass(REP, "ssv_hero_shepard_infiltrator")
+			SetHeroClass(REP, "ssv_hero_shepard_infiltrator"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_engineer" or gCurrentMapManager.onlineHeroSSV == 3 then
 			PrintLog("Setup_SSVxCOL(): Online SSV hero is Shepard Engineer")
-			SetHeroClass(REP, "ssv_hero_shepard_engineer")
+			SetHeroClass(REP, "ssv_hero_shepard_engineer"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_adept" or gCurrentMapManager.onlineHeroSSV == 4 then
 			PrintLog("Setup_SSVxCOL(): Online SSV hero is Shepard Adept")
-			SetHeroClass(REP, "ssv_hero_shepard_adept")
+			SetHeroClass(REP, "ssv_hero_shepard_adept"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_sentinel" or gCurrentMapManager.onlineHeroSSV == 5 then
 			PrintLog("Setup_SSVxCOL(): Online SSV hero is Shepard Sentinel")
-			SetHeroClass(REP, "ssv_hero_shepard_sentinel")
+			SetHeroClass(REP, "ssv_hero_shepard_sentinel"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_vanguard" or gCurrentMapManager.onlineHeroSSV == 6 then
 			PrintLog("Setup_SSVxCOL(): Online SSV hero is Shepard Vanguard")
-			SetHeroClass(REP, "ssv_hero_shepard_vanguard")
+			SetHeroClass(REP, "ssv_hero_shepard_vanguard"..shepardGenderSuffix)
+			
+		elseif gCurrentMapManager.onlineHeroSSV == "jack" or gCurrentMapManager.onlineHeroSSV == 7 then
+			PrintLog("Setup_SSVxGTH(): Online SSV hero is Jack")
+			SetHeroClass(REP, "ssv_hero_jack")
 		end
 		
 		-- COLLECTORS HERO
@@ -345,27 +349,31 @@ function Setup_SSVxRPR()
 		-- SYSTEMS ALLIANCE HERO
 		if gCurrentMapManager.onlineHeroSSV == "shep_soldier" or gCurrentMapManager.onlineHeroSSV == 1 then
 			PrintLog("Setup_SSVxRPR(): Online SSV hero is Shepard Soldier")
-			SetHeroClass(REP, "ssv_hero_shepard_soldier")
+			SetHeroClass(REP, "ssv_hero_shepard_soldier"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_infiltrator" or gCurrentMapManager.onlineHeroSSV == 2 then
 			PrintLog("Setup_SSVxRPR(): Online SSV hero is Shepard Infiltrator")
-			SetHeroClass(REP, "ssv_hero_shepard_infiltrator")
+			SetHeroClass(REP, "ssv_hero_shepard_infiltrator"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_engineer" or gCurrentMapManager.onlineHeroSSV == 3 then
 			PrintLog("Setup_SSVxRPR(): Online SSV hero is Shepard Engineer")
-			SetHeroClass(REP, "ssv_hero_shepard_engineer")
+			SetHeroClass(REP, "ssv_hero_shepard_engineer"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_adept" or gCurrentMapManager.onlineHeroSSV == 4 then
 			PrintLog("Setup_SSVxRPR(): Online SSV hero is Shepard Adept")
-			SetHeroClass(REP, "ssv_hero_shepard_adept")
+			SetHeroClass(REP, "ssv_hero_shepard_adept"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_sentinel" or gCurrentMapManager.onlineHeroSSV == 5 then
 			PrintLog("Setup_SSVxRPR(): Online SSV hero is Shepard Sentinel")
-			SetHeroClass(REP, "ssv_hero_shepard_sentinel")
+			SetHeroClass(REP, "ssv_hero_shepard_sentinel"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_vanguard" or gCurrentMapManager.onlineHeroSSV == 6 then
 			PrintLog("Setup_SSVxRPR(): Online SSV hero is Shepard Vanguard")
-			SetHeroClass(REP, "ssv_hero_shepard_vanguard")
+			SetHeroClass(REP, "ssv_hero_shepard_vanguard"..shepardGenderSuffix)
+			
+		elseif gCurrentMapManager.onlineHeroSSV == "jack" or gCurrentMapManager.onlineHeroSSV == 7 then
+			PrintLog("Setup_SSVxGTH(): Online SSV hero is Jack")
+			SetHeroClass(REP, "ssv_hero_jack")
 		end
 		
 		-- REAPERS HERO
@@ -412,27 +420,27 @@ function Setup_SSVxCER()
 		-- SYSTEMS ALLIANCE HERO
 		if gCurrentMapManager.onlineHeroSSV == "shep_soldier" or gCurrentMapManager.onlineHeroSSV == 1 then
 			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Soldier")
-			SetHeroClass(REP, "ssv_hero_shepard_soldier")
+			SetHeroClass(REP, "ssv_hero_shepard_soldier"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_infiltrator" or gCurrentMapManager.onlineHeroSSV == 2 then
 			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Infiltrator")
-			SetHeroClass(REP, "ssv_hero_shepard_infiltrator")
+			SetHeroClass(REP, "ssv_hero_shepard_infiltrator"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_engineer" or gCurrentMapManager.onlineHeroSSV == 3 then
 			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Engineer")
-			SetHeroClass(REP, "ssv_hero_shepard_engineer")
+			SetHeroClass(REP, "ssv_hero_shepard_engineer"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_adept" or gCurrentMapManager.onlineHeroSSV == 4 then
 			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Adept")
-			SetHeroClass(REP, "ssv_hero_shepard_adept")
+			SetHeroClass(REP, "ssv_hero_shepard_adept"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_sentinel" or gCurrentMapManager.onlineHeroSSV == 5 then
 			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Sentinel")
-			SetHeroClass(REP, "ssv_hero_shepard_sentinel")
+			SetHeroClass(REP, "ssv_hero_shepard_sentinel"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_vanguard" or gCurrentMapManager.onlineHeroSSV == 6 then
 			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Vanguard")
-			SetHeroClass(REP, "ssv_hero_shepard_vanguard")
+			SetHeroClass(REP, "ssv_hero_shepard_vanguard"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "jack" or gCurrentMapManager.onlineHeroSSV == 7 then
 			PrintLog("Setup_SSVxGTH(): Online SSV hero is Jack")
@@ -461,10 +469,10 @@ function Load_SSV(loadCooper)
 	
 	if (string.find(SSVHeroClass, "shepard") and (loadCooper == false)) then
 		PrintLog("Load_SSV(): Loading SHEPARD data files...")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSV_Shepard_NonStreaming.lvl")
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSV_Shepard_NonStreaming.lvl", "SFL_SSV_Shepard_NonStreaming_shepard"..shepardGenderSuffix)
 		
 		PrintLog("Load_SSV(): Loading sounds")
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSV_NonStreaming.lvl")
+		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_SSV_NonStreaming.lvl", "SFL_SSV_NonStreaming_shepard"..shepardGenderSuffix)
 		
 		PrintLog("Load_SSV(): Loading meshes/textures")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\GFX_SSV_Char.lvl", "units", "shepard")
@@ -1624,9 +1632,6 @@ function Setup_SSVxECL_xs()
 		YMIR = { "eclipse_inf_YMIR",1, 2},
 	}
 	}
-	
-	-- SetHeroClass(CIS, heroECL)
-	-- SetHeroClass(REP, heroSSV)
 end
 
 function Setup_GTHxECL_xs()
@@ -1664,9 +1669,6 @@ function Setup_GTHxECL_xs()
 		YMIR = { "eclipse_inf_YMIR",1, 2},
 	}
 	}
-	
-	-- SetHeroClass(CIS, heroECL)
-	-- SetHeroClass(REP, heroSSV)
 end
 
 function Setup_SSVxRPR_xs()
@@ -1759,9 +1761,6 @@ function Setup_SSVxCER_xs()
 		special   = { "cer_inf_phantom",3, 6},
 	}
 	}
-	
-	-- SetHeroClass(CIS, heroGTH)
-	-- SetHeroClass(REP, heroSSV)
 end
 
 function Setup_SSVxGTH_sm()
@@ -2015,9 +2014,6 @@ function Setup_SSVxECL_sm()
 		YMIR = { "eclipse_inf_YMIR",1, 2},
 	}
 	}
-	
-	-- SetHeroClass(CIS, heroECL)
-	-- SetHeroClass(REP, heroSSV)
 end
 
 function Setup_GTHxECL_sm()
@@ -2055,9 +2051,6 @@ function Setup_GTHxECL_sm()
 		YMIR = { "eclipse_inf_YMIR",1, 2},
 	}
 	}
-	
-	-- SetHeroClass(CIS, heroECL)
-	-- SetHeroClass(REP, heroSSV)
 end
 
 function Setup_SSVxRPR_sm()
@@ -2150,9 +2143,6 @@ function Setup_SSVxCER_sm()
 		special   = { "cer_inf_phantom",3, 6},
 	}
 	}
-	
-	-- SetHeroClass(CIS, heroGTH)
-	-- SetHeroClass(REP, heroSSV)
 end
 
 function Setup_SSVxGTH_med()
@@ -2413,9 +2403,6 @@ function Setup_SSVxECL_med()
 		YMIR = { "eclipse_inf_YMIR",1, 3},
 	}
 	}
-	
-	-- SetHeroClass(CIS, heroECL)
-	-- SetHeroClass(REP, heroSSV)
 end
 
 function Setup_GTHxECL_med()
@@ -2453,9 +2440,6 @@ function Setup_GTHxECL_med()
 		YMIR = { "eclipse_inf_YMIR",1, 3},
 	}
 	}
-	
-	-- SetHeroClass(CIS, heroECL)
-	-- SetHeroClass(REP, heroSSV)
 end
 
 function Setup_SSVxRPR_med()
@@ -2548,9 +2532,6 @@ function Setup_SSVxCER_med()
 			special   = { cer_inf_phantom,3, 7},
 		}
 	}
-	
-	-- SetHeroClass(CIS, heroGTH)
-	-- SetHeroClass(REP, heroSSV)
 end
 
 function Setup_SSVxGTH_lg()
@@ -2808,9 +2789,6 @@ function Setup_SSVxECL_lg()
 		YMIR = { "eclipse_inf_YMIR",1, 3},
 	}
 	}
-	
-	-- SetHeroClass(CIS, heroECL)
-	-- SetHeroClass(REP, heroSSV)
 end
 
 function Setup_GTHxECL_lg()
@@ -2848,9 +2826,6 @@ function Setup_GTHxECL_lg()
 		YMIR = { "eclipse_inf_YMIR",1, 3},
 	}
 	}
-	
-	-- SetHeroClass(CIS, heroECL)
-	-- SetHeroClass(REP, heroSSV)
 end
 
 function Setup_SSVxRPR_lg()
@@ -2943,9 +2918,6 @@ function Setup_SSVxCER_lg()
 		special   = { "cer_inf_phantom",5, 8},
 	}
 	}
-	
-	-- SetHeroClass(CIS, heroGTH)
-	-- SetHeroClass(REP, heroSSV)
 end
 
 function Setup_SSVxGTH_xl()

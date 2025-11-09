@@ -515,12 +515,12 @@ function Init_PlayerDamageFeedback()
 						"ssv_inf_cooper_soldier",
 						"ssv_inf_cooper_vanguard",
 						
-						"ssv_hero_shepard_soldier",
-						"ssv_hero_shepard_infiltrator",
-						"ssv_hero_shepard_engineer",
-						"ssv_hero_shepard_adept",
-						"ssv_hero_shepard_sentinel",
-						"ssv_hero_shepard_vanguard",
+						"ssv_hero_shepard_soldier"..shepardGenderSuffix,
+						"ssv_hero_shepard_infiltrator"..shepardGenderSuffix,
+						"ssv_hero_shepard_engineer"..shepardGenderSuffix,
+						"ssv_hero_shepard_adept"..shepardGenderSuffix,
+						"ssv_hero_shepard_sentinel"..shepardGenderSuffix,
+						"ssv_hero_shepard_vanguard"..shepardGenderSuffix,
 						
 						"ssv_hero_jack",
 		}

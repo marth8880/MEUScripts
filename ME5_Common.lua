@@ -126,6 +126,20 @@ function math.clamp(n, low, high)
 	end
 end
 
+function math.maprange(value, inRangeA, inRangeB, outRangeA, outRangeB)
+    return outRangeA + (value - inRangeA) * (outRangeB - outRangeA) / (inRangeB - inRangeA)
+end
+
+function math.round(a)
+	local intPart = math.floor(a)
+	local decimal = a - intPart
+	if decimal < 0.5 then
+		return math.floor(a)
+	elseif decimal >= 0.5 then
+		return math.ceil(a)
+	end
+end
+
 -- ********************************
 -- TABLE FUNCTIONS
 -- ********************************

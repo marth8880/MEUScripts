@@ -936,7 +936,12 @@ function OpenVoiceStreams(bCalledFromLowHealth)
 	-- Get the world ID in case we're a campaign map
 	local world = string.lower(GetWorldFilename())
 	
+	local shepStreamName = "vo_quick_broshep_streaming"
+	if femShepEnabled == true then
+		shepStreamName = "vo_quick_femshep_streaming"
+	end
 	gVoiceStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "vo_quick_streaming")
+	AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", shepStreamName, gVoiceStream)
 	AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "vo_slow_streaming", gVoiceStream)
 	
 	-- Append campaign VOs
