@@ -154,7 +154,7 @@ MapManager = {
 	artilleryNodes = nil,				-- Two-dimensional array listing nodes to strike at. Set to nil or leave blank to disable artillery strikes. 
 										--  First column is path names, second column is path node IDs.
 	artilleryStrikeInitDelay = 60.0,	-- The length of time in seconds to wait before the first strike occurs. Set to 0 to disable initial delay completely. Default value: 60.0
-	artilleryStrikeDelay = 35.0,		-- The length of time in seconds to wait before each strike occurs. Value must be >= 10.0. Default value: 35.0
+	artilleryStrikeDelay = 83.5,		-- The length of time in seconds to wait before each strike occurs. Value must be >= 10.0. Default value: 35.0
 	terrainType = nil,					-- Type of terrain in the map. Used for determining which artillery debris textures to load.
 	
 	bDebug = false,						-- Whether or not to print/display debug messages.
