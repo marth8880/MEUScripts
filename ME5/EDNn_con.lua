@@ -254,6 +254,10 @@ function ScriptInit()
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\edn_sky.lvl", "night")
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ME5\\EDN.lvl", "EDN_conquest_night")
 		
+		SetNumBirdTypes(1)
+		SetBirdType(0,1.0,"bird")
+		SetBirdFlockMinHeight(50);
+		
 		SetDenseEnvironment("false")
 		SetAIViewMultiplier(0.65)
 	end
