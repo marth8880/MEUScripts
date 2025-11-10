@@ -216,6 +216,23 @@ end
 
 
 -- ======================
+--  CERBERUS HERO CLASS
+-- ======================
+if CheckSetting("cfg_HeroClassCER") == 0 then
+	PrintLog("CER Hero Class is RANDOM")
+	ME5_HeroClassCER = math.random(1, MAX_CER_HERO_COUNT)
+	
+elseif CheckSetting("cfg_HeroClassCER") == 1 then
+	PrintLog("CER Hero Class is GETH PRIME (ME2)")
+	ME5_HeroClassCER = 1
+	
+else
+	PrintLog("Error! ME5_HeroClassCER flag not found or invalid! Defaulting to RANDOM")
+	ME5_HeroClassCER = math.random(1, MAX_CER_HERO_COUNT)
+end
+
+
+-- ======================
 --  COLLECTOR HERO CLASS
 -- ======================
 if CheckSetting("cfg_HeroClassCOL") == 0 then
@@ -271,6 +288,23 @@ elseif CheckSetting("cfg_HeroClassGTH") == 2 then
 else
 	PrintLog("Error! ME5_HeroClassGTH flag not found or invalid! Defaulting to RANDOM")
 	ME5_HeroClassGTH = math.random(1, MAX_GTH_HERO_COUNT)
+end
+
+
+-- ======================
+--  REAPERS HERO CLASS
+-- ======================
+if CheckSetting("cfg_HeroClassRPR") == 0 then
+	PrintLog("RPR Hero Class is RANDOM")
+	ME5_HeroClassRPR = math.random(1, MAX_RPR_HERO_COUNT)
+	
+elseif CheckSetting("cfg_HeroClassRPR") == 1 then
+	PrintLog("RPR Hero Class is POSSESSED BANSHEE")
+	ME5_HeroClassRPR = 1
+	
+else
+	PrintLog("Error! ME5_HeroClassRPR flag not found or invalid! Defaulting to RANDOM")
+	ME5_HeroClassRPR = math.random(1, MAX_RPR_HERO_COUNT)
 end
 
 
@@ -673,11 +707,35 @@ function DecideEVGHeroClass()
 	end
 end
 
+-- Determines the Reaper Forces' hero unit.
+function DecideRPRHeroClass()
+	if ME5_HeroClassRPR == 1 then
+		PrintLog("DecideRPRHeroClass(): Deciding RPR hero class... POSSESSED BANSHEE")
+		RPRHeroClass = "rpr_hero_banshee"
+	else
+		PrintLog("DecideRPRHeroClass(): Error! ME5_HeroClassRPR value is invalid! Defaulting to POSSESSED BANSHEE")
+		RPRHeroClass = "rpr_hero_banshee"
+	end
+end
+
+-- Determines Cerberus's hero unit.
+function DecideCERHeroClass()
+	if ME5_HeroClassCER == 1 then
+		PrintLog("DecideCERHeroClass(): Deciding CER hero class... KAI LENG")
+		CERHeroClass = "cer_hero_kaileng"
+	else
+		PrintLog("DecideEVGHeroClass(): Error! ME5_HeroClassCER value is invalid! Defaulting to KAI LENG")
+		CERHeroClass = "cer_hero_kaileng"
+	end
+end
+
 if not ScriptCB_InMultiplayer() then
 	DecideSSVHeroClass()
 	DecideGTHHeroClass()
 	DecideCOLHeroClass()
 	DecideEVGHeroClass()
+	DecideRPRHeroClass()
+	DecideCERHeroClass()
 end
 
 PrintLog("Exited")

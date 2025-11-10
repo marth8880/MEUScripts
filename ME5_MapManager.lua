@@ -219,6 +219,14 @@ function MapManager:Init()
 		PrintLog("Init(): WARNING: onlineHeroEVG wasn't specified! Defaulting to gethprime_me3")
 		self.onlineHeroEVG = "gethprime_me3"
 	end
+	if self.onlineHeroRPR == nil then
+		PrintLog("Init(): WARNING: onlineHeroRPR wasn't specified! Defaulting to banshee")
+		self.onlineHeroRPR = "banshee"
+	end
+	if self.onlineHeroCER == nil then
+		PrintLog("Init(): WARNING: onlineHeroCER wasn't specified! Defaulting to kaileng")
+		self.onlineHeroCER = "kaileng"
+	end
 	
 	-- AI heroes and local allies
 	if self.heroSupportCPs == {} or self.heroSupportCPs == nil then
@@ -1320,11 +1328,11 @@ function MapManager:Init_SidesPostLoad_SSVxCER()
 		if not ScriptCB_InMultiplayer() then
 			if ME5_AIHeroes == 0 then
 				SetHeroClass(REP, SSVHeroClass)
-				-- SetHeroClass(CIS, CERHeroClass)
+				SetHeroClass(CIS, CERHeroClass)
 			elseif ME5_AIHeroes == 1 then
 				herosupport = AIHeroSupport:New{AIATTHeroHealth = 3000, AIDEFHeroHealth = 3000, gameMode = "NonConquest",}
 				herosupport:SetHeroClass(REP, SSVHeroClass)
-				-- herosupport:SetHeroClass(CIS, CERHeroClass)
+				herosupport:SetHeroClass(CIS, CERHeroClass)
 				
 				for cp in ipairs(self.heroSupportCPs) do
 					PrintLog("Init_SidesPostLoad_SSVxCER(): Setting hero spawn cp, path = ", self.heroSupportCPs[cp][1], self.heroSupportCPs[cp][2])

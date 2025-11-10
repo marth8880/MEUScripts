@@ -419,43 +419,39 @@ function Setup_SSVxCER()
 	if ScriptCB_InMultiplayer() then
 		-- SYSTEMS ALLIANCE HERO
 		if gCurrentMapManager.onlineHeroSSV == "shep_soldier" or gCurrentMapManager.onlineHeroSSV == 1 then
-			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Soldier")
+			PrintLog("Setup_SSVxCER(): Online SSV hero is Shepard Soldier")
 			SetHeroClass(REP, "ssv_hero_shepard_soldier"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_infiltrator" or gCurrentMapManager.onlineHeroSSV == 2 then
-			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Infiltrator")
+			PrintLog("Setup_SSVxCER(): Online SSV hero is Shepard Infiltrator")
 			SetHeroClass(REP, "ssv_hero_shepard_infiltrator"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_engineer" or gCurrentMapManager.onlineHeroSSV == 3 then
-			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Engineer")
+			PrintLog("Setup_SSVxCER(): Online SSV hero is Shepard Engineer")
 			SetHeroClass(REP, "ssv_hero_shepard_engineer"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_adept" or gCurrentMapManager.onlineHeroSSV == 4 then
-			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Adept")
+			PrintLog("Setup_SSVxCER(): Online SSV hero is Shepard Adept")
 			SetHeroClass(REP, "ssv_hero_shepard_adept"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_sentinel" or gCurrentMapManager.onlineHeroSSV == 5 then
-			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Sentinel")
+			PrintLog("Setup_SSVxCER(): Online SSV hero is Shepard Sentinel")
 			SetHeroClass(REP, "ssv_hero_shepard_sentinel"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "shep_vanguard" or gCurrentMapManager.onlineHeroSSV == 6 then
-			PrintLog("Setup_SSVxGTH(): Online SSV hero is Shepard Vanguard")
+			PrintLog("Setup_SSVxCER(): Online SSV hero is Shepard Vanguard")
 			SetHeroClass(REP, "ssv_hero_shepard_vanguard"..shepardGenderSuffix)
 			
 		elseif gCurrentMapManager.onlineHeroSSV == "jack" or gCurrentMapManager.onlineHeroSSV == 7 then
-			PrintLog("Setup_SSVxGTH(): Online SSV hero is Jack")
+			PrintLog("Setup_SSVxCER(): Online SSV hero is Jack")
 			SetHeroClass(REP, "ssv_hero_jack")
 		end
 		
 		-- CERBERUS HERO
-		-- if gCurrentMapManager.onlineHeroGTH == "gethprime_me2" or gCurrentMapManager.onlineHeroGTH == 1 then
-		-- 	PrintLog("Setup_SSVxGTH(): Online GTH hero is ME2 Geth Prime")
-		-- 	SetHeroClass(CIS, "gth_hero_prime_me2")
-			
-		-- elseif gCurrentMapManager.onlineHeroGTH == "gethprime_me3" or gCurrentMapManager.onlineHeroGTH == 2 then
-		-- 	PrintLog("Setup_SSVxGTH(): Online GTH hero is ME3 Geth Prime")
-		-- 	SetHeroClass(CIS, "gth_hero_prime_me3")
-		-- end
+		if gCurrentMapManager.onlineHeroCER == "kaileng" or gCurrentMapManager.onlineHeroCER == 1 then
+			PrintLog("Setup_SSVxCER(): Online CER hero is Kai Leng")
+			SetHeroClass(CIS, "cer_hero_kaileng")
+		end
 	end
 end
 
@@ -1755,10 +1751,10 @@ function Setup_SSVxCER_xs()
 		units = 10,
 		reinforcements = 150,
 		soldier  = { "cer_inf_trooper",8, 12},
-		sniper  = { "cer_inf_nemesis",6, 9},
-		engineer = { "cer_inf_engineer",6, 9},
-		officer   = { "cer_inf_centurion",5, 8},
-		special   = { "cer_inf_phantom",3, 6},
+		sniper  = { cer_inf_nemesis,6, 9},
+		engineer = { cer_inf_engineer,6, 9},
+		officer   = { cer_inf_centurion,5, 8},
+		special   = { cer_inf_phantom,3, 6},
 	}
 	}
 end
@@ -2137,10 +2133,10 @@ function Setup_SSVxCER_sm()
 		units = 16,
 		reinforcements = 150,
 		soldier  = { "cer_inf_trooper",8, 12},
-		sniper  = { "cer_inf_nemesis",6, 9},
-		engineer = { "cer_inf_engineer",6, 9},
-		officer   = { "cer_inf_centurion",5, 8},
-		special   = { "cer_inf_phantom",3, 6},
+		sniper  = { cer_inf_nemesis,6, 9},
+		engineer = { cer_inf_engineer,6, 9},
+		officer   = { cer_inf_centurion,5, 8},
+		special   = { cer_inf_phantom,3, 6},
 	}
 	}
 end
@@ -2912,10 +2908,10 @@ function Setup_SSVxCER_lg()
 		units = 32,
 		reinforcements = 200,
 		soldier  = { "cer_inf_trooper",8, 12},
-		sniper  = { "cer_inf_nemesis",6, 9},
-		engineer = { "cer_inf_engineer",6, 9},
-		officer   = { "cer_inf_centurion",5, 8},
-		special   = { "cer_inf_phantom",5, 8},
+		sniper  = { cer_inf_nemesis,6, 9},
+		engineer = { cer_inf_engineer,6, 9},
+		officer   = { cer_inf_centurion,5, 8},
+		special   = { cer_inf_phantom,5, 8},
 	}
 	}
 end
@@ -3200,6 +3196,38 @@ function Setup_SSVxRPR_xl()
 	SetTeamAsNeutral(SwarmerTeam,HuskTeam)
 	
 	-- AllowAISpawn(SwarmerTeam, false)
+end
+
+function Setup_SSVxCER_xl()
+	PrintLog("Load/setup SSV versus CER - level mode:xl")
+	
+	--SetTeamAggressiveness(REP,(0.99))
+	--SetTeamAggressiveness(CIS,(0.99))
+	
+	SetupTeams{
+	rep = {
+		team = REP,
+		units = 36,
+		reinforcements = 200,
+		soldier  = { ssv_inf_soldier,6, 15},
+		sniper  = { ssv_inf_infiltrator,6, 15},
+		adept = { ssv_inf_adept,6, 15},
+		engineer   = { ssv_inf_engineer,6, 15},
+		sentinel = { ssv_inf_sentinel,6, 15},
+		vanguard = { ssv_inf_vanguard,6, 15},
+	},
+	
+	imp = {
+		team = CIS,
+		units = 36,
+		reinforcements = 200,
+		soldier  = { "cer_inf_trooper",8, 15},
+		sniper  = { cer_inf_nemesis,6, 13},
+		engineer = { cer_inf_engineer,6, 13},
+		officer   = { cer_inf_centurion,5, 10},
+		special   = { cer_inf_phantom,5, 9},
+	}
+	}
 end
 
 function Setup_SSVxSUN_spa()
