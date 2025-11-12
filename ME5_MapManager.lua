@@ -655,11 +655,8 @@ function MapManager:Proc_ScriptInit_Begin()
 	-- Load master sound LVL, includes sound property templates, buses, etc.
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\ME5.lvl")
 	
-	-- [DEPRECATED 31-OCT-2013] Load music sound LVL, includes all music stuff
-	--ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_Streaming.lvl")
-	
-	-- Load hero music sound LVL, includes all hero music
-	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_h_Streaming.lvl")
+	-- Load music sound LVL, includes all music stuff
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_Streaming.lvl")
 	
 	-- Load voice over sound LVL, includes all streamable voice overs, excludes pain/death chatter
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "SFL_vo_Streaming_shepard"..shepardGenderSuffix)
@@ -1094,15 +1091,30 @@ function MapManager:Proc_ScriptInit_MusicSetup()
 		
 	elseif string.sub(variation,1,1) == "7" then
 		PrintLog("Proc_ScriptInit_MusicSetup(): Going with Music07")
-		Music07()
+		if string.len(variation) > 1 then
+			-- Set up the specified music variation
+			Music07(string.sub(variation,3))
+		else
+			Music07()
+		end
 		
 	elseif string.sub(variation,1,1) == "8" then
 		PrintLog("Proc_ScriptInit_MusicSetup(): Going with Music08")
-		Music08()
+		if string.len(variation) > 1 then
+			-- Set up the specified music variation
+			Music08(string.sub(variation,3))
+		else
+			Music08()
+		end
 		
 	elseif string.sub(variation,1,1) == "9" then
 		PrintLog("Proc_ScriptInit_MusicSetup(): Going with Music09")
-		Music09()
+		if string.len(variation) > 1 then
+			-- Set up the specified music variation
+			Music09(string.sub(variation,3))
+		else
+			Music09()
+		end
 	else
 		-- An invalid variation was selected, so default to variation 1
 		Music01()

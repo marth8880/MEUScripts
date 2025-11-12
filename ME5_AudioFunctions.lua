@@ -35,65 +35,53 @@ PrintLog("Entered")
 -- @param #int variation	The numeric ID of the music variation we're loading.
 -- 
 function OpenMusicStreams(variation)
-	local fileName, streamName
+	local streamName
 	
 	if variation == 1 then
 		PrintLog("OpenMusicStreams(): Loading Music Variation 01")
-		fileName = "SFL_MUS_01_Streaming"
 		streamName = "ME5n_music_01"
 		
 	elseif variation == 2 then
 		PrintLog("OpenMusicStreams(): Loading Music Variation 02")
-		fileName = "SFL_MUS_02_Streaming"
 		streamName = "ME5n_music_02"
 		
 	elseif variation == 3 then
 		PrintLog("OpenMusicStreams(): Loading Music Variation 03")
-		fileName = "SFL_MUS_03_Streaming"
 		streamName = "ME5n_music_03"
 		
 	elseif variation == 4 then
 		PrintLog("OpenMusicStreams(): Loading Music Variation 04")
-		fileName = "SFL_MUS_04_Streaming"
 		streamName = "ME5n_music_04"
 		
 	elseif variation == 5 then
 		PrintLog("OpenMusicStreams(): Loading Music Variation 05")
-		fileName = "SFL_MUS_05_Streaming"
 		streamName = "ME5n_music_05"
 		
 	elseif variation == 6 then
 		PrintLog("OpenMusicStreams(): Loading Music Variation 06")
-		fileName = "SFL_MUS_06_Streaming"
 		streamName = "ME5n_music_06"
 		
 	elseif variation == 7 then
 		PrintLog("OpenMusicStreams(): Loading Music Variation 07")
-		fileName = "SFL_MUS_07_Streaming"
 		streamName = "ME5n_music_07"
 		
 	elseif variation == 8 then
 		PrintLog("OpenMusicStreams(): Loading Music Variation 08")
-		fileName = "SFL_MUS_08_Streaming"
 		streamName = "ME5n_music_08"
 		
 	elseif variation == 9 then
 		PrintLog("OpenMusicStreams(): Loading Music Variation 09")
-		fileName = "SFL_MUS_09_Streaming"
 		streamName = "ME5n_music_09"
 		
 	else
 		PrintLog("OpenMusicStreams(): Error! No Music Variation is decided!")
 	end
 	
-	assert(fileName, "ME5_AudioFunctions.OpenMusicStreams(): Error! fileName was not specified!")
 	assert(streamName, "ME5_AudioFunctions.OpenMusicStreams(): Error! streamName was not specified!")
 	
-	if fileName ~= nil and streamName ~= nil then
-		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\"..fileName..".lvl")
-		gMusicStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\"..fileName..".lvl", streamName)
-		--AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\"..fileName..".lvl", "ME5n_music_h", gMusicStream)
-		OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_h_Streaming.lvl", "ME5n_music_h")
+	if streamName ~= nil then
+		gMusicStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_Streaming.lvl", streamName)
+		AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_Streaming.lvl", "ME5n_music_h", gMusicStream)
 	end
 end
 
@@ -611,7 +599,7 @@ end
 ---
 -- Cerberus music from ME3.
 -- 
-function Music07()
+function Music07(variation)
 	OpenMusicStreams(7)
 	
 	if gCurrentMapManager.gameMode ~= "1flag" and gCurrentMapManager.gameMode ~= "ctf" then
@@ -703,7 +691,7 @@ end
 ---
 -- Reaper music from ME3.
 -- 
-function Music08()
+function Music08(variation)
 	OpenMusicStreams(8)
 	
 	if gCurrentMapManager.gameMode ~= "1flag" and gCurrentMapManager.gameMode ~= "ctf" then
@@ -744,7 +732,7 @@ end
 ---
 -- Evolved Geth music, taken from Far Cry 3's OST.
 -- 
-function Music09()
+function Music09(variation)
 	OpenMusicStreams(9)
 	
 	if gCurrentMapManager.gameMode ~= "1flag" and gCurrentMapManager.gameMode ~= "ctf" then
