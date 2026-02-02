@@ -82,6 +82,7 @@ function OpenMusicStreams(variation)
 	if streamName ~= nil then
 		gMusicStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_Streaming.lvl", streamName)
 		AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_Streaming.lvl", "ME5n_music_h", gMusicStream)
+		AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_MUS_Streaming.lvl", "ME5n_music_winlose", gMusicStream)
 	end
 end
 
@@ -603,7 +604,7 @@ function Music07(variation)
 	OpenMusicStreams(7)
 	
 	if gCurrentMapManager.gameMode ~= "1flag" and gCurrentMapManager.gameMode ~= "ctf" then
-		local decideVar
+		local decideVar = 0
 		
 		if not variation then
 			decideVar = math.random(1,3)
@@ -662,11 +663,6 @@ function Music07(variation)
 				SetAmbientMusic(CIS, 0.1, "ssv_amb_07c_end",    2,1)
 			end
 		end
-		
-		SetVictoryMusic(REP, "ssv_amb_01_victory")
-		SetDefeatMusic (REP, "ssv_amb_01_defeat")
-		SetVictoryMusic(CIS, "ssv_amb_01_victory")
-		SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 	else
 		function Init_AmbientMusic()
 			SetAmbientMusic(REP, 1.0, "ssv_amb_07_start",  0,1)
@@ -676,16 +672,16 @@ function Music07(variation)
 			SetAmbientMusic(CIS, 0.75, "ssv_amb_07_mid",    1,1)
 			SetAmbientMusic(CIS, 0.25, "ssv_amb_07_end",    2,1)
 		end
-		
-		SetVictoryMusic(REP, "ssv_amb_01_victory")
-		SetDefeatMusic (REP, "ssv_amb_01_defeat")
-		SetVictoryMusic(CIS, "ssv_amb_01_victory")
-		SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 	end
 	
 	if Init_AmbientMusic then
 		Init_AmbientMusic()
 	end
+	
+	SetVictoryMusic(REP, "ssv_amb_01_victory")
+	SetDefeatMusic (REP, "ssv_amb_01_defeat")
+	SetVictoryMusic(CIS, "ssv_amb_01_victory")
+	SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 end
 
 ---
@@ -1214,7 +1210,10 @@ function Init_HeroMusic()
 						if Iamhuman == nil then return end
 						local charClass = GetEntityClass(Iamhuman)
 						
-						if charClass == FindEntityClass(SSVHeroClass) or charClass == FindEntityClass(GTHHeroClass) or charClass == FindEntityClass(COLHeroClass) or charClass == FindEntityClass(EVGHeroClass) then
+						if charClass == FindEntityClass(SSVHeroClass) 
+						or charClass == FindEntityClass(GTHHeroClass) 
+						or charClass == FindEntityClass(COLHeroClass) 
+						or charClass == FindEntityClass(EVGHeroClass) then
 							print("Init_HeroMusic.playerdeath(): Player is hero")
 							
 							ScriptCB_StopInGameMusic("hero_shepard_music")
