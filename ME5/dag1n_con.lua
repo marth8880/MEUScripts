@@ -17,7 +17,7 @@ manager = MapManager:New{
 	
 	-- In-game music
 	musicVariation_SSVxGTH = "1",
-	musicVariation_SSVxCOL = "5",
+	musicVariation_SSVxCOL = {"5_longwalk", "5_horizon"},
 	musicVariation_EVGxGTH = "9",
 	musicVariation_EVGxCOL = "9",
 	musicVariation_SSVxRPR = "5_mahavid",

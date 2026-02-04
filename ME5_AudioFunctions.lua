@@ -903,6 +903,10 @@ end
 -- 
 function OpenVoiceStreams(bCalledFromLowHealth)
 	PrintLog("OpenVoiceStreams(): Entered")
+
+	if hasOpenedVoiceStreams == true then return end
+
+	hasOpenedVoiceStreams = true
 	
 	if bVoiceStreamKeepClosed == true then
 		PrintLog("OpenVoiceStreams(): ERROR! Can't open voice streams while bVoiceStreamKeepClosed is true!")
@@ -924,10 +928,13 @@ function OpenVoiceStreams(bCalledFromLowHealth)
 	if femShepEnabled == true then
 		shepStreamName = "vo_quick_femshep_streaming"
 	end
+	
 	gVoiceStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "vo_quick_streaming")
 	AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", shepStreamName, gVoiceStream)
 	AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "vo_slow_streaming", gVoiceStream)
-	
+
+	lowHealthStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl", "lowhealth_streaming")
+
 	-- Append campaign VOs
 	if world == "eur" then
 		AudioStreamAppendSegments("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_vo_Streaming.lvl", "eur_objective_vo_slow", gVoiceStream)
@@ -947,14 +954,14 @@ end
 -- 
 function CloseVoiceStreams()
 	PrintLog("CloseVoiceStreams(): Entered")
-	
-	if gVoiceStream ~= nil then
-		PrintLog("CloseVoiceStreams(): gVoiceStream index:", gVoiceStream)
-		StopAudioStream(gVoiceStream, 1)
-		gVoiceStream = nil
-	else
-		PrintLog("CloseVoiceStreams(): gVoiceStream is nil! Value:", gVoiceStream)
-	end
+
+	-- if gVoiceStream ~= nil then
+	-- 	PrintLog("CloseVoiceStreams(): gVoiceStream index:", gVoiceStream)
+	-- 	StopAudioStream(gVoiceStream, 1)
+	-- 	gVoiceStream = nil
+	-- else
+	-- 	PrintLog("CloseVoiceStreams(): gVoiceStream is nil! Value:", gVoiceStream)
+	-- end
 end
 
 ---

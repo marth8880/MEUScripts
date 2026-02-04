@@ -250,9 +250,9 @@ function StartNextStage()
 		end
 		
 		-- Stop the low health sound if it's playing
-		if LH_bIsLowHealthSoundPlaying == true then
-			StopLowHealthSound(true)
-		end
+		-- if LH_bIsLowHealthSoundPlaying == true then
+		-- 	StopLowHealthSound(true)
+		-- end
 		
 		ScriptCB_SndPlaySound(lvlutionStages[lvlutionCurStage].vo)
 		ShowMessageText(lvlutionStages[lvlutionCurStage].msg)

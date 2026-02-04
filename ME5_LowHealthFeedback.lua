@@ -235,7 +235,9 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 				PrintLog("Init_LowHealthFeedback.StartLowHealthSound(): streamID, segmentID, gain:", streamID, segmentID, gain)
 				
 				-- Play low health sound stream
-				lowHealthStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl", "lowhealth_streaming")
+				-- if not lowHealthStream then
+				-- 	lowHealthStream = OpenAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl", "lowhealth_streaming")
+				-- end
 				PrintLog("Init_LowHealthFeedback.StartLowHealthSound(): lowHealthStream index:", lowHealthStream)
 				
 				lowhealthStreamIndex = PlayAudioStream("..\\..\\addon\\ME5\\data\\_LVL_PC\\sound\\SFL_LowHealth_Streaming.lvl", 
@@ -317,7 +319,7 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 					if lowhealthStreamIndex ~= nil then
 						--StopTimer(loopLowHealthSound_Timer)
 						
-						StopAudioStream(lowhealthStreamIndex, 1)
+						StopAudioStream(lowhealthStreamIndex, 0)
 						lowhealthStreamIndex = nil
 					else
 						PrintLog("Init_LowHealthFeedback.stopLowHealthSound_TimerElapse(): WARNING! lowhealthStreamIndex is nil! Value:", lowhealthStreamIndex)
@@ -348,7 +350,7 @@ function Init_LowHealthFeedback()	-- TODO: fix low health vignette
 					if lowhealthStreamIndex ~= nil then
 						--StopTimer(loopLowHealthSound_Timer)
 						
-						StopAudioStream(lowhealthStreamIndex, 1)
+						StopAudioStream(lowhealthStreamIndex, 0)
 						lowhealthStreamIndex = nil
 					else
 						PrintLog("Init_LowHealthFeedback.stopLowHealthSound_TimerElapse(): WARNING! lowhealthStreamIndex is nil! Value:", lowhealthStreamIndex)
