@@ -21,6 +21,7 @@ manager = MapManager:New{
 	musicVariation_EVGxGTH = "9",
 	musicVariation_EVGxCOL = "9",
 	musicVariation_SSVxRPR = {"8", "5_mahavid"},
+    musicVariation_SSVxCER = {"7_1", "7_2"},
 	
 	-- Online matches
 	onlineSideVar = "SSVxGTH",

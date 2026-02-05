@@ -22,6 +22,7 @@ manager = MapManager:New{
 	musicVariation_EVGxGTH = "9",		-- Music variation to use for EVGxGTH matches.
 	musicVariation_EVGxCOL = "9",		-- Music variation to use for EVGxCOL matches.
 	musicVariation_SSVxRPR = "5_mahavid",
+	musicVariation_SSVxCER = {"7_1", "7_2"},
 	
 	-- Online matches
 	onlineSideVar = "SSVxGTH",			-- Faction combination to use in online matches.
