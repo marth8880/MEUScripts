@@ -148,6 +148,7 @@ MapManager = {
 	
 	heroSupportCPs = nil,				-- AI hero spawns. First column is CP names, second column is CP spawn path names.
 	allySpawnCPs = nil,					-- Local ally spawns. First column is CP names, second column is CP spawn path names.
+	useRandomFactionIds = false,		-- Whether or not to randomize which factions are att/def
 	
 	-- Optional fields
 	artilleryTurObj = nil,				-- The name of the artillery turret object. Only specify this if you're using a custom artillery turret object.

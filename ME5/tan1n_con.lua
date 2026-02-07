@@ -57,7 +57,6 @@ manager = MapManager:New{
 -- Initialize the MapManager
 manager:Init()
 
--- No randomizing on this map!
 REP = 1
 CIS = 2
 

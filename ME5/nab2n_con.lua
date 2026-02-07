@@ -62,7 +62,7 @@ manager = MapManager:New{
 -- Initialize the MapManager
 manager:Init()
 
-if not ScriptCB_InMultiplayer() then
+if manager.useRandomFactionIds == true and not ScriptCB_InMultiplayer() then
 	CIS = math.random(1,2)
 	REP = (3 - CIS)
 else
