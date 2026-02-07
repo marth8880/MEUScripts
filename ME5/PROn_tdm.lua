@@ -172,7 +172,7 @@ function ScriptInit()
 
 
 -- Opening Satellite Shots
-	AddCameraShot(-0.489337, 0.030371, -0.869892, -0.053990, 22.389414, 3.153875, -52.420540);		-- center objective
+	AddCameraShot(0.250010, -0.004246, -0.968094, -0.016443, -5.391113, 4.328747, -73.615746);		-- center objective
 	AddCameraShot(-0.359212, 0.004421, -0.933175, -0.011485, 20.875534, 2.910979, -158.157776);		-- south garage
 	AddCameraShot(0.987578, -0.029607, 0.154247, 0.004624, 14.952700, 2.910979, 63.121727);			-- north garage
 	AddCameraShot(0.012174, -0.002110, -0.985229, -0.170794, -2.479260, 10.699486, -125.009254);	-- south overlook
