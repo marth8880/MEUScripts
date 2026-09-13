@@ -8,63 +8,66 @@ ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
--- Create a new MapManager object
-manager = MapManager:New{
-	-- Map-specific details
-	gameMode = "conquest",
-	mapSize = "med",
-	environmentType = "urban",
-	
-	-- In-game music
-	musicVariation_SSVxGTH = {"4","6"},
-	musicVariation_SSVxCOL = "2",
-	musicVariation_EVGxGTH = "9",
-	musicVariation_EVGxCOL = "9",
-	musicVariation_SSVxRPR = "8",
-	musicVariation_SSVxCER = {"7_2", "7_3"},
-	
-	-- Online matches
-	onlineSideVar = "SSVxRPR",
-	onlineHeroSSV = "shep_engineer",
-	onlineHeroGTH = "gethprime_me2",
-	onlineHeroCOL = "colgeneral",
-	onlineHeroEVG = "gethprime_me3",
-	
-	-- AI hero spawns. CP name, CP spawn path name
-	heroSupportCPs = {
-				{"cp1", "CP1SpawnPath"},
-				{"cp2", "CP2SpawnPath"},
-				{"cp3", "CP3SpawnPath"},
-				{"cp4", "CP4SpawnPath"},
-				{"cp5", "CP5SpawnPath"},
-				{"cp6", "CP6SpawnPath"},
-	},
-	-- Local ally spawns. CP name, CP spawn path name
-	allySpawnCPs = {
-				{"cp1", "CP1SpawnPath"},
-				{"cp2", "CP2SpawnPath"},
-				{"cp3", "CP3SpawnPath"},
-				{"cp4", "CP4SpawnPath"},
-				{"cp5", "CP5SpawnPath"},
-				{"cp6", "CP6SpawnPath"},
-	},
-}
--- Initialize the MapManager
-manager:Init()
+function ScriptPreInit()
+	-- Create a new MapManager object
+	manager = MapManager:New{
+		-- Map-specific details
+		gameMode = "conquest",
+		mapSize = "med",
+		environmentType = "urban",
+		
+		-- In-game music
+		musicVariation_SSVxGTH = {"4","6"},
+		musicVariation_SSVxCOL = "2",
+		musicVariation_EVGxGTH = "9",
+		musicVariation_EVGxCOL = "9",
+		musicVariation_SSVxRPR = "8",
+		musicVariation_SSVxCER = {"7_2", "7_3"},
+		
+		-- Online matches
+		onlineSideVar = "SSVxRPR",
+		onlineHeroSSV = "shep_engineer",
+		onlineHeroGTH = "gethprime_me2",
+		onlineHeroCOL = "colgeneral",
+		onlineHeroEVG = "gethprime_me3",
+		
+		-- AI hero spawns. CP name, CP spawn path name
+		heroSupportCPs = {
+					{"cp1", "CP1SpawnPath"},
+					{"cp2", "CP2SpawnPath"},
+					{"cp3", "CP3SpawnPath"},
+					{"cp4", "CP4SpawnPath"},
+					{"cp5", "CP5SpawnPath"},
+					{"cp6", "CP6SpawnPath"},
+		},
+		-- Local ally spawns. CP name, CP spawn path name
+		allySpawnCPs = {
+					{"cp1", "CP1SpawnPath"},
+					{"cp2", "CP2SpawnPath"},
+					{"cp3", "CP3SpawnPath"},
+					{"cp4", "CP4SpawnPath"},
+					{"cp5", "CP5SpawnPath"},
+					{"cp6", "CP6SpawnPath"},
+		},
+	}
+	-- Initialize the MapManager
+	manager:Init()
 
--- Randomize which team is ATT/DEF
-if manager.useRandomFactionIds == true and not ScriptCB_InMultiplayer() then
-	CIS = math.random(1,2)
-	REP = (3 - CIS)
-else
-	REP = 2
-	CIS = 1
+	-- Randomize which team is ATT/DEF
+	if manager.useRandomFactionIds == true and not ScriptCB_InMultiplayer() then
+		CIS = math.random(1,2)
+		REP = (3 - CIS)
+	else
+		REP = 2
+		CIS = 1
+	end
+
+	HuskTeam = 3
+
+	ATT = 1
+	DEF = 2
+
 end
-
-HuskTeam = 3
-
-ATT = 1
-DEF = 2
 
  ---------------------------------------------------------------------------
  -- FUNCTION:    ScriptInit
