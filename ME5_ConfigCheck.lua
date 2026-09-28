@@ -31,7 +31,7 @@ end
 
 PrintLog("Entered")
 
-ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\ConfigUtility\\meumodconfig.script")
+ReadDataFile("..\\..\\addon\\ME5\\ConfigUtility\\meumodconfig.script")
 ScriptCB_DoFile("meumodconfig")
 
 meuConfigSettings = gMEUModConfig
