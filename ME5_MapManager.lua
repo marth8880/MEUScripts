@@ -589,7 +589,7 @@ function MapManager:Proc_ScriptInit_Begin()
 		aspectRatioStr = "4:3"
 	elseif aspectRatio <= 1.63 and aspectRatio >= 1.5 then
 		aspectRatioStr = "16:10"
-	elseif aspectRatio <= 1.9 and aspectRatio >= 1.63 then
+	elseif aspectRatio >= 1.63 then
 		aspectRatioStr = "16:9"
 	end
 	
