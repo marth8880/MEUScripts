@@ -13,6 +13,7 @@ manager = MapManager:New{
 	gameMode = "ctf",
 	mapSize = "med",
 	environmentType = "urban",
+	factionIds = {REP = 1, CIS = 2},
 	
 	-- In-game music
 	musicVariation_SSVxGTH = {"4","6"},
@@ -36,20 +37,6 @@ manager = MapManager:New{
 }
 -- Initialize the MapManager
 manager:Init()
-
--- Randomize which team is ATT/DEF
-if manager.useRandomFactionIds == true and not ScriptCB_InMultiplayer() then
-	CIS = math.random(1,2)
-	REP = (3 - CIS)
-else
-	REP = 1
-	CIS = 2
-end
-
-HuskTeam = 3
-
-ATT = 1
-DEF = 2
 
 --PostLoad, this is all done after all loading, etc.
 function ScriptPostLoad()
@@ -75,7 +62,7 @@ function ScriptPostLoad()
 
                 --This makes sure the flag is colorized when it has been dropped on the ground
         SetClassProperty("com_item_flag", "DroppedColorize", 1)
-    SoundEvent_SetupTeams( REP, 'rep', CIS, 'cis' )
+
     --This is all the actual ctf objective setup
     ctf = ObjectiveCTF:New{teamATT = ATT, teamDEF = DEF, captureLimit = 5,  textATT = "game.modes.ctf", textDEF = "game.modes.ctf2",  multiplayerRules = true}
     ctf:AddFlag{name = "FLAG1", homeRegion = "FLAG1_HOME", captureRegion = "FLAG2_HOME",
@@ -85,6 +72,9 @@ function ScriptPostLoad()
                 capRegionMarker = "hud_objective_icon_circle", capRegionMarkerScale = 3.0, 
                 icon = "", mapIcon = "flag_icon", mapIconScale = 3.0, regionDummyObject = "Home"}
     ctf:Start()
+    
+    SoundEvent_SetupTeams( manager.factionIds.REP, 'rep', manager.factionIds.CIS, 'cis' )
+
     EnableSPHeroRules()
     
 	manager:Proc_ScriptPostLoad_End()

@@ -1,4 +1,7 @@
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
+ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\master.lvl")
+
+isModMap = 1
 
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\core.lvl")
 --
@@ -18,6 +21,7 @@ manager = MapManager:New{
 	gameMode = "conquest",				-- The mission's game mode.
 	mapSize = "med",						-- Size of the map. Used for determining unit counts.
 	environmentType = "urban",			-- Map's biome (essentially). Used for determining which camo textures to load. ("desert", "jungle", "snow", or "urban")
+	factionIds = {REP = 1, CIS = 2},
 	
 	-- In-game music (you can also specify a table of values and one of them will be randomly selected at runtime, example: `musicVariation_SSVxGTH = {"1","3"}` )
 	musicVariation_SSVxGTH = "4",		-- Music variation to use for SSVxGTH matches.
@@ -52,40 +56,15 @@ manager = MapManager:New{
 -- Initialize the MapManager
 manager:Init()
 
-if not ScriptCB_InMultiplayer() then
-	CIS = math.random(1,2)
-	REP = (3 - CIS)
-else
-	REP = 1
-	CIS = 2
-end
-
-HuskTeam = 3
-
-ATT = 1
-DEF = 2
-
-function ScriptPreInit()
-	if not ScriptCB_InMultiplayer() then
-		if solConfigSettings["cfg_VenTimeOfDay"] == 0 then
-			SkyMode = math.random(1,2)
-		else
-			SkyMode = solConfigSettings["cfg_VenTimeOfDay"]
-		end
-	else
-		SkyMode = 1
-	end
-end
-
 function ScriptPostLoad()
 	
 	if SkyMode == 1 then
-		ReadDataFile("dc:SOL\\sky.lvl", "daytime")
-		ReadDataFile("dc:SOL\\VEN_env_day.lvl")
+		ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\SOL\\sky.lvl", "daytime")
+		ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\SOL\\VEN_env_day.lvl")
 	elseif SkyMode == 2 then
-		ReadDataFile("dc:SIDE\\mist.lvl", "myg1_sky_mist")
-		ReadDataFile("dc:SOL\\sky.lvl", "nighttime")
-		ReadDataFile("dc:SOL\\VEN_env_night.lvl")
+		ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\SIDE\\mist.lvl", "myg1_sky_mist")
+		ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\SOL\\sky.lvl", "nighttime")
+		ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\SOL\\VEN_env_night.lvl")
 	end
 
 	CreateTimer("globalhawk1_timer")
@@ -138,15 +117,15 @@ function ScriptPostLoad()
 
     AddDeathRegion("deathregion")
 
-	SetClassProperty("ven_inf_astronaut", "HurtSound", "rep_inf_com_chatter_wound")
-	SetClassProperty("ven_inf_astronaut", "DeathSound", "rep_inf_com_chatter_death")
-	SetClassProperty("ven_inf_astronaut", "DamageRegionSound", "repmalechoke")
-	SetClassProperty("ven_inf_astronaut", "FoleyFXClass", "rep_inf_trooper")
+	SetClassProperty("sol_inf_astronaut", "HurtSound", "rep_inf_com_chatter_wound")
+	SetClassProperty("sol_inf_astronaut", "DeathSound", "rep_inf_com_chatter_death")
+	SetClassProperty("sol_inf_astronaut", "DamageRegionSound", "repmalechoke")
+	SetClassProperty("sol_inf_astronaut", "FoleyFXClass", "rep_inf_trooper")
 	
 	-- Perform various post-load operations
 	manager:Proc_ScriptPostLoad_End()
 	
-	KillObject("local_cp")
+	SetObjectTeam("local_cp", 5)
     
 end
 
@@ -161,12 +140,22 @@ end
 --              it is called from C to start the mission.
 ---------------------------------------------------------------------------
 function ScriptInit()
+	if not ScriptCB_InMultiplayer() then
+		if solConfigSettings["cfg_VenTimeOfDay"] == 0 then
+			SkyMode = math.random(1,2)
+		else
+			SkyMode = solConfigSettings["cfg_VenTimeOfDay"]
+		end
+	else
+		SkyMode = 1
+	end
+
 	StealArtistHeap(2048*2048)
 	
 	if SkyMode == 1 then
-		ReadDataFile("dc:Load\\ven_load_day_me5.lvl")
+		ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\Load\\ven_load_day_me5.lvl")
 	elseif SkyMode == 2 then
-		ReadDataFile("dc:Load\\ven_load_night_me5.lvl")
+		ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\Load\\ven_load_night_me5.lvl")
 	end
 	
 	SetMemoryPoolSize("ParticleTransformer::ColorTrans", 2563)
@@ -179,11 +168,26 @@ function ScriptInit()
 	SetMaxFlyHeight(60)
 	SetMaxPlayerFlyHeight(60)
 	
+    ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\sound\\sol.lvl;sol_venn")
+	ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\sound\\ven.lvl;venusn")
+	
 	-- Load and set up the sides
 	manager:Proc_ScriptInit_SideSetup()
+
+	ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\SIDE\\sol.lvl",
+					"sol_inf_astronaut")
+
+	SetTeamName(5, "nasa")
+	AddUnitClass(5, "sol_inf_astronaut", 8,8)
+	SetUnitCount(5, 8)
+	AddAIGoal(5, "Deathmatch", 100)
 	
-    ReadDataFile("dc:sound\\sol.lvl;sol_venn")
-	ReadDataFile("dc:sound\\ven.lvl;venusn")
+	SetTeamAsNeutral(ATT,5)
+	SetTeamAsNeutral(5,ATT)
+	SetTeamAsNeutral(DEF,5)
+	SetTeamAsNeutral(5,DEF)
+	SetTeamAsNeutral(HuskTeam,5)
+	SetTeamAsNeutral(5,HuskTeam)
 	
 
     --  Level Stats
@@ -216,7 +220,7 @@ function ScriptInit()
 	manager:Proc_ScriptInit_MemoryPoolInit()
     
     SetSpawnDelay(10.0, 0.25)
-    ReadDataFile("dc:SOL\\VEN.lvl", "VEN_conquest")
+    ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\SOL\\VEN.lvl", "VEN_conquest")
     SetDenseEnvironment("false")
 	
 	ReadDataFile("dc:minimap.lvl;ven")
@@ -224,54 +228,36 @@ function ScriptInit()
 	
 	--  Sound Stats
 	
-	-- Set up music
-	if ME5_SolMapMusic == 0 then
-		--ScriptCB_EnableHeroMusic(0)
-		
-		OpenAudioStream("dc:sound\\sol.lvl", "soln_music")
-		--OpenAudioStream("dc:sound\\ven.lvl",  "venus_music")
-		OpenMusicStreams(1)
+	OpenAudioStream("..\\..\\addon\\SOL\\data\\_LVL_PC\\sound\\sol.lvl", "solgcw_music")
+	OpenAudioStream("..\\..\\addon\\SOL\\data\\_LVL_PC\\sound\\ven.lvl",  "ven")
+	OpenAudioStream("..\\..\\addon\\SOL\\data\\_LVL_PC\\sound\\ven.lvl",  "ven")
+	OpenMusicStreams(1)
 
-		SetAmbientMusic(REP, 1.0, "ven_amb_earworm_n",  0,1)
-		SetAmbientMusic(CIS, 1.0, "ven_amb_earworm_n",  0,1)
-		
-		SetVictoryMusic(REP, "ssv_amb_01_victory")
-		SetDefeatMusic (REP, "ssv_amb_01_defeat")
-		SetVictoryMusic(CIS, "ssv_amb_01_victory")
-		SetDefeatMusic (CIS, "ssv_amb_01_defeat")
-		
-	elseif ME5_SolMapMusic == 1 then
-		manager:Proc_ScriptInit_MusicSetup()
-	end
+	SetAmbientMusic(REP, 1.0, "ven_amb_earworm_cw",  0,1)
+	SetAmbientMusic(CIS, 1.0, "ven_amb_earworm_cw",  0,1)
 	
-    OpenAudioStream("dc:sound\\ven.lvl",  "ven")
-    OpenAudioStream("dc:sound\\ven.lvl",  "ven")
+	SetVictoryMusic(REP, "ssv_amb_01_victory")
+	SetDefeatMusic (REP, "ssv_amb_01_defeat")
+	SetVictoryMusic(CIS, "ssv_amb_01_victory")
+	SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 	
 	SoundFX()
 	
 	ScaleSoundParameter("ambientenv",	"Gain", 1.0)
 
     -- Camera Stats
-	RandomCam = math.random(1,2)
-	if not ScriptCB_InMultiplayer() then
-		if RandomCam == 1 then
-			AddCameraShot(0.833753, -0.041111, -0.549937, -0.027117, -59.834293, 7.632715, 26.208221);
-			AddCameraShot(0.933529, -0.201821, 0.289606, 0.062610, 7.708241, 7.707424, 8.395696);
-		elseif RandomCam == 2 then
-			AddCameraShot(0.933529, -0.201821, 0.289606, 0.062610, 7.708241, 7.707424, 8.395696);
-			AddCameraShot(0.833753, -0.041111, -0.549937, -0.027117, -59.834293, 7.632715, 26.208221);
-		else
-			AddCameraShot(0.833753, -0.041111, -0.549937, -0.027117, -59.834293, 7.632715, 26.208221);
-			AddCameraShot(0.933529, -0.201821, 0.289606, 0.062610, 7.708241, 7.707424, 8.395696);
-		end
-	else
-		AddCameraShot(0.833753, -0.041111, -0.549937, -0.027117, -59.834293, 7.632715, 26.208221);
-		AddCameraShot(0.933529, -0.201821, 0.289606, 0.062610, 7.708241, 7.707424, 8.395696);
-	end
-	AddCameraShot(-0.247927, 0.000648, -0.968775, -0.002532, 14.313373, 3.652352, 33.439255);
-	AddCameraShot(0.270304, -0.020588, -0.959775, -0.073104, -95.084686, 7.707424, -108.813805);
-	AddCameraShot(-0.229996, 0.023490, -0.967873, -0.098852, 94.367546, 7.707424, -112.500244);
-	AddCameraShot(-0.334930, 0.048097, -0.931459, -0.133760, 2.688356, 2.464442, -13.071471);
+	AddCameraShot(0.79059, -0.022537941, -0.6116825, -0.017437689, -110.67704, 4.485702, 93.36073);
+	AddCameraShot(0.07222806, -0.0008667819, 0.99731594, 0.011968416, 90.45041, 3.6745024, -110.50886);
+	AddCameraShot(0.92603636, 0.004167157, 0.37740752, -0.0016983316, 51.947643, 6.736896, 50.649803);
+	AddCameraShot(0.8545839, -0.006409529, -0.5192592, -0.003894535, -58.650284, 1.9489465, 3.612307);
+	AddCameraShot(0.67634284, 0.0030435282, -0.7365732, 0.0033145633, -68.053665, 1.8203292, -57.926434);
+	AddCameraShot(-0.41427866, 0.0062146685, 0.9100265, 0.013651472, -11.129101, 1.6246367, -4.01956);
+	AddCameraShot(0.13783737, 0.0024813851, 0.9902913, -0.017827494, 1.6406196, 1.4287041, -8.253273);
+	AddCameraShot(0.8543938, 0.019227374, 0.51913875, -0.011682757, 6.532426, 1.003527, 21.393188);
+	AddCameraShot(0.98420566, -0.0044286465, -0.17697157, -0.0007963219, 78.19751, 2.568953, 105.87319);
+	AddCameraShot(0.92222, 0.040142465, 0.38421237, -0.016724026, -63.393074, 2.5041702, -62.350685);
+	AddCameraShot(0.7688, -0.2659123, 0.5496331, 0.19010688, 24.084211, 66.66496, 13.23911);
+	AddCameraShot(0.0012905692, -0.0012539304, 0.7172131, 0.6968516, -12.769728, 2.3128731, -2.363696);
 	
 	-- Perform various post-load operations
 	manager:Proc_ScriptInit_End()

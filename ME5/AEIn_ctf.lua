@@ -15,6 +15,7 @@ manager = MapManager:New{
 	gameMode = "ctf",
 	mapSize = "med",
 	environmentType = "jungle",
+	factionIds = {REP = 1, CIS = 2},
 	
 	-- In-game music
 	musicVariation_SSVxGTH = "3_vrm",		-- Music variation to use for SSVxGTH matches.
@@ -50,23 +51,7 @@ manager = MapManager:New{
 -- Initialize the MapManager
 manager:Init()
 
--- Randomize which team is ATT/DEF
-if manager.useRandomFactionIds == true and not ScriptCB_InMultiplayer() then
-	CIS = math.random(1,2)
-	REP = (3 - CIS)
-else
-	REP = 1
-	CIS = 2
-end
-
-HuskTeam = 3	-- The husk team (required, name cannot be changed)
-
-ATT = 1
-DEF = 2
-
 function ScriptPostLoad()
-
-	SoundEvent_SetupTeams( REP, 'rep', CIS, 'cis' )
     
     SetProperty("flag1", "GeometryName", "com_icon_republic_flag")
     SetProperty("flag1", "CarriedGeometryName", "com_icon_republic_flag_carried")
@@ -81,6 +66,8 @@ function ScriptPostLoad()
     ctf:AddFlag{name = "flag1", homeRegion = "team1_capture", captureRegion = "team2_capture", regionDummyObject = "base2"}
     ctf:AddFlag{name = "flag2", homeRegion = "team2_capture", captureRegion = "team1_capture", regionDummyObject = "base1"}
     ctf:Start()
+
+	SoundEvent_SetupTeams( manager.factionIds.REP, 'rep', manager.factionIds.CIS, 'cis' )
 	
     EnableSPHeroRules()
 	
@@ -104,7 +91,7 @@ end
 function ScriptInit()
 	-- Load our loadscreen
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\AEI.lvl")
-	
+
 	SetMemoryPoolSize("ParticleTransformer::ColorTrans", 2188)
 	SetMemoryPoolSize("ParticleTransformer::PositionTr", 1293)
 	SetMemoryPoolSize("ParticleTransformer::SizeTransf", 1409)

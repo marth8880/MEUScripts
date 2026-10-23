@@ -1,4 +1,5 @@
 RandomSide = math.random(1,2)
+ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\master.lvl")
 --
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --

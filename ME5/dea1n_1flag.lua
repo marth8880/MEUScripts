@@ -14,6 +14,7 @@ manager = MapManager:New{
 	gameMode = "1flag",
 	mapSize = "med",
 	environmentType = "urban",
+	factionIds = {REP = 1, CIS = 2},
 	
 	-- In-game music
 	musicVariation_SSVxGTH = {"4","6"},
@@ -38,20 +39,6 @@ manager = MapManager:New{
 -- Initialize the MapManager
 manager:Init()
 
--- Randomize which team is ATT/DEF
-if manager.useRandomFactionIds == true and not ScriptCB_InMultiplayer() then
-	CIS = math.random(1,2)
-	REP = (3 - CIS)
-else
-	REP = 1
-	CIS = 2
-end
-
-HuskTeam = 3
-
-ATT = 1
-DEF = 2
-
 ---------------------------------------------------------------------------
 -- FUNCTION:    ScriptInit
 -- PURPOSE:     This function is only run once
@@ -69,8 +56,6 @@ function ScriptPostLoad()
     
     SetProperty("Dr-LeftMain", "IsLocked", 1)
     SetProperty("dea1_prop_door_blast0", "IsLocked", 1)
-    
-    SoundEvent_SetupTeams( REP, 'rep', CIS, 'cis' )
 
     PlayAnimExtend();
     PlayAnimTakExtend();
@@ -104,6 +89,9 @@ function ScriptPostLoad()
                            capRegionDummyObjectATT = "com_bldg_ctfbase1", capRegionDummyObjectDEF = "com_bldg_ctfbase",}
            
     ctf:Start()
+    
+    SoundEvent_SetupTeams( manager.factionIds.REP, 'rep', manager.factionIds.CIS, 'cis' )
+    
     EnableSPHeroRules()
 	
 	manager:Proc_ScriptPostLoad_End()

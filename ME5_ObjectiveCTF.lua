@@ -85,9 +85,10 @@ function ObjectiveCTF:AddFlag(flagParams)
 	end
 	if flagParams.homeRegion and not GetRegion(flagParams.homeRegion) then
         --NOTE: it *is* valid to have a nil homeRegion
-        assert(false, "WARNING: Home region for a flag does not exist in map!") end
+        assert(false, "ERROR: Home region for a flag does not exist in map!") 
+	end
     flagParams.name = string.lower(flagParams.name)
-    assert(flagParams.regionDummyObject, "WARNING: no dummy object specified for the flag! (this is used to mark the flag's capture region on the HUD)")
+    assert(flagParams.regionDummyObject, "ERROR: no dummy object specified for the flag! (this is used to mark the flag's capture region on the HUD)")
 	
 	-- add a new flag to the list of flags
     self.flags[flagParams.name] = CaptureFlag:New(flagParams)
@@ -142,6 +143,228 @@ end
 function ObjectiveCTF:Start()
 	
 	--carriedFlagsNum = 0
+	PrintLog("Initializing VO")
+	-- TODO: need to add lines for SSVxRPR and SSVxCER
+	if not ScriptCB_InMultiplayer() then
+		if ME5_SideVar == 1 then
+			CTF_SoundEvents_Var = 1
+		elseif ME5_SideVar == 2 then
+			CTF_SoundEvents_Var = 2
+		elseif ME5_SideVar == 3	then
+			CTF_SoundEvents_Var = 3
+		elseif ME5_SideVar == 4	then
+			CTF_SoundEvents_Var = 4
+		elseif ME5_SideVar == 5	then
+			CTF_SoundEvents_Var = 4
+		elseif ME5_SideVar == 6	then
+			CTF_SoundEvents_Var = 4
+		end
+	else
+		if gCurrentMapManager.onlineSideVar == "SSVxGTH" or gCurrentMapManager.onlineSideVar == 1 then
+			CTF_SoundEvents_Var = 1
+		elseif gCurrentMapManager.onlineSideVar == "SSVxCOL" or gCurrentMapManager.onlineSideVar == 2 then
+			CTF_SoundEvents_Var = 2
+		elseif gCurrentMapManager.onlineSideVar == "EVGxGTH" or gCurrentMapManager.onlineSideVar == 3 then
+			CTF_SoundEvents_Var = 3
+		elseif gCurrentMapManager.onlineSideVar == "EVGxCOL" or gCurrentMapManager.onlineSideVar == 4 then
+			CTF_SoundEvents_Var = 4
+		elseif gCurrentMapManager.onlineSideVar == "SSVxRPR" or gCurrentMapManager.onlineSideVar == 5 then
+			CTF_SoundEvents_Var = 4
+		elseif gCurrentMapManager.onlineSideVar == "SSVxCER" or gCurrentMapManager.onlineSideVar == 6 then
+			CTF_SoundEvents_Var = 4
+		end
+	end
+	PrintLog("gSoundEventsCTF_src is ", gSoundEventsCTF_src)
+	PrintLog("ME5_SideVar is ", ME5_SideVar)
+	if CTF_SoundEvents_Var == 1 then
+		gSoundEventsCTF_src = {
+			all = {
+				returned_att			= "all_allFlag_returned",
+				returned_def			= "all_impFlag_returned",
+				captured_att			= "common_flagAction_score",
+				captured_def			= "common_flagAction_score",
+				
+				taken_att				= "common_flagAction_pickup",
+				taken_def				= "common_flagAction_pickup",
+				dropped_att				= "common_flagAction_drop",
+				dropped_def				= "common_flagAction_drop",
+			},
+			imp = {
+				returned_att			= "imp_impFlag_returned",
+				returned_def			= "imp_allFlag_returned",
+				captured_att			= "common_flagAction_score",
+				captured_def			= "common_flagAction_score",
+				
+				taken_att				= "common_flagAction_pickup",
+				taken_def				= "common_flagAction_pickup",
+				dropped_att				= "common_flagAction_drop",
+				dropped_def				= "common_flagAction_drop",
+			},  
+			rep = {
+				taken_att				= "ssv_adm_com_report_pickup_flag",
+				taken_def				= "ssv_adm_com_report_enemyPickup_flag",
+				dropped_att				= "ssv_adm_com_report_drop_flag",
+				dropped_def				= "ssv_adm_com_report_enemyDrop_flag",
+				
+				returned_att			= "rep_repFlag_returned",
+				returned_def			= "rep_cisFlag_returned",
+				captured_att			= "common_flagAction_score",
+				captured_def			= "common_flagAction_score",
+			},
+			cis = {
+				taken_att				= "gth_ann_com_report_pickup_flag",
+				taken_def				= "gth_ann_com_report_enemyPickup_flag",
+				dropped_att				= "gth_ann_com_report_drop_flag",
+				dropped_def				= "gth_ann_com_report_enemyDrop_flag",
+				
+				returned_att			= "cis_cisFlag_returned",
+				returned_def			= "cis_repFlag_returned",
+				captured_att			= "common_flagAction_score",
+				captured_def			= "common_flagAction_score",
+			},
+		}
+	elseif CTF_SoundEvents_Var == 2 then
+		gSoundEventsCTF_src = {
+			all = {
+				returned_att			= "all_allFlag_returned",
+				returned_def			= "all_impFlag_returned",
+				captured_att			= "common_flagAction_score",
+				captured_def			= "common_flagAction_score",
+				
+				taken_att				= "common_flagAction_pickup",
+				taken_def				= "common_flagAction_pickup",
+				dropped_att				= "common_flagAction_drop",
+				dropped_def				= "common_flagAction_drop",
+			},
+			imp = {
+				returned_att			= "imp_impFlag_returned",
+				returned_def			= "imp_allFlag_returned",
+				captured_att			= "common_flagAction_score",
+				captured_def			= "common_flagAction_score",
+				
+				taken_att				= "common_flagAction_pickup",
+				taken_def				= "common_flagAction_pickup",
+				dropped_att				= "common_flagAction_drop",
+				dropped_def				= "common_flagAction_drop",
+			},  
+			rep = {
+				taken_att				= "ssv_adm_com_report_pickup_flag",
+				taken_def				= "ssv_adm_com_report_enemyPickup_flag",
+				dropped_att				= "ssv_adm_com_report_drop_flag",
+				dropped_def				= "ssv_adm_com_report_enemyDrop_flag",
+				
+				returned_att			= "rep_repFlag_returned",
+				returned_def			= "rep_cisFlag_returned",
+				captured_att			= "common_flagAction_score",
+				captured_def			= "common_flagAction_score",
+			},
+			cis = {
+				taken_att				= "col_gen_com_report_pickup_flag",
+				taken_def				= "col_gen_com_report_enemyPickup_flag",
+				dropped_att				= "col_gen_com_report_drop_flag",
+				dropped_def				= "col_gen_com_report_enemyDrop_flag",
+				
+				returned_att			= "cis_cisFlag_returned",
+				returned_def			= "cis_repFlag_returned",
+				captured_att			= "common_flagAction_score",
+				captured_def			= "common_flagAction_score",
+			},
+		}
+	elseif CTF_SoundEvents_Var == 3 then
+		gSoundEventsCTF_src = {
+			all = {
+				returned_att			= "all_allFlag_returned",
+				returned_def			= "all_impFlag_returned",
+				captured_att			= "common_flagAction_score",
+				captured_def			= "common_flagAction_score",
+				
+				taken_att				= "common_flagAction_pickup",
+				taken_def				= "common_flagAction_pickup",
+				dropped_att				= "common_flagAction_drop",
+				dropped_def				= "common_flagAction_drop",
+			},
+			imp = {
+				returned_att			= "imp_impFlag_returned",
+				returned_def			= "imp_allFlag_returned",
+				captured_att			= "common_flagAction_score",
+				captured_def			= "common_flagAction_score",
+				
+				taken_att				= "common_flagAction_pickup",
+				taken_def				= "common_flagAction_pickup",
+				dropped_att				= "common_flagAction_drop",
+				dropped_def				= "common_flagAction_drop",
+			},  
+			rep = {
+				taken_att				= "evg_prm_com_report_pickup_flag",
+				taken_def				= "evg_prm_com_report_enemyPickup_flag",
+				dropped_att				= "evg_prm_com_report_drop_flag",
+				dropped_def				= "evg_prm_com_report_enemyDrop_flag",
+				
+				returned_att			= "rep_repFlag_returned",
+				returned_def			= "rep_cisFlag_returned",
+				captured_att			= "common_flagAction_score",
+				captured_def			= "common_flagAction_score",
+			},
+			cis = {
+				taken_att				= "gth_ann_com_report_pickup_flag",
+				taken_def				= "gth_ann_com_report_enemyPickup_flag",
+				dropped_att				= "gth_ann_com_report_drop_flag",
+				dropped_def				= "gth_ann_com_report_enemyDrop_flag",
+				
+				returned_att			= "cis_cisFlag_returned",
+				returned_def			= "cis_repFlag_returned",
+				captured_att			= "common_flagAction_score",
+				captured_def			= "common_flagAction_score",
+			},
+		}
+	elseif CTF_SoundEvents_Var == 4 then
+		gSoundEventsCTF_src = {
+			all = {
+				returned_att			= "all_allFlag_returned",
+				returned_def			= "all_impFlag_returned",
+				captured_att			= "common_flagAction_score",
+				captured_def			= "common_flagAction_score",
+				
+				taken_att				= "common_flagAction_pickup",
+				taken_def				= "common_flagAction_pickup",
+				dropped_att				= "common_flagAction_drop",
+				dropped_def				= "common_flagAction_drop",
+			},
+			imp = {
+				returned_att			= "imp_impFlag_returned",
+				returned_def			= "imp_allFlag_returned",
+				captured_att			= "common_flagAction_score",
+				captured_def			= "common_flagAction_score",
+				
+				taken_att				= "common_flagAction_pickup",
+				taken_def				= "common_flagAction_pickup",
+				dropped_att				= "common_flagAction_drop",
+				dropped_def				= "common_flagAction_drop",
+			},  
+			rep = {
+				taken_att				= "evg_prm_com_report_pickup_flag",
+				taken_def				= "evg_prm_com_report_enemyPickup_flag",
+				dropped_att				= "evg_prm_com_report_drop_flag",
+				dropped_def				= "evg_prm_com_report_enemyDrop_flag",
+				
+				returned_att			= "rep_repFlag_returned",
+				returned_def			= "rep_cisFlag_returned",
+				captured_att			= "common_flagAction_score",
+				captured_def			= "common_flagAction_score",
+			},
+			cis = {
+				taken_att				= "col_gen_com_report_pickup_flag",
+				taken_def				= "col_gen_com_report_enemyPickup_flag",
+				dropped_att				= "col_gen_com_report_drop_flag",
+				dropped_def				= "col_gen_com_report_enemyDrop_flag",
+				
+				returned_att			= "cis_cisFlag_returned",
+				returned_def			= "cis_repFlag_returned",
+				captured_att			= "common_flagAction_score",
+				captured_def			= "common_flagAction_score",
+			},
+		}
+	end
 	
     --=============================
     -- local functions
@@ -579,219 +802,6 @@ function ObjectiveCTF:Start()
 		end
 		)
 	
-end
-
--- TODO: need to add lines for SSVxRPR and SSVxCER
-if not ScriptCB_InMultiplayer() then
-	if ME5_SideVar == 1 then
-		CTF_SoundEvents_Var = 1
-	elseif ME5_SideVar == 2 then
-		CTF_SoundEvents_Var = 2
-	elseif ME5_SideVar == 3	then
-		CTF_SoundEvents_Var = 3
-	elseif ME5_SideVar == 4	then
-		CTF_SoundEvents_Var = 4
-	end
-else
-	if gCurrentMapManager.onlineSideVar == "SSVxGTH" or gCurrentMapManager.onlineSideVar == 1 then
-		CTF_SoundEvents_Var = 1
-	elseif gCurrentMapManager.onlineSideVar == "SSVxCOL" or gCurrentMapManager.onlineSideVar == 2 then
-		CTF_SoundEvents_Var = 2
-	elseif gCurrentMapManager.onlineSideVar == "EVGxGTH" or gCurrentMapManager.onlineSideVar == 3 then
-		CTF_SoundEvents_Var = 3
-	elseif gCurrentMapManager.onlineSideVar == "EVGxCOL" or gCurrentMapManager.onlineSideVar == 4 then
-		CTF_SoundEvents_Var = 4
-	end
-end
-
-if CTF_SoundEvents_Var == 1 then
-	gSoundEventsCTF_src = {
-		all = {
-			returned_att			= "all_allFlag_returned",
-			returned_def			= "all_impFlag_returned",
-			captured_att			= "common_flagAction_score",
-			captured_def			= "common_flagAction_score",
-			
-			taken_att				= "common_flagAction_pickup",
-			taken_def				= "common_flagAction_pickup",
-			dropped_att				= "common_flagAction_drop",
-			dropped_def				= "common_flagAction_drop",
-		},
-		imp = {
-			returned_att			= "imp_impFlag_returned",
-			returned_def			= "imp_allFlag_returned",
-			captured_att			= "common_flagAction_score",
-			captured_def			= "common_flagAction_score",
-			
-			taken_att				= "common_flagAction_pickup",
-			taken_def				= "common_flagAction_pickup",
-			dropped_att				= "common_flagAction_drop",
-			dropped_def				= "common_flagAction_drop",
-		},  
-		rep = {
-			taken_att				= "ssv_adm_com_report_pickup_flag",
-			taken_def				= "ssv_adm_com_report_enemyPickup_flag",
-			dropped_att				= "ssv_adm_com_report_drop_flag",
-			dropped_def				= "ssv_adm_com_report_enemyDrop_flag",
-			
-			returned_att			= "rep_repFlag_returned",
-			returned_def			= "rep_cisFlag_returned",
-			captured_att			= "common_flagAction_score",
-			captured_def			= "common_flagAction_score",
-		},
-		cis = {
-			taken_att				= "gth_ann_com_report_pickup_flag",
-			taken_def				= "gth_ann_com_report_enemyPickup_flag",
-			dropped_att				= "gth_ann_com_report_drop_flag",
-			dropped_def				= "gth_ann_com_report_enemyDrop_flag",
-			
-			returned_att			= "cis_cisFlag_returned",
-			returned_def			= "cis_repFlag_returned",
-			captured_att			= "common_flagAction_score",
-			captured_def			= "common_flagAction_score",
-		},
-	}
-elseif CTF_SoundEvents_Var == 2 then
-	gSoundEventsCTF_src = {
-		all = {
-			returned_att			= "all_allFlag_returned",
-			returned_def			= "all_impFlag_returned",
-			captured_att			= "common_flagAction_score",
-			captured_def			= "common_flagAction_score",
-			
-			taken_att				= "common_flagAction_pickup",
-			taken_def				= "common_flagAction_pickup",
-			dropped_att				= "common_flagAction_drop",
-			dropped_def				= "common_flagAction_drop",
-		},
-		imp = {
-			returned_att			= "imp_impFlag_returned",
-			returned_def			= "imp_allFlag_returned",
-			captured_att			= "common_flagAction_score",
-			captured_def			= "common_flagAction_score",
-			
-			taken_att				= "common_flagAction_pickup",
-			taken_def				= "common_flagAction_pickup",
-			dropped_att				= "common_flagAction_drop",
-			dropped_def				= "common_flagAction_drop",
-		},  
-		rep = {
-			taken_att				= "ssv_adm_com_report_pickup_flag",
-			taken_def				= "ssv_adm_com_report_enemyPickup_flag",
-			dropped_att				= "ssv_adm_com_report_drop_flag",
-			dropped_def				= "ssv_adm_com_report_enemyDrop_flag",
-			
-			returned_att			= "rep_repFlag_returned",
-			returned_def			= "rep_cisFlag_returned",
-			captured_att			= "common_flagAction_score",
-			captured_def			= "common_flagAction_score",
-		},
-		cis = {
-			taken_att				= "col_gen_com_report_pickup_flag",
-			taken_def				= "col_gen_com_report_enemyPickup_flag",
-			dropped_att				= "col_gen_com_report_drop_flag",
-			dropped_def				= "col_gen_com_report_enemyDrop_flag",
-			
-			returned_att			= "cis_cisFlag_returned",
-			returned_def			= "cis_repFlag_returned",
-			captured_att			= "common_flagAction_score",
-			captured_def			= "common_flagAction_score",
-		},
-	}
-elseif CTF_SoundEvents_Var == 3 then
-	gSoundEventsCTF_src = {
-		all = {
-			returned_att			= "all_allFlag_returned",
-			returned_def			= "all_impFlag_returned",
-			captured_att			= "common_flagAction_score",
-			captured_def			= "common_flagAction_score",
-			
-			taken_att				= "common_flagAction_pickup",
-			taken_def				= "common_flagAction_pickup",
-			dropped_att				= "common_flagAction_drop",
-			dropped_def				= "common_flagAction_drop",
-		},
-		imp = {
-			returned_att			= "imp_impFlag_returned",
-			returned_def			= "imp_allFlag_returned",
-			captured_att			= "common_flagAction_score",
-			captured_def			= "common_flagAction_score",
-			
-			taken_att				= "common_flagAction_pickup",
-			taken_def				= "common_flagAction_pickup",
-			dropped_att				= "common_flagAction_drop",
-			dropped_def				= "common_flagAction_drop",
-		},  
-		rep = {
-			taken_att				= "evg_prm_com_report_pickup_flag",
-			taken_def				= "evg_prm_com_report_enemyPickup_flag",
-			dropped_att				= "evg_prm_com_report_drop_flag",
-			dropped_def				= "evg_prm_com_report_enemyDrop_flag",
-			
-			returned_att			= "rep_repFlag_returned",
-			returned_def			= "rep_cisFlag_returned",
-			captured_att			= "common_flagAction_score",
-			captured_def			= "common_flagAction_score",
-		},
-		cis = {
-			taken_att				= "gth_ann_com_report_pickup_flag",
-			taken_def				= "gth_ann_com_report_enemyPickup_flag",
-			dropped_att				= "gth_ann_com_report_drop_flag",
-			dropped_def				= "gth_ann_com_report_enemyDrop_flag",
-			
-			returned_att			= "cis_cisFlag_returned",
-			returned_def			= "cis_repFlag_returned",
-			captured_att			= "common_flagAction_score",
-			captured_def			= "common_flagAction_score",
-		},
-	}
-elseif CTF_SoundEvents_Var == 4 then
-	gSoundEventsCTF_src = {
-		all = {
-			returned_att			= "all_allFlag_returned",
-			returned_def			= "all_impFlag_returned",
-			captured_att			= "common_flagAction_score",
-			captured_def			= "common_flagAction_score",
-			
-			taken_att				= "common_flagAction_pickup",
-			taken_def				= "common_flagAction_pickup",
-			dropped_att				= "common_flagAction_drop",
-			dropped_def				= "common_flagAction_drop",
-		},
-		imp = {
-			returned_att			= "imp_impFlag_returned",
-			returned_def			= "imp_allFlag_returned",
-			captured_att			= "common_flagAction_score",
-			captured_def			= "common_flagAction_score",
-			
-			taken_att				= "common_flagAction_pickup",
-			taken_def				= "common_flagAction_pickup",
-			dropped_att				= "common_flagAction_drop",
-			dropped_def				= "common_flagAction_drop",
-		},  
-		rep = {
-			taken_att				= "evg_prm_com_report_pickup_flag",
-			taken_def				= "evg_prm_com_report_enemyPickup_flag",
-			dropped_att				= "evg_prm_com_report_drop_flag",
-			dropped_def				= "evg_prm_com_report_enemyDrop_flag",
-			
-			returned_att			= "rep_repFlag_returned",
-			returned_def			= "rep_cisFlag_returned",
-			captured_att			= "common_flagAction_score",
-			captured_def			= "common_flagAction_score",
-		},
-		cis = {
-			taken_att				= "col_gen_com_report_pickup_flag",
-			taken_def				= "col_gen_com_report_enemyPickup_flag",
-			dropped_att				= "col_gen_com_report_drop_flag",
-			dropped_def				= "col_gen_com_report_enemyDrop_flag",
-			
-			returned_att			= "cis_cisFlag_returned",
-			returned_def			= "cis_repFlag_returned",
-			captured_att			= "common_flagAction_score",
-			captured_def			= "common_flagAction_score",
-		},
-	}
 end
 
 PrintLog("Exited")

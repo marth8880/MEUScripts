@@ -1,7 +1,9 @@
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
+ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\master.lvl")
 
 isLowG = 1
 
+ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\core.lvl")
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\core.lvl")
 
 --
@@ -21,6 +23,7 @@ manager = MapManager:New{
 	gameMode = "conquest",				-- The mission's game mode.
 	mapSize = "lg",						-- Size of the map. Used for determining unit counts.
 	environmentType = "desert",			-- Map's biome (essentially). Used for determining which camo textures to load. ("desert", "jungle", "snow", or "urban")
+	factionIds = {REP = 1, CIS = 2},
 	
 	-- In-game music (you can also specify a table of values and one of them will be randomly selected at runtime, example: `musicVariation_SSVxGTH = {"1","3"}` )
 	musicVariation_SSVxGTH = "1",		-- Music variation to use for SSVxGTH matches.
@@ -72,287 +75,6 @@ manager = MapManager:New{
 }
 -- Initialize the MapManager
 manager:Init()
-	
-if not ScriptCB_InMultiplayer() then
-	CIS = math.random(1,2)
-	REP = (3 - CIS)
-else
-	REP = 1
-	CIS = 2
-end
-
-HuskTeam = 3
-
-ATT = 1
-DEF = 2
-
-function SSVxGTH_PostLoad()
-	SetClassProperty(ssv_inf_soldier,			"JumpHeight", "6.8")
-	SetClassProperty(ssv_inf_infiltrator,		"JumpHeight", "6.8")
-	SetClassProperty(ssv_inf_engineer,		"JumpHeight", "6.8")
-	SetClassProperty(ssv_inf_adept,			"JumpHeight", "6.8")
-	SetClassProperty(ssv_inf_sentinel,		"JumpHeight", "6.8")
-	SetClassProperty(ssv_inf_vanguard,		"JumpHeight", "6.8")
-	SetClassProperty(ssv_inf_soldier,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(ssv_inf_infiltrator,		"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(ssv_inf_engineer,		"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(ssv_inf_adept,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(ssv_inf_sentinel,		"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(ssv_inf_vanguard,		"CollisionScale", "0.0 0.0 0.0")
-	
-	SetClassProperty(ssv_inf_soldier,			"JumpHeight", "6.8")
-	SetClassProperty(ssv_inf_infiltrator,		"JumpHeight", "6.8")
-	SetClassProperty(ssv_inf_engineer,			"JumpHeight", "6.8")
-	SetClassProperty(ssv_inf_adept,			"JumpHeight", "6.8")
-	SetClassProperty(ssv_inf_sentinel,			"JumpHeight", "6.8")
-	SetClassProperty(ssv_inf_vanguard,			"JumpHeight", "6.8")
-	SetClassProperty(ssv_inf_soldier,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(ssv_inf_infiltrator,		"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(ssv_inf_engineer,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(ssv_inf_adept,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(ssv_inf_sentinel,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(ssv_inf_vanguard,			"CollisionScale", "0.0 0.0 0.0")
-	
-	SetClassProperty(SSVHeroClass,		"JumpHeight", "6.8")
-	SetClassProperty(SSVHeroClass,	"JumpHeight", "6.8")
-	SetClassProperty(SSVHeroClass,		"JumpHeight", "6.8")
-	SetClassProperty(SSVHeroClass,			"JumpHeight", "6.8")
-	SetClassProperty(SSVHeroClass,		"JumpHeight", "6.8")
-	SetClassProperty(SSVHeroClass,		"JumpHeight", "6.8")
-	SetClassProperty(SSVHeroClass,		"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(SSVHeroClass,	"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(SSVHeroClass,		"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(SSVHeroClass,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(SSVHeroClass,		"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(SSVHeroClass,		"CollisionScale", "0.0 0.0 0.0")
-	
-	SetClassProperty(gth_inf_trooper,					"JumpHeight", "6.8")
-	SetClassProperty(gth_inf_rocketeer,				"JumpHeight", "6.8")
-	SetClassProperty(gth_inf_sniper,					"JumpHeight", "6.8")
-	SetClassProperty(gth_inf_machinist,				"JumpHeight", "6.8")
-	SetClassProperty(gth_inf_hunter,					"JumpHeight", "4.3")
-	SetClassProperty(gth_inf_shock,			"JumpHeight", "4.3")
-	SetClassProperty(gth_inf_shock_online,	"JumpHeight", "4.3")
-	SetClassProperty(gth_inf_trooper,					"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_inf_rocketeer,				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_inf_sniper,					"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_inf_machinist,				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_inf_hunter,					"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_inf_shock,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_inf_shock_online,	"CollisionScale", "0.0 0.0 0.0")
-	
-	SetClassProperty(gth_inf_trooper,					"JumpHeight", "6.8")
-	SetClassProperty(gth_inf_rocketeer,				"JumpHeight", "6.8")
-	SetClassProperty(gth_inf_sniper,					"JumpHeight", "6.8")
-	SetClassProperty(gth_inf_machinist,				"JumpHeight", "6.8")
-	SetClassProperty(gth_inf_hunter,					"JumpHeight", "4.3")
-	SetClassProperty(gth_inf_shock,			"JumpHeight", "4.3")
-	SetClassProperty(gth_inf_shock_online,		"JumpHeight", "4.3")
-	SetClassProperty(gth_inf_trooper,					"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_inf_rocketeer,				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_inf_sniper,					"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_inf_machinist,				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_inf_hunter,					"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_inf_shock,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_inf_shock_online,		"CollisionScale", "0.0 0.0 0.0")
-	
-	SetClassProperty("indoc_inf_husk",			"JumpHeight", "6.8")
-	SetClassProperty("indoc_inf_abomination",	"JumpHeight", "6.8")
-	SetClassProperty("indoc_inf_husk",			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty("indoc_inf_abomination",	"CollisionScale", "0.0 0.0 0.0")
-end
-
-function SSVxCOL_PostLoad()
-	SetClassProperty(ssv_inf_soldier,		"JumpHeight", "6.8")
-	SetClassProperty(ssv_inf_infiltrator,	"JumpHeight", "6.8")
-	SetClassProperty(ssv_inf_engineer,		"JumpHeight", "6.8")
-	SetClassProperty(ssv_inf_adept,			"JumpHeight", "6.8")
-	SetClassProperty(ssv_inf_sentinel,		"JumpHeight", "6.8")
-	SetClassProperty(ssv_inf_vanguard,		"JumpHeight", "6.8")
-	SetClassProperty(ssv_inf_soldier,		"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(ssv_inf_infiltrator,	"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(ssv_inf_engineer,		"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(ssv_inf_adept,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(ssv_inf_sentinel,		"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(ssv_inf_vanguard,		"CollisionScale", "0.0 0.0 0.0")
-	
-	SetClassProperty(ssv_inf_soldier,		"JumpHeight", "6.8")
-	SetClassProperty(ssv_inf_infiltrator,	"JumpHeight", "6.8")
-	SetClassProperty(ssv_inf_engineer,		"JumpHeight", "6.8")
-	SetClassProperty(ssv_inf_adept,			"JumpHeight", "6.8")
-	SetClassProperty(ssv_inf_sentinel,		"JumpHeight", "6.8")
-	SetClassProperty(ssv_inf_vanguard,		"JumpHeight", "6.8")
-	SetClassProperty(ssv_inf_soldier,		"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(ssv_inf_infiltrator,	"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(ssv_inf_engineer,		"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(ssv_inf_adept,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(ssv_inf_sentinel,		"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(ssv_inf_vanguard,		"CollisionScale", "0.0 0.0 0.0")
-	
-	SetClassProperty(SSVHeroClass,	"JumpHeight", "6.8")
-	SetClassProperty(SSVHeroClass,	"JumpHeight", "6.8")
-	SetClassProperty(SSVHeroClass,	"JumpHeight", "6.8")
-	SetClassProperty(SSVHeroClass,	"JumpHeight", "6.8")
-	SetClassProperty(SSVHeroClass,	"JumpHeight", "6.8")
-	SetClassProperty(SSVHeroClass,	"JumpHeight", "6.8")
-	SetClassProperty(SSVHeroClass,	"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(SSVHeroClass,	"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(SSVHeroClass,	"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(SSVHeroClass,	"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(SSVHeroClass,	"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(SSVHeroClass,	"CollisionScale", "0.0 0.0 0.0")
-	
-	SetClassProperty("col_inf_drone",				"JumpHeight", "6.8")
-	SetClassProperty("col_inf_assassin",			"JumpHeight", "6.8")
-	SetClassProperty(col_inf_guardian,			"JumpHeight", "6.8")
-	SetClassProperty(col_inf_guardian_online,		"JumpHeight", "6.8")
-	SetClassProperty("col_inf_drone",				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty("col_inf_assassin",			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(col_inf_guardian,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(col_inf_guardian_online,		"CollisionScale", "0.0 0.0 0.0")
-	
-	SetClassProperty(col_inf_guardian,				"JumpHeight", "6.8")
-	SetClassProperty(col_inf_guardian_online,		"JumpHeight", "6.8")
-	SetClassProperty(col_inf_guardian,				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(col_inf_guardian_online,		"CollisionScale", "0.0 0.0 0.0")
-	
-	SetClassProperty(COLHeroClass,		"JumpHeight", "6.8")
-	SetClassProperty(COLHeroClass,		"CollisionScale", "0.0 0.0 0.0")
-	
-	SetClassProperty("indoc_inf_husk",			"JumpHeight", "6.8")
-	SetClassProperty("indoc_inf_abomination",	"JumpHeight", "6.8")
-	SetClassProperty("indoc_inf_husk",			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty("indoc_inf_abomination",	"CollisionScale", "0.0 0.0 0.0")
-end
-
-function EVGxGTH_PostLoad()
-	SetClassProperty(gth_ev_inf_trooper,			"JumpHeight", "6.8")
-	SetClassProperty(gth_ev_inf_infiltrator,		"JumpHeight", "6.8")
-	SetClassProperty(gth_ev_inf_engineer,			"JumpHeight", "6.8")
-	SetClassProperty(gth_ev_inf_rocketeer,			"JumpHeight", "6.8")
-	SetClassProperty(gth_ev_inf_hunter,				"JumpHeight", "4.3")
-	SetClassProperty(gth_ev_inf_pyro,				"JumpHeight", "4.3")
-	SetClassProperty(gth_ev_inf_juggernaut,			"JumpHeight", "4.3")
-	SetClassProperty(gth_ev_inf_juggernaut_online,	"JumpHeight", "4.3")
-	SetClassProperty(gth_ev_inf_trooper,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_infiltrator,		"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_engineer,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_rocketeer,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_hunter,				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_pyro,				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_juggernaut,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_juggernaut_online,	"CollisionScale", "0.0 0.0 0.0")
-	
-	SetClassProperty(gth_ev_inf_trooper,			"JumpHeight", "6.8")
-	SetClassProperty(gth_ev_inf_infiltrator,		"JumpHeight", "6.8")
-	SetClassProperty(gth_ev_inf_engineer,			"JumpHeight", "6.8")
-	SetClassProperty(gth_ev_inf_rocketeer,			"JumpHeight", "6.8")
-	SetClassProperty(gth_ev_inf_hunter,				"JumpHeight", "4.3")
-	SetClassProperty(gth_ev_inf_pyro,				"JumpHeight", "4.3")
-	SetClassProperty(gth_ev_inf_juggernaut,			"JumpHeight", "4.3")
-	SetClassProperty(gth_ev_inf_juggernaut_online,	"JumpHeight", "4.3")
-	SetClassProperty(gth_ev_inf_trooper,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_infiltrator,		"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_engineer,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_rocketeer,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_hunter,				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_pyro,				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_juggernaut,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_juggernaut_online,	"CollisionScale", "0.0 0.0 0.0")
-	
-	SetClassProperty(gth_inf_trooper,				"JumpHeight", "6.8")
-	SetClassProperty(gth_inf_rocketeer,				"JumpHeight", "6.8")
-	SetClassProperty(gth_inf_sniper,				"JumpHeight", "6.8")
-	SetClassProperty(gth_inf_machinist,				"JumpHeight", "6.8")
-	SetClassProperty(gth_inf_hunter,				"JumpHeight", "4.3")
-	SetClassProperty(gth_inf_shock,			"JumpHeight", "4.3")
-	SetClassProperty(gth_inf_shock_online,	"JumpHeight", "4.3")
-	SetClassProperty(gth_inf_trooper,				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_inf_rocketeer,				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_inf_sniper,				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_inf_machinist,				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_inf_hunter,				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_inf_shock,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_inf_shock_online,	"CollisionScale", "0.0 0.0 0.0")
-	
-	SetClassProperty(gth_inf_trooper,				"JumpHeight", "6.8")
-	SetClassProperty(gth_inf_rocketeer,				"JumpHeight", "6.8")
-	SetClassProperty(gth_inf_sniper,				"JumpHeight", "6.8")
-	SetClassProperty(gth_inf_machinist,				"JumpHeight", "6.8")
-	SetClassProperty(gth_inf_hunter,				"JumpHeight", "4.3")
-	SetClassProperty(gth_inf_shock,			"JumpHeight", "4.3")
-	SetClassProperty(gth_inf_shock_online,	"JumpHeight", "4.3")
-	SetClassProperty(gth_inf_trooper,				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_inf_rocketeer,				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_inf_sniper,				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_inf_machinist,				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_inf_hunter,				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_inf_shock,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_inf_shock_online,	"CollisionScale", "0.0 0.0 0.0")
-	
-	SetClassProperty("indoc_inf_husk",			"JumpHeight", "6.8")
-	SetClassProperty("indoc_inf_abomination",	"JumpHeight", "6.8")
-	SetClassProperty("indoc_inf_husk",			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty("indoc_inf_abomination",	"CollisionScale", "0.0 0.0 0.0")
-end
-
-function EVGxCOL_PostLoad()
-	SetClassProperty(gth_ev_inf_trooper,			"JumpHeight", "6.8")
-	SetClassProperty(gth_ev_inf_infiltrator,		"JumpHeight", "6.8")
-	SetClassProperty(gth_ev_inf_engineer,			"JumpHeight", "6.8")
-	SetClassProperty(gth_ev_inf_rocketeer,			"JumpHeight", "6.8")
-	SetClassProperty(gth_ev_inf_hunter,				"JumpHeight", "4.3")
-	SetClassProperty(gth_ev_inf_pyro,				"JumpHeight", "4.3")
-	SetClassProperty(gth_ev_inf_juggernaut,			"JumpHeight", "4.3")
-	SetClassProperty(gth_ev_inf_juggernaut_online,	"JumpHeight", "4.3")
-	SetClassProperty(gth_ev_inf_trooper,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_infiltrator,		"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_engineer,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_rocketeer,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_hunter,				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_pyro,				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_juggernaut,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_juggernaut_online,	"CollisionScale", "0.0 0.0 0.0")
-	
-	SetClassProperty(gth_ev_inf_trooper,			"JumpHeight", "6.8")
-	SetClassProperty(gth_ev_inf_infiltrator,		"JumpHeight", "6.8")
-	SetClassProperty(gth_ev_inf_engineer,			"JumpHeight", "6.8")
-	SetClassProperty(gth_ev_inf_rocketeer,			"JumpHeight", "6.8")
-	SetClassProperty(gth_ev_inf_hunter,				"JumpHeight", "4.3")
-	SetClassProperty(gth_ev_inf_pyro,				"JumpHeight", "4.3")
-	SetClassProperty(gth_ev_inf_juggernaut,			"JumpHeight", "4.3")
-	SetClassProperty(gth_ev_inf_juggernaut_online,	"JumpHeight", "4.3")
-	SetClassProperty(gth_ev_inf_trooper,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_infiltrator,		"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_engineer,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_rocketeer,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_hunter,				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_pyro,				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_juggernaut,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(gth_ev_inf_juggernaut_online,	"CollisionScale", "0.0 0.0 0.0")
-	
-	SetClassProperty("col_inf_drone",				"JumpHeight", "6.8")
-	SetClassProperty("col_inf_assassin",			"JumpHeight", "6.8")
-	SetClassProperty(col_inf_guardian,			"JumpHeight", "6.8")
-	SetClassProperty(col_inf_guardian_online,		"JumpHeight", "6.8")
-	SetClassProperty("col_inf_drone",				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty("col_inf_assassin",			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(col_inf_guardian,			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(col_inf_guardian_online,		"CollisionScale", "0.0 0.0 0.0")
-	
-	SetClassProperty(col_inf_guardian,				"JumpHeight", "6.8")
-	SetClassProperty(col_inf_guardian_online,		"JumpHeight", "6.8")
-	SetClassProperty(col_inf_guardian,				"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty(col_inf_guardian_online,		"CollisionScale", "0.0 0.0 0.0")
-	
-	SetClassProperty(COLHeroClass,		"JumpHeight", "6.8")
-	SetClassProperty(COLHeroClass,		"CollisionScale", "0.0 0.0 0.0")
-	
-	SetClassProperty("indoc_inf_husk",			"JumpHeight", "6.8")
-	SetClassProperty("indoc_inf_abomination",	"JumpHeight", "6.8")
-	SetClassProperty("indoc_inf_husk",			"CollisionScale", "0.0 0.0 0.0")
-	SetClassProperty("indoc_inf_abomination",	"CollisionScale", "0.0 0.0 0.0")
-end
 
 function ScriptPostLoad()
     
@@ -390,16 +112,6 @@ function ScriptPostLoad()
 	
 	-- Perform various post-load operations
 	manager:Proc_ScriptPostLoad_End()
-	
-	if ME5_SideVar == 1 or (ScriptCB_InMultiplayer() and manager.onlineSideVar == "SSVxGTH") then
-		SSVxGTH_PostLoad()
-	elseif ME5_SideVar == 2 or (ScriptCB_InMultiplayer() and manager.onlineSideVar == "SSVxCOL") then
-		SSVxCOL_PostLoad()
-	elseif ME5_SideVar == 3 or (ScriptCB_InMultiplayer() and manager.onlineSideVar == "EVGxGTH") then
-		EVGxGTH_PostLoad()
-	elseif ME5_SideVar == 4 or (ScriptCB_InMultiplayer() and manager.onlineSideVar == "EVGxCOL") then
-		EVGxCOL_PostLoad()
-	end
 	
 	SetClassProperty("com_inv_col_8_veh", "SoldierCollision", "none")
 	SetClassProperty("com_inv_col_8_veh", "BuildingCollision", "none")
@@ -439,6 +151,59 @@ function ScriptPostLoad()
 	
 	AddDeathRegion("chasmdeath")
 	AddDeathRegion("deathregion_drill")
+
+	SetObjectTeam("local_cp", 5)
+
+---------- BEGIN SECRET AREA STUFF ----------
+
+	SetProperty("cis_fedcruiser_door1", "IsLocked", 1)
+	BlockPlanningGraphArcs("Connection186")
+	SetProperty("spa_veh_turret_chair", "DisableTime", 1e+37)
+    	AllowAISpawn(5, false)
+
+	CubeCheck = false
+
+	get_cube = OnFlagPickUp(
+		function(flag, character)
+			if GetEntityName(flag) ~= "companion_cube" then return end
+			if not IsCharacterHuman(character) then return end				
+			CubeCheck = true
+		end,
+		"companion_cube"
+	)
+
+	drop_cube = OnFlagDrop(
+		function(flag, carrier)
+			if GetEntityName(flag) ~= "companion_cube" then return end
+			CubeCheck = false
+		end,
+		"companion_cube"
+	)
+
+	cube_button = OnEnterRegion(
+		function(regIn, character)
+			if not IsCharacterHuman(character) then return end
+			if CubeCheck == true then
+				KillObject("companion_cube")
+				ReleaseFlagPickUp(get_cube)
+				ReleaseFlagDrop(drop_cube)
+				ReleaseEnterRegion(cube_button)
+				DeactivateRegion("cube_button_capture")
+
+				KillObject("companion_cube_button")
+				KillObject("tit_sign_door")
+				SetProperty("cis_fedcruiser_door1", "IsLocked", 0)
+				UnblockPlanningGraphArcs("Connection186")
+				SetProperty("spa_veh_turret_chair", "DisableTime", 0)
+				DisableBarriers("BarrierDoor")
+    				AllowAISpawn(5, true)
+			end
+		end,
+		"cube_button_capture"
+	)
+	ActivateRegion("cube_button_capture") 
+
+---------- END SECRET AREA STUFF ----------
 	
 end
 
@@ -470,6 +235,9 @@ function ScriptInit()
 	AISnipeSuitabilityDist(100)
 	SetAttackerSnipeRange(120)
 	SetDefenderSnipeRange(200)
+
+	ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\sound\\TIT.lvl")
+    ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\sound\\sol.lvl;sol_titn")
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\me5tur.lvl",
 					"tur_bldg_laser",
@@ -479,8 +247,23 @@ function ScriptInit()
 	
 	-- Load and set up the sides
 	manager:Proc_ScriptInit_SideSetup()
+	ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\SIDE\\sol.lvl",
+					"sol_inf_astronaut")
+    
+	ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\SIDE\\tit.lvl",
+					"sol_fly_titanhawk")
+
+	SetTeamName(5, "nasa")
+	AddUnitClass(5, "sol_inf_astronaut", 4,4)
+	SetUnitCount(5, 4)
+	AddAIGoal(5, "Deathmatch", 100)
 	
-	ReadDataFile("dc:sound\\TIT.lvl;TITn")
+	SetTeamAsNeutral(ATT,5)
+	SetTeamAsNeutral(5,ATT)
+	SetTeamAsNeutral(DEF,5)
+	SetTeamAsNeutral(5,DEF)
+	SetTeamAsNeutral(HuskTeam,5)
+	SetTeamAsNeutral(5,HuskTeam)
 
     --  Level Stats
     --  ClearWalkers()
@@ -512,7 +295,7 @@ function ScriptInit()
 	manager:Proc_ScriptInit_MemoryPoolInit()
     
     SetSpawnDelay(10.0, 0.25)
-    ReadDataFile("dc:SOL\\TIT.lvl", "TIT_conquest")
+    ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\SOL\\TIT.lvl", "TIT_conquest")
     SetDenseEnvironment("false")
 	
 	ReadDataFile("dc:minimap.lvl;tit")
@@ -521,22 +304,16 @@ function ScriptInit()
     --  Sound
 	
 	-- Set up music
-	if ME5_SolMapMusic == 0 then
-		--ScriptCB_EnableHeroMusic(0)
-		OpenMusicStreams(1)
-		
-		SetVictoryMusic(REP, "ssv_amb_01_victory")
-		SetDefeatMusic (REP, "ssv_amb_01_defeat")
-		SetVictoryMusic(CIS, "ssv_amb_01_victory")
-		SetDefeatMusic (CIS, "ssv_amb_01_defeat")
-		
-	elseif ME5_SolMapMusic == 1 then
-		manager:Proc_ScriptInit_MusicSetup()
-	end
+	OpenAudioStream("..\\..\\addon\\SOL\\data\\_LVL_PC\\sound\\sol.lvl", "sol_unit_vo_quick")
+	OpenAudioStream("..\\..\\addon\\SOL\\data\\_LVL_PC\\sound\\sol.lvl", "solgcw_music")
+	OpenAudioStream("..\\..\\addon\\SOL\\data\\_LVL_PC\\sound\\tit.lvl",  "tit_ambiance")
+	OpenAudioStream("..\\..\\addon\\SOL\\data\\_LVL_PC\\sound\\tit.lvl",  "tit_ambiance")
+	OpenMusicStreams(1)
 	
-	OpenAudioStream("dc:sound\\tit.lvl",  "tit_ambiance")
-	OpenAudioStream("dc:sound\\tit.lvl",  "tit_ambiance")
-	OpenAudioStream("dc:sound\\tit.lvl",  "tit")
+	SetVictoryMusic(REP, "ssv_amb_01_victory")
+	SetDefeatMusic (REP, "ssv_amb_01_defeat")
+	SetVictoryMusic(CIS, "ssv_amb_01_victory")
+	SetDefeatMusic (CIS, "ssv_amb_01_defeat")
 	
 	SoundFX()
 	
@@ -566,6 +343,7 @@ function ScriptInit()
 	AddCameraShot(0.659072, 0.034651, 0.750245, -0.039444, 164.185898, 7.416323, 200.864777);
 	AddCameraShot(0.741443, 0.031598, -0.669663, 0.028539, -138.970978, 7.416323, 90.806053);
 	AddCameraShot(0.964213, 0.135263, -0.225819, 0.031679, -95.374229, 4.976299, 129.912308);
+	AddCameraShot(0.99106175, 0.008919773, 0.13309991, -0.0011979284, 249.89085, 3.575956, 170.78441);
 	
 	-- Perform various post-load operations
 	manager:Proc_ScriptInit_End()

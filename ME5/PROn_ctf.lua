@@ -15,6 +15,7 @@ manager = MapManager:New{
 	gameMode = "ctf",
 	mapSize = "xs",
 	environmentType = "urban",
+	factionIds = {REP = 1, CIS = 2},
 	
 	-- In-game music
 	musicVariation_SSVxGTH = "3_vrm",
@@ -39,23 +40,7 @@ manager = MapManager:New{
 -- Initialize the MapManager
 manager:Init()
 
--- Randomize which team is ATT/DEF
-if manager.useRandomFactionIds == true and not ScriptCB_InMultiplayer() then
-	CIS = math.random(1,2)
-	REP = (3 - CIS)
-else
-	REP = 1
-	CIS = 2
-end
-
-HuskTeam = 3
-
-ATT = 1
-DEF = 2
-
 function ScriptPostLoad()
-
-	SoundEvent_SetupTeams( REP, 'rep', CIS, 'cis' )
     
     SetProperty("flag1", "GeometryName", "com_icon_republic_flag")
     SetProperty("flag1", "CarriedGeometryName", "com_icon_republic_flag_carried")
@@ -66,7 +51,6 @@ function ScriptPostLoad()
     SetClassProperty("com_item_flag", "DroppedColorize", 1)
 
     --This is all the actual ctf objective setup
-		print("start ctf objective")
     ctf = ObjectiveCTF:New{teamATT = REP, teamDEF = CIS, captureLimit = 5, textATT = "game.modes.ctf", textDEF = "game.modes.ctf2", hideCPs = true, multiplayerRules = true}
     ctf:AddFlag{name = "flag1", homeRegion = "ctf_team1_capture", captureRegion = "ctf_team2_capture",
                 capRegionMarker = "hud_objective_icon_circle", capRegionMarkerScale = 3.0, 
@@ -74,8 +58,9 @@ function ScriptPostLoad()
     ctf:AddFlag{name = "flag2", homeRegion = "ctf_team2_capture", captureRegion = "ctf_team1_capture",
                 capRegionMarker = "hud_objective_icon_circle", capRegionMarkerScale = 3.0, 
                 icon = "", mapIcon = "flag_icon", mapIconScale = 3.0, regionDummyObject = "ctf_team1_capture"}
-		print("end ctf objective")
 	ctf:Start()
+
+	SoundEvent_SetupTeams( manager.factionIds.REP, 'rep', manager.factionIds.CIS, 'cis' )
 	
     EnableSPHeroRules()
 	

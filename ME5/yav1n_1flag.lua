@@ -14,6 +14,7 @@ manager = MapManager:New{
 	gameMode = "1flag",
 	mapSize = "lg",
 	environmentType = "jungle",
+	factionIds = {REP = 2, CIS = 1},
 	
 	-- In-game music
 	musicVariation_SSVxGTH = "1",
@@ -38,20 +39,6 @@ manager = MapManager:New{
 -- Initialize the MapManager
 manager:Init()
 
--- Randomize which team is ATT/DEF
-if manager.useRandomFactionIds == true and not ScriptCB_InMultiplayer() then
-	CIS = math.random(1,2)
-	REP = (3 - CIS)
-else
-	REP = 2
-	CIS = 1
-end
-
-HuskTeam = 3
-
-ATT = 1
-DEF = 2
-
 ---------------------------------------------------------------------------
 -- FUNCTION:    ScriptInit
 -- PURPOSE:     This function is only run once
@@ -64,8 +51,6 @@ DEF = 2
 
 --PostLoad, this is all done after all loading, etc.
 function ScriptPostLoad()
-
-	SoundEvent_SetupTeams( CIS, 'cis', REP, 'rep' )
 	
 	
     DisableBarriers("StopTanks")
@@ -91,6 +76,8 @@ function ScriptPostLoad()
                            capRegionDummyObjectATT = "Team1Capture", capRegionDummyObjectDEF = "Team2Capture",}
 
     ctf:Start()
+
+	SoundEvent_SetupTeams( manager.factionIds.CIS, 'cis', manager.factionIds.REP, 'rep' )
 	
     EnableSPHeroRules()
 	

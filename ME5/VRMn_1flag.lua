@@ -16,6 +16,7 @@ manager = MapManager:New{
 	gameMode = "1flag",
 	mapSize = "xs",
 	environmentType = "jungle",
+	factionIds = {REP = 1, CIS = 2},
 	
 	-- In-game music
 	musicVariation_SSVxGTH = "3_vrm",
@@ -40,27 +41,10 @@ manager = MapManager:New{
 -- Initialize the MapManager
 manager:Init()
 
--- Randomize which team is ATT/DEF
-if manager.useRandomFactionIds == true and not ScriptCB_InMultiplayer() then
-	CIS = math.random(1,2)
-	REP = (3 - CIS)
-else
-	REP = 1
-	CIS = 2
-end
-
-HuskTeam = 3
-
-ATT = 1
-DEF = 2
-
 function ScriptPostLoad()
-	
-	SoundEvent_SetupTeams( CIS, 'cis', REP, 'rep' )
 	
 	--This defines the CPs.  These need to happen first
 	if ME5_MapVarVRM == 1 then
-		print("start 1flag objective")
 		--This sets up the actual objective.  This needs to happen after cp's are defined
 		ctf = ObjectiveOneFlagCTF:New{teamATT = 1, teamDEF = 2,
 							   textATT = "game.modes.1flag", textDEF = "game.modes.1flag2", 
@@ -71,7 +55,8 @@ function ScriptPostLoad()
 							   capRegionMarkerScaleATT = 3.0, capRegionMarkerScaleDEF = 3.0, multiplayerRules = true,
                            capRegionDummyObjectATT = "team1_capture1", capRegionDummyObjectDEF = "team2_capture1",}
 		ctf:Start()
-		print("end 1flag objective")
+	
+		SoundEvent_SetupTeams( manager.factionIds.CIS, 'cis', manager.factionIds.REP, 'rep' )
 		
 		EnableSPHeroRules()
 		
@@ -86,7 +71,6 @@ function ScriptPostLoad()
 		VRM_DisableBarriers1()
 		
 	elseif ME5_MapVarVRM == 2 then
-		print("start 1flag objective")
 		--This sets up the actual objective.  This needs to happen after cp's are defined
 		ctf = ObjectiveOneFlagCTF:New{teamATT = 1, teamDEF = 2,
 							   textATT = "game.modes.1flag", textDEF = "game.modes.1flag2", 
@@ -97,7 +81,8 @@ function ScriptPostLoad()
 							   capRegionMarkerScaleATT = 3.0, capRegionMarkerScaleDEF = 3.0, multiplayerRules = true,
                            capRegionDummyObjectATT = "team1_capture2", capRegionDummyObjectDEF = "team2_capture2",}
 		ctf:Start()
-		print("end 1flag objective")
+	
+		SoundEvent_SetupTeams( manager.factionIds.CIS, 'cis', manager.factionIds.REP, 'rep' )
 		
 		EnableSPHeroRules()
 		
@@ -127,7 +112,8 @@ end
 --              it is called from C to start the mission.
 ---------------------------------------------------------------------------
 function ScriptInit()
-    
+    LoadVirmireSettings()
+	
 	if ME5_MapVarVRM == 1 then
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\vrm1.lvl")
 		

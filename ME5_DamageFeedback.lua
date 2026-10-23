@@ -35,371 +35,364 @@ end
 PrintLog("Entered")
 
 
---==========================
--- INITIALIZE TABLES
---==========================
-
 -- TODO: make sure to update these tables when adding new weapons/units/vehicles!
 
--- Ballistic weapons.
-local ballisticWeapons = {
-				"cer_weap_inf_heavy_phase_disruptor",
-				"cer_weap_inf_pistol_m5",
-				"cer_weap_inf_pistol_m6",
-				"cer_weap_inf_rifle_m96",
-				"cer_weap_inf_smg_m4",
-				"cer_weap_inf_smg_m25",
-				"cer_weap_inf_sniper_m13",
+function Setup_DamageFeedback()
+	-- Ballistic weapons.
+	ballisticWeapons = {
+					"cer_weap_inf_heavy_phase_disruptor",
+					"cer_weap_inf_pistol_m5",
+					"cer_weap_inf_pistol_m6",
+					"cer_weap_inf_rifle_m96",
+					"cer_weap_inf_smg_m4",
+					"cer_weap_inf_smg_m25",
+					"cer_weap_inf_sniper_m13",
 
-				"col_weap_inf_rifle_col",
-				"col_weap_inf_rifle_col_colgen",
-				"col_weap_inf_rifle_col_shredder",
-				"col_weap_inf_rifle_colcarbine",
-				"col_weap_inf_rifle_colcarbine_colgen",
-				"col_weap_inf_smg_col",
-				"col_weap_inf_shotgun_pulse",
-				"col_weap_inf_shouldercannon",
-				
-				"gth_weap_bldg_assaultdrone",
-				"gth_weap_bldg_gethturret",
-				"gth_weap_inf_heavy_spitfire",
-				"gth_weap_inf_rifle_m76",
-				"gth_weap_inf_rifle_m76_boss",
-				"gth_weap_inf_rifle_pulse",
-				"gth_weap_inf_shotgun_m23",
-				"gth_weap_inf_shotgun_m27",
-				"gth_weap_inf_shotgun_plasma",
-				"gth_weap_inf_smg_pulse",
-				"gth_weap_inf_sniper_javelin",
-				"gth_weap_inf_sniper_m97",
-				"gth_weap_walk_colussus_gun",
-				
-				"rpr_weap_inf_armcannon",
-				"rpr_weap_inf_rifle_phaeston",
-				
-				"ssv_weap_fly_a61_gunship_gun",
-				"ssv_weap_fly_a61_gunship_missile_launcher",
-				"ssv_weap_inf_heavy_spitfire",
-				"ssv_weap_inf_pistol_m3",
-				"ssv_weap_inf_pistol_m3_armor",
-				"ssv_weap_inf_pistol_m3_disruptor",
-				"ssv_weap_inf_pistol_m3_incendiary",
-				"ssv_weap_inf_pistol_m5",
-				"ssv_weap_inf_pistol_m5_incendiary",
-				"ssv_weap_inf_pistol_m6",
-				"ssv_weap_inf_pistol_m77",
-				"ssv_weap_inf_pistol_n7eagle",
-				"ssv_weap_inf_pistol_n7eagle_armor",
-				"ssv_weap_inf_pistol_n7eagle_incendiary",
-				"ssv_weap_inf_rifle_m8",
-				"ssv_weap_inf_rifle_m8_armor",
-				"ssv_weap_inf_rifle_m8_disruptor",
-				"ssv_weap_inf_rifle_m8_incendiary",
-				"ssv_weap_inf_rifle_m15",
-				"ssv_weap_inf_rifle_m76",
-				"ssv_weap_inf_rifle_m96",
-				"ssv_weap_inf_shotgun_m23",
-				"ssv_weap_inf_shotgun_m23_armor",
-				"ssv_weap_inf_shotgun_m23_disruptor",
-				"ssv_weap_inf_shotgun_m23_incendiary",
-				"ssv_weap_inf_shotgun_m27",
-				"ssv_weap_inf_shotgun_m27_disruptor",
-				"ssv_weap_inf_shotgun_n7crusader",
-				"ssv_weap_inf_shotgun_n7crusader_incendiary",
-				"ssv_weap_inf_shotgun_plasma",
-				"ssv_weap_inf_smg_m4",
-				"ssv_weap_inf_smg_m4_disruptor",
-				"ssv_weap_inf_smg_m9",
-				"ssv_weap_inf_smg_m9_armor",
-				"ssv_weap_inf_smg_m9_disruptor",
-				"ssv_weap_inf_smg_m9_incendiary",
-				"ssv_weap_inf_smg_m12",
-				"ssv_weap_inf_smg_m12_shepard",
-				"ssv_weap_inf_smg_n7hurricane",
-				"ssv_weap_inf_smg_n7hurricane_disruptor",
-				"ssv_weap_inf_sniper_m92",
-				"ssv_weap_inf_sniper_m92_armor",
-				"ssv_weap_inf_sniper_m92_disruptor",
-				"ssv_weap_inf_sniper_m92_incendiary",
-				"ssv_weap_inf_sniper_m97",
-				"ssv_weap_inf_sniper_m97_armor",
-				"ssv_weap_inf_sniper_m97_disruptor",
-				"ssv_weap_inf_sniper_m98",
-				"ssv_weap_inf_sniper_m98b",
-				"ssv_weap_inf_sniper_m98b_armor",
-				"ssv_weap_inf_sniper_n7valiant",
-				"ssv_weap_tread_mako_cannon",
-				"ssv_weap_tread_mako_driver_cannon",
-				"ssv_weap_tread_mako_gun",
-				
-				"tur_weap_bldg_mturret_cannon",
-				"tur_weap_hoth_dishturret",
-				"tur_weap_hoth_lasermortar_laser",
-				"tur_weap_laser",
-}
-
--- CER ballistic weapons.
-local ballisticWeapons_CER = {
-				"cer_weap_inf_heavy_phase_disruptor",
-				"cer_weap_inf_pistol_m5",
-				"cer_weap_inf_pistol_m6",
-				"cer_weap_inf_rifle_m96",
-				"cer_weap_inf_smg_m4",
-				"cer_weap_inf_smg_m25",
-				"cer_weap_inf_sniper_m13",
-}
-
--- COL ballistic weapons.
-local ballisticWeapons_COL = {
-				"col_weap_inf_prae_missiles",
-				"col_weap_inf_rifle_col",
-				"col_weap_inf_rifle_col_colgen",
-				"col_weap_inf_rifle_col_shredder",
-				"col_weap_inf_rifle_colcarbine",
-				"col_weap_inf_rifle_colcarbine_colgen",
-				"col_weap_inf_smg_col",
-				"col_weap_inf_shotgun_pulse",
-				"col_weap_inf_shouldercannon",
-}
-
--- EVG ballistic weapons.
-local ballisticWeapons_EVG = {
-				"gth_weap_bldg_assaultdrone",
-				"gth_weap_bldg_gethturret",
-				"gth_weap_inf_heavy_ml77",
-				"gth_weap_inf_heavy_ml77b",
-				"gth_weap_inf_heavy_pulsecannon",
-				"gth_weap_inf_heavy_spitfire",
-				"gth_weap_inf_rifle_m76",
-				"gth_weap_inf_rifle_m76_boss",
-				"gth_weap_inf_rifle_pulse",
-				"gth_weap_inf_shotgun_m23",
-				"gth_weap_inf_shotgun_m27",
-				"gth_weap_inf_shotgun_plasma",
-				"gth_weap_inf_smg_pulse",
-				"gth_weap_inf_sniper_javelin",
-				"gth_weap_inf_sniper_m97",
-				"gth_weap_walk_colussus_gun",
-}
-
--- GTH ballistic weapons.
-local ballisticWeapons_GTH = {
-				"gth_weap_bldg_assaultdrone",
-				"gth_weap_bldg_gethturret",
-				"gth_weap_inf_heavy_distortion",
-				"gth_weap_inf_heavy_ml77",
-				"gth_weap_inf_heavy_ml77b",
-				"gth_weap_inf_heavy_pulsecannon",
-				"gth_weap_inf_heavy_scram",
-				"gth_weap_inf_heavy_spitfire",
-				"gth_weap_inf_rifle_m76",
-				"gth_weap_inf_rifle_m76_boss",
-				"gth_weap_inf_rifle_pulse",
-				"gth_weap_inf_shotgun_m23",
-				"gth_weap_inf_shotgun_m27",
-				"gth_weap_inf_shotgun_plasma",
-				"gth_weap_inf_smg_pulse",
-				"gth_weap_inf_sniper_javelin",
-				"gth_weap_inf_sniper_m97",
-				"gth_weap_walk_colussus_gun",
-}
-
--- RPR ballistic weapons.
-local ballisticWeapons_RPR = {
-				"rpr_weap_inf_rifle_armcannon",
-				"rpr_weap_inf_rifle_phaeston",
-				"rpr_weap_inf_ravager_cannons",
-				"rpr_weap_inf_sniper_krysae",
-}
-
--- SSV ballistic weapons.
-local ballisticWeapons_SSV = {
-				"ssv_weap_inf_heavy_m100",
-				"ssv_weap_inf_heavy_ml77",
-				"ssv_weap_inf_heavy_ml77b",
-				"ssv_weap_inf_heavy_spitfire",
-				"ssv_weap_inf_pistol_m3_incendiary",
-				"ssv_weap_inf_pistol_m5",
-				"ssv_weap_inf_pistol_m6",
-				"ssv_weap_inf_rifle_m8_disruptor",
-				"ssv_weap_inf_shotgun_m23_incendiary",
-				"ssv_weap_inf_shotgun_m27",
-				"ssv_weap_inf_smg_m4",
-				"ssv_weap_inf_smg_m9_disruptor",
-				"ssv_weap_inf_smg_m12",
-				"ssv_weap_inf_sniper_m92_armor",
-}
-
--- SSV hero ballistic weapons.
-local ballisticWeapons_SSV_hero = {}
-
-if string.find(SSVHeroClass, "shepard_soldier") then
-	ballisticWeapons_SSV_hero = {
-					"ssv_weap_inf_rifle_m76",
-					"ssv_weap_inf_sniper_n7valiant",
-	}
-	
-elseif string.find(SSVHeroClass, "shepard_infiltrator") then
-	ballisticWeapons_SSV_hero = {
-					"ssv_weap_inf_pistol_n7eagle_armor",
-					"ssv_weap_inf_smg_n7hurricane_disruptor",
-					"ssv_weap_inf_sniper_m98b_armor",
-	}
-	
-elseif string.find(SSVHeroClass, "shepard_engineer") then
-	ballisticWeapons_SSV_hero = {
-					"ssv_weap_inf_shotgun_plasma",
-					"ssv_weap_inf_smg_n7hurricane",
-	}
-	
-elseif string.find(SSVHeroClass, "shepard_adept") then
-	ballisticWeapons_SSV_hero = {
-					"ssv_weap_inf_pistol_n7eagle",
-					"ssv_weap_inf_smg_n7hurricane",
-	}
-	
-elseif string.find(SSVHeroClass, "shepard_sentinel") then
-	ballisticWeapons_SSV_hero = {
-					"ssv_weap_inf_pistol_m77",
-					"ssv_weap_inf_smg_n7hurricane",
-	}
-	
-elseif string.find(SSVHeroClass, "shepard_vanguard") then
-	ballisticWeapons_SSV_hero = {
+					"col_weap_inf_rifle_col",
+					"col_weap_inf_rifle_col_colgen",
+					"col_weap_inf_rifle_col_shredder",
+					"col_weap_inf_rifle_colcarbine",
+					"col_weap_inf_rifle_colcarbine_colgen",
+					"col_weap_inf_smg_col",
+					"col_weap_inf_shotgun_pulse",
+					"col_weap_inf_shouldercannon",
+					
+					"gth_weap_bldg_assaultdrone",
+					"gth_weap_bldg_gethturret",
+					"gth_weap_inf_heavy_spitfire",
+					"gth_weap_inf_rifle_m76",
+					"gth_weap_inf_rifle_m76_boss",
+					"gth_weap_inf_rifle_pulse",
+					"gth_weap_inf_shotgun_m23",
+					"gth_weap_inf_shotgun_m27",
+					"gth_weap_inf_shotgun_plasma",
+					"gth_weap_inf_smg_pulse",
+					"gth_weap_inf_sniper_javelin",
+					"gth_weap_inf_sniper_m97",
+					"gth_weap_walk_colussus_gun",
+					
+					"rpr_weap_inf_armcannon",
+					"rpr_weap_inf_rifle_phaeston",
+					
+					"ssv_weap_fly_a61_gunship_gun",
+					"ssv_weap_fly_a61_gunship_missile_launcher",
 					"ssv_weap_inf_heavy_spitfire",
+					"ssv_weap_inf_pistol_m3",
+					"ssv_weap_inf_pistol_m3_armor",
+					"ssv_weap_inf_pistol_m3_disruptor",
+					"ssv_weap_inf_pistol_m3_incendiary",
+					"ssv_weap_inf_pistol_m5",
+					"ssv_weap_inf_pistol_m5_incendiary",
+					"ssv_weap_inf_pistol_m6",
+					"ssv_weap_inf_pistol_m77",
+					"ssv_weap_inf_pistol_n7eagle",
+					"ssv_weap_inf_pistol_n7eagle_armor",
 					"ssv_weap_inf_pistol_n7eagle_incendiary",
+					"ssv_weap_inf_rifle_m8",
+					"ssv_weap_inf_rifle_m8_armor",
+					"ssv_weap_inf_rifle_m8_disruptor",
+					"ssv_weap_inf_rifle_m8_incendiary",
+					"ssv_weap_inf_rifle_m15",
+					"ssv_weap_inf_rifle_m76",
+					"ssv_weap_inf_rifle_m96",
+					"ssv_weap_inf_shotgun_m23",
+					"ssv_weap_inf_shotgun_m23_armor",
+					"ssv_weap_inf_shotgun_m23_disruptor",
+					"ssv_weap_inf_shotgun_m23_incendiary",
+					"ssv_weap_inf_shotgun_m27",
+					"ssv_weap_inf_shotgun_m27_disruptor",
+					"ssv_weap_inf_shotgun_n7crusader",
 					"ssv_weap_inf_shotgun_n7crusader_incendiary",
+					"ssv_weap_inf_shotgun_plasma",
+					"ssv_weap_inf_smg_m4",
+					"ssv_weap_inf_smg_m4_disruptor",
+					"ssv_weap_inf_smg_m9",
+					"ssv_weap_inf_smg_m9_armor",
+					"ssv_weap_inf_smg_m9_disruptor",
+					"ssv_weap_inf_smg_m9_incendiary",
+					"ssv_weap_inf_smg_m12",
+					"ssv_weap_inf_smg_m12_shepard",
+					"ssv_weap_inf_smg_n7hurricane",
+					"ssv_weap_inf_smg_n7hurricane_disruptor",
+					"ssv_weap_inf_sniper_m92",
+					"ssv_weap_inf_sniper_m92_armor",
+					"ssv_weap_inf_sniper_m92_disruptor",
+					"ssv_weap_inf_sniper_m92_incendiary",
+					"ssv_weap_inf_sniper_m97",
+					"ssv_weap_inf_sniper_m97_armor",
+					"ssv_weap_inf_sniper_m97_disruptor",
+					"ssv_weap_inf_sniper_m98",
+					"ssv_weap_inf_sniper_m98b",
+					"ssv_weap_inf_sniper_m98b_armor",
+					"ssv_weap_inf_sniper_n7valiant",
+					"ssv_weap_tread_mako_cannon",
+					"ssv_weap_tread_mako_driver_cannon",
+					"ssv_weap_tread_mako_gun",
+					
+					"tur_weap_bldg_mturret_cannon",
+					"tur_weap_hoth_dishturret",
+					"tur_weap_hoth_lasermortar_laser",
+					"tur_weap_laser",
 	}
-	
-elseif (string.find(SSVHeroClass, "cooper") or (gLoadCooper and gLoadCooper == true)) then
-	if IsCampaign() then
+
+	-- CER ballistic weapons.
+	ballisticWeapons_CER = {
+					"cer_weap_inf_heavy_phase_disruptor",
+					"cer_weap_inf_pistol_m5",
+					"cer_weap_inf_pistol_m6",
+					"cer_weap_inf_rifle_m96",
+					"cer_weap_inf_smg_m4",
+					"cer_weap_inf_smg_m25",
+					"cer_weap_inf_sniper_m13",
+	}
+
+	-- COL ballistic weapons.
+	ballisticWeapons_COL = {
+					"col_weap_inf_prae_missiles",
+					"col_weap_inf_rifle_col",
+					"col_weap_inf_rifle_col_colgen",
+					"col_weap_inf_rifle_col_shredder",
+					"col_weap_inf_rifle_colcarbine",
+					"col_weap_inf_rifle_colcarbine_colgen",
+					"col_weap_inf_smg_col",
+					"col_weap_inf_shotgun_pulse",
+					"col_weap_inf_shouldercannon",
+	}
+
+	-- EVG ballistic weapons.
+	ballisticWeapons_EVG = {
+					"gth_weap_bldg_assaultdrone",
+					"gth_weap_bldg_gethturret",
+					"gth_weap_inf_heavy_ml77",
+					"gth_weap_inf_heavy_ml77b",
+					"gth_weap_inf_heavy_pulsecannon",
+					"gth_weap_inf_heavy_spitfire",
+					"gth_weap_inf_rifle_m76",
+					"gth_weap_inf_rifle_m76_boss",
+					"gth_weap_inf_rifle_pulse",
+					"gth_weap_inf_shotgun_m23",
+					"gth_weap_inf_shotgun_m27",
+					"gth_weap_inf_shotgun_plasma",
+					"gth_weap_inf_smg_pulse",
+					"gth_weap_inf_sniper_javelin",
+					"gth_weap_inf_sniper_m97",
+					"gth_weap_walk_colussus_gun",
+	}
+
+	-- GTH ballistic weapons.
+	ballisticWeapons_GTH = {
+					"gth_weap_bldg_assaultdrone",
+					"gth_weap_bldg_gethturret",
+					"gth_weap_inf_heavy_distortion",
+					"gth_weap_inf_heavy_ml77",
+					"gth_weap_inf_heavy_ml77b",
+					"gth_weap_inf_heavy_pulsecannon",
+					"gth_weap_inf_heavy_scram",
+					"gth_weap_inf_heavy_spitfire",
+					"gth_weap_inf_rifle_m76",
+					"gth_weap_inf_rifle_m76_boss",
+					"gth_weap_inf_rifle_pulse",
+					"gth_weap_inf_shotgun_m23",
+					"gth_weap_inf_shotgun_m27",
+					"gth_weap_inf_shotgun_plasma",
+					"gth_weap_inf_smg_pulse",
+					"gth_weap_inf_sniper_javelin",
+					"gth_weap_inf_sniper_m97",
+					"gth_weap_walk_colussus_gun",
+	}
+
+	-- RPR ballistic weapons.
+	ballisticWeapons_RPR = {
+					"rpr_weap_inf_rifle_armcannon",
+					"rpr_weap_inf_rifle_phaeston",
+					"rpr_weap_inf_ravager_cannons",
+					"rpr_weap_inf_sniper_krysae",
+	}
+
+	-- SSV ballistic weapons.
+	ballisticWeapons_SSV = {
+					"ssv_weap_inf_heavy_m100",
+					"ssv_weap_inf_heavy_ml77",
+					"ssv_weap_inf_heavy_ml77b",
+					"ssv_weap_inf_heavy_spitfire",
+					"ssv_weap_inf_pistol_m3_incendiary",
+					"ssv_weap_inf_pistol_m5",
+					"ssv_weap_inf_pistol_m6",
+					"ssv_weap_inf_rifle_m8_disruptor",
+					"ssv_weap_inf_shotgun_m23_incendiary",
+					"ssv_weap_inf_shotgun_m27",
+					"ssv_weap_inf_smg_m4",
+					"ssv_weap_inf_smg_m9_disruptor",
+					"ssv_weap_inf_smg_m12",
+					"ssv_weap_inf_sniper_m92_armor",
+	}
+
+	-- SSV hero ballistic weapons.
+	ballisticWeapons_SSV_hero = {}
+
+	if string.find(SSVHeroClass, "shepard_soldier") then
 		ballisticWeapons_SSV_hero = {
-						"ssv_weap_inf_pistol_m3_armor",
-						--"ssv_weap_inf_pistol_m3_incendiary",
-						--"ssv_weap_inf_pistol_m5",
-						--"ssv_weap_inf_pistol_m6",
-						"ssv_weap_inf_rifle_m8_disruptor",
-						--"ssv_weap_inf_shotgun_m23_incendiary",
-						"ssv_weap_inf_shotgun_m27_disruptor",
-						--"ssv_weap_inf_smg_m4",
-						"ssv_weap_inf_smg_m4_disruptor",
-						--"ssv_weap_inf_smg_m9_disruptor",
-						--"ssv_weap_inf_smg_m12",
-						--"ssv_weap_inf_sniper_m92_armor",
-						"ssv_weap_inf_sniper_m97_armor",
+						"ssv_weap_inf_rifle_m76",
+						"ssv_weap_inf_sniper_n7valiant",
 		}
-	else
-		if string.find(SSVHeroClass, "soldier") then
-			ballisticWeapons_SSV_hero = {
-							"ssv_weap_inf_rifle_m8_disruptor",
-							"ssv_weap_inf_shotgun_m27_disruptor",
-							"ssv_weap_inf_sniper_m97_armor",
-			}
-			
-		elseif string.find(SSVHeroClass, "infiltrator") then
+		
+	elseif string.find(SSVHeroClass, "shepard_infiltrator") then
+		ballisticWeapons_SSV_hero = {
+						"ssv_weap_inf_pistol_n7eagle_armor",
+						"ssv_weap_inf_smg_n7hurricane_disruptor",
+						"ssv_weap_inf_sniper_m98b_armor",
+		}
+		
+	elseif string.find(SSVHeroClass, "shepard_engineer") then
+		ballisticWeapons_SSV_hero = {
+						"ssv_weap_inf_shotgun_plasma",
+						"ssv_weap_inf_smg_n7hurricane",
+		}
+		
+	elseif string.find(SSVHeroClass, "shepard_adept") then
+		ballisticWeapons_SSV_hero = {
+						"ssv_weap_inf_pistol_n7eagle",
+						"ssv_weap_inf_smg_n7hurricane",
+		}
+		
+	elseif string.find(SSVHeroClass, "shepard_sentinel") then
+		ballisticWeapons_SSV_hero = {
+						"ssv_weap_inf_pistol_m77",
+						"ssv_weap_inf_smg_n7hurricane",
+		}
+		
+	elseif string.find(SSVHeroClass, "shepard_vanguard") then
+		ballisticWeapons_SSV_hero = {
+						"ssv_weap_inf_heavy_spitfire",
+						"ssv_weap_inf_pistol_n7eagle_incendiary",
+						"ssv_weap_inf_shotgun_n7crusader_incendiary",
+		}
+		
+	elseif (string.find(SSVHeroClass, "cooper") or (gLoadCooper and gLoadCooper == true)) then
+		if IsCampaign() then
 			ballisticWeapons_SSV_hero = {
 							"ssv_weap_inf_pistol_m3_armor",
-							--"ssv_weap_inf_smg_m9_disruptor",
-							--"ssv_weap_inf_sniper_m92_armor",
-			}
-			
-		elseif string.find(SSVHeroClass, "engineer") then
-			ballisticWeapons_SSV_hero = {
-							"ssv_weap_inf_shotgun_m27_disruptor",
-							"ssv_weap_inf_smg_m4_disruptor",
-			}
-			
-		elseif string.find(SSVHeroClass, "adept") then
-			ballisticWeapons_SSV_hero = {
-							--"ssv_weap_inf_pistol_m5",
-							--"ssv_weap_inf_smg_m4",
-			}
-			
-		elseif string.find(SSVHeroClass, "sentinel") then
-			ballisticWeapons_SSV_hero = {
-							--"ssv_weap_inf_pistol_m6",
-							--"ssv_weap_inf_smg_m12",
-			}
-			
-		elseif string.find(SSVHeroClass, "vanguard") then
-			ballisticWeapons_SSV_hero = {
 							--"ssv_weap_inf_pistol_m3_incendiary",
+							--"ssv_weap_inf_pistol_m5",
+							--"ssv_weap_inf_pistol_m6",
+							"ssv_weap_inf_rifle_m8_disruptor",
 							--"ssv_weap_inf_shotgun_m23_incendiary",
+							"ssv_weap_inf_shotgun_m27_disruptor",
+							--"ssv_weap_inf_smg_m4",
+							"ssv_weap_inf_smg_m4_disruptor",
+							--"ssv_weap_inf_smg_m9_disruptor",
+							--"ssv_weap_inf_smg_m12",
+							--"ssv_weap_inf_sniper_m92_armor",
+							"ssv_weap_inf_sniper_m97_armor",
 			}
+		else
+			if string.find(SSVHeroClass, "soldier") then
+				ballisticWeapons_SSV_hero = {
+								"ssv_weap_inf_rifle_m8_disruptor",
+								"ssv_weap_inf_shotgun_m27_disruptor",
+								"ssv_weap_inf_sniper_m97_armor",
+				}
+				
+			elseif string.find(SSVHeroClass, "infiltrator") then
+				ballisticWeapons_SSV_hero = {
+								"ssv_weap_inf_pistol_m3_armor",
+								--"ssv_weap_inf_smg_m9_disruptor",
+								--"ssv_weap_inf_sniper_m92_armor",
+				}
+				
+			elseif string.find(SSVHeroClass, "engineer") then
+				ballisticWeapons_SSV_hero = {
+								"ssv_weap_inf_shotgun_m27_disruptor",
+								"ssv_weap_inf_smg_m4_disruptor",
+				}
+				
+			elseif string.find(SSVHeroClass, "adept") then
+				ballisticWeapons_SSV_hero = {
+								--"ssv_weap_inf_pistol_m5",
+								--"ssv_weap_inf_smg_m4",
+				}
+				
+			elseif string.find(SSVHeroClass, "sentinel") then
+				ballisticWeapons_SSV_hero = {
+								--"ssv_weap_inf_pistol_m6",
+								--"ssv_weap_inf_smg_m12",
+				}
+				
+			elseif string.find(SSVHeroClass, "vanguard") then
+				ballisticWeapons_SSV_hero = {
+								--"ssv_weap_inf_pistol_m3_incendiary",
+								--"ssv_weap_inf_shotgun_m23_incendiary",
+				}
+			end
+		end
+		
+	elseif string.find(SSVHeroClass, "jack") then
+		ballisticWeapons_SSV_hero = {
+						"ssv_weap_inf_pistol_n7eagle",
+						"ssv_weap_inf_shotgun_plasma",
+		}
+		
+	elseif string.find(SSVHeroClass, "legion") then
+		
+		
+	elseif string.find(SSVHeroClass, "samara") then
+		
+		
+	end
+
+	-- Turret ballistic weapons.
+	ballisticWeapons_TUR = {
+					"tur_weap_bldg_mturret_cannon",
+					"tur_weap_hoth_dishturret",
+					"tur_weap_hoth_lasermortar_laser",
+					"tur_weap_laser",
+	}
+
+	-- Vehicle ballistic weapons (for vehicles that any team can pilot).
+	ballisticWeapons_VEH = {
+					"ssv_weap_fly_a61_gunship_gun",
+					"ssv_weap_fly_a61_gunship_missile_launcher",
+					"ssv_weap_tread_mako_cannon",
+					"ssv_weap_tread_mako_driver_cannon",
+					"ssv_weap_tread_mako_gun",
+	}
+
+
+	--==========================
+	-- MERGE TABLES
+	--==========================
+
+	-- Merge the SSV hero table with the SSV table
+	if table.getn(ballisticWeapons_SSV_hero) > 0 then
+		for i in ipairs(ballisticWeapons_SSV_hero) do
+			table.insert(ballisticWeapons_SSV, ballisticWeapons_SSV_hero[i])
 		end
 	end
-	
-elseif string.find(SSVHeroClass, "jack") then
-	ballisticWeapons_SSV_hero = {
-					"ssv_weap_inf_pistol_n7eagle",
-					"ssv_weap_inf_shotgun_plasma",
-	}
-	
-elseif string.find(SSVHeroClass, "legion") then
-	
-	
-elseif string.find(SSVHeroClass, "samara") then
-	
-	
-end
 
--- Turret ballistic weapons.
-local ballisticWeapons_TUR = {
-				"tur_weap_bldg_mturret_cannon",
-				"tur_weap_hoth_dishturret",
-				"tur_weap_hoth_lasermortar_laser",
-				"tur_weap_laser",
-}
+	-- Merge the TUR table with each faction's table
+	if table.getn(ballisticWeapons_TUR) > 0 then
+		for i in ipairs(ballisticWeapons_TUR) do
+			table.insert(ballisticWeapons_CER, ballisticWeapons_TUR[i])
+			table.insert(ballisticWeapons_COL, ballisticWeapons_TUR[i])
+			table.insert(ballisticWeapons_EVG, ballisticWeapons_TUR[i])
+			table.insert(ballisticWeapons_GTH, ballisticWeapons_TUR[i])
+			table.insert(ballisticWeapons_RPR, ballisticWeapons_TUR[i])
+			table.insert(ballisticWeapons_SSV, ballisticWeapons_TUR[i])
+		end
+	end
 
--- Vehicle ballistic weapons (for vehicles that any team can pilot).
-local ballisticWeapons_VEH = {
-				"ssv_weap_fly_a61_gunship_gun",
-				"ssv_weap_fly_a61_gunship_missile_launcher",
-				"ssv_weap_tread_mako_cannon",
-				"ssv_weap_tread_mako_driver_cannon",
-				"ssv_weap_tread_mako_gun",
-}
-
-
---==========================
--- MERGE TABLES
---==========================
-
--- Merge the SSV hero table with the SSV table
-if table.getn(ballisticWeapons_SSV_hero) > 0 then
-	for i in ipairs(ballisticWeapons_SSV_hero) do
-		table.insert(ballisticWeapons_SSV, ballisticWeapons_SSV_hero[i])
+	-- Merge the VEH table with each faction's table
+	if table.getn(ballisticWeapons_VEH) > 0 then
+		for i in ipairs(ballisticWeapons_VEH) do
+			table.insert(ballisticWeapons_CER, ballisticWeapons_VEH[i])
+			table.insert(ballisticWeapons_COL, ballisticWeapons_VEH[i])
+			table.insert(ballisticWeapons_EVG, ballisticWeapons_VEH[i])
+			table.insert(ballisticWeapons_GTH, ballisticWeapons_VEH[i])
+			table.insert(ballisticWeapons_RPR, ballisticWeapons_VEH[i])
+			table.insert(ballisticWeapons_SSV, ballisticWeapons_VEH[i])
+		end
 	end
 end
-
--- Merge the TUR table with each faction's table
-if table.getn(ballisticWeapons_TUR) > 0 then
-	for i in ipairs(ballisticWeapons_TUR) do
-		table.insert(ballisticWeapons_CER, ballisticWeapons_TUR[i])
-		table.insert(ballisticWeapons_COL, ballisticWeapons_TUR[i])
-		table.insert(ballisticWeapons_EVG, ballisticWeapons_TUR[i])
-		table.insert(ballisticWeapons_GTH, ballisticWeapons_TUR[i])
-		table.insert(ballisticWeapons_RPR, ballisticWeapons_TUR[i])
-		table.insert(ballisticWeapons_SSV, ballisticWeapons_TUR[i])
-	end
-end
-
--- Merge the VEH table with each faction's table
-if table.getn(ballisticWeapons_VEH) > 0 then
-	for i in ipairs(ballisticWeapons_VEH) do
-		table.insert(ballisticWeapons_CER, ballisticWeapons_VEH[i])
-		table.insert(ballisticWeapons_COL, ballisticWeapons_VEH[i])
-		table.insert(ballisticWeapons_EVG, ballisticWeapons_VEH[i])
-		table.insert(ballisticWeapons_GTH, ballisticWeapons_VEH[i])
-		table.insert(ballisticWeapons_RPR, ballisticWeapons_VEH[i])
-		table.insert(ballisticWeapons_SSV, ballisticWeapons_VEH[i])
-	end
-end
-
-
---==========================
--- FUNCTIONS
---==========================
 
 ---
 -- Sets up the event responses for the player damage sounds.

@@ -14,6 +14,7 @@ manager = MapManager:New{
 	gameMode = "ctf",
 	mapSize = "sm",
 	environmentType = "urban",
+	factionIds = {REP = 2, CIS = 1},
 	
 	-- In-game music
 	musicVariation_SSVxGTH = {"4","6"},
@@ -38,20 +39,6 @@ manager = MapManager:New{
 -- Initialize the MapManager
 manager:Init()
 
--- Randomize which team is ATT/DEF
-if manager.useRandomFactionIds == true and not ScriptCB_InMultiplayer() then
-	CIS = math.random(1,2)
-	REP = (3 - CIS)
-else
-	REP = 2
-	CIS = 1
-end
-
-HuskTeam = 3
-
-ATT = 1
-DEF = 2
-
 ---------------------------------------------------------------------------
 -- FUNCTION:    ScriptInit
 -- PURPOSE:     This function is only run once
@@ -64,8 +51,6 @@ DEF = 2
  
 --PostLoad, this is all done after all loading, etc.
 function ScriptPostLoad()
-
-        SoundEvent_SetupTeams( REP, 'rep', CIS, 'cis' )
 		SetProperty ("com_item_vehicle_spawn", "SpawnCount",1)
 		SetProperty ("com_item_vehicle_spawn1", "SpawnCount",0)
 		SetProperty ("com_item_vehicle_spawn2", "SpawnCount",0)
@@ -87,6 +72,8 @@ function ScriptPostLoad()
     ctf:AddFlag{name = "flag1", homeRegion = "Team1FlagCapture", captureRegion = "Team2FlagCapture", regionDummyObject = "com_bldg_ctfbase"}
     ctf:AddFlag{name = "flag2", homeRegion = "Team2FlagCapture", captureRegion = "Team1FlagCapture", regionDummyObject = "com_bldg_ctfbase1"}
     ctf:Start()
+
+	SoundEvent_SetupTeams( manager.factionIds.REP, 'rep', manager.factionIds.CIS, 'cis' )
     
     EnableSPHeroRules()
 	

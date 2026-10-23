@@ -15,6 +15,7 @@ manager = MapManager:New{
 	mapSize = "xl",
 	environmentType = "snow",
 	terrainFoleyGroup = "snow",
+	factionIds = {REP = 2, CIS = 1},
 	
 	-- In-game music
 	musicVariation_SSVxGTH = "3_nov",
@@ -36,20 +37,6 @@ manager = MapManager:New{
 }
 -- Initialize the MapManager
 manager:Init()
-
--- Randomize which team is ATT/DEF
-if manager.useRandomFactionIds == true and not ScriptCB_InMultiplayer() then
-	CIS = math.random(1,2)
-	REP = (3 - CIS)
-else
-	REP = 2
-	CIS = 1
-end
-
-HuskTeam = 3
-
-ATT = 1
-DEF = 2
 
 ---------------------------------------------------------------------------
 -- FUNCTION:    ScriptInit
@@ -75,9 +62,6 @@ function ScriptPostLoad()
 
 	--This makes sure the flag is colorized when it has been dropped on the ground
 	--SetClassProperty("com_item_flag_carried", "DroppedColorize", 1)
-	
-   EnableSPHeroRules()
-   SoundEvent_SetupTeams( REP, 'rep', CIS, 'cis' )
         --This is the actual objective setup
     ctf = ObjectiveOneFlagCTF:New{teamATT = 1, teamDEF = 2,
                            textATT = "game.modes.1flag", textDEF = "game.modes.1flag2", 
@@ -88,6 +72,10 @@ function ScriptPostLoad()
                            capRegionMarkerScaleATT = 3.0, capRegionMarkerScaleDEF = 3.0, hideCPs = true, multiplayerRules = true,
                            capRegionDummyObjectATT = "lag_capture2", capRegionDummyObjectDEF = "lag_capture1",}
     ctf:Start()
+
+	SoundEvent_SetupTeams( manager.factionIds.REP, 'rep', manager.factionIds.CIS, 'cis' )
+	
+	EnableSPHeroRules()
 	
 	manager:Proc_ScriptPostLoad_End()
 	

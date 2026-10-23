@@ -1,11 +1,14 @@
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\master.lvl")
+ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\master.lvl")
 
+ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\core.lvl")
 ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\core.lvl")
 --
 -- Copyright (c) 2005 Pandemic Studios, LLC. All rights reserved.
 --
 
 -- load the gametype script
+ScriptCB_DoFile("SOL_Master")
 ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
@@ -17,6 +20,7 @@ manager = MapManager:New{
 	gameMode = "conquest",				-- The mission's game mode.
 	mapSize = "sm",						-- Size of the map. Used for determining unit counts.
 	environmentType = "urban",			-- Map's biome (essentially). Used for determining which camo textures to load. ("desert", "jungle", "snow", or "urban")
+	factionIds = {REP = 2, CIS = 1},
 	
 	-- In-game music (you can also specify a table of values and one of them will be randomly selected at runtime, example: `musicVariation_SSVxGTH = {"1","3"}` )
 	musicVariation_SSVxGTH = "4",		-- Music variation to use for SSVxGTH matches.
@@ -51,14 +55,6 @@ manager = MapManager:New{
 -- Initialize the MapManager
 manager:Init()
 
-REP = 2
-CIS = 1
-
-HuskTeam = 3
-
-ATT = 1
-DEF = 2
-
 
 function ScriptPostLoad()
     
@@ -87,10 +83,10 @@ function ScriptPostLoad()
 
     EnableSPHeroRules()
 
-	SetClassProperty("ven_inf_astronaut", "HurtSound", "rep_inf_com_chatter_wound")
-	SetClassProperty("ven_inf_astronaut", "DeathSound", "rep_inf_com_chatter_death")
-	SetClassProperty("ven_inf_astronaut", "DamageRegionSound", "repmalechoke")
-	SetClassProperty("ven_inf_astronaut", "FoleyFXClass", "rep_inf_trooper")
+	SetClassProperty("sol_inf_astronaut", "HurtSound", "rep_inf_com_chatter_wound")
+	SetClassProperty("sol_inf_astronaut", "DeathSound", "rep_inf_com_chatter_death")
+	SetClassProperty("sol_inf_astronaut", "DamageRegionSound", "repmalechoke")
+	SetClassProperty("sol_inf_astronaut", "FoleyFXClass", "rep_inf_trooper")
 
 	SetObjectTeam("tur_bldg_chaingun_roof", CIS)
 	SetObjectTeam("tur_bldg_chaingun_roof1", CIS)
@@ -112,6 +108,8 @@ function ScriptPostLoad()
 		end,
 		"cp5"
 	)
+
+	SetObjectTeam("cp_nasa", 5)
 	
 	-- Perform various post-load operations
 	manager:Proc_ScriptPostLoad_End()
@@ -145,27 +143,29 @@ function ScriptInit()
 	SetMaxFlyHeight(50)
 	SetMaxPlayerFlyHeight(50)
 	
+	ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\sound\\MER.lvl")
+	ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\sound\\sol.lvl;sol_mern")
+
 	-- Load and set up the sides
 	manager:Proc_ScriptInit_SideSetup()
-	ReadDataFile("dc:SIDE\\sol.lvl",
+	ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\SIDE\\sol.lvl",
 					"sol_inf_astronaut")
 
-	SetTeamName(4, "nasa")
-	AddUnitClass(4, "sol_inf_astronaut", 4,4)
-	SetUnitCount(4, 4)
-	AddAIGoal(4, "Deathmatch", 100)
-	
-	SetTeamAsNeutral(ATT,4)
-	SetTeamAsNeutral(4,ATT)
-	SetTeamAsNeutral(DEF,4)
-	SetTeamAsNeutral(4,DEF)
-	SetTeamAsNeutral(HuskTeam,4)
-	SetTeamAsNeutral(4,HuskTeam)
-
-	ReadDataFile("dc:SIDE\\tur.lvl",
+	ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\SIDE\\tur.lvl",
+					"mer_bldg_powercluster",
 					"tur_bldg_chaingun_roof")
+
+	SetTeamName(5, "nasa")
+	AddUnitClass(5, "sol_inf_astronaut", 4,4)
+	SetUnitCount(5, 4)
+	AddAIGoal(5, "Deathmatch", 100)
 	
-	ReadDataFile("dc:sound\\MER.lvl;MERcw")
+	SetTeamAsNeutral(ATT,5)
+	SetTeamAsNeutral(5,ATT)
+	SetTeamAsNeutral(DEF,5)
+	SetTeamAsNeutral(5,DEF)
+	SetTeamAsNeutral(HuskTeam,5)
+	SetTeamAsNeutral(5,HuskTeam)
 	
 
     --  Level Stats
@@ -198,46 +198,39 @@ function ScriptInit()
 	manager:Proc_ScriptInit_MemoryPoolInit()
     
     SetSpawnDelay(10.0, 0.25)
-    ReadDataFile("dc:SOL\\MER.lvl", "MER_conquest")
-    SetDenseEnvironment("false")
+    ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\SOL\\MER.lvl", "MER_conquest")
+    SetDenseEnvironment("true")
 	
 	-- ReadDataFile("dc:minimap.lvl;ven")
 	
 	
 	--  Sound Stats
 	
-	-- Set up music
-	if ME5_SolMapMusic == 0 then
-		--ScriptCB_EnableHeroMusic(0)
-		
-		OpenAudioStream("dc:sound\\sol.lvl", "SOLgcw_music")
-		OpenMusicStreams(1)
+	OpenAudioStream("..\\..\\addon\\SOL\\data\\_LVL_PC\\sound\\sol.lvl", "SOLgcw_music")
+	OpenMusicStreams(1)
 
-		SetAmbientMusic(REP, 1.0, "MER_amb_earworm",  0,1)
-		SetAmbientMusic(CIS, 1.0, "MER_amb_earworm",  0,1)
-		
-		SetVictoryMusic(REP, "ssv_amb_01_victory")
-		SetDefeatMusic (REP, "ssv_amb_01_defeat")
-		SetVictoryMusic(CIS, "ssv_amb_01_victory")
-		SetDefeatMusic (CIS, "ssv_amb_01_defeat")
-		
-	elseif ME5_SolMapMusic == 1 then
-		manager:Proc_ScriptInit_MusicSetup()
-	end
+	SetAmbientMusic(REP, 1.0, "MER_amb_earworm",  0,1)
+	SetAmbientMusic(CIS, 1.0, "MER_amb_earworm",  0,1)
 	
-	OpenAudioStream("dc:sound\\MER.lvl",  "MER_ambiance")
-	OpenAudioStream("dc:sound\\MER.lvl",  "MER_ambiance")
+	SetVictoryMusic(REP, "ssv_amb_01_victory")
+	SetDefeatMusic (REP, "ssv_amb_01_defeat")
+	SetVictoryMusic(CIS, "ssv_amb_01_victory")
+	SetDefeatMusic (CIS, "ssv_amb_01_defeat")
+	
+	OpenAudioStream("..\\..\\addon\\SOL\\data\\_LVL_PC\\sound\\MER.lvl",  "MER_ambiance")
+	OpenAudioStream("..\\..\\addon\\SOL\\data\\_LVL_PC\\sound\\MER.lvl",  "MER_ambiance")
 	
 	SoundFX()
 	
 	ScaleSoundParameter("ambientenv",	"Gain", 1.0)
 
     -- Camera Stats
-	AddCameraShot(0.860834, -0.066550, -0.503015, -0.038887, -156.444336, 26.008068, 375.989807);
-	AddCameraShot(0.415989, -0.029820, -0.906554, -0.064987, -121.549095, 26.008068, 223.142822);
-	AddCameraShot(-0.327677, 0.024227, -0.941908, -0.069639, 57.638302, 32.931034, 172.352127);
-	AddCameraShot(0.771404, -0.020699, -0.635780, -0.017060, -86.801491, 13.656008, 306.767334);
-	AddCameraShot(0.789378, -0.064580, 0.608469, 0.049779, 18.768763, 13.656008, 316.177277);
+	AddCameraShot(-0.274886, 0.013827, -0.960164, -0.048297, -210.180695, 3.635276, 118.081535);	-- hangar
+	AddCameraShot(0.496477, 0.008049, -0.867899, 0.014071, -215.348770, 0.987042, 188.249725);		-- mess hall
+	AddCameraShot(0.453753, 0.001287, -0.891123, 0.002527, -187.783844, 1.628211, 87.657166);		-- power room
+	AddCameraShot(-0.274609, 0.017051, -0.959557, -0.059580, -154.878372, 16.319477, 134.786194);	-- observatory
+	AddCameraShot(0.514180, -0.033251, 0.855251, 0.055308, -100.511414, 2.989032, 132.859024);		-- command deck
+	AddCameraShot(0.704096, -0.006660, -0.710042, -0.006716, -128.710251, 2.147865, 138.976120);	-- command deck towards sun
 	
 	-- Perform various post-load operations
 	manager:Proc_ScriptInit_End()

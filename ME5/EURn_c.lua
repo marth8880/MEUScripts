@@ -30,6 +30,7 @@ manager = MapManager:New{
 	gameMode = "campaign",
 	mapSize = "xs",
 	environmentType = "urban",
+	factionIds = {REP = 1, CIS = 2},
 }
 -- Initialize the MapManager
 manager:Init()
@@ -48,30 +49,30 @@ GethPrimes = 7	-- Team for Geth Primes.
 ATT = 1
 DEF = 2
 
-local playerLives = 10	-- The amount of lives the player has. A value of -1 denotes infinite lives.
+playerLives = 10	-- The amount of lives the player has. A value of -1 denotes infinite lives.
 
-local playerMaxHealth = nil	-- The player's max health for their current class.
-local playerMinHealth = nil	-- The value to restore the player's health to after every combat zone.
-local playerCurHealth = nil	-- The player's current health.
+playerMaxHealth = nil	-- The player's max health for their current class.
+playerMinHealth = nil	-- The value to restore the player's health to after every combat zone.
+playerCurHealth = nil	-- The player's current health.
 
-local playerHealthThreshold = 0.4	-- The percentage form of playerMinHealth. Must be > playerHealthThreshold in Init_LowHealthFeedback().
-local playerHealthAddRate = 50		-- The amount of health that is restored to the player per second.
+playerHealthThreshold = 0.4	-- The percentage form of playerMinHealth. Must be > playerHealthThreshold in Init_LowHealthFeedback().
+playerHealthAddRate = 50		-- The amount of health that is restored to the player per second.
 
-local squadDefenseBuff = nil	-- The multiplier for the player's squad's health/shields.
-local enemyDefenseBuff = nil	-- The multiplier for the enemy units' health/shields.
-local bossDefenseBuff = nil		-- The multiplier for the final boss.
+squadDefenseBuff = nil	-- The multiplier for the player's squad's health/shields.
+enemyDefenseBuff = nil	-- The multiplier for the enemy units' health/shields.
+bossDefenseBuff = nil		-- The multiplier for the final boss.
 
-local squadAggro = nil		-- The aggressiveness of the player's squad.
-local enemyAggro = nil		-- The aggressiveness of the enemy units.
-local bossAggro = nil		-- The aggressiveness of the final boss.
+squadAggro = nil		-- The aggressiveness of the player's squad.
+enemyAggro = nil		-- The aggressiveness of the enemy units.
+bossAggro = nil		-- The aggressiveness of the final boss.
 
-local bInCombat = false			-- Is the player currently in combat?
-local currentZoneID = "none"	-- What is the name ID of the current combat zone?
+bInCombat = false			-- Is the player currently in combat?
+currentZoneID = "none"	-- What is the name ID of the current combat zone?
 
-local numCinematicShakes = 0		-- How many cinematic shakes have occurred?
-local camShakeCharUnit = nil		-- The player character unit.
+numCinematicShakes = 0		-- How many cinematic shakes have occurred?
+camShakeCharUnit = nil		-- The player character unit.
 
-local bConsoleWorkaround = true
+bConsoleWorkaround = true
 
 SmartSpawn_curAllySpawn = nil
 SmartSpawn_curEnemySpawn = nil

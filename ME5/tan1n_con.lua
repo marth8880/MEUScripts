@@ -23,6 +23,7 @@ manager = MapManager:New{
 	gameMode = "conquest",
 	mapSize = "sm",
 	environmentType = "urban",
+	factionIds = {REP = 1, CIS = 2},
 	
 	-- In-game music
 	musicVariation_SSVxGTH = "6",
@@ -56,14 +57,6 @@ manager = MapManager:New{
 }
 -- Initialize the MapManager
 manager:Init()
-
-REP = 1
-CIS = 2
-
-HuskTeam = 3
-
-ATT = 1
-DEF = 2
 
 ---------------------------------------------------------------------------
 -- FUNCTION:    ScriptInit

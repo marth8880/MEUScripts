@@ -319,7 +319,6 @@ ScriptCB_DoFile("ME5_AudioFunctions")
 ScriptCB_DoFile("ME5_UtilityFunctions")
 --ScriptCB_DoFile("ME5_LowHealthIFS")
 
-
 -- HUD font stuff
 if ME5_CustomHUD == 1 then
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\scr_hud_fontfix.lvl")

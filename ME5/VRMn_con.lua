@@ -9,97 +9,6 @@ ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_MapFunctions")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
 
-local heroSupportCPsVar, allySpawnCPsVar
-
-if ME5_MapVarVRM == 1 then
-	-- Local ally spawns. CP name, CP spawn path name
-	heroSupportCPsVar = {
-				{"cp1_1", "cp1_spawn1"},
-				{"cp2_1", "cp2_spawn1"},
-				{"cp3_1", "cp3_spawn1"},
-				{"cp4_1", "cp4_spawn1"},
-				{"cp5_1", "cp5_spawn1"},
-				{"cp6_1", "cp6_spawn1"},
-	}
-	
-	-- AI hero spawns. CP name, CP spawn path name
-	allySpawnCPsVar = {
-				{"cp1_1", "cp1_spawn1"},
-				{"cp2_1", "cp2_spawn1"},
-				{"cp3_1", "cp3_spawn1"},
-				{"cp4_1", "cp4_spawn1"},
-				{"cp5_1", "cp5_spawn1"},
-				{"cp6_1", "cp6_spawn1"},
-	}
-	
-elseif ME5_MapVarVRM == 2 then
-	-- Local ally spawns. CP name, CP spawn path name
-	heroSupportCPsVar = {
-				{"cp1_2", "cp1_spawn2"},
-				{"cp2_2", "cp2_spawn2"},
-				{"cp3_2", "cp3_spawn2"},
-				{"cp4_2", "cp4_spawn2"},
-				{"cp5_2", "cp5_spawn2"},
-				{"cp6_2", "cp6_spawn2"},
-	}
-	
-	-- AI hero spawns. CP name, CP spawn path name
-	allySpawnCPsVar = {
-				{"cp1_2", "cp1_spawn2"},
-				{"cp2_2", "cp2_spawn2"},
-				{"cp3_2", "cp3_spawn2"},
-				{"cp4_2", "cp4_spawn2"},
-				{"cp5_2", "cp5_spawn2"},
-				{"cp6_2", "cp6_spawn2"},
-	}
-end
-
--- Create a new MapManager object
-manager = MapManager:New{
-	-- Map-specific details
-	bIsModMap = true,
-	gameMode = "conquest",
-	mapSize = "xs",
-	environmentType = "jungle",
-	
-	-- In-game music
-	musicVariation_SSVxGTH = "3_vrm",
-	musicVariation_SSVxCOL = "5",
-	musicVariation_EVGxGTH = "9",
-	musicVariation_EVGxCOL = "9",
-	musicVariation_SSVxRPR = {"8", "5_mahavid"},
-    musicVariation_SSVxCER = {"7_1", "7_2"},
-	
-	-- Online matches
-	onlineSideVar = "SSVxGTH",
-	onlineHeroSSV = "shep_infiltrator",
-	onlineHeroGTH = "gethprime_me2",
-	onlineHeroCOL = "colgeneral",
-	onlineHeroEVG = "gethprime_me3",
-	
-	-- AI hero spawns. CP name, CP spawn path name
-	heroSupportCPs = heroSupportCPsVar,
-	-- Local ally spawns. CP name, CP spawn path name
-	allySpawnCPs = allySpawnCPsVar,
-}
--- Initialize the MapManager
-manager:Init()
-
--- Randomize which team is ATT/DEF
-if manager.useRandomFactionIds == true and not ScriptCB_InMultiplayer() then
-	CIS = math.random(1,2)
-	REP = (3 - CIS)
-else
-	REP = 1
-	CIS = 2
-end
-
-HuskTeam = 3
-
-ATT = 1
-DEF = 2
-
-
 function ScriptPostLoad()
 	
 	--This defines the CPs.  These need to happen first
@@ -179,6 +88,81 @@ end
 --              it is called from C to start the mission.
 ---------------------------------------------------------------------------
 function ScriptInit()
+	LoadVirmireSettings()
+	if ME5_MapVarVRM == 1 then
+		-- Local ally spawns. CP name, CP spawn path name
+		heroSupportCPsVar = {
+					{"cp1_1", "cp1_spawn1"},
+					{"cp2_1", "cp2_spawn1"},
+					{"cp3_1", "cp3_spawn1"},
+					{"cp4_1", "cp4_spawn1"},
+					{"cp5_1", "cp5_spawn1"},
+					{"cp6_1", "cp6_spawn1"},
+		}
+		
+		-- AI hero spawns. CP name, CP spawn path name
+		allySpawnCPsVar = {
+					{"cp1_1", "cp1_spawn1"},
+					{"cp2_1", "cp2_spawn1"},
+					{"cp3_1", "cp3_spawn1"},
+					{"cp4_1", "cp4_spawn1"},
+					{"cp5_1", "cp5_spawn1"},
+					{"cp6_1", "cp6_spawn1"},
+		}
+		
+	elseif ME5_MapVarVRM == 2 then
+		-- Local ally spawns. CP name, CP spawn path name
+		heroSupportCPsVar = {
+					{"cp1_2", "cp1_spawn2"},
+					{"cp2_2", "cp2_spawn2"},
+					{"cp3_2", "cp3_spawn2"},
+					{"cp4_2", "cp4_spawn2"},
+					{"cp5_2", "cp5_spawn2"},
+					{"cp6_2", "cp6_spawn2"},
+		}
+		
+		-- AI hero spawns. CP name, CP spawn path name
+		allySpawnCPsVar = {
+					{"cp1_2", "cp1_spawn2"},
+					{"cp2_2", "cp2_spawn2"},
+					{"cp3_2", "cp3_spawn2"},
+					{"cp4_2", "cp4_spawn2"},
+					{"cp5_2", "cp5_spawn2"},
+					{"cp6_2", "cp6_spawn2"},
+		}
+	end
+
+	-- Create a new MapManager object
+	manager = MapManager:New{
+		-- Map-specific details
+		bIsModMap = true,
+		gameMode = "conquest",
+		mapSize = "xs",
+		environmentType = "jungle",
+		factionIds = {REP = 1, CIS = 2},
+		
+		-- In-game music
+		musicVariation_SSVxGTH = "3_vrm",
+		musicVariation_SSVxCOL = "5",
+		musicVariation_EVGxGTH = "9",
+		musicVariation_EVGxCOL = "9",
+		musicVariation_SSVxRPR = {"8", "5_mahavid"},
+		musicVariation_SSVxCER = {"7_1", "7_2"},
+		
+		-- Online matches
+		onlineSideVar = "SSVxGTH",
+		onlineHeroSSV = "shep_infiltrator",
+		onlineHeroGTH = "gethprime_me2",
+		onlineHeroCOL = "colgeneral",
+		onlineHeroEVG = "gethprime_me3",
+		
+		-- AI hero spawns. CP name, CP spawn path name
+		heroSupportCPs = heroSupportCPsVar,
+		-- Local ally spawns. CP name, CP spawn path name
+		allySpawnCPs = allySpawnCPsVar,
+	}
+	-- Initialize the MapManager
+	manager:Init()
     
 	if ME5_MapVarVRM == 1 then
 		ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\vrm1.lvl")

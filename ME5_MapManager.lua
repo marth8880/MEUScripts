@@ -132,6 +132,7 @@ MapManager = {
 	mapSize = nil,						-- Size of the map. Used for determining unit counts.
 	environmentType = nil,				-- Map's biome (essentially). Used for determining which camo textures to load.
 	terrainFoleyGroup = nil,			-- Foley group to use for terrain on this map.
+	factionIds = nil,					-- REP and CIS team numbers, as a table. Used when useRandomFactionIds is false.
 	
 	musicVariation_SSVxGTH = nil,		-- Music variation to use for SSVxGTH matches.
 	musicVariation_SSVxCOL = nil,		-- Music variation to use for SSVxCOL matches.
@@ -181,15 +182,13 @@ end
 
 ----
 -- Initializes the MapManager's data fields.
+-- WARNING: Do not include state logic in here.
 --
 function MapManager:Init()
 	-- Map-specific aesthetics
-	if self.gameMode == nil then
-		PrintLog("Init(): WARNING: gameMode must be specified! Exiting function")
-	return end
-	if self.mapSize == nil then
-		PrintLog("Init(): WARNING: mapSize must be specified! Exiting function")
-	return end
+	assert(self.gameMode, "ERROR: gameMode must be specified")
+	assert(self.mapSize, "ERROR: mapSize must be specified")
+	assert(self.factionIds, "ERROR: factionIds must be specified")
 	if self.environmentType == nil then
 		PrintLog("Init(): WARNING: environmentType wasn't specified! Defaulting to Urban")
 		self.environmentType = "urban"
@@ -274,9 +273,25 @@ end
 -- 
 function MapManager:Proc_ScriptInit_Begin()
 	PrintLog("Proc_ScriptInit_Begin(): Entered")
+
+	LoadConfigSettings()
 	
 	-- Load our custom loadscreen elements such as progress bar LEDs, tip box elements, etc.
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\Load\\common.lvl")
+
+	-- Randomize which team is ATT/DEF
+	if manager.useRandomFactionIds == true and not ScriptCB_InMultiplayer() then
+		CIS = math.random(1,2)
+		REP = (3 - CIS)
+	else
+		REP = self.factionIds.REP
+		CIS = self.factionIds.CIS
+	end
+
+	HuskTeam = 3	-- The husk team (required, name cannot be changed)
+
+	ATT = 1
+	DEF = 2
 	
 	--Init_HeroMusic()
 	
@@ -1151,6 +1166,7 @@ function MapManager:Proc_ScriptInit_End()
 	end
 	
 	Init_LowHealthFeedback()
+	Setup_DamageFeedback()
 	if ME5_PlayerDmgSound > 0 then
 		Init_PlayerDamageFeedback()
 	end

@@ -14,6 +14,7 @@ manager = MapManager:New{
 	gameMode = "conquest",				-- The mission's game mode.
 	mapSize = "sm",						-- Size of the map. Used for determining unit counts.
 	environmentType = "jungle",			-- Map's biome (essentially). Used for determining which camo textures to load. ("desert", "jungle", "snow", or "urban")
+	factionIds = {REP = 1, CIS = 2},	-- Default team faction ids
 	
 	-- In-game music (you can also specify a table of values and one of them will be randomly selected at runtime, example: `musicVariation_SSVxGTH = {"1","3"}` )
 	musicVariation_SSVxGTH = "3",		-- Music variation to use for SSVxGTH matches.
@@ -54,21 +55,6 @@ manager = MapManager:New{
 }
 -- Initialize the MapManager
 manager:Init()
-
--- Randomize which team is ATT/DEF
-if not ScriptCB_InMultiplayer() then
-	CIS = math.random(1,2)
-	REP = (3 - CIS)
-else
-	REP = 1
-	CIS = 2
-end
-
-HuskTeam = 3	-- The husk team (required, name cannot be changed)
-
-ATT = 1
-DEF = 2
-
 
 function ScriptPostLoad()	   
 	

@@ -14,6 +14,7 @@ manager = MapManager:New{
 	gameMode = "ctf",
 	mapSize = "med",
 	environmentType = "urban",
+	factionIds = {REP = 2, CIS = 1},
 	
 	-- In-game music
 	musicVariation_SSVxGTH = {"4","6"},
@@ -38,20 +39,6 @@ manager = MapManager:New{
 -- Initialize the MapManager
 manager:Init()
 
--- Randomize which team is ATT/DEF
-if manager.useRandomFactionIds == true and not ScriptCB_InMultiplayer() then
-	CIS = math.random(1,2)
-	REP = (3 - CIS)
-else
-	REP = 2
-	CIS = 1
-end
-
-HuskTeam = 3
-
-ATT = 1
-DEF = 2
-
 ---------------------------------------------------------------------------
 -- FUNCTION:    ScriptInit
 -- PURPOSE:     This function is only run once
@@ -73,8 +60,6 @@ function ScriptPostLoad()
     AddDeathRegion("death4")
 
 
-
-		SoundEvent_SetupTeams( REP, 'rep', CIS, 'cis' )
 
 
 
@@ -109,8 +94,6 @@ function ScriptPostLoad()
     	SetProperty ("LibCase13","CurHealth",1000)
     	SetProperty ("LibCase14","CurHealth",1000)
 
-            EnableSPHeroRules()
-
             DisableBarriers("SideDoor1")
             DisableBarriers("MainLibraryDoors")
             DisableBarriers("SideDoor2")
@@ -144,6 +127,10 @@ function ScriptPostLoad()
     ctf:AddFlag{name = "flag1", homeRegion = "Team1FlagCapture", captureRegion = "Team2FlagCapture", regionDummyObject = "com_bldg_ctfbase2"}
     ctf:AddFlag{name = "flag2", homeRegion = "Team2FlagCapture", captureRegion = "Team1FlagCapture", regionDummyObject = "com_bldg_ctfbase3"}
     ctf:Start()
+
+	SoundEvent_SetupTeams( manager.factionIds.REP, 'rep', manager.factionIds.CIS, 'cis' )
+
+	EnableSPHeroRules()
     
 	manager:Proc_ScriptPostLoad_End()
 	

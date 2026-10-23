@@ -20,7 +20,7 @@ function ScriptPostLoad()
   BlockPlanningGraphArcs("Connection59")
   BlockPlanningGraphArcs("Connection109")
   
-	SoundEvent_SetupTeams( REP, 'rep', CIS, 'cis' )
+	SoundEvent_SetupTeams( manager.factionIds.REP, 'rep', manager.factionIds.CIS, 'cis' )
 
   SetProperty("flag1", "GeometryName", "com_icon_republic_flag")
   SetProperty("flag1", "CarriedGeometryName", "com_icon_republic_flag_carried")

@@ -15,6 +15,7 @@ manager = MapManager:New{
 	mapSize = "lg",
 	environmentType = "snow",
 	terrainFoleyGroup = "snow",
+	factionIds = {REP = 2, CIS = 1},
 	
 	-- In-game music
 	musicVariation_SSVxGTH = "3_nov",
@@ -40,20 +41,6 @@ manager = MapManager:New{
 -- Initialize the MapManager
 manager:Init()
 
--- Randomize which team is ATT/DEF
-if manager.useRandomFactionIds == true and not ScriptCB_InMultiplayer() then
-	CIS = math.random(1,2)
-	REP = (3 - CIS)
-else
-	REP = 2
-	CIS = 1
-end
-
-HuskTeam = 3
-
-ATT = 1
-DEF = 2
-
 ---------------------------------------------------------------------------
 -- FUNCTION:    ScriptInit
 -- PURPOSE:     This function is only run once
@@ -65,10 +52,8 @@ DEF = 2
 ---------------------------------------------------------------------------
 
 function ScriptPostLoad()
-	SoundEvent_SetupTeams( REP, 'rep', CIS, 'cis' )
 	
 	AddDeathRegion("fall")
-    EnableSPHeroRules()
     
     
 --CP SETUP for CONQUEST
@@ -108,7 +93,11 @@ function ScriptPostLoad()
                            capRegionDummyObjectATT = "com_bldg_ctfbase", capRegionDummyObjectDEF = "com_bldg_ctfbase1",}
                            
     ctf:Start()
+
+	SoundEvent_SetupTeams( manager.factionIds.REP, 'rep', manager.factionIds.CIS, 'cis' )
 	
+    EnableSPHeroRules()
+    
 	manager:Proc_ScriptPostLoad_End()
 	
 end

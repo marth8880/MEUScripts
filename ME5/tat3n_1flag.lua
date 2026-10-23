@@ -14,6 +14,7 @@ manager = MapManager:New{
 	gameMode = "1flag",
 	mapSize = "sm",
 	environmentType = "desert",
+	factionIds = {REP = 1, CIS = 2},
 	
 	-- In-game music
 	musicVariation_SSVxGTH = "4",
@@ -38,20 +39,6 @@ manager = MapManager:New{
 -- Initialize the MapManager
 manager:Init()
 
--- Randomize which team is ATT/DEF
-if manager.useRandomFactionIds == true and not ScriptCB_InMultiplayer() then
-	CIS = math.random(1,2)
-	REP = (3 - CIS)
-else
-	REP = 1
-	CIS = 2
-end
-
-HuskTeam = 3
-
-ATT = 1
-DEF = 2
-
 ---------------------------------------------------------------------------
 -- FUNCTION:	ScriptInit
 -- PURPOSE:	This function is only run once
@@ -73,8 +60,8 @@ function ScriptPostLoad()
 							capRegionMarkerATT = "hud_objective_icon_circle", capRegionMarkerDEF = "hud_objective_icon_circle",
 							capRegionMarkerScaleATT = 3.0, capRegionMarkerScaleDEF = 3.0, multiplayerRules = true, hideCPs = true,
                            capRegionDummyObjectATT = "1flag_effect2", capRegionDummyObjectDEF = "1flag_effect1",}
-	SoundEvent_SetupTeams( REP, 'rep', CIS, 'cis' )
 	ctf:Start()
+	SoundEvent_SetupTeams( manager.factionIds.REP, 'rep', manager.factionIds.CIS, 'cis' )
 --	KillObject("carbonite")
 	EnableSPHeroRules()
 	
