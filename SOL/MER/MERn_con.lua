@@ -12,6 +12,7 @@ ScriptCB_DoFile("SOL_Master")
 ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("ME5_ObjectiveConquest")
+ScriptCB_DoFile("Homer")
 
 -- Create a new MapManager object
 manager = MapManager:New{
@@ -20,7 +21,7 @@ manager = MapManager:New{
 	gameMode = "conquest",				-- The mission's game mode.
 	mapSize = "sm",						-- Size of the map. Used for determining unit counts.
 	environmentType = "urban",			-- Map's biome (essentially). Used for determining which camo textures to load. ("desert", "jungle", "snow", or "urban")
-	factionIds = {REP = 2, CIS = 1},
+	factionIds = {REP = 2, CIS = 1, LocalTeam1 = 4, LocalTeam2 = 5},
 	
 	-- In-game music (you can also specify a table of values and one of them will be randomly selected at runtime, example: `musicVariation_SSVxGTH = {"1","3"}` )
 	musicVariation_SSVxGTH = "4",		-- Music variation to use for SSVxGTH matches.
@@ -93,6 +94,13 @@ function ScriptPostLoad()
 	SetObjectTeam("tur_bldg_chaingun_roof2", REP)
 	SetObjectTeam("tur_bldg_chaingun_roof3", REP)
 
+	AddDeathRegion("deathregion")
+	AddDeathRegion("deathregion2")
+
+	SetupHomer()
+
+	SetObjectTeam("cp_nasa", 5)
+
 	OnFinishCaptureName(
 		function(post, holding)
 			SetObjectTeam("tur_bldg_chaingun_roof", GetObjectTeam(post))
@@ -143,7 +151,8 @@ function ScriptInit()
 	SetMaxFlyHeight(50)
 	SetMaxPlayerFlyHeight(50)
 	
-	ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\sound\\MER.lvl")
+	
+	ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\sound\\MER.lvl;MERn")
 	ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\sound\\sol.lvl;sol_mern")
 
 	-- Load and set up the sides
@@ -155,17 +164,19 @@ function ScriptInit()
 					"mer_bldg_powercluster",
 					"tur_bldg_chaingun_roof")
 
-	SetTeamName(5, "nasa")
-	AddUnitClass(5, "sol_inf_astronaut", 4,4)
-	SetUnitCount(5, 4)
-	AddAIGoal(5, "Deathmatch", 100)
+	SetTeamName(3, "nasa")
+	AddUnitClass(3, "sol_inf_astronaut", 4,4)
+	SetUnitCount(3, 4)
+	AddAIGoal(3, "Deathmatch", 100)
 	
-	SetTeamAsNeutral(ATT,5)
-	SetTeamAsNeutral(5,ATT)
-	SetTeamAsNeutral(DEF,5)
-	SetTeamAsNeutral(5,DEF)
-	SetTeamAsNeutral(HuskTeam,5)
-	SetTeamAsNeutral(5,HuskTeam)
+	SetTeamAsNeutral(ATT,3)
+	SetTeamAsNeutral(3,ATT)
+	SetTeamAsNeutral(DEF,3)
+	SetTeamAsNeutral(3,DEF)
+	SetTeamAsNeutral(manager.factionIds.LocalTeam1,3)
+	SetTeamAsNeutral(manager.factionIds.LocalTeam2,3)
+	SetTeamAsNeutral(3,manager.factionIds.LocalTeam1)
+	SetTeamAsNeutral(3,manager.factionIds.LocalTeam2)
 	
 
     --  Level Stats

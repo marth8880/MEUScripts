@@ -23,7 +23,7 @@ manager = MapManager:New{
 	gameMode = "conquest",				-- The mission's game mode.
 	mapSize = "lg",						-- Size of the map. Used for determining unit counts.
 	environmentType = "desert",			-- Map's biome (essentially). Used for determining which camo textures to load. ("desert", "jungle", "snow", or "urban")
-	factionIds = {REP = 2, CIS = 1},
+	factionIds = {REP = 2, CIS = 1, LocalTeam1 = 4, LocalTeam2 = 5},
 	
 	-- In-game music (you can also specify a table of values and one of them will be randomly selected at runtime, example: `musicVariation_SSVxGTH = {"1","3"}` )
 	musicVariation_SSVxGTH = "1",		-- Music variation to use for SSVxGTH matches.

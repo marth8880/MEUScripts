@@ -21,7 +21,7 @@ manager = MapManager:New{
 	gameMode = "conquest",				-- The mission's game mode.
 	mapSize = "sm",						-- Size of the map. Used for determining unit counts.
 	environmentType = "desert",			-- Map's biome (essentially). Used for determining which camo textures to load. ("desert", "jungle", "snow", or "urban")
-	factionIds = {REP = 2, CIS = 1},
+	factionIds = {REP = 2, CIS = 1, LocalTeam1 = 5, LocalTeam2 = 6},
 	
 	-- In-game music (you can also specify a table of values and one of them will be randomly selected at runtime, example: `musicVariation_SSVxGTH = {"1","3"}` )
 	musicVariation_SSVxGTH = "1",		-- Music variation to use for SSVxGTH matches.
@@ -135,13 +135,13 @@ function ScriptPostLoad()
         4
         )
 
-    	AllowAISpawn(6, false)
+    	AllowAISpawn(4, false)
 
 	alienArtifact = OnObjectKillName(
    	   	function(object, killer)
     			SetProperty("mr1_prop_energy_regulator", "MaxHealth", 1e+37)
 			KillObject("mr1_prop_alien_artifact")
-			SetProperty("alien_cp", "Team", 6)
+			SetProperty("alien_cp", "Team", 4)
 			ShowMessageText("level.MR1.obj.alien_alert_1")
 			ReleaseObjectKill(alienArtifact)
 
@@ -153,8 +153,8 @@ function ScriptPostLoad()
 					ReleaseTimerElapse(alienSpawnTimerElapse)
 					DestroyTimer(alienSpawnTimer)
     				
-					AllowAISpawn(6, true)
-					Ambush("alien_spawn", 30, 6)
+					AllowAISpawn(4, true)
+					Ambush("alien_spawn", 30, 4)
 					ShowMessageText("level.MR1.obj.alien_alert_2")
     				ScriptCB_EnableHeroMusic(0)
 					ScriptCB_PlayInGameMusic("mr1_amb_aliens")
@@ -164,7 +164,7 @@ function ScriptPostLoad()
 					StartTimer("alienSpawnRepeatTimer")
 					OnTimerElapse(
 					function(timer)
-						Ambush("alien_spawn", 30, 6)
+						Ambush("alien_spawn", 30, 4)
 						SetTimerValue("alienSpawnRepeatTimer", 45)
 						StartTimer("alienSpawnRepeatTimer")
 					end,
@@ -177,8 +177,6 @@ function ScriptPostLoad()
 		end,
 		"mr1_prop_energy_regulator"
 	)
-	
-	SetObjectTeam("local_cp", 5)
 	
 	-- Perform various post-load operations
 	manager:Proc_ScriptPostLoad_End()
@@ -227,31 +225,35 @@ function ScriptInit()
 		"sol_walk_alien",
 		"sol_inf_alien_invader")
 
-	SetTeamName(5, "locals")
-	AddUnitClass(5, "sol_inf_astronaut", 7)
-	SetUnitCount(5, 7)
-	AddAIGoal(5, "Deathmatch", 100)
+	SetTeamName(3, "nasa")
+	AddUnitClass(3, "sol_inf_astronaut", 7)
+	SetUnitCount(3, 7)
+	AddAIGoal(3, "Deathmatch", 100)
 
-	SetTeamName(6, "imp")
-	AddUnitClass(6, "sol_inf_alien_invader", 30)
-	SetUnitCount(6, 30)
-	AddAIGoal(6, "Deathmatch", 100)
+	SetTeamName(4, "alien")
+	AddUnitClass(4, "sol_inf_alien_invader", 30)
+	SetUnitCount(4, 30)
+	AddAIGoal(4, "Deathmatch", 100)
 	
-	SetTeamAsNeutral(ATT,5)
-	SetTeamAsNeutral(5,ATT)
-	SetTeamAsNeutral(DEF,5)
-	SetTeamAsNeutral(5,DEF)
-	SetTeamAsNeutral(HuskTeam,5)
-	SetTeamAsNeutral(5,HuskTeam)
+	SetTeamAsNeutral(ATT,3)
+	SetTeamAsNeutral(3,ATT)
+	SetTeamAsNeutral(DEF,3)
+	SetTeamAsNeutral(3,DEF)
+	SetTeamAsNeutral(manager.factionIds.LocalTeam1,3)
+	SetTeamAsNeutral(manager.factionIds.LocalTeam2,3)
+	SetTeamAsNeutral(3,manager.factionIds.LocalTeam1)
+	SetTeamAsNeutral(3,manager.factionIds.LocalTeam2)
 
-	SetTeamAsEnemy(ATT,6)
-	SetTeamAsEnemy(6,ATT)
-	SetTeamAsEnemy(DEF,6)
-	SetTeamAsEnemy(6,DEF)
-	SetTeamAsEnemy(HuskTeam,6)
-	SetTeamAsEnemy(6,HuskTeam)
-	SetTeamAsEnemy(5,6)
-	SetTeamAsEnemy(6,5)
+	SetTeamAsEnemy(ATT,4)
+	SetTeamAsEnemy(4,ATT)
+	SetTeamAsEnemy(DEF,4)
+	SetTeamAsEnemy(4,DEF)
+	SetTeamAsEnemy(manager.factionIds.LocalTeam1,4)
+	SetTeamAsEnemy(manager.factionIds.LocalTeam2,4)
+	SetTeamAsEnemy(4,manager.factionIds.LocalTeam1)
+	SetTeamAsEnemy(4,manager.factionIds.LocalTeam2)
+	SetTeamAsEnemy(3,4)
+	SetTeamAsEnemy(4,3)
    
 
     --  Level Stats

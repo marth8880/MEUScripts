@@ -158,6 +158,9 @@ function ScriptInit()
 	
     SetMaxFlyHeight(40)
     SetMaxPlayerFlyHeight(40)
+	
+	ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\sound\\pio.lvl;pion")
+	ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\sound\\sol.lvl;sol_pion")
     
 	--  Side Definitions
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\me5tur.lvl",
@@ -166,8 +169,6 @@ function ScriptInit()
 	
 	-- Load and set up the sides
 	manager:Proc_ScriptInit_SideSetup()
-	
-	ReadDataFile("dc:sound\\pio.lvl;pion")
    
 	--  Memory Pools
     --  Level Stats

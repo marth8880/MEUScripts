@@ -201,6 +201,8 @@ function ScriptInit()
 	-- Perform various pre-game operations
 	manager:Proc_ScriptInit_Begin()
 	
+	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl;vehcommon")
+	
 	--  Memory Pools
     --  Level Stats
     --  ClearWalkers()

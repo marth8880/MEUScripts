@@ -21,7 +21,7 @@ manager = MapManager:New{
 	gameMode = "conquest",
 	mapSize = "med",
 	environmentType = "urban",
-	factionIds = {REP = 1, CIS = 2},
+	factionIds = {REP = 1, CIS = 2, LocalTeam1 = 4, LocalTeam2 = 5},
 	
 	-- In-game music
 	musicVariation_SSVxGTH = {"4","6"},
@@ -96,9 +96,6 @@ function ScriptPostLoad()
 	
 	-- Perform various post-load operations
 	manager:Proc_ScriptPostLoad_End()
-
-	SetObjectTeam("cp3", CIS)
-	SetObjectTeam("local_cp", 5)
     
  end
 
@@ -146,17 +143,19 @@ function ScriptInit()
 	
 	manager:Proc_ScriptInit_SideSetup()
 
-	SetTeamName(5, "locals")
-	AddUnitClass(5, "sol_inf_astronaut", 7)
-	SetUnitCount(5, 7)
-	AddAIGoal(5, "Deathmatch", 100)
+	SetTeamName(3, "nasa")
+	AddUnitClass(3, "sol_inf_astronaut", 7)
+	SetUnitCount(3, 7)
+	AddAIGoal(3, "Deathmatch", 100)
 	
-	SetTeamAsNeutral(ATT,5)
-	SetTeamAsNeutral(5,ATT)
-	SetTeamAsNeutral(DEF,5)
-	SetTeamAsNeutral(5,DEF)
-	SetTeamAsNeutral(HuskTeam,5)
-	SetTeamAsNeutral(5,HuskTeam)
+	SetTeamAsNeutral(ATT,3)
+	SetTeamAsNeutral(3,ATT)
+	SetTeamAsNeutral(DEF,3)
+	SetTeamAsNeutral(3,DEF)
+	SetTeamAsNeutral(manager.factionIds.LocalTeam1,3)
+	SetTeamAsNeutral(manager.factionIds.LocalTeam2,3)
+	SetTeamAsNeutral(3,manager.factionIds.LocalTeam1)
+	SetTeamAsNeutral(3,manager.factionIds.LocalTeam2)
    
     --  Level Stats
 	ClearWalkers()

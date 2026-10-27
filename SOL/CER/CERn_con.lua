@@ -24,7 +24,7 @@ manager = MapManager:New{
 	gameMode = "conquest",
 	mapSize = "med",
 	environmentType = "urban",
-	factionIds = {REP = 1, CIS = 2},
+	factionIds = {REP = 1, CIS = 2, LocalTeam1 = 5, LocalTeam2 = 6},
 	
 	-- In-game music
 	musicVariation_SSVxGTH = {"4","6"},
@@ -92,7 +92,7 @@ function ScriptPostLoad()
     conquest:AddCommandPost(cp6)
     conquest:AddCommandPost(cp7)
     conquest:AddCommandPost(cp8)     
-    conquest:AddCommandPost(cp9)      
+    conquest:AddCommandPost(cp9)
 
     conquest:Start()
 
@@ -205,9 +205,6 @@ function ScriptPostLoad()
             end,
         6
         )
-		
-	SetObjectTeam("local_cp", 5)
-	SetObjectTeam("alien_cp", 6)
 
 	-- Perform various post-load operations
 	manager:Proc_ScriptPostLoad_End()
@@ -252,36 +249,40 @@ function ScriptInit()
     ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\SIDE\\cer.lvl",
                 "sol_fly_victoryviper",
 		"sol_walk_alien_lowg",
-		"sol_inf_alien_invader",
+		-- "sol_inf_alien_invader",
 		"sol_bldg_AAA_turret")
 	
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\CON_LOWG.lvl")
 	
 	manager:Proc_ScriptInit_SideSetup()
 
-	SetTeamName(5, "locals")
-	AddUnitClass(5, "sol_inf_astronaut", 7)
-	SetUnitCount(5, 7)
-	AddAIGoal(5, "Deathmatch", 100)
+	SetTeamName(3, "nasa")
+	AddUnitClass(3, "sol_inf_astronaut", 7)
+	SetUnitCount(3, 7)
+	AddAIGoal(3, "Deathmatch", 100)
 
-	--SetTeamName(4, "aliens")
-	AddAIGoal(6, "Deathmatch", 100)
+	SetTeamName(4, "aliens")
+	AddAIGoal(4, "Deathmatch", 100)
 	
-	SetTeamAsNeutral(ATT,5)
-	SetTeamAsNeutral(5,ATT)
-	SetTeamAsNeutral(DEF,5)
-	SetTeamAsNeutral(5,DEF)
-	SetTeamAsNeutral(HuskTeam,5)
-	SetTeamAsNeutral(5,HuskTeam)
+	SetTeamAsNeutral(ATT,3)
+	SetTeamAsNeutral(3,ATT)
+	SetTeamAsNeutral(DEF,3)
+	SetTeamAsNeutral(3,DEF)
+	SetTeamAsNeutral(manager.factionIds.LocalTeam1,3)
+	SetTeamAsNeutral(manager.factionIds.LocalTeam2,3)
+	SetTeamAsNeutral(3,manager.factionIds.LocalTeam1)
+	SetTeamAsNeutral(3,manager.factionIds.LocalTeam2)
 
-	SetTeamAsEnemy(ATT,6)
-	SetTeamAsEnemy(6,ATT)
-	SetTeamAsEnemy(DEF,6)
-	SetTeamAsEnemy(6,DEF)
-	SetTeamAsEnemy(HuskTeam,6)
-	SetTeamAsEnemy(6,HuskTeam)
-	SetTeamAsEnemy(5,6)
-	SetTeamAsEnemy(6,5)
+	SetTeamAsEnemy(ATT,4)
+	SetTeamAsEnemy(4,ATT)
+	SetTeamAsEnemy(DEF,4)
+	SetTeamAsEnemy(4,DEF)
+	SetTeamAsEnemy(manager.factionIds.LocalTeam1,4)
+	SetTeamAsEnemy(manager.factionIds.LocalTeam2,4)
+	SetTeamAsEnemy(4,manager.factionIds.LocalTeam1)
+	SetTeamAsEnemy(4,manager.factionIds.LocalTeam2)
+	SetTeamAsEnemy(3,4)
+	SetTeamAsEnemy(4,3)
 
     --  Level Stats
     --  ClearWalkers()

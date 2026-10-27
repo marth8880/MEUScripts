@@ -189,6 +189,8 @@ function MapManager:Init()
 	assert(self.gameMode, "ERROR: gameMode must be specified")
 	assert(self.mapSize, "ERROR: mapSize must be specified")
 	assert(self.factionIds, "ERROR: factionIds must be specified")
+	self.factionIds.LocalTeam1 = self.factionIds.LocalTeam1 or 3
+	self.factionIds.LocalTeam2 = self.factionIds.LocalTeam2 or 4
 	if self.environmentType == nil then
 		PrintLog("Init(): WARNING: environmentType wasn't specified! Defaulting to Urban")
 		self.environmentType = "urban"
@@ -288,7 +290,9 @@ function MapManager:Proc_ScriptInit_Begin()
 		CIS = self.factionIds.CIS
 	end
 
-	HuskTeam = 3	-- The husk team (required, name cannot be changed)
+	HuskTeam = self.factionIds.LocalTeam1
+	SeekerTeam = self.factionIds.LocalTeam2
+	SwarmerTeam = self.factionIds.LocalTeam2
 
 	ATT = 1
 	DEF = 2

@@ -23,7 +23,7 @@ manager = MapManager:New{
 	gameMode = "conquest",				-- The mission's game mode.
 	mapSize = "lg",						-- Size of the map. Used for determining unit counts.
 	environmentType = "desert",			-- Map's biome (essentially). Used for determining which camo textures to load. ("desert", "jungle", "snow", or "urban")
-	factionIds = {REP = 1, CIS = 2},
+	factionIds = {REP = 1, CIS = 2, LocalTeam1 = 4, LocalTeam2 = 5},
 	
 	-- In-game music (you can also specify a table of values and one of them will be randomly selected at runtime, example: `musicVariation_SSVxGTH = {"1","3"}` )
 	musicVariation_SSVxGTH = "1",		-- Music variation to use for SSVxGTH matches.
@@ -152,8 +152,6 @@ function ScriptPostLoad()
 	AddDeathRegion("chasmdeath")
 	AddDeathRegion("deathregion_drill")
 
-	SetObjectTeam("local_cp", 5)
-
 ---------- BEGIN SECRET AREA STUFF ----------
 
 	SetProperty("cis_fedcruiser_door1", "IsLocked", 1)
@@ -196,7 +194,7 @@ function ScriptPostLoad()
 				UnblockPlanningGraphArcs("Connection186")
 				SetProperty("spa_veh_turret_chair", "DisableTime", 0)
 				DisableBarriers("BarrierDoor")
-    				AllowAISpawn(5, true)
+    				AllowAISpawn(3, true)
 			end
 		end,
 		"cube_button_capture"
@@ -230,8 +228,8 @@ function ScriptInit()
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl;vehcommon")
 	ReadDataFile("..\\..\\addon\\ME5\\data\\_LVL_PC\\SIDE\\PFX_SSV_Veh.lvl;vehnormal")
    
-    SetMaxFlyHeight(30)
-    SetMaxPlayerFlyHeight(30)
+    SetMaxFlyHeight(75)
+    SetMaxPlayerFlyHeight(75)
 	AISnipeSuitabilityDist(100)
 	SetAttackerSnipeRange(120)
 	SetDefenderSnipeRange(200)
@@ -253,17 +251,19 @@ function ScriptInit()
 	ReadDataFile("..\\..\\addon\\SOL\\data\\_LVL_PC\\SIDE\\tit.lvl",
 					"sol_fly_titanhawk")
 
-	SetTeamName(5, "nasa")
-	AddUnitClass(5, "sol_inf_astronaut", 4,4)
-	SetUnitCount(5, 4)
-	AddAIGoal(5, "Deathmatch", 100)
+	SetTeamName(3, "nasa")
+	AddUnitClass(3, "sol_inf_astronaut", 4,4)
+	SetUnitCount(3, 4)
+	AddAIGoal(3, "Deathmatch", 100)
 	
-	SetTeamAsNeutral(ATT,5)
-	SetTeamAsNeutral(5,ATT)
-	SetTeamAsNeutral(DEF,5)
-	SetTeamAsNeutral(5,DEF)
-	SetTeamAsNeutral(HuskTeam,5)
-	SetTeamAsNeutral(5,HuskTeam)
+	SetTeamAsNeutral(ATT,3)
+	SetTeamAsNeutral(3,ATT)
+	SetTeamAsNeutral(DEF,3)
+	SetTeamAsNeutral(3,DEF)
+	SetTeamAsNeutral(manager.factionIds.LocalTeam1,3)
+	SetTeamAsNeutral(manager.factionIds.LocalTeam2,3)
+	SetTeamAsNeutral(3,manager.factionIds.LocalTeam1)
+	SetTeamAsNeutral(3,manager.factionIds.LocalTeam2)
 
     --  Level Stats
     --  ClearWalkers()

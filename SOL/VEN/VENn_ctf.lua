@@ -20,7 +20,7 @@ manager = MapManager:New{
 	gameMode = "ctf",				-- The mission's game mode.
 	mapSize = "med",						-- Size of the map. Used for determining unit counts.
 	environmentType = "urban",			-- Map's biome (essentially). Used for determining which camo textures to load. ("desert", "jungle", "snow", or "urban")
-	factionIds = {REP = 1, CIS = 2},
+	factionIds = {REP = 1, CIS = 2, LocalTeam1 = 4, LocalTeam2 = 5},
 	
 	-- In-game music (you can also specify a table of values and one of them will be randomly selected at runtime, example: `musicVariation_SSVxGTH = {"1","3"}` )
 	musicVariation_SSVxGTH = "4",		-- Music variation to use for SSVxGTH matches.

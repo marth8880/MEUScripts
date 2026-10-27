@@ -12,7 +12,6 @@ ScriptCB_DoFile("SOL_Master")
 ScriptCB_DoFile("ME5_Master")
 ScriptCB_DoFile("ME5_setup_teams")
 Conquest = ScriptCB_DoFile("ME5_ObjectiveCTF")
-ScriptCB_DoFile("ME5_setup_teams")
 ScriptCB_DoFile("Homer")
 
 -- Create a new MapManager object
